@@ -1,0 +1,37 @@
+{
+  "sourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681",
+  "preparedSha256": "d5e2702ab7a3ceb6e0764570a49544ca73d5c83ecbd320dd06d09d0727f7862f",
+  "mesh": "core__golden coastal sandstone",
+  "scope": "Every triangle in both directions, no excluded regions; exact triangle fields or seven whole-surface probes per triangle",
+  "surfaceToleranceM": 3e-6,
+  "splitNormalTolerance": 1e-6,
+  "colorTolerance": 1e-7,
+  "bounds": [
+    [-36.0, -32.0, -0.25999999046325684],
+    [76.0, 20.536846160888672, 14.344644546508789]
+  ],
+  "exactBounds": true,
+  "allExportVerticesFromSource": true,
+  "nonmanifoldEdges": [0, 0],
+  "sourceToExport": {
+    "triangles": 115376,
+    "samples": 807632,
+    "exactTriangles": 93485,
+    "maximumSurfaceDistanceM": 2.861022939613666e-6,
+    "maximumSplitNormalError": 3.3352543482578767e-7,
+    "maximumColorError": 2.220446049250313e-16,
+    "failures": [],
+    "failureCount": 0
+  },
+  "exportToSource": {
+    "triangles": 95604,
+    "samples": 669228,
+    "exactTriangles": 93485,
+    "maximumSurfaceDistanceM": 1.5621613272470308e-7,
+    "maximumSplitNormalError": 1.4080309540531744e-7,
+    "maximumColorError": 2.220446049250313e-16,
+    "failures": [],
+    "failureCount": 0
+  },
+  "passed": true
+}

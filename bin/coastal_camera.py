@@ -10,7 +10,7 @@ def camera_support_meshes(objects):
     """
     return [obj for obj in objects if obj.type == 'MESH'
             and obj.get('renderStyle') in (None, 'realistic')
-            and (obj.name.startswith('coast_') or obj.get('caveRoof')
+            and (obj.name.startswith('coast_') or obj.get('caveRoof') or obj.get('cameraSupport')
                  or (obj.name.startswith('core_') and
                      ('mainland' in obj.name or any(material and
                          material.name.startswith('golden coastal sandstone')

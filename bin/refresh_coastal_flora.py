@@ -22,11 +22,16 @@ sys.path.insert(0, str(ROOT / "bin"))
 import coastal_decor as decor
 import coastal_flora as flora
 
-SOURCE = ROOT / "artwork/coastal-home/coastal-home.blend"
-MANIFEST = ROOT / "assets/models/home/manifest.json"
+ARGS = {a[2:].split("=", 1)[0]: a.split("=", 1)[1] for a in sys.argv if a.startswith("--") and "=" in a}
+def option_path(name, default):
+    path = Path(ARGS.get(name, default))
+    return path if path.is_absolute() else ROOT / path
+SOURCE = option_path("source", "artwork/coastal-home/coastal-home.blend")
+MANIFEST = option_path("manifest", "assets/models/home/manifest.json")
+REPORT = option_path("report", "artwork/coastal-home/reviews/flora.json")
 bpy.ops.wm.open_mainfile(filepath=str(SOURCE))
 scene = bpy.context.scene
-for obj in [o for o in bpy.data.objects if o.get("flora")]:
+for obj in [o for o in bpy.data.objects if o.get("flora") and o.name.startswith("core_flora_")]:
     bpy.data.objects.remove(obj, do_unlink=True)
 report = {}
 
@@ -84,8 +89,8 @@ for name in ("core__coastal sage scrub", "core__coastal wildflower ochre"):
 # The ground is the retained mainland's actual surface, roof included.
 graph = bpy.context.evaluated_depsgraph_get()
 verts, polys = [], []
-for name in ("core__golden coastal sandstone", "core_liftaway_cave_ceiling"):
-    obj = bpy.data.objects[name]
+from coastal_camera import camera_support_meshes
+for obj in camera_support_meshes(list(scene.objects)):
     mesh = obj.evaluated_get(graph).to_mesh()
     base = len(verts)
     verts += [obj.matrix_world @ v.co for v in mesh.vertices]
@@ -175,7 +180,10 @@ def agave_footprints(name="core__blue sage agave leaf"):
     return plants
 
 
-agaves = agave_footprints()
+agaves = []
+for obj in scene.objects:
+    if obj.name == "core__blue sage agave leaf" or obj.get("roofPlanting"):
+        agaves.extend(agave_footprints(obj.name))
 report["agaves"] = len(agaves)
 objects, counts = flora.planting(mats, ground_at, paths, avoid, keep_clear=agaves)
 for obj in objects.values():
@@ -187,7 +195,7 @@ report["avoid"] = [[round(a, 2) for a in item] for item in avoid]
 # The clifftop was flat-shaded, so its 2 m triangles showed as facets: shade the up-facing faces
 # smooth and keep the rim against the cliff face sharp.
 smoothed = {}
-for name in ("core__golden coastal sandstone", "core_liftaway_cave_ceiling"):
+for name in (() if "--preserve-ground" in sys.argv else ("core__golden coastal sandstone", "core_liftaway_cave_ceiling")):
     obj = bpy.data.objects[name]
     normal_matrix = obj.matrix_world.to_3x3().inverted().transposed()
     count = 0
@@ -205,5 +213,6 @@ MANIFEST.write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
 
 bpy.context.preferences.filepaths.save_version = 0
 bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE), compress=True)
-(ROOT / "artwork/coastal-home/reviews/flora.json").write_text(json.dumps(report, indent=2) + "\n")
+REPORT.parent.mkdir(parents=True, exist_ok=True)
+REPORT.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
 print(json.dumps(report, indent=2), flush=True)

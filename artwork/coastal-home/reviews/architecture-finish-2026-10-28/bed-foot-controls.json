@@ -1,0 +1,1373 @@
+{
+  "source": {
+    "decodedFootprintsSha256": "504b9babf01b40e23cce3733677401b30c30d474b8ec7d03d7e96d5a56bf4de7",
+    "reachControlSha256": "140e39b6ff4602a8dfc10442296ad8aed35f8b1810dce34a38928710d8f2a83e",
+    "scope": "Actual decoded neutral Foot-dominant points and all <=1mm sole witnesses against native planks and nearby real solids; final IK skin/whole transfer remains separate"
+  },
+  "checks": [
+    {
+      "avatar": "lizard",
+      "side": "L",
+      "sourceGlbSha256": "ca6bac2c2610fdc72d705f144e36a9800f11715198f64d74f4f177034d90ba3d",
+      "actualShownSeatY": 2.0400960445404053,
+      "seatHeightChangeM": 9.608268737792969e-5,
+      "seatTranslationFromMeasuredReferenceM": [-0.1099996566772461, 9.608268737792969e-5, 0.0],
+      "reachableSoleXIntervalWith2cmMargin": [-8.098678518029068, -7.202414435150081],
+      "neutralPreferredX": -7.916763782501221,
+      "selectedSoleX": -7.916763782501221,
+      "legReachSlackM": 0.11025980141622382,
+      "fullFootVertices": 2105,
+      "soleWitnessCount": 20,
+      "soleContacts": [
+        {
+          "position": [-7.950987815856934, 1.5, 6.88254451751709],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.00041556358337402344
+        },
+        {
+          "position": [-7.9554219245910645, 1.5, 6.8723859786987305],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.0006210803985595703
+        },
+        {
+          "position": [-7.9303059577941895, 1.5, 6.881960868835449],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0009362697601318359
+        },
+        {
+          "position": [-7.9407172203063965, 1.5, 6.8809099197387695],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 9.334087371826172e-5
+        },
+        {
+          "position": [-7.947726249694824, 1.5, 6.876706123352051],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.0
+        },
+        {
+          "position": [-7.941415309906006, 1.5, 6.87261962890625],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.00022411346435546875
+        },
+        {
+          "position": [-7.979827880859375, 1.5, 6.832101821899414],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.0007588863372802734
+        },
+        {
+          "position": [-7.968737602233887, 1.5, 6.832919120788574],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.0005370378361954936
+        },
+        {
+          "position": [-7.9809956550598145, 1.5, 6.8264970779418945],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.0007822513580322266
+        },
+        {
+          "position": [-7.930779933929443, 1.5, 6.8768229484558105],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0005953311920166016
+        },
+        {
+          "position": [-7.968156337738037, 1.5, 6.826613903045654],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.0004086494445800781
+        },
+        {
+          "position": [-7.948179244995117, 1.5, 6.787613868713379],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.0007097721099853516
+        },
+        {
+          "position": [-7.948776721954346, 1.5, 6.78095817565918],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 2.09808349609375e-5
+        },
+        {
+          "position": [-7.8527655601501465, 1.5, 6.836305141448975],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.000553131103515625
+        },
+        {
+          "position": [-7.867941856384277, 1.5, 6.836655616760254],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0008566379547119141
+        },
+        {
+          "position": [-7.931128025054932, 1.5, 6.78177547454834],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0007190704345703125
+        },
+        {
+          "position": [-7.941298484802246, 1.5, 6.7774553298950195],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.00022172927856445312
+        },
+        {
+          "position": [-7.956593990325928, 1.5, 6.777572154998779],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.00041091442108154297
+        },
+        {
+          "position": [-7.852531909942627, 1.5, 6.8224101066589355],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0005484819282684291
+        },
+        {
+          "position": [-7.868409156799316, 1.5, 6.822643756866455],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.00086605548038207
+        }
+      ],
+      "obstaclesTested": [
+        "sleep__honey ash",
+        "sleep__linen",
+        "core__golden coastal sandstone",
+        "core_finish_bedroom_spiral__brushed brass",
+        "core_finish_bedroom_spiral__honey ash",
+        "sleep_duvet_empty"
+      ],
+      "minimumNativeObstacleDistanceM": 0.15999996662139893,
+      "passed": true
+    },
+    {
+      "avatar": "lizard",
+      "side": "R",
+      "sourceGlbSha256": "ca6bac2c2610fdc72d705f144e36a9800f11715198f64d74f4f177034d90ba3d",
+      "actualShownSeatY": 2.0400960445404053,
+      "seatHeightChangeM": 9.608268737792969e-5,
+      "seatTranslationFromMeasuredReferenceM": [-0.1099996566772461, 9.608268737792969e-5, 0.0],
+      "reachableSoleXIntervalWith2cmMargin": [-8.098799858497104, -7.202293094942434],
+      "neutralPreferredX": -7.91690731048584,
+      "selectedSoleX": -7.91690731048584,
+      "legReachSlackM": 0.11028375766203913,
+      "fullFootVertices": 2105,
+      "soleWitnessCount": 20,
+      "soleContacts": [
+        {
+          "position": [-7.951131343841553, 1.5, 7.1625447273254395],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.00041556358337402344
+        },
+        {
+          "position": [-7.955565452575684, 1.5, 7.15238618850708],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.0006210803985595703
+        },
+        {
+          "position": [-7.930449485778809, 1.5, 7.1620774269104],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0009362697601318359
+        },
+        {
+          "position": [-7.940860748291016, 1.5, 7.160910129547119],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 9.334087371826172e-5
+        },
+        {
+          "position": [-7.947869777679443, 1.5, 7.1567063331604],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0
+        },
+        {
+          "position": [-7.941558837890625, 1.5, 7.152619361877441],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.00022411346435546875
+        },
+        {
+          "position": [-7.979971408843994, 1.5, 7.112102031707764],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.0007588863372802734
+        },
+        {
+          "position": [-7.968881130218506, 1.5, 7.112919330596924],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.0005370378361954936
+        },
+        {
+          "position": [-7.981139183044434, 1.5, 7.106497287750244],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.0007822513580322266
+        },
+        {
+          "position": [-7.9309234619140625, 1.5, 7.15693998336792],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0005953311920166016
+        },
+        {
+          "position": [-7.968299865722656, 1.5, 7.106613636016846],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.0004086494445800781
+        },
+        {
+          "position": [-7.948322772979736, 1.5, 7.0676140785217285],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.0007097721099853516
+        },
+        {
+          "position": [-7.948920249938965, 1.5, 7.060958385467529],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 2.09808349609375e-5
+        },
+        {
+          "position": [-7.852909088134766, 1.5, 7.116305351257324],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.000553131103515625
+        },
+        {
+          "position": [-7.8680853843688965, 1.5, 7.1166558265686035],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0008566379547119141
+        },
+        {
+          "position": [-7.931271553039551, 1.5, 7.0617756843566895],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0007190704345703125
+        },
+        {
+          "position": [-7.941442012786865, 1.5, 7.057455539703369],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.00022172927856445312
+        },
+        {
+          "position": [-7.956737518310547, 1.5, 7.057572364807129],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 202,
+          "soleSurfaceDistanceM": 0.00041091442108154297
+        },
+        {
+          "position": [-7.852675437927246, 1.5, 7.102410316467285],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0005484819282684291
+        },
+        {
+          "position": [-7.8685526847839355, 1.5, 7.102643966674805],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.00086605548038207
+        }
+      ],
+      "obstaclesTested": [
+        "sleep__honey ash",
+        "sleep__linen",
+        "core__golden coastal sandstone",
+        "core_finish_bedroom_spiral__brushed brass",
+        "core_finish_bedroom_spiral__honey ash",
+        "sleep_duvet_empty"
+      ],
+      "minimumNativeObstacleDistanceM": 0.1603950560092926,
+      "passed": true
+    },
+    {
+      "avatar": "south-park",
+      "side": "L",
+      "sourceGlbSha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63",
+      "actualShownSeatY": 2.0400960445404053,
+      "seatHeightChangeM": 9.608268737792969e-5,
+      "seatTranslationFromMeasuredReferenceM": [-0.1099996566772461, 9.608268737792969e-5, 0.0],
+      "reachableSoleXIntervalWith2cmMargin": [-7.959512741031981, -6.981109219802239],
+      "neutralPreferredX": -7.787608623504639,
+      "selectedSoleX": -7.787608623504639,
+      "legReachSlackM": 0.11673026367375106,
+      "fullFootVertices": 1624,
+      "soleWitnessCount": 18,
+      "soleContacts": [
+        {
+          "position": [-7.772747993469238, 1.5, 6.792565822601318],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008283853445109368
+        },
+        {
+          "position": [-7.761010646820068, 1.5, 6.799638271331787],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005935430407021317
+        },
+        {
+          "position": [-7.744235038757324, 1.5, 6.7998762130737305],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009725093841552734
+        },
+        {
+          "position": [-7.75186824798584, 1.5, 6.8076395988464355],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004106760025024414
+        },
+        {
+          "position": [-7.73552131652832, 1.5, 6.809401512145996],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0007982254028320312
+        },
+        {
+          "position": [-7.745630264282227, 1.5, 6.816307544708252],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002859830856323242
+        },
+        {
+          "position": [-7.730164527893066, 1.5, 6.819546222686768],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0006910562412438977
+        },
+        {
+          "position": [-7.742464065551758, 1.5, 6.825380325317383],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002225637435913086
+        },
+        {
+          "position": [-7.728378772735596, 1.5, 6.829999923706055],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0006554126739501953
+        },
+        {
+          "position": [-7.742464065551758, 1.5, 6.834619522094727],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002225637435913086
+        },
+        {
+          "position": [-7.730164527893066, 1.5, 6.84047794342041],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0006910562412438977
+        },
+        {
+          "position": [-7.745630264282227, 1.5, 6.843716144561768],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002859830856323242
+        },
+        {
+          "position": [-7.73552131652832, 1.5, 6.850622177124023],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0007982254028320312
+        },
+        {
+          "position": [-7.75186824798584, 1.5, 6.852384567260742],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004106760025024414
+        },
+        {
+          "position": [-7.744235038757324, 1.5, 6.860147476196289],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009725093841552734
+        },
+        {
+          "position": [-7.761010646820068, 1.5, 6.860361576080322],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005935430407021317
+        },
+        {
+          "position": [-7.772747993469238, 1.5, 6.867434501647949],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008283853445109368
+        },
+        {
+          "position": [-7.846838474273682, 1.5, 6.829999923706055],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0
+        }
+      ],
+      "obstaclesTested": [
+        "sleep__honey ash",
+        "sleep__linen",
+        "core__golden coastal sandstone",
+        "core_finish_bedroom_spiral__brushed brass",
+        "core_finish_bedroom_spiral__honey ash",
+        "sleep_duvet_empty"
+      ],
+      "minimumNativeObstacleDistanceM": 0.1422775536775589,
+      "passed": true
+    },
+    {
+      "avatar": "south-park",
+      "side": "R",
+      "sourceGlbSha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63",
+      "actualShownSeatY": 2.0400960445404053,
+      "seatHeightChangeM": 9.608268737792969e-5,
+      "seatTranslationFromMeasuredReferenceM": [-0.1099996566772461, 9.608268737792969e-5, 0.0],
+      "reachableSoleXIntervalWith2cmMargin": [-7.959878156009249, -6.9807438050813735],
+      "neutralPreferredX": -7.787608623504639,
+      "selectedSoleX": -7.787608623504639,
+      "legReachSlackM": 0.11699791637344736,
+      "fullFootVertices": 1624,
+      "soleWitnessCount": 18,
+      "soleContacts": [
+        {
+          "position": [-7.772747993469238, 1.5, 7.07256555557251],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008283853445109368
+        },
+        {
+          "position": [-7.761010646820068, 1.5, 7.0796380043029785],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005935430407021317
+        },
+        {
+          "position": [-7.744235038757324, 1.5, 7.07985258102417],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009725093841552734
+        },
+        {
+          "position": [-7.75186824798584, 1.5, 7.087615489959717],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004106760025024414
+        },
+        {
+          "position": [-7.73552131652832, 1.5, 7.0893778800964355],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0007982254028320312
+        },
+        {
+          "position": [-7.745630264282227, 1.5, 7.096283435821533],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002859830856323242
+        },
+        {
+          "position": [-7.730164527893066, 1.5, 7.099522113800049],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0006910562412438977
+        },
+        {
+          "position": [-7.742464065551758, 1.5, 7.105380058288574],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002225637435913086
+        },
+        {
+          "position": [-7.728378772735596, 1.5, 7.110000133514404],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0006554126739501953
+        },
+        {
+          "position": [-7.742464065551758, 1.5, 7.114619731903076],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002225637435913086
+        },
+        {
+          "position": [-7.730164527893066, 1.5, 7.120453834533691],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0006910562412438977
+        },
+        {
+          "position": [-7.745630264282227, 1.5, 7.123692512512207],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002859830856323242
+        },
+        {
+          "position": [-7.73552131652832, 1.5, 7.130598545074463],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0007982254028320312
+        },
+        {
+          "position": [-7.75186824798584, 1.5, 7.132360458374023],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004106760025024414
+        },
+        {
+          "position": [-7.744235038757324, 1.5, 7.14012336730957],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009725093841552734
+        },
+        {
+          "position": [-7.761010646820068, 1.5, 7.140361785888672],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005935430407021317
+        },
+        {
+          "position": [-7.772747993469238, 1.5, 7.147434234619141],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008283853445109368
+        },
+        {
+          "position": [-7.846838474273682, 1.5, 7.110000133514404],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0
+        }
+      ],
+      "obstaclesTested": [
+        "sleep__honey ash",
+        "sleep__linen",
+        "core__golden coastal sandstone",
+        "core_finish_bedroom_spiral__brushed brass",
+        "core_finish_bedroom_spiral__honey ash",
+        "sleep_duvet_empty"
+      ],
+      "minimumNativeObstacleDistanceM": 0.12556400895118713,
+      "passed": true
+    },
+    {
+      "avatar": "simpsons",
+      "side": "L",
+      "sourceGlbSha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f",
+      "actualShownSeatY": 2.0400960445404053,
+      "seatHeightChangeM": 9.608268737792969e-5,
+      "seatTranslationFromMeasuredReferenceM": [-0.1099996566772461, 9.608268737792969e-5, 0.0],
+      "reachableSoleXIntervalWith2cmMargin": [-7.959740264588884, -6.980892562256779],
+      "neutralPreferredX": -7.787613868713379,
+      "selectedSoleX": -7.787613868713379,
+      "legReachSlackM": 0.11689298923919222,
+      "fullFootVertices": 1624,
+      "soleWitnessCount": 18,
+      "soleContacts": [
+        {
+          "position": [-7.772751331329346, 1.5, 6.79779577255249],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008217096242264083
+        },
+        {
+          "position": [-7.761012554168701, 1.5, 6.8038787841796875],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005869865417480469
+        },
+        {
+          "position": [-7.744250774383545, 1.5, 6.804080009460449],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009675025939941406
+        },
+        {
+          "position": [-7.751889705657959, 1.5, 6.810744285583496],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004044771194458008
+        },
+        {
+          "position": [-7.735530376434326, 1.5, 6.812265396118164],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0007930993944222848
+        },
+        {
+          "position": [-7.7456512451171875, 1.5, 6.818213939666748],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002796649932861328
+        },
+        {
+          "position": [-7.730186462402344, 1.5, 6.820987224578857],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0006861686706542969
+        },
+        {
+          "position": [-7.742475986480713, 1.5, 6.826019287109375],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002162456512451172
+        },
+        {
+          "position": [-7.728375434875488, 1.5, 6.829999923706055],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0006499290466308594
+        },
+        {
+          "position": [-7.742475986480713, 1.5, 6.833958625793457],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002162456512451172
+        },
+        {
+          "position": [-7.730186462402344, 1.5, 6.839012622833252],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0006861686706542969
+        },
+        {
+          "position": [-7.7456512451171875, 1.5, 6.841785907745361],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002796649932861328
+        },
+        {
+          "position": [-7.735530376434326, 1.5, 6.8477349281311035],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0007930993944222848
+        },
+        {
+          "position": [-7.751889705657959, 1.5, 6.849255561828613],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004044771194458008
+        },
+        {
+          "position": [-7.744250774383545, 1.5, 6.85591983795166],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009675025939941406
+        },
+        {
+          "position": [-7.761012554168701, 1.5, 6.85612154006958],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005869865417480469
+        },
+        {
+          "position": [-7.772751331329346, 1.5, 6.862204551696777],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008217096242264083
+        },
+        {
+          "position": [-7.8468523025512695, 1.5, 6.829999923706055],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0
+        }
+      ],
+      "obstaclesTested": [
+        "sleep__honey ash",
+        "sleep__linen",
+        "core__golden coastal sandstone",
+        "core_finish_bedroom_spiral__brushed brass",
+        "core_finish_bedroom_spiral__honey ash",
+        "sleep_duvet_empty"
+      ],
+      "minimumNativeObstacleDistanceM": 0.14337299764156342,
+      "passed": true
+    },
+    {
+      "avatar": "simpsons",
+      "side": "R",
+      "sourceGlbSha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f",
+      "actualShownSeatY": 2.0400960445404053,
+      "seatHeightChangeM": 9.608268737792969e-5,
+      "seatTranslationFromMeasuredReferenceM": [-0.1099996566772461, 9.608268737792969e-5, 0.0],
+      "reachableSoleXIntervalWith2cmMargin": [-7.95974168521029, -6.98089114189418],
+      "neutralPreferredX": -7.787613868713379,
+      "selectedSoleX": -7.787613868713379,
+      "legReachSlackM": 0.1168940298886948,
+      "fullFootVertices": 1624,
+      "soleWitnessCount": 18,
+      "soleContacts": [
+        {
+          "position": [-7.772751331329346, 1.5, 7.077795505523682],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008217096242264083
+        },
+        {
+          "position": [-7.761012554168701, 1.5, 7.083878517150879],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005869865417480469
+        },
+        {
+          "position": [-7.744250774383545, 1.5, 7.084079742431641],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009675025939941406
+        },
+        {
+          "position": [-7.751889705657959, 1.5, 7.090744495391846],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004044771194458008
+        },
+        {
+          "position": [-7.735530376434326, 1.5, 7.0922651290893555],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0007930993944222848
+        },
+        {
+          "position": [-7.7456512451171875, 1.5, 7.098214149475098],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002796649932861328
+        },
+        {
+          "position": [-7.730186462402344, 1.5, 7.100987434387207],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0006861686706542969
+        },
+        {
+          "position": [-7.742475986480713, 1.5, 7.106041431427002],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002162456512451172
+        },
+        {
+          "position": [-7.728375434875488, 1.5, 7.110000133514404],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0006499290466308594
+        },
+        {
+          "position": [-7.742475986480713, 1.5, 7.113980770111084],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002162456512451172
+        },
+        {
+          "position": [-7.730186462402344, 1.5, 7.119012832641602],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0006861686706542969
+        },
+        {
+          "position": [-7.7456512451171875, 1.5, 7.121786117553711],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002796649932861328
+        },
+        {
+          "position": [-7.735530376434326, 1.5, 7.127734661102295],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0007930993944222848
+        },
+        {
+          "position": [-7.751889705657959, 1.5, 7.129255294799805],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004044771194458008
+        },
+        {
+          "position": [-7.744250774383545, 1.5, 7.13592004776001],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009675025939941406
+        },
+        {
+          "position": [-7.761012554168701, 1.5, 7.1361212730407715],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005869865417480469
+        },
+        {
+          "position": [-7.772751331329346, 1.5, 7.142204284667969],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008217096242264083
+        },
+        {
+          "position": [-7.8468523025512695, 1.5, 7.110000133514404],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0
+        }
+      ],
+      "obstaclesTested": [
+        "sleep__honey ash",
+        "sleep__linen",
+        "core__golden coastal sandstone",
+        "core_finish_bedroom_spiral__brushed brass",
+        "core_finish_bedroom_spiral__honey ash",
+        "sleep_duvet_empty"
+      ],
+      "minimumNativeObstacleDistanceM": 0.12647758424282074,
+      "passed": true
+    },
+    {
+      "avatar": "ghibli",
+      "side": "L",
+      "sourceGlbSha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db",
+      "actualShownSeatY": 2.0400960445404053,
+      "seatHeightChangeM": 9.608268737792969e-5,
+      "seatTranslationFromMeasuredReferenceM": [-0.1099996566772461, 9.608268737792969e-5, 0.0],
+      "reachableSoleXIntervalWith2cmMargin": [-7.959740264588881, -6.980892562256782],
+      "neutralPreferredX": -7.787613868713379,
+      "selectedSoleX": -7.787613868713379,
+      "legReachSlackM": 0.11689298923918989,
+      "fullFootVertices": 1624,
+      "soleWitnessCount": 18,
+      "soleContacts": [
+        {
+          "position": [-7.772751331329346, 1.5, 6.79779577255249],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008217096242264083
+        },
+        {
+          "position": [-7.761012554168701, 1.5, 6.8038787841796875],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005869865417480469
+        },
+        {
+          "position": [-7.744250774383545, 1.5, 6.804080009460449],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009675025939941406
+        },
+        {
+          "position": [-7.751889705657959, 1.5, 6.810744285583496],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004044771194458008
+        },
+        {
+          "position": [-7.735530376434326, 1.5, 6.812265396118164],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0007930993944222848
+        },
+        {
+          "position": [-7.7456512451171875, 1.5, 6.818213939666748],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002796649932861328
+        },
+        {
+          "position": [-7.730186462402344, 1.5, 6.820987224578857],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0006861686706542969
+        },
+        {
+          "position": [-7.742475986480713, 1.5, 6.826019287109375],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002162456512451172
+        },
+        {
+          "position": [-7.728375434875488, 1.5, 6.829999923706055],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0006499290466308594
+        },
+        {
+          "position": [-7.742475986480713, 1.5, 6.833958625793457],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002162456512451172
+        },
+        {
+          "position": [-7.730186462402344, 1.5, 6.839012622833252],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0006861686706542969
+        },
+        {
+          "position": [-7.7456512451171875, 1.5, 6.841785907745361],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002796649932861328
+        },
+        {
+          "position": [-7.735530376434326, 1.5, 6.8477349281311035],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0007930993944222848
+        },
+        {
+          "position": [-7.751889705657959, 1.5, 6.849255561828613],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004044771194458008
+        },
+        {
+          "position": [-7.744250774383545, 1.5, 6.85591983795166],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009675025939941406
+        },
+        {
+          "position": [-7.761012554168701, 1.5, 6.85612154006958],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005869865417480469
+        },
+        {
+          "position": [-7.772751331329346, 1.5, 6.862204551696777],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008217096242264083
+        },
+        {
+          "position": [-7.8468523025512695, 1.5, 6.829999923706055],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0
+        }
+      ],
+      "obstaclesTested": [
+        "sleep__honey ash",
+        "sleep__linen",
+        "core__golden coastal sandstone",
+        "core_finish_bedroom_spiral__brushed brass",
+        "core_finish_bedroom_spiral__honey ash",
+        "sleep_duvet_empty"
+      ],
+      "minimumNativeObstacleDistanceM": 0.14338338375091553,
+      "passed": true
+    },
+    {
+      "avatar": "ghibli",
+      "side": "R",
+      "sourceGlbSha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db",
+      "actualShownSeatY": 2.0400960445404053,
+      "seatHeightChangeM": 9.608268737792969e-5,
+      "seatTranslationFromMeasuredReferenceM": [-0.1099996566772461, 9.608268737792969e-5, 0.0],
+      "reachableSoleXIntervalWith2cmMargin": [-7.959741685210292, -6.980891141894177],
+      "neutralPreferredX": -7.787613868713379,
+      "selectedSoleX": -7.787613868713379,
+      "legReachSlackM": 0.11689402988869702,
+      "fullFootVertices": 1624,
+      "soleWitnessCount": 18,
+      "soleContacts": [
+        {
+          "position": [-7.772751331329346, 1.5, 7.077795505523682],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008217096242264083
+        },
+        {
+          "position": [-7.761012554168701, 1.5, 7.083878517150879],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005869865417480469
+        },
+        {
+          "position": [-7.744250774383545, 1.5, 7.084079742431641],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009675025939941406
+        },
+        {
+          "position": [-7.751889705657959, 1.5, 7.090744495391846],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004044771194458008
+        },
+        {
+          "position": [-7.735530376434326, 1.5, 7.0922651290893555],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0007930993944222848
+        },
+        {
+          "position": [-7.7456512451171875, 1.5, 7.098214149475098],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002796649932861328
+        },
+        {
+          "position": [-7.730186462402344, 1.5, 7.100987434387207],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0006861686706542969
+        },
+        {
+          "position": [-7.742475986480713, 1.5, 7.106041431427002],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002162456512451172
+        },
+        {
+          "position": [-7.728375434875488, 1.5, 7.110000133514404],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0006499290466308594
+        },
+        {
+          "position": [-7.742475986480713, 1.5, 7.113980770111084],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002162456512451172
+        },
+        {
+          "position": [-7.730186462402344, 1.5, 7.119012832641602],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0006861686706542969
+        },
+        {
+          "position": [-7.7456512451171875, 1.5, 7.121786117553711],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002796649932861328
+        },
+        {
+          "position": [-7.735530376434326, 1.5, 7.127734661102295],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0007930993944222848
+        },
+        {
+          "position": [-7.751889705657959, 1.5, 7.129255294799805],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004044771194458008
+        },
+        {
+          "position": [-7.744250774383545, 1.5, 7.13592004776001],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009675025939941406
+        },
+        {
+          "position": [-7.761012554168701, 1.5, 7.1361212730407715],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005869865417480469
+        },
+        {
+          "position": [-7.772751331329346, 1.5, 7.142204284667969],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008217096242264083
+        },
+        {
+          "position": [-7.8468523025512695, 1.5, 7.110000133514404],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0
+        }
+      ],
+      "obstaclesTested": [
+        "sleep__honey ash",
+        "sleep__linen",
+        "core__golden coastal sandstone",
+        "core_finish_bedroom_spiral__brushed brass",
+        "core_finish_bedroom_spiral__honey ash",
+        "sleep_duvet_empty"
+      ],
+      "minimumNativeObstacleDistanceM": 0.12649621069431305,
+      "passed": true
+    },
+    {
+      "avatar": "rick-and-morty",
+      "side": "L",
+      "sourceGlbSha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253",
+      "actualShownSeatY": 2.0400960445404053,
+      "seatHeightChangeM": 9.608268737792969e-5,
+      "seatTranslationFromMeasuredReferenceM": [-0.1099996566772461, 9.608268737792969e-5, 0.0],
+      "reachableSoleXIntervalWith2cmMargin": [-7.959502603558126, -6.981109753898658],
+      "neutralPreferredX": -7.787603855133057,
+      "selectedSoleX": -7.787603855133057,
+      "legReachSlackM": 0.11672634186690167,
+      "fullFootVertices": 1624,
+      "soleWitnessCount": 18,
+      "soleContacts": [
+        {
+          "position": [-7.772741317749023, 1.5, 6.79779577255249],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008217096242264083
+        },
+        {
+          "position": [-7.761002540588379, 1.5, 6.8038787841796875],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005869865417480469
+        },
+        {
+          "position": [-7.744240760803223, 1.5, 6.804080009460449],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009675025939941406
+        },
+        {
+          "position": [-7.751879692077637, 1.5, 6.810744285583496],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004044771194458008
+        },
+        {
+          "position": [-7.735520362854004, 1.5, 6.812265396118164],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0007930993944222848
+        },
+        {
+          "position": [-7.745641231536865, 1.5, 6.818213939666748],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002796649932861328
+        },
+        {
+          "position": [-7.7301764488220215, 1.5, 6.820987224578857],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0006861686706542969
+        },
+        {
+          "position": [-7.742465972900391, 1.5, 6.826019287109375],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002162456512451172
+        },
+        {
+          "position": [-7.728365421295166, 1.5, 6.829999923706055],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0006499290466308594
+        },
+        {
+          "position": [-7.742465972900391, 1.5, 6.833958625793457],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002162456512451172
+        },
+        {
+          "position": [-7.7301764488220215, 1.5, 6.839012622833252],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0006861686706542969
+        },
+        {
+          "position": [-7.745641231536865, 1.5, 6.841785907745361],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002796649932861328
+        },
+        {
+          "position": [-7.735520362854004, 1.5, 6.8477349281311035],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0007930993944222848
+        },
+        {
+          "position": [-7.751879692077637, 1.5, 6.849255561828613],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004044771194458008
+        },
+        {
+          "position": [-7.744240760803223, 1.5, 6.85591983795166],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009675025939941406
+        },
+        {
+          "position": [-7.761002540588379, 1.5, 6.85612154006958],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005869865417480469
+        },
+        {
+          "position": [-7.772741317749023, 1.5, 6.862204551696777],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008217096242264083
+        },
+        {
+          "position": [-7.846842288970947, 1.5, 6.829999923706055],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0
+        }
+      ],
+      "obstaclesTested": [
+        "sleep__honey ash",
+        "sleep__linen",
+        "core__golden coastal sandstone",
+        "core_finish_bedroom_spiral__brushed brass",
+        "core_finish_bedroom_spiral__honey ash",
+        "sleep_duvet_empty"
+      ],
+      "minimumNativeObstacleDistanceM": 0.14336711168289185,
+      "passed": true
+    },
+    {
+      "avatar": "rick-and-morty",
+      "side": "R",
+      "sourceGlbSha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253",
+      "actualShownSeatY": 2.0400960445404053,
+      "seatHeightChangeM": 9.608268737792969e-5,
+      "seatTranslationFromMeasuredReferenceM": [-0.1099996566772461, 9.608268737792969e-5, 0.0],
+      "reachableSoleXIntervalWith2cmMargin": [-7.959871480477996, -6.9807408772375945],
+      "neutralPreferredX": -7.787603855133057,
+      "selectedSoleX": -7.787603855133057,
+      "legReachSlackM": 0.11699652724504117,
+      "fullFootVertices": 1624,
+      "soleWitnessCount": 18,
+      "soleContacts": [
+        {
+          "position": [-7.772741317749023, 1.5, 7.077795505523682],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008217096242264083
+        },
+        {
+          "position": [-7.761002540588379, 1.5, 7.083878517150879],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005869865417480469
+        },
+        {
+          "position": [-7.744240760803223, 1.5, 7.084079742431641],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009675025939941406
+        },
+        {
+          "position": [-7.751879692077637, 1.5, 7.090744495391846],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004044771194458008
+        },
+        {
+          "position": [-7.735520362854004, 1.5, 7.0922651290893555],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0007930993944222848
+        },
+        {
+          "position": [-7.745641231536865, 1.5, 7.098214149475098],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002796649932861328
+        },
+        {
+          "position": [-7.7301764488220215, 1.5, 7.100987434387207],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0006861686706542969
+        },
+        {
+          "position": [-7.742465972900391, 1.5, 7.106041431427002],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002162456512451172
+        },
+        {
+          "position": [-7.728365421295166, 1.5, 7.110000133514404],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0006499290466308594
+        },
+        {
+          "position": [-7.742465972900391, 1.5, 7.113980770111084],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002162456512451172
+        },
+        {
+          "position": [-7.7301764488220215, 1.5, 7.119012832641602],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0006861686706542969
+        },
+        {
+          "position": [-7.745641231536865, 1.5, 7.121786117553711],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0002796649932861328
+        },
+        {
+          "position": [-7.735520362854004, 1.5, 7.127734661102295],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 247,
+          "soleSurfaceDistanceM": 0.0007930993944222848
+        },
+        {
+          "position": [-7.751879692077637, 1.5, 7.129255294799805],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0004044771194458008
+        },
+        {
+          "position": [-7.744240760803223, 1.5, 7.13592004776001],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0009675025939941406
+        },
+        {
+          "position": [-7.761002540588379, 1.5, 7.1361212730407715],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0005869865417480469
+        },
+        {
+          "position": [-7.772741317749023, 1.5, 7.142204284667969],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 246,
+          "soleSurfaceDistanceM": 0.0008217096242264083
+        },
+        {
+          "position": [-7.846842288970947, 1.5, 7.110000133514404],
+          "nativeSupport": "core_finish_bedchamber_floor__pale oak",
+          "nativeTriangle": 203,
+          "soleSurfaceDistanceM": 0.0
+        }
+      ],
+      "obstaclesTested": [
+        "sleep__honey ash",
+        "sleep__linen",
+        "core__golden coastal sandstone",
+        "core_finish_bedroom_spiral__brushed brass",
+        "core_finish_bedroom_spiral__honey ash",
+        "sleep_duvet_empty"
+      ],
+      "minimumNativeObstacleDistanceM": 0.12646935880184174,
+      "passed": true
+    }
+  ]
+}

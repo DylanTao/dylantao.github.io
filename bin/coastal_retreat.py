@@ -607,6 +607,12 @@ def repair_gym_connection(scene,config):
     p=Parts("core_retreat_gym_threshold")
     box(p.bm(m["stone"]),(5.525,-5.90,-.10),(1.45,1.60,.20),.014)
     objects=p.finish()
+    # This is a filler for the actual missing threshold, not a second floor
+    # plate embedded in the two retained gym slabs.
+    for obj in objects:
+        for name in ("core_gym_floor","core_gym_passage_floor"):
+            original=scene.objects.get(name)
+            if original:shell.boolean(obj,original,"DIFFERENCE")
     for obj in objects:obj["installationGroup"]="gym"
     config["terrain"]["supportSurfaces"].append(sunken.support("retreat-gym-threshold",(4.8,6.25,-6.7,-5.1),0))
     scene["retreatGymConnectionVersion"]=1

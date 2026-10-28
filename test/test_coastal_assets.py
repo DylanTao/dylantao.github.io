@@ -5,10 +5,17 @@ import gzip
 import json
 import struct
 import unittest
+import os
 
 ROOT = Path(__file__).resolve().parents[1]
-ASSETS = ROOT / "assets/models/home"
+ASSETS = Path(os.environ.get("COASTAL_MODELS_ROOT", ROOT / "assets/models/home")).resolve()
 MANIFEST = json.loads((ASSETS / "manifest.json").read_text(encoding="utf-8"))
+
+
+def asset_path(name):
+    # A candidate models directory can live under ignored QA storage while
+    # unchanged images still belong to the site's canonical assets tree.
+    return (ROOT / "assets/models/home" / name) if name.startswith("../") else ASSETS / name
 
 
 def glb(path):
@@ -28,7 +35,8 @@ class CoastalAssetsTest(unittest.TestCase):
             for n in shell["nodes"]
             if n["name"].startswith("anchor_")
         }
-        self.assertEqual({r["floor"] for r in MANIFEST["rooms"]}, {0, 2.6})
+        expected_floors = {0, 1.5, 2.6} if MANIFEST.get("estateLibrary", {}).get("adjacentBedchamber") else {0, 2.6}
+        self.assertEqual({r["floor"] for r in MANIFEST["rooms"]}, expected_floors)
         for room in MANIFEST["rooms"]:
             for actual, expected in zip(anchors["anchor_" + room["id"]], room["actor"]):
                 self.assertAlmostEqual(actual, expected, places=5)
@@ -44,11 +52,11 @@ class CoastalAssetsTest(unittest.TestCase):
             self.assertEqual(data[:8], b"\x89PNG\r\n\x1a\n")
             self.assertEqual(struct.unpack_from(">II", data, 16), (384, 480))
         self.assertEqual(
-            (ASSETS / MANIFEST["wallArt"]["file"]).resolve(),
+            asset_path(MANIFEST["wallArt"]["file"]).resolve(),
             (ROOT / "assets/img/home/sirui_capy.jpg").resolve(),
         )
         self.assertEqual(
-            (ASSETS / MANIFEST["wallArt"]["file"]).read_bytes()[:2], b"\xff\xd8"
+            asset_path(MANIFEST["wallArt"]["file"]).read_bytes()[:2], b"\xff\xd8"
         )
 
     def test_every_export_and_editable_source_exists(self):
@@ -135,13 +143,13 @@ class CoastalAssetsTest(unittest.TestCase):
         runtime += list((ROOT / "assets/js/vendor/three-r164").rglob("*.js"))
         runtime += [
             ROOT / "assets/js/three.module.min.js",
-            ROOT / "assets/models/home/coast.glb",
+            ASSETS / "coast.glb",
             ASSETS / "manifest.json",
             ROOT / "assets/img/home/coastal-vignette.svg",
         ]
         base = sum(transfer_size(p) for p in runtime)
         base += transfer_size(ASSETS / MANIFEST["shell"])
-        base += transfer_size(ASSETS / MANIFEST["wallArt"]["file"])
+        base += transfer_size(asset_path(MANIFEST["wallArt"]["file"]))
         base += sum(
             transfer_size(p)
             for p in (ROOT / "assets/js/vendor/three-r164").rglob("*.wasm")

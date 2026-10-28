@@ -1,0 +1,144 @@
+{
+  "method": "Per-avatar sleep clips at frames 25 and 73 (deepest and shallowest breath); pillow dented by vertical ray casts with an 8 cm tension funnel; duvet settled by coloured Gauss-Seidel position-based dynamics over the upper envelope of sleeper, pillow, mattress, frame and bedside table, trimmed 7 cm below the chin",
+  "oldPillowVerticesRemoved": 0,
+  "neutralFrameTranslationNativeM": [-3.700000286102295, -3.4799997806549072, -1.0999999046325684],
+  "bedsideSupportNeutralFrame": {
+    "center": [-2.07, -2.47],
+    "radius": 0.23,
+    "bottom": 2.6,
+    "top": 3.28
+  },
+  "coverMetricScope": "Legacy top-minus30mm vertical estimate for the filled cover; tilted/folded cloth requires actual triangle and rendered skin review. This is not a signed material-penetration metric.",
+  "bodyEnvelopeSha256": "2c02c3ed1f1e3f47f905f77e88ad50acf90a73247833ca3d83d90ea141f62241",
+  "avatarSource": {
+    "kind": "five-scene finish library",
+    "sha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6"
+  },
+  "variants": {
+    "empty": {
+      "pillowDeepestPressMeters": 0.0,
+      "pillowVertices": 2082,
+      "duvetVertices": 5424,
+      "duvet": {
+        "hemY": -2.6,
+        "startZ": 3.17,
+        "grid": [77, 69],
+        "postDecimationBodyFit": {
+          "bodySamples": 0,
+          "liftedVertices": 0,
+          "maximumLiftM": 0.0
+        }
+      }
+    },
+    "lizard": {
+      "pillowDeepestPressMeters": 0.0925,
+      "pillowVertices": 2082,
+      "duvetVertices": 4930,
+      "duvet": {
+        "hemY": -2.8545,
+        "startZ": 3.5696,
+        "grid": [77, 63],
+        "postDecimationBodyFit": {
+          "bodySamples": 30160,
+          "liftedVertices": 130,
+          "maximumLiftM": 0.03576331520080567,
+          "minimumRawCoverAboveBodyM": 0.003999471664428711,
+          "method": "Actual body-ray envelope after decimation; local positive displacement tapered over two edge rings. No global margin or body/rig change."
+        }
+      },
+      "coverChecked": 30157,
+      "aboveCoverUnderside": 37,
+      "worstAboveCoverUndersideMeters": 0.0053,
+      "insidePillow": 0,
+      "worstInsidePillowMeters": 0.0
+    },
+    "south-park": {
+      "pillowDeepestPressMeters": 0.1262,
+      "pillowVertices": 2082,
+      "duvetVertices": 5234,
+      "duvet": {
+        "hemY": -2.7441,
+        "startZ": 3.654,
+        "grid": [77, 67],
+        "postDecimationBodyFit": {
+          "bodySamples": 65016,
+          "liftedVertices": 187,
+          "maximumLiftM": 0.048960021972656254,
+          "minimumRawCoverAboveBodyM": 0.003999948501586914,
+          "method": "Actual body-ray envelope after decimation; local positive displacement tapered over two edge rings. No global margin or body/rig change."
+        }
+      },
+      "coverChecked": 65018,
+      "aboveCoverUnderside": 185,
+      "worstAboveCoverUndersideMeters": 0.0064,
+      "insidePillow": 24,
+      "worstInsidePillowMeters": 0.007
+    },
+    "simpsons": {
+      "pillowDeepestPressMeters": 0.0949,
+      "pillowVertices": 2082,
+      "duvetVertices": 5216,
+      "duvet": {
+        "hemY": -2.7322,
+        "startZ": 3.5808,
+        "grid": [77, 67],
+        "postDecimationBodyFit": {
+          "bodySamples": 75998,
+          "liftedVertices": 177,
+          "maximumLiftM": 0.036180786132812504,
+          "minimumRawCoverAboveBodyM": 0.0039997100830078125,
+          "method": "Actual body-ray envelope after decimation; local positive displacement tapered over two edge rings. No global margin or body/rig change."
+        }
+      },
+      "coverChecked": 75998,
+      "aboveCoverUnderside": 78,
+      "worstAboveCoverUndersideMeters": 0.0063,
+      "insidePillow": 0,
+      "worstInsidePillowMeters": 0.0
+    },
+    "ghibli": {
+      "pillowDeepestPressMeters": 0.1273,
+      "pillowVertices": 2082,
+      "duvetVertices": 5644,
+      "duvet": {
+        "hemY": -2.5847,
+        "startZ": 3.5204,
+        "grid": [77, 72],
+        "postDecimationBodyFit": {
+          "bodySamples": 79848,
+          "liftedVertices": 182,
+          "maximumLiftM": 0.03710465812683106,
+          "minimumRawCoverAboveBodyM": 0.0039997100830078125,
+          "method": "Actual body-ray envelope after decimation; local positive displacement tapered over two edge rings. No global margin or body/rig change."
+        }
+      },
+      "coverChecked": 79848,
+      "aboveCoverUnderside": 8,
+      "worstAboveCoverUndersideMeters": 0.0032,
+      "insidePillow": 0,
+      "worstInsidePillowMeters": 0.0
+    },
+    "rick-and-morty": {
+      "pillowDeepestPressMeters": 0.0914,
+      "pillowVertices": 2082,
+      "duvetVertices": 5230,
+      "duvet": {
+        "hemY": -2.7421,
+        "startZ": 3.5359,
+        "grid": [77, 67],
+        "postDecimationBodyFit": {
+          "bodySamples": 70771,
+          "liftedVertices": 202,
+          "maximumLiftM": 0.024814895629882816,
+          "minimumRawCoverAboveBodyM": 0.0039997100830078125,
+          "method": "Actual body-ray envelope after decimation; local positive displacement tapered over two edge rings. No global margin or body/rig change."
+        }
+      },
+      "coverChecked": 70771,
+      "aboveCoverUnderside": 11,
+      "worstAboveCoverUndersideMeters": 0.0025,
+      "insidePillow": 0,
+      "worstInsidePillowMeters": 0.0
+    }
+  }
+}

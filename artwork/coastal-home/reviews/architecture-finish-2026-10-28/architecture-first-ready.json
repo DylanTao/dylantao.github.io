@@ -1,0 +1,4444 @@
+{
+  "initial": {
+    "ready": true,
+    "style": "realistic",
+    "avatarId": "simpsons",
+    "portrait": "http://127.0.0.1:4112/al-folio/assets/img/home/sirui_capy.jpg",
+    "currentRoom": "kitchen",
+    "activity": "lunch",
+    "activityFloor": 0,
+    "activityOffset": [0, 0, 5],
+    "traveling": false,
+    "navigation": null,
+    "bedTransfer": {
+      "bound": true,
+      "error": null,
+      "clothFit": {
+        "position": [-7.464220662726111, 1.5209837408667135, 6.970011601838685],
+        "lift": 0.017802747630945026,
+        "compression": 0,
+        "method": "highest actual support under measured proximal-patch witnesses",
+        "samples": [
+          {
+            "local": [0.0018289081310814297, 0.5369150513046368, 0.07715279135268263],
+            "x": -7.541373454078794,
+            "z": 6.971840509969766,
+            "surfaceY": 2.034250767802547,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.023648024368803533
+          },
+          {
+            "local": [-0.0069027552233680385, 0.5369802046733928, 0.07653486308661085],
+            "x": -7.540755525812722,
+            "z": 6.963108846615317,
+            "surfaceY": 2.0335895058532776,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.02437443968682862
+          },
+          {
+            "local": [0.011787726125754393, 0.5371127784134373, 0.07145142479320019],
+            "x": -7.535672087519312,
+            "z": 6.981799327964439,
+            "surfaceY": 2.0412818346013752,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.01681468467877556
+          },
+          {
+            "local": [-0.001238975690988648, 0.5372166535836767, 0.05498322485062948],
+            "x": -7.519203887576741,
+            "z": 6.968772626147697,
+            "surfaceY": 2.05385431051101,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.004346083939379852
+          },
+          {
+            "local": [0.020377798073667828, 0.5374039240533324, 0.07272888779481032],
+            "x": -7.536949550520922,
+            "z": 6.9903893999123525,
+            "surfaceY": 2.0414070926370953,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.01698057228295058
+          },
+          {
+            "local": [-0.01695595727144996, 0.5374827943532534, 0.07914059583177328],
+            "x": -7.543361258557884,
+            "z": 6.953055644567235,
+            "surfaceY": 2.0297543082706335,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.02871222694933362
+          },
+          {
+            "local": [0.023634475402446665, 0.5376431630419134, 0.06236227248259092],
+            "x": -7.526582935208702,
+            "z": 6.993646077241132,
+            "surfaceY": 2.0518575187876236,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.006769385121003335
+          },
+          {
+            "local": [0.010182987307995344, 0.5378055309893628, 0.04952469774521499],
+            "x": -7.513745360471327,
+            "z": 6.980194589146681,
+            "surfaceY": 2.0587892718560763,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0
+          },
+          {
+            "local": [-0.022714141616574188, 0.5378493888673238, 0.058280568326806434],
+            "x": -7.522501231052918,
+            "z": 6.947297460222111,
+            "surfaceY": 2.04914468445632,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.009688445277717062
+          },
+          {
+            "local": [-0.024979651704755548, 0.5379446942884113, 0.0790416570008085],
+            "x": -7.54326231972692,
+            "z": 6.94503195013393,
+            "surfaceY": 2.0287458959765576,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.030182539178567058
+          },
+          {
+            "local": [0.01820668100758964, 0.5379692363238118, 0.05175063145159334],
+            "x": -7.515971294177705,
+            "z": 6.988218282846275,
+            "surfaceY": 2.058509636497374,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.00044334069315166147
+          },
+          {
+            "local": [0.028543084158068135, 0.5380769534092724, 0.07307897527953239],
+            "x": -7.537299638005644,
+            "z": 6.998554685996753,
+            "surfaceY": 2.0423546810908126,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.016706013185173063
+          },
+          {
+            "local": [-0.01162256804763874, 0.5381433588137999, 0.04657695961064283],
+            "x": -7.510797622336754,
+            "z": 6.958389033791046,
+            "surfaceY": 2.057631948319843,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.0014951513606704658
+          },
+          {
+            "local": [0.02934544963907248, 0.5384135904593655, 0.05591297195933731],
+            "x": -7.520133634685449,
+            "z": 6.999357051477758,
+            "surfaceY": 2.057458627639509,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.0019387036865703422
+          },
+          {
+            "local": [-0.034513682644423296, 0.5386999685497614, 0.07387663118033327],
+            "x": -7.538097293906445,
+            "z": 6.935497919194262,
+            "surfaceY": 2.0323030112818508,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.027380698134624293
+          },
+          {
+            "local": [-0.005109219359020817, 0.5387464412795067, 0.09498140976135394],
+            "x": -7.559202072487466,
+            "z": 6.964902382479664,
+            "surfaceY": 1.9965170303114244,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.06321315183479559
+          },
+          {
+            "local": [0.03449005935035335, 0.5388658719282144, 0.059702737668734046],
+            "x": -7.523923400394845,
+            "z": 7.004501661189038,
+            "surfaceY": 2.055818889746246,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.004030723048682017
+          },
+          {
+            "local": [-0.033050541657961355, 0.5388744625740307, 0.05446841704795745],
+            "x": -7.518689079774068,
+            "z": 6.936961060180724,
+            "surfaceY": 2.0517943678676076,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.008063835573136835
+          }
+        ]
+      }
+    },
+    "animationSeconds": 0,
+    "fullscreen": "native",
+    "palette": "noon",
+    "daylight": {
+      "dateKey": "2026-10-26",
+      "minute": 840,
+      "offset": -7,
+      "altitude": 40.40208928678596,
+      "daylight": 1,
+      "sunlight": 1,
+      "direction": [-0.6698190963076243, 0.6481476700759163, -0.3622802451097751],
+      "keyDirection": [-0.6698190963076243, 0.6481476700759163, -0.3622802451097751],
+      "location": {
+        "latitude": 32.83,
+        "longitude": -117.27,
+        "timeZone": "America/Los_Angeles"
+      }
+    },
+    "clockMode": "now",
+    "following": true,
+    "animation": "eat",
+    "activityPhase": null,
+    "cupOwner": "counter",
+    "weightOwner": "rack",
+    "cupPosition": [-3.91, 1.065, 7.78],
+    "weightPosition": [6.42, 0.745, 8.06],
+    "gym": {
+      "weightOwner": "rack",
+      "weightPosition": [6.42, 0.745, 8.06],
+      "bars": {
+        "rack": {
+          "weight": 45,
+          "held": false,
+          "position": [8.8, 1.28, 8.05]
+        },
+        "platform": {
+          "weight": 45,
+          "held": false,
+          "position": [8.8, 0.225, 6.3]
+        },
+        "bench": {
+          "weight": 45,
+          "held": false,
+          "position": [10.6, 1.06, 5.35]
+        }
+      },
+      "incline": 0,
+      "lift": null,
+      "segment": null,
+      "rep": null
+    },
+    "liftHead": {
+      "min": [-0.264601469039917, -0.002173900604248047, -0.1937377154827118],
+      "max": [0.23697763681411743, 0.5852426290512085, 0.26279640197753906]
+    },
+    "actorPosition": [-3.95, -0.475, 5.26],
+    "actorFacing": 3.141592653589793,
+    "gripDrift": [],
+    "gripTargetMode": "equipment-anchor",
+    "characterPerformance": {
+      "blink": [0, 0],
+      "eye": [0, 0],
+      "head": [0, 0, 0],
+      "breath": 0,
+      "phase": "still",
+      "seconds": 0,
+      "blinkCount": 0,
+      "cooldownRemaining": 0,
+      "eyelidMeshes": 1,
+      "headOnly": true,
+      "attentionTarget": null
+    },
+    "garment": {
+      "kind": "authored shirt",
+      "materials": [
+        {
+          "color": 2830384,
+          "opacity": 1,
+          "transparent": false,
+          "roughness": 0.9,
+          "skinDiffusion": false
+        }
+      ]
+    },
+    "animations": [
+      "idle",
+      "walk",
+      "typing",
+      "reading",
+      "eat",
+      "drink",
+      "workout",
+      "pullup",
+      "dip",
+      "coffee-prep",
+      "carry",
+      "soak",
+      "lounge",
+      "sleep"
+    ],
+    "roomCount": 10,
+    "actorCount": 1,
+    "frames": 7,
+    "loading": {
+      "stages": [
+        {
+          "stage": "home",
+          "milliseconds": 0
+        },
+        {
+          "stage": "coast",
+          "milliseconds": 460
+        },
+        {
+          "stage": "room",
+          "milliseconds": 1303
+        },
+        {
+          "stage": "lighting",
+          "milliseconds": 3553
+        },
+        {
+          "stage": "first-frame",
+          "milliseconds": 12586
+        },
+        {
+          "stage": "ready",
+          "milliseconds": 13426
+        }
+      ],
+      "firstFrameMilliseconds": 13426,
+      "models": [
+        {
+          "asset": "home-shell.glb",
+          "startMilliseconds": 22,
+          "prefetched": true,
+          "headersMilliseconds": 117,
+          "downloadedMilliseconds": 121,
+          "bytes": 894112,
+          "parseStartMilliseconds": 262,
+          "parsedMilliseconds": 431
+        },
+        {
+          "asset": "coast.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 121,
+          "downloadedMilliseconds": 124,
+          "bytes": 241576,
+          "parseStartMilliseconds": 576,
+          "parsedMilliseconds": 625
+        },
+        {
+          "asset": "sirui-simpsons.glb",
+          "startMilliseconds": 1304,
+          "headersMilliseconds": 1517,
+          "bytes": 666964,
+          "downloadedMilliseconds": 1691,
+          "parsedMilliseconds": 3264
+        },
+        {
+          "asset": "aeron-lod1.glb",
+          "startMilliseconds": 1315,
+          "headersMilliseconds": 1517,
+          "bytes": 82404,
+          "downloadedMilliseconds": 1843,
+          "parsedMilliseconds": 2671
+        },
+        {
+          "asset": "italian-range-lod1.glb",
+          "startMilliseconds": 1316,
+          "headersMilliseconds": 1517,
+          "bytes": 32936,
+          "downloadedMilliseconds": 1845,
+          "parsedMilliseconds": 2723
+        },
+        {
+          "asset": "range-hood-lod1.glb",
+          "startMilliseconds": 1316,
+          "headersMilliseconds": 1517,
+          "bytes": 7520,
+          "downloadedMilliseconds": 1846,
+          "parsedMilliseconds": 2722
+        },
+        {
+          "asset": "pot-filler-lod1.glb",
+          "startMilliseconds": 1316,
+          "headersMilliseconds": 1518,
+          "bytes": 7340,
+          "downloadedMilliseconds": 1846,
+          "parsedMilliseconds": 2723
+        },
+        {
+          "asset": "glass-fridge-lod1.glb",
+          "startMilliseconds": 1316,
+          "headersMilliseconds": 1539,
+          "bytes": 33380,
+          "downloadedMilliseconds": 1870,
+          "parsedMilliseconds": 3250
+        },
+        {
+          "asset": "dining-table-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1540,
+          "bytes": 6880,
+          "downloadedMilliseconds": 1873,
+          "parsedMilliseconds": 3251
+        },
+        {
+          "asset": "dining-chair-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1540,
+          "bytes": 17196,
+          "downloadedMilliseconds": 1874,
+          "parsedMilliseconds": 3252
+        },
+        {
+          "asset": "banquette-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1541,
+          "bytes": 31432,
+          "downloadedMilliseconds": 1885,
+          "parsedMilliseconds": 3306
+        },
+        {
+          "asset": "cast-iron-pan-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1541,
+          "bytes": 9488,
+          "downloadedMilliseconds": 1886,
+          "parsedMilliseconds": 2656
+        },
+        {
+          "asset": "dumbbell-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1541,
+          "bytes": 4676,
+          "downloadedMilliseconds": 1897,
+          "parsedMilliseconds": 3252
+        },
+        {
+          "asset": "floating-fireplace-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1541,
+          "bytes": 12588,
+          "downloadedMilliseconds": 1898,
+          "parsedMilliseconds": 3255
+        },
+        {
+          "asset": "eames-lounge-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1550,
+          "bytes": 66616,
+          "downloadedMilliseconds": 1898,
+          "parsedMilliseconds": 3256
+        },
+        {
+          "asset": "cloud-sofa-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1582,
+          "bytes": 55376,
+          "downloadedMilliseconds": 1917,
+          "parsedMilliseconds": 3317
+        },
+        {
+          "asset": "whiskey-loveseat-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1583,
+          "bytes": 14860,
+          "downloadedMilliseconds": 1918,
+          "parsedMilliseconds": 3328
+        },
+        {
+          "asset": "whiskey-ottoman-lod1.glb",
+          "startMilliseconds": 1318,
+          "headersMilliseconds": 1583,
+          "bytes": 7924,
+          "downloadedMilliseconds": 1919,
+          "parsedMilliseconds": 3329
+        },
+        {
+          "asset": "whiskey-side-table-lod1.glb",
+          "startMilliseconds": 1318,
+          "headersMilliseconds": 1584,
+          "bytes": 35292,
+          "downloadedMilliseconds": 1919,
+          "parsedMilliseconds": 3521
+        },
+        {
+          "asset": "whiskey-bottles-lod1.glb",
+          "startMilliseconds": 1318,
+          "headersMilliseconds": 1584,
+          "bytes": 31808,
+          "downloadedMilliseconds": 1920,
+          "parsedMilliseconds": 3522
+        },
+        {
+          "asset": "room-study.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 121,
+          "downloadedMilliseconds": 125,
+          "bytes": 112436,
+          "parseStartMilliseconds": 1318,
+          "parsedMilliseconds": 1423
+        },
+        {
+          "asset": "room-kitchen.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 125,
+          "downloadedMilliseconds": 126,
+          "bytes": 244696,
+          "parseStartMilliseconds": 1318,
+          "parsedMilliseconds": 1428
+        },
+        {
+          "asset": "room-gym.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 131,
+          "downloadedMilliseconds": 132,
+          "bytes": 222576,
+          "parseStartMilliseconds": 1319,
+          "parsedMilliseconds": 1437
+        },
+        {
+          "asset": "room-onsen.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 133,
+          "downloadedMilliseconds": 133,
+          "bytes": 94408,
+          "parseStartMilliseconds": 1319,
+          "parsedMilliseconds": 1440
+        },
+        {
+          "asset": "room-lounge.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 134,
+          "downloadedMilliseconds": 135,
+          "bytes": 231300,
+          "parseStartMilliseconds": 1319,
+          "parsedMilliseconds": 1492
+        },
+        {
+          "asset": "room-sleep.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 137,
+          "downloadedMilliseconds": 139,
+          "bytes": 292636,
+          "parseStartMilliseconds": 1319,
+          "parsedMilliseconds": 1518
+        },
+        {
+          "asset": "room-library.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 139,
+          "downloadedMilliseconds": 141,
+          "bytes": 185640,
+          "parseStartMilliseconds": 1320,
+          "parsedMilliseconds": 1544
+        },
+        {
+          "asset": "room-library-upper.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 140,
+          "downloadedMilliseconds": 143,
+          "bytes": 22272,
+          "parseStartMilliseconds": 1320,
+          "parsedMilliseconds": 1547
+        },
+        {
+          "asset": "room-bath-living.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 141,
+          "downloadedMilliseconds": 144,
+          "bytes": 104924,
+          "parseStartMilliseconds": 1320,
+          "parsedMilliseconds": 1585
+        },
+        {
+          "asset": "room-bath-bedroom.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 142,
+          "downloadedMilliseconds": 150,
+          "bytes": 106412,
+          "parseStartMilliseconds": 1320,
+          "parsedMilliseconds": 1682
+        },
+        {
+          "asset": "tableware-lod1.glb",
+          "startMilliseconds": 3519,
+          "headersMilliseconds": 3589,
+          "bytes": 84140,
+          "downloadedMilliseconds": 3591,
+          "parsedMilliseconds": 3626
+        },
+        {
+          "asset": "dish-shrimp-bowl-lod1.glb",
+          "startMilliseconds": 3520,
+          "headersMilliseconds": 3589,
+          "bytes": 26688,
+          "downloadedMilliseconds": 3593,
+          "parsedMilliseconds": 3615
+        },
+        {
+          "asset": "tableware-lod0.glb",
+          "startMilliseconds": 14067,
+          "headersMilliseconds": 14178,
+          "bytes": 119736,
+          "downloadedMilliseconds": 14233,
+          "parsedMilliseconds": 14245
+        },
+        {
+          "asset": "dish-shrimp-bowl-lod0.glb",
+          "startMilliseconds": 14068,
+          "headersMilliseconds": 14179,
+          "bytes": 31536,
+          "downloadedMilliseconds": 14236,
+          "parsedMilliseconds": 14249
+        },
+        {
+          "asset": "banquette-lod0.glb",
+          "startMilliseconds": 14184,
+          "headersMilliseconds": 14250,
+          "bytes": 107644,
+          "downloadedMilliseconds": 15252,
+          "parsedMilliseconds": 15271
+        }
+      ],
+      "progress": {
+        "house": 1,
+        "coast": 1,
+        "room": 1,
+        "sirui": 1,
+        "view": 1
+      },
+      "lightCache": {
+        "state": "unavailable",
+        "reason": null
+      }
+    },
+    "frameTiming": {
+      "samples": 0,
+      "scope": "Consecutive moving frames, including intervals >=500ms; reset after visibility/pause changes.",
+      "medianFrameMs": 0,
+      "p95FrameMs": 0,
+      "maximumFrameMs": 0,
+      "medianSubmitMs": 0,
+      "p95SubmitMs": 0,
+      "maximumSubmitMs": 0
+    },
+    "framePending": false,
+    "drawCalls": 1425,
+    "triangles": 3178580,
+    "resources": {
+      "geometries": 553,
+      "textures": 60
+    },
+    "projection": "perspective",
+    "coastDetail": "realistic",
+    "look": {
+      "tone": "aces",
+      "bloom": true,
+      "sheen": true
+    },
+    "companion": {
+      "visible": false,
+      "position": [0, 0, 0],
+      "head": [0, 0, 0],
+      "model": "blender-pip",
+      "pendingRoom": null,
+      "outing": "home",
+      "traveling": false,
+      "flight": {
+        "phase": "rest",
+        "bank": 0,
+        "velocity": [0, 0, 0],
+        "progress": 1,
+        "hover": null
+      },
+      "attention": {
+        "phase": "still",
+        "greetings": 0,
+        "cooldown": 0,
+        "target": "Sirui"
+      },
+      "aim": {
+        "heading": null,
+        "target": [0, 0, 0],
+        "origin": [0, 0, 0],
+        "taskSource": "room-anchor"
+      },
+      "input": {
+        "kind": "mouse",
+        "touchInvitation": false,
+        "touchPending": false
+      },
+      "activeSeconds": 0,
+      "projected": null,
+      "opticalCatchlights": 2
+    },
+    "ecology": {
+      "atmosphere": {
+        "method": "Hillaire 2020 transmittance, multiple-scattering and sky-view tables on Bruneton's parameterization",
+        "tables": {
+          "transmittance": [256, 64],
+          "multiple": [32, 32],
+          "skyView": [192, 108]
+        },
+        "skyDraws": 8,
+        "sun": {
+          "apparentElevation": 40.422,
+          "trueElevation": 40.402,
+          "discTop": 40.688
+        },
+        "moon": {
+          "elevation": -35.29,
+          "illumination": 0.992
+        },
+        "weather": {
+          "marine": 0,
+          "eveningMarine": false,
+          "cirrus": 0.02,
+          "seed": 0.6114406129345298,
+          "source": "nws-forecast",
+          "dateKey": "2026-10-26",
+          "cloudCover": 0.04,
+          "rainChance": 0.01,
+          "rainAmountMm": null,
+          "rainWindows": [],
+          "forecastIssued": "2026-10-26T08:20:39+00:00",
+          "forecastValidThrough": "2026-11-01T20:00:00-08:00",
+          "forecastHourUtc": 1793048400,
+          "rain": 0,
+          "marineNow": 0
+        },
+        "gain": 1
+      },
+      "farField": {
+        "method": "the modelled land drawn from above, and the hinterland's regional surface continued to 32 km, ray-marched inside the dome",
+        "far": {
+          "ready": true,
+          "milliseconds": 2244,
+          "size": 320,
+          "extent": 32000
+        },
+        "near": {
+          "ready": true,
+          "complete": false,
+          "meshes": 9,
+          "cells": [640, 464],
+          "metres": 2.22
+        }
+      },
+      "stars": {
+        "method": "Yale Bright Star Catalogue (public domain) precessed to the date and turned by sidereal time; Schaefer 1993 naked-eye limit for the sky's brightness",
+        "catalogue": 3249,
+        "planets": [
+          {
+            "name": "Mercury",
+            "ra": 226.93073214201357,
+            "dec": -20.377810472110866,
+            "magnitude": 0.9495346967344913
+          },
+          {
+            "name": "Venus",
+            "ra": 204.462919348132,
+            "dec": -16.626143762968308,
+            "magnitude": -4.240221606493667
+          },
+          {
+            "name": "Mars",
+            "ra": 138.54650605701897,
+            "dec": 17.57839682450841,
+            "magnitude": 0.9148215608667416
+          },
+          {
+            "name": "Jupiter",
+            "ra": 145.88110411277614,
+            "dec": 14.379302144992932,
+            "magnitude": -1.9781284081015027
+          },
+          {
+            "name": "Saturn",
+            "ra": 9.625436115660136,
+            "dec": 1.215152374604395,
+            "magnitude": 0.43655355537229745
+          }
+        ],
+        "awake": false,
+        "zenithLimit": 5.07,
+        "skyMagnitude": 19.4,
+        "visibleOverhead": 387,
+        "brightest": 0.16,
+        "twinkle": 0
+      },
+      "wildlife": {
+        "rabbits": 2,
+        "raccoons": 1,
+        "gulls": 5,
+        "shorebirds": 3,
+        "pelicans": 5,
+        "cormorants": 4,
+        "swimmingSeaLions": 2,
+        "modelsReady": true,
+        "seaLions": 5,
+        "harborSeals": 3,
+        "drawPrimitives": 56,
+        "updateMilliseconds": 1.7700000000000002,
+        "updateBreakdown": {
+          "rabbits": 0.28,
+          "pinnipeds": 0.2700000000000001,
+          "raccoon": 0.29000000000000004,
+          "gulls": 0.38,
+          "sandpipers": 0.3700000000000001,
+          "pelicans": 0.09000000000000001,
+          "cormorants": 0.09000000000000001
+        },
+        "skippedLastUpdate": 0,
+        "caughtUpAtDraw": 0,
+        "palette": {
+          "night": null,
+          "nightStart": -20000,
+          "dayStart": -10000
+        },
+        "raccoon": {
+          "position": [-7.500000000000019, 9.368100000000004, 21.000000000000004],
+          "state": "sleep",
+          "bodyAccommodation": 0,
+          "contacts": [
+            {
+              "foot": "FrontPawL",
+              "position": [-7.584890618138103, 9.414188161153143, 21.126152879116134],
+              "yaw": 0.29669900051463216,
+              "slope": -0.05424260616593761,
+              "gradient": [-0.21272121114328188, 0.00825715905171575],
+              "contact": true,
+              "lift": 0,
+              "orientation": [0.0013392084059966915, 0.1488429575844349, -0.11198999726573856, 0.9824979496216689],
+              "intentionalLift": 0,
+              "raised": 0,
+              "supported": 152,
+              "supportVisible": true,
+              "supportMesh": "core_carved_mainland002",
+              "correction": 0.0009377601569919847
+            },
+            {
+              "foot": "HindPawL",
+              "position": [-7.620651681894669, 9.417737804002668, 20.90378600378037],
+              "yaw": 0.024226986269168638,
+              "slope": 0.00564800122867911,
+              "gradient": [-0.21439360995295817, 0.01084484675333785],
+              "contact": true,
+              "lift": 0,
+              "orientation": [0.0013325833022444788, 0.012327681964996742, -0.10746249457814738, 0.9941318145689505],
+              "intentionalLift": 0,
+              "raised": 0,
+              "supported": 144,
+              "supportVisible": true,
+              "supportMesh": "core_carved_mainland002",
+              "correction": -0.019365827476866215
+            },
+            {
+              "foot": "FrontPawR",
+              "position": [-7.3895855010901705, 9.371697416453848, 20.966493328052763],
+              "yaw": 0.7658141246785145,
+              "slope": -0.13984610231137595,
+              "gradient": [-0.21443984495098986, 0.010916027402870471],
+              "contact": true,
+              "lift": 0,
+              "orientation": [0.05745779664002821, 0.37740688610813994, -0.10380780035409391, 0.9184152571190634],
+              "intentionalLift": 0,
+              "raised": 0,
+              "supported": 151,
+              "supportVisible": true,
+              "supportMesh": "core_carved_mainland002",
+              "correction": 0.026130315911723656
+            },
+            {
+              "foot": "HindPawR",
+              "position": [-7.510176730856727, 9.393571438563317, 20.857503870406543],
+              "yaw": 0.5743009758545194,
+              "slope": -0.10782962457121138,
+              "gradient": [-0.21322205556625917, 0.009031940837474316],
+              "contact": true,
+              "lift": 0,
+              "orientation": [0.030989416313079613, 0.2866820167602849, -0.10290587736271635, 0.9519787065617801],
+              "intentionalLift": 0,
+              "raised": 0,
+              "supported": 143,
+              "supportVisible": true,
+              "supportMesh": "core_carved_mainland002",
+              "correction": 0.003981708574178455
+            }
+          ],
+          "ground": {
+            "ready": true,
+            "triangles": 138,
+            "cells": 88,
+            "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+            "bounds": {
+              "minX": -10.25,
+              "maxX": -6.85,
+              "minZ": 20.35,
+              "maxZ": 22.95
+            },
+            "captureMilliseconds": 12
+          }
+        },
+        "birds": [
+          {
+            "position": [9.639999999999999, 8.761405120452393, -21.5],
+            "state": "glide",
+            "perched": null,
+            "velocity": [0.04647999300821937, 0.22004408855647029, 1.4280227703498127],
+            "wingPhase": 0,
+            "wingRate": 3,
+            "wingBeat": 6.694156532764621e-12,
+            "wingFold": 0,
+            "contacts": []
+          },
+          {
+            "position": [-0.48127965566709063, 10.38283158902065, -14.935680406895568],
+            "state": "glide",
+            "perched": null,
+            "velocity": [-0.6367556154326937, 0.2643540468483252, 0.5004444775487116],
+            "wingPhase": 0.3,
+            "wingRate": 3,
+            "wingBeat": -0.0028666944872968655,
+            "wingFold": 0,
+            "contacts": []
+          },
+          {
+            "position": [-10.130011551823273, 10.939604235038276, -23.176993367526233],
+            "state": "glide",
+            "perched": null,
+            "velocity": [0.29484239449129035, -0.014264244843964491, -0.939917448924632],
+            "wingPhase": 0.6,
+            "wingRate": 3,
+            "wingBeat": 0,
+            "wingFold": 0,
+            "contacts": []
+          },
+          {
+            "position": [-12.486383299971891, 13.73609052694986, -6.157626394793759],
+            "state": "approach",
+            "perched": null,
+            "velocity": [-0.38632497067219823, -0.2581388884441982, 2.101789081391746],
+            "wingPhase": 0.8999999999999999,
+            "wingRate": 3,
+            "wingBeat": 0.4206267664155904,
+            "wingFold": 0,
+            "contacts": []
+          }
+        ],
+        "balconyGullContacts": [
+          {
+            "foot": "FootL",
+            "position": [0.25028905657251915, 3.4613025358348466, 9.337537991431828],
+            "hipAccommodation": 0.015349971102628724,
+            "surfaceLift": 0,
+            "weight": 1
+          },
+          {
+            "foot": "FootR",
+            "position": [0.3374214266051923, 3.4659567426423106, 9.300699016249432],
+            "hipAccommodation": 0.010890227290032323,
+            "surfaceLift": 8.881784197001252e-16,
+            "weight": 1
+          }
+        ],
+        "balconyGullState": "perch",
+        "shorebirdContacts": [
+          {
+            "position": [-1.9022865139180796, -7.238492510511017, -13.441168305708995],
+            "state": "probe",
+            "edge": 0.4450502014160156,
+            "contacts": [
+              {
+                "foot": "FootL",
+                "position": [-1.9193206821874507, -7.2149925995986814, -13.337625909803464],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "FootR",
+                "position": [-1.884787494611723, -7.232559301601129, -13.496517983425454],
+                "contact": true,
+                "lift": 0
+              }
+            ]
+          },
+          {
+            "position": [3.086269736642204, -7.271366981105227, -13.868885866185106],
+            "state": "run",
+            "edge": 0.4481318664550782,
+            "contacts": [
+              {
+                "foot": "FootL",
+                "position": [3.0695240736928775, -7.259289279754473, -13.877250098088544],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "FootR",
+                "position": [3.099797770926564, -7.253825280734605, -13.812434163036299],
+                "contact": true,
+                "lift": 0
+              }
+            ]
+          },
+          {
+            "position": [4.4181909843998035, -7.298448553115334, -13.106937575948102],
+            "state": "probe",
+            "edge": 0.4391084289550782,
+            "contacts": [
+              {
+                "foot": "FootL",
+                "position": [4.395745619102473, -7.274316997569392, -13.005943904872955],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "FootR",
+                "position": [4.442257874266713, -7.292623282692414, -13.159763585755147],
+                "contact": true,
+                "lift": 0
+              }
+            ]
+          }
+        ],
+        "contacts": [
+          {
+            "habitat": "seaLion",
+            "position": [-10, -6.6084, -14.5115],
+            "state": "bark"
+          },
+          {
+            "habitat": "seaLion",
+            "position": [-8.6, -6.6737, -14.2179],
+            "state": "rest"
+          },
+          {
+            "habitat": "seaLion",
+            "position": [11, -6.7453, -13.3577],
+            "state": "rest"
+          },
+          {
+            "habitat": "seal",
+            "position": [-5, -7.1295, -12.0849],
+            "state": "scratch"
+          },
+          {
+            "habitat": "seal",
+            "position": [-4, -7.1329, -12.1697],
+            "state": "rest"
+          },
+          {
+            "habitat": "seal",
+            "position": [-3, -7.1308, -11.9844],
+            "state": "rest"
+          }
+        ],
+        "swimmers": [
+          {
+            "id": "swimmer-0",
+            "position": [-28, -7.22052090414072, -20.849172988673672],
+            "state": "raft",
+            "contacts": []
+          },
+          {
+            "id": "swimmer-1",
+            "position": [29, -7.384047943472854, -22.93359025921824],
+            "state": "raft",
+            "contacts": []
+          }
+        ],
+        "pelicanStates": [
+          {
+            "id": "pelican-0",
+            "position": [6.275669534250722, -6.192743414559311, -25.67757397993864],
+            "state": "glide",
+            "contacts": []
+          },
+          {
+            "id": "pelican-1",
+            "position": [10.645642222906531, -6.191865810969481, -24.941525898648756],
+            "state": "glide",
+            "contacts": []
+          },
+          {
+            "id": "pelican-2",
+            "position": [15.083247518486642, -6.205973395966327, -25.626887032037256],
+            "state": "glide",
+            "contacts": []
+          },
+          {
+            "id": "pelican-3",
+            "position": [19.435667547507006, -6.2348315347477365, -24.385251987178787],
+            "state": "glide",
+            "contacts": []
+          },
+          {
+            "id": "pelican-4",
+            "position": [23.87797374879372, -6.259984781535707, -25.143322346478353],
+            "state": "flap",
+            "contacts": []
+          }
+        ],
+        "cormorantStates": [
+          {
+            "id": "cormorant-0",
+            "position": [-11.7700005, -6.0533485, -14.5710001],
+            "state": "stand",
+            "contacts": [
+              {
+                "foot": "FootL",
+                "position": [-11.744847413971213, -6.042948499506027, -14.454357174575044],
+                "supported": true
+              },
+              {
+                "foot": "FootR",
+                "position": [-11.856621787640425, -6.042948499506027, -14.488933040128343],
+                "supported": true
+              }
+            ]
+          },
+          {
+            "id": "cormorant-1",
+            "position": [-13.5059996, -6.0408316, -14.9180002],
+            "state": "look",
+            "contacts": [
+              {
+                "foot": "FootL",
+                "position": [-13.408087027882752, -6.030431599506026, -14.849799188205104],
+                "supported": true
+              },
+              {
+                "foot": "FootR",
+                "position": [-13.51343934304434, -6.030431599506026, -14.798908218691864],
+                "supported": true
+              }
+            ]
+          },
+          {
+            "id": "cormorant-2",
+            "position": [15.1300001, -6.1582489, -12.9099998],
+            "state": "dry",
+            "contacts": [
+              {
+                "foot": "FootL",
+                "position": [15.20799560702282, -6.147848899506027, -12.819695034496089],
+                "supported": true
+              },
+              {
+                "foot": "FootR",
+                "position": [15.093327812858906, -6.147848899506027, -12.796450721869421],
+                "supported": true
+              }
+            ]
+          },
+          {
+            "id": "cormorant-3",
+            "position": [15.2259998, -6.1582489, -13.6149998],
+            "state": "dry",
+            "contacts": [
+              {
+                "foot": "FootL",
+                "position": [15.227478127010226, -6.147848899506027, -13.495684820480603],
+                "supported": true
+              },
+              {
+                "foot": "FootR",
+                "position": [15.124800963189028, -6.147848899506027, -13.551777610726223],
+                "supported": true
+              }
+            ]
+          }
+        ],
+        "rabbitHabitats": [
+          {
+            "position": [-14.501364151669106, 11.764355347170284, 1.7362286149124402],
+            "state": "hop",
+            "airborne": false,
+            "contact": true,
+            "lift": 0,
+            "progress": 0.5905967631756949
+          },
+          {
+            "position": [8.061504449830652, 8.11468666647315, 5.622940010740161],
+            "state": "freeze",
+            "airborne": false,
+            "contact": true,
+            "lift": 0,
+            "progress": 0.7981481414288283
+          }
+        ]
+      },
+      "beachWidth": 13.5,
+      "particles": 182,
+      "particleMotion": [
+        {
+          "kind": "spray",
+          "count": 140,
+          "seconds": 1,
+          "fieldSeconds": 1.394717674685353e-15,
+          "droppedTime": 0,
+          "ticks": 60,
+          "backlogSeconds": 0,
+          "step": 0.016666666666666666,
+          "maxSteps": 30,
+          "integrator": "midpoint",
+          "windSamplesPerTick": 280,
+          "prewarmMilliseconds": 7
+        },
+        {
+          "kind": "dust",
+          "count": 42,
+          "seconds": 18,
+          "fieldSeconds": 2.599656601098843e-13,
+          "droppedTime": 0,
+          "ticks": 1080,
+          "backlogSeconds": 0,
+          "step": 0.016666666666666666,
+          "maxSteps": 30,
+          "integrator": "midpoint",
+          "windSamplesPerTick": 84,
+          "prewarmMilliseconds": 38
+        }
+      ],
+      "water": {
+        "field": {
+          "method": "bounded analytic Gerstner field",
+          "enabled": false
+        },
+        "waves": 10,
+        "vertices": 25921,
+        "triangles": 51200,
+        "seconds": 0,
+        "sample": {
+          "displacement": [0.02761775283540807, 0.1195916409589291, 0.05043308891039021],
+          "tangentX": [0.9995030542868686, 0.017372481691649903, 0.03597277507935968],
+          "tangentZ": [0.03597277507935968, 0.001039811799148939, 0.9776339503065123],
+          "normal": [-0.017363217621917774, 0.999849157840034, -0.00042454727497326134],
+          "jacobian": 0.9758540787589857,
+          "lostVariance": 0.002534119297229181
+        },
+        "reflection": {
+          "width": 384,
+          "height": 384,
+          "linear": true,
+          "fresnelIOR": 1.333,
+          "active": false
+        },
+        "optics": {
+          "method": "Lee et al. 1998 shallow-water reflectance over a captured seabed / paraxial ripple caustics / Pope and Fry pure-water absorption",
+          "water": {
+            "chlorophyll": 0.25,
+            "cdom440": 0.015,
+            "particleScale": 0.3,
+            "particleBackscatterRatio": 0.019,
+            "molecularBackscatter": [0.0005, 0.001, 0.0022]
+          },
+          "absorption": [0.3428729044882412, 0.0630320794509742, 0.04519301191580358],
+          "backscatter": [0.002541958887889633, 0.0034132241402332025, 0.005149496171396137],
+          "seabed": {
+            "captured": true,
+            "captures": 1,
+            "meshes": 5,
+            "grid": [800, 160],
+            "cellMeters": 0.5,
+            "bounds": {
+              "minX": -200,
+              "maxX": 200,
+              "minZ": -80,
+              "maxZ": 0
+            },
+            "capturedCells": 10182,
+            "dryCells": 6216,
+            "shallowestMeters": 0.000051403045654652146,
+            "deepestMeters": 14.000000381469727,
+            "slope": 0.08,
+            "curvature": 0.003,
+            "floor": -21.35,
+            "drawMilliseconds": 24,
+            "fillMilliseconds": 21,
+            "textureBytes": 1024000
+          },
+          "lamps": 2,
+          "wakes": 0,
+          "sun": {
+            "altitude": 40.40208928678596,
+            "light": [2.8999515425448346, 2.4519452288279795, 1.8627218745819702],
+            "tint": [1, 1, 1],
+            "apart": true
+          }
+        }
+      }
+    },
+    "rendering": {
+      "contactShadows": true,
+      "contactActive": true,
+      "method": "cosine-weighted horizons / indirect diffuse",
+      "slices": 4,
+      "samples": 32,
+      "radiusMeters": 0.36,
+      "aoWidth": 1920,
+      "aoHeight": 1080,
+      "width": 3840,
+      "height": 2160,
+      "msaaSamples": 0,
+      "gpu": {
+        "available": true,
+        "samples": 0,
+        "medianMs": null,
+        "p95Ms": null
+      },
+      "volumeDepth": null,
+      "bloom": {
+        "strength": 0.28,
+        "radius": 0.42,
+        "threshold": 1.6
+      },
+      "haze": {
+        "method": "exponential height haze from scene depth, horizon-lit; the modelled land and sea dissolve into the dome's far field before the far plane and the sea plane's edge",
+        "dissolve": [180, 285],
+        "density": 0.0007142857142857143,
+        "scaleHeight": 30,
+        "volume": {
+          "method": "shadow-mapped single-scattering march (haze shafts, marine fog, indoor dust), joint-bilateral upsampled",
+          "enabled": true,
+          "marching": true,
+          "plan": {
+            "exterior": false,
+            "fog": 0,
+            "dust": true,
+            "shafts": false
+          },
+          "size": [1280, 720],
+          "steps": 23,
+          "quality": {
+            "steps": 1.25,
+            "divisor": -1
+          },
+          "fog": [0, -5.35, 0, 0],
+          "draws": 7
+        },
+        "draws": 7,
+        "reason": "marching"
+      },
+      "temporal": null
+    },
+    "simulation": {
+      "rain": {
+        "method": "active-time seeded exterior line field in a world-stable camera box, clipped to terrain and covered volumes",
+        "intensity": 0,
+        "drops": 0,
+        "maximum": 1024,
+        "sheltered": 0,
+        "nearCamera": 0,
+        "fieldExtent": 30,
+        "fieldTime": 0,
+        "extraPasses": 0,
+        "shadowCasters": 0,
+        "roofClip": {
+          "method": "conservative swept XZ footprint over actual static roof triangles",
+          "built": false,
+          "cellSize": 1,
+          "triangles": 0,
+          "cells": 0,
+          "sources": []
+        }
+      },
+      "infinityPool": {
+        "surfaces": 1,
+        "fixedWaterline": -0.09,
+        "amplitude": 0.004,
+        "seconds": 0,
+        "sharedCoastalLight": true,
+        "activity": null
+      },
+      "skin": {
+        "method": "normalized local curved-patch diffuse preintegration",
+        "enabled": true,
+        "strength": 0.7,
+        "distancesMeters": [0.0032, 0.0012, 0.00065],
+        "maxCurvature": 160,
+        "width": 257,
+        "height": 49,
+        "storage": "half-float",
+        "textureBytes": 100744,
+        "totalBindings": 3,
+        "boundMaterials": 3,
+        "compiledMaterials": 3,
+        "incompatibleMaterials": 0,
+        "activeMaterials": 2,
+        "extraRenderTargets": 0,
+        "extraPasses": 0,
+        "disposed": false
+      },
+      "onsen": {
+        "nx": 40,
+        "nz": 40,
+        "dx": 0.04300000071525574,
+        "dz": 0.04300000071525574,
+        "wetCells": 1264,
+        "density": 1000,
+        "volume": 0.2979041948473591,
+        "mass": 297.90419484735907,
+        "relativeMassError": 0,
+        "minimumDepth": 0.12746548978611827,
+        "maximumDepth": 0.12746548978611827,
+        "potential": 0,
+        "kinetic": 0,
+        "energy": 0,
+        "finite": true,
+        "boundarySpeed": 0,
+        "simulationTime": 0,
+        "retainedTime": 0,
+        "droppedTime": 0,
+        "steps": 0,
+        "maxSubsteps": 0,
+        "maxCourant": 0,
+        "limitedFluxes": 0,
+        "limitedVelocities": 0,
+        "storageBytes": 187280,
+        "obstacle": null,
+        "coupling": {
+          "method": "Gaussian submerged palm / exponential face drag",
+          "contactCount": 0,
+          "coupledFaces": 0,
+          "couplingSteps": 0,
+          "velocityChange": 0
+        },
+        "center": [3.1700000762939453, 11.180000305175781],
+        "surfaceY": 3.0075131240300834,
+        "radius": 0.8600000143051147,
+        "depth": 0.12746548978611827,
+        "bottomY": 2.880047634243965,
+        "depthSource": "five native basin ray hits",
+        "uploads": 1,
+        "drip": {
+          "bound": true,
+          "drops": 0,
+          "nextSeconds": 0.23573683855105448,
+          "coupling": "prescribed drop; zero-mean volume-conserving impulse"
+        },
+        "textureBytes": 25600,
+        "disposed": false,
+        "caustics": {
+          "method": "paraxial lens of the simulated surface: 1/|det(I + l(1-1/n) Hess h)|, central differences over one cell",
+          "receivers": 3,
+          "enabled": true,
+          "overheadFloorGain": {
+            "minimum": 1,
+            "maximum": 1,
+            "mean": 1,
+            "samples": 448
+          },
+          "absorption": [2.052978718675711, 0.9148459258552688, 1.047859012694321]
+        },
+        "stroke": {
+          "method": "prescribed anatomical IK / measured submerged palm velocity",
+          "available": true,
+          "side": "L",
+          "phase": "rest",
+          "seconds": 0,
+          "restPalm": null,
+          "palm": null,
+          "wristError": 0,
+          "contacts": [],
+          "sampledContacts": 0,
+          "suppressedSamples": 0,
+          "maximumSpeed": 0,
+          "applied": false
+        },
+        "optics": {
+          "ior": 1.333,
+          "transmission": 0.86,
+          "thicknessMeters": 0.12746548978611827,
+          "attenuationDistanceMeters": 0.6,
+          "method": "Three r164 screen-space refracted background / Beer-Lambert attenuation",
+          "extraBackgroundPass": true,
+          "opaqueShadow": false,
+          "normalDepthOccluder": false
+        }
+      },
+      "wind": {
+        "method": "coast breeze and gust fronts, indoor share through the glass front / six-mode curl eddies / critically damped rooted bends",
+        "seconds": 0,
+        "enabled": false,
+        "meanMetersPerSecond": [-1.3500000000000003, 0, 2.3382685902179845],
+        "gustBoundMetersPerSecond": 1.6200000000000003,
+        "indoorShare": 0.012000000104308128,
+        "shelterGlassZ": 3.5199999809265137,
+        "terraceShare": 0.11999999731779099,
+        "followsCoast": true,
+        "complianceSeconds": 0.018,
+        "beautyAndShadowMatched": true,
+        "contactNormalApproximation": "static leaves in the contact pass; bends saturate softly toward 15 mm",
+        "plants": [
+          {
+            "name": "core__olive_leaf",
+            "vertices": 1188,
+            "components": 22,
+            "enabled": 22,
+            "disabled": 0,
+            "buildMilliseconds": 12
+          },
+          {
+            "name": "kitchen__olive_leaf",
+            "vertices": 160,
+            "components": 40,
+            "enabled": 40,
+            "disabled": 0,
+            "buildMilliseconds": 3
+          },
+          {
+            "name": "onsen__olive_leaf",
+            "vertices": 594,
+            "components": 11,
+            "enabled": 11,
+            "disabled": 0,
+            "buildMilliseconds": 6
+          },
+          {
+            "name": "lounge_retained_plant_table_foliage",
+            "vertices": 28,
+            "components": 7,
+            "enabled": 7,
+            "disabled": 0,
+            "buildMilliseconds": 0
+          },
+          {
+            "name": "sleep__olive_leaf",
+            "vertices": 594,
+            "components": 11,
+            "enabled": 11,
+            "disabled": 0,
+            "buildMilliseconds": 9
+          }
+        ],
+        "coast": {
+          "method": "sea-breeze cycle (periodic Hermite over velocity knots) / hashed gust fronts on retarded time / six indoor eddy modes",
+          "seconds": 0,
+          "minute": 840,
+          "meanMetersPerSecond": 2.7000000000000006,
+          "fromDegrees": 300,
+          "towardYaw": -0.5235987755982989,
+          "direction": [-0.5, 0.8660254037844385],
+          "frontMetersPerSecond": 2.7000000000000006,
+          "doorsOpen": 0,
+          "indoorLeak": 0.012,
+          "gustBase": 0.8719778818681023,
+          "shelterGlassZ": 3.5199999999999996,
+          "gust": {
+            "sea": 1.3642168714336502,
+            "beach": 0.9319237549545193,
+            "glass": 0.9170589901706081,
+            "bluff": 1.0424008683041026
+          }
+        }
+      },
+      "curtains": {
+        "plan": {
+          "state": "day",
+          "glare": 0,
+          "view": "kitchen-south",
+          "visited": "kitchen-south",
+          "fractions": {
+            "kitchen-south": 1,
+            "kitchen-north": 1,
+            "lounge-south": 1,
+            "lounge-north": 1
+          }
+        },
+        "offset": [0, 0, 8],
+        "inView": true,
+        "stepping": false,
+        "pendingDrapes": 0,
+        "coverage": "blend",
+        "frameMilliseconds": {
+          "samples": 0,
+          "median": null,
+          "p95": null,
+          "solve": null,
+          "draw": null
+        },
+        "revision": 4,
+        "hardware": {
+          "rods": 2,
+          "rings": 24,
+          "material": "curtain rod bronze"
+        },
+        "draws": 6,
+        "cloth": {
+          "method": "XPBD small steps (cloth-solver.mjs): stretch/shear distance constraints, isometric bending, long-range attachments to the ring clips, fold ordering, contacts with friction, per-triangle flat-plate air force",
+          "fixedStep": 0.03333333333333333,
+          "substeps": 6,
+          "steps": 0,
+          "simulatedSeconds": 0,
+          "lastStepTime": 0,
+          "reducedMotion": true,
+          "particles": 2772,
+          "constraints": 22592,
+          "maxConstraintError": 0.051052745260991926,
+          "kineticEnergy": 0,
+          "potentialEnergy": 40.07944858131141,
+          "bendingEnergy": 0.47290774268477,
+          "energy": 40.55235632399618,
+          "sleeping": true,
+          "openFractions": {
+            "kitchen-south": 1,
+            "kitchen-north": 1,
+            "lounge-south": 1,
+            "lounge-north": 1
+          },
+          "lastUpdateMilliseconds": 0,
+          "allocations": 148,
+          "panels": [
+            {
+              "id": "kitchen-south",
+              "particles": 693,
+              "columns": 33,
+              "rows": 21,
+              "rings": 6,
+              "openFraction": 1,
+              "targetOpenFraction": 1,
+              "gatheredWidth": 0.20500000000000002,
+              "sleeping": true,
+              "active": true,
+              "windMetersPerSecond": 0,
+              "windScale": 1,
+              "maxConstraintError": 0.05060145379557884,
+              "kineticEnergy": 0,
+              "potentialEnergy": 11.00376118977002,
+              "bendingEnergy": 0.10750370983426395,
+              "steps": 30
+            },
+            {
+              "id": "kitchen-north",
+              "particles": 693,
+              "columns": 33,
+              "rows": 21,
+              "rings": 6,
+              "openFraction": 1,
+              "targetOpenFraction": 1,
+              "gatheredWidth": 0.20500000000000002,
+              "sleeping": true,
+              "active": false,
+              "windMetersPerSecond": 0,
+              "windScale": 1,
+              "maxConstraintError": 0.051052745260991926,
+              "kineticEnergy": 0,
+              "potentialEnergy": 11.0012605798597,
+              "bendingEnergy": 0.128839417556137,
+              "steps": 30
+            },
+            {
+              "id": "lounge-south",
+              "particles": 693,
+              "columns": 33,
+              "rows": 21,
+              "rings": 6,
+              "openFraction": 1,
+              "targetOpenFraction": 1,
+              "gatheredWidth": 0.20500000000000002,
+              "sleeping": true,
+              "active": false,
+              "windMetersPerSecond": 0,
+              "windScale": 1,
+              "maxConstraintError": 0.04865247230822664,
+              "kineticEnergy": 0,
+              "potentialEnergy": 9.037424454458082,
+              "bendingEnergy": 0.11994039366887393,
+              "steps": 30
+            },
+            {
+              "id": "lounge-north",
+              "particles": 693,
+              "columns": 33,
+              "rows": 21,
+              "rings": 6,
+              "openFraction": 1,
+              "targetOpenFraction": 1,
+              "gatheredWidth": 0.20500000000000002,
+              "sleeping": true,
+              "active": false,
+              "windMetersPerSecond": 0,
+              "windScale": 1,
+              "maxConstraintError": 0.021892171806517088,
+              "kineticEnergy": 0,
+              "potentialEnergy": 9.03700235722361,
+              "bendingEnergy": 0.1166242216254951,
+              "steps": 30
+            }
+          ]
+        },
+        "draft": {
+          "method": "coast indoor air + soft-clamped jets of the coast's onshore breeze with advected curl eddies + glass boundary layer",
+          "coast": true,
+          "roomLeak": 1,
+          "onshoreMetersPerSecond": 0,
+          "doorGain": 0.55,
+          "turbulence": 0.5,
+          "eddyWavelengths": [2.1875, 1.4999999999999998, 1.0312499999999998, 0.7499999999999999, 0.53125, 0.37499999999999994],
+          "advectionMetersPerSecond": 0.8,
+          "glassDraftMetersPerSecond": 0.05,
+          "doors": [
+            {
+              "id": "kitchen",
+              "offset": -2.55,
+              "open": [-3.4, -0.85],
+              "jetMetersPerSecond": 0
+            },
+            {
+              "id": "lounge",
+              "offset": 2,
+              "open": [2, 4],
+              "jetMetersPerSecond": 0
+            }
+          ]
+        },
+        "laundry": {
+          "out": true,
+          "offset": [0, 0, 8],
+          "inView": false,
+          "stepping": false,
+          "sleeping": true,
+          "steps": 0,
+          "items": ["towel-indigo", "shirt", "towel-natural", "towel-terracotta"],
+          "particles": 876,
+          "constraints": {
+            "particles": 876,
+            "distance": 3163,
+            "bending": 2188,
+            "tethers": 816,
+            "orders": 0,
+            "separations": 141,
+            "triangles": 1520,
+            "windNodes": 222
+          },
+          "pegs": 9,
+          "windMetersPerSecond": 0,
+          "exposure": 0.42,
+          "maxStretch": 0.19427846950773683,
+          "kineticEnergy": 0,
+          "bendingEnergy": 0.027448077441291654,
+          "draws": 6,
+          "frameMilliseconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null
+          }
+        }
+      },
+      "practicals": {
+        "nightMix": 0,
+        "pointLights": 8,
+        "newFixtures": 3,
+        "fixtureDraws": 2,
+        "levels": {
+          "study": 0.3,
+          "sleep": 0,
+          "kitchen": 1,
+          "lounge": 0.3,
+          "bath": 0.3,
+          "gym": 0.15,
+          "terrace-west": 0.35,
+          "terrace-east": 0.35
+        },
+        "sources": [
+          {
+            "position": [-11.370000000000001, 1.2799999999999998, 3.7199999999999998],
+            "intensity": 0.9
+          },
+          {
+            "position": [-4.13, 3.47, 10.47],
+            "intensity": 0.7
+          },
+          {
+            "position": [-4.99, 1.95, 4.9],
+            "intensity": 0.7
+          },
+          {
+            "position": [-1.2, 1.42, 4.45],
+            "intensity": 0.7
+          },
+          {
+            "position": [3.68, 3.388, 10.2],
+            "intensity": 0.6
+          },
+          {
+            "position": [8.6, 2.3, 7.6],
+            "intensity": 0.5
+          },
+          {
+            "position": [-4.75, 0.170405, 3.88],
+            "intensity": 0.15
+          },
+          {
+            "position": [3.9, 0.170405, 3.88],
+            "intensity": 0.15
+          }
+        ]
+      },
+      "installations": {
+        "levels": {
+          "festoon": 0,
+          "fire": 0,
+          "soffit": 0.18,
+          "steps": 0,
+          "pool": 0,
+          "gym": 0,
+          "pendant": 0.65,
+          "dining": 0.65,
+          "entrance": 0.6,
+          "downlights": 0.55,
+          "shelf": 0.55,
+          "libraryHearth": 0,
+          "room:library": 0,
+          "room:bath-living": 0,
+          "room:bath-bedroom": 0
+        },
+        "lines": 34,
+        "points": 19,
+        "receiverPacks": {
+          "exterior": {
+            "lines": 9,
+            "points": 4,
+            "sources": [
+              "festoon",
+              "festoon",
+              "festoon",
+              "festoon",
+              "tall-books-west",
+              "tall-books-east",
+              "wet-bar",
+              "bedchamber-warm-cove",
+              "cantilever-wash",
+              "fire",
+              "pavilion-pendant-0",
+              "pavilion-pendant-1",
+              "library-hearth"
+            ]
+          },
+          "living": {
+            "lines": 14,
+            "points": 10,
+            "sources": [
+              "festoon",
+              "festoon",
+              "festoon",
+              "festoon",
+              "soffit",
+              "steps",
+              "shelf",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "short-bedroom-link",
+              "back-wall-graze",
+              "bedchamber-warm-cove",
+              "corridor-niche-2",
+              "pendant",
+              "dining",
+              "dining",
+              "downlights",
+              "downlights",
+              "downlights",
+              "entrance",
+              "entrance",
+              "fire",
+              "pool"
+            ]
+          },
+          "upper": {
+            "lines": 12,
+            "points": 10,
+            "sources": [
+              "festoon",
+              "festoon",
+              "festoon",
+              "festoon",
+              "steps",
+              "shelf",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "short-bedroom-link",
+              "back-wall-graze",
+              "bedchamber-warm-cove",
+              "pendant",
+              "dining",
+              "dining",
+              "downlights",
+              "downlights",
+              "downlights",
+              "entrance",
+              "entrance",
+              "fire",
+              "pool"
+            ]
+          },
+          "gym": {
+            "lines": 7,
+            "points": 1,
+            "sources": ["festoon", "festoon", "festoon", "festoon", "gym", "gym", "gym", "fire"]
+          },
+          "bath-living": {
+            "lines": 9,
+            "points": 6,
+            "sources": [
+              "soffit",
+              "shelf",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "short-bedroom-link",
+              "corridor-niche-0",
+              "corridor-niche-1",
+              "corridor-niche-2",
+              "pendant",
+              "dining",
+              "dining",
+              "downlights",
+              "downlights",
+              "downlights"
+            ]
+          },
+          "bath-bedroom": {
+            "lines": 5,
+            "points": 6,
+            "sources": [
+              "shelf",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "short-bedroom-link",
+              "pendant",
+              "dining",
+              "dining",
+              "downlights",
+              "downlights",
+              "downlights"
+            ]
+          },
+          "library": {
+            "lines": 9,
+            "points": 2,
+            "sources": [
+              "festoon",
+              "festoon",
+              "festoon",
+              "festoon",
+              "tall-books-west",
+              "tall-books-east",
+              "short-bedroom-link",
+              "whiskey-niche",
+              "bedchamber-warm-cove",
+              "fire",
+              "library-hearth"
+            ]
+          },
+          "gallery": {
+            "lines": 15,
+            "points": 7,
+            "sources": [
+              "soffit",
+              "shelf",
+              "tall-books-west",
+              "tall-books-east",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "short-bedroom-link",
+              "bedchamber-warm-cove",
+              "corridor-niche-0",
+              "corridor-niche-1",
+              "corridor-niche-2",
+              "pendant",
+              "dining",
+              "dining",
+              "downlights",
+              "downlights",
+              "downlights",
+              "library-hearth"
+            ]
+          },
+          "architecture": {
+            "lines": 17,
+            "points": 10,
+            "sources": [
+              "festoon",
+              "festoon",
+              "festoon",
+              "festoon",
+              "soffit",
+              "steps",
+              "shelf",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "short-bedroom-link",
+              "back-wall-graze",
+              "bedchamber-warm-cove",
+              "corridor-niche-2",
+              "pendant",
+              "dining",
+              "dining",
+              "downlights",
+              "downlights",
+              "downlights",
+              "entrance",
+              "entrance",
+              "fire",
+              "pool"
+            ]
+          },
+          "garden": {
+            "lines": 7,
+            "points": 8,
+            "sources": [
+              "portal-brow",
+              "clifftop-lounge--12.82",
+              "clifftop-lounge--9.18",
+              "arrival-rail-a",
+              "arrival-rail-b",
+              "arrival-rail-c",
+              "arrival-well-wash",
+              "entrance",
+              "entrance",
+              "garden-path-0",
+              "garden-path-1",
+              "garden-path-2",
+              "garden-path-3",
+              "arrival-daylight-0",
+              "arrival-daylight-1"
+            ]
+          },
+          "arrival": {
+            "lines": 8,
+            "points": 7,
+            "sources": [
+              "soffit",
+              "steps",
+              "portal-brow",
+              "back-wall-graze",
+              "arrival-rail-a",
+              "arrival-rail-b",
+              "arrival-rail-c",
+              "arrival-well-wash",
+              "entrance",
+              "entrance",
+              "garden-path-0",
+              "garden-path-1",
+              "garden-path-2",
+              "arrival-daylight-0",
+              "arrival-daylight-1"
+            ]
+          },
+          "clifftop": {
+            "lines": 2,
+            "points": 0,
+            "sources": ["clifftop-lounge--12.82", "clifftop-lounge--9.18"]
+          },
+          "bedchamber": {
+            "lines": 13,
+            "points": 8,
+            "sources": [
+              "festoon",
+              "festoon",
+              "festoon",
+              "festoon",
+              "soffit",
+              "shelf",
+              "tall-books-west",
+              "tall-books-east",
+              "short-bedroom-link",
+              "bedchamber-warm-cove",
+              "corridor-niche-0",
+              "corridor-niche-1",
+              "corridor-niche-2",
+              "pendant",
+              "dining",
+              "dining",
+              "downlights",
+              "downlights",
+              "downlights",
+              "fire",
+              "library-hearth"
+            ]
+          }
+        },
+        "clonedReceiverMaterials": 5,
+        "festoonMaterials": 2,
+        "fireMaterials": 1,
+        "deskMaterials": 5,
+        "lanternMaterials": 1,
+        "rgb": "f77777",
+        "pool": [3.961200089454651, 2.8875131240300833, 11.180000305175781]
+      },
+      "interiorReflections": {
+        "method": "cropped planar room and live actor reflections",
+        "rooms": ["bath-living", "bath-bedroom"],
+        "size": 512,
+        "sharedTargets": 1,
+        "maximumHz": 15,
+        "contextReach": 12,
+        "captures": 0,
+        "capturedRoom": null,
+        "milliseconds": 13,
+        "prepared": true,
+        "contextRooms": [],
+        "dynamicRoots": [],
+        "cropArea": 1,
+        "linearTexelGain": 1
+      },
+      "estateDoors": {
+        "doors": [
+          {
+            "id": "main",
+            "fraction": 0,
+            "open": false,
+            "offset": 0,
+            "angle": 0
+          },
+          {
+            "id": "upper",
+            "fraction": 0,
+            "open": false,
+            "offset": 0,
+            "angle": 0
+          },
+          {
+            "id": "library-patio",
+            "fraction": 0,
+            "open": false,
+            "offset": 0,
+            "angle": 0
+          }
+        ],
+        "automatic": true,
+        "motionSeconds": 0.6
+      },
+      "libraryLadder": {
+        "available": true,
+        "missingNodes": [],
+        "nodes": ["library_ladder__pale_oak", "library_ladder__honey_ash", "library_ladder__brushed_brass"],
+        "position": 0,
+        "target": 0,
+        "travel": [-1.8, 1.8],
+        "speed": 0.7,
+        "blocked": false,
+        "paused": false,
+        "disposed": false,
+        "climbable": false,
+        "axis": "world-z",
+        "bounds": {
+          "min": [-12.135869026184082, 0, 7.6700000166893005],
+          "max": [-11.664058685302734, 4.753072261810303, 8.430000007152557]
+        }
+      },
+      "facade": {
+        "doors": [
+          {
+            "id": "kitchen",
+            "scheduledOpen": true,
+            "open": true,
+            "offset": -2.55,
+            "slideX": -2.55
+          },
+          {
+            "id": "lounge",
+            "scheduledOpen": true,
+            "open": true,
+            "offset": 2,
+            "slideX": 2
+          }
+        ],
+        "glazedMeshes": 11
+      },
+      "lightField": {
+        "ready": true,
+        "triangles": 619481,
+        "meshes": 430,
+        "skippedMeshes": 165,
+        "skippedTriangles": 116123,
+        "geometryMs": 3056,
+        "acceleratorMs": 3032,
+        "transportMs": 2965,
+        "bakeMs": 9053,
+        "maxTaskMs": 44,
+        "relocatedProbes": 2,
+        "rejectedProbes": 4,
+        "acceleratorBytes": 52036864,
+        "trace": {
+          "rays": 90091,
+          "triangleTests": 3706887,
+          "boxTests": 24647076
+        },
+        "regions": [
+          "study",
+          "sleep",
+          "onsen",
+          "kitchen",
+          "dining",
+          "living",
+          "lounge",
+          "nearhouse",
+          "gym",
+          "library",
+          "library-upper",
+          "bath-living",
+          "bath-bedroom",
+          "outdoor-pavilion",
+          "retreat-short-link",
+          "arrival-hall"
+        ],
+        "probes": [
+          {
+            "region": "study",
+            "nominal": [-11.3125, 0.4874999999999998, 4.125],
+            "position": [-11.3125, 0.4874999999999998, 4.125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "study",
+            "nominal": [-9.8375, 0.4874999999999998, 4.125],
+            "position": [-9.8375, 0.4874999999999998, 4.125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "study",
+            "nominal": [-11.3125, 1.5625, 4.125],
+            "position": [-11.3125, 1.5625, 4.125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "study",
+            "nominal": [-9.8375, 1.5625, 4.125],
+            "position": [-9.8375, 1.5625, 4.125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "study",
+            "nominal": [-11.3125, 0.4874999999999998, 5.275],
+            "position": [-11.3125, 0.4874999999999998, 5.275],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "study",
+            "nominal": [-9.8375, 0.4874999999999998, 5.275],
+            "position": [-9.8375, 0.4874999999999998, 5.275],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "study",
+            "nominal": [-11.3125, 1.5625, 5.275],
+            "position": [-11.3125, 1.5625, 5.275],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "study",
+            "nominal": [-9.8375, 1.5625, 5.275],
+            "position": [-9.8375, 1.5625, 5.275],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-3.6875, 3.0125, 10.7],
+            "position": [-3.6875, 3.0125, 10.7],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-2.4625, 3.0125, 10.7],
+            "position": [-2.4625, 3.0125, 10.7],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-3.6875, 3.9375, 10.7],
+            "position": [-3.6875, 3.9375, 10.7],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-2.4625, 3.9375, 10.7],
+            "position": [-2.4625, 3.9375, 10.7],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-3.6875, 3.0125, 12.100000000000001],
+            "position": [-3.6875, 3.0125, 12.100000000000001],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-2.4625, 3.0125, 12.100000000000001],
+            "position": [-2.4625, 3.0125, 12.100000000000001],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-3.6875, 3.9375, 12.100000000000001],
+            "position": [-3.6875, 3.9375, 12.100000000000001],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-2.4625, 3.9375, 12.100000000000001],
+            "position": [-2.4625, 3.9375, 12.100000000000001],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [2.6125, 3.1375, 10.525],
+            "position": [2.6125, 3.1375, 10.525],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [3.8375000000000004, 3.1375, 10.525],
+            "position": [3.8375000000000004, 3.1375, 10.525],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [2.6125, 4.3125, 10.525],
+            "position": [2.6125, 4.3125, 10.525],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [3.8375000000000004, 4.3125, 10.525],
+            "position": [3.8375000000000004, 4.3125, 10.525],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [2.6125, 3.1375, 11.775],
+            "position": [2.6125, 3.1375, 11.775],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [3.8375000000000004, 3.1375, 11.775],
+            "position": [3.8375000000000004, 3.1375, 11.775],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [2.6125, 4.3125, 11.775],
+            "position": [2.6125, 4.3125, 11.775],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [3.8375000000000004, 4.3125, 11.775],
+            "position": [3.8375000000000004, 4.3125, 11.775],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-4.2375, 0.2, 4.8875],
+            "position": [-4.2375, 0.2, 4.8875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-2.7125000000000004, 0.2, 4.8875],
+            "position": [-2.7125000000000004, 0.2, 4.8875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-4.2375, 1.5000000000000002, 4.8875],
+            "position": [-4.2375, 1.5000000000000002, 4.8875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-2.7125000000000004, 1.5000000000000002, 4.8875],
+            "position": [-2.7125000000000004, 1.5000000000000002, 4.8875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-4.2375, 0.2, 7.3625],
+            "position": [-4.258117830257679, 0.05567518819624301, 7.3625],
+            "valid": false,
+            "relocation": 0.14579007588558401
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-2.7125000000000004, 0.2, 7.3625],
+            "position": [-2.73311783025768, 0.05567518819624298, 7.3625],
+            "valid": false,
+            "relocation": 0.14579007588558413
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-4.2375, 1.5000000000000002, 7.3625],
+            "position": [-4.2375, 1.5000000000000002, 7.3625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-2.7125000000000004, 1.5000000000000002, 7.3625],
+            "position": [-2.7125000000000004, 1.5000000000000002, 7.3625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-2.95, 0.5374999999999999, 10.2625],
+            "position": [-2.95, 0.5374999999999999, 10.2625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-0.8499999999999996, 0.5374999999999999, 10.2625],
+            "position": [-0.8499999999999996, 0.5374999999999999, 10.2625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-2.95, 1.7124999999999997, 10.2625],
+            "position": [-2.95, 1.7124999999999997, 10.2625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-0.8499999999999996, 1.7124999999999997, 10.2625],
+            "position": [-0.8499999999999996, 1.7124999999999997, 10.2625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-2.95, 0.5374999999999999, 12.0875],
+            "position": [-2.95, 0.5374999999999999, 12.0875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-0.8499999999999996, 0.5374999999999999, 12.0875],
+            "position": [-0.8499999999999996, 0.5374999999999999, 12.0875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-2.95, 1.7124999999999997, 12.0875],
+            "position": [-2.95, 1.7124999999999997, 12.0875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-0.8499999999999996, 1.7124999999999997, 12.0875],
+            "position": [-0.8499999999999996, 1.7124999999999997, 12.0875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [-0.55, 0.5125, 5.6875],
+            "position": [-0.55, 0.5125, 5.6875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [0.55, 0.5125, 5.6875],
+            "position": [0.55, 0.5125, 5.6875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [-0.55, 1.6375, 5.6875],
+            "position": [-0.55, 1.6375, 5.6875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [0.55, 1.6375, 5.6875],
+            "position": [0.55, 1.6375, 5.6875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [-0.55, 0.5125, 6.8625],
+            "position": [-0.55, 0.5125, 6.8625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [0.55, 0.5125, 6.8625],
+            "position": [0.55, 0.5125, 6.8625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [-0.55, 1.6375, 6.8625],
+            "position": [-0.55, 1.6375, 6.8625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [0.55, 1.6375, 6.8625],
+            "position": [0.55, 1.6375, 6.8625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [2.525, 0.5624999999999999, 4.9125],
+            "position": [2.525, 0.5624999999999999, 4.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [3.7750000000000004, 0.5624999999999999, 4.9125],
+            "position": [3.7750000000000004, 0.5624999999999999, 4.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [2.525, 1.7874999999999999, 4.9125],
+            "position": [2.525, 1.7874999999999999, 4.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [3.7750000000000004, 1.7874999999999999, 4.9125],
+            "position": [3.7750000000000004, 1.7874999999999999, 4.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [2.525, 0.5624999999999999, 6.8375],
+            "position": [2.525, 0.5624999999999999, 6.8375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [3.7750000000000004, 0.5624999999999999, 6.8375],
+            "position": [3.7750000000000004, 0.5624999999999999, 6.8375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [2.525, 1.7874999999999999, 6.8375],
+            "position": [2.525, 1.7874999999999999, 6.8375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [3.7750000000000004, 1.7874999999999999, 6.8375],
+            "position": [3.7750000000000004, 1.7874999999999999, 6.8375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [-2.5, 0.9624999999999999, 2.8],
+            "position": [-2.5, 0.9624999999999999, 2.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [2.5, 0.9624999999999999, 2.8],
+            "position": [2.5, 0.9624999999999999, 2.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [-2.5, 2.9875, 2.8],
+            "position": [-2.5, 2.9875, 2.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [2.5, 2.9875, 2.8],
+            "position": [2.5, 2.9875, 2.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [-2.5, 0.9624999999999999, 3.8],
+            "position": [-2.5, 0.9624999999999999, 3.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [2.5, 0.9624999999999999, 3.8],
+            "position": [2.5, 0.9624999999999999, 3.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [-2.5, 2.9875, 3.8],
+            "position": [-2.5, 2.9875, 3.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [2.5, 2.9875, 3.8],
+            "position": [2.5, 2.9875, 3.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [7.3, 0.5624999999999999, 5.8374999999999995],
+            "position": [7.3, 0.5624999999999999, 5.8374999999999995],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [9.7, 0.5624999999999999, 5.8374999999999995],
+            "position": [9.7, 0.5624999999999999, 5.8374999999999995],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [7.3, 1.7874999999999999, 5.8374999999999995],
+            "position": [7.3, 1.7874999999999999, 5.8374999999999995],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [9.7, 1.7874999999999999, 5.8374999999999995],
+            "position": [9.7, 1.7874999999999999, 5.8374999999999995],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [7.3, 0.5624999999999999, 7.9125],
+            "position": [7.3, 0.5624999999999999, 7.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [9.7, 0.5624999999999999, 7.9125],
+            "position": [9.7, 0.5624999999999999, 7.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [7.3, 1.7874999999999999, 7.9125],
+            "position": [7.3, 1.7874999999999999, 7.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [9.7, 1.7874999999999999, 7.9125],
+            "position": [9.7, 1.7874999999999999, 7.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-11.5625, 1.4, 3.2249999999999996],
+            "position": [-11.5625, 1.4, 3.2249999999999996],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-9.487499999999999, 1.4, 3.2249999999999996],
+            "position": [-9.487499999999999, 1.4, 3.2249999999999996],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-11.5625, 4.199999999999999, 3.2249999999999996],
+            "position": [-11.5625, 4.199999999999999, 3.2249999999999996],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-9.487499999999999, 4.199999999999999, 3.2249999999999996],
+            "position": [-9.487499999999999, 4.199999999999999, 3.2249999999999996],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-11.5625, 1.4, 8.075],
+            "position": [-11.5625, 1.4, 8.075],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-9.487499999999999, 1.4, 8.075],
+            "position": [-9.487499999999999, 1.4, 8.075],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-11.5625, 4.199999999999999, 8.075],
+            "position": [-11.5625, 4.199999999999999, 8.075],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-9.487499999999999, 4.199999999999999, 8.075],
+            "position": [-9.487499999999999, 4.199999999999999, 8.075],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library-upper",
+            "nominal": [-0.9124999999999999, 3.0875, 10.825],
+            "position": [-0.9124999999999999, 3.0875, 10.825],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library-upper",
+            "nominal": [0.5625000000000004, 3.0875, 10.825],
+            "position": [0.5625000000000004, 3.0875, 10.825],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library-upper",
+            "nominal": [-0.9124999999999999, 4.1625, 10.825],
+            "position": [-0.9124999999999999, 4.1625, 10.825],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library-upper",
+            "nominal": [0.5625000000000004, 4.1625, 10.825],
+            "position": [0.5625000000000004, 4.1625, 10.825],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library-upper",
+            "nominal": [-0.9124999999999999, 3.0875, 11.975000000000001],
+            "position": [-0.9873394492922014, 3.076808650101114, 11.975000000000001],
+            "valid": true,
+            "relocation": 0.07559926013540352
+          },
+          {
+            "region": "library-upper",
+            "nominal": [0.5625000000000004, 3.0875, 11.975000000000001],
+            "position": [0.5371996297002611, 3.2646025920981754, 11.975000000000001],
+            "valid": true,
+            "relocation": 0.17890063405476422
+          },
+          {
+            "region": "library-upper",
+            "nominal": [-0.9124999999999999, 4.1625, 11.975000000000001],
+            "position": [-0.9124999999999999, 4.1625, 11.975000000000001],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library-upper",
+            "nominal": [0.5625000000000004, 4.1625, 11.975000000000001],
+            "position": [0.5625000000000004, 4.1625, 11.975000000000001],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-7.2825, 0.5875, 10.9125],
+            "position": [-7.2825, 0.5875, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-5.3475, 0.5875, 10.9125],
+            "position": [-5.3475, 0.5875, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-7.2825, 1.7625000000000002, 10.9125],
+            "position": [-7.2825, 1.7625000000000002, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-5.3475, 1.7625000000000002, 10.9125],
+            "position": [-5.3475, 1.7625000000000002, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-7.2825, 0.5875, 13.0375],
+            "position": [-7.2825, 0.5875, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-5.3475, 0.5875, 13.0375],
+            "position": [-5.3475, 0.5875, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-7.2825, 1.7625000000000002, 13.0375],
+            "position": [-7.2825, 1.7625000000000002, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-5.3475, 1.7625000000000002, 13.0375],
+            "position": [-5.3475, 1.7625000000000002, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-7.2825, 3.1875, 10.9125],
+            "position": [-7.2825, 3.1875, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-5.3475, 3.1875, 10.9125],
+            "position": [-5.3475, 3.1875, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-7.2825, 4.362500000000001, 10.9125],
+            "position": [-7.2825, 4.362500000000001, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-5.3475, 4.362500000000001, 10.9125],
+            "position": [-5.3475, 4.362500000000001, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-7.2825, 3.1875, 13.0375],
+            "position": [-7.2825, 3.1875, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-5.3475, 3.1875, 13.0375],
+            "position": [-5.3475, 3.1875, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-7.2825, 4.362500000000001, 13.0375],
+            "position": [-7.2825, 4.362500000000001, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-5.3475, 4.362500000000001, 13.0375],
+            "position": [-5.3475, 4.362500000000001, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [4.7125, 0.6325, -2.3249999999999997],
+            "position": [4.7125, 0.6325, -2.3249999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [6.8375, 0.6325, -2.3249999999999997],
+            "position": [6.8375, 0.6325, -2.3249999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [4.7125, 1.9775, -2.3249999999999997],
+            "position": [4.7125, 1.9775, -2.3249999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [6.8375, 1.9775, -2.3249999999999997],
+            "position": [6.8375, 1.9775, -2.3249999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [4.7125, 0.6325, 0.12500000000000044],
+            "position": [4.7125, 0.6325, 0.12500000000000044],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [6.8375, 0.6325, 0.12500000000000044],
+            "position": [6.8375, 0.6325, 0.12500000000000044],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [4.7125, 1.9775, 0.12500000000000044],
+            "position": [4.7125, 1.9775, 0.12500000000000044],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [6.8375, 1.9775, 0.12500000000000044],
+            "position": [6.8375, 1.9775, 0.12500000000000044],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-8.3625, 1.24, 8.612499999999999],
+            "position": [-8.3625, 1.24, 8.612499999999999],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-5.2875, 1.24, 8.612499999999999],
+            "position": [-5.2875, 1.24, 8.612499999999999],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-8.3625, 3.88, 8.612499999999999],
+            "position": [-8.3625, 3.88, 8.612499999999999],
+            "valid": false,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-5.2875, 3.88, 8.612499999999999],
+            "position": [-5.2875, 3.88, 8.612499999999999],
+            "valid": false,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-8.3625, 1.24, 9.4375],
+            "position": [-8.3625, 1.24, 9.4375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-5.2875, 1.24, 9.4375],
+            "position": [-5.2875, 1.24, 9.4375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-8.3625, 3.88, 9.4375],
+            "position": [-8.3625, 3.88, 9.4375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-5.2875, 3.88, 9.4375],
+            "position": [-5.2875, 3.88, 9.4375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [-1.725, 1.6875, 18.049999999999997],
+            "position": [-1.725, 1.6875, 18.049999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [1.6249999999999996, 1.6875, 18.049999999999997],
+            "position": [1.6249999999999996, 1.6875, 18.049999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [-1.725, 5.1625000000000005, 18.049999999999997],
+            "position": [-1.725, 5.1625000000000005, 18.049999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [1.6249999999999996, 5.1625000000000005, 18.049999999999997],
+            "position": [1.6249999999999996, 5.1625000000000005, 18.049999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [-1.725, 1.6875, 21.35],
+            "position": [-1.725, 1.6875, 21.35],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [1.6249999999999996, 1.6875, 21.35],
+            "position": [1.6249999999999996, 1.6875, 21.35],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [-1.725, 5.1625000000000005, 21.35],
+            "position": [-1.725, 5.1625000000000005, 21.35],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [1.6249999999999996, 5.1625000000000005, 21.35],
+            "position": [1.6249999999999996, 5.1625000000000005, 21.35],
+            "valid": true,
+            "relocation": 0
+          }
+        ],
+        "raysPerProbe": 64,
+        "skyRaysPerHit": 8,
+        "maxTraceDistance": 16,
+        "triangleBudget": 750000,
+        "acceleratorRetainedBytes": 0,
+        "retainedCpuBytes": 522240,
+        "textureBytes": 141312,
+        "transportBytes": 380928,
+        "practicalEnergy": [
+          {
+            "id": "study",
+            "unitDC": 1.117066024766673
+          },
+          {
+            "id": "sleep",
+            "unitDC": 1.5525841080785032
+          },
+          {
+            "id": "kitchen",
+            "unitDC": 1.1759646936240251
+          },
+          {
+            "id": "lounge",
+            "unitDC": 0.41319809663979384
+          },
+          {
+            "id": "bath",
+            "unitDC": 1.2945424772093903
+          },
+          {
+            "id": "gym",
+            "unitDC": 0.23846185441033596
+          },
+          {
+            "id": "terrace-west",
+            "unitDC": 0.3022888561264055
+          },
+          {
+            "id": "terrace-east",
+            "unitDC": 0.2544811460910322
+          },
+          {
+            "id": "library:tall-books-west",
+            "unitDC": 0.6677332432047274
+          },
+          {
+            "id": "library:tall-books-east",
+            "unitDC": 0.4226858296895901
+          },
+          {
+            "id": "bath-living:mirror",
+            "unitDC": 0.8289790039323591
+          },
+          {
+            "id": "bath-living:vanity-underlight",
+            "unitDC": 0.5640281268815585
+          },
+          {
+            "id": "bath-living:shower",
+            "unitDC": 1.0017509894185934
+          },
+          {
+            "id": "bath-bedroom:mirror",
+            "unitDC": 0.7311242741209137
+          },
+          {
+            "id": "bath-bedroom:vanity-underlight",
+            "unitDC": 0.5574514462020462
+          },
+          {
+            "id": "bath-bedroom:shower",
+            "unitDC": 0.7124706901172302
+          },
+          {
+            "id": "installation:short-bedroom-link",
+            "unitDC": 0.2868538692108734
+          },
+          {
+            "id": "installation:arrival-rail-a",
+            "unitDC": 0.1380762138173059
+          },
+          {
+            "id": "installation:arrival-rail-b",
+            "unitDC": 0.13199981456704057
+          },
+          {
+            "id": "installation:arrival-rail-c",
+            "unitDC": 0.003701354970151713
+          },
+          {
+            "id": "installation:arrival-well-wash",
+            "unitDC": 0.23308061771074653
+          },
+          {
+            "id": "installation:bedchamber-warm-cove",
+            "unitDC": 0.030816812766251766
+          },
+          {
+            "id": "installation:corridor-niche-0",
+            "unitDC": 0.29886873266660174
+          },
+          {
+            "id": "installation:corridor-niche-1",
+            "unitDC": 0.037431801602563965
+          },
+          {
+            "id": "installation:corridor-niche-2",
+            "unitDC": 0.31237025338262636
+          },
+          {
+            "id": "installation:library-hearth",
+            "unitDC": 0.3622142286457427
+          },
+          {
+            "id": "installation:arrival-daylight-0",
+            "unitDC": 0.25144776368481575
+          },
+          {
+            "id": "installation:arrival-daylight-1",
+            "unitDC": 0.25541290774087433
+          }
+        ],
+        "disposed": false,
+        "limits": [
+          "Static opaque geometry and one Lambertian bounce; no dynamic actor/leaf/coast displacement visibility",
+          "First-order directional irradiance; sparse moment visibility is approximate and may leak across unsampled thin walls",
+          "Material base color/metalness only; texture, vertex color and procedural detail are not baked",
+          "Actual sky gradient plus authored far-ground boundary; solar disk/cloud/stars and direct-sun bounce omitted",
+          "Final authored emitter-radius segment is unoccluded to model a diffuse bulb within its shade",
+          "Bathroom cove bounce uses an equal-energy midpoint approximation; direct lighting integrates the full segments",
+          "Transparent, refracted, volumetric and specular transport remain native approximations; no ray-traced caustics",
+          "Native direct practical lights remain unshadowed; only cached indirect bounce includes traced visibility",
+          "Outside the bounded regions uses unoccluded actual-sky diffuse fallback"
+        ],
+        "error": null
+      },
+      "steam": {
+        "ready": true,
+        "setupMilliseconds": 5185,
+        "visible": false,
+        "method": "Beer–Lambert emission-free single scattering / nearest transmission-interface split",
+        "steps": 40,
+        "densityTapsPerStep": 6,
+        "texture": {
+          "width": 90,
+          "height": 72,
+          "type": "RGBA8",
+          "bytes": 25920,
+          "floatLinearRequired": false
+        },
+        "extinction": 0.7,
+        "albedo": 0.94,
+        "uploads": 2,
+        "draws": 0,
+        "depthBound": false,
+        "segments": [
+          {
+            "transparent": false,
+            "renderOrder": 10000,
+            "depthWrite": false
+          },
+          {
+            "transparent": true,
+            "renderOrder": 10000,
+            "depthWrite": false
+          }
+        ],
+        "scalar": {
+          "method": "prescribed curl wind / temperature rise / RK2 semi-Lagrangian scalars / positive diffusion",
+          "grid": [18, 18, 18],
+          "cells": 5832,
+          "fixedStep": 0.03333333333333333,
+          "ticks": 180,
+          "sourceTicks": 180,
+          "simulationTime": 0,
+          "fieldEndTime": 0,
+          "pending": 0,
+          "droppedTime": 0,
+          "revision": 180,
+          "prewarming": false,
+          "finite": true,
+          "maximumDensity": 0.9000751376152039,
+          "maximumTemperature": 12.214794158935547,
+          "meanDensity": 0.18890153484807995,
+          "meanTemperature": 2.281932666548538,
+          "densityIntegral": 0.501383979948459,
+          "centroid": [3.214595752113513, 3.1688375299070883, 11.161027414234955],
+          "topFraction": 0.000015689186650846016,
+          "maximumSpeed": 0.25079962355569696,
+          "diffusionWeight": 0.03736979142219452,
+          "storageBytes": 241584,
+          "conservedMass": false,
+          "ownedFrameLoops": 0
+        },
+        "disposed": false
+      }
+    },
+    "backdropImages": 0,
+    "camera": [-0.7514628545944304, 1.7106484045668306, 4.754070003513519],
+    "cameraOrbit": {
+      "yaw": 1.65,
+      "pitch": 0.24,
+      "radius": 3.2
+    },
+    "cameraVelocity": {},
+    "cameraFov": 38,
+    "cameraEnvelope": {
+      "yaw": null,
+      "pitch": [-0.12, 1.25],
+      "radius": [1.6, 4.800000000000001]
+    },
+    "cameraArm": {
+      "active": true,
+      "distance": 3.2,
+      "wanted": 3.2,
+      "limited": false,
+      "minimum": 1.2800000000000002,
+      "lift": 0
+    },
+    "cameraCollision": {
+      "ready": true,
+      "cell": 0.12,
+      "size": [234, 148, 172],
+      "triangles": 724708,
+      "samples": 68056555,
+      "blocking": 319535,
+      "inside": 3526950,
+      "seeds": 21,
+      "queued": 0,
+      "meshes": 408,
+      "classifications": 1,
+      "worker": true,
+      "holding": false
+    },
+    "cameraInertia": {},
+    "cameraClip": {
+      "near": 0.05,
+      "far": 300,
+      "fogNear": 65,
+      "fogFar": 180
+    },
+    "panReach": 1.8,
+    "target": [-3.85, 0.95, 5],
+    "currentRecord": 0,
+    "spinning": false,
+    "recordMechanics": {
+      "angle": 0,
+      "velocity": 0,
+      "rpm": 0,
+      "yaw": 0.28,
+      "lift": 0.36,
+      "yawVelocity": 0,
+      "liftVelocity": 0,
+      "phase": "parked",
+      "playing": false,
+      "energy": 0
+    },
+    "displayedVinylRecord": 0,
+    "vinylCuePending": false,
+    "vinylTransfer": {
+      "angle": 0,
+      "velocity": 0,
+      "rpm": 0,
+      "yaw": 0.28,
+      "lift": 0.36,
+      "yawVelocity": 0,
+      "liftVelocity": 0,
+      "phase": "parked",
+      "playing": false,
+      "energy": 0,
+      "index": 0
+    },
+    "dropped": [],
+    "focused": null,
+    "inspection": null,
+    "neighbours": [
+      {
+        "id": "rabbit-0",
+        "name": "Brush rabbit",
+        "worldCenter": [-14.532646921921016, 12.060530169557335, 1.7333670512694972],
+        "radius": 0.6694004815775939,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.8145206455530007,
+          "y": -1.3079242412597325,
+          "depth": 0.9909438076910876
+        }
+      },
+      {
+        "id": "rabbit-1",
+        "name": "Brush rabbit",
+        "worldCenter": [8.055591568237336, 8.412229579431779, 5.611125678068634],
+        "radius": 0.6694004815775939,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.6260106089719641,
+          "y": 1.141028471129581,
+          "depth": 1.0102804228155793
+        }
+      },
+      {
+        "id": "seaLion-0",
+        "name": "California sea lion",
+        "worldCenter": [-10.030139122376248, -6.105903377497196, -14.582785727964604],
+        "radius": 1.325260635413227,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 2.246897365363265,
+          "y": 1.39356529748057,
+          "depth": 0.9896437279797218
+        }
+      },
+      {
+        "id": "seaLion-1",
+        "name": "California sea lion",
+        "worldCenter": [-8.662573765557662, -6.171203377497196, -14.172352820361864],
+        "radius": 1.325260635413227,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 2.4707366669662933,
+          "y": 1.6030727850183701,
+          "depth": 0.9879539457990916
+        }
+      },
+      {
+        "id": "seaLion-2",
+        "name": "California sea lion",
+        "worldCenter": [11.058572903591317, -6.2428033774971965, -13.30711110127769],
+        "radius": 1.325260635413227,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -0.7753089658127208,
+          "y": -0.942884103760183,
+          "depth": 1.00948147108348
+        }
+      },
+      {
+        "id": "seal-0",
+        "name": "Harbor seal",
+        "worldCenter": [-5.023325224725073, -6.862636724680662, -12.140069344472193],
+        "radius": 1.1774580498136489,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 3.377826542377693,
+          "y": 2.77319893746611,
+          "depth": 0.9798210992830504
+        }
+      },
+      {
+        "id": "seal-1",
+        "name": "Harbor seal",
+        "worldCenter": [-4.048426995494627, -6.866036724680662, -12.13445019453486],
+        "radius": 1.1774580498136489,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 4.050430999936774,
+          "y": 3.4045293241678865,
+          "depth": 0.9749045075757927
+        }
+      },
+      {
+        "id": "seal-2",
+        "name": "Harbor seal",
+        "worldCenter": [-2.954669345642783, -6.863936724680662, -11.945248314806214],
+        "radius": 1.1774580498136489,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 5.257286077138643,
+          "y": 4.582982729007465,
+          "depth": 0.9657034455729642
+        }
+      },
+      {
+        "id": "raccoon-0",
+        "name": "Raccoon",
+        "worldCenter": [-7.522888000117743, 9.653687291132162, 20.80672288616559],
+        "radius": 0.960600642269311,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -1.6403782966185823,
+          "y": -1.867180390550463,
+          "depth": 0.98338812572245
+        }
+      },
+      {
+        "id": "gull-0",
+        "name": "Western gull",
+        "worldCenter": [9.819225289219471, 9.051219772585407, -21.45242202175011],
+        "radius": 1.413133978550107,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -0.9759749932483432,
+          "y": 0.9288006027438922,
+          "depth": 1.007480272136679
+        }
+      },
+      {
+        "id": "gull-1",
+        "name": "Western gull",
+        "worldCenter": [-0.42034837943835335, 10.7147358656936, -14.868562364578496],
+        "radius": 1.4131339785501074,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -3.5202612522621566,
+          "y": 3.5361273843384304,
+          "depth": 1.0255330323111598
+        }
+      },
+      {
+        "id": "gull-2",
+        "name": "Western gull",
+        "worldCenter": [-10.18671450083074, 11.255447192015067, -23.30111388558488],
+        "radius": 1.4131339785501076,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 5.4783473776220335,
+          "y": -2.884143715512016,
+          "depth": 0.9791035409570519
+        }
+      },
+      {
+        "id": "gull-3",
+        "name": "Western gull",
+        "worldCenter": [-12.522459563583256, 14.052024516388208, -6.026241013481577],
+        "radius": 1.4131339785501074,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 1.7492085221407379,
+          "y": -2.2716099744412266,
+          "depth": 0.9872348191944221
+        }
+      },
+      {
+        "id": "balcony-gull-0",
+        "name": "Balcony gull",
+        "worldCenter": [0.31677251103371973, 3.694293672442436, 9.3733229433377],
+        "radius": 1.0028692751000763,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 3.828116231770166,
+          "y": 2.72133675296751,
+          "depth": 1.0872380298035202
+        }
+      },
+      {
+        "id": "sandpiper-0",
+        "name": "Sandpiper",
+        "worldCenter": [-1.8121823966097013, -6.977653774941747, -13.412681533004758],
+        "radius": 1.229938991775378,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 9.261502654720367,
+          "y": 7.802357188472058,
+          "depth": 0.9413664347200683
+        }
+      },
+      {
+        "id": "sandpiper-1",
+        "name": "Sandpiper",
+        "worldCenter": [2.9943716246272616, -7.0105282455359585, -13.846863487042194],
+        "radius": 1.2299389917753778,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -4.495278707538489,
+          "y": -4.225223063869751,
+          "depth": 1.0338560047254957
+        }
+      },
+      {
+        "id": "sandpiper-2",
+        "name": "Sandpiper",
+        "worldCenter": [4.504186805531248, -7.037609817546065, -13.067758922028478],
+        "radius": 1.229938991775378,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -2.736158613516932,
+          "y": -2.8418086430267433,
+          "depth": 1.0231724826814346
+        }
+      },
+      {
+        "id": "swimmer-0",
+        "name": "California sea lion",
+        "worldCenter": [-28.077395230531693, -6.718024281637916, -20.849172988673672],
+        "radius": 1.325260635413227,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 1.3534857597939407,
+          "y": 0.6202189733456263,
+          "depth": 0.9965585102341727
+        }
+      },
+      {
+        "id": "swimmer-1",
+        "name": "California sea lion",
+        "worldCenter": [28.922604769468307, -6.8815513209700505, -22.93359025921824],
+        "radius": 1.325260635413227,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -0.2157476114513307,
+          "y": -0.3010702509258053,
+          "depth": 1.003803938583449
+        }
+      },
+      {
+        "id": "pelican-0",
+        "name": "Brown pelican",
+        "worldCenter": [6.158678008869365, -5.963216631299076, -25.68167008618422],
+        "radius": 1.6578869265251122,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -2.8771301348582132,
+          "y": -1.4473661146281231,
+          "depth": 1.0142129806355116
+        }
+      },
+      {
+        "id": "pelican-1",
+        "name": "Brown pelican",
+        "worldCenter": [10.53437792169424, -5.959532846904376, -24.946816306542928],
+        "radius": 1.6578869265251122,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -1.5596954006117176,
+          "y": -0.8623081385421156,
+          "depth": 1.0091165019451747
+        }
+      },
+      {
+        "id": "pelican-2",
+        "name": "Brown pelican",
+        "worldCenter": [14.969484781565221, -5.974857222835824, -25.63233620967078],
+        "radius": 1.6578869265251128,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -1.008247276534598,
+          "y": -0.5857304216844677,
+          "depth": 1.0066913612292734
+        }
+      },
+      {
+        "id": "pelican-3",
+        "name": "Brown pelican",
+        "worldCenter": [19.322156388867985, -6.0035670498037295, -24.38952915905201],
+        "radius": 1.657886926525112,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -0.6305037065719044,
+          "y": -0.43652981444771766,
+          "depth": 1.0053737312172784
+        }
+      },
+      {
+        "id": "pelican-4",
+        "name": "Brown pelican",
+        "worldCenter": [23.7626939544044, -6.029749462104715, -25.152735423727012],
+        "radius": 1.6578869265251117,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -0.44097661484008743,
+          "y": -0.3336080418063131,
+          "depth": 1.0044670946165561
+        }
+      },
+      {
+        "id": "cormorant-0",
+        "name": "Brandt's cormorant",
+        "worldCenter": [-11.734848371738218, -5.8913070236310965, -14.684637374345137],
+        "radius": 1.2082142102693856,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 2.0105442755571863,
+          "y": 1.1826754356777383,
+          "depth": 0.9911979557279837
+        }
+      },
+      {
+        "id": "cormorant-1",
+        "name": "Brandt's cormorant",
+        "worldCenter": [-13.557738749810678, -5.878790123631094, -15.025108381848044],
+        "radius": 1.2082142102693858,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 1.8349556979887787,
+          "y": 1.0391357861255055,
+          "depth": 0.9924482279302245
+        }
+      },
+      {
+        "id": "cormorant-2",
+        "name": "Brandt's cormorant",
+        "worldCenter": [15.106368383317447, -5.996207423631097, -13.026578718371034],
+        "radius": 1.2082142102693856,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -0.4035195790202156,
+          "y": -0.6291433208246393,
+          "depth": 1.0070506131290249
+        }
+      },
+      {
+        "id": "cormorant-3",
+        "name": "Brandt's cormorant",
+        "worldCenter": [15.283027467296884, -5.996207423631095, -13.719388244784856],
+        "radius": 1.2082142102693858,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -0.4266797912223753,
+          "y": -0.6176596672007846,
+          "depth": 1.006950924079742
+        }
+      }
+    ],
+    "canvasWidth": 3840,
+    "canvasHeight": 2160,
+    "resolution": {
+      "profile": "fullscreen",
+      "compact": false,
+      "css": [3840, 2160],
+      "density": 1,
+      "cap": 1,
+      "factor": 1,
+      "adaptive": false,
+      "pixels": 8294400,
+      "budget": 8300000,
+      "minFactor": 0.8,
+      "failedProbes": 0,
+      "history": []
+    },
+    "quality": {
+      "tier": "high",
+      "pinned": true,
+      "demoted": false,
+      "canPromote": true,
+      "failedReductions": 0,
+      "trial": null,
+      "history": [],
+      "settings": {
+        "embed": {
+          "pixelBudget": 4200000,
+          "maxDensity": 2
+        },
+        "fullscreen": {
+          "pixelBudget": 8300000,
+          "maxDensity": 2
+        },
+        "maxSamples": 4,
+        "shadowMapSize": 4096,
+        "contactScale": 1.5,
+        "reflectionScale": 1.5,
+        "mirrorSize": 512,
+        "hazeSteps": 1.25,
+        "hazeDivisor": -1,
+        "anisotropy": {
+          "embed": 8,
+          "fullscreen": 16
+        },
+        "lodReach": 1.4,
+        "memoryBudget": 1342177280
+      },
+      "memoryBytes": 1250560000,
+      "lastSwitch": null
+    },
+    "detail": {
+      "samples": 0,
+      "contactLongSide": 1920,
+      "shadowMapSize": 4096,
+      "reflection": [1536, 864],
+      "anisotropy": 16,
+      "shadowMap": 4096
+    },
+    "walk": {
+      "active": false,
+      "ready": true,
+      "placed": false,
+      "provisional": false,
+      "position": [0, 0, 0],
+      "eye": 1.6,
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 62,
+      "velocity": [0, 0],
+      "room": null,
+      "locked": false,
+      "keys": [],
+      "joysticks": false,
+      "gamepads": 0,
+      "transition": false,
+      "distance": 0,
+      "blockedFrames": 0,
+      "lastBlocked": null,
+      "body": {
+        "radius": 0.24,
+        "height": 1.75,
+        "maxStep": 0.46,
+        "maxDrop": 0.5,
+        "eyeHeight": 1.6
+      },
+      "field": {
+        "ready": true,
+        "worker": true,
+        "meshes": 460,
+        "builtMilliseconds": 1314,
+        "cell": 0.1,
+        "size": [390, 492],
+        "columns": 191880,
+        "filled": 174720,
+        "intervals": 735332,
+        "triangles": 744227,
+        "samples": 18340851,
+        "overflows": 19739
+      }
+    },
+    "walkPresence": {
+      "active": false,
+      "source": "active-Sirui",
+      "sourceHidden": false,
+      "prepared": true,
+      "skeletons": 1,
+      "sharedGeometryAndMaterials": true,
+      "position": [0, 0, 0],
+      "yaw": 0,
+      "moving": false,
+      "idleTime": 0,
+      "gaitTime": 0,
+      "contentVersion": 1,
+      "opticalEyeOffset": [0, 1.6521600484848022, 0.14441999793052673],
+      "opticalForwardOffset": 0.14441999793052673,
+      "headCutHeight": 1.4,
+      "primaryHeadExclusion": {
+        "primitives": 7,
+        "triangles": 80370
+      },
+      "fullShadow": true,
+      "volumeDepth": "first-person body excluded",
+      "collarLiner": {
+        "method": "native neck-to-collar upper-chest liner",
+        "setupMs": 29,
+        "updates": 1,
+        "perFrameCuts": 0,
+        "meanMs": 1,
+        "maximumMs": 1,
+        "maximumInset": 0.001675340698577896,
+        "trackedVertices": 304,
+        "vertices": 320,
+        "triangles": 512,
+        "upperHeight": 1.3500000143051147,
+        "lowerHeight": 1.3050000143051148,
+        "spine": "Spine",
+        "skinMesh": "shaped_adult_face001",
+        "shirtMesh": "shaped_adult_face001_6",
+        "upperSection": {
+          "evaluatedVertices": 168,
+          "sourceTriangles": 58872,
+          "selectedTriangles": 224,
+          "ignoredOpenComponents": 0
+        },
+        "lowerSection": {
+          "evaluatedVertices": 788,
+          "sourceTriangles": 32960,
+          "selectedTriangles": 1062,
+          "ignoredOpenComponents": 0
+        }
+      },
+      "collarFailure": null
+    },
+    "shadowCache": {
+      "frames": 7,
+      "cachedFrames": 0,
+      "rebuilds": 0,
+      "copies": 0,
+      "skippedCopies": 0,
+      "bypassFrames": 7,
+      "enabled": true,
+      "staticCasters": 0,
+      "dynamicCasters": 580,
+      "stillFrames": 30
+    },
+    "furniture": {
+      "index": true,
+      "anchors": 23,
+      "placed": [
+        {
+          "id": "study-aeron",
+          "item": "aeron",
+          "room": "study",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "gym-pan",
+          "item": "cast-iron-pan",
+          "room": "gym",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": [6.75, 0.908, 7.0504999999999995]
+        },
+        {
+          "id": "gym-dumbbell-right",
+          "item": "dumbbell",
+          "room": "gym",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": [6.421, 0.745, 8.06]
+        },
+        {
+          "id": "gym-dumbbell-left",
+          "item": "dumbbell",
+          "room": "gym",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": [6.421, 0.745, 7.76]
+        },
+        {
+          "id": "kitchen-range",
+          "item": "italian-range",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "kitchen-range-hood",
+          "item": "range-hood",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "kitchen-pot-filler",
+          "item": "pot-filler",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "kitchen-glass-fridge",
+          "item": "glass-fridge",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "dining-table",
+          "item": "dining-table",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "dining-chair-1",
+          "item": "dining-chair",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "dining-chair-2",
+          "item": "dining-chair",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "dining-chair-3",
+          "item": "dining-chair",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "dining-chair-4",
+          "item": "dining-chair",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "dining-chair-5",
+          "item": "dining-chair",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "dining-chair-6",
+          "item": "dining-chair",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "nook-banquette",
+          "item": "banquette",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 1,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "living-fireplace",
+          "item": "floating-fireplace",
+          "room": "lounge",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "living-eames-lounge",
+          "item": "eames-lounge",
+          "room": "lounge",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "living-sofa",
+          "item": "cloud-sofa",
+          "room": "lounge",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "study-whiskey-lounge",
+          "item": "whiskey-loveseat",
+          "room": "library",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "study-whiskey-ottoman",
+          "item": "whiskey-ottoman",
+          "room": "library",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "study-whiskey-side-table",
+          "item": "whiskey-side-table",
+          "room": "library",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "study-whiskey-bottles",
+          "item": "whiskey-bottles",
+          "room": "library",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        }
+      ],
+      "models": [
+        {
+          "key": "aeron#0",
+          "state": "ready",
+          "bytes": 82404
+        },
+        {
+          "key": "italian-range#0",
+          "state": "ready",
+          "bytes": 32936
+        },
+        {
+          "key": "range-hood#0",
+          "state": "ready",
+          "bytes": 7520
+        },
+        {
+          "key": "pot-filler#0",
+          "state": "ready",
+          "bytes": 7340
+        },
+        {
+          "key": "glass-fridge#0",
+          "state": "ready",
+          "bytes": 33380
+        },
+        {
+          "key": "dining-table#0",
+          "state": "ready",
+          "bytes": 6880
+        },
+        {
+          "key": "dining-chair#0",
+          "state": "ready",
+          "bytes": 17196
+        },
+        {
+          "key": "banquette#0",
+          "state": "ready",
+          "bytes": 31432
+        },
+        {
+          "key": "cast-iron-pan#0",
+          "state": "ready",
+          "bytes": 9488
+        },
+        {
+          "key": "dumbbell#0",
+          "state": "ready",
+          "bytes": 4676
+        },
+        {
+          "key": "floating-fireplace#0",
+          "state": "ready",
+          "bytes": 12588
+        },
+        {
+          "key": "eames-lounge#0",
+          "state": "ready",
+          "bytes": 66616
+        },
+        {
+          "key": "cloud-sofa#0",
+          "state": "ready",
+          "bytes": 55376
+        },
+        {
+          "key": "whiskey-loveseat#0",
+          "state": "ready",
+          "bytes": 14860
+        },
+        {
+          "key": "whiskey-ottoman#0",
+          "state": "ready",
+          "bytes": 7924
+        },
+        {
+          "key": "whiskey-side-table#0",
+          "state": "ready",
+          "bytes": 35292
+        },
+        {
+          "key": "whiskey-bottles#0",
+          "state": "ready",
+          "bytes": 31808
+        },
+        {
+          "key": "banquette#1",
+          "state": "ready",
+          "bytes": 107644
+        }
+      ],
+      "downloadedBytes": 565360,
+      "fineBytes": 107644,
+      "aeronVariant": "carbon",
+      "articulation": {},
+      "fires": [
+        {
+          "id": "living-fireplace",
+          "clock": 0,
+          "triangles": 1260,
+          "still": true
+        }
+      ]
+    },
+    "dining": {
+      "index": "ready",
+      "key": "2026-10-26|lunch|fork",
+      "meal": "lunch",
+      "menu": {
+        "dish": "shrimp-bowl",
+        "dessert": null,
+        "drink": "sparkling",
+        "coffee": null
+      },
+      "labels": {
+        "dish": "Grilled shrimp and quinoa bowl",
+        "dessert": null,
+        "drink": "Sparkling water with lemon"
+      },
+      "ready": true,
+      "level": 1,
+      "phase": "eating",
+      "beat": "mouth",
+      "planSeconds": 8.450296677535865,
+      "remaining": {
+        "main": 9,
+        "dessert": 0,
+        "onUtensil": {
+          "plate": "main",
+          "index": 0
+        }
+      },
+      "glass": {
+        "holder": "table",
+        "level": 0.7168,
+        "tilt": 0
+      },
+      "utensil": "R",
+      "layout": {
+        "surface": 0.7950708031654357,
+        "plate": [-0.01, 0.43],
+        "charger": 0
+      },
+      "contacts": {
+        "R": {
+          "mode": "hold",
+          "wristDrift": 4.933733601704339e-7,
+          "reach": [0.43713157420188065, 0.512981140891132]
+        },
+        "L": {
+          "mode": "rest",
+          "wristDrift": 5.839939053923598e-7,
+          "reach": [0.3953584358117678, 0.512980937221214]
+        }
+      },
+      "feet": null,
+      "station": null,
+      "draws": 11,
+      "triangles": 9235,
+      "models": [
+        {
+          "file": "tableware-lod1.glb",
+          "state": "ready"
+        },
+        {
+          "file": "dish-shrimp-bowl-lod1.glb",
+          "state": "ready"
+        },
+        {
+          "file": "tableware-lod0.glb",
+          "state": "ready"
+        },
+        {
+          "file": "dish-shrimp-bowl-lod0.glb",
+          "state": "ready"
+        }
+      ]
+    },
+    "prop": {
+      "kind": "fork",
+      "position": [-3.9912699295976544, 0.7170105598117668, 4.904154863543822],
+      "size": [0.0735185184841507, 0.10117474175761887, 0.17838830870585554],
+      "ancestorsVisible": true,
+      "source": "dining"
+    },
+    "targets": [
+      {
+        "type": "spin",
+        "x": 0.4600078749527428,
+        "y": 0.2595540702356355
+      },
+      {
+        "type": "record",
+        "index": 0,
+        "x": 0.5090083883174898,
+        "y": 0.0835439401253169
+      },
+      {
+        "type": "record",
+        "index": 1,
+        "x": 0.48027782929964813,
+        "y": 0.08370949122634264
+      },
+      {
+        "type": "record",
+        "index": 2,
+        "x": 0.45170253701817314,
+        "y": 0.08387414765006157
+      },
+      {
+        "type": "record",
+        "index": 3,
+        "x": 0.42328125621766227,
+        "y": 0.08403791662950133
+      },
+      {
+        "type": "artifact",
+        "index": 0,
+        "x": 0.47622502208568307,
+        "y": 0.2620696977572242
+      },
+      {
+        "type": "artifact",
+        "index": 1,
+        "x": 0.47100021742862064,
+        "y": 0.26572148199036183
+      },
+      {
+        "type": "window",
+        "x": 0.9096663534512466,
+        "y": 0.15449410589497403
+      },
+      {
+        "type": "library-ladder",
+        "x": 38.11753576905861,
+        "y": -35.59704091867973
+      },
+      {
+        "type": "library-ladder",
+        "x": 38.11753576905861,
+        "y": -35.59704091867973
+      },
+      {
+        "type": "library-ladder",
+        "x": 38.11753576905861,
+        "y": -35.59704091867973
+      }
+    ],
+    "joints": {
+      "Root": [-3.95, -0.684999993443489, 5.26],
+      "Hips": [-3.95, 0.1750000208616257, 5.26],
+      "Head": [-3.95, 0.6715533829517422, 5.210842763407628],
+      "HandL": [-3.703283415274588, 0.383756236364566, 4.883870585939117],
+      "HandR": [-4.022949632380754, 0.6968328326487492, 4.841708836225847],
+      "FootL": [-3.8400000910688035, -0.18858154290381451, 4.8327027931311575],
+      "FootR": [-4.060000097327289, -0.1885815630471499, 4.832702833264561]
+    }
+  },
+  "transport": {
+    "snapshotBytesBeforeSourceInputs": 780475,
+    "snapshotGzipBytesBeforeSourceInputs": 263391,
+    "statistics": {
+      "ready": true,
+      "triangles": 619481,
+      "meshes": 430,
+      "skippedMeshes": 165,
+      "skippedTriangles": 116123,
+      "geometryMs": 3056,
+      "acceleratorMs": 3032,
+      "transportMs": 2965,
+      "bakeMs": 9053,
+      "maxTaskMs": 44,
+      "relocatedProbes": 2,
+      "rejectedProbes": 4,
+      "acceleratorBytes": 52036864,
+      "trace": {
+        "rays": 90091,
+        "triangleTests": 3706887,
+        "boxTests": 24647076
+      }
+    },
+    "configuration": "{\"regions\":[{\"id\":\"study\",\"min\":[-12.05,-0.050000000000000266,3.55],\"max\":[-9.1,2.1,5.8500000000000005]},{\"id\":\"sleep\",\"min\":[-4.3,2.55,10],\"max\":[-1.85,4.4,12.8]},{\"id\":\"onsen\",\"min\":[2,2.55,9.9],\"max\":[4.45,4.9,12.4]},{\"id\":\"kitchen\",\"min\":[-5,-0.45,3.6500000000000004],\"max\":[-1.95,2.15,8.6]},{\"id\":\"dining\",\"min\":[-4,-0.05,9.35],\"max\":[0.2,2.3,13]},{\"id\":\"living\",\"min\":[-1.1,-0.05,5.1],\"max\":[1.1,2.2,7.45]},{\"id\":\"lounge\",\"min\":[1.9,-0.05,3.95],\"max\":[4.4,2.4,7.8]},{\"id\":\"nearhouse\",\"min\":[-5,-0.05,2.3],\"max\":[5,4,4.3]},{\"id\":\"gym\",\"min\":[6.1,-0.05,4.8],\"max\":[10.9,2.4,8.95]},{\"id\":\"library\",\"min\":[-12.6,0,0.8],\"max\":[-8.45,5.6,10.5]},{\"id\":\"library-upper\",\"min\":[-1.65,2.55,10.25],\"max\":[1.3,4.7,12.55]},{\"id\":\"bath-living\",\"min\":[-8.25,0,9.85],\"max\":[-4.38,2.35,14.1]},{\"id\":\"bath-bedroom\",\"min\":[-8.25,2.6,9.85],\"max\":[-4.38,4.95,14.1]},{\"id\":\"outdoor-pavilion\",\"min\":[3.65,-0.04,-3.55],\"max\":[7.9,2.65,1.35]},{\"id\":\"retreat-short-link\",\"min\":[-9.9,-0.08,8.2],\"max\":[-3.75,5.2,9.85]},{\"id\":\"arrival-hall\",\"min\":[-3.4,-0.05,16.4],\"max\":[3.3,6.9,23]}],\"practicalSources\":[{\"id\":\"study\",\"position\":[-11.370000000000001,1.2799999999999998,3.7199999999999998],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":6,\"emitterRadius\":0.18},{\"id\":\"sleep\",\"position\":[-4.13,3.47,10.47],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.18},{\"id\":\"kitchen\",\"position\":[-4.99,1.95,4.9],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.18},{\"id\":\"lounge\",\"position\":[-1.2,1.42,4.45],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.26},{\"id\":\"bath\",\"position\":[3.68,3.388,10.2],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.3,\"emitterRadius\":0.18},{\"id\":\"gym\",\"position\":[8.6,2.3,7.6],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.5,\"emitterRadius\":0.18},{\"id\":\"terrace-west\",\"position\":[-4.75,0.170405,3.88],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.8,\"emitterRadius\":0.18},{\"id\":\"terrace-east\",\"position\":[3.9,0.170405,3.88],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.8,\"emitterRadius\":0.18},{\"id\":\"library:tall-books-west\",\"position\":[-12.19,4.72,7.75],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-12.65,-0.05,0.75],\"max\":[-8.399999999999999,5.6499999999999995,10.55]}},{\"id\":\"library:tall-books-east\",\"position\":[-8.91,4.72,2.3],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-12.65,-0.05,0.75],\"max\":[-8.399999999999999,5.6499999999999995,10.55]}},{\"id\":\"bath-living:mirror\",\"position\":[-8.1,2.16,11.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-living:vanity-underlight\",\"position\":[-7.93,0.352,11.649999999999999],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-living:shower\",\"position\":[-6.535,2.24,9.96],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-bedroom:mirror\",\"position\":[-8.1,4.76,11.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"bath-bedroom:vanity-underlight\",\"position\":[-7.93,2.952,11.649999999999999],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"bath-bedroom:shower\",\"position\":[-6.535,4.84,9.96],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"installation:short-bedroom-link\",\"position\":[-6.475,4.85,9.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-9.950000000000001,-0.13,8.149999999999999],\"max\":[-3.7,5.25,9.9]}},{\"id\":\"installation:arrival-rail-a\",\"position\":[3.23,2.1500000000000004,19.560000000000002],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:arrival-rail-b\",\"position\":[-0.10000000000000009,4.875,16.47],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:arrival-rail-c\",\"position\":[-3.33,7.7250000000000005,19.700000000000003],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,5.150000000000001,16.249999999999996],\"max\":[-2.1000000000000005,10.750000000000002,23.25]}},{\"id\":\"installation:arrival-well-wash\",\"position\":[0.5499999999999998,5.9,22.93],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:bedchamber-warm-cove\",\"position\":[-6.79,4.25,8.435],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.58,1.4,3.25],\"max\":[-5.1000000000000005,5.3,8.67]}},{\"id\":\"installation:corridor-niche-0\",\"position\":[-7.66,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.290000000000001,-0.04,8.549999999999999],\"max\":[-7.03,2.4,9.850000000000001]}},{\"id\":\"installation:corridor-niche-1\",\"position\":[-6.51,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-7.14,-0.04,8.549999999999999],\"max\":[-5.88,2.4,9.850000000000001]}},{\"id\":\"installation:corridor-niche-2\",\"position\":[-5.36,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-5.99,-0.04,8.549999999999999],\"max\":[-4.73,2.4,9.850000000000001]}},{\"id\":\"installation:library-hearth\",\"position\":[-11.95,0.56,2.9],\"color\":[1,0.45,0.15],\"distance\":5,\"emitterRadius\":0.22,\"region\":{\"min\":[-12.600000000000001,-0.1,0.7999999999999999],\"max\":[-8.5,5.7,10.55]}},{\"id\":\"installation:arrival-daylight-0\",\"position\":[0.15,5.935,18.65],\"color\":[1,0.84,0.63],\"distance\":0,\"emitterRadius\":0.064,\"region\":{\"min\":[-3.5,-0.15000000000000002,16.09],\"max\":[3.4,7.35,23.25]}},{\"id\":\"installation:arrival-daylight-1\",\"position\":[0.15,5.935,20.75],\"color\":[1,0.84,0.63],\"distance\":0,\"emitterRadius\":0.064,\"region\":{\"min\":[-3.5,-0.15000000000000002,16.09],\"max\":[3.4,7.35,23.25]}}],\"raysPerProbe\":64,\"skyRaysPerHit\":8,\"maxTraceDistance\":16,\"maxTriangles\":750000}",
+    "scope": "Actual new field, no saved cache; final source inputs and cache publication belong to the coordinator"
+  }
+}

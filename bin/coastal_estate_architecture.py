@@ -267,6 +267,11 @@ def _books(p,m,x,y,floor,side,seed,length=4.35):
             height=rng.uniform(.24,.355)
             depth=rng.uniform(.19,.245)
             if cursor+thick>y+length/2-.135:break
+            # The central full-height divider is a real 35mm panel. Keep the
+            # complete book (both covers and page block) clear of its two faces.
+            if cursor < y+.0275 and cursor+thick > y-.0275:
+                cursor=y+.0355
+                continue
             material=m[rng.choice(("bookOlive","bookOchre","bookBrick","bookBlue"))]
             xx=x-side*(.035+depth/2)
             box(p.bm(m["paper"]),(xx,cursor+thick/2,z+.024+height/2),

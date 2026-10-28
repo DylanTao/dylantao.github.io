@@ -68,9 +68,26 @@ def main():
         raise SystemExit(f"{delivered_path} is not a delivered audit of the same source; re-run it with --delivered=1")
     before_path = path("before", ".jekyll-cache/overlap-audit/before.json")
     before = json.loads(before_path.read_text(encoding="utf-8")) if before_path.exists() else None
+    before_record = None
+    before_provenance = None
+    if before:
+        if "interpenetration" in before and "coplanar" in before:
+            before_record = {"sourceSha256": before["sourceSha256"], "totals": totals(before)}
+            kind = "raw-audit"
+        elif (before.get("before") or {}).get("sourceSha256") and before["before"].get("totals"):
+            # An older compact report retains its original before-repair audit.
+            # Preserve that record and bind the actual input instead of silently
+            # treating the older repaired totals as the original baseline.
+            before_record = before["before"]
+            kind = "retained-before-record-in-compact-audit"
+        else:
+            raise SystemExit(f"{before_path} has no raw audit or retained before-repair record")
+        before_provenance = {"file": str(before_path.relative_to(ROOT)) if before_path.is_relative_to(ROOT) else str(before_path),
+                             "sha256": hashlib.sha256(before_path.read_bytes()).hexdigest(), "kind": kind}
     verdict_path = path("verdicts", str(REVIEW / "overlap-verdicts.json"))
     verdicts = json.loads(verdict_path.read_text(encoding="utf-8"))["pairs"] if verdict_path.exists() else {}
-    manifest = json.loads((ROOT / "assets/models/home/manifest.json").read_text(encoding="utf-8"))
+    manifest_path = path("manifest", "assets/models/home/manifest.json")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     off = [r for r in audit["interpenetration"] if r["severity"] > 0]
     deep = defaultdict(lambda: {"sites": 0, "seamM": 0.0, "maxDepth": 0.0, "severity": 0.0, "maxSeverity": 0.0, "center": None, "categories": None})
     for r in off:
@@ -107,6 +124,7 @@ def main():
         "toolSha256": audit.get("toolSha256") or lf_sha(ROOT / "bin/audit_coastal_overlaps.py"),
         "source": audit["source"],
         "sourceSha256": audit["sourceSha256"],
+        "manifestSha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
         "exportsSha256": exports,
         "furniture": [{k: f[k] for k in ("anchor", "item", "file", "sha256")} for f in audit["furniture"]],
         "furnitureAnchorsSha256": canonical_sha(manifest.get("furniture", [])),
@@ -122,7 +140,8 @@ def main():
         "ruleCounts": audit["ruleCounts"],
         "foliageOverlap": audit.get("foliageOverlap"),
         "totals": totals(audit),
-        "before": ({"sourceSha256": before["sourceSha256"], "totals": totals(before)} if before else None),
+        "before": before_record,
+        "beforeProvenance": before_provenance,
         # The decoded Draco GLBs, audited the same way: quantization can collapse a few-millimetre
         # native gap into a delivered depth tie, so delivery has its own z-fighting ratchet.
         "delivered": ({"exportsSha256": {f["file"]: f["sha256"] for f in delivered.get("deliveredFiles", [])},

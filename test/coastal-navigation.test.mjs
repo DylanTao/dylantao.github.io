@@ -18,8 +18,9 @@ const privateStair = (pair) => exactEdge(pair, config.estateLibrary?.privateConn
 const interstorey = (pair) => mainStair(pair) || privateStair(pair);
 // The October 24 stair hall's first flight climbs the 2.6 m storey in 15 risers (14 treads and the landing).
 const mainRisers = config.entrance?.hall ? 15 : config.retreat ? 16 : 15;
-// The bedroom-study spiral keeps its own 16 risers.
-const privateRisers = 16;
+// The adjacent chamber's measured stair owns its riser count; retained older
+// fixtures keep their original 16-riser expectation.
+const privateRisers = config.estateLibrary?.adjacentBedchamber?.riserCount || 16;
 const setback = Number(config.retreat?.setbackMetres) || 0;
 const sunken = new Set(["kitchen", "lounge"]);
 
@@ -151,7 +152,7 @@ test("retreat bedroom/study uses the whole compact spiral and library destinatio
   const down = roomRoute(config, sleep, study, sleep.actor),
     up = roomRoute(config, study, sleep, study.actor);
   assert.equal(down.connection, "bedroom-study");
-  assert.equal(slopes(down).filter(privateStair).length, 16);
+  assert.equal(slopes(down).filter(privateStair).length, privateRisers);
   assert.equal(slopes(down).filter(mainStair).length, 0);
   assert.deepEqual(up.points, [...down.points].reverse(), "same authored route both directions");
   const shared = roomRoute(config, study, reading, study.actor);

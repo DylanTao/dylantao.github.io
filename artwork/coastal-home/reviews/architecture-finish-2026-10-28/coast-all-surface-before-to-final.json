@@ -1,0 +1,96 @@
+{
+  "mesh": "coast_shared_golden coastal sandstone",
+  "sourceSha256": "7024983f7ce185368a74cbee0cda17e62a0bf3138c1844b7d53bba8a6d7f519e",
+  "baselineSha256": "bc33eb9b9937b9b4f1976112fb5142af7afc25c1645d7cfb714d00a3876fe588",
+  "preUnionOperandSourceSha256": "4b9c15f52e19c78b04c8067acd2d07147b85b4201a079339d5ca7c62c3bb9430",
+  "preUnionAdditionBounds": {
+    "min": [-8.489999771118164, 4.480000019073486, -2.049999952316284],
+    "max": [-4.800000190734863, 10.022928237915039, -0.25999999046325684]
+  },
+  "preUnionWorkingBounds": {
+    "min": [-8.609999771118163, 4.360000019073486, -2.1699999523162843],
+    "max": [-4.680000190734863, 10.142928237915038, -0.13999999046325684]
+  },
+  "preCutStructuralBearingBounds": {
+    "min": [-8.080000419616699, -1.3800003719329834, -1.7400000286102295],
+    "max": [3.279999990463257, 3.9299996089935303, 0.08000002473592759]
+  },
+  "allSurfaceControl": true,
+  "baselineBounds": [
+    [-36.0, -32.0, -8.399999618530273],
+    [76.0, 20.75074005126953, -0.25999999046325684]
+  ],
+  "sourceBounds": [
+    [-36.0, -32.0, -8.399999618530273],
+    [76.0, 20.75074005126953, -0.25999999046325684]
+  ],
+  "exactBounds": true,
+  "authoredTransition": "No excluded regions: every source triangle is a control against the retained candidate",
+  "coordinates": "native [x,-worldZ,up] metres",
+  "unchangedCoastSamples": 775474,
+  "maximumUnchangedSurfaceDistanceM": 0.0,
+  "toleranceM": 3e-6,
+  "bitIdenticalUnchangedTriangles": 110782,
+  "doublePrecisionCandidateCorrections": 0,
+  "maximumFloat32KernelErrorM": 0.0,
+  "unchangedCoastFailures": [],
+  "unchangedCoastFailureCount": 0,
+  "closedSolids": [
+    {
+      "mesh": "coast_shared_golden coastal sandstone",
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0
+    },
+    {
+      "mesh": "core__golden coastal sandstone",
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0
+    },
+    {
+      "mesh": "core_finish_bedchamber_rock_fin__La Jolla bluff sandstone",
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0
+    },
+    {
+      "mesh": "core_finish_bedchamber_slab__warm cut stone",
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0
+    },
+    {
+      "mesh": "core_finish_bedchamber_floor__pale oak",
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0
+    },
+    {
+      "mesh": "core_finish_bedchamber_wall_west__chalk limestone",
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0
+    },
+    {
+      "mesh": "core_finish_bedchamber_wall_east__chalk limestone",
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0
+    },
+    {
+      "mesh": "core_finish_bedchamber_wall_inland__chalk limestone",
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0
+    },
+    {
+      "mesh": "core_finish_bedchamber_vault__chalk limestone",
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0
+    },
+    {
+      "mesh": "core_finish_bedchamber_cove__brushed brass",
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0
+    },
+    {
+      "mesh": "core_finish_bedchamber_cove__estate warm opal diffuser",
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0
+    }
+  ],
+  "passed": true
+}

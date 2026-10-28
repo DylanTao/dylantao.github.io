@@ -137,6 +137,49 @@ def excavate(scene, m):
     return reports or __import__("json").loads(scene.get("bathroomWingCutReport", "[]"))
 
 
+def grout_heightfield(bm, rect, tiles, floor):
+    """One watertight mortar bed: 7mm below tiles, recessed grout in joints only.
+
+    A constant 40mm plate up to -3mm occupied every tile body. This stepped,
+    closed surface preserves exactly the visible joints without duplicate solids.
+    ``tiles`` contains the actual outer footprint of each 36mm stone slab.
+    """
+    x0, x1, y0, y1 = rect
+    xs = sorted({x0, x1, *(max(x0, min(x1, r[k])) for r in tiles for k in (0, 1))})
+    ys = sorted({y0, y1, *(max(y0, min(y1, r[k])) for r in tiles for k in (2, 3))})
+    xs = sorted({round(x, 7) for x in xs})
+    ys = sorted({round(y, 7) for y in ys})
+    heights = {}
+    vertices = {}
+    def vertex(x, y, z):
+        key = (round(x, 7), round(y, 7), round(z, 7))
+        if key not in vertices:
+            vertices[key] = bm.verts.new(key)
+        return vertices[key]
+    def face(points):
+        bm.faces.new([vertex(*q) for q in points])
+    bottom = floor - .043
+    for i, (xa, xb) in enumerate(zip(xs, xs[1:])):
+        for j, (ya, yb) in enumerate(zip(ys, ys[1:])):
+            x, y = (xa + xb) / 2, (ya + yb) / 2
+            height = floor - (.036 if any(a < x < b and c < y < d for a, b, c, d in tiles) else .003)
+            heights[i, j] = height
+            face([(xa, ya, height), (xb, ya, height), (xb, yb, height), (xa, yb, height)])
+            face([(xa, yb, bottom), (xb, yb, bottom), (xb, ya, bottom), (xa, ya, bottom)])
+    for (i, j), h in heights.items():
+        xa, xb, ya, yb = xs[i], xs[i + 1], ys[j], ys[j + 1]
+        for neighbor, edge in (((i - 1, j), ((xa, yb), (xa, ya))), ((i + 1, j), ((xb, ya), (xb, yb))),
+                               ((i, j - 1), ((xa, ya), (xb, ya))), ((i, j + 1), ((xb, yb), (xa, yb)))):
+            adjacent = heights.get(neighbor, bottom)
+            if h <= adjacent + 1e-8:
+                continue
+            a, b = edge
+            levels=[adjacent]+([floor-.036] if adjacent < floor-.036-1e-8 < h-1e-8 else [])+[h]
+            for low,high in zip(levels,levels[1:]):
+                face([(*a, low), (*b, low), (*b, high), (*a, high)])
+    bmesh.ops.recalc_face_normals(bm, faces=list(bm.faces))
+
+
 def _tile_floor(p, m, floor, upper):
     stone = p.bm(m["travertine"])
     border = p.bm(m["stone"])
@@ -145,12 +188,13 @@ def _tile_floor(p, m, floor, upper):
     # flush shower transition and doorway: no new walking curb or raised mat.
     x0, x1 = BOUNDS["x"]
     y0, y1 = BOUNDS["y"]
-    box(p.bm(m["grout"]), ((x0+x1)/2, (y0+y1)/2, floor-.023), (x1-x0, y1-y0, .040))
+    tile_rectangles=[]
     edge, wet = .14, -3.02
     for xa, xb, ya, yb in ((x0, x0+edge, y0, y1), (x1-edge, x1, y0, y1),
                            (x0+edge, x1-edge, y0, y0+edge),
                            (x0+edge, x1-edge, y1-edge, y1)):
         box(border, ((xa+xb)/2, (ya+yb)/2, floor-.018), (xb-xa-.002, yb-ya-.002, .036), .0015, segments=1)
+        tile_rectangles.append((xa+.001,xb-.001,ya+.001,yb-.001))
     # Long quiet slabs in a half-bond arrangement, rather than the former
     # uniform square grid. End cuts stay beside the perimeter border.
     a, b = x0+edge, x1-edge
@@ -163,6 +207,7 @@ def _tile_floor(p, m, floor, upper):
             ya, yb = y0+edge+row*dy, y0+edge+(row+1)*dy
             batch = p.bm(m["floor"][(col+row+(1 if upper else 0))%3])
             box(batch, ((xa+xb)/2, (ya+yb)/2, floor-.018), (xb-xa-.002, yb-ya-.002, .036), .0015, segments=1)
+            tile_rectangles.append((xa+.001,xb-.001,ya+.001,yb-.001))
     # Smaller cuts distinguish the wet zone. Their 2 mm recessed joints are
     # explicit geometry; this suggests a grippier finish, not a safety rating.
     rows, cols = 7, 19
@@ -172,18 +217,22 @@ def _tile_floor(p, m, floor, upper):
             ya, yb = wet+(y1-edge-wet)*row/rows, wet+(y1-edge-wet)*(row+1)/rows
             batch = p.bm(m["floor"][(col//4+row//3)%3])
             box(batch, ((xa+xb)/2, (ya+yb)/2, floor-.018), (xb-xa-.002, yb-ya-.002, .036))
+            tile_rectangles.append((xa+.001,xb-.001,ya+.001,yb-.001))
+    grout_heightfield(p.bm(m["grout"]),(x0,x1,y0,y1),tile_rectangles,floor)
     # The skirting is quiet and continuous behind the vanity and WC. The
     # doorway and glass shower approach remain entirely clear.
     for center, size in (((-8.235, -3.975, floor+.055), (.026, 4.19, .11)),
                          ((-6.60, -6.085, floor+.055), (3.27, .025, .11))):
         box(border, center, size, .004, segments=1)
-    # Door's continuous stone threshold overlaps the old native floor; no curb.
-    box(stone, (-4.68, -5.15, floor-.018), (.94, 1.198, .036), .002, segments=1)
+    # The continuous threshold meets the carpet edge without a doubled tile.
+    box(stone, (-4.53, -5.15, floor-.018), (.64, 1.198, .036), .002, segments=1)
     # Native slab below each storey. Upper slab is only hidden while inspecting
     # the guest room, never simply removed from walking geometry.
     tag = {"bathroomCeilingFor": "bath-living"} if upper else {}
+    bottom=floor-.17 if upper else floor-.26
+    top=floor-.043
     return _panel(p, m["stone"], "core_bathwing_upper_slab" if upper else "core_bathwing_lower_slab",
-                  (-6.60, -3.975, floor-.14), (3.72, 4.65, .24), .018, **tag)
+                  (-6.60, -3.975, (bottom+top)/2), (3.72, 4.65, top-bottom), .012, **tag)
 
 
 def _walls(p, m, floor, upper):

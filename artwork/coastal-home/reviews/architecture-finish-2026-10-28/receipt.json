@@ -1,0 +1,21 @@
+{
+  "tool": "bin/refresh_coastal_architecture_finish.py",
+  "version": 1,
+  "sourceBeforeSha256": "70c8235971a067d9b8d49d369b06e98c13ce44231a3d8d9c8b0eac040a37b008",
+  "sourceAfterSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681",
+  "manifestSha256": "f80ef39ce0520f5540579d32800a15e3bf9e62800e3f62fecdbb9903180ccab9",
+  "steps": {
+    "bath-roof-reveal": {
+      "mesh": "core_bathwing_liftaway_roof",
+      "lowerPlaneBeforeNativeZ": 5.17,
+      "lowerPlaneNativeZ": 5.178,
+      "gapM": 0.008,
+      "scope": "Only the separate bathwing roof underside; all roof tops, treads, floors, core and coast remain fixed",
+      "movedVertices": [51, 52, 293, 294, 453, 470, 471, 472, 473, 497],
+      "unchangedVertices": 491,
+      "nonmanifoldEdges": 0
+    }
+  },
+  "candidate": ".jekyll-cache\\visual-qa\\finish-house-2026-10-26\\attempts\\v84\\candidate.blend",
+  "applied": false
+}

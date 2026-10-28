@@ -20,7 +20,7 @@ import subprocess
 import sys
 from pathlib import Path
 import bpy
-from mathutils import Vector
+from mathutils import Matrix, Vector
 from mathutils.bvhtree import BVHTree
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,6 +29,13 @@ from coastal_bedding import MATTRESS, SLEEP_ACTOR
 from coastal_likeness import SLEEP_BACK_Y, STYLES, HeadFrame, components, likeness_vertices
 
 args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
+options = {arg[2:].split("=", 1)[0]: arg.split("=", 1)[1] for arg in args if arg.startswith("--") and "=" in arg}
+def option_path(name, default):
+    path = Path(options.get(name, default))
+    return path if path.is_absolute() else ROOT / path
+HOUSE = option_path("source", "artwork/coastal-home/coastal-home.blend")
+MANIFEST = option_path("manifest", "assets/models/home/manifest.json")
+BEDDING = option_path("bedding", "artwork/coastal-home/reviews/bedding.json")
 reference = next((a.split("=", 1)[1] for a in args if a.startswith("--baseline-ref=")), "f403dfead")
 requested = [a.split("=", 1)[1] for a in args if a.startswith("--avatar=")] or list(STYLES)
 CACHE = ROOT / ".jekyll-cache/visual-qa/character-likeness"
@@ -268,21 +275,37 @@ for style in requested:
                       "deepestBody": {c: r["deepestMeters"] for c, r in after_body.items()}}), flush=True)
 
 # Bedding advisory against the retained house source, opened read-only and never saved.
-bpy.ops.wm.open_mainfile(filepath=str(ROOT / "artwork/coastal-home/coastal-home.blend"))
-fitted = json.loads((ROOT / "artwork/coastal-home/reviews/bedding.json").read_text())["variants"]
-mattress_top = MATTRESS["center"][2] + MATTRESS["size"][2] / 2
+bpy.ops.wm.open_mainfile(filepath=str(HOUSE))
+house_config = json.loads(MANIFEST.read_text(encoding="utf-8"))
+sleep_room = next(room for room in house_config["rooms"] if room["id"] == "sleep")
+sx, sy, sz = sleep_room["actor"]
+translation = Vector((sx, -sz, sy)) - SLEEP_ACTOR
+if abs(sleep_room.get("facing", 0.)) > 1e-8:
+    raise RuntimeError("The bedding advisory's hem bounds require the actual zero-yaw sleep frame")
+fitted = json.loads(BEDDING.read_text(encoding="utf-8"))["variants"]
+mattress_top = MATTRESS["center"][2] + MATTRESS["size"][2] / 2 + translation.z
 graph = bpy.context.evaluated_depsgraph_get()
+def world_tree(obj):
+    evaluated = obj.evaluated_get(graph)
+    data = evaluated.to_mesh()
+    data.calc_loop_triangles()
+    tree = BVHTree.FromPolygons([evaluated.matrix_world @ vertex.co for vertex in data.vertices],
+        [list(face.vertices) for face in data.loop_triangles], all_triangles=True)
+    evaluated.to_mesh_clear()
+    return tree
 advice = {}
 for style, frames in bedding_points.items():
+    frames = [{"frame": frame["frame"], "head": [point+translation for point in frame["head"]],
+               "features": [point+translation for point in frame["features"]]} for frame in frames]
     pillow, cover = bpy.data.objects[f"sleep_pillow_{style}"], bpy.data.objects[f"sleep_duvet_{style}"]
-    pillow_tree, cover_tree = BVHTree.FromObject(pillow, graph), BVHTree.FromObject(cover, graph)
+    pillow_tree, cover_tree = world_tree(pillow), world_tree(cover)
     pc = [pillow.matrix_world @ Vector(c) for c in pillow.bound_box]
     p_low = Vector([min(p[k] for p in pc) for k in range(3)])
     p_high = Vector([max(p[k] for p in pc) for k in range(3)])
     cc = [cover.matrix_world @ Vector(c) for c in cover.bound_box]
     c_low = Vector([min(p[k] for p in cc) for k in range(3)])
     c_high = Vector([max(p[k] for p in cc) for k in range(3)])
-    hem = fitted[style]["duvet"]["hemY"]
+    hem = fitted[style]["duvet"]["hemY"] + translation.y
     worst_pillow = worst_cover = 0.0
     inside_pillow = above_cover = 0
     chin = min(p.y for f in frames for p in f["head"])
@@ -308,12 +331,14 @@ for style, frames in bedding_points.items():
     }
     print(style, json.dumps(advice[style]), flush=True)
 
-output = ROOT / "artwork/coastal-home/reviews/character-likeness-review.json"
+output = option_path("out", "artwork/coastal-home/reviews/character-likeness-review.json")
+output.parent.mkdir(parents=True, exist_ok=True)
 output.write_text(json.dumps({
-    "baselineRef": reference,
+    "baselineRef": reference, "houseSourceSha256": hashlib.sha256(HOUSE.read_bytes()).hexdigest(),
+    "houseManifestSha256": hashlib.sha256(MANIFEST.read_bytes()).hexdigest(), "sleepActor": sleep_room["actor"],
     "method": "Exact digests of everything outside the replaced head features; ray-parity and nearest-surface "
               "tests on actual rest and deformed Blender meshes at five key times per clip",
     "limitations": "Sampled vertex tests, not continuous collision proof. Hair is rigidly skinned to Head; "
                    "it has no secondary motion. Bedding advice is read-only; refresh_coastal_bedding.py owns the refit.",
-    "avatars": reports, "beddingAdvisory": advice}, indent=2) + "\n")
+    "avatars": reports, "beddingAdvisory": advice}, indent=2) + "\n", encoding="utf-8", newline="\n")
 print(output, flush=True)

@@ -39,10 +39,11 @@ BACK_TOP = SEAT_TOP + 0.44
 UPSTAND, BACK_CUSHION, SEAT_DEPTH = 0.08, 0.14, 0.42
 RUN = UPSTAND + BACK_CUSHION + SEAT_DEPTH  # 0.64 from the pit's edge to the seat front
 RUN_END = 2.0  # the end runs stop here, short of the tread along the sea side
+NORTH_UPSTAND_END = 1.76  # stop the hard lining behind the delivered cloud sofa's rounded end
 TREAD = (2.35, PIT["y"][1])  # one oak tread across the open sea side
 # Sirui's place on the inland run: hips 12 cm in front of the back cushion, facing the sea. The seated
 # clips sit 51.5 cm over the actor and rest the feet 22 cm over it.
-SEAT = (-0.15, PIT["y"][0] + UPSTAND + BACK_CUSHION + 0.12)
+SEAT = (0.10, PIT["y"][0] + UPSTAND + BACK_CUSHION + 0.12)
 SEAT_ACTOR_Z = SEAT_TOP - 0.515
 FEET_Z = SEAT_ACTOR_Z + 0.22
 FLOOR_CUSHIONS = ((-0.15, 0.02), (0.15, 1.95))
@@ -178,6 +179,8 @@ def build_pit(p, m):
             back = ((ax1 - UPSTAND - BACK_CUSHION, ay0), (ax1 - UPSTAND, ay1))
             up = ((ax1 - UPSTAND, ay0), (ax1, ay1))
         (ux0, uy0), (ux1, uy1) = up
+        if side == "north":
+            uy1 = min(uy1, NORTH_UPSTAND_END)
         box(plaster, ((ux0 + ux1) / 2, (uy0 + uy1) / 2, (PIT_FLOOR + BACK_TOP) / 2), (ux1 - ux0, uy1 - uy0, BACK_TOP - PIT_FLOOR), 0.01)
         (sx0, sy0), (sx1, sy1) = seat
         box(smoked, ((sx0 + sx1) / 2, (sy0 + sy1) / 2, (PIT_FLOOR + SEAT_TOP - 0.13) / 2), (sx1 - sx0 - 0.05, sy1 - sy0 - 0.05, SEAT_TOP - 0.13 - PIT_FLOOR), 0.01)
@@ -204,8 +207,8 @@ def build_pit(p, m):
             cushion(boucle, (ax0 + 0.02, ay1 - 0.16, PIT_FLOOR + 0.02), (ax1 - 0.02, ay1, SEAT_TOP + 0.12), 0.08)
     # Oak caps along the upstands' tops, flush with the floor's nosing.
     box(oak, ((x0 + x1) / 2, y0 + UPSTAND / 2, BACK_TOP + 0.014), (x1 - x0, UPSTAND + 0.03, 0.028), 0.008)
-    for ux in (x0 + UPSTAND / 2, x1 - UPSTAND / 2):
-        box(oak, (ux, (y0 + UPSTAND + RUN_END) / 2, BACK_TOP + 0.014), (UPSTAND + 0.03, RUN_END - y0 - UPSTAND, 0.028), 0.008)
+    for ux, end in ((x0 + UPSTAND / 2, RUN_END), (x1 - UPSTAND / 2, NORTH_UPSTAND_END)):
+        box(oak, (ux, (y0 + UPSTAND + end) / 2, BACK_TOP + 0.014), (UPSTAND + 0.03, end - y0 - UPSTAND, 0.028), 0.008)
     # Throw pillows: indigo and ochre against the white, a terracotta one at Sirui's elbow.
     for mat, (x, y), axis in (
         ("indigo", (x0 + RUN - 0.2, 0.75), "y"),

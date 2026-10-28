@@ -14,6 +14,7 @@ and bin/review_coastal_models.py.
 """
 
 import json
+import hashlib
 import sys
 from pathlib import Path
 import bpy
@@ -22,11 +23,37 @@ from mathutils.bvhtree import BVHTree
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "bin"))
+import coastal_bedding
 from coastal_bedding import AVATARS, MATTRESS, OLD_PILLOW, draped_duvet, pillow, remove_component, sleepers
 
 SOURCE = ROOT / "artwork/coastal-home"
-bodies = sleepers(SOURCE)
-bpy.ops.wm.open_mainfile(filepath=str(SOURCE / "coastal-home.blend"))
+ARGS = {a[2:].split("=", 1)[0]: a.split("=", 1)[1] for a in sys.argv if a.startswith("--") and "=" in a}
+def option_path(name, default):
+    path = Path(ARGS.get(name, default))
+    return path if path.is_absolute() else ROOT / path
+
+house_source = option_path("source", "artwork/coastal-home/coastal-home.blend")
+house_output = option_path("source-out", str(house_source))
+manifest = option_path("manifest", "assets/models/home/manifest.json")
+report = option_path("report", "artwork/coastal-home/reviews/bedding.json")
+config = json.loads(manifest.read_text(encoding="utf-8"))
+room = next(room for room in config["rooms"] if room["id"] == "sleep")
+destination = Vector((room["actor"][0], -room["actor"][2], room["actor"][1]))
+translation = destination - coastal_bedding.SLEEP_ACTOR
+if config.get("estateLibrary", {}).get("adjacentBedchamber"):
+    # Solve in the original neutral body frame, against the real table's new
+    # east-side position, then translate the complete solved cloth assembly.
+    coastal_bedding.BEDSIDE["center"] = (-2.07, -2.47)
+avatar_source = option_path("avatar-source", str(SOURCE))
+bodies = sleepers(avatar_source)
+envelope_digest = hashlib.sha256()
+import numpy as np
+for body in bodies:
+    envelope_digest.update(f"{body['avatar']}:{body['frame']}\n".encode("ascii"))
+    envelope_digest.update(np.asarray([tuple(point) for point in body["points"]], dtype="<f4").tobytes())
+    envelope_digest.update(np.asarray(body["triangles"], dtype="<i4").tobytes())
+    envelope_digest.update(np.asarray(body["head"], dtype=np.uint8).tobytes())
+bpy.ops.wm.open_mainfile(filepath=str(house_source))
 linen = bpy.data.materials["linen"]
 sage = bpy.data.materials["sage textile"]
 
@@ -41,6 +68,13 @@ summary = {
     "ray casts with an 8 cm tension funnel; duvet settled by coloured Gauss-Seidel position-based dynamics over "
     "the upper envelope of sleeper, pillow, mattress, frame and bedside table, trimmed 7 cm below the chin",
     "oldPillowVerticesRemoved": removed,
+    "neutralFrameTranslationNativeM": list(translation),
+    "bedsideSupportNeutralFrame": coastal_bedding.BEDSIDE,
+    "coverMetricScope": "Legacy top-minus30mm vertical estimate for the filled cover; tilted/folded cloth requires actual triangle and rendered skin review. This is not a signed material-penetration metric.",
+    "bodyEnvelopeSha256": envelope_digest.hexdigest(),
+    "avatarSource": {"kind": "five-scene finish library" if avatar_source.is_file() else "original five native sources",
+        "sha256": hashlib.sha256(avatar_source.read_bytes()).hexdigest() if avatar_source.is_file() else {
+            avatar: hashlib.sha256((avatar_source / f"sirui-{avatar}.blend").read_bytes()).hexdigest() for avatar in AVATARS}},
     "variants": {},
 }
 for variant in ("empty",) + AVATARS:
@@ -82,9 +116,12 @@ for variant in ("empty",) + AVATARS:
         entry.update({"coverChecked": checked, "aboveCoverUnderside": above, "worstAboveCoverUndersideMeters": round(worst_above, 4),
                       "insidePillow": inside, "worstInsidePillowMeters": round(worst_inside, 4)})
     summary["variants"][variant] = entry
+    for obj in (pillow_obj, cover):
+        obj.location += translation
     print(variant, json.dumps(entry), flush=True)
 
 bpy.context.preferences.filepaths.save_version = 0
-bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE / "coastal-home.blend"), compress=True)
-(SOURCE / "reviews/bedding.json").write_text(json.dumps(summary, indent=2) + "\n")
+bpy.ops.wm.save_as_mainfile(filepath=str(house_output), compress=True)
+report.parent.mkdir(parents=True, exist_ok=True)
+report.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8", newline="\n")
 print(json.dumps(summary, indent=2), flush=True)

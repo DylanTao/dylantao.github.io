@@ -1,0 +1,120 @@
+{
+  "candidate": "v84",
+  "scope": "Bounded native checkpoint; canonical cache, production arrival and coordinator review remain outstanding",
+  "sourceFilesLfSha256": {
+    "bin/audit_coastal_architecture_finish.py": "c1893b44cb1981de7cb660bc2884912b74a6c2f8c7c3f6922f68f5276f1a96fa",
+    "bin/audit_coastal_export_geometry.py": "9eaf3802c638fa602efb0d8cf47a383cb0633b71e4167576b03e16d356a70fb3",
+    "bin/audit_coastal_overlap_volume.py": "0c8feaae29d5d5e33743966d4d4d2096bffe43a979789e5fd8555a401f14053b",
+    "bin/audit_coastal_rail_wardrobe.py": "88d777cf9b62a52548ab78959e79587403d839794448fb1a4b30e1045459f49d",
+    "bin/audit_coastal_overlaps.py": "925eaee2e04132dd7d1dbbd909d144b060af783352bf586452e7e6228350e5fe",
+    "bin/coastal_architecture_finish.py": "3377f69b86e7a33b99368e75e0a6f793a1edc4a08c80fba399075b49cd1ab3bb",
+    "bin/coastal_bed_transfer.py": "fd28229ef57ce905e1209c28710913c79ce28a6dafa35078ed5b04e361b17570",
+    "bin/coastal_cliff_finish.py": "b4cc66b844da0ecc7b86acd1c733f88da774ad4bacfa1f6fe21589afb78afa92",
+    "bin/coastal_export_geometry.py": "83371b3128462af0bcb52fa366c6f2af3e720bf11f13a44115be440763e2f84f",
+    "bin/refresh_coastal_architecture_finish.py": "95fa3d5401a15a580a7eb9878ac13dad0a2bd6f67cda58e9a0f9dc5f839f2c98",
+    "bin/render_coastal_architecture_finish.py": "2c99bef05ef1a1db35b9f365e8ec594892222e2e73216f529f138643460ba291",
+    "bin/survey_coastal_architecture_finish.py": "ebb7c6168fc1173280a57adc304aad597d76f4172d41ff28d47b81776df829f6",
+    "bin/summarize_coastal_overlaps.py": "44109f9029dbb695b0bee3025a28131546b8253688e4c0c10bb7025ae939e8f7",
+    "bin/optimize_coastal_exports.py": "175905df1edbd161473700e8a753ac4ca64e9a48ab6336a4f01fbcb5b19f4171",
+    "bin/bake_coastal_light.py": "615ce3e1d0e04006cf4bff8e417fa149c23c947d06625126b471e690092af676",
+    "bin/build_coastal_perch_support.py": "4d845d605183fa7a165af684c050388f9d18fa1cea1d3a256196207242f93c1d",
+    "bin/coastal_bathrooms.py": "8fe103216caadf561ea8ed0440e82fe671fe655998209f19a554233723c46823",
+    "bin/coastal_bedding.py": "4bd93c844e6425459e3700c8e7ce586360a91e9832cfd88294700396bce91435",
+    "bin/coastal_camera.py": "2b78540d4fb8edb500280e5a8a1bf68327d448e2f2681b743d6a6edc6326de12",
+    "bin/coastal_estate_architecture.py": "55807c3fe73b89ecc3c6cf79adfa610b5ad8b4f40d948fcbbf6d16d47fc9b44b",
+    "bin/coastal_living.py": "23b6e2518fd009ca2ee56d51daf6e4f61332bca608b0de2a6acb0196872e3a0a",
+    "bin/coastal_office.py": "2eac1215ea981ad9f099fa5a231853f9413c38c792b745272694a3661d5da9cb",
+    "bin/coastal_retreat.py": "d2621fdbea996cee18718880ad0c3abbe4671fe3f38ac90c0fed0d5d3efde263",
+    "bin/refresh_coastal_bedding.py": "06acb2ad27f13e87505d5469e2cf863e890c8187329e3d53ae382fa1da116527",
+    "bin/refresh_coastal_flora.py": "816b6e0f918312009f8076c83089f47ba5bfe8a68e952a9cd94341d3b6746d8d",
+    "bin/review_coastal_likeness.py": "c60f2ebeac057c2107c82c4795c85bae94822e497a1771da0ad0ad691c00e303",
+    "bin/review_coastal_models.py": "df79330950ad561091d4817847619ff9988aefb151e571cf9ab19f7acc677ce2",
+    "bin/review_coastal_retreat.py": "48f153b23b03c43417350f282ef6451e1514d05b08964c2f3c449954e4632f73",
+    "test/test_coastal_assets.py": "d63926f89eb13a5f29de4f61e9ed9a9a445fca0186dba9642257056e7455ef3e",
+    "bin/measure_coastal_bed_footprints.mjs": "20f340e72729d1bb7192c662d90924b67a2b8d8c021cbae25cbb015117fa4c4f",
+    "test/coastal-estate-native.test.mjs": "fa9a17c8ccb84e85c33a5fbc53831d8154c433a28b9d5d78386f80bfdb1e2ae9",
+    "test/coastal-navigation.test.mjs": "c140c871b6ffd24438f96ef6c7d5bab85f8b1a6a5997a58833be62b87ce607cb",
+    "test/coastal-architecture-finish.test.mjs": "9ccc214a60fc85031f602335f85d7ea411bf5aaaed5330b1324182c31199c42b",
+    "test/visual/architecture-finish.spec.js": "6e1a2049feede055cda85ce79752d34dedf6965b0a0db42d8ee52a61c0d65b2a",
+    "test/visual/architecture-finish.config.js": "78448162e02adeb018e801a904aa2603ab66056679d2c599e3e180a84760ee38"
+  },
+  "nodeCandidate": {
+    "command": ["node.exe", "--test", "test/coastal-estate-native.test.mjs", "test/coastal-architecture-finish.test.mjs"],
+    "exitCode": 0
+  },
+  "pythonCandidate": {
+    "targetedPythonTests": {
+      "methods": [
+        "test_exported_room_anchors_match_the_two_storey_runtime",
+        "test_each_avatar_has_an_actual_blender_study_and_one_shared_wall_print",
+        "test_every_export_and_editable_source_exists",
+        "test_all_five_characters_have_contact_and_daily_activity_clips"
+      ],
+      "run": 4,
+      "failures": 0,
+      "errors": 0,
+      "passed": true
+    },
+    "pythonCompilation": {
+      "files": [
+        "bin/audit_coastal_architecture_finish.py",
+        "bin/audit_coastal_export_geometry.py",
+        "bin/audit_coastal_overlap_volume.py",
+        "bin/audit_coastal_rail_wardrobe.py",
+        "bin/audit_coastal_overlaps.py",
+        "bin/coastal_architecture_finish.py",
+        "bin/coastal_bed_transfer.py",
+        "bin/coastal_cliff_finish.py",
+        "bin/coastal_export_geometry.py",
+        "bin/refresh_coastal_architecture_finish.py",
+        "bin/render_coastal_architecture_finish.py",
+        "bin/survey_coastal_architecture_finish.py",
+        "bin/summarize_coastal_overlaps.py",
+        "bin/optimize_coastal_exports.py",
+        "bin/bake_coastal_light.py",
+        "bin/build_coastal_perch_support.py",
+        "bin/coastal_bathrooms.py",
+        "bin/coastal_bedding.py",
+        "bin/coastal_camera.py",
+        "bin/coastal_estate_architecture.py",
+        "bin/coastal_living.py",
+        "bin/coastal_office.py",
+        "bin/coastal_retreat.py",
+        "bin/refresh_coastal_bedding.py",
+        "bin/refresh_coastal_flora.py",
+        "bin/review_coastal_likeness.py",
+        "bin/review_coastal_models.py",
+        "bin/review_coastal_retreat.py",
+        "test/test_coastal_assets.py"
+      ],
+      "passed": true
+    }
+  },
+  "overlapRatchets": {
+    "scope": "Mechanical unchanged ratchets and candidate pair-bound proposals only; coordinator review still required",
+    "run": 5,
+    "failures": 0,
+    "errors": 0,
+    "passed": true
+  },
+  "canonicalNavigationUnit": {
+    "command": ["node.exe", "--test", "test/coastal-navigation.test.mjs"],
+    "exitCode": 0
+  },
+  "publicViewportRun": {
+    "command": [
+      "node.exe",
+      "C:/dev/dylantao.github.io/node_modules/@playwright/test/cli.js",
+      "test",
+      "--config=test/visual/architecture-finish.config.js",
+      "--output=.jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/browser-public-views"
+    ],
+    "exitCode": 0
+  },
+  "fourKResult": {
+    "status": "passed",
+    "failedTests": []
+  },
+  "excludedDirtyWork": ["bin/build_loading_sketch.cjs", "test/loading-sketch.test.mjs"],
+  "fullCanonicalUnittestSuite": "Deferred until coordinator admits the source-bound canonical audit; the old canonical report correctly cannot bind this changed audit tool."
+}

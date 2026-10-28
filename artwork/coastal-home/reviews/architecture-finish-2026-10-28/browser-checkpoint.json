@@ -1,0 +1,317 @@
+{
+  "scope": "Functional appearance and public interaction checks; no isolated performance claim",
+  "viewportLog": {
+    "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/browser-public-views.log",
+    "bytes": 2252,
+    "sha256": "cdf7a17720f8c5251c5e0a034409188665627e70bc4ec11bda03917d3e779b5d"
+  },
+  "fourKLog": {
+    "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/browser-sealed-control.log",
+    "bytes": 1938,
+    "sha256": "3c9a671e2676af37fd90d0745772664ba682c3e9e1d814c0473414b01eec0278"
+  },
+  "runs": [
+    {
+      "project": "desktop-1440",
+      "actualDrawingBuffer": [1440, 1000],
+      "visits": ["sleep", "study", "library", "onsen", "overview", "outside"],
+      "dragPixels": {
+        "changedPixels": 1428576,
+        "meanMaximumChannelError": 50.753413888888886,
+        "width": 1440,
+        "height": 1000
+      },
+      "zoomPixels": {
+        "changedPixels": 1412099,
+        "meanMaximumChannelError": 47.464075,
+        "width": 1440,
+        "height": 1000
+      },
+      "runtimeState": {
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/browser-public-views/architecture-finish-finish-22272--through-public-room-visits-desktop-1440/architecture-native-and-public-state.json",
+        "bytes": 1265218,
+        "sha256": "a09f8338e6e87a6c88cbdbb31bd56b757a22c83dab501c47c637bdc073fe43f6"
+      },
+      "firstReady": {
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/browser-public-views/architecture-finish-finish-22272--through-public-room-visits-desktop-1440/architecture-first-ready.json",
+        "bytes": 165670,
+        "sha256": "21173f43ede3b1a051f18fc92b132d7fe469d3f33a711a7c841948d4a56155fd"
+      },
+      "lightField": {
+        "snapshotBytesBeforeSourceInputs": 780476,
+        "snapshotGzipBytesBeforeSourceInputs": 263392,
+        "statistics": {
+          "ready": true,
+          "triangles": 619481,
+          "meshes": 430,
+          "skippedMeshes": 144,
+          "skippedTriangles": 116123,
+          "geometryMs": 3690,
+          "acceleratorMs": 3077,
+          "transportMs": 2904,
+          "bakeMs": 9671,
+          "maxTaskMs": 335,
+          "relocatedProbes": 2,
+          "rejectedProbes": 4,
+          "acceleratorBytes": 52036864,
+          "trace": {
+            "rays": 90091,
+            "triangleTests": 3801909,
+            "boxTests": 24658701
+          }
+        },
+        "configuration": "{\"regions\":[{\"id\":\"study\",\"min\":[-12.05,-0.050000000000000266,3.55],\"max\":[-9.1,2.1,5.8500000000000005]},{\"id\":\"sleep\",\"min\":[-4.3,2.55,10],\"max\":[-1.85,4.4,12.8]},{\"id\":\"onsen\",\"min\":[2,2.55,9.9],\"max\":[4.45,4.9,12.4]},{\"id\":\"kitchen\",\"min\":[-5,-0.45,3.6500000000000004],\"max\":[-1.95,2.15,8.6]},{\"id\":\"dining\",\"min\":[-4,-0.05,9.35],\"max\":[0.2,2.3,13]},{\"id\":\"living\",\"min\":[-1.1,-0.05,5.1],\"max\":[1.1,2.2,7.45]},{\"id\":\"lounge\",\"min\":[1.9,-0.05,3.95],\"max\":[4.4,2.4,7.8]},{\"id\":\"nearhouse\",\"min\":[-5,-0.05,2.3],\"max\":[5,4,4.3]},{\"id\":\"gym\",\"min\":[6.1,-0.05,4.8],\"max\":[10.9,2.4,8.95]},{\"id\":\"library\",\"min\":[-12.6,0,0.8],\"max\":[-8.45,5.6,10.5]},{\"id\":\"library-upper\",\"min\":[-1.65,2.55,10.25],\"max\":[1.3,4.7,12.55]},{\"id\":\"bath-living\",\"min\":[-8.25,0,9.85],\"max\":[-4.38,2.35,14.1]},{\"id\":\"bath-bedroom\",\"min\":[-8.25,2.6,9.85],\"max\":[-4.38,4.95,14.1]},{\"id\":\"outdoor-pavilion\",\"min\":[3.65,-0.04,-3.55],\"max\":[7.9,2.65,1.35]},{\"id\":\"retreat-short-link\",\"min\":[-9.9,-0.08,8.2],\"max\":[-3.75,5.2,9.85]},{\"id\":\"arrival-hall\",\"min\":[-3.4,-0.05,16.4],\"max\":[3.3,6.9,23]}],\"practicalSources\":[{\"id\":\"study\",\"position\":[-11.370000000000001,1.2799999999999998,3.7199999999999998],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":6,\"emitterRadius\":0.18},{\"id\":\"sleep\",\"position\":[-4.13,3.47,10.47],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.18},{\"id\":\"kitchen\",\"position\":[-4.99,1.95,4.9],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.18},{\"id\":\"lounge\",\"position\":[-1.2,1.42,4.45],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.26},{\"id\":\"bath\",\"position\":[3.68,3.388,10.2],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.3,\"emitterRadius\":0.18},{\"id\":\"gym\",\"position\":[8.6,2.3,7.6],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.5,\"emitterRadius\":0.18},{\"id\":\"terrace-west\",\"position\":[-4.75,0.170405,3.88],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.8,\"emitterRadius\":0.18},{\"id\":\"terrace-east\",\"position\":[3.9,0.170405,3.88],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.8,\"emitterRadius\":0.18},{\"id\":\"library:tall-books-west\",\"position\":[-12.19,4.72,7.75],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-12.65,-0.05,0.75],\"max\":[-8.399999999999999,5.6499999999999995,10.55]}},{\"id\":\"library:tall-books-east\",\"position\":[-8.91,4.72,2.3],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-12.65,-0.05,0.75],\"max\":[-8.399999999999999,5.6499999999999995,10.55]}},{\"id\":\"bath-living:mirror\",\"position\":[-8.1,2.16,11.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-living:vanity-underlight\",\"position\":[-7.93,0.352,11.649999999999999],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-living:shower\",\"position\":[-6.535,2.24,9.96],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-bedroom:mirror\",\"position\":[-8.1,4.76,11.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"bath-bedroom:vanity-underlight\",\"position\":[-7.93,2.952,11.649999999999999],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"bath-bedroom:shower\",\"position\":[-6.535,4.84,9.96],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"installation:short-bedroom-link\",\"position\":[-6.475,4.85,9.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-9.950000000000001,-0.13,8.149999999999999],\"max\":[-3.7,5.25,9.9]}},{\"id\":\"installation:arrival-rail-a\",\"position\":[3.23,2.1500000000000004,19.560000000000002],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:arrival-rail-b\",\"position\":[-0.10000000000000009,4.875,16.47],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:arrival-rail-c\",\"position\":[-3.33,7.7250000000000005,19.700000000000003],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,5.150000000000001,16.249999999999996],\"max\":[-2.1000000000000005,10.750000000000002,23.25]}},{\"id\":\"installation:arrival-well-wash\",\"position\":[0.5499999999999998,5.9,22.93],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:bedchamber-warm-cove\",\"position\":[-6.79,4.25,8.435],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.58,1.4,3.25],\"max\":[-5.1000000000000005,5.3,8.67]}},{\"id\":\"installation:corridor-niche-0\",\"position\":[-7.66,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.290000000000001,-0.04,8.549999999999999],\"max\":[-7.03,2.4,9.850000000000001]}},{\"id\":\"installation:corridor-niche-1\",\"position\":[-6.51,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-7.14,-0.04,8.549999999999999],\"max\":[-5.88,2.4,9.850000000000001]}},{\"id\":\"installation:corridor-niche-2\",\"position\":[-5.36,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-5.99,-0.04,8.549999999999999],\"max\":[-4.73,2.4,9.850000000000001]}},{\"id\":\"installation:library-hearth\",\"position\":[-11.95,0.56,2.9],\"color\":[1,0.45,0.15],\"distance\":5,\"emitterRadius\":0.22,\"region\":{\"min\":[-12.600000000000001,-0.1,0.7999999999999999],\"max\":[-8.5,5.7,10.55]}},{\"id\":\"installation:arrival-daylight-0\",\"position\":[0.15,5.935,18.65],\"color\":[1,0.84,0.63],\"distance\":0,\"emitterRadius\":0.064,\"region\":{\"min\":[-3.5,-0.15000000000000002,16.09],\"max\":[3.4,7.35,23.25]}},{\"id\":\"installation:arrival-daylight-1\",\"position\":[0.15,5.935,20.75],\"color\":[1,0.84,0.63],\"distance\":0,\"emitterRadius\":0.064,\"region\":{\"min\":[-3.5,-0.15000000000000002,16.09],\"max\":[3.4,7.35,23.25]}}],\"raysPerProbe\":64,\"skyRaysPerHit\":8,\"maxTraceDistance\":16,\"maxTriangles\":750000}",
+        "scope": "Actual new field, no saved cache; final source inputs and cache publication belong to the coordinator"
+      },
+      "passed": true
+    },
+    {
+      "project": "laptop-1280",
+      "actualDrawingBuffer": [1280, 800],
+      "visits": ["sleep", "study", "library", "onsen", "overview", "outside"],
+      "dragPixels": {
+        "changedPixels": 1011405,
+        "meanMaximumChannelError": 52.7258310546875,
+        "width": 1280,
+        "height": 800
+      },
+      "zoomPixels": {
+        "changedPixels": 1015669,
+        "meanMaximumChannelError": 58.3428427734375,
+        "width": 1280,
+        "height": 800
+      },
+      "runtimeState": {
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/browser-public-views/architecture-finish-finish-22272--through-public-room-visits-laptop-1280/architecture-native-and-public-state.json",
+        "bytes": 1265218,
+        "sha256": "081359e298cf29dc2ebe0c884b6a26e24ea0fc48cf40ba4392a03a1aeb2f18b8"
+      },
+      "firstReady": {
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/browser-public-views/architecture-finish-finish-22272--through-public-room-visits-laptop-1280/architecture-first-ready.json",
+        "bytes": 165677,
+        "sha256": "db7071507d08e86831aff06fca9906fad42b4182ebe4a5a6f3d463d3a7c6dbb2"
+      },
+      "lightField": {
+        "snapshotBytesBeforeSourceInputs": 780477,
+        "snapshotGzipBytesBeforeSourceInputs": 263395,
+        "statistics": {
+          "ready": true,
+          "triangles": 619481,
+          "meshes": 430,
+          "skippedMeshes": 165,
+          "skippedTriangles": 116123,
+          "geometryMs": 3275,
+          "acceleratorMs": 3053,
+          "transportMs": 4408,
+          "bakeMs": 10736,
+          "maxTaskMs": 260,
+          "relocatedProbes": 2,
+          "rejectedProbes": 4,
+          "acceleratorBytes": 52036864,
+          "trace": {
+            "rays": 90091,
+            "triangleTests": 3706887,
+            "boxTests": 24647076
+          }
+        },
+        "configuration": "{\"regions\":[{\"id\":\"study\",\"min\":[-12.05,-0.050000000000000266,3.55],\"max\":[-9.1,2.1,5.8500000000000005]},{\"id\":\"sleep\",\"min\":[-4.3,2.55,10],\"max\":[-1.85,4.4,12.8]},{\"id\":\"onsen\",\"min\":[2,2.55,9.9],\"max\":[4.45,4.9,12.4]},{\"id\":\"kitchen\",\"min\":[-5,-0.45,3.6500000000000004],\"max\":[-1.95,2.15,8.6]},{\"id\":\"dining\",\"min\":[-4,-0.05,9.35],\"max\":[0.2,2.3,13]},{\"id\":\"living\",\"min\":[-1.1,-0.05,5.1],\"max\":[1.1,2.2,7.45]},{\"id\":\"lounge\",\"min\":[1.9,-0.05,3.95],\"max\":[4.4,2.4,7.8]},{\"id\":\"nearhouse\",\"min\":[-5,-0.05,2.3],\"max\":[5,4,4.3]},{\"id\":\"gym\",\"min\":[6.1,-0.05,4.8],\"max\":[10.9,2.4,8.95]},{\"id\":\"library\",\"min\":[-12.6,0,0.8],\"max\":[-8.45,5.6,10.5]},{\"id\":\"library-upper\",\"min\":[-1.65,2.55,10.25],\"max\":[1.3,4.7,12.55]},{\"id\":\"bath-living\",\"min\":[-8.25,0,9.85],\"max\":[-4.38,2.35,14.1]},{\"id\":\"bath-bedroom\",\"min\":[-8.25,2.6,9.85],\"max\":[-4.38,4.95,14.1]},{\"id\":\"outdoor-pavilion\",\"min\":[3.65,-0.04,-3.55],\"max\":[7.9,2.65,1.35]},{\"id\":\"retreat-short-link\",\"min\":[-9.9,-0.08,8.2],\"max\":[-3.75,5.2,9.85]},{\"id\":\"arrival-hall\",\"min\":[-3.4,-0.05,16.4],\"max\":[3.3,6.9,23]}],\"practicalSources\":[{\"id\":\"study\",\"position\":[-11.370000000000001,1.2799999999999998,3.7199999999999998],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":6,\"emitterRadius\":0.18},{\"id\":\"sleep\",\"position\":[-4.13,3.47,10.47],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.18},{\"id\":\"kitchen\",\"position\":[-4.99,1.95,4.9],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.18},{\"id\":\"lounge\",\"position\":[-1.2,1.42,4.45],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.26},{\"id\":\"bath\",\"position\":[3.68,3.388,10.2],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.3,\"emitterRadius\":0.18},{\"id\":\"gym\",\"position\":[8.6,2.3,7.6],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.5,\"emitterRadius\":0.18},{\"id\":\"terrace-west\",\"position\":[-4.75,0.170405,3.88],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.8,\"emitterRadius\":0.18},{\"id\":\"terrace-east\",\"position\":[3.9,0.170405,3.88],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.8,\"emitterRadius\":0.18},{\"id\":\"library:tall-books-west\",\"position\":[-12.19,4.72,7.75],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-12.65,-0.05,0.75],\"max\":[-8.399999999999999,5.6499999999999995,10.55]}},{\"id\":\"library:tall-books-east\",\"position\":[-8.91,4.72,2.3],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-12.65,-0.05,0.75],\"max\":[-8.399999999999999,5.6499999999999995,10.55]}},{\"id\":\"bath-living:mirror\",\"position\":[-8.1,2.16,11.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-living:vanity-underlight\",\"position\":[-7.93,0.352,11.649999999999999],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-living:shower\",\"position\":[-6.535,2.24,9.96],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-bedroom:mirror\",\"position\":[-8.1,4.76,11.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"bath-bedroom:vanity-underlight\",\"position\":[-7.93,2.952,11.649999999999999],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"bath-bedroom:shower\",\"position\":[-6.535,4.84,9.96],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"installation:short-bedroom-link\",\"position\":[-6.475,4.85,9.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-9.950000000000001,-0.13,8.149999999999999],\"max\":[-3.7,5.25,9.9]}},{\"id\":\"installation:arrival-rail-a\",\"position\":[3.23,2.1500000000000004,19.560000000000002],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:arrival-rail-b\",\"position\":[-0.10000000000000009,4.875,16.47],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:arrival-rail-c\",\"position\":[-3.33,7.7250000000000005,19.700000000000003],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,5.150000000000001,16.249999999999996],\"max\":[-2.1000000000000005,10.750000000000002,23.25]}},{\"id\":\"installation:arrival-well-wash\",\"position\":[0.5499999999999998,5.9,22.93],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:bedchamber-warm-cove\",\"position\":[-6.79,4.25,8.435],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.58,1.4,3.25],\"max\":[-5.1000000000000005,5.3,8.67]}},{\"id\":\"installation:corridor-niche-0\",\"position\":[-7.66,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.290000000000001,-0.04,8.549999999999999],\"max\":[-7.03,2.4,9.850000000000001]}},{\"id\":\"installation:corridor-niche-1\",\"position\":[-6.51,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-7.14,-0.04,8.549999999999999],\"max\":[-5.88,2.4,9.850000000000001]}},{\"id\":\"installation:corridor-niche-2\",\"position\":[-5.36,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-5.99,-0.04,8.549999999999999],\"max\":[-4.73,2.4,9.850000000000001]}},{\"id\":\"installation:library-hearth\",\"position\":[-11.95,0.56,2.9],\"color\":[1,0.45,0.15],\"distance\":5,\"emitterRadius\":0.22,\"region\":{\"min\":[-12.600000000000001,-0.1,0.7999999999999999],\"max\":[-8.5,5.7,10.55]}},{\"id\":\"installation:arrival-daylight-0\",\"position\":[0.15,5.935,18.65],\"color\":[1,0.84,0.63],\"distance\":0,\"emitterRadius\":0.064,\"region\":{\"min\":[-3.5,-0.15000000000000002,16.09],\"max\":[3.4,7.35,23.25]}},{\"id\":\"installation:arrival-daylight-1\",\"position\":[0.15,5.935,20.75],\"color\":[1,0.84,0.63],\"distance\":0,\"emitterRadius\":0.064,\"region\":{\"min\":[-3.5,-0.15000000000000002,16.09],\"max\":[3.4,7.35,23.25]}}],\"raysPerProbe\":64,\"skyRaysPerHit\":8,\"maxTraceDistance\":16,\"maxTriangles\":750000}",
+        "scope": "Actual new field, no saved cache; final source inputs and cache publication belong to the coordinator"
+      },
+      "passed": true
+    },
+    {
+      "project": "mobile-390",
+      "actualDrawingBuffer": [390, 1000],
+      "visits": ["sleep", "study", "library", "onsen", "overview", "outside"],
+      "dragPixels": {
+        "changedPixels": 365313,
+        "meanMaximumChannelError": 33.03520512820513,
+        "width": 390,
+        "height": 1000
+      },
+      "zoomPixels": {
+        "changedPixels": 332935,
+        "meanMaximumChannelError": 49.07626666666667,
+        "width": 390,
+        "height": 1000
+      },
+      "runtimeState": {
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/browser-public-views/architecture-finish-finish-22272--through-public-room-visits-mobile-390/architecture-native-and-public-state.json",
+        "bytes": 1265715,
+        "sha256": "9d8a9beb2dd3c85e2c6bc6208d1d41943b2badde41699e581a9b0aee9a117227"
+      },
+      "firstReady": {
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/browser-public-views/architecture-finish-finish-22272--through-public-room-visits-mobile-390/architecture-first-ready.json",
+        "bytes": 165757,
+        "sha256": "ba462464dfa82508d96709ec0c8fa15f06cae64347c8f2987c8d8fe53d9c9ce7"
+      },
+      "lightField": {
+        "snapshotBytesBeforeSourceInputs": 780476,
+        "snapshotGzipBytesBeforeSourceInputs": 263393,
+        "statistics": {
+          "ready": true,
+          "triangles": 619481,
+          "meshes": 430,
+          "skippedMeshes": 144,
+          "skippedTriangles": 116123,
+          "geometryMs": 3360,
+          "acceleratorMs": 3037,
+          "transportMs": 3175,
+          "bakeMs": 9572,
+          "maxTaskMs": 160,
+          "relocatedProbes": 2,
+          "rejectedProbes": 4,
+          "acceleratorBytes": 52036864,
+          "trace": {
+            "rays": 90091,
+            "triangleTests": 3706887,
+            "boxTests": 24647076
+          }
+        },
+        "configuration": "{\"regions\":[{\"id\":\"study\",\"min\":[-12.05,-0.050000000000000266,3.55],\"max\":[-9.1,2.1,5.8500000000000005]},{\"id\":\"sleep\",\"min\":[-4.3,2.55,10],\"max\":[-1.85,4.4,12.8]},{\"id\":\"onsen\",\"min\":[2,2.55,9.9],\"max\":[4.45,4.9,12.4]},{\"id\":\"kitchen\",\"min\":[-5,-0.45,3.6500000000000004],\"max\":[-1.95,2.15,8.6]},{\"id\":\"dining\",\"min\":[-4,-0.05,9.35],\"max\":[0.2,2.3,13]},{\"id\":\"living\",\"min\":[-1.1,-0.05,5.1],\"max\":[1.1,2.2,7.45]},{\"id\":\"lounge\",\"min\":[1.9,-0.05,3.95],\"max\":[4.4,2.4,7.8]},{\"id\":\"nearhouse\",\"min\":[-5,-0.05,2.3],\"max\":[5,4,4.3]},{\"id\":\"gym\",\"min\":[6.1,-0.05,4.8],\"max\":[10.9,2.4,8.95]},{\"id\":\"library\",\"min\":[-12.6,0,0.8],\"max\":[-8.45,5.6,10.5]},{\"id\":\"library-upper\",\"min\":[-1.65,2.55,10.25],\"max\":[1.3,4.7,12.55]},{\"id\":\"bath-living\",\"min\":[-8.25,0,9.85],\"max\":[-4.38,2.35,14.1]},{\"id\":\"bath-bedroom\",\"min\":[-8.25,2.6,9.85],\"max\":[-4.38,4.95,14.1]},{\"id\":\"outdoor-pavilion\",\"min\":[3.65,-0.04,-3.55],\"max\":[7.9,2.65,1.35]},{\"id\":\"retreat-short-link\",\"min\":[-9.9,-0.08,8.2],\"max\":[-3.75,5.2,9.85]},{\"id\":\"arrival-hall\",\"min\":[-3.4,-0.05,16.4],\"max\":[3.3,6.9,23]}],\"practicalSources\":[{\"id\":\"study\",\"position\":[-11.370000000000001,1.2799999999999998,3.7199999999999998],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":6,\"emitterRadius\":0.18},{\"id\":\"sleep\",\"position\":[-4.13,3.47,10.47],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.18},{\"id\":\"kitchen\",\"position\":[-4.99,1.95,4.9],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.18},{\"id\":\"lounge\",\"position\":[-1.2,1.42,4.45],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.26},{\"id\":\"bath\",\"position\":[3.68,3.388,10.2],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.3,\"emitterRadius\":0.18},{\"id\":\"gym\",\"position\":[8.6,2.3,7.6],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.5,\"emitterRadius\":0.18},{\"id\":\"terrace-west\",\"position\":[-4.75,0.170405,3.88],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.8,\"emitterRadius\":0.18},{\"id\":\"terrace-east\",\"position\":[3.9,0.170405,3.88],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.8,\"emitterRadius\":0.18},{\"id\":\"library:tall-books-west\",\"position\":[-12.19,4.72,7.75],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-12.65,-0.05,0.75],\"max\":[-8.399999999999999,5.6499999999999995,10.55]}},{\"id\":\"library:tall-books-east\",\"position\":[-8.91,4.72,2.3],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-12.65,-0.05,0.75],\"max\":[-8.399999999999999,5.6499999999999995,10.55]}},{\"id\":\"bath-living:mirror\",\"position\":[-8.1,2.16,11.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-living:vanity-underlight\",\"position\":[-7.93,0.352,11.649999999999999],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-living:shower\",\"position\":[-6.535,2.24,9.96],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-bedroom:mirror\",\"position\":[-8.1,4.76,11.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"bath-bedroom:vanity-underlight\",\"position\":[-7.93,2.952,11.649999999999999],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"bath-bedroom:shower\",\"position\":[-6.535,4.84,9.96],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"installation:short-bedroom-link\",\"position\":[-6.475,4.85,9.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-9.950000000000001,-0.13,8.149999999999999],\"max\":[-3.7,5.25,9.9]}},{\"id\":\"installation:arrival-rail-a\",\"position\":[3.23,2.1500000000000004,19.560000000000002],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:arrival-rail-b\",\"position\":[-0.10000000000000009,4.875,16.47],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:arrival-rail-c\",\"position\":[-3.33,7.7250000000000005,19.700000000000003],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,5.150000000000001,16.249999999999996],\"max\":[-2.1000000000000005,10.750000000000002,23.25]}},{\"id\":\"installation:arrival-well-wash\",\"position\":[0.5499999999999998,5.9,22.93],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:bedchamber-warm-cove\",\"position\":[-6.79,4.25,8.435],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.58,1.4,3.25],\"max\":[-5.1000000000000005,5.3,8.67]}},{\"id\":\"installation:corridor-niche-0\",\"position\":[-7.66,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.290000000000001,-0.04,8.549999999999999],\"max\":[-7.03,2.4,9.850000000000001]}},{\"id\":\"installation:corridor-niche-1\",\"position\":[-6.51,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-7.14,-0.04,8.549999999999999],\"max\":[-5.88,2.4,9.850000000000001]}},{\"id\":\"installation:corridor-niche-2\",\"position\":[-5.36,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-5.99,-0.04,8.549999999999999],\"max\":[-4.73,2.4,9.850000000000001]}},{\"id\":\"installation:library-hearth\",\"position\":[-11.95,0.56,2.9],\"color\":[1,0.45,0.15],\"distance\":5,\"emitterRadius\":0.22,\"region\":{\"min\":[-12.600000000000001,-0.1,0.7999999999999999],\"max\":[-8.5,5.7,10.55]}},{\"id\":\"installation:arrival-daylight-0\",\"position\":[0.15,5.935,18.65],\"color\":[1,0.84,0.63],\"distance\":0,\"emitterRadius\":0.064,\"region\":{\"min\":[-3.5,-0.15000000000000002,16.09],\"max\":[3.4,7.35,23.25]}},{\"id\":\"installation:arrival-daylight-1\",\"position\":[0.15,5.935,20.75],\"color\":[1,0.84,0.63],\"distance\":0,\"emitterRadius\":0.064,\"region\":{\"min\":[-3.5,-0.15000000000000002,16.09],\"max\":[3.4,7.35,23.25]}}],\"raysPerProbe\":64,\"skyRaysPerHit\":8,\"maxTraceDistance\":16,\"maxTriangles\":750000}",
+        "scope": "Actual new field, no saved cache; final source inputs and cache publication belong to the coordinator"
+      },
+      "passed": true
+    },
+    {
+      "project": "tablet-768",
+      "actualDrawingBuffer": [768, 1024],
+      "visits": ["sleep", "study", "library", "onsen", "overview", "outside"],
+      "dragPixels": {
+        "changedPixels": 760734,
+        "meanMaximumChannelError": 40.84894053141276,
+        "width": 768,
+        "height": 1024
+      },
+      "zoomPixels": {
+        "changedPixels": 768292,
+        "meanMaximumChannelError": 51.833465576171875,
+        "width": 768,
+        "height": 1024
+      },
+      "runtimeState": {
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/browser-public-views/architecture-finish-finish-22272--through-public-room-visits-tablet-768/architecture-native-and-public-state.json",
+        "bytes": 1268023,
+        "sha256": "d642bc7ba6894d27ce0f96bb16b3dbc0b595d63cb37b6da025ec4dc42cb8d046"
+      },
+      "firstReady": {
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/browser-public-views/architecture-finish-finish-22272--through-public-room-visits-tablet-768/architecture-first-ready.json",
+        "bytes": 165718,
+        "sha256": "c3b09b79014499cb4ba6ebdca0ff5edc34087b99f216233a0945e03fe40bb064"
+      },
+      "lightField": {
+        "snapshotBytesBeforeSourceInputs": 780476,
+        "snapshotGzipBytesBeforeSourceInputs": 263395,
+        "statistics": {
+          "ready": true,
+          "triangles": 619481,
+          "meshes": 430,
+          "skippedMeshes": 144,
+          "skippedTriangles": 116123,
+          "geometryMs": 3698,
+          "acceleratorMs": 3224,
+          "transportMs": 3232,
+          "bakeMs": 10155,
+          "maxTaskMs": 38,
+          "relocatedProbes": 2,
+          "rejectedProbes": 4,
+          "acceleratorBytes": 52036864,
+          "trace": {
+            "rays": 90091,
+            "triangleTests": 3706887,
+            "boxTests": 24647076
+          }
+        },
+        "configuration": "{\"regions\":[{\"id\":\"study\",\"min\":[-12.05,-0.050000000000000266,3.55],\"max\":[-9.1,2.1,5.8500000000000005]},{\"id\":\"sleep\",\"min\":[-4.3,2.55,10],\"max\":[-1.85,4.4,12.8]},{\"id\":\"onsen\",\"min\":[2,2.55,9.9],\"max\":[4.45,4.9,12.4]},{\"id\":\"kitchen\",\"min\":[-5,-0.45,3.6500000000000004],\"max\":[-1.95,2.15,8.6]},{\"id\":\"dining\",\"min\":[-4,-0.05,9.35],\"max\":[0.2,2.3,13]},{\"id\":\"living\",\"min\":[-1.1,-0.05,5.1],\"max\":[1.1,2.2,7.45]},{\"id\":\"lounge\",\"min\":[1.9,-0.05,3.95],\"max\":[4.4,2.4,7.8]},{\"id\":\"nearhouse\",\"min\":[-5,-0.05,2.3],\"max\":[5,4,4.3]},{\"id\":\"gym\",\"min\":[6.1,-0.05,4.8],\"max\":[10.9,2.4,8.95]},{\"id\":\"library\",\"min\":[-12.6,0,0.8],\"max\":[-8.45,5.6,10.5]},{\"id\":\"library-upper\",\"min\":[-1.65,2.55,10.25],\"max\":[1.3,4.7,12.55]},{\"id\":\"bath-living\",\"min\":[-8.25,0,9.85],\"max\":[-4.38,2.35,14.1]},{\"id\":\"bath-bedroom\",\"min\":[-8.25,2.6,9.85],\"max\":[-4.38,4.95,14.1]},{\"id\":\"outdoor-pavilion\",\"min\":[3.65,-0.04,-3.55],\"max\":[7.9,2.65,1.35]},{\"id\":\"retreat-short-link\",\"min\":[-9.9,-0.08,8.2],\"max\":[-3.75,5.2,9.85]},{\"id\":\"arrival-hall\",\"min\":[-3.4,-0.05,16.4],\"max\":[3.3,6.9,23]}],\"practicalSources\":[{\"id\":\"study\",\"position\":[-11.370000000000001,1.2799999999999998,3.7199999999999998],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":6,\"emitterRadius\":0.18},{\"id\":\"sleep\",\"position\":[-4.13,3.47,10.47],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.18},{\"id\":\"kitchen\",\"position\":[-4.99,1.95,4.9],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.18},{\"id\":\"lounge\",\"position\":[-1.2,1.42,4.45],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.26},{\"id\":\"bath\",\"position\":[3.68,3.388,10.2],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.3,\"emitterRadius\":0.18},{\"id\":\"gym\",\"position\":[8.6,2.3,7.6],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.5,\"emitterRadius\":0.18},{\"id\":\"terrace-west\",\"position\":[-4.75,0.170405,3.88],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.8,\"emitterRadius\":0.18},{\"id\":\"terrace-east\",\"position\":[3.9,0.170405,3.88],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.8,\"emitterRadius\":0.18},{\"id\":\"library:tall-books-west\",\"position\":[-12.19,4.72,7.75],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-12.65,-0.05,0.75],\"max\":[-8.399999999999999,5.6499999999999995,10.55]}},{\"id\":\"library:tall-books-east\",\"position\":[-8.91,4.72,2.3],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-12.65,-0.05,0.75],\"max\":[-8.399999999999999,5.6499999999999995,10.55]}},{\"id\":\"bath-living:mirror\",\"position\":[-8.1,2.16,11.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-living:vanity-underlight\",\"position\":[-7.93,0.352,11.649999999999999],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-living:shower\",\"position\":[-6.535,2.24,9.96],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-bedroom:mirror\",\"position\":[-8.1,4.76,11.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"bath-bedroom:vanity-underlight\",\"position\":[-7.93,2.952,11.649999999999999],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"bath-bedroom:shower\",\"position\":[-6.535,4.84,9.96],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"installation:short-bedroom-link\",\"position\":[-6.475,4.85,9.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-9.950000000000001,-0.13,8.149999999999999],\"max\":[-3.7,5.25,9.9]}},{\"id\":\"installation:arrival-rail-a\",\"position\":[3.23,2.1500000000000004,19.560000000000002],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:arrival-rail-b\",\"position\":[-0.10000000000000009,4.875,16.47],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:arrival-rail-c\",\"position\":[-3.33,7.7250000000000005,19.700000000000003],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,5.150000000000001,16.249999999999996],\"max\":[-2.1000000000000005,10.750000000000002,23.25]}},{\"id\":\"installation:arrival-well-wash\",\"position\":[0.5499999999999998,5.9,22.93],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:bedchamber-warm-cove\",\"position\":[-6.79,4.25,8.435],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.58,1.4,3.25],\"max\":[-5.1000000000000005,5.3,8.67]}},{\"id\":\"installation:corridor-niche-0\",\"position\":[-7.66,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.290000000000001,-0.04,8.549999999999999],\"max\":[-7.03,2.4,9.850000000000001]}},{\"id\":\"installation:corridor-niche-1\",\"position\":[-6.51,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-7.14,-0.04,8.549999999999999],\"max\":[-5.88,2.4,9.850000000000001]}},{\"id\":\"installation:corridor-niche-2\",\"position\":[-5.36,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-5.99,-0.04,8.549999999999999],\"max\":[-4.73,2.4,9.850000000000001]}},{\"id\":\"installation:library-hearth\",\"position\":[-11.95,0.56,2.9],\"color\":[1,0.45,0.15],\"distance\":5,\"emitterRadius\":0.22,\"region\":{\"min\":[-12.600000000000001,-0.1,0.7999999999999999],\"max\":[-8.5,5.7,10.55]}},{\"id\":\"installation:arrival-daylight-0\",\"position\":[0.15,5.935,18.65],\"color\":[1,0.84,0.63],\"distance\":0,\"emitterRadius\":0.064,\"region\":{\"min\":[-3.5,-0.15000000000000002,16.09],\"max\":[3.4,7.35,23.25]}},{\"id\":\"installation:arrival-daylight-1\",\"position\":[0.15,5.935,20.75],\"color\":[1,0.84,0.63],\"distance\":0,\"emitterRadius\":0.064,\"region\":{\"min\":[-3.5,-0.15000000000000002,16.09],\"max\":[3.4,7.35,23.25]}}],\"raysPerProbe\":64,\"skyRaysPerHit\":8,\"maxTraceDistance\":16,\"maxTriangles\":750000}",
+        "scope": "Actual new field, no saved cache; final source inputs and cache publication belong to the coordinator"
+      },
+      "passed": true
+    },
+    {
+      "project": "desktop-1440",
+      "actualDrawingBuffer": [3840, 2160],
+      "visits": ["sleep", "study", "library", "onsen", "overview", "outside"],
+      "dragPixels": {
+        "changedPixels": 8254134,
+        "meanMaximumChannelError": 63.885480444637345,
+        "width": 3840,
+        "height": 2160
+      },
+      "zoomPixels": {
+        "changedPixels": 8102664,
+        "meanMaximumChannelError": 48.44731987847222,
+        "width": 3840,
+        "height": 2160
+      },
+      "runtimeState": {
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/browser-sealed-control/architecture-finish-finish-22272--through-public-room-visits-desktop-1440/architecture-native-and-public-state.json",
+        "bytes": 1284283,
+        "sha256": "b2b1935e882900ee304728eada9211b0c61b751fa217fbad60d7c9d61a06a822"
+      },
+      "firstReady": {
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/browser-sealed-control/architecture-finish-finish-22272--through-public-room-visits-desktop-1440/architecture-first-ready.json",
+        "bytes": 166101,
+        "sha256": "0bf216907e300e24b6c47c10683000116e8ea1806f18ffc12de1f34c481c0f53"
+      },
+      "lightField": {
+        "snapshotBytesBeforeSourceInputs": 780475,
+        "snapshotGzipBytesBeforeSourceInputs": 263391,
+        "statistics": {
+          "ready": true,
+          "triangles": 619481,
+          "meshes": 430,
+          "skippedMeshes": 165,
+          "skippedTriangles": 116123,
+          "geometryMs": 3056,
+          "acceleratorMs": 3032,
+          "transportMs": 2965,
+          "bakeMs": 9053,
+          "maxTaskMs": 44,
+          "relocatedProbes": 2,
+          "rejectedProbes": 4,
+          "acceleratorBytes": 52036864,
+          "trace": {
+            "rays": 90091,
+            "triangleTests": 3706887,
+            "boxTests": 24647076
+          }
+        },
+        "configuration": "{\"regions\":[{\"id\":\"study\",\"min\":[-12.05,-0.050000000000000266,3.55],\"max\":[-9.1,2.1,5.8500000000000005]},{\"id\":\"sleep\",\"min\":[-4.3,2.55,10],\"max\":[-1.85,4.4,12.8]},{\"id\":\"onsen\",\"min\":[2,2.55,9.9],\"max\":[4.45,4.9,12.4]},{\"id\":\"kitchen\",\"min\":[-5,-0.45,3.6500000000000004],\"max\":[-1.95,2.15,8.6]},{\"id\":\"dining\",\"min\":[-4,-0.05,9.35],\"max\":[0.2,2.3,13]},{\"id\":\"living\",\"min\":[-1.1,-0.05,5.1],\"max\":[1.1,2.2,7.45]},{\"id\":\"lounge\",\"min\":[1.9,-0.05,3.95],\"max\":[4.4,2.4,7.8]},{\"id\":\"nearhouse\",\"min\":[-5,-0.05,2.3],\"max\":[5,4,4.3]},{\"id\":\"gym\",\"min\":[6.1,-0.05,4.8],\"max\":[10.9,2.4,8.95]},{\"id\":\"library\",\"min\":[-12.6,0,0.8],\"max\":[-8.45,5.6,10.5]},{\"id\":\"library-upper\",\"min\":[-1.65,2.55,10.25],\"max\":[1.3,4.7,12.55]},{\"id\":\"bath-living\",\"min\":[-8.25,0,9.85],\"max\":[-4.38,2.35,14.1]},{\"id\":\"bath-bedroom\",\"min\":[-8.25,2.6,9.85],\"max\":[-4.38,4.95,14.1]},{\"id\":\"outdoor-pavilion\",\"min\":[3.65,-0.04,-3.55],\"max\":[7.9,2.65,1.35]},{\"id\":\"retreat-short-link\",\"min\":[-9.9,-0.08,8.2],\"max\":[-3.75,5.2,9.85]},{\"id\":\"arrival-hall\",\"min\":[-3.4,-0.05,16.4],\"max\":[3.3,6.9,23]}],\"practicalSources\":[{\"id\":\"study\",\"position\":[-11.370000000000001,1.2799999999999998,3.7199999999999998],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":6,\"emitterRadius\":0.18},{\"id\":\"sleep\",\"position\":[-4.13,3.47,10.47],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.18},{\"id\":\"kitchen\",\"position\":[-4.99,1.95,4.9],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.18},{\"id\":\"lounge\",\"position\":[-1.2,1.42,4.45],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":4.8,\"emitterRadius\":0.26},{\"id\":\"bath\",\"position\":[3.68,3.388,10.2],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.3,\"emitterRadius\":0.18},{\"id\":\"gym\",\"position\":[8.6,2.3,7.6],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.5,\"emitterRadius\":0.18},{\"id\":\"terrace-west\",\"position\":[-4.75,0.170405,3.88],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.8,\"emitterRadius\":0.18},{\"id\":\"terrace-east\",\"position\":[3.9,0.170405,3.88],\"color\":[1,0.5332764040016892,0.25818285291079235],\"distance\":3.8,\"emitterRadius\":0.18},{\"id\":\"library:tall-books-west\",\"position\":[-12.19,4.72,7.75],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-12.65,-0.05,0.75],\"max\":[-8.399999999999999,5.6499999999999995,10.55]}},{\"id\":\"library:tall-books-east\",\"position\":[-8.91,4.72,2.3],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-12.65,-0.05,0.75],\"max\":[-8.399999999999999,5.6499999999999995,10.55]}},{\"id\":\"bath-living:mirror\",\"position\":[-8.1,2.16,11.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-living:vanity-underlight\",\"position\":[-7.93,0.352,11.649999999999999],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-living:shower\",\"position\":[-6.535,2.24,9.96],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,-0.05,9.799999999999999],\"max\":[-4.33,2.4,14.15]}},{\"id\":\"bath-bedroom:mirror\",\"position\":[-8.1,4.76,11.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"bath-bedroom:vanity-underlight\",\"position\":[-7.93,2.952,11.649999999999999],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"bath-bedroom:shower\",\"position\":[-6.535,4.84,9.96],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.3,2.5500000000000003,9.799999999999999],\"max\":[-4.33,5,14.15]}},{\"id\":\"installation:short-bedroom-link\",\"position\":[-6.475,4.85,9.65],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-9.950000000000001,-0.13,8.149999999999999],\"max\":[-3.7,5.25,9.9]}},{\"id\":\"installation:arrival-rail-a\",\"position\":[3.23,2.1500000000000004,19.560000000000002],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:arrival-rail-b\",\"position\":[-0.10000000000000009,4.875,16.47],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:arrival-rail-c\",\"position\":[-3.33,7.7250000000000005,19.700000000000003],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,5.150000000000001,16.249999999999996],\"max\":[-2.1000000000000005,10.750000000000002,23.25]}},{\"id\":\"installation:arrival-well-wash\",\"position\":[0.5499999999999998,5.9,22.93],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-3.4999999999999996,-0.15000000000000002,16.09],\"max\":[3.3999999999999995,7.3,23.25]}},{\"id\":\"installation:bedchamber-warm-cove\",\"position\":[-6.79,4.25,8.435],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.58,1.4,3.25],\"max\":[-5.1000000000000005,5.3,8.67]}},{\"id\":\"installation:corridor-niche-0\",\"position\":[-7.66,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-8.290000000000001,-0.04,8.549999999999999],\"max\":[-7.03,2.4,9.850000000000001]}},{\"id\":\"installation:corridor-niche-1\",\"position\":[-6.51,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-7.14,-0.04,8.549999999999999],\"max\":[-5.88,2.4,9.850000000000001]}},{\"id\":\"installation:corridor-niche-2\",\"position\":[-5.36,2.03,9.665],\"color\":[1,0.7,0.42],\"distance\":0,\"emitterRadius\":0.04,\"region\":{\"min\":[-5.99,-0.04,8.549999999999999],\"max\":[-4.73,2.4,9.850000000000001]}},{\"id\":\"installation:library-hearth\",\"position\":[-11.95,0.56,2.9],\"color\":[1,0.45,0.15],\"distance\":5,\"emitterRadius\":0.22,\"region\":{\"min\":[-12.600000000000001,-0.1,0.7999999999999999],\"max\":[-8.5,5.7,10.55]}},{\"id\":\"installation:arrival-daylight-0\",\"position\":[0.15,5.935,18.65],\"color\":[1,0.84,0.63],\"distance\":0,\"emitterRadius\":0.064,\"region\":{\"min\":[-3.5,-0.15000000000000002,16.09],\"max\":[3.4,7.35,23.25]}},{\"id\":\"installation:arrival-daylight-1\",\"position\":[0.15,5.935,20.75],\"color\":[1,0.84,0.63],\"distance\":0,\"emitterRadius\":0.064,\"region\":{\"min\":[-3.5,-0.15000000000000002,16.09],\"max\":[3.4,7.35,23.25]}}],\"raysPerProbe\":64,\"skyRaysPerHit\":8,\"maxTraceDistance\":16,\"maxTriangles\":750000}",
+        "scope": "Actual new field, no saved cache; final source inputs and cache publication belong to the coordinator"
+      },
+      "passed": true
+    }
+  ],
+  "images": [
+    {
+      "file": "artwork/coastal-home/reviews/architecture-finish-2026-10-28/architecture-4k-actual-ao.png",
+      "bytes": 7801957,
+      "sha256": "8dc49adb5744327e1fc156a2f6bd095bc0f301f0c8203e6a098a7f726e094799"
+    },
+    {
+      "file": "artwork/coastal-home/reviews/architecture-finish-2026-10-28/architecture-4k-white-color-control.png",
+      "bytes": 7746329,
+      "sha256": "080ea5f8296cc3c06ff7a23abc8a7d87218d7c41d72355293507fd7f8f681c8c"
+    },
+    {
+      "file": "artwork/coastal-home/reviews/architecture-finish-2026-10-28/architecture-library.png",
+      "bytes": 865000,
+      "sha256": "20de3663adbddf95a22e3b2937885e7308fe881986d85104d9b3db3c21fac5e6"
+    },
+    {
+      "file": "artwork/coastal-home/reviews/architecture-finish-2026-10-28/architecture-sleep.png",
+      "bytes": 685838,
+      "sha256": "25f14342b38b2b50f34d97155e8d9f4c009084aa88af8e6653019b0d98575a41"
+    },
+    {
+      "file": "artwork/coastal-home/reviews/architecture-finish-2026-10-28/architecture-evening-bedroom.png",
+      "bytes": 633770,
+      "sha256": "b02b83ac68afa088f224c0ac23663a823e53a92d38fcc3ddb44d882e448ff28d"
+    },
+    {
+      "file": "artwork/coastal-home/reviews/architecture-finish-2026-10-28/architecture-outside.png",
+      "bytes": 1453293,
+      "sha256": "513ca04757a710f7a393a5c213dffe9b986709b3030cb1822d210e899cd7e827"
+    }
+  ]
+}

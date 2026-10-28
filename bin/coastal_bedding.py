@@ -68,8 +68,17 @@ def sleepers(source, frames=(25, 73)):
     """Every avatar's deformed sleep surface in house coordinates, at the deepest and shallowest
     breath. Opens each avatar source, so call it before opening the house."""
     bodies = []
+    library = source.is_file()
+    if library:
+        bpy.ops.wm.open_mainfile(filepath=str(source))
     for avatar in AVATARS:
-        bpy.ops.wm.open_mainfile(filepath=str(source / f"sirui-{avatar}.blend"))
+        if library:
+            matching = [scene for scene in bpy.data.scenes if scene.get("finishAvatar") == avatar]
+            if len(matching) != 1:
+                raise RuntimeError(f"The finish library needs one actual scene for{avatar}")
+            bpy.context.window.scene = matching[0]
+        else:
+            bpy.ops.wm.open_mainfile(filepath=str(source / f"sirui-{avatar}.blend"))
         arm = next(o for o in bpy.context.scene.objects if o.type == "ARMATURE")
         meshes = [o for o in bpy.context.scene.objects if o.type == "MESH"]
         for frame in frames:
@@ -349,6 +358,7 @@ def draped_duvet(name, mat, bodies, pillow_obj, spacing=0.03, quilt=0.3):
     lighter = cover.modifiers.new("Web density", "DECIMATE")
     lighter.ratio = 0.5
     bpy.ops.object.modifier_apply(modifier=lighter.name)
+    projection = fit_body_envelope(cover, bodies, hem)
     solid = cover.modifiers.new("Filled cover", "SOLIDIFY")
     solid.thickness = 0.03
     solid.offset = 1
@@ -356,4 +366,60 @@ def draped_duvet(name, mat, bodies, pillow_obj, spacing=0.03, quilt=0.3):
     bpy.ops.object.modifier_apply(modifier=solid.name)
     for face in cover.data.polygons:
         face.use_smooth = True
-    return cover, {"hemY": round(hem, 4), "startZ": round(start, 4), "grid": [nx, ny]}
+    return cover, {"hemY": round(hem, 4), "startZ": round(start, 4), "grid": [nx, ny], "postDecimationBodyFit": projection}
+
+
+def fit_body_envelope(cover, bodies, hem, gap=.004):
+    """Restore the actual support envelope after simplification, locally.
+
+    Decimation can bridge a toe/shoulder crest even when the settled grid
+    cleared it. Lift only affected vertices and taper through two neighboring
+    rings. The empty made bed is unchanged; no body or contact target moves.
+    """
+    if not bodies:
+        return {"bodySamples": 0, "liftedVertices": 0, "maximumLiftM": 0.}
+    mesh = cover.data
+    mesh.calc_loop_triangles()
+    triangles = [tuple(face.vertices) for face in mesh.loop_triangles]
+    tree = BVHTree.FromPolygons([vertex.co for vertex in mesh.vertices], triangles, all_triangles=True)
+    lo = Vector([min(vertex.co[k] for vertex in mesh.vertices) for k in range(3)])
+    hi = Vector([max(vertex.co[k] for vertex in mesh.vertices) for k in range(3)])
+    lift = [0.] * len(mesh.vertices)
+    checked = []
+    for body in bodies:
+        for point in body["points"]:
+            if not (lo.x+.05 <= point.x <= hi.x-.05 and lo.y+.05 <= point.y <= hem-.04):
+                continue
+            hit, normal, index, _ = tree.ray_cast(point+Vector((0,0,2)),Vector((0,0,-1)),4.)
+            if hit is None:
+                continue
+            checked.append(point)
+            need = point.z+gap-hit.z
+            if need <= 0:
+                continue
+            for vertex in triangles[index]:
+                lift[vertex] = max(lift[vertex], need)
+    neighbors = [set() for _ in mesh.vertices]
+    for edge in mesh.edges:
+        a,b = edge.vertices
+        neighbors[a].add(b)
+        neighbors[b].add(a)
+    for _ in range(2):
+        lift = [max(value,max((lift[index]*.4 for index in neighbors[i]),default=0.)) for i,value in enumerate(lift)]
+    for vertex, amount in zip(mesh.vertices,lift):
+        vertex.co.z += amount
+    mesh.update()
+    mesh.calc_loop_triangles()
+    tree = BVHTree.FromPolygons([vertex.co for vertex in mesh.vertices],
+        [tuple(face.vertices) for face in mesh.loop_triangles],all_triangles=True)
+    minimum = float("inf")
+    for point in checked:
+        hit,_,_,_ = tree.ray_cast(point+Vector((0,0,2)),Vector((0,0,-1)),4.)
+        if hit is None:
+            raise RuntimeError("Post-decimation body-fit projection opened a cover ray")
+        minimum = min(minimum,hit.z-point.z)
+    if minimum < gap-3e-5:
+        raise RuntimeError(f"The fitted raw cover left its actual body envelope: {minimum}")
+    return {"bodySamples":len(checked),"liftedVertices":sum(value>0 for value in lift),
+            "maximumLiftM":max(lift),"minimumRawCoverAboveBodyM":minimum,
+            "method":"Actual body-ray envelope after decimation; local positive displacement tapered over two edge rings. No global margin or body/rig change."}

@@ -1,0 +1,5346 @@
+{
+  "controls": [
+    {
+      "name": "core_carved_mainland001",
+      "vertices": 661,
+      "triangles": 615,
+      "position": "9bc88d42e0b6655da9b6141916b4faf7f3d0b52a453ecfb02b295c5ff06f10d1",
+      "index": "07b83b0903bb7cd20af4aa4e6d9ccee995da15483330e2edb5d9606d4ece35f3",
+      "normal": "1c3075120cb58beb4009bc73cae095485f39b1ec53209a7d48eeedbfdd176c0a",
+      "colorRange": [1, 1],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_carved_mainland001_1",
+      "vertices": 576,
+      "triangles": 959,
+      "position": "c2b6e67b5ca0e974a7949ef6de987f65644aa63a29472b297948478a816d70d1",
+      "index": "13674c226a81d9a468e4833751e4d95ee539cde7ae3792e562c808315f8a4246",
+      "normal": "0c7f38589eb26c9eb6363d05560f2eeb661e954a86225f0cb6149b787c7177e2",
+      "colorRange": [1, 1],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_carved_mainland002",
+      "vertices": 21009,
+      "triangles": 31173,
+      "position": "d2602a687c5426f17ebab07bb17a83db3020b3f9ffdfd16ea73c7c6e6e07fd38",
+      "index": "a946ad2a9f68e5fbc52db3fe114f0e05d2b1426d7f6c1c06e18c815206bb94bc",
+      "normal": "aef64c289d15e809bdb11b6abe8edd7389734ac116bd5bff9012cc090748844a",
+      "colorRange": [0.6866854429244995, 0.9646865725517273],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_carved_mainland002_2",
+      "vertices": 33670,
+      "triangles": 64229,
+      "position": "97c07474bcbb7bd54bbd1541bdf6cd79507579c553e4262b1aad0b408d5f6933",
+      "index": "c72fc0f0e3ca2472da910b36fc67393807649bcf081fcb05c5fcbcc3b61b5b40",
+      "normal": "97527b28bec9794507383a883ab7634c61c0ec842273ac3c52fafb7ac5c5faac",
+      "colorRange": [0.6866854429244995, 0.9646865725517273],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_facade__golden_coastal_sandstone",
+      "vertices": 24,
+      "triangles": 12,
+      "position": "d1c3a8362cc249311f618713e524cf82ad712231fe4c1e1fb67b5b63c8472b10",
+      "index": "11635a373f5ea68cd485278d65c7266a42cff45748c19f3f76bc133e81d132ec",
+      "normal": "3fd6b2d68b7a4fde4966f79bb028cbf265478e07aa8a2a8c01247062a1f278be",
+      "colorRange": [0.6866854429244995, 0.7835380434989929],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 8, 1]
+    },
+    {
+      "name": "core_liftaway_cave_ceiling_rear_1",
+      "vertices": 1358,
+      "triangles": 1396,
+      "position": "326e54f141b631f32a073b3baa9ec1afd3a93795c98bbb05e869b7646738034b",
+      "index": "eaa404a65e2e97bf59dcaa1dd8ae2aa68ceb2de3c71d29f0f23d8461c1867e6a",
+      "normal": "2d3c37c2210ded46f7149662dac31c8ab6f4c62bb0f0dde4eb5e6c8077efa81b",
+      "colorRange": [0.34191444516181946, 1],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_fireplace_cap__golden_coastal_sandstone",
+      "vertices": 1134,
+      "triangles": 2240,
+      "position": "b6987e8adddc7169b639bea00cf8f117b6ec48cd0e2d30d43815202a241fc085",
+      "index": "648f99a14631a75df027bc8551706e6a675776e68a69385498fa785a18453b7f",
+      "normal": "2732cbb809c464c6a42bf39ced8b46b87a3c55f7d44c94c01e4885cf1e2c550f",
+      "colorRange": [1, 1],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 8, 1]
+    },
+    {
+      "name": "core_bathwing_liftaway_roof_1",
+      "vertices": 326,
+      "triangles": 340,
+      "position": "56678a2b49009362999b5f33a688351b77c81e7bcafbeac6a6f0cd9b0159ddf3",
+      "index": "e5a7bf1c364d4bb9caf598e61f70ab23ff987d60fb214e70b33400f2095eee45",
+      "normal": "ee1a9374e9a374a3c3ea03e8a5b4ae968e712f390308958a85dc9d9862d8f169",
+      "colorRange": [0.34191444516181946, 1],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_bathwing_liftaway_roof_3",
+      "vertices": 373,
+      "triangles": 598,
+      "position": "1ee6b190b43257e69ef7b607d6062abe859b009000ffd722bd3b9dd936dadeee",
+      "index": "4a84d485b2c080f42bf279b68c4ab690374588844272d9086d34e741de61923b",
+      "normal": "9a043760aa9bc1a550c489aa2f7043ba13b75c9cf64028a61111c77624594441",
+      "colorRange": [0.7835380434989929, 1],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_estate_library_liftaway_roof_1",
+      "vertices": 391,
+      "triangles": 526,
+      "position": "2acdaf698371261e84409ccceaf0691b47c84d900a94ebcb90703d068d499422",
+      "index": "8675b2f8cfad754b0187be9a50a8fd6af1e37b5f9f23a17cc2e0207a35445875",
+      "normal": "8c747122b2c6f9106c85157dba590d4fe593ec0a78b0d47cc3abffa4285deda4",
+      "colorRange": [0.6866854429244995, 1],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_estate_library_liftaway_roof_2",
+      "vertices": 1056,
+      "triangles": 1816,
+      "position": "bb588374f9e1dae6b0677cf1455dd6144570203f609fdf93ad25023bf85fb01f",
+      "index": "423586fb937415efe220115869b5e4deb5c97e2f0166ef3632d02dfc2c24d0cf",
+      "normal": "633f18c23eb751398c8c56bdb9c3739c9a9a538232dd28a0179bf9a545a5c19a",
+      "colorRange": [0.7835380434989929, 1],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_retreat_library__chalk_limestone_2",
+      "vertices": 16,
+      "triangles": 8,
+      "position": "c6b545b20c7f05638528a399c8e9e92dc5dbacb065e62f642496d888a156f05a",
+      "index": "ceadf04cb06a098db207f37668f5007dfc93ecfa6364fb14113a4054f5a65500",
+      "normal": "17fdf1f7c4bf1f1b9172165d21abef6899c38c34bb9c50a5a021b7f2a501b95f",
+      "colorRange": [0.7835380434989929, 0.871367335319519],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 8, 1]
+    },
+    {
+      "name": "core_retreat_liftaway_roof_1",
+      "vertices": 2109,
+      "triangles": 2175,
+      "position": "718fb0eb2b7d7327d516b700c62784f83a6c45b4715536ee8d9bfff30dbdf60f",
+      "index": "0ac9f168a7c65c978c0e7cd21123273c3140c90c8015807348d65a498a38afe7",
+      "normal": "1360a7ca64b60605c711598be5500f25aec7863cb51a61fc128cffcf9c2c8438",
+      "colorRange": [0.6866854429244995, 1],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_retreat_liftaway_roof_2",
+      "vertices": 29,
+      "triangles": 27,
+      "position": "68334adc8824551b09acfffff8ff9f2be837ad05331fdb4ced08b6d45ca06871",
+      "index": "aef68a03ee61cbe0ac5a4398752c3d005a5ccfccd5a5f1a66cdb89c3eceae2fc",
+      "normal": "1b4ba205cd59c4c1c6a3512e40b97cab421d316c0bfff0c038b00c92bd886840",
+      "colorRange": [0.7835380434989929, 1],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_arrival_wall__golden_coastal_sandstone",
+      "vertices": 444,
+      "triangles": 298,
+      "position": "9cb83d99df63e34c7bb102bf5cfd74ac1b518439a05487581e61c6f866687bd8",
+      "index": "2a738bc55d7174a6d75cde9d250c5138ca914fc83057ff8659924eed3cac8540",
+      "normal": "b56fc6f35e2b6b1c09577d8e21851643307ac14b23669830562f6ff97b242eb4",
+      "colorRange": [0.6866854429244995, 0.8468734622001648],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_arrival_hall__golden_coastal_sandstone",
+      "vertices": 370,
+      "triangles": 688,
+      "position": "8460d5cf025670329c3fd25857cd692d2767df3349dc62247367c79099f65c9f",
+      "index": "b6d7032ade57d152e959ca5ee98fa63a3585649c685cbfd3893e16d5b7e56e6e",
+      "normal": "0cc80cf95449ece3d3020ef34532c90d07db2e717aeef92ec167428f3dbe3c7d",
+      "colorRange": [0.6866854429244995, 0.7156936526298523],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_arrival_door_main__golden_coastal_sandstone",
+      "vertices": 24,
+      "triangles": 44,
+      "position": "d5fd16f85ae46de7138a1b28236cc868366a454e7b9d3d39a259151527b4a9e5",
+      "index": "aedc040cb763a3b0b7c673049ad0a9bb304b6b11d5ffbb8b197d527c0845d387",
+      "normal": "07cf548d859b4c87eb01ee0521638f2bc316541dfdecfe6b83ae44334f3b1588",
+      "colorRange": [0.6866854429244995, 0.7156936526298523],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_arrival_court__golden_coastal_sandstone",
+      "vertices": 1001,
+      "triangles": 1978,
+      "position": "4996558fa83fce7d061fc809ef011cb1d572ac4bfd4fd9e846e4d31199bdfd2d",
+      "index": "eded6753a2977f9c0713340f1d2884540912f85300f7a071a1952ffe692d4fa6",
+      "normal": "01b068dde72dddd536ff04e87fac5ff8fa8680e6cec46488bb633bd32825d629",
+      "colorRange": [0.6866854429244995, 0.9386857748031616],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_arrival_lid__golden_coastal_sandstone",
+      "vertices": 3016,
+      "triangles": 4874,
+      "position": "b816d5af98c1e1d3b8b8cf16f2560f09e4416f86bd338d14b44f0a3c33a176bc",
+      "index": "f5f6eaa052b34331ada3e47c759d624ced29f5180d98ade0d3400c439284bf34",
+      "normal": "cfa6a33e8691c869e1813222a09e0ad11662976be2a59772357563df4d2d7d86",
+      "colorRange": [1, 1],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_arrival_living__golden_coastal_sandstone",
+      "vertices": 64,
+      "triangles": 124,
+      "position": "73a3ddbf25c1ceb5a90b43763cb1d1a5f9fbe23289a00ed0a79d31fa3f83a7f5",
+      "index": "add2b9a30986f7a1336c25b96390486db42ea3c4898d9438ac028ad38e186147",
+      "normal": "110be147ceab4f8f68a471b8d7372b8397769f9f1eb799c75611551e22f69abe",
+      "colorRange": [0.6866854429244995, 0.6866854429244995],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_finish_bedchamber_rock_fin__La_Jolla_bluff_sandstone_1",
+      "vertices": 139,
+      "triangles": 199,
+      "position": "db7fccbe101927ad03406dacf94554293e1a536ab04ff8885df6f9abfa263692",
+      "index": "948a77710dee5da2cf75bfa2d1eb3bc3ee3ea093564fbfba436785349cb3f6f9",
+      "normal": "76260353f58f9d7a78bf08e0124fc2ba90e1d5a7cef405cc6827ab6229daadf7",
+      "colorRange": [0.6866854429244995, 0.8148468136787415],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_finish_bedchamber_rock_fin__La_Jolla_bluff_sandstone_2",
+      "vertices": 86,
+      "triangles": 77,
+      "position": "00a737a25853331af2e4ae7272fdcb29503a6b525ce3150f302c5fd91832c61d",
+      "index": "26c01ab97a9b971f4abf2e24a16ce4c5427cecbae41ef3896867e5307ea7b44b",
+      "normal": "1813facba013ac82c9589b104c3c1d58a80d411d80e36aad7bc0c38d3bb4fcc0",
+      "colorRange": [0.6866854429244995, 0.6866854429244995],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_finish_pavilion_rock_shoulder_west__La_Jolla_bluff_sandsto",
+      "vertices": 462,
+      "triangles": 920,
+      "position": "cc672da0246618da07a5a94a2d9493de75233a19502248424fe87a689ba581cf",
+      "index": "12a8796169f577e501e3295ee021bfdababb79ca960e451946d8283e7f3a725e",
+      "normal": "2ec5a240aca30a65680099202f24740650ffe46d50d524cf8a487c4d9b1ec7fb",
+      "colorRange": [0.6866854429244995, 0.871367335319519],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_finish_pavilion_rock_shoulder_east__La_Jolla_bluff_sandsto_1",
+      "vertices": 523,
+      "triangles": 873,
+      "position": "a0e4bd10686cbf553c2333e7c953e440b9c86524f7eab80c05492070befa8dfd",
+      "index": "243bf528a49d0a89b3e27394c38891d4478205b77b0d3b18b1cea069d9a345e5",
+      "normal": "4397b12fc8163289fbe3de29b467ba36afafd3b08e3fa348eda78e0376902fd6",
+      "colorRange": [0.6866854429244995, 0.9386857748031616],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_finish_pavilion_rock_shoulder_east__La_Jolla_bluff_sandsto_2",
+      "vertices": 171,
+      "triangles": 169,
+      "position": "310870eabc2b9135120a480423b80f16eda892f05c2b50df260e2a90d3eaf782",
+      "index": "7c757abb681844123b7e39570eccb8f581037e5f615256977330abaab7b08189",
+      "normal": "35e0043fa9f7251b0604b540181f64e6a3c2230e278b3c70cea1231a483209a7",
+      "colorRange": [0.6866854429244995, 0.904661238193512],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "core_finish_pavilion_rock_shoulder_sea__La_Jolla_bluff_sandston",
+      "vertices": 104,
+      "triangles": 204,
+      "position": "4b102aa4aa1a6f33867bc7468ec070f58106ce3872607dc8d06b9f2c4cfb13a9",
+      "index": "80372f1ac32573f400a5efb0e78d5eceb0d9f9171be0f4b231c476f176409cb5",
+      "normal": "76ded14236029c92f83b477fcbfc7c23a64083dc455f580c735f89de0a90be77",
+      "colorRange": [0.6866854429244995, 0.871367335319519],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "coast_continuous_cliff_foundation",
+      "vertices": 25862,
+      "triangles": 45457,
+      "position": "da09e04022fb27bfe2ccb751f2c81213e7ec3b4158cff6b7c167dd0e29dee3bc",
+      "index": "38d8b3d55434e01a93ff0a8398279b206950f43603024a0db3bb9805683a70e3",
+      "normal": "d04c280fa5f5f67134144c10b1b9803764d5812741a05348287ca260aa98d465",
+      "colorRange": [0.6866854429244995, 0.9386857748031616],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "coast_continuous_cliff_foundation_2",
+      "vertices": 34375,
+      "triangles": 65095,
+      "position": "ce16bd60f87f3d5daaf9a4227bb71f56dc79d8427cf8c100f0fd51c4081e436f",
+      "index": "648b6e1da2cd2205968bbf70025b7a03ca7afb77d0ad7c49f1856933df5a306d",
+      "normal": "1a6f30036765c0c1ae75041465b5051304a48699b551131f7d674e0ffc266a08",
+      "colorRange": [0.6866854429244995, 0.9646865725517273],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "coast_continuous_cliff_foundation_3",
+      "vertices": 78,
+      "triangles": 74,
+      "position": "ba54a7644c3ad3e956ab2141b86c84a62b75b8976794346e6bdfb714c809c19d",
+      "index": "1cb4ed0c281886f943518d8710b89e9e38b3c5751dbf332d078cfac1e31e2e98",
+      "normal": "4610d1ff67ca6abd020761f9628c2057bd4ab53cf7fc1541d0eb554116ed6ff6",
+      "colorRange": [0.6866854429244995, 0.9386857748031616],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "coast_continuous_cliff_foundation_4",
+      "vertices": 15,
+      "triangles": 13,
+      "position": "6a19d243166ad27cdf4d6d44033321d3acd0987bb5f2387f6e28e11449909b2b",
+      "index": "97150c0c5e1e4b7e86006c4db8b0098d3f949ddc3fae3eb35165236f360034fd",
+      "normal": "ff852f5ae79b38fd50bbb52540ae8d8d236aa569d6bdbb49807ce00fa4e59d12",
+      "colorRange": [0.6866854429244995, 0.904661238193512],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_ground_10_1",
+      "vertices": 7837,
+      "triangles": 13869,
+      "position": "7c9ce956799877e985f414cc831cecf693650ad618947544b012f6c325fa160b",
+      "index": "4b251ec05192693be856e91bbab362e63a0da04edb1b89773f933addf6417ba3",
+      "normal": "cb537c7a3f6652ba19b9a21895f3a09b332189e524b0e539cc4c3413e8d3737a",
+      "colorRange": [0.5840848401617457, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_ground_11_1",
+      "vertices": 719,
+      "triangles": 732,
+      "position": "8016c687fd0315f313f75401d509b19ae862e7ad7b60c4fc7fe7f8a01c4a8322",
+      "index": "04fdb9d745d900c7d3ddeade70f96bcbea27825b4f43f094da2312273f3d739d",
+      "normal": "f448e1694372dd13e1d60eeff8fbf4095f1332ab593d1ce513c349bd006e01f9",
+      "colorRange": [0.5583428702220188, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_ground_13_1",
+      "vertices": 5,
+      "triangles": 3,
+      "position": "980f0286610c3ce707b8bcdd9a912cc39453f4ca87768516febab3aae84805c6",
+      "index": "3621d5df2a3206a594c4fd5e10bb72a4015231dc9e920481f1e1c6f25275a204",
+      "normal": "0462290a0e7046e04be11c8766b2850d42104d5623e1fccce77f649a406bddd1",
+      "colorRange": [0.7454032196536202, 0.8713664454108492],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_ground_14_1",
+      "vertices": 6929,
+      "triangles": 12102,
+      "position": "d3322ce1c6deb8c20190dae77ca9d7ee4873d04a9e798a5d42775c6f218096bc",
+      "index": "9941bbbee416610167f7a28c8f9662ad92988a1a43f169bf467cbbd09f4fccd7",
+      "normal": "70d1e89378729b5bfca22a906f825653c9c40093838274cd894662f1ede978e7",
+      "colorRange": [0.6172121766994736, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_ground_15",
+      "vertices": 355,
+      "triangles": 560,
+      "position": "dfdfcd51eaa451fcce8ab9be8edc2586af4b679c795240e42ef0d7ca0016b00d",
+      "index": "7d0d4e4de0fec52b1e7d55393844be21361648ef53e80e890f63c1f9b6098b9b",
+      "normal": "b0b89440a4d254ba4955b50880c68ae4e0fe31a3a0a1a89219d7654fe5ef9bc8",
+      "colorRange": [0.6172121766994736, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_ground_18_1",
+      "vertices": 1083,
+      "triangles": 1289,
+      "position": "d2a3d299f301dfd62223493fa4a1dec55b13fdbb2664286f11cb8dfacb9c6f3f",
+      "index": "eb8ddb89efbf1c28128f74481f301b3dd3cf44fc753dc5abecee87911d841f6e",
+      "normal": "a046b8b30780e38c55aa3406864d6e91d722603c2be3f29f53618b73fd874cc3",
+      "colorRange": [0.6172121766994736, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_ground_19_1",
+      "vertices": 148,
+      "triangles": 191,
+      "position": "d4216e2e813a6a88750596aacba789ea9149fa4cd26385b14dbce06d0e1e868c",
+      "index": "ca60396d3815b21ee35a42770636c4aef114a32d0ab367e5458012ee82e038e9",
+      "normal": "0a260a4c1b8da59f88cd602e0e639c8a504794c3a23b42a246af082d42a7ef56",
+      "colorRange": [0.7304646372167544, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_cliff_south_0_1",
+      "vertices": 6445,
+      "triangles": 11226,
+      "position": "84bdcf6977955769c7abcf81dd6315c0489ce78de3bf47aa1837a9652502fd78",
+      "index": "ad3bd432fd2827d4709d6515d5e11e37073fdb0d4abe67b35f17faa82c6ede26",
+      "normal": "6d05be696d4eacda417008c711def6ba0a67ba7351442887968233cfa590e0e1",
+      "colorRange": [0.6795452811474785, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_cliff_south_0_2",
+      "vertices": 1680,
+      "triangles": 1664,
+      "position": "607c90e4a1fd89bbcc1f20a1f609708cce18bdace14481d76e3d4dc70394e432",
+      "index": "270c45d920ef308b55453f1f50cdf5fa413300e64df11410806996c377000bfd",
+      "normal": "bdaf20a7aa5df955147cb1caf663be4e853a4fc4b1ba74768540e017ab17d75c",
+      "colorRange": [0.6795452811474785, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_cliff_south_1_1",
+      "vertices": 6445,
+      "triangles": 12606,
+      "position": "c4e943368e5f597a7ba32036593f47d4d60a34106e0a9bfd5eea4c3c9525a97c",
+      "index": "6d86fd58a603f7ac0e5c56efcf04b6b2ca7afc90efaf79971ae5f803d4686b5d",
+      "normal": "b38335b4344f19883e68b7f5e0673f348f52312c3fa8ccf279b6d3778e908052",
+      "colorRange": [0.6795452811474785, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_cliff_south_1_2",
+      "vertices": 56,
+      "triangles": 42,
+      "position": "d482706fa8595cae63741fe106a8458cee034e92e54d317c365a96c52be5ecb5",
+      "index": "c33cdf1b49cc92283bb275ced19b6a3b0149eeafad80e869f0805036d35d19dc",
+      "normal": "4cbc9d4ec4082d3d38dd48e909583540164054d77029b66f6e3303c85872001e",
+      "colorRange": [0.7011062790875104, 0.921583886472877],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_cliff_south_2_1",
+      "vertices": 579,
+      "triangles": 989,
+      "position": "54364e0a7b816241efb5c026bdad562e1338ce860f650029cb6662acdc94386a",
+      "index": "a588976f40ef79df8a61762eda1cd4d74a0ffc9dd13c70ab49bbe16be7840194",
+      "normal": "ced8dc8a7ea95d0bc60b5b9114d1f50716b17a53fae2bb1b0e1865a87e96aa0f",
+      "colorRange": [0.6795452811474785, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_cliff_north_0_1",
+      "vertices": 6251,
+      "triangles": 10806,
+      "position": "b7f83a0124798e5604a88df50948c6157a1b6822cf4725293724faf7c87b0e89",
+      "index": "ba3ac0f07cdfc862bb6cb5434c4e1d4650910a41eb31e458ef11da01fd9e525c",
+      "normal": "65bee8a7df7e7c9a1c4a3d53936a375b22a1fbabe19128a016c8260d9430fe95",
+      "colorRange": [0.6795452811474785, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_cliff_north_0_2",
+      "vertices": 1626,
+      "triangles": 1633,
+      "position": "398fb808daa4d74996e851a2a8170bcbac8cf3645495681a85364d0c39737ab7",
+      "index": "1d1cabd095305ecc0c5e896bb777a67bebc4fef3592885d71c51d3a2a3495f68",
+      "normal": "88da0d22e2a3ef4a0cd4c8bda9eeb8efa7544ee5e2051db61b86a9de1b82a312",
+      "colorRange": [0.6795452811474785, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_cliff_north_0_3",
+      "vertices": 326,
+      "triangles": 451,
+      "position": "90b80ac442d5e3d9ceb190213cdc99f96f3318c3757f38c2211676d5f2b5075b",
+      "index": "234645cda04fdd6e2390f7df5c4490d1de388b7157cc7cbe6f6878e94c98421b",
+      "normal": "7432de2cddc31279a076b51f393d7b4133504b2cf0f844262b88e6ef68babbcb",
+      "colorRange": [0.520988784618906, 0.9046616311894408],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_cliff_north_1_1",
+      "vertices": 651,
+      "triangles": 909,
+      "position": "a446463b47f41c364a6bf58ad35ac862f5382f034656c0ffe9e09ae31b9fda30",
+      "index": "ca76b439d3f16f702a05dda8e74d2acc40754a49c22f5e5154296f90840d8d60",
+      "normal": "5db708d91d427bc9a0f9ae8f0a4258c255aa89eb04e837692302f38b97bf19ae",
+      "colorRange": [0.6795452811474785, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_cliff_north_1_2",
+      "vertices": 33,
+      "triangles": 34,
+      "position": "b4a7fe74bfb4f1080117ac3a2893ed908ca272b5a699c5150b264d8ccbb6ed40",
+      "index": "89f5e8cba77a50b7eb390c17e347ea92a2f8af3a13a9c80a298e685bc8511c95",
+      "normal": "39015198d845b3a145b7156d6e3990a26738da20fe9de63900f0be93f2429a6d",
+      "colorRange": [0.7304646372167544, 0.8879224841687647],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_cliff_north_1_3",
+      "vertices": 1354,
+      "triangles": 2215,
+      "position": "26b3bf04cb8fedf5a5c13aa4587574bfa7a00621fc0598ee65d3491aa753fe07",
+      "index": "26343162c504a527c407fbc74e01c65d007a89503149f9bd660b1266ab012797",
+      "normal": "d18275eaf6cc74bfe2534414e8ac776e9ae61bd624c3eda16be1f1c768f97665",
+      "colorRange": [0.46207370107576107, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_cliff_north_2",
+      "vertices": 648,
+      "triangles": 1196,
+      "position": "59372aa1ce53563e56a3af7d77cc4582a1d164b021515d82b330f370f19d3ec2",
+      "index": "27aea19d994730dfcf8b462d2618bb4db42f0008ba5a5cdf4d21b121fcc8eda4",
+      "normal": "64a3138782cbd3ac2816451d4fa5aad4bfe526f27d427671048f74bab78d53e0",
+      "colorRange": [0.4451972228580148, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_cliff_north_3_1",
+      "vertices": 84,
+      "triangles": 66,
+      "position": "d150d0e403470384df022559c295914be8743bb7b842307954164b5d0ebe7183",
+      "index": "d9b20f9838d89a4f21d648eda3b75c157f69aec9bc240edd0029d83de4178317",
+      "normal": "dc6ecf156cf58c8044fbd65123b809329a411c318849483311a7057342cf68c7",
+      "colorRange": [0.47353322652018004, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_talus_1",
+      "vertices": 1358,
+      "triangles": 2328,
+      "position": "82616b438bebaee8bcf0e5eebcdf7a9aa8f2d714ea6e4f6c7a3a2143c1abf328",
+      "index": "97be187d926aa07d3adf52b32cdfa041cc70363c51a66640e6937cc4e64bc9bd",
+      "normal": "3219eda8c479ed177f402d78424a42a1a14733cc02739d8f6d345fea7e182228",
+      "colorRange": [0.5583428702220188, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_talus_2",
+      "vertices": 1568,
+      "triangles": 2688,
+      "position": "0615d34bf30477c4f9dbabc37429bbad4b479de379d8887877e1231c760d4096",
+      "index": "ce9377a8f30b1b54dd0e07ae0b894052da2e369bb5ae6ee657b5e7ee9dfede48",
+      "normal": "ec44c0de6a7d54e8bcbde42f4e54e41786c07ccd5f4351a4ab8e72354a35e717",
+      "colorRange": [0.539482719157702, 0.9559777218280309],
+      "matrix": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+    },
+    {
+      "name": "hinterland_garden_river_stones",
+      "vertices": 23520,
+      "triangles": 7840,
+      "position": "f52edd3d798ff13f4e3a34dd3e355929fd86ebc1dfdce6f1ac592dc705102718",
+      "index": "b42db78787b0f7f0d5df41752e62f07c4dc39ff9c11f6b84fab7993f899ad943",
+      "normal": "b055cec7b11d2bc78fe2f106c49cfcb0a81a532b8546f6555d39fd4e79fe43f8",
+      "colorRange": [0.9473105973907072, 0.9473105973907072],
+      "matrix": [
+        0.33000001311302185, 0, 0, 0, 0, 0.30000001192092896, 0, 0, 0, 0, 0.27000001072883606, 0, -19.579999923706055, 9.995697975158691, 52, 1
+      ]
+    }
+  ],
+  "restoredGeometry": [
+    {
+      "position": "9bc88d42e0b6655da9b6141916b4faf7f3d0b52a453ecfb02b295c5ff06f10d1",
+      "index": "07b83b0903bb7cd20af4aa4e6d9ccee995da15483330e2edb5d9606d4ece35f3",
+      "normal": "1c3075120cb58beb4009bc73cae095485f39b1ec53209a7d48eeedbfdd176c0a"
+    },
+    {
+      "position": "c2b6e67b5ca0e974a7949ef6de987f65644aa63a29472b297948478a816d70d1",
+      "index": "13674c226a81d9a468e4833751e4d95ee539cde7ae3792e562c808315f8a4246",
+      "normal": "0c7f38589eb26c9eb6363d05560f2eeb661e954a86225f0cb6149b787c7177e2"
+    },
+    {
+      "position": "d2602a687c5426f17ebab07bb17a83db3020b3f9ffdfd16ea73c7c6e6e07fd38",
+      "index": "a946ad2a9f68e5fbc52db3fe114f0e05d2b1426d7f6c1c06e18c815206bb94bc",
+      "normal": "aef64c289d15e809bdb11b6abe8edd7389734ac116bd5bff9012cc090748844a"
+    },
+    {
+      "position": "97c07474bcbb7bd54bbd1541bdf6cd79507579c553e4262b1aad0b408d5f6933",
+      "index": "c72fc0f0e3ca2472da910b36fc67393807649bcf081fcb05c5fcbcc3b61b5b40",
+      "normal": "97527b28bec9794507383a883ab7634c61c0ec842273ac3c52fafb7ac5c5faac"
+    },
+    {
+      "position": "d1c3a8362cc249311f618713e524cf82ad712231fe4c1e1fb67b5b63c8472b10",
+      "index": "11635a373f5ea68cd485278d65c7266a42cff45748c19f3f76bc133e81d132ec",
+      "normal": "3fd6b2d68b7a4fde4966f79bb028cbf265478e07aa8a2a8c01247062a1f278be"
+    },
+    {
+      "position": "326e54f141b631f32a073b3baa9ec1afd3a93795c98bbb05e869b7646738034b",
+      "index": "eaa404a65e2e97bf59dcaa1dd8ae2aa68ceb2de3c71d29f0f23d8461c1867e6a",
+      "normal": "2d3c37c2210ded46f7149662dac31c8ab6f4c62bb0f0dde4eb5e6c8077efa81b"
+    },
+    {
+      "position": "b6987e8adddc7169b639bea00cf8f117b6ec48cd0e2d30d43815202a241fc085",
+      "index": "648f99a14631a75df027bc8551706e6a675776e68a69385498fa785a18453b7f",
+      "normal": "2732cbb809c464c6a42bf39ced8b46b87a3c55f7d44c94c01e4885cf1e2c550f"
+    },
+    {
+      "position": "56678a2b49009362999b5f33a688351b77c81e7bcafbeac6a6f0cd9b0159ddf3",
+      "index": "e5a7bf1c364d4bb9caf598e61f70ab23ff987d60fb214e70b33400f2095eee45",
+      "normal": "ee1a9374e9a374a3c3ea03e8a5b4ae968e712f390308958a85dc9d9862d8f169"
+    },
+    {
+      "position": "1ee6b190b43257e69ef7b607d6062abe859b009000ffd722bd3b9dd936dadeee",
+      "index": "4a84d485b2c080f42bf279b68c4ab690374588844272d9086d34e741de61923b",
+      "normal": "9a043760aa9bc1a550c489aa2f7043ba13b75c9cf64028a61111c77624594441"
+    },
+    {
+      "position": "2acdaf698371261e84409ccceaf0691b47c84d900a94ebcb90703d068d499422",
+      "index": "8675b2f8cfad754b0187be9a50a8fd6af1e37b5f9f23a17cc2e0207a35445875",
+      "normal": "8c747122b2c6f9106c85157dba590d4fe593ec0a78b0d47cc3abffa4285deda4"
+    },
+    {
+      "position": "bb588374f9e1dae6b0677cf1455dd6144570203f609fdf93ad25023bf85fb01f",
+      "index": "423586fb937415efe220115869b5e4deb5c97e2f0166ef3632d02dfc2c24d0cf",
+      "normal": "633f18c23eb751398c8c56bdb9c3739c9a9a538232dd28a0179bf9a545a5c19a"
+    },
+    {
+      "position": "c6b545b20c7f05638528a399c8e9e92dc5dbacb065e62f642496d888a156f05a",
+      "index": "ceadf04cb06a098db207f37668f5007dfc93ecfa6364fb14113a4054f5a65500",
+      "normal": "17fdf1f7c4bf1f1b9172165d21abef6899c38c34bb9c50a5a021b7f2a501b95f"
+    },
+    {
+      "position": "718fb0eb2b7d7327d516b700c62784f83a6c45b4715536ee8d9bfff30dbdf60f",
+      "index": "0ac9f168a7c65c978c0e7cd21123273c3140c90c8015807348d65a498a38afe7",
+      "normal": "1360a7ca64b60605c711598be5500f25aec7863cb51a61fc128cffcf9c2c8438"
+    },
+    {
+      "position": "68334adc8824551b09acfffff8ff9f2be837ad05331fdb4ced08b6d45ca06871",
+      "index": "aef68a03ee61cbe0ac5a4398752c3d005a5ccfccd5a5f1a66cdb89c3eceae2fc",
+      "normal": "1b4ba205cd59c4c1c6a3512e40b97cab421d316c0bfff0c038b00c92bd886840"
+    },
+    {
+      "position": "9cb83d99df63e34c7bb102bf5cfd74ac1b518439a05487581e61c6f866687bd8",
+      "index": "2a738bc55d7174a6d75cde9d250c5138ca914fc83057ff8659924eed3cac8540",
+      "normal": "b56fc6f35e2b6b1c09577d8e21851643307ac14b23669830562f6ff97b242eb4"
+    },
+    {
+      "position": "8460d5cf025670329c3fd25857cd692d2767df3349dc62247367c79099f65c9f",
+      "index": "b6d7032ade57d152e959ca5ee98fa63a3585649c685cbfd3893e16d5b7e56e6e",
+      "normal": "0cc80cf95449ece3d3020ef34532c90d07db2e717aeef92ec167428f3dbe3c7d"
+    },
+    {
+      "position": "d5fd16f85ae46de7138a1b28236cc868366a454e7b9d3d39a259151527b4a9e5",
+      "index": "aedc040cb763a3b0b7c673049ad0a9bb304b6b11d5ffbb8b197d527c0845d387",
+      "normal": "07cf548d859b4c87eb01ee0521638f2bc316541dfdecfe6b83ae44334f3b1588"
+    },
+    {
+      "position": "4996558fa83fce7d061fc809ef011cb1d572ac4bfd4fd9e846e4d31199bdfd2d",
+      "index": "eded6753a2977f9c0713340f1d2884540912f85300f7a071a1952ffe692d4fa6",
+      "normal": "01b068dde72dddd536ff04e87fac5ff8fa8680e6cec46488bb633bd32825d629"
+    },
+    {
+      "position": "b816d5af98c1e1d3b8b8cf16f2560f09e4416f86bd338d14b44f0a3c33a176bc",
+      "index": "f5f6eaa052b34331ada3e47c759d624ced29f5180d98ade0d3400c439284bf34",
+      "normal": "cfa6a33e8691c869e1813222a09e0ad11662976be2a59772357563df4d2d7d86"
+    },
+    {
+      "position": "73a3ddbf25c1ceb5a90b43763cb1d1a5f9fbe23289a00ed0a79d31fa3f83a7f5",
+      "index": "add2b9a30986f7a1336c25b96390486db42ea3c4898d9438ac028ad38e186147",
+      "normal": "110be147ceab4f8f68a471b8d7372b8397769f9f1eb799c75611551e22f69abe"
+    },
+    {
+      "position": "db7fccbe101927ad03406dacf94554293e1a536ab04ff8885df6f9abfa263692",
+      "index": "948a77710dee5da2cf75bfa2d1eb3bc3ee3ea093564fbfba436785349cb3f6f9",
+      "normal": "76260353f58f9d7a78bf08e0124fc2ba90e1d5a7cef405cc6827ab6229daadf7"
+    },
+    {
+      "position": "00a737a25853331af2e4ae7272fdcb29503a6b525ce3150f302c5fd91832c61d",
+      "index": "26c01ab97a9b971f4abf2e24a16ce4c5427cecbae41ef3896867e5307ea7b44b",
+      "normal": "1813facba013ac82c9589b104c3c1d58a80d411d80e36aad7bc0c38d3bb4fcc0"
+    },
+    {
+      "position": "cc672da0246618da07a5a94a2d9493de75233a19502248424fe87a689ba581cf",
+      "index": "12a8796169f577e501e3295ee021bfdababb79ca960e451946d8283e7f3a725e",
+      "normal": "2ec5a240aca30a65680099202f24740650ffe46d50d524cf8a487c4d9b1ec7fb"
+    },
+    {
+      "position": "a0e4bd10686cbf553c2333e7c953e440b9c86524f7eab80c05492070befa8dfd",
+      "index": "243bf528a49d0a89b3e27394c38891d4478205b77b0d3b18b1cea069d9a345e5",
+      "normal": "4397b12fc8163289fbe3de29b467ba36afafd3b08e3fa348eda78e0376902fd6"
+    },
+    {
+      "position": "310870eabc2b9135120a480423b80f16eda892f05c2b50df260e2a90d3eaf782",
+      "index": "7c757abb681844123b7e39570eccb8f581037e5f615256977330abaab7b08189",
+      "normal": "35e0043fa9f7251b0604b540181f64e6a3c2230e278b3c70cea1231a483209a7"
+    },
+    {
+      "position": "4b102aa4aa1a6f33867bc7468ec070f58106ce3872607dc8d06b9f2c4cfb13a9",
+      "index": "80372f1ac32573f400a5efb0e78d5eceb0d9f9171be0f4b231c476f176409cb5",
+      "normal": "76ded14236029c92f83b477fcbfc7c23a64083dc455f580c735f89de0a90be77"
+    },
+    {
+      "position": "da09e04022fb27bfe2ccb751f2c81213e7ec3b4158cff6b7c167dd0e29dee3bc",
+      "index": "38d8b3d55434e01a93ff0a8398279b206950f43603024a0db3bb9805683a70e3",
+      "normal": "d04c280fa5f5f67134144c10b1b9803764d5812741a05348287ca260aa98d465"
+    },
+    {
+      "position": "ce16bd60f87f3d5daaf9a4227bb71f56dc79d8427cf8c100f0fd51c4081e436f",
+      "index": "648b6e1da2cd2205968bbf70025b7a03ca7afb77d0ad7c49f1856933df5a306d",
+      "normal": "1a6f30036765c0c1ae75041465b5051304a48699b551131f7d674e0ffc266a08"
+    },
+    {
+      "position": "ba54a7644c3ad3e956ab2141b86c84a62b75b8976794346e6bdfb714c809c19d",
+      "index": "1cb4ed0c281886f943518d8710b89e9e38b3c5751dbf332d078cfac1e31e2e98",
+      "normal": "4610d1ff67ca6abd020761f9628c2057bd4ab53cf7fc1541d0eb554116ed6ff6"
+    },
+    {
+      "position": "6a19d243166ad27cdf4d6d44033321d3acd0987bb5f2387f6e28e11449909b2b",
+      "index": "97150c0c5e1e4b7e86006c4db8b0098d3f949ddc3fae3eb35165236f360034fd",
+      "normal": "ff852f5ae79b38fd50bbb52540ae8d8d236aa569d6bdbb49807ce00fa4e59d12"
+    },
+    {
+      "position": "7c9ce956799877e985f414cc831cecf693650ad618947544b012f6c325fa160b",
+      "index": "4b251ec05192693be856e91bbab362e63a0da04edb1b89773f933addf6417ba3",
+      "normal": "cb537c7a3f6652ba19b9a21895f3a09b332189e524b0e539cc4c3413e8d3737a"
+    },
+    {
+      "position": "8016c687fd0315f313f75401d509b19ae862e7ad7b60c4fc7fe7f8a01c4a8322",
+      "index": "04fdb9d745d900c7d3ddeade70f96bcbea27825b4f43f094da2312273f3d739d",
+      "normal": "f448e1694372dd13e1d60eeff8fbf4095f1332ab593d1ce513c349bd006e01f9"
+    },
+    {
+      "position": "980f0286610c3ce707b8bcdd9a912cc39453f4ca87768516febab3aae84805c6",
+      "index": "3621d5df2a3206a594c4fd5e10bb72a4015231dc9e920481f1e1c6f25275a204",
+      "normal": "0462290a0e7046e04be11c8766b2850d42104d5623e1fccce77f649a406bddd1"
+    },
+    {
+      "position": "d3322ce1c6deb8c20190dae77ca9d7ee4873d04a9e798a5d42775c6f218096bc",
+      "index": "9941bbbee416610167f7a28c8f9662ad92988a1a43f169bf467cbbd09f4fccd7",
+      "normal": "70d1e89378729b5bfca22a906f825653c9c40093838274cd894662f1ede978e7"
+    },
+    {
+      "position": "dfdfcd51eaa451fcce8ab9be8edc2586af4b679c795240e42ef0d7ca0016b00d",
+      "index": "7d0d4e4de0fec52b1e7d55393844be21361648ef53e80e890f63c1f9b6098b9b",
+      "normal": "b0b89440a4d254ba4955b50880c68ae4e0fe31a3a0a1a89219d7654fe5ef9bc8"
+    },
+    {
+      "position": "d2a3d299f301dfd62223493fa4a1dec55b13fdbb2664286f11cb8dfacb9c6f3f",
+      "index": "eb8ddb89efbf1c28128f74481f301b3dd3cf44fc753dc5abecee87911d841f6e",
+      "normal": "a046b8b30780e38c55aa3406864d6e91d722603c2be3f29f53618b73fd874cc3"
+    },
+    {
+      "position": "d4216e2e813a6a88750596aacba789ea9149fa4cd26385b14dbce06d0e1e868c",
+      "index": "ca60396d3815b21ee35a42770636c4aef114a32d0ab367e5458012ee82e038e9",
+      "normal": "0a260a4c1b8da59f88cd602e0e639c8a504794c3a23b42a246af082d42a7ef56"
+    },
+    {
+      "position": "84bdcf6977955769c7abcf81dd6315c0489ce78de3bf47aa1837a9652502fd78",
+      "index": "ad3bd432fd2827d4709d6515d5e11e37073fdb0d4abe67b35f17faa82c6ede26",
+      "normal": "6d05be696d4eacda417008c711def6ba0a67ba7351442887968233cfa590e0e1"
+    },
+    {
+      "position": "607c90e4a1fd89bbcc1f20a1f609708cce18bdace14481d76e3d4dc70394e432",
+      "index": "270c45d920ef308b55453f1f50cdf5fa413300e64df11410806996c377000bfd",
+      "normal": "bdaf20a7aa5df955147cb1caf663be4e853a4fc4b1ba74768540e017ab17d75c"
+    },
+    {
+      "position": "c4e943368e5f597a7ba32036593f47d4d60a34106e0a9bfd5eea4c3c9525a97c",
+      "index": "6d86fd58a603f7ac0e5c56efcf04b6b2ca7afc90efaf79971ae5f803d4686b5d",
+      "normal": "b38335b4344f19883e68b7f5e0673f348f52312c3fa8ccf279b6d3778e908052"
+    },
+    {
+      "position": "d482706fa8595cae63741fe106a8458cee034e92e54d317c365a96c52be5ecb5",
+      "index": "c33cdf1b49cc92283bb275ced19b6a3b0149eeafad80e869f0805036d35d19dc",
+      "normal": "4cbc9d4ec4082d3d38dd48e909583540164054d77029b66f6e3303c85872001e"
+    },
+    {
+      "position": "54364e0a7b816241efb5c026bdad562e1338ce860f650029cb6662acdc94386a",
+      "index": "a588976f40ef79df8a61762eda1cd4d74a0ffc9dd13c70ab49bbe16be7840194",
+      "normal": "ced8dc8a7ea95d0bc60b5b9114d1f50716b17a53fae2bb1b0e1865a87e96aa0f"
+    },
+    {
+      "position": "b7f83a0124798e5604a88df50948c6157a1b6822cf4725293724faf7c87b0e89",
+      "index": "ba3ac0f07cdfc862bb6cb5434c4e1d4650910a41eb31e458ef11da01fd9e525c",
+      "normal": "65bee8a7df7e7c9a1c4a3d53936a375b22a1fbabe19128a016c8260d9430fe95"
+    },
+    {
+      "position": "398fb808daa4d74996e851a2a8170bcbac8cf3645495681a85364d0c39737ab7",
+      "index": "1d1cabd095305ecc0c5e896bb777a67bebc4fef3592885d71c51d3a2a3495f68",
+      "normal": "88da0d22e2a3ef4a0cd4c8bda9eeb8efa7544ee5e2051db61b86a9de1b82a312"
+    },
+    {
+      "position": "90b80ac442d5e3d9ceb190213cdc99f96f3318c3757f38c2211676d5f2b5075b",
+      "index": "234645cda04fdd6e2390f7df5c4490d1de388b7157cc7cbe6f6878e94c98421b",
+      "normal": "7432de2cddc31279a076b51f393d7b4133504b2cf0f844262b88e6ef68babbcb"
+    },
+    {
+      "position": "a446463b47f41c364a6bf58ad35ac862f5382f034656c0ffe9e09ae31b9fda30",
+      "index": "ca76b439d3f16f702a05dda8e74d2acc40754a49c22f5e5154296f90840d8d60",
+      "normal": "5db708d91d427bc9a0f9ae8f0a4258c255aa89eb04e837692302f38b97bf19ae"
+    },
+    {
+      "position": "b4a7fe74bfb4f1080117ac3a2893ed908ca272b5a699c5150b264d8ccbb6ed40",
+      "index": "89f5e8cba77a50b7eb390c17e347ea92a2f8af3a13a9c80a298e685bc8511c95",
+      "normal": "39015198d845b3a145b7156d6e3990a26738da20fe9de63900f0be93f2429a6d"
+    },
+    {
+      "position": "26b3bf04cb8fedf5a5c13aa4587574bfa7a00621fc0598ee65d3491aa753fe07",
+      "index": "26343162c504a527c407fbc74e01c65d007a89503149f9bd660b1266ab012797",
+      "normal": "d18275eaf6cc74bfe2534414e8ac776e9ae61bd624c3eda16be1f1c768f97665"
+    },
+    {
+      "position": "59372aa1ce53563e56a3af7d77cc4582a1d164b021515d82b330f370f19d3ec2",
+      "index": "27aea19d994730dfcf8b462d2618bb4db42f0008ba5a5cdf4d21b121fcc8eda4",
+      "normal": "64a3138782cbd3ac2816451d4fa5aad4bfe526f27d427671048f74bab78d53e0"
+    },
+    {
+      "position": "d150d0e403470384df022559c295914be8743bb7b842307954164b5d0ebe7183",
+      "index": "d9b20f9838d89a4f21d648eda3b75c157f69aec9bc240edd0029d83de4178317",
+      "normal": "dc6ecf156cf58c8044fbd65123b809329a411c318849483311a7057342cf68c7"
+    },
+    {
+      "position": "82616b438bebaee8bcf0e5eebcdf7a9aa8f2d714ea6e4f6c7a3a2143c1abf328",
+      "index": "97be187d926aa07d3adf52b32cdfa041cc70363c51a66640e6937cc4e64bc9bd",
+      "normal": "3219eda8c479ed177f402d78424a42a1a14733cc02739d8f6d345fea7e182228"
+    },
+    {
+      "position": "0615d34bf30477c4f9dbabc37429bbad4b479de379d8887877e1231c760d4096",
+      "index": "ce9377a8f30b1b54dd0e07ae0b894052da2e369bb5ae6ee657b5e7ee9dfede48",
+      "normal": "ec44c0de6a7d54e8bcbde42f4e54e41786c07ccd5f4351a4ab8e72354a35e717"
+    },
+    {
+      "position": "f52edd3d798ff13f4e3a34dd3e355929fd86ebc1dfdce6f1ac592dc705102718",
+      "index": "b42db78787b0f7f0d5df41752e62f07c4dc39ff9c11f6b84fab7993f899ad943",
+      "normal": "b055cec7b11d2bc78fe2f106c49cfcb0a81a532b8546f6555d39fd4e79fe43f8"
+    }
+  ],
+  "difference": {
+    "changedPixels": 5506739,
+    "meanMaximumChannelError": 5.141997853973765,
+    "width": 3840,
+    "height": 2160
+  },
+  "actualBuffer": [3840, 2160],
+  "state": {
+    "ready": true,
+    "style": "realistic",
+    "avatarId": "simpsons",
+    "portrait": "http://127.0.0.1:4112/al-folio/assets/img/home/sirui_capy.jpg",
+    "currentRoom": "outside",
+    "activity": "lunch",
+    "activityFloor": 0,
+    "activityOffset": [0, 0, 5],
+    "traveling": false,
+    "navigation": null,
+    "bedTransfer": {
+      "bound": true,
+      "error": null,
+      "clothFit": {
+        "position": [-7.464220662726111, 1.5209837408667135, 6.970011601838685],
+        "lift": 0.017802747630945026,
+        "compression": 0,
+        "method": "highest actual support under measured proximal-patch witnesses",
+        "samples": [
+          {
+            "local": [0.0018289081310814297, 0.5369150513046368, 0.07715279135268263],
+            "x": -7.541373454078794,
+            "z": 6.971840509969766,
+            "surfaceY": 2.034250767802547,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.023648024368803533
+          },
+          {
+            "local": [-0.0069027552233680385, 0.5369802046733928, 0.07653486308661085],
+            "x": -7.540755525812722,
+            "z": 6.963108846615317,
+            "surfaceY": 2.0335895058532776,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.02437443968682862
+          },
+          {
+            "local": [0.011787726125754393, 0.5371127784134373, 0.07145142479320019],
+            "x": -7.535672087519312,
+            "z": 6.981799327964439,
+            "surfaceY": 2.0412818346013752,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.01681468467877556
+          },
+          {
+            "local": [-0.001238975690988648, 0.5372166535836767, 0.05498322485062948],
+            "x": -7.519203887576741,
+            "z": 6.968772626147697,
+            "surfaceY": 2.05385431051101,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.004346083939379852
+          },
+          {
+            "local": [0.020377798073667828, 0.5374039240533324, 0.07272888779481032],
+            "x": -7.536949550520922,
+            "z": 6.9903893999123525,
+            "surfaceY": 2.0414070926370953,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.01698057228295058
+          },
+          {
+            "local": [-0.01695595727144996, 0.5374827943532534, 0.07914059583177328],
+            "x": -7.543361258557884,
+            "z": 6.953055644567235,
+            "surfaceY": 2.0297543082706335,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.02871222694933362
+          },
+          {
+            "local": [0.023634475402446665, 0.5376431630419134, 0.06236227248259092],
+            "x": -7.526582935208702,
+            "z": 6.993646077241132,
+            "surfaceY": 2.0518575187876236,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.006769385121003335
+          },
+          {
+            "local": [0.010182987307995344, 0.5378055309893628, 0.04952469774521499],
+            "x": -7.513745360471327,
+            "z": 6.980194589146681,
+            "surfaceY": 2.0587892718560763,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0
+          },
+          {
+            "local": [-0.022714141616574188, 0.5378493888673238, 0.058280568326806434],
+            "x": -7.522501231052918,
+            "z": 6.947297460222111,
+            "surfaceY": 2.04914468445632,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.009688445277717062
+          },
+          {
+            "local": [-0.024979651704755548, 0.5379446942884113, 0.0790416570008085],
+            "x": -7.54326231972692,
+            "z": 6.94503195013393,
+            "surfaceY": 2.0287458959765576,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.030182539178567058
+          },
+          {
+            "local": [0.01820668100758964, 0.5379692363238118, 0.05175063145159334],
+            "x": -7.515971294177705,
+            "z": 6.988218282846275,
+            "surfaceY": 2.058509636497374,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.00044334069315166147
+          },
+          {
+            "local": [0.028543084158068135, 0.5380769534092724, 0.07307897527953239],
+            "x": -7.537299638005644,
+            "z": 6.998554685996753,
+            "surfaceY": 2.0423546810908126,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.016706013185173063
+          },
+          {
+            "local": [-0.01162256804763874, 0.5381433588137999, 0.04657695961064283],
+            "x": -7.510797622336754,
+            "z": 6.958389033791046,
+            "surfaceY": 2.057631948319843,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.0014951513606704658
+          },
+          {
+            "local": [0.02934544963907248, 0.5384135904593655, 0.05591297195933731],
+            "x": -7.520133634685449,
+            "z": 6.999357051477758,
+            "surfaceY": 2.057458627639509,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.0019387036865703422
+          },
+          {
+            "local": [-0.034513682644423296, 0.5386999685497614, 0.07387663118033327],
+            "x": -7.538097293906445,
+            "z": 6.935497919194262,
+            "surfaceY": 2.0323030112818508,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.027380698134624293
+          },
+          {
+            "local": [-0.005109219359020817, 0.5387464412795067, 0.09498140976135394],
+            "x": -7.559202072487466,
+            "z": 6.964902382479664,
+            "surfaceY": 1.9965170303114244,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.06321315183479559
+          },
+          {
+            "local": [0.03449005935035335, 0.5388658719282144, 0.059702737668734046],
+            "x": -7.523923400394845,
+            "z": 7.004501661189038,
+            "surfaceY": 2.055818889746246,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.004030723048682017
+          },
+          {
+            "local": [-0.033050541657961355, 0.5388744625740307, 0.05446841704795745],
+            "x": -7.518689079774068,
+            "z": 6.936961060180724,
+            "surfaceY": 2.0517943678676076,
+            "mesh": "sleep_duvet_empty",
+            "clearance": 0.008063835573136835
+          }
+        ]
+      }
+    },
+    "animationSeconds": 0,
+    "fullscreen": "native",
+    "palette": "noon",
+    "daylight": {
+      "dateKey": "2026-10-26",
+      "minute": 840,
+      "offset": -7,
+      "altitude": 40.40208928678596,
+      "daylight": 1,
+      "sunlight": 1,
+      "direction": [-0.6698190963076243, 0.6481476700759163, -0.3622802451097751],
+      "keyDirection": [-0.6698190963076243, 0.6481476700759163, -0.3622802451097751],
+      "location": {
+        "latitude": 32.83,
+        "longitude": -117.27,
+        "timeZone": "America/Los_Angeles"
+      }
+    },
+    "clockMode": "now",
+    "following": false,
+    "animation": "eat",
+    "activityPhase": null,
+    "cupOwner": "counter",
+    "weightOwner": "rack",
+    "cupPosition": [-3.91, 1.065, 7.78],
+    "weightPosition": [6.42, 0.745, 8.06],
+    "gym": {
+      "weightOwner": "rack",
+      "weightPosition": [6.42, 0.745, 8.06],
+      "bars": {
+        "rack": {
+          "weight": 45,
+          "held": false,
+          "position": [8.8, 1.28, 8.05]
+        },
+        "platform": {
+          "weight": 45,
+          "held": false,
+          "position": [8.8, 0.225, 6.3]
+        },
+        "bench": {
+          "weight": 45,
+          "held": false,
+          "position": [10.6, 1.06, 5.35]
+        }
+      },
+      "incline": 0,
+      "lift": null,
+      "segment": null,
+      "rep": null
+    },
+    "liftHead": {
+      "min": [-0.264601469039917, -0.002173900604248047, -0.1937377154827118],
+      "max": [0.23697763681411743, 0.5852426290512085, 0.26279640197753906]
+    },
+    "actorPosition": [-3.95, -0.475, 5.26],
+    "actorFacing": 3.141592653589793,
+    "gripDrift": [],
+    "gripTargetMode": "equipment-anchor",
+    "characterPerformance": {
+      "blink": [0, 0],
+      "eye": [0, 0],
+      "head": [0, 0, 0],
+      "breath": 0,
+      "phase": "still",
+      "seconds": 0,
+      "blinkCount": 0,
+      "cooldownRemaining": 0,
+      "eyelidMeshes": 1,
+      "headOnly": true,
+      "attentionTarget": null
+    },
+    "garment": {
+      "kind": "authored shirt",
+      "materials": [
+        {
+          "color": 2830384,
+          "opacity": 1,
+          "transparent": false,
+          "roughness": 0.9,
+          "skinDiffusion": false
+        }
+      ]
+    },
+    "animations": [
+      "idle",
+      "walk",
+      "typing",
+      "reading",
+      "eat",
+      "drink",
+      "workout",
+      "pullup",
+      "dip",
+      "coffee-prep",
+      "carry",
+      "soak",
+      "lounge",
+      "sleep"
+    ],
+    "roomCount": 10,
+    "actorCount": 1,
+    "frames": 33,
+    "loading": {
+      "stages": [
+        {
+          "stage": "home",
+          "milliseconds": 0
+        },
+        {
+          "stage": "coast",
+          "milliseconds": 460
+        },
+        {
+          "stage": "room",
+          "milliseconds": 1303
+        },
+        {
+          "stage": "lighting",
+          "milliseconds": 3553
+        },
+        {
+          "stage": "first-frame",
+          "milliseconds": 12586
+        },
+        {
+          "stage": "ready",
+          "milliseconds": 13426
+        }
+      ],
+      "firstFrameMilliseconds": 13426,
+      "models": [
+        {
+          "asset": "home-shell.glb",
+          "startMilliseconds": 22,
+          "prefetched": true,
+          "headersMilliseconds": 117,
+          "downloadedMilliseconds": 121,
+          "bytes": 894112,
+          "parseStartMilliseconds": 262,
+          "parsedMilliseconds": 431
+        },
+        {
+          "asset": "coast.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 121,
+          "downloadedMilliseconds": 124,
+          "bytes": 241576,
+          "parseStartMilliseconds": 576,
+          "parsedMilliseconds": 625
+        },
+        {
+          "asset": "sirui-simpsons.glb",
+          "startMilliseconds": 1304,
+          "headersMilliseconds": 1517,
+          "bytes": 666964,
+          "downloadedMilliseconds": 1691,
+          "parsedMilliseconds": 3264
+        },
+        {
+          "asset": "aeron-lod1.glb",
+          "startMilliseconds": 1315,
+          "headersMilliseconds": 1517,
+          "bytes": 82404,
+          "downloadedMilliseconds": 1843,
+          "parsedMilliseconds": 2671
+        },
+        {
+          "asset": "italian-range-lod1.glb",
+          "startMilliseconds": 1316,
+          "headersMilliseconds": 1517,
+          "bytes": 32936,
+          "downloadedMilliseconds": 1845,
+          "parsedMilliseconds": 2723
+        },
+        {
+          "asset": "range-hood-lod1.glb",
+          "startMilliseconds": 1316,
+          "headersMilliseconds": 1517,
+          "bytes": 7520,
+          "downloadedMilliseconds": 1846,
+          "parsedMilliseconds": 2722
+        },
+        {
+          "asset": "pot-filler-lod1.glb",
+          "startMilliseconds": 1316,
+          "headersMilliseconds": 1518,
+          "bytes": 7340,
+          "downloadedMilliseconds": 1846,
+          "parsedMilliseconds": 2723
+        },
+        {
+          "asset": "glass-fridge-lod1.glb",
+          "startMilliseconds": 1316,
+          "headersMilliseconds": 1539,
+          "bytes": 33380,
+          "downloadedMilliseconds": 1870,
+          "parsedMilliseconds": 3250
+        },
+        {
+          "asset": "dining-table-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1540,
+          "bytes": 6880,
+          "downloadedMilliseconds": 1873,
+          "parsedMilliseconds": 3251
+        },
+        {
+          "asset": "dining-chair-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1540,
+          "bytes": 17196,
+          "downloadedMilliseconds": 1874,
+          "parsedMilliseconds": 3252
+        },
+        {
+          "asset": "banquette-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1541,
+          "bytes": 31432,
+          "downloadedMilliseconds": 1885,
+          "parsedMilliseconds": 3306
+        },
+        {
+          "asset": "cast-iron-pan-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1541,
+          "bytes": 9488,
+          "downloadedMilliseconds": 1886,
+          "parsedMilliseconds": 2656
+        },
+        {
+          "asset": "dumbbell-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1541,
+          "bytes": 4676,
+          "downloadedMilliseconds": 1897,
+          "parsedMilliseconds": 3252
+        },
+        {
+          "asset": "floating-fireplace-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1541,
+          "bytes": 12588,
+          "downloadedMilliseconds": 1898,
+          "parsedMilliseconds": 3255
+        },
+        {
+          "asset": "eames-lounge-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1550,
+          "bytes": 66616,
+          "downloadedMilliseconds": 1898,
+          "parsedMilliseconds": 3256
+        },
+        {
+          "asset": "cloud-sofa-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1582,
+          "bytes": 55376,
+          "downloadedMilliseconds": 1917,
+          "parsedMilliseconds": 3317
+        },
+        {
+          "asset": "whiskey-loveseat-lod1.glb",
+          "startMilliseconds": 1317,
+          "headersMilliseconds": 1583,
+          "bytes": 14860,
+          "downloadedMilliseconds": 1918,
+          "parsedMilliseconds": 3328
+        },
+        {
+          "asset": "whiskey-ottoman-lod1.glb",
+          "startMilliseconds": 1318,
+          "headersMilliseconds": 1583,
+          "bytes": 7924,
+          "downloadedMilliseconds": 1919,
+          "parsedMilliseconds": 3329
+        },
+        {
+          "asset": "whiskey-side-table-lod1.glb",
+          "startMilliseconds": 1318,
+          "headersMilliseconds": 1584,
+          "bytes": 35292,
+          "downloadedMilliseconds": 1919,
+          "parsedMilliseconds": 3521
+        },
+        {
+          "asset": "whiskey-bottles-lod1.glb",
+          "startMilliseconds": 1318,
+          "headersMilliseconds": 1584,
+          "bytes": 31808,
+          "downloadedMilliseconds": 1920,
+          "parsedMilliseconds": 3522
+        },
+        {
+          "asset": "room-study.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 121,
+          "downloadedMilliseconds": 125,
+          "bytes": 112436,
+          "parseStartMilliseconds": 1318,
+          "parsedMilliseconds": 1423
+        },
+        {
+          "asset": "room-kitchen.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 125,
+          "downloadedMilliseconds": 126,
+          "bytes": 244696,
+          "parseStartMilliseconds": 1318,
+          "parsedMilliseconds": 1428
+        },
+        {
+          "asset": "room-gym.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 131,
+          "downloadedMilliseconds": 132,
+          "bytes": 222576,
+          "parseStartMilliseconds": 1319,
+          "parsedMilliseconds": 1437
+        },
+        {
+          "asset": "room-onsen.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 133,
+          "downloadedMilliseconds": 133,
+          "bytes": 94408,
+          "parseStartMilliseconds": 1319,
+          "parsedMilliseconds": 1440
+        },
+        {
+          "asset": "room-lounge.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 134,
+          "downloadedMilliseconds": 135,
+          "bytes": 231300,
+          "parseStartMilliseconds": 1319,
+          "parsedMilliseconds": 1492
+        },
+        {
+          "asset": "room-sleep.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 137,
+          "downloadedMilliseconds": 139,
+          "bytes": 292636,
+          "parseStartMilliseconds": 1319,
+          "parsedMilliseconds": 1518
+        },
+        {
+          "asset": "room-library.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 139,
+          "downloadedMilliseconds": 141,
+          "bytes": 185640,
+          "parseStartMilliseconds": 1320,
+          "parsedMilliseconds": 1544
+        },
+        {
+          "asset": "room-library-upper.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 140,
+          "downloadedMilliseconds": 143,
+          "bytes": 22272,
+          "parseStartMilliseconds": 1320,
+          "parsedMilliseconds": 1547
+        },
+        {
+          "asset": "room-bath-living.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 141,
+          "downloadedMilliseconds": 144,
+          "bytes": 104924,
+          "parseStartMilliseconds": 1320,
+          "parsedMilliseconds": 1585
+        },
+        {
+          "asset": "room-bath-bedroom.glb",
+          "startMilliseconds": 23,
+          "prefetched": true,
+          "headersMilliseconds": 142,
+          "downloadedMilliseconds": 150,
+          "bytes": 106412,
+          "parseStartMilliseconds": 1320,
+          "parsedMilliseconds": 1682
+        },
+        {
+          "asset": "tableware-lod1.glb",
+          "startMilliseconds": 3519,
+          "headersMilliseconds": 3589,
+          "bytes": 84140,
+          "downloadedMilliseconds": 3591,
+          "parsedMilliseconds": 3626
+        },
+        {
+          "asset": "dish-shrimp-bowl-lod1.glb",
+          "startMilliseconds": 3520,
+          "headersMilliseconds": 3589,
+          "bytes": 26688,
+          "downloadedMilliseconds": 3593,
+          "parsedMilliseconds": 3615
+        },
+        {
+          "asset": "tableware-lod0.glb",
+          "startMilliseconds": 14067,
+          "headersMilliseconds": 14178,
+          "bytes": 119736,
+          "downloadedMilliseconds": 14233,
+          "parsedMilliseconds": 14245
+        },
+        {
+          "asset": "dish-shrimp-bowl-lod0.glb",
+          "startMilliseconds": 14068,
+          "headersMilliseconds": 14179,
+          "bytes": 31536,
+          "downloadedMilliseconds": 14236,
+          "parsedMilliseconds": 14249
+        },
+        {
+          "asset": "banquette-lod0.glb",
+          "startMilliseconds": 14184,
+          "headersMilliseconds": 14250,
+          "bytes": 107644,
+          "downloadedMilliseconds": 15252,
+          "parsedMilliseconds": 15271
+        },
+        {
+          "asset": "range-hood-lod0.glb",
+          "startMilliseconds": 15779,
+          "headersMilliseconds": 15826,
+          "bytes": 8944,
+          "downloadedMilliseconds": 15826,
+          "parsedMilliseconds": 15830
+        },
+        {
+          "asset": "aeron-lod0.glb",
+          "startMilliseconds": 15780,
+          "headersMilliseconds": 15826,
+          "bytes": 167488,
+          "downloadedMilliseconds": 15828,
+          "parsedMilliseconds": 15852
+        },
+        {
+          "asset": "italian-range-lod0.glb",
+          "startMilliseconds": 15835,
+          "headersMilliseconds": 15855,
+          "bytes": 49312,
+          "downloadedMilliseconds": 15855,
+          "parsedMilliseconds": 15861
+        },
+        {
+          "asset": "dining-table-lod0.glb",
+          "startMilliseconds": 15875,
+          "headersMilliseconds": 15905,
+          "bytes": 8932,
+          "downloadedMilliseconds": 15905,
+          "parsedMilliseconds": 15906
+        },
+        {
+          "asset": "whiskey-loveseat-lod0.glb",
+          "startMilliseconds": 17275,
+          "headersMilliseconds": 17296,
+          "bytes": 91396,
+          "downloadedMilliseconds": 17297,
+          "parsedMilliseconds": 17313
+        },
+        {
+          "asset": "whiskey-side-table-lod0.glb",
+          "startMilliseconds": 18922,
+          "headersMilliseconds": 18943,
+          "bytes": 52508,
+          "downloadedMilliseconds": 18944,
+          "parsedMilliseconds": 18947
+        },
+        {
+          "asset": "whiskey-bottles-lod0.glb",
+          "startMilliseconds": 18923,
+          "headersMilliseconds": 18945,
+          "bytes": 45924,
+          "downloadedMilliseconds": 18946,
+          "parsedMilliseconds": 18949
+        },
+        {
+          "asset": "whiskey-ottoman-lod0.glb",
+          "startMilliseconds": 18956,
+          "headersMilliseconds": 18994,
+          "bytes": 62492,
+          "downloadedMilliseconds": 18994,
+          "parsedMilliseconds": 19002
+        },
+        {
+          "asset": "hinterland.glb",
+          "startMilliseconds": 21750,
+          "headersMilliseconds": 21834,
+          "bytes": 1465588,
+          "downloadedMilliseconds": 21845,
+          "parsedMilliseconds": 21883
+        },
+        {
+          "asset": "flora.glb",
+          "startMilliseconds": 24600,
+          "headersMilliseconds": 24651,
+          "bytes": 2203180,
+          "downloadedMilliseconds": 24661,
+          "parsedMilliseconds": 24739
+        }
+      ],
+      "progress": {
+        "house": 1,
+        "coast": 1,
+        "room": 1,
+        "sirui": 1,
+        "view": 1
+      },
+      "lightCache": {
+        "state": "unavailable",
+        "reason": null
+      }
+    },
+    "frameTiming": {
+      "samples": 0,
+      "scope": "Consecutive moving frames, including intervals >=500ms; reset after visibility/pause changes.",
+      "medianFrameMs": 0,
+      "p95FrameMs": 0,
+      "maximumFrameMs": 0,
+      "medianSubmitMs": 0,
+      "p95SubmitMs": 0,
+      "maximumSubmitMs": 0
+    },
+    "framePending": false,
+    "drawCalls": 2926,
+    "triangles": 6124253,
+    "resources": {
+      "geometries": 809,
+      "textures": 91
+    },
+    "projection": "perspective",
+    "coastDetail": "realistic",
+    "look": {
+      "tone": "aces",
+      "bloom": true,
+      "sheen": true
+    },
+    "companion": {
+      "visible": false,
+      "position": [0, 0, 0],
+      "head": [0, 0, 0],
+      "model": "blender-pip",
+      "pendingRoom": null,
+      "outing": "home",
+      "traveling": false,
+      "flight": {
+        "phase": "rest",
+        "bank": 0,
+        "velocity": [0, 0, 0],
+        "progress": 1,
+        "hover": null
+      },
+      "attention": {
+        "phase": "still",
+        "greetings": 0,
+        "cooldown": 0,
+        "target": "Sirui"
+      },
+      "aim": {
+        "heading": null,
+        "target": [0, 0, 0],
+        "origin": [0, 0, 0],
+        "taskSource": "room-anchor"
+      },
+      "input": {
+        "kind": "mouse",
+        "touchInvitation": false,
+        "touchPending": false
+      },
+      "activeSeconds": 0,
+      "projected": null,
+      "opticalCatchlights": 2
+    },
+    "ecology": {
+      "atmosphere": {
+        "method": "Hillaire 2020 transmittance, multiple-scattering and sky-view tables on Bruneton's parameterization",
+        "tables": {
+          "transmittance": [256, 64],
+          "multiple": [32, 32],
+          "skyView": [192, 108]
+        },
+        "skyDraws": 8,
+        "sun": {
+          "apparentElevation": 40.422,
+          "trueElevation": 40.402,
+          "discTop": 40.688
+        },
+        "moon": {
+          "elevation": -35.29,
+          "illumination": 0.992
+        },
+        "weather": {
+          "marine": 0,
+          "eveningMarine": false,
+          "cirrus": 0.02,
+          "seed": 0.6114406129345298,
+          "source": "nws-forecast",
+          "dateKey": "2026-10-26",
+          "cloudCover": 0.04,
+          "rainChance": 0.01,
+          "rainAmountMm": null,
+          "rainWindows": [],
+          "forecastIssued": "2026-10-26T08:20:39+00:00",
+          "forecastValidThrough": "2026-11-01T20:00:00-08:00",
+          "forecastHourUtc": 1793048400,
+          "rain": 0,
+          "marineNow": 0
+        },
+        "gain": 1
+      },
+      "farField": {
+        "method": "the modelled land drawn from above, and the hinterland's regional surface continued to 32 km, ray-marched inside the dome",
+        "far": {
+          "ready": true,
+          "milliseconds": 2244,
+          "size": 320,
+          "extent": 32000
+        },
+        "near": {
+          "ready": true,
+          "complete": true,
+          "meshes": 143,
+          "cells": [640, 464],
+          "metres": 2.22
+        }
+      },
+      "stars": {
+        "method": "Yale Bright Star Catalogue (public domain) precessed to the date and turned by sidereal time; Schaefer 1993 naked-eye limit for the sky's brightness",
+        "catalogue": 3249,
+        "planets": [
+          {
+            "name": "Mercury",
+            "ra": 226.93073214201357,
+            "dec": -20.377810472110866,
+            "magnitude": 0.9495346967344913
+          },
+          {
+            "name": "Venus",
+            "ra": 204.462919348132,
+            "dec": -16.626143762968308,
+            "magnitude": -4.240221606493667
+          },
+          {
+            "name": "Mars",
+            "ra": 138.54650605701897,
+            "dec": 17.57839682450841,
+            "magnitude": 0.9148215608667416
+          },
+          {
+            "name": "Jupiter",
+            "ra": 145.88110411277614,
+            "dec": 14.379302144992932,
+            "magnitude": -1.9781284081015027
+          },
+          {
+            "name": "Saturn",
+            "ra": 9.625436115660136,
+            "dec": 1.215152374604395,
+            "magnitude": 0.43655355537229745
+          }
+        ],
+        "awake": false,
+        "zenithLimit": 5.07,
+        "skyMagnitude": 19.4,
+        "visibleOverhead": 387,
+        "brightest": 0.16,
+        "twinkle": 0
+      },
+      "wildlife": {
+        "rabbits": 2,
+        "raccoons": 1,
+        "gulls": 5,
+        "shorebirds": 3,
+        "pelicans": 5,
+        "cormorants": 4,
+        "swimmingSeaLions": 2,
+        "modelsReady": true,
+        "seaLions": 5,
+        "harborSeals": 3,
+        "drawPrimitives": 56,
+        "updateMilliseconds": 1.7700000000000002,
+        "updateBreakdown": {
+          "rabbits": 0.28,
+          "pinnipeds": 0.2700000000000001,
+          "raccoon": 0.29000000000000004,
+          "gulls": 0.38,
+          "sandpipers": 0.3700000000000001,
+          "pelicans": 0.09000000000000001,
+          "cormorants": 0.09000000000000001
+        },
+        "skippedLastUpdate": 0,
+        "caughtUpAtDraw": 0,
+        "palette": {
+          "night": null,
+          "nightStart": -20000,
+          "dayStart": -10000
+        },
+        "raccoon": {
+          "position": [-7.500000000000019, 9.368100000000004, 21.000000000000004],
+          "state": "sleep",
+          "bodyAccommodation": 0,
+          "contacts": [
+            {
+              "foot": "FrontPawL",
+              "position": [-7.584890618138103, 9.414188161153143, 21.126152879116134],
+              "yaw": 0.29669900051463216,
+              "slope": -0.05424260616593761,
+              "gradient": [-0.21272121114328188, 0.00825715905171575],
+              "contact": true,
+              "lift": 0,
+              "orientation": [0.0013392084059966915, 0.1488429575844349, -0.11198999726573856, 0.9824979496216689],
+              "intentionalLift": 0,
+              "raised": 0,
+              "supported": 152,
+              "supportVisible": true,
+              "supportMesh": "core_carved_mainland002",
+              "correction": 0.0009377601569919847
+            },
+            {
+              "foot": "HindPawL",
+              "position": [-7.620651681894669, 9.417737804002668, 20.90378600378037],
+              "yaw": 0.024226986269168638,
+              "slope": 0.00564800122867911,
+              "gradient": [-0.21439360995295817, 0.01084484675333785],
+              "contact": true,
+              "lift": 0,
+              "orientation": [0.0013325833022444788, 0.012327681964996742, -0.10746249457814738, 0.9941318145689505],
+              "intentionalLift": 0,
+              "raised": 0,
+              "supported": 144,
+              "supportVisible": true,
+              "supportMesh": "core_carved_mainland002",
+              "correction": -0.019365827476866215
+            },
+            {
+              "foot": "FrontPawR",
+              "position": [-7.3895855010901705, 9.371697416453848, 20.966493328052763],
+              "yaw": 0.7658141246785145,
+              "slope": -0.13984610231137595,
+              "gradient": [-0.21443984495098986, 0.010916027402870471],
+              "contact": true,
+              "lift": 0,
+              "orientation": [0.05745779664002821, 0.37740688610813994, -0.10380780035409391, 0.9184152571190634],
+              "intentionalLift": 0,
+              "raised": 0,
+              "supported": 151,
+              "supportVisible": true,
+              "supportMesh": "core_carved_mainland002",
+              "correction": 0.026130315911723656
+            },
+            {
+              "foot": "HindPawR",
+              "position": [-7.510176730856727, 9.393571438563317, 20.857503870406543],
+              "yaw": 0.5743009758545194,
+              "slope": -0.10782962457121138,
+              "gradient": [-0.21322205556625917, 0.009031940837474316],
+              "contact": true,
+              "lift": 0,
+              "orientation": [0.030989416313079613, 0.2866820167602849, -0.10290587736271635, 0.9519787065617801],
+              "intentionalLift": 0,
+              "raised": 0,
+              "supported": 143,
+              "supportVisible": true,
+              "supportMesh": "core_carved_mainland002",
+              "correction": 0.003981708574178455
+            }
+          ],
+          "ground": {
+            "ready": true,
+            "triangles": 138,
+            "cells": 88,
+            "meshes": ["core_carved_mainland002", "coast_continuous_cliff_foundation"],
+            "bounds": {
+              "minX": -10.25,
+              "maxX": -6.85,
+              "minZ": 20.35,
+              "maxZ": 22.95
+            },
+            "captureMilliseconds": 12
+          }
+        },
+        "birds": [
+          {
+            "position": [9.639999999999999, 8.761405120452393, -21.5],
+            "state": "glide",
+            "perched": null,
+            "velocity": [0.04647999300821937, 0.22004408855647029, 1.4280227703498127],
+            "wingPhase": 0,
+            "wingRate": 3,
+            "wingBeat": 6.694156532764621e-12,
+            "wingFold": 0,
+            "contacts": []
+          },
+          {
+            "position": [-0.48127965566709063, 10.38283158902065, -14.935680406895568],
+            "state": "glide",
+            "perched": null,
+            "velocity": [-0.6367556154326937, 0.2643540468483252, 0.5004444775487116],
+            "wingPhase": 0.3,
+            "wingRate": 3,
+            "wingBeat": -0.0028666944872968655,
+            "wingFold": 0,
+            "contacts": []
+          },
+          {
+            "position": [-10.130011551823273, 10.939604235038276, -23.176993367526233],
+            "state": "glide",
+            "perched": null,
+            "velocity": [0.29484239449129035, -0.014264244843964491, -0.939917448924632],
+            "wingPhase": 0.6,
+            "wingRate": 3,
+            "wingBeat": 0,
+            "wingFold": 0,
+            "contacts": []
+          },
+          {
+            "position": [-12.486383299971891, 13.73609052694986, -6.157626394793759],
+            "state": "approach",
+            "perched": null,
+            "velocity": [-0.38632497067219823, -0.2581388884441982, 2.101789081391746],
+            "wingPhase": 0.8999999999999999,
+            "wingRate": 3,
+            "wingBeat": 0.4206267664155904,
+            "wingFold": 0,
+            "contacts": []
+          }
+        ],
+        "balconyGullContacts": [
+          {
+            "foot": "FootL",
+            "position": [0.25028905657251915, 3.4613025358348466, 9.337537991431828],
+            "hipAccommodation": 0.015349971102628724,
+            "surfaceLift": 0,
+            "weight": 1
+          },
+          {
+            "foot": "FootR",
+            "position": [0.3374214266051923, 3.4659567426423106, 9.300699016249432],
+            "hipAccommodation": 0.010890227290032323,
+            "surfaceLift": 8.881784197001252e-16,
+            "weight": 1
+          }
+        ],
+        "balconyGullState": "perch",
+        "shorebirdContacts": [
+          {
+            "position": [-1.9022865139180796, -7.238492510511017, -13.441168305708995],
+            "state": "probe",
+            "edge": 0.4450502014160156,
+            "contacts": [
+              {
+                "foot": "FootL",
+                "position": [-1.9193206821874507, -7.2149925995986814, -13.337625909803464],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "FootR",
+                "position": [-1.884787494611723, -7.232559301601129, -13.496517983425454],
+                "contact": true,
+                "lift": 0
+              }
+            ]
+          },
+          {
+            "position": [3.086269736642204, -7.271366981105227, -13.868885866185106],
+            "state": "run",
+            "edge": 0.4481318664550782,
+            "contacts": [
+              {
+                "foot": "FootL",
+                "position": [3.0695240736928775, -7.259289279754473, -13.877250098088544],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "FootR",
+                "position": [3.099797770926564, -7.253825280734605, -13.812434163036299],
+                "contact": true,
+                "lift": 0
+              }
+            ]
+          },
+          {
+            "position": [4.4181909843998035, -7.298448553115334, -13.106937575948102],
+            "state": "probe",
+            "edge": 0.4391084289550782,
+            "contacts": [
+              {
+                "foot": "FootL",
+                "position": [4.395745619102473, -7.274316997569392, -13.005943904872955],
+                "contact": true,
+                "lift": 0
+              },
+              {
+                "foot": "FootR",
+                "position": [4.442257874266713, -7.292623282692414, -13.159763585755147],
+                "contact": true,
+                "lift": 0
+              }
+            ]
+          }
+        ],
+        "contacts": [
+          {
+            "habitat": "seaLion",
+            "position": [-10, -6.6084, -14.5115],
+            "state": "bark"
+          },
+          {
+            "habitat": "seaLion",
+            "position": [-8.6, -6.6737, -14.2179],
+            "state": "rest"
+          },
+          {
+            "habitat": "seaLion",
+            "position": [11, -6.7453, -13.3577],
+            "state": "rest"
+          },
+          {
+            "habitat": "seal",
+            "position": [-5, -7.1295, -12.0849],
+            "state": "scratch"
+          },
+          {
+            "habitat": "seal",
+            "position": [-4, -7.1329, -12.1697],
+            "state": "rest"
+          },
+          {
+            "habitat": "seal",
+            "position": [-3, -7.1308, -11.9844],
+            "state": "rest"
+          }
+        ],
+        "swimmers": [
+          {
+            "id": "swimmer-0",
+            "position": [-28, -7.22052090414072, -20.849172988673672],
+            "state": "raft",
+            "contacts": []
+          },
+          {
+            "id": "swimmer-1",
+            "position": [29, -7.384047943472854, -22.93359025921824],
+            "state": "raft",
+            "contacts": []
+          }
+        ],
+        "pelicanStates": [
+          {
+            "id": "pelican-0",
+            "position": [6.275669534250722, -6.192743414559311, -25.67757397993864],
+            "state": "glide",
+            "contacts": []
+          },
+          {
+            "id": "pelican-1",
+            "position": [10.645642222906531, -6.191865810969481, -24.941525898648756],
+            "state": "glide",
+            "contacts": []
+          },
+          {
+            "id": "pelican-2",
+            "position": [15.083247518486642, -6.205973395966327, -25.626887032037256],
+            "state": "glide",
+            "contacts": []
+          },
+          {
+            "id": "pelican-3",
+            "position": [19.435667547507006, -6.2348315347477365, -24.385251987178787],
+            "state": "glide",
+            "contacts": []
+          },
+          {
+            "id": "pelican-4",
+            "position": [23.87797374879372, -6.259984781535707, -25.143322346478353],
+            "state": "flap",
+            "contacts": []
+          }
+        ],
+        "cormorantStates": [
+          {
+            "id": "cormorant-0",
+            "position": [-11.7700005, -6.0533485, -14.5710001],
+            "state": "stand",
+            "contacts": [
+              {
+                "foot": "FootL",
+                "position": [-11.744847413971213, -6.042948499506027, -14.454357174575044],
+                "supported": true
+              },
+              {
+                "foot": "FootR",
+                "position": [-11.856621787640425, -6.042948499506027, -14.488933040128343],
+                "supported": true
+              }
+            ]
+          },
+          {
+            "id": "cormorant-1",
+            "position": [-13.5059996, -6.0408316, -14.9180002],
+            "state": "look",
+            "contacts": [
+              {
+                "foot": "FootL",
+                "position": [-13.408087027882752, -6.030431599506026, -14.849799188205104],
+                "supported": true
+              },
+              {
+                "foot": "FootR",
+                "position": [-13.51343934304434, -6.030431599506026, -14.798908218691864],
+                "supported": true
+              }
+            ]
+          },
+          {
+            "id": "cormorant-2",
+            "position": [15.1300001, -6.1582489, -12.9099998],
+            "state": "dry",
+            "contacts": [
+              {
+                "foot": "FootL",
+                "position": [15.20799560702282, -6.147848899506027, -12.819695034496089],
+                "supported": true
+              },
+              {
+                "foot": "FootR",
+                "position": [15.093327812858906, -6.147848899506027, -12.796450721869421],
+                "supported": true
+              }
+            ]
+          },
+          {
+            "id": "cormorant-3",
+            "position": [15.2259998, -6.1582489, -13.6149998],
+            "state": "dry",
+            "contacts": [
+              {
+                "foot": "FootL",
+                "position": [15.227478127010226, -6.147848899506027, -13.495684820480603],
+                "supported": true
+              },
+              {
+                "foot": "FootR",
+                "position": [15.124800963189028, -6.147848899506027, -13.551777610726223],
+                "supported": true
+              }
+            ]
+          }
+        ],
+        "rabbitHabitats": [
+          {
+            "position": [-14.501364151669106, 11.764355347170284, 1.7362286149124402],
+            "state": "hop",
+            "airborne": false,
+            "contact": true,
+            "lift": 0,
+            "progress": 0.5905967631756949
+          },
+          {
+            "position": [8.061504449830652, 8.11468666647315, 5.622940010740161],
+            "state": "freeze",
+            "airborne": false,
+            "contact": true,
+            "lift": 0,
+            "progress": 0.7981481414288283
+          }
+        ]
+      },
+      "beachWidth": 13.5,
+      "particles": 182,
+      "particleMotion": [
+        {
+          "kind": "spray",
+          "count": 140,
+          "seconds": 1,
+          "fieldSeconds": 1.394717674685353e-15,
+          "droppedTime": 0,
+          "ticks": 60,
+          "backlogSeconds": 0,
+          "step": 0.016666666666666666,
+          "maxSteps": 30,
+          "integrator": "midpoint",
+          "windSamplesPerTick": 280,
+          "prewarmMilliseconds": 7
+        },
+        {
+          "kind": "dust",
+          "count": 42,
+          "seconds": 18,
+          "fieldSeconds": 2.599656601098843e-13,
+          "droppedTime": 0,
+          "ticks": 1080,
+          "backlogSeconds": 0,
+          "step": 0.016666666666666666,
+          "maxSteps": 30,
+          "integrator": "midpoint",
+          "windSamplesPerTick": 84,
+          "prewarmMilliseconds": 38
+        }
+      ],
+      "water": {
+        "field": {
+          "method": "bounded analytic Gerstner field",
+          "enabled": false
+        },
+        "waves": 10,
+        "vertices": 25921,
+        "triangles": 51200,
+        "seconds": 0,
+        "sample": {
+          "displacement": [0.02761775283540807, 0.1195916409589291, 0.05043308891039021],
+          "tangentX": [0.9995030542868686, 0.017372481691649903, 0.03597277507935968],
+          "tangentZ": [0.03597277507935968, 0.001039811799148939, 0.9776339503065123],
+          "normal": [-0.017363217621917774, 0.999849157840034, -0.00042454727497326134],
+          "jacobian": 0.9758540787589857,
+          "lostVariance": 0.002534119297229181
+        },
+        "reflection": {
+          "width": 1536,
+          "height": 864,
+          "linear": true,
+          "fresnelIOR": 1.333,
+          "active": true
+        },
+        "optics": {
+          "method": "Lee et al. 1998 shallow-water reflectance over a captured seabed / paraxial ripple caustics / Pope and Fry pure-water absorption",
+          "water": {
+            "chlorophyll": 0.25,
+            "cdom440": 0.015,
+            "particleScale": 0.3,
+            "particleBackscatterRatio": 0.019,
+            "molecularBackscatter": [0.0005, 0.001, 0.0022]
+          },
+          "absorption": [0.3428729044882412, 0.0630320794509742, 0.04519301191580358],
+          "backscatter": [0.002541958887889633, 0.0034132241402332025, 0.005149496171396137],
+          "seabed": {
+            "captured": true,
+            "captures": 2,
+            "meshes": 33,
+            "grid": [800, 160],
+            "cellMeters": 0.5,
+            "bounds": {
+              "minX": -200,
+              "maxX": 200,
+              "minZ": -80,
+              "maxZ": 0
+            },
+            "capturedCells": 22496,
+            "dryCells": 11156,
+            "shallowestMeters": 0.000018024444580433396,
+            "deepestMeters": 14.000000381469727,
+            "slope": 0.08,
+            "curvature": 0.003,
+            "floor": -21.35,
+            "drawMilliseconds": 59,
+            "fillMilliseconds": 25,
+            "textureBytes": 1024000
+          },
+          "lamps": 2,
+          "wakes": 0,
+          "sun": {
+            "altitude": 40.40208928678596,
+            "light": [2.8999515425448346, 2.4519452288279795, 1.8627218745819702],
+            "tint": [1, 1, 1],
+            "apart": true
+          }
+        }
+      }
+    },
+    "rendering": {
+      "contactShadows": true,
+      "contactActive": false,
+      "method": "cosine-weighted horizons / indirect diffuse",
+      "slices": 4,
+      "samples": 32,
+      "radiusMeters": 0.36,
+      "aoWidth": 1920,
+      "aoHeight": 1080,
+      "width": 3840,
+      "height": 2160,
+      "msaaSamples": 0,
+      "gpu": {
+        "available": true,
+        "samples": 4,
+        "medianMs": 72.809472,
+        "p95Ms": 93.57824
+      },
+      "volumeDepth": null,
+      "bloom": {
+        "strength": 0.28,
+        "radius": 0.42,
+        "threshold": 1.6
+      },
+      "haze": {
+        "method": "exponential height haze from scene depth, horizon-lit; the modelled land and sea dissolve into the dome's far field before the far plane and the sea plane's edge",
+        "dissolve": [180, 285],
+        "density": 0.0007142857142857143,
+        "scaleHeight": 30,
+        "volume": {
+          "method": "shadow-mapped single-scattering march (haze shafts, marine fog, indoor dust), joint-bilateral upsampled",
+          "enabled": true,
+          "marching": false,
+          "plan": {
+            "exterior": true,
+            "fog": 0,
+            "dust": false,
+            "shafts": false
+          },
+          "size": [1280, 720],
+          "steps": 23,
+          "quality": {
+            "steps": 1.25,
+            "divisor": -1
+          },
+          "fog": [0, -5.35, 0, 0],
+          "draws": 25
+        },
+        "draws": 33,
+        "reason": "analytic"
+      },
+      "temporal": null
+    },
+    "simulation": {
+      "rain": {
+        "method": "active-time seeded exterior line field in a world-stable camera box, clipped to terrain and covered volumes",
+        "intensity": 0,
+        "drops": 0,
+        "maximum": 1024,
+        "sheltered": 0,
+        "nearCamera": 0,
+        "fieldExtent": 30,
+        "fieldTime": 0,
+        "extraPasses": 0,
+        "shadowCasters": 0,
+        "roofClip": {
+          "method": "conservative swept XZ footprint over actual static roof triangles",
+          "built": false,
+          "cellSize": 1,
+          "triangles": 0,
+          "cells": 0,
+          "sources": []
+        }
+      },
+      "infinityPool": {
+        "surfaces": 1,
+        "fixedWaterline": -0.09,
+        "amplitude": 0.004,
+        "seconds": 0,
+        "sharedCoastalLight": true,
+        "activity": null
+      },
+      "skin": {
+        "method": "normalized local curved-patch diffuse preintegration",
+        "enabled": true,
+        "strength": 0.7,
+        "distancesMeters": [0.0032, 0.0012, 0.00065],
+        "maxCurvature": 160,
+        "width": 257,
+        "height": 49,
+        "storage": "half-float",
+        "textureBytes": 100744,
+        "totalBindings": 3,
+        "boundMaterials": 3,
+        "compiledMaterials": 3,
+        "incompatibleMaterials": 0,
+        "activeMaterials": 2,
+        "extraRenderTargets": 0,
+        "extraPasses": 0,
+        "disposed": false
+      },
+      "onsen": {
+        "nx": 40,
+        "nz": 40,
+        "dx": 0.04300000071525574,
+        "dz": 0.04300000071525574,
+        "wetCells": 1264,
+        "density": 1000,
+        "volume": 0.2979041948473591,
+        "mass": 297.90419484735907,
+        "relativeMassError": 0,
+        "minimumDepth": 0.12746548978611827,
+        "maximumDepth": 0.12746548978611827,
+        "potential": 0,
+        "kinetic": 0,
+        "energy": 0,
+        "finite": true,
+        "boundarySpeed": 0,
+        "simulationTime": 0,
+        "retainedTime": 0,
+        "droppedTime": 0,
+        "steps": 0,
+        "maxSubsteps": 0,
+        "maxCourant": 0,
+        "limitedFluxes": 0,
+        "limitedVelocities": 0,
+        "storageBytes": 187280,
+        "obstacle": null,
+        "coupling": {
+          "method": "Gaussian submerged palm / exponential face drag",
+          "contactCount": 0,
+          "coupledFaces": 0,
+          "couplingSteps": 0,
+          "velocityChange": 0
+        },
+        "center": [3.1700000762939453, 11.180000305175781],
+        "surfaceY": 3.0075131240300834,
+        "radius": 0.8600000143051147,
+        "depth": 0.12746548978611827,
+        "bottomY": 2.880047634243965,
+        "depthSource": "five native basin ray hits",
+        "uploads": 1,
+        "drip": {
+          "bound": true,
+          "drops": 0,
+          "nextSeconds": 0.23573683855105448,
+          "coupling": "prescribed drop; zero-mean volume-conserving impulse"
+        },
+        "textureBytes": 25600,
+        "disposed": false,
+        "caustics": {
+          "method": "paraxial lens of the simulated surface: 1/|det(I + l(1-1/n) Hess h)|, central differences over one cell",
+          "receivers": 3,
+          "enabled": true,
+          "overheadFloorGain": {
+            "minimum": 1,
+            "maximum": 1,
+            "mean": 1,
+            "samples": 448
+          },
+          "absorption": [2.052978718675711, 0.9148459258552688, 1.047859012694321]
+        },
+        "stroke": {
+          "method": "prescribed anatomical IK / measured submerged palm velocity",
+          "available": true,
+          "side": "L",
+          "phase": "rest",
+          "seconds": 0,
+          "restPalm": null,
+          "palm": null,
+          "wristError": 0,
+          "contacts": [],
+          "sampledContacts": 0,
+          "suppressedSamples": 0,
+          "maximumSpeed": 0,
+          "applied": false
+        },
+        "optics": {
+          "ior": 1.333,
+          "transmission": 0.86,
+          "thicknessMeters": 0.12746548978611827,
+          "attenuationDistanceMeters": 0.6,
+          "method": "Three r164 screen-space refracted background / Beer-Lambert attenuation",
+          "extraBackgroundPass": true,
+          "opaqueShadow": false,
+          "normalDepthOccluder": false
+        }
+      },
+      "wind": {
+        "method": "coast breeze and gust fronts, indoor share through the glass front / six-mode curl eddies / critically damped rooted bends",
+        "seconds": 0,
+        "enabled": false,
+        "meanMetersPerSecond": [-1.3500000000000003, 0, 2.3382685902179845],
+        "gustBoundMetersPerSecond": 1.6200000000000003,
+        "indoorShare": 0.012000000104308128,
+        "shelterGlassZ": 3.5199999809265137,
+        "terraceShare": 0.11999999731779099,
+        "followsCoast": true,
+        "complianceSeconds": 0.018,
+        "beautyAndShadowMatched": true,
+        "contactNormalApproximation": "static leaves in the contact pass; bends saturate softly toward 15 mm",
+        "plants": [
+          {
+            "name": "core__olive_leaf",
+            "vertices": 1188,
+            "components": 22,
+            "enabled": 22,
+            "disabled": 0,
+            "buildMilliseconds": 12
+          },
+          {
+            "name": "kitchen__olive_leaf",
+            "vertices": 160,
+            "components": 40,
+            "enabled": 40,
+            "disabled": 0,
+            "buildMilliseconds": 3
+          },
+          {
+            "name": "onsen__olive_leaf",
+            "vertices": 594,
+            "components": 11,
+            "enabled": 11,
+            "disabled": 0,
+            "buildMilliseconds": 6
+          },
+          {
+            "name": "lounge_retained_plant_table_foliage",
+            "vertices": 28,
+            "components": 7,
+            "enabled": 7,
+            "disabled": 0,
+            "buildMilliseconds": 0
+          },
+          {
+            "name": "sleep__olive_leaf",
+            "vertices": 594,
+            "components": 11,
+            "enabled": 11,
+            "disabled": 0,
+            "buildMilliseconds": 9
+          }
+        ],
+        "coast": {
+          "method": "sea-breeze cycle (periodic Hermite over velocity knots) / hashed gust fronts on retarded time / six indoor eddy modes",
+          "seconds": 0,
+          "minute": 840,
+          "meanMetersPerSecond": 2.7000000000000006,
+          "fromDegrees": 300,
+          "towardYaw": -0.5235987755982989,
+          "direction": [-0.5, 0.8660254037844385],
+          "frontMetersPerSecond": 2.7000000000000006,
+          "doorsOpen": 0,
+          "indoorLeak": 0.012,
+          "gustBase": 0.8719778818681023,
+          "shelterGlassZ": 3.5199999999999996,
+          "gust": {
+            "sea": 1.3642168714336502,
+            "beach": 0.9319237549545193,
+            "glass": 0.9170589901706081,
+            "bluff": 1.0424008683041026
+          }
+        }
+      },
+      "curtains": {
+        "plan": {
+          "state": "day",
+          "glare": 0,
+          "view": "kitchen-south",
+          "visited": null,
+          "fractions": {
+            "kitchen-south": 1,
+            "kitchen-north": 1,
+            "lounge-south": 1,
+            "lounge-north": 1
+          }
+        },
+        "offset": [0, 0, 8],
+        "inView": true,
+        "stepping": false,
+        "pendingDrapes": 0,
+        "coverage": "blend",
+        "frameMilliseconds": {
+          "samples": 0,
+          "median": null,
+          "p95": null,
+          "solve": null,
+          "draw": null
+        },
+        "revision": 4,
+        "hardware": {
+          "rods": 2,
+          "rings": 24,
+          "material": "curtain rod bronze"
+        },
+        "draws": 6,
+        "cloth": {
+          "method": "XPBD small steps (cloth-solver.mjs): stretch/shear distance constraints, isometric bending, long-range attachments to the ring clips, fold ordering, contacts with friction, per-triangle flat-plate air force",
+          "fixedStep": 0.03333333333333333,
+          "substeps": 6,
+          "steps": 0,
+          "simulatedSeconds": 0,
+          "lastStepTime": 0,
+          "reducedMotion": true,
+          "particles": 2772,
+          "constraints": 22592,
+          "maxConstraintError": 0.051052745260991926,
+          "kineticEnergy": 0,
+          "potentialEnergy": 40.07944858131141,
+          "bendingEnergy": 0.47290774268477,
+          "energy": 40.55235632399618,
+          "sleeping": true,
+          "openFractions": {
+            "kitchen-south": 1,
+            "kitchen-north": 1,
+            "lounge-south": 1,
+            "lounge-north": 1
+          },
+          "lastUpdateMilliseconds": 0,
+          "allocations": 148,
+          "panels": [
+            {
+              "id": "kitchen-south",
+              "particles": 693,
+              "columns": 33,
+              "rows": 21,
+              "rings": 6,
+              "openFraction": 1,
+              "targetOpenFraction": 1,
+              "gatheredWidth": 0.20500000000000002,
+              "sleeping": true,
+              "active": true,
+              "windMetersPerSecond": 0,
+              "windScale": 1,
+              "maxConstraintError": 0.05060145379557884,
+              "kineticEnergy": 0,
+              "potentialEnergy": 11.00376118977002,
+              "bendingEnergy": 0.10750370983426395,
+              "steps": 30
+            },
+            {
+              "id": "kitchen-north",
+              "particles": 693,
+              "columns": 33,
+              "rows": 21,
+              "rings": 6,
+              "openFraction": 1,
+              "targetOpenFraction": 1,
+              "gatheredWidth": 0.20500000000000002,
+              "sleeping": true,
+              "active": true,
+              "windMetersPerSecond": 0,
+              "windScale": 1,
+              "maxConstraintError": 0.051052745260991926,
+              "kineticEnergy": 0,
+              "potentialEnergy": 11.0012605798597,
+              "bendingEnergy": 0.128839417556137,
+              "steps": 30
+            },
+            {
+              "id": "lounge-south",
+              "particles": 693,
+              "columns": 33,
+              "rows": 21,
+              "rings": 6,
+              "openFraction": 1,
+              "targetOpenFraction": 1,
+              "gatheredWidth": 0.20500000000000002,
+              "sleeping": true,
+              "active": true,
+              "windMetersPerSecond": 0,
+              "windScale": 1,
+              "maxConstraintError": 0.04865247230822664,
+              "kineticEnergy": 0,
+              "potentialEnergy": 9.037424454458082,
+              "bendingEnergy": 0.11994039366887393,
+              "steps": 30
+            },
+            {
+              "id": "lounge-north",
+              "particles": 693,
+              "columns": 33,
+              "rows": 21,
+              "rings": 6,
+              "openFraction": 1,
+              "targetOpenFraction": 1,
+              "gatheredWidth": 0.20500000000000002,
+              "sleeping": true,
+              "active": true,
+              "windMetersPerSecond": 0,
+              "windScale": 1,
+              "maxConstraintError": 0.021892171806517088,
+              "kineticEnergy": 0,
+              "potentialEnergy": 9.03700235722361,
+              "bendingEnergy": 0.1166242216254951,
+              "steps": 30
+            }
+          ]
+        },
+        "draft": {
+          "method": "coast indoor air + soft-clamped jets of the coast's onshore breeze with advected curl eddies + glass boundary layer",
+          "coast": true,
+          "roomLeak": 1,
+          "onshoreMetersPerSecond": 0,
+          "doorGain": 0.55,
+          "turbulence": 0.5,
+          "eddyWavelengths": [2.1875, 1.4999999999999998, 1.0312499999999998, 0.7499999999999999, 0.53125, 0.37499999999999994],
+          "advectionMetersPerSecond": 0.8,
+          "glassDraftMetersPerSecond": 0.05,
+          "doors": [
+            {
+              "id": "kitchen",
+              "offset": -2.55,
+              "open": [-3.4, -0.85],
+              "jetMetersPerSecond": 0
+            },
+            {
+              "id": "lounge",
+              "offset": 2,
+              "open": [2, 4],
+              "jetMetersPerSecond": 0
+            }
+          ]
+        },
+        "laundry": {
+          "out": true,
+          "offset": [0, 0, 8],
+          "inView": true,
+          "stepping": false,
+          "sleeping": true,
+          "steps": 0,
+          "items": ["towel-indigo", "shirt", "towel-natural", "towel-terracotta"],
+          "particles": 876,
+          "constraints": {
+            "particles": 876,
+            "distance": 3163,
+            "bending": 2188,
+            "tethers": 816,
+            "orders": 0,
+            "separations": 141,
+            "triangles": 1520,
+            "windNodes": 222
+          },
+          "pegs": 9,
+          "windMetersPerSecond": 0,
+          "exposure": 0.42,
+          "maxStretch": 0.19427846950773683,
+          "kineticEnergy": 0,
+          "bendingEnergy": 0.027448077441291654,
+          "draws": 6,
+          "frameMilliseconds": {
+            "samples": 0,
+            "median": null,
+            "p95": null
+          }
+        }
+      },
+      "practicals": {
+        "nightMix": 0,
+        "pointLights": 8,
+        "newFixtures": 3,
+        "fixtureDraws": 2,
+        "levels": {
+          "study": 0.3,
+          "sleep": 0,
+          "kitchen": 1,
+          "lounge": 0.3,
+          "bath": 0.3,
+          "gym": 0.15,
+          "terrace-west": 0.35,
+          "terrace-east": 0.35
+        },
+        "sources": [
+          {
+            "position": [-11.370000000000001, 1.2799999999999998, 3.7199999999999998],
+            "intensity": 0.9
+          },
+          {
+            "position": [-4.13, 3.47, 10.47],
+            "intensity": 0.7
+          },
+          {
+            "position": [-4.99, 1.95, 4.9],
+            "intensity": 0.7
+          },
+          {
+            "position": [-1.2, 1.42, 4.45],
+            "intensity": 0.7
+          },
+          {
+            "position": [3.68, 3.388, 10.2],
+            "intensity": 0.6
+          },
+          {
+            "position": [8.6, 2.3, 7.6],
+            "intensity": 0.5
+          },
+          {
+            "position": [-4.75, 0.170405, 3.88],
+            "intensity": 0.15
+          },
+          {
+            "position": [3.9, 0.170405, 3.88],
+            "intensity": 0.15
+          }
+        ]
+      },
+      "installations": {
+        "levels": {
+          "festoon": 0,
+          "fire": 0,
+          "soffit": 0.18,
+          "steps": 0,
+          "pool": 0,
+          "gym": 0,
+          "pendant": 0.65,
+          "dining": 0.65,
+          "entrance": 0.6,
+          "downlights": 0.55,
+          "shelf": 0.55,
+          "libraryHearth": 0,
+          "room:library": 0,
+          "room:bath-living": 0,
+          "room:bath-bedroom": 0
+        },
+        "lines": 34,
+        "points": 19,
+        "receiverPacks": {
+          "exterior": {
+            "lines": 9,
+            "points": 4,
+            "sources": [
+              "festoon",
+              "festoon",
+              "festoon",
+              "festoon",
+              "tall-books-west",
+              "tall-books-east",
+              "wet-bar",
+              "bedchamber-warm-cove",
+              "cantilever-wash",
+              "fire",
+              "pavilion-pendant-0",
+              "pavilion-pendant-1",
+              "library-hearth"
+            ]
+          },
+          "living": {
+            "lines": 14,
+            "points": 10,
+            "sources": [
+              "festoon",
+              "festoon",
+              "festoon",
+              "festoon",
+              "soffit",
+              "steps",
+              "shelf",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "short-bedroom-link",
+              "back-wall-graze",
+              "bedchamber-warm-cove",
+              "corridor-niche-2",
+              "pendant",
+              "dining",
+              "dining",
+              "downlights",
+              "downlights",
+              "downlights",
+              "entrance",
+              "entrance",
+              "fire",
+              "pool"
+            ]
+          },
+          "upper": {
+            "lines": 12,
+            "points": 10,
+            "sources": [
+              "festoon",
+              "festoon",
+              "festoon",
+              "festoon",
+              "steps",
+              "shelf",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "short-bedroom-link",
+              "back-wall-graze",
+              "bedchamber-warm-cove",
+              "pendant",
+              "dining",
+              "dining",
+              "downlights",
+              "downlights",
+              "downlights",
+              "entrance",
+              "entrance",
+              "fire",
+              "pool"
+            ]
+          },
+          "gym": {
+            "lines": 7,
+            "points": 1,
+            "sources": ["festoon", "festoon", "festoon", "festoon", "gym", "gym", "gym", "fire"]
+          },
+          "bath-living": {
+            "lines": 9,
+            "points": 6,
+            "sources": [
+              "soffit",
+              "shelf",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "short-bedroom-link",
+              "corridor-niche-0",
+              "corridor-niche-1",
+              "corridor-niche-2",
+              "pendant",
+              "dining",
+              "dining",
+              "downlights",
+              "downlights",
+              "downlights"
+            ]
+          },
+          "bath-bedroom": {
+            "lines": 5,
+            "points": 6,
+            "sources": [
+              "shelf",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "short-bedroom-link",
+              "pendant",
+              "dining",
+              "dining",
+              "downlights",
+              "downlights",
+              "downlights"
+            ]
+          },
+          "library": {
+            "lines": 9,
+            "points": 2,
+            "sources": [
+              "festoon",
+              "festoon",
+              "festoon",
+              "festoon",
+              "tall-books-west",
+              "tall-books-east",
+              "short-bedroom-link",
+              "whiskey-niche",
+              "bedchamber-warm-cove",
+              "fire",
+              "library-hearth"
+            ]
+          },
+          "gallery": {
+            "lines": 15,
+            "points": 7,
+            "sources": [
+              "soffit",
+              "shelf",
+              "tall-books-west",
+              "tall-books-east",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "short-bedroom-link",
+              "bedchamber-warm-cove",
+              "corridor-niche-0",
+              "corridor-niche-1",
+              "corridor-niche-2",
+              "pendant",
+              "dining",
+              "dining",
+              "downlights",
+              "downlights",
+              "downlights",
+              "library-hearth"
+            ]
+          },
+          "architecture": {
+            "lines": 17,
+            "points": 10,
+            "sources": [
+              "festoon",
+              "festoon",
+              "festoon",
+              "festoon",
+              "soffit",
+              "steps",
+              "shelf",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "mirror",
+              "vanity-underlight",
+              "shower",
+              "short-bedroom-link",
+              "back-wall-graze",
+              "bedchamber-warm-cove",
+              "corridor-niche-2",
+              "pendant",
+              "dining",
+              "dining",
+              "downlights",
+              "downlights",
+              "downlights",
+              "entrance",
+              "entrance",
+              "fire",
+              "pool"
+            ]
+          },
+          "garden": {
+            "lines": 7,
+            "points": 8,
+            "sources": [
+              "portal-brow",
+              "clifftop-lounge--12.82",
+              "clifftop-lounge--9.18",
+              "arrival-rail-a",
+              "arrival-rail-b",
+              "arrival-rail-c",
+              "arrival-well-wash",
+              "entrance",
+              "entrance",
+              "garden-path-0",
+              "garden-path-1",
+              "garden-path-2",
+              "garden-path-3",
+              "arrival-daylight-0",
+              "arrival-daylight-1"
+            ]
+          },
+          "arrival": {
+            "lines": 8,
+            "points": 7,
+            "sources": [
+              "soffit",
+              "steps",
+              "portal-brow",
+              "back-wall-graze",
+              "arrival-rail-a",
+              "arrival-rail-b",
+              "arrival-rail-c",
+              "arrival-well-wash",
+              "entrance",
+              "entrance",
+              "garden-path-0",
+              "garden-path-1",
+              "garden-path-2",
+              "arrival-daylight-0",
+              "arrival-daylight-1"
+            ]
+          },
+          "clifftop": {
+            "lines": 2,
+            "points": 0,
+            "sources": ["clifftop-lounge--12.82", "clifftop-lounge--9.18"]
+          },
+          "bedchamber": {
+            "lines": 13,
+            "points": 8,
+            "sources": [
+              "festoon",
+              "festoon",
+              "festoon",
+              "festoon",
+              "soffit",
+              "shelf",
+              "tall-books-west",
+              "tall-books-east",
+              "short-bedroom-link",
+              "bedchamber-warm-cove",
+              "corridor-niche-0",
+              "corridor-niche-1",
+              "corridor-niche-2",
+              "pendant",
+              "dining",
+              "dining",
+              "downlights",
+              "downlights",
+              "downlights",
+              "fire",
+              "library-hearth"
+            ]
+          }
+        },
+        "clonedReceiverMaterials": 5,
+        "festoonMaterials": 2,
+        "fireMaterials": 1,
+        "deskMaterials": 5,
+        "lanternMaterials": 1,
+        "rgb": "f77777",
+        "pool": [3.961200089454651, 2.8875131240300833, 11.180000305175781]
+      },
+      "interiorReflections": {
+        "method": "cropped planar room and live actor reflections",
+        "rooms": ["bath-living", "bath-bedroom"],
+        "size": 512,
+        "sharedTargets": 1,
+        "maximumHz": 15,
+        "contextReach": 12,
+        "captures": 0,
+        "capturedRoom": null,
+        "milliseconds": 13,
+        "prepared": true,
+        "contextRooms": [],
+        "dynamicRoots": [],
+        "cropArea": 1,
+        "linearTexelGain": 1
+      },
+      "estateDoors": {
+        "doors": [
+          {
+            "id": "main",
+            "fraction": 0,
+            "open": false,
+            "offset": 0,
+            "angle": 0
+          },
+          {
+            "id": "upper",
+            "fraction": 0,
+            "open": false,
+            "offset": 0,
+            "angle": 0
+          },
+          {
+            "id": "library-patio",
+            "fraction": 0,
+            "open": false,
+            "offset": 0,
+            "angle": 0
+          }
+        ],
+        "automatic": true,
+        "motionSeconds": 0.6
+      },
+      "libraryLadder": {
+        "available": true,
+        "missingNodes": [],
+        "nodes": ["library_ladder__pale_oak", "library_ladder__honey_ash", "library_ladder__brushed_brass"],
+        "position": 0,
+        "target": 0,
+        "travel": [-1.8, 1.8],
+        "speed": 0.7,
+        "blocked": false,
+        "paused": false,
+        "disposed": false,
+        "climbable": false,
+        "axis": "world-z",
+        "bounds": {
+          "min": [-12.135869026184082, 0, 7.6700000166893005],
+          "max": [-11.664058685302734, 4.753072261810303, 8.430000007152557]
+        }
+      },
+      "facade": {
+        "doors": [
+          {
+            "id": "kitchen",
+            "scheduledOpen": true,
+            "open": true,
+            "offset": -2.55,
+            "slideX": -2.55
+          },
+          {
+            "id": "lounge",
+            "scheduledOpen": true,
+            "open": true,
+            "offset": 2,
+            "slideX": 2
+          }
+        ],
+        "glazedMeshes": 11
+      },
+      "lightField": {
+        "ready": true,
+        "triangles": 619481,
+        "meshes": 430,
+        "skippedMeshes": 165,
+        "skippedTriangles": 116123,
+        "geometryMs": 3056,
+        "acceleratorMs": 3032,
+        "transportMs": 2965,
+        "bakeMs": 9053,
+        "maxTaskMs": 44,
+        "relocatedProbes": 2,
+        "rejectedProbes": 4,
+        "acceleratorBytes": 52036864,
+        "trace": {
+          "rays": 90091,
+          "triangleTests": 3706887,
+          "boxTests": 24647076
+        },
+        "regions": [
+          "study",
+          "sleep",
+          "onsen",
+          "kitchen",
+          "dining",
+          "living",
+          "lounge",
+          "nearhouse",
+          "gym",
+          "library",
+          "library-upper",
+          "bath-living",
+          "bath-bedroom",
+          "outdoor-pavilion",
+          "retreat-short-link",
+          "arrival-hall"
+        ],
+        "probes": [
+          {
+            "region": "study",
+            "nominal": [-11.3125, 0.4874999999999998, 4.125],
+            "position": [-11.3125, 0.4874999999999998, 4.125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "study",
+            "nominal": [-9.8375, 0.4874999999999998, 4.125],
+            "position": [-9.8375, 0.4874999999999998, 4.125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "study",
+            "nominal": [-11.3125, 1.5625, 4.125],
+            "position": [-11.3125, 1.5625, 4.125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "study",
+            "nominal": [-9.8375, 1.5625, 4.125],
+            "position": [-9.8375, 1.5625, 4.125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "study",
+            "nominal": [-11.3125, 0.4874999999999998, 5.275],
+            "position": [-11.3125, 0.4874999999999998, 5.275],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "study",
+            "nominal": [-9.8375, 0.4874999999999998, 5.275],
+            "position": [-9.8375, 0.4874999999999998, 5.275],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "study",
+            "nominal": [-11.3125, 1.5625, 5.275],
+            "position": [-11.3125, 1.5625, 5.275],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "study",
+            "nominal": [-9.8375, 1.5625, 5.275],
+            "position": [-9.8375, 1.5625, 5.275],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-3.6875, 3.0125, 10.7],
+            "position": [-3.6875, 3.0125, 10.7],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-2.4625, 3.0125, 10.7],
+            "position": [-2.4625, 3.0125, 10.7],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-3.6875, 3.9375, 10.7],
+            "position": [-3.6875, 3.9375, 10.7],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-2.4625, 3.9375, 10.7],
+            "position": [-2.4625, 3.9375, 10.7],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-3.6875, 3.0125, 12.100000000000001],
+            "position": [-3.6875, 3.0125, 12.100000000000001],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-2.4625, 3.0125, 12.100000000000001],
+            "position": [-2.4625, 3.0125, 12.100000000000001],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-3.6875, 3.9375, 12.100000000000001],
+            "position": [-3.6875, 3.9375, 12.100000000000001],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "sleep",
+            "nominal": [-2.4625, 3.9375, 12.100000000000001],
+            "position": [-2.4625, 3.9375, 12.100000000000001],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [2.6125, 3.1375, 10.525],
+            "position": [2.6125, 3.1375, 10.525],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [3.8375000000000004, 3.1375, 10.525],
+            "position": [3.8375000000000004, 3.1375, 10.525],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [2.6125, 4.3125, 10.525],
+            "position": [2.6125, 4.3125, 10.525],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [3.8375000000000004, 4.3125, 10.525],
+            "position": [3.8375000000000004, 4.3125, 10.525],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [2.6125, 3.1375, 11.775],
+            "position": [2.6125, 3.1375, 11.775],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [3.8375000000000004, 3.1375, 11.775],
+            "position": [3.8375000000000004, 3.1375, 11.775],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [2.6125, 4.3125, 11.775],
+            "position": [2.6125, 4.3125, 11.775],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "onsen",
+            "nominal": [3.8375000000000004, 4.3125, 11.775],
+            "position": [3.8375000000000004, 4.3125, 11.775],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-4.2375, 0.2, 4.8875],
+            "position": [-4.2375, 0.2, 4.8875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-2.7125000000000004, 0.2, 4.8875],
+            "position": [-2.7125000000000004, 0.2, 4.8875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-4.2375, 1.5000000000000002, 4.8875],
+            "position": [-4.2375, 1.5000000000000002, 4.8875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-2.7125000000000004, 1.5000000000000002, 4.8875],
+            "position": [-2.7125000000000004, 1.5000000000000002, 4.8875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-4.2375, 0.2, 7.3625],
+            "position": [-4.258117830257679, 0.05567518819624301, 7.3625],
+            "valid": false,
+            "relocation": 0.14579007588558401
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-2.7125000000000004, 0.2, 7.3625],
+            "position": [-2.73311783025768, 0.05567518819624298, 7.3625],
+            "valid": false,
+            "relocation": 0.14579007588558413
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-4.2375, 1.5000000000000002, 7.3625],
+            "position": [-4.2375, 1.5000000000000002, 7.3625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "kitchen",
+            "nominal": [-2.7125000000000004, 1.5000000000000002, 7.3625],
+            "position": [-2.7125000000000004, 1.5000000000000002, 7.3625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-2.95, 0.5374999999999999, 10.2625],
+            "position": [-2.95, 0.5374999999999999, 10.2625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-0.8499999999999996, 0.5374999999999999, 10.2625],
+            "position": [-0.8499999999999996, 0.5374999999999999, 10.2625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-2.95, 1.7124999999999997, 10.2625],
+            "position": [-2.95, 1.7124999999999997, 10.2625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-0.8499999999999996, 1.7124999999999997, 10.2625],
+            "position": [-0.8499999999999996, 1.7124999999999997, 10.2625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-2.95, 0.5374999999999999, 12.0875],
+            "position": [-2.95, 0.5374999999999999, 12.0875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-0.8499999999999996, 0.5374999999999999, 12.0875],
+            "position": [-0.8499999999999996, 0.5374999999999999, 12.0875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-2.95, 1.7124999999999997, 12.0875],
+            "position": [-2.95, 1.7124999999999997, 12.0875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "dining",
+            "nominal": [-0.8499999999999996, 1.7124999999999997, 12.0875],
+            "position": [-0.8499999999999996, 1.7124999999999997, 12.0875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [-0.55, 0.5125, 5.6875],
+            "position": [-0.55, 0.5125, 5.6875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [0.55, 0.5125, 5.6875],
+            "position": [0.55, 0.5125, 5.6875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [-0.55, 1.6375, 5.6875],
+            "position": [-0.55, 1.6375, 5.6875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [0.55, 1.6375, 5.6875],
+            "position": [0.55, 1.6375, 5.6875],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [-0.55, 0.5125, 6.8625],
+            "position": [-0.55, 0.5125, 6.8625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [0.55, 0.5125, 6.8625],
+            "position": [0.55, 0.5125, 6.8625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [-0.55, 1.6375, 6.8625],
+            "position": [-0.55, 1.6375, 6.8625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "living",
+            "nominal": [0.55, 1.6375, 6.8625],
+            "position": [0.55, 1.6375, 6.8625],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [2.525, 0.5624999999999999, 4.9125],
+            "position": [2.525, 0.5624999999999999, 4.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [3.7750000000000004, 0.5624999999999999, 4.9125],
+            "position": [3.7750000000000004, 0.5624999999999999, 4.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [2.525, 1.7874999999999999, 4.9125],
+            "position": [2.525, 1.7874999999999999, 4.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [3.7750000000000004, 1.7874999999999999, 4.9125],
+            "position": [3.7750000000000004, 1.7874999999999999, 4.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [2.525, 0.5624999999999999, 6.8375],
+            "position": [2.525, 0.5624999999999999, 6.8375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [3.7750000000000004, 0.5624999999999999, 6.8375],
+            "position": [3.7750000000000004, 0.5624999999999999, 6.8375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [2.525, 1.7874999999999999, 6.8375],
+            "position": [2.525, 1.7874999999999999, 6.8375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "lounge",
+            "nominal": [3.7750000000000004, 1.7874999999999999, 6.8375],
+            "position": [3.7750000000000004, 1.7874999999999999, 6.8375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [-2.5, 0.9624999999999999, 2.8],
+            "position": [-2.5, 0.9624999999999999, 2.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [2.5, 0.9624999999999999, 2.8],
+            "position": [2.5, 0.9624999999999999, 2.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [-2.5, 2.9875, 2.8],
+            "position": [-2.5, 2.9875, 2.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [2.5, 2.9875, 2.8],
+            "position": [2.5, 2.9875, 2.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [-2.5, 0.9624999999999999, 3.8],
+            "position": [-2.5, 0.9624999999999999, 3.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [2.5, 0.9624999999999999, 3.8],
+            "position": [2.5, 0.9624999999999999, 3.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [-2.5, 2.9875, 3.8],
+            "position": [-2.5, 2.9875, 3.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "nearhouse",
+            "nominal": [2.5, 2.9875, 3.8],
+            "position": [2.5, 2.9875, 3.8],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [7.3, 0.5624999999999999, 5.8374999999999995],
+            "position": [7.3, 0.5624999999999999, 5.8374999999999995],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [9.7, 0.5624999999999999, 5.8374999999999995],
+            "position": [9.7, 0.5624999999999999, 5.8374999999999995],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [7.3, 1.7874999999999999, 5.8374999999999995],
+            "position": [7.3, 1.7874999999999999, 5.8374999999999995],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [9.7, 1.7874999999999999, 5.8374999999999995],
+            "position": [9.7, 1.7874999999999999, 5.8374999999999995],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [7.3, 0.5624999999999999, 7.9125],
+            "position": [7.3, 0.5624999999999999, 7.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [9.7, 0.5624999999999999, 7.9125],
+            "position": [9.7, 0.5624999999999999, 7.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [7.3, 1.7874999999999999, 7.9125],
+            "position": [7.3, 1.7874999999999999, 7.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "gym",
+            "nominal": [9.7, 1.7874999999999999, 7.9125],
+            "position": [9.7, 1.7874999999999999, 7.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-11.5625, 1.4, 3.2249999999999996],
+            "position": [-11.5625, 1.4, 3.2249999999999996],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-9.487499999999999, 1.4, 3.2249999999999996],
+            "position": [-9.487499999999999, 1.4, 3.2249999999999996],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-11.5625, 4.199999999999999, 3.2249999999999996],
+            "position": [-11.5625, 4.199999999999999, 3.2249999999999996],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-9.487499999999999, 4.199999999999999, 3.2249999999999996],
+            "position": [-9.487499999999999, 4.199999999999999, 3.2249999999999996],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-11.5625, 1.4, 8.075],
+            "position": [-11.5625, 1.4, 8.075],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-9.487499999999999, 1.4, 8.075],
+            "position": [-9.487499999999999, 1.4, 8.075],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-11.5625, 4.199999999999999, 8.075],
+            "position": [-11.5625, 4.199999999999999, 8.075],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library",
+            "nominal": [-9.487499999999999, 4.199999999999999, 8.075],
+            "position": [-9.487499999999999, 4.199999999999999, 8.075],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library-upper",
+            "nominal": [-0.9124999999999999, 3.0875, 10.825],
+            "position": [-0.9124999999999999, 3.0875, 10.825],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library-upper",
+            "nominal": [0.5625000000000004, 3.0875, 10.825],
+            "position": [0.5625000000000004, 3.0875, 10.825],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library-upper",
+            "nominal": [-0.9124999999999999, 4.1625, 10.825],
+            "position": [-0.9124999999999999, 4.1625, 10.825],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library-upper",
+            "nominal": [0.5625000000000004, 4.1625, 10.825],
+            "position": [0.5625000000000004, 4.1625, 10.825],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library-upper",
+            "nominal": [-0.9124999999999999, 3.0875, 11.975000000000001],
+            "position": [-0.9873394492922014, 3.076808650101114, 11.975000000000001],
+            "valid": true,
+            "relocation": 0.07559926013540352
+          },
+          {
+            "region": "library-upper",
+            "nominal": [0.5625000000000004, 3.0875, 11.975000000000001],
+            "position": [0.5371996297002611, 3.2646025920981754, 11.975000000000001],
+            "valid": true,
+            "relocation": 0.17890063405476422
+          },
+          {
+            "region": "library-upper",
+            "nominal": [-0.9124999999999999, 4.1625, 11.975000000000001],
+            "position": [-0.9124999999999999, 4.1625, 11.975000000000001],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "library-upper",
+            "nominal": [0.5625000000000004, 4.1625, 11.975000000000001],
+            "position": [0.5625000000000004, 4.1625, 11.975000000000001],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-7.2825, 0.5875, 10.9125],
+            "position": [-7.2825, 0.5875, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-5.3475, 0.5875, 10.9125],
+            "position": [-5.3475, 0.5875, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-7.2825, 1.7625000000000002, 10.9125],
+            "position": [-7.2825, 1.7625000000000002, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-5.3475, 1.7625000000000002, 10.9125],
+            "position": [-5.3475, 1.7625000000000002, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-7.2825, 0.5875, 13.0375],
+            "position": [-7.2825, 0.5875, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-5.3475, 0.5875, 13.0375],
+            "position": [-5.3475, 0.5875, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-7.2825, 1.7625000000000002, 13.0375],
+            "position": [-7.2825, 1.7625000000000002, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-living",
+            "nominal": [-5.3475, 1.7625000000000002, 13.0375],
+            "position": [-5.3475, 1.7625000000000002, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-7.2825, 3.1875, 10.9125],
+            "position": [-7.2825, 3.1875, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-5.3475, 3.1875, 10.9125],
+            "position": [-5.3475, 3.1875, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-7.2825, 4.362500000000001, 10.9125],
+            "position": [-7.2825, 4.362500000000001, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-5.3475, 4.362500000000001, 10.9125],
+            "position": [-5.3475, 4.362500000000001, 10.9125],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-7.2825, 3.1875, 13.0375],
+            "position": [-7.2825, 3.1875, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-5.3475, 3.1875, 13.0375],
+            "position": [-5.3475, 3.1875, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-7.2825, 4.362500000000001, 13.0375],
+            "position": [-7.2825, 4.362500000000001, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "bath-bedroom",
+            "nominal": [-5.3475, 4.362500000000001, 13.0375],
+            "position": [-5.3475, 4.362500000000001, 13.0375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [4.7125, 0.6325, -2.3249999999999997],
+            "position": [4.7125, 0.6325, -2.3249999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [6.8375, 0.6325, -2.3249999999999997],
+            "position": [6.8375, 0.6325, -2.3249999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [4.7125, 1.9775, -2.3249999999999997],
+            "position": [4.7125, 1.9775, -2.3249999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [6.8375, 1.9775, -2.3249999999999997],
+            "position": [6.8375, 1.9775, -2.3249999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [4.7125, 0.6325, 0.12500000000000044],
+            "position": [4.7125, 0.6325, 0.12500000000000044],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [6.8375, 0.6325, 0.12500000000000044],
+            "position": [6.8375, 0.6325, 0.12500000000000044],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [4.7125, 1.9775, 0.12500000000000044],
+            "position": [4.7125, 1.9775, 0.12500000000000044],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "outdoor-pavilion",
+            "nominal": [6.8375, 1.9775, 0.12500000000000044],
+            "position": [6.8375, 1.9775, 0.12500000000000044],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-8.3625, 1.24, 8.612499999999999],
+            "position": [-8.3625, 1.24, 8.612499999999999],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-5.2875, 1.24, 8.612499999999999],
+            "position": [-5.2875, 1.24, 8.612499999999999],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-8.3625, 3.88, 8.612499999999999],
+            "position": [-8.3625, 3.88, 8.612499999999999],
+            "valid": false,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-5.2875, 3.88, 8.612499999999999],
+            "position": [-5.2875, 3.88, 8.612499999999999],
+            "valid": false,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-8.3625, 1.24, 9.4375],
+            "position": [-8.3625, 1.24, 9.4375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-5.2875, 1.24, 9.4375],
+            "position": [-5.2875, 1.24, 9.4375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-8.3625, 3.88, 9.4375],
+            "position": [-8.3625, 3.88, 9.4375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "retreat-short-link",
+            "nominal": [-5.2875, 3.88, 9.4375],
+            "position": [-5.2875, 3.88, 9.4375],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [-1.725, 1.6875, 18.049999999999997],
+            "position": [-1.725, 1.6875, 18.049999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [1.6249999999999996, 1.6875, 18.049999999999997],
+            "position": [1.6249999999999996, 1.6875, 18.049999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [-1.725, 5.1625000000000005, 18.049999999999997],
+            "position": [-1.725, 5.1625000000000005, 18.049999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [1.6249999999999996, 5.1625000000000005, 18.049999999999997],
+            "position": [1.6249999999999996, 5.1625000000000005, 18.049999999999997],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [-1.725, 1.6875, 21.35],
+            "position": [-1.725, 1.6875, 21.35],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [1.6249999999999996, 1.6875, 21.35],
+            "position": [1.6249999999999996, 1.6875, 21.35],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [-1.725, 5.1625000000000005, 21.35],
+            "position": [-1.725, 5.1625000000000005, 21.35],
+            "valid": true,
+            "relocation": 0
+          },
+          {
+            "region": "arrival-hall",
+            "nominal": [1.6249999999999996, 5.1625000000000005, 21.35],
+            "position": [1.6249999999999996, 5.1625000000000005, 21.35],
+            "valid": true,
+            "relocation": 0
+          }
+        ],
+        "raysPerProbe": 64,
+        "skyRaysPerHit": 8,
+        "maxTraceDistance": 16,
+        "triangleBudget": 750000,
+        "acceleratorRetainedBytes": 0,
+        "retainedCpuBytes": 522240,
+        "textureBytes": 141312,
+        "transportBytes": 380928,
+        "practicalEnergy": [
+          {
+            "id": "study",
+            "unitDC": 1.117066024766673
+          },
+          {
+            "id": "sleep",
+            "unitDC": 1.5525841080785032
+          },
+          {
+            "id": "kitchen",
+            "unitDC": 1.1759646936240251
+          },
+          {
+            "id": "lounge",
+            "unitDC": 0.41319809663979384
+          },
+          {
+            "id": "bath",
+            "unitDC": 1.2945424772093903
+          },
+          {
+            "id": "gym",
+            "unitDC": 0.23846185441033596
+          },
+          {
+            "id": "terrace-west",
+            "unitDC": 0.3022888561264055
+          },
+          {
+            "id": "terrace-east",
+            "unitDC": 0.2544811460910322
+          },
+          {
+            "id": "library:tall-books-west",
+            "unitDC": 0.6677332432047274
+          },
+          {
+            "id": "library:tall-books-east",
+            "unitDC": 0.4226858296895901
+          },
+          {
+            "id": "bath-living:mirror",
+            "unitDC": 0.8289790039323591
+          },
+          {
+            "id": "bath-living:vanity-underlight",
+            "unitDC": 0.5640281268815585
+          },
+          {
+            "id": "bath-living:shower",
+            "unitDC": 1.0017509894185934
+          },
+          {
+            "id": "bath-bedroom:mirror",
+            "unitDC": 0.7311242741209137
+          },
+          {
+            "id": "bath-bedroom:vanity-underlight",
+            "unitDC": 0.5574514462020462
+          },
+          {
+            "id": "bath-bedroom:shower",
+            "unitDC": 0.7124706901172302
+          },
+          {
+            "id": "installation:short-bedroom-link",
+            "unitDC": 0.2868538692108734
+          },
+          {
+            "id": "installation:arrival-rail-a",
+            "unitDC": 0.1380762138173059
+          },
+          {
+            "id": "installation:arrival-rail-b",
+            "unitDC": 0.13199981456704057
+          },
+          {
+            "id": "installation:arrival-rail-c",
+            "unitDC": 0.003701354970151713
+          },
+          {
+            "id": "installation:arrival-well-wash",
+            "unitDC": 0.23308061771074653
+          },
+          {
+            "id": "installation:bedchamber-warm-cove",
+            "unitDC": 0.030816812766251766
+          },
+          {
+            "id": "installation:corridor-niche-0",
+            "unitDC": 0.29886873266660174
+          },
+          {
+            "id": "installation:corridor-niche-1",
+            "unitDC": 0.037431801602563965
+          },
+          {
+            "id": "installation:corridor-niche-2",
+            "unitDC": 0.31237025338262636
+          },
+          {
+            "id": "installation:library-hearth",
+            "unitDC": 0.3622142286457427
+          },
+          {
+            "id": "installation:arrival-daylight-0",
+            "unitDC": 0.25144776368481575
+          },
+          {
+            "id": "installation:arrival-daylight-1",
+            "unitDC": 0.25541290774087433
+          }
+        ],
+        "disposed": false,
+        "limits": [
+          "Static opaque geometry and one Lambertian bounce; no dynamic actor/leaf/coast displacement visibility",
+          "First-order directional irradiance; sparse moment visibility is approximate and may leak across unsampled thin walls",
+          "Material base color/metalness only; texture, vertex color and procedural detail are not baked",
+          "Actual sky gradient plus authored far-ground boundary; solar disk/cloud/stars and direct-sun bounce omitted",
+          "Final authored emitter-radius segment is unoccluded to model a diffuse bulb within its shade",
+          "Bathroom cove bounce uses an equal-energy midpoint approximation; direct lighting integrates the full segments",
+          "Transparent, refracted, volumetric and specular transport remain native approximations; no ray-traced caustics",
+          "Native direct practical lights remain unshadowed; only cached indirect bounce includes traced visibility",
+          "Outside the bounded regions uses unoccluded actual-sky diffuse fallback"
+        ],
+        "error": null
+      },
+      "steam": {
+        "ready": true,
+        "setupMilliseconds": 5185,
+        "visible": false,
+        "method": "Beer–Lambert emission-free single scattering / nearest transmission-interface split",
+        "steps": 40,
+        "densityTapsPerStep": 6,
+        "texture": {
+          "width": 90,
+          "height": 72,
+          "type": "RGBA8",
+          "bytes": 25920,
+          "floatLinearRequired": false
+        },
+        "extinction": 0.7,
+        "albedo": 0.94,
+        "uploads": 2,
+        "draws": 3,
+        "depthBound": true,
+        "segments": [
+          {
+            "transparent": false,
+            "renderOrder": 10000,
+            "depthWrite": false
+          },
+          {
+            "transparent": true,
+            "renderOrder": 10000,
+            "depthWrite": false
+          }
+        ],
+        "scalar": {
+          "method": "prescribed curl wind / temperature rise / RK2 semi-Lagrangian scalars / positive diffusion",
+          "grid": [18, 18, 18],
+          "cells": 5832,
+          "fixedStep": 0.03333333333333333,
+          "ticks": 180,
+          "sourceTicks": 180,
+          "simulationTime": 0,
+          "fieldEndTime": 0,
+          "pending": 0,
+          "droppedTime": 0,
+          "revision": 180,
+          "prewarming": false,
+          "finite": true,
+          "maximumDensity": 0.9000751376152039,
+          "maximumTemperature": 12.214794158935547,
+          "meanDensity": 0.18890153484807995,
+          "meanTemperature": 2.281932666548538,
+          "densityIntegral": 0.501383979948459,
+          "centroid": [3.214595752113513, 3.1688375299070883, 11.161027414234955],
+          "topFraction": 0.000015689186650846016,
+          "maximumSpeed": 0.25079962355569696,
+          "diffusionWeight": 0.03736979142219452,
+          "storageBytes": 241584,
+          "conservedMass": false,
+          "ownedFrameLoops": 0
+        },
+        "disposed": false
+      }
+    },
+    "backdropImages": 0,
+    "camera": [-11.856905727089115, 17.157540734318175, -44.61360126633206],
+    "cameraOrbit": {
+      "yaw": -2.8031853071795867,
+      "pitch": 0.37,
+      "radius": 48
+    },
+    "cameraVelocity": {},
+    "cameraFov": 38,
+    "cameraEnvelope": {
+      "yaw": null,
+      "pitch": [0.12, 1.2],
+      "radius": [12, 160]
+    },
+    "cameraArm": {
+      "active": false,
+      "distance": null,
+      "wanted": null,
+      "limited": false,
+      "minimum": null,
+      "lift": 0
+    },
+    "cameraCollision": {
+      "ready": true,
+      "cell": 0.12,
+      "size": [234, 148, 172],
+      "triangles": 724708,
+      "samples": 68056555,
+      "blocking": 319535,
+      "inside": 3526950,
+      "seeds": 21,
+      "queued": 0,
+      "meshes": 408,
+      "classifications": 1,
+      "worker": true,
+      "holding": false
+    },
+    "cameraInertia": {},
+    "cameraClip": {
+      "near": 0.05,
+      "far": 300,
+      "fogNear": 65,
+      "fogFar": 180
+    },
+    "panReach": 26,
+    "target": [3, -0.2, -2.4],
+    "currentRecord": 0,
+    "spinning": false,
+    "recordMechanics": {
+      "angle": 0,
+      "velocity": 0,
+      "rpm": 0,
+      "yaw": 0.28,
+      "lift": 0.36,
+      "yawVelocity": 0,
+      "liftVelocity": 0,
+      "phase": "parked",
+      "playing": false,
+      "energy": 0
+    },
+    "displayedVinylRecord": 0,
+    "vinylCuePending": false,
+    "vinylTransfer": {
+      "angle": 0,
+      "velocity": 0,
+      "rpm": 0,
+      "yaw": 0.28,
+      "lift": 0.36,
+      "yawVelocity": 0,
+      "liftVelocity": 0,
+      "phase": "parked",
+      "playing": false,
+      "energy": 0,
+      "index": 0
+    },
+    "dropped": [],
+    "focused": null,
+    "inspection": null,
+    "neighbours": [
+      {
+        "id": "rabbit-0",
+        "name": "Brush rabbit",
+        "worldCenter": [-14.532646921921016, 12.060530169557335, 1.7333670512694972],
+        "radius": 0.6694004815775939,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.8501980678790355,
+          "y": 0.126815571627642,
+          "depth": 0.9979392026716175
+        }
+      },
+      {
+        "id": "rabbit-1",
+        "name": "Brush rabbit",
+        "worldCenter": [8.055591568237336, 8.412229579431779, 5.611125678068634],
+        "radius": 0.6694004815775939,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.4677940575130902,
+          "y": 0.19139723370330242,
+          "depth": 0.9984637741333705
+        }
+      },
+      {
+        "id": "seaLion-0",
+        "name": "California sea lion",
+        "worldCenter": [-10.030139122376248, -6.105903377497196, -14.582785727964604],
+        "radius": 1.325260635413227,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.6903423848706527,
+          "y": 0.9606458922370307,
+          "depth": 0.9975071363810081
+        }
+      },
+      {
+        "id": "seaLion-1",
+        "name": "California sea lion",
+        "worldCenter": [-8.662573765557662, -6.171203377497196, -14.172352820361864],
+        "radius": 1.325260635413227,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.6600586386731062,
+          "y": 0.9406043497952328,
+          "depth": 0.9975702147970618
+        }
+      },
+      {
+        "id": "seaLion-2",
+        "name": "California sea lion",
+        "worldCenter": [11.058572903591317, -6.2428033774971965, -13.30711110127769],
+        "radius": 1.325260635413227,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.2872531465065097,
+          "y": 0.7826520999889072,
+          "depth": 0.9980121267229742
+        }
+      },
+      {
+        "id": "seal-0",
+        "name": "Harbor seal",
+        "worldCenter": [-5.023325224725073, -6.862636724680662, -12.140069344472193],
+        "radius": 1.1774580498136489,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.5899551975583286,
+          "y": 0.887278109743393,
+          "depth": 0.9977923173979643
+        }
+      },
+      {
+        "id": "seal-1",
+        "name": "Harbor seal",
+        "worldCenter": [-4.048426995494627, -6.866036724680662, -12.13445019453486],
+        "radius": 1.1774580498136489,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.5703595717406241,
+          "y": 0.880033423141499,
+          "depth": 0.9978120423454877
+        }
+      },
+      {
+        "id": "seal-2",
+        "name": "Harbor seal",
+        "worldCenter": [-2.954669345642783, -6.863936724680662, -11.945248314806214],
+        "radius": 1.1774580498136489,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.5497758950654297,
+          "y": 0.868113900795403,
+          "depth": 0.9978436860351275
+        }
+      },
+      {
+        "id": "raccoon-0",
+        "name": "Raccoon",
+        "worldCenter": [-7.522888000117743, 9.653687291132162, 20.80672288616559],
+        "radius": 0.960600642269311,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.7338189710817127,
+          "y": 0.12654490799237983,
+          "depth": 0.9987094483893755
+        }
+      },
+      {
+        "id": "gull-0",
+        "name": "Western gull",
+        "worldCenter": [9.819225289219471, 9.051219772585407, -21.45242202175011],
+        "radius": 1.413133978550107,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.1527609363287466,
+          "y": 0.3575013596386619,
+          "depth": 0.9970005710862067
+        }
+      },
+      {
+        "id": "gull-1",
+        "name": "Western gull",
+        "worldCenter": [-0.42034837943835335, 10.7147358656936, -14.868562364578496],
+        "radius": 1.4131339785501074,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.47671604431756165,
+          "y": 0.25008321795326427,
+          "depth": 0.9972106904301392
+        }
+      },
+      {
+        "id": "gull-2",
+        "name": "Western gull",
+        "worldCenter": [-10.18671450083074, 11.255447192015067, -23.30111388558488],
+        "radius": 1.4131339785501076,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.7099801252750237,
+          "y": 0.36645022385160997,
+          "depth": 0.995658513758514
+        }
+      },
+      {
+        "id": "gull-3",
+        "name": "Western gull",
+        "worldCenter": [-12.522459563583256, 14.052024516388208, -6.026241013481577],
+        "radius": 1.4131339785501074,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.8149395119161736,
+          "y": 0.07556203850066806,
+          "depth": 0.9974636888348587
+        }
+      },
+      {
+        "id": "balcony-gull-0",
+        "name": "Balcony gull",
+        "worldCenter": [0.31677251103371973, 3.694293672442436, 9.3733229433377],
+        "radius": 1.0028692751000763,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.5937344720742501,
+          "y": 0.3104603986736965,
+          "depth": 0.9985510467527098
+        }
+      },
+      {
+        "id": "sandpiper-0",
+        "name": "Sandpiper",
+        "worldCenter": [-1.8121823966097013, -6.977653774941747, -13.412681533004758],
+        "radius": 1.229938991775378,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.5183676603191614,
+          "y": 0.8938646194210009,
+          "depth": 0.9977869023936946
+        }
+      },
+      {
+        "id": "sandpiper-1",
+        "name": "Sandpiper",
+        "worldCenter": [2.9943716246272616, -7.0105282455359585, -13.846863487042194],
+        "radius": 1.2299389917753778,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.42326372279755897,
+          "y": 0.86864826167639,
+          "depth": 0.997857367511203
+        }
+      },
+      {
+        "id": "sandpiper-2",
+        "name": "Sandpiper",
+        "worldCenter": [4.504186805531248, -7.037609817546065, -13.067758922028478],
+        "radius": 1.229938991775378,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.40250087500041953,
+          "y": 0.8435998423021536,
+          "depth": 0.9979266194737849
+        }
+      },
+      {
+        "id": "swimmer-0",
+        "name": "California sea lion",
+        "worldCenter": [-28.077395230531693, -6.718024281637916, -20.849172988673672],
+        "radius": 1.325260635413227,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 1.2727288602036602,
+          "y": 1.4537956224968291,
+          "depth": 0.9962532162451389
+        }
+      },
+      {
+        "id": "swimmer-1",
+        "name": "California sea lion",
+        "worldCenter": [28.922604769468307, -6.8815513209700505, -22.93359025921824],
+        "radius": 1.325260635413227,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -0.13249403146605376,
+          "y": 0.8639663597799638,
+          "depth": 0.997856589735543
+        }
+      },
+      {
+        "id": "pelican-0",
+        "name": "Brown pelican",
+        "worldCenter": [6.158678008869365, -5.963216631299076, -25.68167008618422],
+        "radius": 1.6578869265251122,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.21402684437870384,
+          "y": 1.1141154070362438,
+          "depth": 0.9970634461695754
+        }
+      },
+      {
+        "id": "pelican-1",
+        "name": "Brown pelican",
+        "worldCenter": [10.53437792169424, -5.959532846904376, -24.946816306542928],
+        "radius": 1.6578869265251122,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.13422591328810501,
+          "y": 1.0417045874875523,
+          "depth": 0.9972640719572134
+        }
+      },
+      {
+        "id": "pelican-2",
+        "name": "Brown pelican",
+        "worldCenter": [14.969484781565221, -5.974857222835824, -25.63233620967078],
+        "radius": 1.6578869265251128,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.03472632001182263,
+          "y": 1.0167385729885114,
+          "depth": 0.9973354113304441
+        }
+      },
+      {
+        "id": "pelican-3",
+        "name": "Brown pelican",
+        "worldCenter": [19.322156388867985, -6.0035670498037295, -24.38952915905201],
+        "radius": 1.657886926525112,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -0.017670978181940078,
+          "y": 0.9440860984409933,
+          "depth": 0.9975405619828611
+        }
+      },
+      {
+        "id": "pelican-4",
+        "name": "Brown pelican",
+        "worldCenter": [23.7626939544044, -6.029749462104715, -25.152735423727012],
+        "radius": 1.6578869265251117,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": -0.1069086382099591,
+          "y": 0.9255473223585312,
+          "depth": 0.9975950576725091
+        }
+      },
+      {
+        "id": "cormorant-0",
+        "name": "Brandt's cormorant",
+        "worldCenter": [-11.734848371738218, -5.8913070236310965, -14.684637374345137],
+        "radius": 1.2082142102693856,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.7312168745647905,
+          "y": 0.9715170671074272,
+          "depth": 0.9974505345970808
+        }
+      },
+      {
+        "id": "cormorant-1",
+        "name": "Brandt's cormorant",
+        "worldCenter": [-13.557738749810678, -5.878790123631094, -15.025108381848044],
+        "radius": 1.2082142102693858,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.7759440886463858,
+          "y": 0.9974984946107985,
+          "depth": 0.9973765425413503
+        }
+      },
+      {
+        "id": "cormorant-2",
+        "name": "Brandt's cormorant",
+        "worldCenter": [15.106368383317447, -5.996207423631097, -13.026578718371034],
+        "radius": 1.2082142102693856,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.2256177302033684,
+          "y": 0.7472097647609776,
+          "depth": 0.9980857021989314
+        }
+      },
+      {
+        "id": "cormorant-3",
+        "name": "Brandt's cormorant",
+        "worldCenter": [15.283027467296884, -5.996207423631095, -13.719388244784856],
+        "radius": 1.2082142102693858,
+        "faceAnchorSource": "named acting pivots",
+        "projected": {
+          "x": 0.21478194451812732,
+          "y": 0.7574383154816331,
+          "depth": 0.9980573337587734
+        }
+      }
+    ],
+    "canvasWidth": 3840,
+    "canvasHeight": 2160,
+    "resolution": {
+      "profile": "fullscreen",
+      "compact": false,
+      "css": [3840, 2160],
+      "density": 1,
+      "cap": 1,
+      "factor": 1,
+      "adaptive": false,
+      "pixels": 8294400,
+      "budget": 8300000,
+      "minFactor": 0.8,
+      "failedProbes": 0,
+      "history": []
+    },
+    "quality": {
+      "tier": "high",
+      "pinned": true,
+      "demoted": false,
+      "canPromote": true,
+      "failedReductions": 0,
+      "trial": null,
+      "history": [],
+      "settings": {
+        "embed": {
+          "pixelBudget": 4200000,
+          "maxDensity": 2
+        },
+        "fullscreen": {
+          "pixelBudget": 8300000,
+          "maxDensity": 2
+        },
+        "maxSamples": 4,
+        "shadowMapSize": 4096,
+        "contactScale": 1.5,
+        "reflectionScale": 1.5,
+        "mirrorSize": 512,
+        "hazeSteps": 1.25,
+        "hazeDivisor": -1,
+        "anisotropy": {
+          "embed": 8,
+          "fullscreen": 16
+        },
+        "lodReach": 1.4,
+        "memoryBudget": 1342177280
+      },
+      "memoryBytes": 1250560000,
+      "lastSwitch": null
+    },
+    "detail": {
+      "samples": 0,
+      "contactLongSide": 1920,
+      "shadowMapSize": 4096,
+      "reflection": [1536, 864],
+      "anisotropy": 16,
+      "shadowMap": 4096
+    },
+    "walk": {
+      "active": false,
+      "ready": true,
+      "placed": false,
+      "provisional": false,
+      "position": [0, 0, 0],
+      "eye": 1.6,
+      "yaw": 0,
+      "pitch": 0,
+      "fov": 62,
+      "velocity": [0, 0],
+      "room": null,
+      "locked": false,
+      "keys": [],
+      "joysticks": false,
+      "gamepads": 0,
+      "transition": false,
+      "distance": 0,
+      "blockedFrames": 0,
+      "lastBlocked": null,
+      "body": {
+        "radius": 0.24,
+        "height": 1.75,
+        "maxStep": 0.46,
+        "maxDrop": 0.5,
+        "eyeHeight": 1.6
+      },
+      "field": {
+        "ready": true,
+        "worker": true,
+        "meshes": 460,
+        "builtMilliseconds": 1314,
+        "cell": 0.1,
+        "size": [390, 492],
+        "columns": 191880,
+        "filled": 174720,
+        "intervals": 735332,
+        "triangles": 744227,
+        "samples": 18340851,
+        "overflows": 19739
+      }
+    },
+    "walkPresence": {
+      "active": false,
+      "source": "active-Sirui",
+      "sourceHidden": false,
+      "prepared": true,
+      "skeletons": 1,
+      "sharedGeometryAndMaterials": true,
+      "position": [0, 0, 0],
+      "yaw": 0,
+      "moving": false,
+      "idleTime": 0,
+      "gaitTime": 0,
+      "contentVersion": 1,
+      "opticalEyeOffset": [0, 1.6521600484848022, 0.14441999793052673],
+      "opticalForwardOffset": 0.14441999793052673,
+      "headCutHeight": 1.4,
+      "primaryHeadExclusion": {
+        "primitives": 7,
+        "triangles": 80370
+      },
+      "fullShadow": true,
+      "volumeDepth": "first-person body excluded",
+      "collarLiner": {
+        "method": "native neck-to-collar upper-chest liner",
+        "setupMs": 29,
+        "updates": 1,
+        "perFrameCuts": 0,
+        "meanMs": 1,
+        "maximumMs": 1,
+        "maximumInset": 0.001675340698577896,
+        "trackedVertices": 304,
+        "vertices": 320,
+        "triangles": 512,
+        "upperHeight": 1.3500000143051147,
+        "lowerHeight": 1.3050000143051148,
+        "spine": "Spine",
+        "skinMesh": "shaped_adult_face001",
+        "shirtMesh": "shaped_adult_face001_6",
+        "upperSection": {
+          "evaluatedVertices": 168,
+          "sourceTriangles": 58872,
+          "selectedTriangles": 224,
+          "ignoredOpenComponents": 0
+        },
+        "lowerSection": {
+          "evaluatedVertices": 788,
+          "sourceTriangles": 32960,
+          "selectedTriangles": 1062,
+          "ignoredOpenComponents": 0
+        }
+      },
+      "collarFailure": null
+    },
+    "shadowCache": {
+      "frames": 33,
+      "cachedFrames": 3,
+      "rebuilds": 3,
+      "copies": 3,
+      "skippedCopies": 0,
+      "bypassFrames": 30,
+      "enabled": true,
+      "staticCasters": 482,
+      "dynamicCasters": 260,
+      "stillFrames": 30
+    },
+    "furniture": {
+      "index": true,
+      "anchors": 23,
+      "placed": [
+        {
+          "id": "study-aeron",
+          "item": "aeron",
+          "room": "study",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "gym-pan",
+          "item": "cast-iron-pan",
+          "room": "gym",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": [6.75, 0.908, 7.0504999999999995]
+        },
+        {
+          "id": "gym-dumbbell-right",
+          "item": "dumbbell",
+          "room": "gym",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": [6.421, 0.745, 8.06]
+        },
+        {
+          "id": "gym-dumbbell-left",
+          "item": "dumbbell",
+          "room": "gym",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": [6.421, 0.745, 7.76]
+        },
+        {
+          "id": "kitchen-range",
+          "item": "italian-range",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "kitchen-range-hood",
+          "item": "range-hood",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "kitchen-pot-filler",
+          "item": "pot-filler",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "kitchen-glass-fridge",
+          "item": "glass-fridge",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "dining-table",
+          "item": "dining-table",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "dining-chair-1",
+          "item": "dining-chair",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "dining-chair-2",
+          "item": "dining-chair",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "dining-chair-3",
+          "item": "dining-chair",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "dining-chair-4",
+          "item": "dining-chair",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "dining-chair-5",
+          "item": "dining-chair",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "dining-chair-6",
+          "item": "dining-chair",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "nook-banquette",
+          "item": "banquette",
+          "room": "kitchen",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "living-fireplace",
+          "item": "floating-fireplace",
+          "room": "lounge",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "living-eames-lounge",
+          "item": "eames-lounge",
+          "room": "lounge",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "living-sofa",
+          "item": "cloud-sofa",
+          "room": "lounge",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "study-whiskey-lounge",
+          "item": "whiskey-loveseat",
+          "room": "library",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "study-whiskey-ottoman",
+          "item": "whiskey-ottoman",
+          "room": "library",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "study-whiskey-side-table",
+          "item": "whiskey-side-table",
+          "room": "library",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        },
+        {
+          "id": "study-whiskey-bottles",
+          "item": "whiskey-bottles",
+          "room": "library",
+          "shown": 0,
+          "wanted": 0,
+          "culled": false,
+          "placeholders": 1,
+          "placeholderHidden": true,
+          "held": false,
+          "gripWorld": null
+        }
+      ],
+      "models": [
+        {
+          "key": "aeron#0",
+          "state": "ready",
+          "bytes": 82404
+        },
+        {
+          "key": "italian-range#0",
+          "state": "ready",
+          "bytes": 32936
+        },
+        {
+          "key": "range-hood#0",
+          "state": "ready",
+          "bytes": 7520
+        },
+        {
+          "key": "pot-filler#0",
+          "state": "ready",
+          "bytes": 7340
+        },
+        {
+          "key": "glass-fridge#0",
+          "state": "ready",
+          "bytes": 33380
+        },
+        {
+          "key": "dining-table#0",
+          "state": "ready",
+          "bytes": 6880
+        },
+        {
+          "key": "dining-chair#0",
+          "state": "ready",
+          "bytes": 17196
+        },
+        {
+          "key": "banquette#0",
+          "state": "ready",
+          "bytes": 31432
+        },
+        {
+          "key": "cast-iron-pan#0",
+          "state": "ready",
+          "bytes": 9488
+        },
+        {
+          "key": "dumbbell#0",
+          "state": "ready",
+          "bytes": 4676
+        },
+        {
+          "key": "floating-fireplace#0",
+          "state": "ready",
+          "bytes": 12588
+        },
+        {
+          "key": "eames-lounge#0",
+          "state": "ready",
+          "bytes": 66616
+        },
+        {
+          "key": "cloud-sofa#0",
+          "state": "ready",
+          "bytes": 55376
+        },
+        {
+          "key": "whiskey-loveseat#0",
+          "state": "ready",
+          "bytes": 14860
+        },
+        {
+          "key": "whiskey-ottoman#0",
+          "state": "ready",
+          "bytes": 7924
+        },
+        {
+          "key": "whiskey-side-table#0",
+          "state": "ready",
+          "bytes": 35292
+        },
+        {
+          "key": "whiskey-bottles#0",
+          "state": "ready",
+          "bytes": 31808
+        },
+        {
+          "key": "banquette#1",
+          "state": "ready",
+          "bytes": 107644
+        },
+        {
+          "key": "range-hood#1",
+          "state": "ready",
+          "bytes": 8944
+        },
+        {
+          "key": "aeron#1",
+          "state": "ready",
+          "bytes": 167488
+        },
+        {
+          "key": "italian-range#1",
+          "state": "ready",
+          "bytes": 49312
+        },
+        {
+          "key": "dining-table#1",
+          "state": "ready",
+          "bytes": 8932
+        },
+        {
+          "key": "whiskey-loveseat#1",
+          "state": "ready",
+          "bytes": 91396
+        },
+        {
+          "key": "whiskey-side-table#1",
+          "state": "ready",
+          "bytes": 52508
+        },
+        {
+          "key": "whiskey-bottles#1",
+          "state": "ready",
+          "bytes": 45924
+        },
+        {
+          "key": "whiskey-ottoman#1",
+          "state": "ready",
+          "bytes": 62492
+        }
+      ],
+      "downloadedBytes": 1052356,
+      "fineBytes": 594640,
+      "aeronVariant": "carbon",
+      "articulation": {},
+      "fires": [
+        {
+          "id": "living-fireplace",
+          "clock": 0,
+          "triangles": 1260,
+          "still": true
+        }
+      ]
+    },
+    "dining": {
+      "index": "ready",
+      "key": "2026-10-26|lunch|fork",
+      "meal": "lunch",
+      "menu": {
+        "dish": "shrimp-bowl",
+        "dessert": null,
+        "drink": "sparkling",
+        "coffee": null
+      },
+      "labels": {
+        "dish": "Grilled shrimp and quinoa bowl",
+        "dessert": null,
+        "drink": "Sparkling water with lemon"
+      },
+      "ready": true,
+      "level": 1,
+      "phase": "eating",
+      "beat": "mouth",
+      "planSeconds": 8.450296677535865,
+      "remaining": {
+        "main": 9,
+        "dessert": 0,
+        "onUtensil": {
+          "plate": "main",
+          "index": 0
+        }
+      },
+      "glass": {
+        "holder": "table",
+        "level": 0.7168,
+        "tilt": 0
+      },
+      "utensil": "R",
+      "layout": {
+        "surface": 0.7950708031654357,
+        "plate": [-0.01, 0.43],
+        "charger": 0
+      },
+      "contacts": {
+        "R": {
+          "mode": "hold",
+          "wristDrift": 4.933733601704339e-7,
+          "reach": [0.43713157420188065, 0.512981140891132]
+        },
+        "L": {
+          "mode": "rest",
+          "wristDrift": 5.839939053923598e-7,
+          "reach": [0.3953584358117678, 0.512980937221214]
+        }
+      },
+      "feet": null,
+      "station": null,
+      "draws": 11,
+      "triangles": 9235,
+      "models": [
+        {
+          "file": "tableware-lod1.glb",
+          "state": "ready"
+        },
+        {
+          "file": "dish-shrimp-bowl-lod1.glb",
+          "state": "ready"
+        },
+        {
+          "file": "tableware-lod0.glb",
+          "state": "ready"
+        },
+        {
+          "file": "dish-shrimp-bowl-lod0.glb",
+          "state": "ready"
+        }
+      ]
+    },
+    "prop": {
+      "kind": "fork",
+      "position": [-3.9912699295976544, 0.7170105598117668, 4.904154863543822],
+      "size": [0.0735185184841507, 0.10117474175761887, 0.17838830870585554],
+      "ancestorsVisible": true,
+      "source": "dining"
+    },
+    "targets": [
+      {
+        "type": "spin",
+        "x": 0.7503251510465889,
+        "y": 0.43350295271942446
+      },
+      {
+        "type": "record",
+        "index": 0,
+        "x": 0.7752902191443978,
+        "y": 0.40895607725487204
+      },
+      {
+        "type": "record",
+        "index": 1,
+        "x": 0.7755118289859384,
+        "y": 0.40578987858402316
+      },
+      {
+        "type": "record",
+        "index": 2,
+        "x": 0.775730486582461,
+        "y": 0.4026658594219371
+      },
+      {
+        "type": "record",
+        "index": 3,
+        "x": 0.7759462505374994,
+        "y": 0.39958318248435126
+      },
+      {
+        "type": "artifact",
+        "index": 0,
+        "x": 0.7631805332845646,
+        "y": 0.43891913303764546
+      },
+      {
+        "type": "artifact",
+        "index": 1,
+        "x": 0.7576483097581762,
+        "y": 0.4376437846302612
+      },
+      {
+        "type": "window",
+        "x": 0.7462011893657924,
+        "y": 0.4614016714346751
+      },
+      {
+        "type": "library-ladder",
+        "x": 0.5913984802413452,
+        "y": 0.41274193332474146
+      },
+      {
+        "type": "library-ladder",
+        "x": 0.5913984802413452,
+        "y": 0.41274193332474146
+      },
+      {
+        "type": "library-ladder",
+        "x": 0.5913984802413452,
+        "y": 0.41274193332474146
+      }
+    ],
+    "joints": {
+      "Root": [-3.95, -0.684999993443489, 5.26],
+      "Hips": [-3.95, 0.1750000208616257, 5.26],
+      "Head": [-3.95, 0.6715533829517422, 5.210842763407628],
+      "HandL": [-3.703283415274588, 0.383756236364566, 4.883870585939117],
+      "HandR": [-4.022949632380754, 0.6968328326487492, 4.841708836225847],
+      "FootL": [-3.8400000910688035, -0.18858154290381451, 4.8327027931311575],
+      "FootR": [-4.060000097327289, -0.1885815630471499, 4.832702833264561]
+    }
+  }
+}

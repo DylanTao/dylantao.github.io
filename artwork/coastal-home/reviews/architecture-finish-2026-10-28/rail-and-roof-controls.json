@@ -1,0 +1,62 @@
+{
+  "sourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681",
+  "manifestSha256": "f80ef39ce0520f5540579d32800a15e3bf9e62800e3f62fecdbb9903180ccab9",
+  "rail": {
+    "surfaceProbes": 2399,
+    "maximumInsideDepthM": 0.0,
+    "caps": [
+      {
+        "native": [-8.390000343322754, -5.296710968017578, 2.0473403930664062],
+        "hostDistanceM": 0.0,
+        "railDistanceM": 0.0,
+        "opposingFaceNormalDot": -1.0
+      },
+      {
+        "native": [-8.390000343322754, -5.1419267654418945, 2.4600000381469727],
+        "hostDistanceM": 2.384185791015625e-7,
+        "railDistanceM": 0.0,
+        "opposingFaceNormalDot": -1.0
+      },
+      {
+        "native": [-8.329927444458008, -5.375000953674316, 2.0979671478271484],
+        "hostDistanceM": 4.76837158203125e-7,
+        "railDistanceM": 4.76837158203125e-7,
+        "opposingFaceNormalDot": -1.0
+      },
+      {
+        "native": [-8.209860801696777, -5.375000953674316, 2.4600000381469727],
+        "hostDistanceM": 4.76837158203125e-7,
+        "railDistanceM": 4.76837158203125e-7,
+        "opposingFaceNormalDot": -1.0
+      }
+    ],
+    "nonmanifoldEdges": {
+      "core_finish_bedroom_spiral__honey ash": 0,
+      "sleep_reno_wardrobe__pale oak": 0
+    },
+    "cabinetTopNativeZ": 3.3499999046325684,
+    "railTopNativeZ": 2.4860000610351562,
+    "guardInterval": "Actual closed wardrobe fills the contact interval and rises above the highest retained handrail"
+  },
+  "roofJoin": {
+    "overlapAreaM2": 0.0,
+    "actualIntersectionPolygonProbes": 0,
+    "maximumVaultGapM": 0.0,
+    "cover": "core_finish_bedchamber_vault__chalk limestone",
+    "failures": [],
+    "bothRoofAndCoverUseCaveRoofCutaway": true,
+    "physicalReveal": {
+      "beforeSourceSha256": "70c8235971a067d9b8d49d369b06e98c13ce44231a3d8d9c8b0eac040a37b008",
+      "beforeOverlapAreaM2": 0.3700083555018985,
+      "afterOverlapAreaM2": 0.0,
+      "topologyIdentical": true,
+      "maximumExpectedPositionErrorM": 0.0,
+      "movedVertices": 10,
+      "physicalGapM": 0.008,
+      "scope": "Every native vertex and polygon compared with the retained pre-reveal roof; only the5.17m underside rises8mm"
+    },
+    "scope": "Actual coplanar triangle intersections; a separate8mm physical reveal removes the double down-facing surface"
+  },
+  "failures": [],
+  "passed": true
+}

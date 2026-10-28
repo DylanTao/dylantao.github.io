@@ -1,0 +1,70 @@
+{
+  "scope": "Exact full bufferView payload bytes inside each final GLB; no fuzzy or cross-file deduplication",
+  "duplicates": [
+    {
+      "file": "hinterland.glb",
+      "bufferView": 141,
+      "sameAsBufferView": 137,
+      "bytes": 1180,
+      "sha256": "4125bc5604a21faf0923e19b05d5a7d768ac1dd209621600e5245e74e7350e4d",
+      "dracoPrimitivePayload": true,
+      "protectedImmutableAvatar": false
+    },
+    {
+      "file": "hinterland.glb",
+      "bufferView": 142,
+      "sameAsBufferView": 136,
+      "bytes": 1993,
+      "sha256": "9d38592eede335366973dd0dfe6b484c22e35a861281139ded6154d242ab6e5d",
+      "dracoPrimitivePayload": true,
+      "protectedImmutableAvatar": false
+    },
+    {
+      "file": "hinterland.glb",
+      "bufferView": 147,
+      "sameAsBufferView": 137,
+      "bytes": 1180,
+      "sha256": "4125bc5604a21faf0923e19b05d5a7d768ac1dd209621600e5245e74e7350e4d",
+      "dracoPrimitivePayload": true,
+      "protectedImmutableAvatar": false
+    },
+    {
+      "file": "sirui-lizard.glb",
+      "bufferView": 6,
+      "sameAsBufferView": 2,
+      "bytes": 4056,
+      "sha256": "4d44090f947ca25e0d784679d90f7fda9483cbee2eb39f7aff600895218f5211",
+      "dracoPrimitivePayload": false,
+      "protectedImmutableAvatar": true
+    },
+    {
+      "file": "sirui-rick-and-morty.glb",
+      "bufferView": 6,
+      "sameAsBufferView": 2,
+      "bytes": 4056,
+      "sha256": "172892d279d2b4702f199380c40697bd9c888536749b6b87be1e5447e0e36fd0",
+      "dracoPrimitivePayload": false,
+      "protectedImmutableAvatar": true
+    },
+    {
+      "file": "sirui-simpsons.glb",
+      "bufferView": 6,
+      "sameAsBufferView": 2,
+      "bytes": 4056,
+      "sha256": "172892d279d2b4702f199380c40697bd9c888536749b6b87be1e5447e0e36fd0",
+      "dracoPrimitivePayload": false,
+      "protectedImmutableAvatar": true
+    },
+    {
+      "file": "sirui-south-park.glb",
+      "bufferView": 6,
+      "sameAsBufferView": 2,
+      "bytes": 4056,
+      "sha256": "f98f96bb5015e56a4312378d5e9bcda482d9642e45e792c4e00dc26369e763a3",
+      "dracoPrimitivePayload": false,
+      "protectedImmutableAvatar": true
+    }
+  ],
+  "arrivalDracoSavingsRawBytes": 0,
+  "conclusion": "No arrival Draco primitive payload duplicates. The lazy hinterland has 4353 duplicate Draco bytes; four protected immutable avatar files each have 4056 duplicate non-Draco bytes. No assets were changed by this survey."
+}

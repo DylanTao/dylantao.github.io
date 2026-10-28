@@ -1,0 +1,1023 @@
+{
+  "candidate": "v84",
+  "state": "Frozen native checkpoint for coordinator review; not canonically admitted",
+  "nativeSource": {
+    "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/candidate.blend",
+    "bytes": 28949910,
+    "sha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
+  },
+  "exportPreparedSource": {
+    "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/export-prepared.blend",
+    "bytes": 21787214,
+    "sha256": "d5e2702ab7a3ceb6e0764570a49544ca73d5c83ecbd320dd06d09d0727f7862f"
+  },
+  "fullCandidateManifest": {
+    "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/manifest.json",
+    "bytes": 572029,
+    "sha256": "f80ef39ce0520f5540579d32800a15e3bf9e62800e3f62fecdbb9903180ccab9"
+  },
+  "previewManifest": {
+    "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/manifest.json",
+    "bytes": 571791,
+    "sha256": "c5da58e42861ca61b3bc4516d80c49da8ba9c220c06887b3a520cf2568766c0b"
+  },
+  "companionPreset": {
+    "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/companion-flight-paths.json",
+    "bytes": 4477,
+    "sha256": "331f7b9d73c74aebc2dac1c3d84af7616d3557fde7769aff24ace5832b34124e"
+  },
+  "assetsRoot": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84",
+  "assets": [
+    {
+      "name": "BrandtsCormorant.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/BrandtsCormorant.glb",
+      "bytes": 31040,
+      "sha256": "1bf0f9cd47a413903472c1dacfe5f8dfd554b6dfddbc668ca80d211cef98829a",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "1bf0f9cd47a413903472c1dacfe5f8dfd554b6dfddbc668ca80d211cef98829a"
+    },
+    {
+      "name": "BrownPelican.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/BrownPelican.glb",
+      "bytes": 34440,
+      "sha256": "97ef0286ae9e75740bc05a60726d8321a2c0afe6a1ac60ae0ff38e66fe11749c",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "97ef0286ae9e75740bc05a60726d8321a2c0afe6a1ac60ae0ff38e66fe11749c"
+    },
+    {
+      "name": "BrushRabbit.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/BrushRabbit.glb",
+      "bytes": 51116,
+      "sha256": "9f2c82d3e6d4845f9420395f805bcaaa4ee9ebfba9e1d4bbde21d87433cdd8e4",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "9f2c82d3e6d4845f9420395f805bcaaa4ee9ebfba9e1d4bbde21d87433cdd8e4"
+    },
+    {
+      "name": "CaliforniaSeaLion.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/CaliforniaSeaLion.glb",
+      "bytes": 34376,
+      "sha256": "42adf172e236ee3be115efc4112b4e2b05389029c5e4518649324162803ae103",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "42adf172e236ee3be115efc4112b4e2b05389029c5e4518649324162803ae103"
+    },
+    {
+      "name": "character-contacts.json",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/character-contacts.json",
+      "bytes": 47570,
+      "sha256": "9437474859f95be31ffd4929e5ae6d930795568382b12b5affdafda12e13e48b",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "9437474859f95be31ffd4929e5ae6d930795568382b12b5affdafda12e13e48b"
+    },
+    {
+      "name": "coast.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/coast.glb",
+      "bytes": 241576,
+      "sha256": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
+      "role": "candidate-native-delivery",
+      "currentPublicSha256": "d1c9ecd1bc25fb2f6c070cb3f2eb1081a5d52efffa7f5c1ab9303aa658956162"
+    },
+    {
+      "name": "flora.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/flora.glb",
+      "bytes": 2203180,
+      "sha256": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2",
+      "role": "candidate-native-delivery",
+      "currentPublicSha256": "997cba7c8bfecc0e9ca29e39a51a4b9e2a5e337c622d9a97774e3c8759b86698"
+    },
+    {
+      "name": "furniture/aeron-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/aeron-lod0.glb",
+      "bytes": 167488,
+      "sha256": "4807a4756f37bbdc20c419e12d97ce5590b04d4d14799687a7e9e3dc23afe833",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "4807a4756f37bbdc20c419e12d97ce5590b04d4d14799687a7e9e3dc23afe833"
+    },
+    {
+      "name": "furniture/aeron-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/aeron-lod1.glb",
+      "bytes": 82404,
+      "sha256": "b8426379cae8f3f065f1c35434e9fbce2c2ee8432b1695ce33b977fb21ca4c54",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "b8426379cae8f3f065f1c35434e9fbce2c2ee8432b1695ce33b977fb21ca4c54"
+    },
+    {
+      "name": "furniture/banquette-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/banquette-lod0.glb",
+      "bytes": 107644,
+      "sha256": "f19bcd3ec454b652d4f90148e118286cd6a0d0b415a9a5b35de6418aba4f8027",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "f19bcd3ec454b652d4f90148e118286cd6a0d0b415a9a5b35de6418aba4f8027"
+    },
+    {
+      "name": "furniture/banquette-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/banquette-lod1.glb",
+      "bytes": 31432,
+      "sha256": "5ce8f0e210401f8ceff43e18704c0bed407b969a9bf2455a656ca97e09f64708",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "5ce8f0e210401f8ceff43e18704c0bed407b969a9bf2455a656ca97e09f64708"
+    },
+    {
+      "name": "furniture/cast-iron-pan-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/cast-iron-pan-lod0.glb",
+      "bytes": 45100,
+      "sha256": "9fd7d450a35326af81038e78a8ebaf426357ceef82a4c3e653d0011fd2ffd48c",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "9fd7d450a35326af81038e78a8ebaf426357ceef82a4c3e653d0011fd2ffd48c"
+    },
+    {
+      "name": "furniture/cast-iron-pan-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/cast-iron-pan-lod1.glb",
+      "bytes": 9488,
+      "sha256": "ca767c5adec75521ac90cfe9760927a83515016cc83c9dfe91e83b70d7cc0d5d",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "ca767c5adec75521ac90cfe9760927a83515016cc83c9dfe91e83b70d7cc0d5d"
+    },
+    {
+      "name": "furniture/cloud-sofa-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/cloud-sofa-lod0.glb",
+      "bytes": 130840,
+      "sha256": "a6959819fff369b4fea434f149212ab8346e3b1337cff03056464bca1bf83c2e",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "a6959819fff369b4fea434f149212ab8346e3b1337cff03056464bca1bf83c2e"
+    },
+    {
+      "name": "furniture/cloud-sofa-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/cloud-sofa-lod1.glb",
+      "bytes": 55376,
+      "sha256": "74c1dc6b032f4f8d29d657b6ad129089366deb121008fc3f65d6817c554105b0",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "74c1dc6b032f4f8d29d657b6ad129089366deb121008fc3f65d6817c554105b0"
+    },
+    {
+      "name": "furniture/dining-chair-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/dining-chair-lod0.glb",
+      "bytes": 45364,
+      "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
+    },
+    {
+      "name": "furniture/dining-chair-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/dining-chair-lod1.glb",
+      "bytes": 17196,
+      "sha256": "bb79a676b7bdc24c87ff05e99542bb0ca5d5807adec20886a38c6d02bf1b39f6",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "bb79a676b7bdc24c87ff05e99542bb0ca5d5807adec20886a38c6d02bf1b39f6"
+    },
+    {
+      "name": "furniture/dining-table-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/dining-table-lod0.glb",
+      "bytes": 8932,
+      "sha256": "78a97dbb32aaa76ac76eadc9c8b63a2cc2747eaeaa95fd496ed5693e496dc80a",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "78a97dbb32aaa76ac76eadc9c8b63a2cc2747eaeaa95fd496ed5693e496dc80a"
+    },
+    {
+      "name": "furniture/dining-table-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/dining-table-lod1.glb",
+      "bytes": 6880,
+      "sha256": "01c35852cbea182878bdbbe67baa4517090005850d9befaff215be0db9cfd884",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "01c35852cbea182878bdbbe67baa4517090005850d9befaff215be0db9cfd884"
+    },
+    {
+      "name": "furniture/dumbbell-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/dumbbell-lod0.glb",
+      "bytes": 8564,
+      "sha256": "4bc2e416b9296c3c5d58aada192cef9066fcd7c64d1955054326e4c221551ca4",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "4bc2e416b9296c3c5d58aada192cef9066fcd7c64d1955054326e4c221551ca4"
+    },
+    {
+      "name": "furniture/dumbbell-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/dumbbell-lod1.glb",
+      "bytes": 4676,
+      "sha256": "7dc3be036ca00f584cc87d68fe2ca8db596704215a7439d1b3a6f713f942b92e",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "7dc3be036ca00f584cc87d68fe2ca8db596704215a7439d1b3a6f713f942b92e"
+    },
+    {
+      "name": "furniture/eames-lounge-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/eames-lounge-lod0.glb",
+      "bytes": 444892,
+      "sha256": "a14817679cc30a7d360006af3c0d7dfd0b07b1d786648a670ad786bf9fb06691",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "a14817679cc30a7d360006af3c0d7dfd0b07b1d786648a670ad786bf9fb06691"
+    },
+    {
+      "name": "furniture/eames-lounge-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/eames-lounge-lod1.glb",
+      "bytes": 66616,
+      "sha256": "10028738fd7b5511e8cf7bf78eefd6ee283472a4e3a4f07cd8c426aa7d054ae4",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "10028738fd7b5511e8cf7bf78eefd6ee283472a4e3a4f07cd8c426aa7d054ae4"
+    },
+    {
+      "name": "furniture/floating-fireplace-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/floating-fireplace-lod0.glb",
+      "bytes": 17264,
+      "sha256": "337540ca4ae878da0ea9160e0652b8e34ca15616722b92766339696e86d54496",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "337540ca4ae878da0ea9160e0652b8e34ca15616722b92766339696e86d54496"
+    },
+    {
+      "name": "furniture/floating-fireplace-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/floating-fireplace-lod1.glb",
+      "bytes": 12588,
+      "sha256": "a2e4b7ccaa0c94c17bd4d36aa53d652f6babca7c1c7de6916c0311c89983be36",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "a2e4b7ccaa0c94c17bd4d36aa53d652f6babca7c1c7de6916c0311c89983be36"
+    },
+    {
+      "name": "furniture/glass-fridge-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/glass-fridge-lod0.glb",
+      "bytes": 47092,
+      "sha256": "6f41c93fe08d8519669e47fee42c0a2390143a77019d98d1704b3d3d53fa11a9",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "6f41c93fe08d8519669e47fee42c0a2390143a77019d98d1704b3d3d53fa11a9"
+    },
+    {
+      "name": "furniture/glass-fridge-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/glass-fridge-lod1.glb",
+      "bytes": 33380,
+      "sha256": "d5aa3c3d41fb8fd1dbfa627bbbb59fb72d36eeb79dc32105d6420c80f5e1c52e",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "d5aa3c3d41fb8fd1dbfa627bbbb59fb72d36eeb79dc32105d6420c80f5e1c52e"
+    },
+    {
+      "name": "furniture/index.json",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/index.json",
+      "bytes": 12939,
+      "sha256": "7c8e61168fded60891fef92e74d7244cbb8b80a3124d604441c09ffa556892f8",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "7c8e61168fded60891fef92e74d7244cbb8b80a3124d604441c09ffa556892f8"
+    },
+    {
+      "name": "furniture/italian-range-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/italian-range-lod0.glb",
+      "bytes": 49312,
+      "sha256": "a91cd11a8889fa140e543a3471f8ca7b506929ee7ffdb9be8b70a4ce282b976a",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "a91cd11a8889fa140e543a3471f8ca7b506929ee7ffdb9be8b70a4ce282b976a"
+    },
+    {
+      "name": "furniture/italian-range-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/italian-range-lod1.glb",
+      "bytes": 32936,
+      "sha256": "d0df11d63b14764d755cd73b4b8ecfacc88dc87bd03d88514f048b9af56d776a",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "d0df11d63b14764d755cd73b4b8ecfacc88dc87bd03d88514f048b9af56d776a"
+    },
+    {
+      "name": "furniture/pot-filler-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/pot-filler-lod0.glb",
+      "bytes": 7812,
+      "sha256": "a4695554f61f983141a41f1554b4e854562847ba8c66a929003595248ac5088a",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "a4695554f61f983141a41f1554b4e854562847ba8c66a929003595248ac5088a"
+    },
+    {
+      "name": "furniture/pot-filler-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/pot-filler-lod1.glb",
+      "bytes": 7340,
+      "sha256": "f326aa0fbf62e4c5bc3e24789d2314a29b983099b276d941748e5ce506d1560d",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "f326aa0fbf62e4c5bc3e24789d2314a29b983099b276d941748e5ce506d1560d"
+    },
+    {
+      "name": "furniture/range-hood-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/range-hood-lod0.glb",
+      "bytes": 8944,
+      "sha256": "3413e686faf5ac8e45125c5f59b09560a9ef19c3d347f7257159b5fa2f9db25d",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "3413e686faf5ac8e45125c5f59b09560a9ef19c3d347f7257159b5fa2f9db25d"
+    },
+    {
+      "name": "furniture/range-hood-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/range-hood-lod1.glb",
+      "bytes": 7520,
+      "sha256": "3c2c15aeb1d4e666a400d456bfcabeaca3c86c5151c9e694f4429a232f6a4195",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "3c2c15aeb1d4e666a400d456bfcabeaca3c86c5151c9e694f4429a232f6a4195"
+    },
+    {
+      "name": "furniture/whiskey-bottles-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-bottles-lod0.glb",
+      "bytes": 45924,
+      "sha256": "b33a347333fb60c47f18c0df317117a8f94a1c47081af557bc4b99b1d5cb51bd",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "b33a347333fb60c47f18c0df317117a8f94a1c47081af557bc4b99b1d5cb51bd"
+    },
+    {
+      "name": "furniture/whiskey-bottles-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-bottles-lod1.glb",
+      "bytes": 31808,
+      "sha256": "55f88df63ac7f7cc1177e7ed87dbd0900563e06b5a86ad66a28a886dc37d09af",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "55f88df63ac7f7cc1177e7ed87dbd0900563e06b5a86ad66a28a886dc37d09af"
+    },
+    {
+      "name": "furniture/whiskey-loveseat-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-loveseat-lod0.glb",
+      "bytes": 91396,
+      "sha256": "b6afbf79f015679452a930793ceb81e0c1db2761b80061b5e451b7a610fae8cd",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "b6afbf79f015679452a930793ceb81e0c1db2761b80061b5e451b7a610fae8cd"
+    },
+    {
+      "name": "furniture/whiskey-loveseat-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-loveseat-lod1.glb",
+      "bytes": 14860,
+      "sha256": "8192e15ecfaa11899f7dff5923c582908f673da9d8a62a7f0bff0128628bff4d",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "8192e15ecfaa11899f7dff5923c582908f673da9d8a62a7f0bff0128628bff4d"
+    },
+    {
+      "name": "furniture/whiskey-ottoman-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-ottoman-lod0.glb",
+      "bytes": 62492,
+      "sha256": "878367c94474eb41f9cea3e41fcd052d85690f87037840eb6c444769c3037205",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "878367c94474eb41f9cea3e41fcd052d85690f87037840eb6c444769c3037205"
+    },
+    {
+      "name": "furniture/whiskey-ottoman-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-ottoman-lod1.glb",
+      "bytes": 7924,
+      "sha256": "aec6d5ce339227c32223e4f835977e4801afc26a69ec69736ef2f41f132b8d6e",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "aec6d5ce339227c32223e4f835977e4801afc26a69ec69736ef2f41f132b8d6e"
+    },
+    {
+      "name": "furniture/whiskey-side-table-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-side-table-lod0.glb",
+      "bytes": 52508,
+      "sha256": "ba32afceae5854ba441a22d15157282c218eb16bdc632034d4fdaa5989126b3b",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "ba32afceae5854ba441a22d15157282c218eb16bdc632034d4fdaa5989126b3b"
+    },
+    {
+      "name": "furniture/whiskey-side-table-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-side-table-lod1.glb",
+      "bytes": 35292,
+      "sha256": "3626132b589e67b5f8a72743497ca3820316fbd3edd6286732118816127eb99e",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "3626132b589e67b5f8a72743497ca3820316fbd3edd6286732118816127eb99e"
+    },
+    {
+      "name": "HarborSeal.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/HarborSeal.glb",
+      "bytes": 35632,
+      "sha256": "6e7b70c892d7b8aaa1351c9b16a7e33ba342348ff93012a4af9da368eb1949b6",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "6e7b70c892d7b8aaa1351c9b16a7e33ba342348ff93012a4af9da368eb1949b6"
+    },
+    {
+      "name": "hinterland.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/hinterland.glb",
+      "bytes": 1465588,
+      "sha256": "bef9e5588f58d1475eead6ee7e41a90981d7f8d366f6317da0f9d4912aad2922",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "bef9e5588f58d1475eead6ee7e41a90981d7f8d366f6317da0f9d4912aad2922"
+    },
+    {
+      "name": "home-shell.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/home-shell.glb",
+      "bytes": 894112,
+      "sha256": "54733b6da084ced6949ef3b6cc2fd535e9ad1924887fe7d2766762c626aaca18",
+      "role": "candidate-native-delivery",
+      "currentPublicSha256": "67fca6f64fa4192e09a0c3760aabb2beb54c6f4dd64aec376e760961ba4460b3"
+    },
+    {
+      "name": "loading-sketch/gym.json",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/loading-sketch/gym.json",
+      "bytes": 33685,
+      "sha256": "cad38e645946dfdd959be1951e91781f2d9df404f20d60b2b297416b27768835",
+      "role": "exclude-regenerate-after-canonical-admission",
+      "currentPublicSha256": "cad38e645946dfdd959be1951e91781f2d9df404f20d60b2b297416b27768835"
+    },
+    {
+      "name": "loading-sketch/kitchen.json",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/loading-sketch/kitchen.json",
+      "bytes": 20169,
+      "sha256": "7a5f3ef17eb8bfd9a959655b665dab8aa620bb458d48178424e11096ad3e0e81",
+      "role": "exclude-regenerate-after-canonical-admission",
+      "currentPublicSha256": "7a5f3ef17eb8bfd9a959655b665dab8aa620bb458d48178424e11096ad3e0e81"
+    },
+    {
+      "name": "loading-sketch/library.json",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/loading-sketch/library.json",
+      "bytes": 45481,
+      "sha256": "49c70e5e8b725a30cc1573cde6676893de8e6f08a4fcdc02163cbdbb1a42c331",
+      "role": "exclude-regenerate-after-canonical-admission",
+      "currentPublicSha256": "49c70e5e8b725a30cc1573cde6676893de8e6f08a4fcdc02163cbdbb1a42c331"
+    },
+    {
+      "name": "loading-sketch/lounge.json",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/loading-sketch/lounge.json",
+      "bytes": 6596,
+      "sha256": "f24a87036df9306e7f06a72b45e7babec9dfa1e890de05fadd494ac6ad78bb10",
+      "role": "exclude-regenerate-after-canonical-admission",
+      "currentPublicSha256": "f24a87036df9306e7f06a72b45e7babec9dfa1e890de05fadd494ac6ad78bb10"
+    },
+    {
+      "name": "loading-sketch/onsen.json",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/loading-sketch/onsen.json",
+      "bytes": 57907,
+      "sha256": "5e49968f61bf2dfd0c4e6927530c9a4a4d264f44d6e91cd057ef3bcd3d0ce487",
+      "role": "exclude-regenerate-after-canonical-admission",
+      "currentPublicSha256": "5e49968f61bf2dfd0c4e6927530c9a4a4d264f44d6e91cd057ef3bcd3d0ce487"
+    },
+    {
+      "name": "loading-sketch/sleep.json",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/loading-sketch/sleep.json",
+      "bytes": 33431,
+      "sha256": "6bfac0ca305c58006dc3f2711ec09955246678c14144fdabf602aaf104e8a7ca",
+      "role": "exclude-regenerate-after-canonical-admission",
+      "currentPublicSha256": "6bfac0ca305c58006dc3f2711ec09955246678c14144fdabf602aaf104e8a7ca"
+    },
+    {
+      "name": "loading-sketch/study.json",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/loading-sketch/study.json",
+      "bytes": 69903,
+      "sha256": "f1744b71fa8f01d40e639584858a59d06eec91f8dfff0c9225f4f315bd735dfb",
+      "role": "exclude-regenerate-after-canonical-admission",
+      "currentPublicSha256": "f1744b71fa8f01d40e639584858a59d06eec91f8dfff0c9225f4f315bd735dfb"
+    },
+    {
+      "name": "loading-sketch.json",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/loading-sketch.json",
+      "bytes": 49057,
+      "sha256": "e427a6cdd19b7627f958e967cb0fd40de34c77ca4be4072e5a977f949760ecfc",
+      "role": "exclude-regenerate-after-canonical-admission",
+      "currentPublicSha256": "640ad0e8497181d223dc2bdaa1c0ee58e832624834151da0ac7ce8502e8b90d4"
+    },
+    {
+      "name": "manifest.json",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/manifest.json",
+      "bytes": 571791,
+      "sha256": "c5da58e42861ca61b3bc4516d80c49da8ba9c220c06887b3a520cf2568766c0b",
+      "role": "preview-only-no-cache-descriptor",
+      "currentPublicSha256": "01d3643289091a66dc072868be1af50e7b29a27827855fead6bc785daae9bc55"
+    },
+    {
+      "name": "Raccoon.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/Raccoon.glb",
+      "bytes": 49332,
+      "sha256": "52deb93ddfb227b521472adfe5ab2007cdba9903d28b333c8e290b4c2b8d5808",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "52deb93ddfb227b521472adfe5ab2007cdba9903d28b333c8e290b4c2b8d5808"
+    },
+    {
+      "name": "room-bath-bedroom.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-bath-bedroom.glb",
+      "bytes": 106412,
+      "sha256": "23122cb51c7d2f3d580389eb4ffbf41a8f64f0e12f612ccb12a9f94fe37b2b80",
+      "role": "candidate-native-delivery",
+      "currentPublicSha256": "1df8358f8c7dae4cf81ef8f7d9aa7393bcb0c70984ec31e1963537178a1a55e9"
+    },
+    {
+      "name": "room-bath-living.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-bath-living.glb",
+      "bytes": 104924,
+      "sha256": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72",
+      "role": "candidate-native-delivery",
+      "currentPublicSha256": "e84ed849b1c557ccde0a722c1161912d82d29752afe14f099418b098be4282f8"
+    },
+    {
+      "name": "room-gym.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-gym.glb",
+      "bytes": 222576,
+      "sha256": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de"
+    },
+    {
+      "name": "room-kitchen.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-kitchen.glb",
+      "bytes": 244696,
+      "sha256": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e"
+    },
+    {
+      "name": "room-library-upper.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-library-upper.glb",
+      "bytes": 22272,
+      "sha256": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85"
+    },
+    {
+      "name": "room-library.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-library.glb",
+      "bytes": 185640,
+      "sha256": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9",
+      "role": "candidate-native-delivery",
+      "currentPublicSha256": "9c7a0869f02cceb04118373b8aacd4fb02e750673cc661172708341f982f1bde"
+    },
+    {
+      "name": "room-lounge.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-lounge.glb",
+      "bytes": 231300,
+      "sha256": "56be7ae08742b1d9c4d30b765466d54c0cb7e8345e13cbe59343ccec299ce7ce",
+      "role": "candidate-native-delivery",
+      "currentPublicSha256": "7f98056c77046dfb33aeb180124a4f74b475cf64f16cb78dc91e7f6b710477f3"
+    },
+    {
+      "name": "room-onsen.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-onsen.glb",
+      "bytes": 94408,
+      "sha256": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba"
+    },
+    {
+      "name": "room-sleep.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-sleep.glb",
+      "bytes": 292636,
+      "sha256": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
+      "role": "candidate-native-delivery",
+      "currentPublicSha256": "72e5433b2d65ecb5e6451506d4b78da48647fc882916205e16267b2d03100790"
+    },
+    {
+      "name": "room-study.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-study.glb",
+      "bytes": 112436,
+      "sha256": "2a605f9445ec9523f935d9f71042e26027b57b3fd67310e0fe611e1a32467d92",
+      "role": "candidate-native-delivery",
+      "currentPublicSha256": "6f16bcde6c44cafcac0d3e3c9ba92c2852f0f2584ead1c67223c11f901cce988"
+    },
+    {
+      "name": "Sandpiper.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/Sandpiper.glb",
+      "bytes": 20696,
+      "sha256": "0b1868fc7b7840cb3d6a8a822bdbdd053f3cdb73cb3ab69e8d07e6d65628d381",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "0b1868fc7b7840cb3d6a8a822bdbdd053f3cdb73cb3ab69e8d07e6d65628d381"
+    },
+    {
+      "name": "sirui-ghibli.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/sirui-ghibli.glb",
+      "bytes": 858356,
+      "sha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db"
+    },
+    {
+      "name": "sirui-lizard.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/sirui-lizard.glb",
+      "bytes": 540496,
+      "sha256": "ca6bac2c2610fdc72d705f144e36a9800f11715198f64d74f4f177034d90ba3d",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "ca6bac2c2610fdc72d705f144e36a9800f11715198f64d74f4f177034d90ba3d"
+    },
+    {
+      "name": "sirui-rick-and-morty.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/sirui-rick-and-morty.glb",
+      "bytes": 661616,
+      "sha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253"
+    },
+    {
+      "name": "sirui-simpsons.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/sirui-simpsons.glb",
+      "bytes": 666964,
+      "sha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f"
+    },
+    {
+      "name": "sirui-south-park.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/sirui-south-park.glb",
+      "bytes": 714480,
+      "sha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63"
+    },
+    {
+      "name": "static-light-field.json",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/static-light-field.json",
+      "bytes": 742602,
+      "sha256": "feec269b818e620d6f158a241ae2dae1d7cd212646a292617164064109989533",
+      "role": "exclude-regenerate-after-canonical-admission",
+      "currentPublicSha256": "4956ba48627242cdcbfc0feed4c2f4ae9adc34cc32f7b906910058aa2b1e2911"
+    },
+    {
+      "name": "table-setting/dish-avocado-toast-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-avocado-toast-lod0.glb",
+      "bytes": 30136,
+      "sha256": "eb64e7c9e32fec230ae7f09e074c4438767b7e8adf509ef29b49a020472f13bd",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "eb64e7c9e32fec230ae7f09e074c4438767b7e8adf509ef29b49a020472f13bd"
+    },
+    {
+      "name": "table-setting/dish-avocado-toast-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-avocado-toast-lod1.glb",
+      "bytes": 26132,
+      "sha256": "527efe9f7db3a9290536276d4995e56a15ec44388c4e42bc78f5f93aed704a34",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "527efe9f7db3a9290536276d4995e56a15ec44388c4e42bc78f5f93aed704a34"
+    },
+    {
+      "name": "table-setting/dish-black-cod-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-black-cod-lod0.glb",
+      "bytes": 24332,
+      "sha256": "34e3127fee6ca16db7a0c9b4ca1ca897666f0ae5b5b085e6ab34271981838014",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "34e3127fee6ca16db7a0c9b4ca1ca897666f0ae5b5b085e6ab34271981838014"
+    },
+    {
+      "name": "table-setting/dish-black-cod-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-black-cod-lod1.glb",
+      "bytes": 18704,
+      "sha256": "85e097053cb040d1aa3ab399ddbe52235f52a381c14f4df654b1a4af5c4d46da",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "85e097053cb040d1aa3ab399ddbe52235f52a381c14f4df654b1a4af5c4d46da"
+    },
+    {
+      "name": "table-setting/dish-burrata-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-burrata-lod0.glb",
+      "bytes": 28020,
+      "sha256": "f4a15190078a942fb653a8ec0d88161ecd722a0ea0795c5e7203fcc1adffa6b5",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "f4a15190078a942fb653a8ec0d88161ecd722a0ea0795c5e7203fcc1adffa6b5"
+    },
+    {
+      "name": "table-setting/dish-burrata-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-burrata-lod1.glb",
+      "bytes": 18104,
+      "sha256": "c85ed16ef4d3f80fe0a582ed93b663ee38b74682a9ef83cca268456aff4c8a3a",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "c85ed16ef4d3f80fe0a582ed93b663ee38b74682a9ef83cca268456aff4c8a3a"
+    },
+    {
+      "name": "table-setting/dish-cacio-e-pepe-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-cacio-e-pepe-lod0.glb",
+      "bytes": 58060,
+      "sha256": "75d66e0a6e8f19fd4b021db176dd1364b50760f1c13782499428ff421f8bc5e0",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "75d66e0a6e8f19fd4b021db176dd1364b50760f1c13782499428ff421f8bc5e0"
+    },
+    {
+      "name": "table-setting/dish-cacio-e-pepe-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-cacio-e-pepe-lod1.glb",
+      "bytes": 26264,
+      "sha256": "427a75ad1921112a0e7bee227120f8075c79167f59f72e5588e12f270283e636",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "427a75ad1921112a0e7bee227120f8075c79167f59f72e5588e12f270283e636"
+    },
+    {
+      "name": "table-setting/dish-chocolate-fondant-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-chocolate-fondant-lod0.glb",
+      "bytes": 20816,
+      "sha256": "bf06d7d29b5cb5ba7ca4d0a087f1522c44fd6ba848c33bc963fde002f0278cc6",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "bf06d7d29b5cb5ba7ca4d0a087f1522c44fd6ba848c33bc963fde002f0278cc6"
+    },
+    {
+      "name": "table-setting/dish-chocolate-fondant-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-chocolate-fondant-lod1.glb",
+      "bytes": 12784,
+      "sha256": "6291bf9ddf388a5fc1a51f30450f1c6fd696ad098e8b22c3f73afab757cd55d0",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "6291bf9ddf388a5fc1a51f30450f1c6fd696ad098e8b22c3f73afab757cd55d0"
+    },
+    {
+      "name": "table-setting/dish-congee-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-congee-lod0.glb",
+      "bytes": 61564,
+      "sha256": "64872cd60eff471eabd29db9fa79320c5eb26eaeb627fb0abf0c7caf9f925cbf",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "64872cd60eff471eabd29db9fa79320c5eb26eaeb627fb0abf0c7caf9f925cbf"
+    },
+    {
+      "name": "table-setting/dish-congee-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-congee-lod1.glb",
+      "bytes": 40668,
+      "sha256": "94dfd2a407b5d4c0a553a6ef0f834ae19c5dc31fdcd72a2e009421299878487c",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "94dfd2a407b5d4c0a553a6ef0f834ae19c5dc31fdcd72a2e009421299878487c"
+    },
+    {
+      "name": "table-setting/dish-creme-brulee-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-creme-brulee-lod0.glb",
+      "bytes": 13736,
+      "sha256": "09318e01d5f83468cec2360f4b7ff71e19fee113fe9904376082bf888485bd60",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "09318e01d5f83468cec2360f4b7ff71e19fee113fe9904376082bf888485bd60"
+    },
+    {
+      "name": "table-setting/dish-creme-brulee-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-creme-brulee-lod1.glb",
+      "bytes": 8840,
+      "sha256": "14dde65e865446e62a326a7519060c0e6fd967998410ad34ddb3e09bc0769289",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "14dde65e865446e62a326a7519060c0e6fd967998410ad34ddb3e09bc0769289"
+    },
+    {
+      "name": "table-setting/dish-french-toast-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-french-toast-lod0.glb",
+      "bytes": 25204,
+      "sha256": "dcc64dbf909d3226718df4e86687218f25f8d096d61d9be2a9ba861c5f993c97",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "dcc64dbf909d3226718df4e86687218f25f8d096d61d9be2a9ba861c5f993c97"
+    },
+    {
+      "name": "table-setting/dish-french-toast-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-french-toast-lod1.glb",
+      "bytes": 16032,
+      "sha256": "ff5ddfdf85e844db8068b5f4021bd48dd8faafa951b84abaa4f67cf11aff3996",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "ff5ddfdf85e844db8068b5f4021bd48dd8faafa951b84abaa4f67cf11aff3996"
+    },
+    {
+      "name": "table-setting/dish-matcha-cheesecake-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-matcha-cheesecake-lod0.glb",
+      "bytes": 14052,
+      "sha256": "fc8216180d1fd41fb1f509e0c5ae23cdf47f2052ef622ff1ac959c5de9c0ee80",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "fc8216180d1fd41fb1f509e0c5ae23cdf47f2052ef622ff1ac959c5de9c0ee80"
+    },
+    {
+      "name": "table-setting/dish-matcha-cheesecake-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-matcha-cheesecake-lod1.glb",
+      "bytes": 9672,
+      "sha256": "c3824fd21c6e85932e4fa86c4adaab2e7d8a6f0f977479489006cf69b51aed8e",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "c3824fd21c6e85932e4fa86c4adaab2e7d8a6f0f977479489006cf69b51aed8e"
+    },
+    {
+      "name": "table-setting/dish-nicoise-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-nicoise-lod0.glb",
+      "bytes": 38588,
+      "sha256": "b86eb6221506f2b89bfc4ba2476a089406159a5546708258432bad4966f6ca53",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "b86eb6221506f2b89bfc4ba2476a089406159a5546708258432bad4966f6ca53"
+    },
+    {
+      "name": "table-setting/dish-nicoise-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-nicoise-lod1.glb",
+      "bytes": 23048,
+      "sha256": "5c219e3a5651280c3985cb7f456014922c5ca7c5661b6b3e2a97dc80000b9311",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "5c219e3a5651280c3985cb7f456014922c5ca7c5661b6b3e2a97dc80000b9311"
+    },
+    {
+      "name": "table-setting/dish-panna-cotta-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-panna-cotta-lod0.glb",
+      "bytes": 19084,
+      "sha256": "f8006a559f5c3aff643dc3a3f97409813c364867d9cd30ab57c64fc219e0189f",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "f8006a559f5c3aff643dc3a3f97409813c364867d9cd30ab57c64fc219e0189f"
+    },
+    {
+      "name": "table-setting/dish-panna-cotta-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-panna-cotta-lod1.glb",
+      "bytes": 12216,
+      "sha256": "5fd8d77623936d0aa7ff8455fab7beed19e6adbd2d5131e9434736799a6b2008",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "5fd8d77623936d0aa7ff8455fab7beed19e6adbd2d5131e9434736799a6b2008"
+    },
+    {
+      "name": "table-setting/dish-poke-bowl-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-poke-bowl-lod0.glb",
+      "bytes": 39232,
+      "sha256": "9532d73a2bbdbac5f9771c5b027a42ca6cd9cf9dd5658d8f948681507ae96ad8",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "9532d73a2bbdbac5f9771c5b027a42ca6cd9cf9dd5658d8f948681507ae96ad8"
+    },
+    {
+      "name": "table-setting/dish-poke-bowl-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-poke-bowl-lod1.glb",
+      "bytes": 27408,
+      "sha256": "42f3c96b9a9c01e8599f3d3f5a6073be3931dfb1fc477dd1dc9502694f79a8e7",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "42f3c96b9a9c01e8599f3d3f5a6073be3931dfb1fc477dd1dc9502694f79a8e7"
+    },
+    {
+      "name": "table-setting/dish-ramen-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-ramen-lod0.glb",
+      "bytes": 61932,
+      "sha256": "338728893743fde155d536dfa2d9859b388f6b8ccbc7649ef411513d42e5b0c1",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "338728893743fde155d536dfa2d9859b388f6b8ccbc7649ef411513d42e5b0c1"
+    },
+    {
+      "name": "table-setting/dish-ramen-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-ramen-lod1.glb",
+      "bytes": 34788,
+      "sha256": "ddee759881b24d40375677469d31d1d182cfcf9bf12d4dca8ef8db9647ce251b",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "ddee759881b24d40375677469d31d1d182cfcf9bf12d4dca8ef8db9647ce251b"
+    },
+    {
+      "name": "table-setting/dish-ribeye-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-ribeye-lod0.glb",
+      "bytes": 30980,
+      "sha256": "f265265f916fae4ab2966a0a6d9a202e0d519e69223e1e38435d484eec5f83a1",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "f265265f916fae4ab2966a0a6d9a202e0d519e69223e1e38435d484eec5f83a1"
+    },
+    {
+      "name": "table-setting/dish-ribeye-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-ribeye-lod1.glb",
+      "bytes": 20516,
+      "sha256": "2f7e13327343742917fd62f315d85e70d49eb3a1dcd5335fba320e6726eaa45e",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "2f7e13327343742917fd62f315d85e70d49eb3a1dcd5335fba320e6726eaa45e"
+    },
+    {
+      "name": "table-setting/dish-ricotta-pancakes-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-ricotta-pancakes-lod0.glb",
+      "bytes": 27632,
+      "sha256": "4dcb7e8b666415a3aecfda2463b6d5f5b4e54e06be955c422a963a8f95d6f28f",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "4dcb7e8b666415a3aecfda2463b6d5f5b4e54e06be955c422a963a8f95d6f28f"
+    },
+    {
+      "name": "table-setting/dish-ricotta-pancakes-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-ricotta-pancakes-lod1.glb",
+      "bytes": 16628,
+      "sha256": "5674da4bc0e982c53c4ef365ebc6a33af643c9c2c0ca717515811e309cc1f41c",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "5674da4bc0e982c53c4ef365ebc6a33af643c9c2c0ca717515811e309cc1f41c"
+    },
+    {
+      "name": "table-setting/dish-risotto-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-risotto-lod0.glb",
+      "bytes": 33352,
+      "sha256": "669a03d2dfe80717dde73490576852b7dce69c6d9c17638aec6b0dab5eeecd81",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "669a03d2dfe80717dde73490576852b7dce69c6d9c17638aec6b0dab5eeecd81"
+    },
+    {
+      "name": "table-setting/dish-risotto-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-risotto-lod1.glb",
+      "bytes": 25824,
+      "sha256": "c673063d68fb6afbb4689dd80dc07ab2470936eb1a1af5a4ceb18f3b3be0052a",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "c673063d68fb6afbb4689dd80dc07ab2470936eb1a1af5a4ceb18f3b3be0052a"
+    },
+    {
+      "name": "table-setting/dish-salmon-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-salmon-lod0.glb",
+      "bytes": 24768,
+      "sha256": "7e7a59e1ef31a8cae0b0db2079339b33bf26d791ecb935a40a16d995788ec9dc",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "7e7a59e1ef31a8cae0b0db2079339b33bf26d791ecb935a40a16d995788ec9dc"
+    },
+    {
+      "name": "table-setting/dish-salmon-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-salmon-lod1.glb",
+      "bytes": 20948,
+      "sha256": "37e2daf2fb4528a1912a49d0452f6564c2f6926eaafe828087cd58b92567dcbf",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "37e2daf2fb4528a1912a49d0452f6564c2f6926eaafe828087cd58b92567dcbf"
+    },
+    {
+      "name": "table-setting/dish-scallops-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-scallops-lod0.glb",
+      "bytes": 35312,
+      "sha256": "955991970030712e587e9eb62d7b630993eee3f90d0f1ec93c85f0738a61836b",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "955991970030712e587e9eb62d7b630993eee3f90d0f1ec93c85f0738a61836b"
+    },
+    {
+      "name": "table-setting/dish-scallops-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-scallops-lod1.glb",
+      "bytes": 25076,
+      "sha256": "911d5e7a499cf42919ac178a1d2859bd33c0338349464ee695dbd9e784f9fb8c",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "911d5e7a499cf42919ac178a1d2859bd33c0338349464ee695dbd9e784f9fb8c"
+    },
+    {
+      "name": "table-setting/dish-shakshuka-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-shakshuka-lod0.glb",
+      "bytes": 26224,
+      "sha256": "50f7cc934817e2ab6f80579984f1800a50f44ccdb7879d945a1a0c8d7e7a3a15",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "50f7cc934817e2ab6f80579984f1800a50f44ccdb7879d945a1a0c8d7e7a3a15"
+    },
+    {
+      "name": "table-setting/dish-shakshuka-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-shakshuka-lod1.glb",
+      "bytes": 20464,
+      "sha256": "b4eb6be44b4d464b3c0b7404070523412a0ea7149ef0b2eec819b59f36ff03e6",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "b4eb6be44b4d464b3c0b7404070523412a0ea7149ef0b2eec819b59f36ff03e6"
+    },
+    {
+      "name": "table-setting/dish-shrimp-bowl-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-shrimp-bowl-lod0.glb",
+      "bytes": 31536,
+      "sha256": "49e675d613b9220d89f3e9a7c1213c6ac79390033a07d584b2e6776176f38a38",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "49e675d613b9220d89f3e9a7c1213c6ac79390033a07d584b2e6776176f38a38"
+    },
+    {
+      "name": "table-setting/dish-shrimp-bowl-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-shrimp-bowl-lod1.glb",
+      "bytes": 26688,
+      "sha256": "c57fc06a3ceb10d5fd1403a210d738a553db8381ac6976e2be50f48b6b440ba6",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "c57fc06a3ceb10d5fd1403a210d738a553db8381ac6976e2be50f48b6b440ba6"
+    },
+    {
+      "name": "table-setting/dish-tiramisu-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-tiramisu-lod0.glb",
+      "bytes": 18068,
+      "sha256": "e14db3109570e7e7434ba7fa832044246342dbf9f65989b87ac2d0b81e250c94",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "e14db3109570e7e7434ba7fa832044246342dbf9f65989b87ac2d0b81e250c94"
+    },
+    {
+      "name": "table-setting/dish-tiramisu-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-tiramisu-lod1.glb",
+      "bytes": 14776,
+      "sha256": "965b517d0447c8ad5df813731f1b0e916786280fbe74f8a5c74d4bd91b9261db",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "965b517d0447c8ad5df813731f1b0e916786280fbe74f8a5c74d4bd91b9261db"
+    },
+    {
+      "name": "table-setting/dish-xiaolongbao-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-xiaolongbao-lod0.glb",
+      "bytes": 31336,
+      "sha256": "1e6b629ba1e26cc86aaff8f2cbf41ac9263a3447d1d9a3f5d9f91e986ce8c34e",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "1e6b629ba1e26cc86aaff8f2cbf41ac9263a3447d1d9a3f5d9f91e986ce8c34e"
+    },
+    {
+      "name": "table-setting/dish-xiaolongbao-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-xiaolongbao-lod1.glb",
+      "bytes": 19960,
+      "sha256": "2056e41327d935ceb1f6311b3f9e920f136bf3c2fb580ba9337d1d3ef4de0462",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "2056e41327d935ceb1f6311b3f9e920f136bf3c2fb580ba9337d1d3ef4de0462"
+    },
+    {
+      "name": "table-setting/index.json",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/index.json",
+      "bytes": 28976,
+      "sha256": "d5a1b00ec3815b30d1e969cecda54ce24923ed7bce1fcf6c79cc41dbd0d01abd",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "d5a1b00ec3815b30d1e969cecda54ce24923ed7bce1fcf6c79cc41dbd0d01abd"
+    },
+    {
+      "name": "table-setting/tableware-lod0.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/tableware-lod0.glb",
+      "bytes": 119736,
+      "sha256": "0a8c3528848e98bd96e84e269d188a45b050d4ec0ad3ea837eb7293bf8560e62",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "0a8c3528848e98bd96e84e269d188a45b050d4ec0ad3ea837eb7293bf8560e62"
+    },
+    {
+      "name": "table-setting/tableware-lod1.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/tableware-lod1.glb",
+      "bytes": 84140,
+      "sha256": "ba3dfb80225f3a819ea61e47087b73922d9a815ff7fc1f3d4d18deab4dfbdb41",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "ba3dfb80225f3a819ea61e47087b73922d9a815ff7fc1f3d4d18deab4dfbdb41"
+    },
+    {
+      "name": "WesternGull.glb",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/WesternGull.glb",
+      "bytes": 22912,
+      "sha256": "af06b16e55042d2fe314868703e5cd4edb64ba057fde2e809a628fce95c71a29",
+      "role": "unchanged-reference",
+      "currentPublicSha256": "af06b16e55042d2fe314868703e5cd4edb64ba057fde2e809a628fce95c71a29"
+    },
+    {
+      "name": "wildlife-perch-support.json",
+      "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/wildlife-perch-support.json",
+      "bytes": 37636,
+      "sha256": "a8d48dc5c5f320f3524976072231b3da9af60cb8cdb6b7078f35b10018c151c1",
+      "role": "candidate-native-delivery",
+      "currentPublicSha256": "31c5b162d8147f5a39e673fdc0f41fe463dc37032ecff56b7ac5f9e2b8f07d93"
+    }
+  ],
+  "immutableV82": {
+    "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v82/candidate.blend",
+    "bytes": 28946388,
+    "sha256": "7024983f7ce185368a74cbee0cda17e62a0bf3138c1844b7d53bba8a6d7f519e"
+  },
+  "rejectedV73": {
+    "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v73/candidate.blend",
+    "bytes": 28684216,
+    "sha256": "34bcb66c170bb08efdab49267c8f0875cebdac51621878de25c4618160cd22ad"
+  },
+  "immutableFinalAvatarSource": {
+    "file": "C:/dev/dylantao.github.io/artwork/coastal-home/character-finish.blend",
+    "sha256": "21808be7aa4bb25db386de94bc02e05616f60de28825b3f57c695132ac7698a6"
+  },
+  "requiredRemainingCoordinatorWork": [
+    "Review and admit pair-specific overlap proposals",
+    "Admit exact native source/GLBs/manifest geometry and companion preset together",
+    "Regenerate loading sketches and the input-bound static field through the canonical pipeline; do not copy the stale field",
+    "Prove full input-bound cache <=800000 bytes and complete actual production scene network arrival <=4194304 bytes",
+    "Register the targeted architecture browser case in the final scene test group"
+  ],
+  "unresolvedVisualLimit": "F6 upper cliff plane remains unsolved. The v73 local deformation introduced an ugly beak/seam and was rejected; safe retained rock remains.",
+  "performanceClaim": false
+}

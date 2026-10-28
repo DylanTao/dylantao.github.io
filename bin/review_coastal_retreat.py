@@ -65,14 +65,26 @@ for label,route in routes.items():
                 if obstacle:
                     failures.append({"route":label,"segment":index,"height":h,"offset":list(offset),"obstacle":obstacle})
 bearing=[]
+cantilever=config.get("estateOutdoors",{}).get("terrace",{}).get("structure")
+bearing_y=(-.8,1.2,1.95) if cantilever else (-.8,1.2,3.45)
 for x in (-7.5,-4.5,-1.5,2.5):
-    for y in (-.8,1.2,3.45):
+    for y in bearing_y:
         # Starting 1cm above the basin cut observes the newly excavated retained
         # coast's top bearing, not its underside or the modeled pool shell.
         contact=hit((x,y,-1.70),(0,0,-1),.35,rock)
         sample={"native":[x,y,-1.72],"bearing":contact}
         bearing.append(sample)
         if not contact or abs(contact["position"][2]+1.72)>.02:failures.append({"bearing":sample})
+forward_clearance=[]
+if cantilever:
+    # The forward span is intentionally in air now. Hold the same backspan
+    # rock-height bound and independently require a real gap under the basin.
+    for x in (-7.5,-4.5,-1.5,2.5):
+        q=(x,3.45,-1.825)
+        support=hit(q,(0,0,-1),.12,rock)
+        row={"native":q,"clearanceAtLeastM":.12,"unexpectedSupport":support}
+        forward_clearance.append(row)
+        if support:failures.append({"cantileverAirClearance":row})
 companion=[]
 def sphere(q,r,label):
     point=Vector(native(q));nearest=[]
@@ -100,7 +112,7 @@ for label,route in air_routes.items():
             q=a.lerp(b,j/max(1,math.ceil((b-a).length/.08)))
             sphere(list(q),.42,f"{label}:{k}:{j}")
 report={"sourceSha256":hashlib.sha256(source.read_bytes()).hexdigest(),"routeCount":len(routes),
-        "samples":checks,"bearing":bearing,"failures":failures,"passed":not failures,
+        "samples":checks,"bearing":bearing,"forwardCantileverClearance":forward_clearance,"failures":failures,"passed":not failures,
         "companionSphereChecks":companion,
         "companionScope":"diagnostic human-route air candidates; actual runtime flights audited separately" if full_companion else "all room perches and main curved stair; full runtime flight audit is separate",
         "scope":"Actual source rays and 0.5m-wide body-line sweep. Delivered compressed capsule and rendered evidence are separate gates."}

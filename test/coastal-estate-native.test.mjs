@@ -1,10 +1,15 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 import { BODY, createWalkField, walkKind, WATER_BLOCK } from "../assets/js/home-scene/colliders.mjs";
 import { nativeGeometry } from "./helpers/coastal-native-geometry.mjs";
 
-const manifest = () => JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
+const modelBase = process.env.COASTAL_MODELS_ROOT
+  ? pathToFileURL(`${resolve(process.env.COASTAL_MODELS_ROOT)}/`)
+  : new URL("../assets/models/home/", import.meta.url);
+const manifest = () => JSON.parse(readFileSync(new URL("manifest.json", modelBase), "utf8"));
 
 async function deliveredField(config) {
   const field = createWalkField(config.walk.region);
@@ -13,8 +18,12 @@ async function deliveredField(config) {
   const movingLeaves = [];
   for (const file of files) {
     if (!file) continue;
-    const root = await nativeGeometry(file);
+    const root = await nativeGeometry(file, modelBase);
     root.traverse((object) => {
+      // Walk presents the made bed, exactly as controller.updateBedding does.
+      // The five fitted sleeper covers are mutually exclusive moving variants;
+      // voxelizing all six at once fabricates a wider, taller bedside obstacle.
+      if (object.userData.bedding && object.userData.bedding !== "empty") object.visible = false;
       if (object.userData.caveRoof || object.userData.roomCeilingFor || object.userData.bathroomCeilingFor) {
         object.visible = false;
         hiddenStructure.push(object.name);
@@ -49,7 +58,7 @@ async function deliveredField(config) {
 
 test("native roof planting follows only its actual retained support and companion paths have one final-frame source", async () => {
   const config = manifest();
-  const root = await nativeGeometry(config.shell);
+  const root = await nativeGeometry(config.shell, modelBase);
   const plants = [],
     owned = [];
   root.traverse((node) => {
@@ -72,7 +81,9 @@ test("native roof planting follows only its actual retained support and companio
       if (node.isMesh) assert.equal(walkKind(node, root), null, "hidden leaves leave no static airwall");
     });
   }
-  const preset = JSON.parse(readFileSync(new URL("../artwork/coastal-home/companion-flight-paths.json", import.meta.url), "utf8"));
+  const preset = JSON.parse(
+    readFileSync(process.env.COASTAL_COMPANION_PRESET || new URL("../artwork/coastal-home/companion-flight-paths.json", import.meta.url), "utf8")
+  );
   assert.equal(preset.routeFrame, "world-after-retreat");
   assert.equal(preset.routeSetbackMetres, config.retreat.setbackMetres);
   for (const [key, value] of Object.entries(preset)) assert.deepEqual(config.companion[key], value, `${key}: delivered route preset has not drifted`);
@@ -208,11 +219,28 @@ test(
         assert.deepEqual(config.terrain.contacts[id].exitPath, room.exitPath, `${id}: routine and room share authored floor path`);
       }
       bothWays("bedroom spiral to study aisle", config.estateLibrary.privateConnection);
-      bothWays("bedroom egress to compact bridge", config.estateLibrary.bedroomApproach);
+      bothWays("bedroom bedside to compact spiral", config.estateLibrary.bedroomApproach);
       bothWays("living to dry patio", config.retreat.patioRoute);
       bothWays("living to pool-entry coping", config.retreat.poolEdgeRoute);
       const treads = config.estateLibrary.stairRoute;
-      assert.ok(treads.length >= 16);
+      const adjacent = config.estateLibrary.adjacentBedchamber;
+      if (adjacent) {
+        assert.equal(treads.length, adjacent.riserCount);
+        assert.equal(adjacent.riserCount, 10);
+        assert.ok(adjacent.rise <= 0.178, "actual 150mm risers remain below the unchanged human step limit");
+        assert.ok(adjacent.going >= 0.18, "measured going at the walking radius");
+        assert.ok(adjacent.clearTreadWidth >= 0.9, "human-width radial stair");
+        assert.equal(config.estateLibrary.bridgeRemoved, true);
+        const study = config.rooms.find((room) => room.id === "study");
+        const sleep = config.rooms.find((room) => room.id === "sleep");
+        bothWays(
+          "standing bedside to standing study",
+          [sleep.walkActor, ...config.estateLibrary.bedroomApproach.slice(1), ...config.estateLibrary.privateConnection, study.walkActor].filter(
+            (point, i, all) => !i || Math.hypot(...point.map((v, k) => v - all[i - 1][k])) > 1e-6
+          )
+        );
+        bothWays("real library patio aperture", config.estateLibrary.patioDoor.route);
+      } else assert.ok(treads.length >= 16);
       bothWays("all compact spiral risers", [config.estateLibrary.stairApproach.bottom, ...treads, config.estateLibrary.stairApproach.top]);
       assert.ok(
         treads.some((q, i) => i && Math.abs(q[0] - treads[i - 1][0]) > 0.1),

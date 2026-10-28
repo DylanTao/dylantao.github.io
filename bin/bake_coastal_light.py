@@ -8,13 +8,19 @@ import json
 import sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
+args={a[2:].split('=',1)[0]:a.split('=',1)[1] for a in sys.argv if a.startswith('--') and '=' in a}
+def option_path(name,default):
+    path=Path(args.get(name,default))
+    return path if path.is_absolute() else ROOT/path
+manifest=option_path('manifest','assets/models/home/manifest.json')
+models_out=option_path('models-out','assets/models/home')
 room=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--room=')),None)
-ROOMS=tuple(room['id'] for room in json.loads((ROOT/'assets/models/home/manifest.json').read_text(encoding='utf-8'))['rooms'])
+ROOMS=tuple(room['id'] for room in json.loads(manifest.read_text(encoding='utf-8'))['rooms'])
 assert room is None or room in ROOMS,room
 # --prefixes=core_,kitchen_ bakes a chosen set (the interior pass rebuilds the shell's floors with a room).
 chosen=next((a.split('=',1)[1] for a in sys.argv if a.startswith('--prefixes=')),None)
 prefixes=tuple(chosen.split(',')) if chosen else (room+'_',) if room else ('core_',)+tuple(r+'_' for r in ROOMS)
-source=ROOT/'artwork/coastal-home/coastal-home.blend'
+source=option_path('source','artwork/coastal-home/coastal-home.blend')
 bpy.ops.wm.open_mainfile(filepath=str(source))
 scene=bpy.context.scene
 scene.render.engine='CYCLES';scene.cycles.samples=24
@@ -41,7 +47,7 @@ bpy.ops.object.select_all(action='DESELECT')
 clear=[o for o in scene.objects if o.type=='MESH' and (o.get('facadeDoor') or any(m and m.name=='facade low-iron glass' for m in o.data.materials))]
 for o in clear:o.hide_render=True
 for o in scene.objects:
-    if o.type=='MESH' and o not in clear and o.name.startswith(prefixes) and not o.name.startswith('core_continuous') and not o.get('caveRoof') and not o.get('shadowOnly') and not o.get('noBake'):
+    if o.type=='MESH' and o.data.polygons and o not in clear and o.name.startswith(prefixes) and not o.name.startswith('core_continuous') and not o.get('caveRoof') and not o.get('shadowOnly') and not o.get('noBake'):
         for a in list(o.data.color_attributes):o.data.color_attributes.remove(a)
         a=o.data.color_attributes.new(name='Baked contact and bounce',type='FLOAT_COLOR',domain='CORNER')
         o.data.color_attributes.active_color=a
@@ -85,8 +91,10 @@ for name,prefix in exports:
     bpy.ops.object.select_all(action='DESELECT')
     for o in scene.objects:
         if o.name.startswith(prefix) and not (name=='home-shell' and o.name.startswith('core_flora_')):o.select_set(True)
-    bpy.ops.export_scene.gltf(filepath=str(ROOT/'assets/models/home'/f'{name}.glb'),export_format='GLB',use_selection=True,export_extras=True,export_cameras=False,export_lights=False,export_animations=False,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=7)
-report=ROOT/'artwork/coastal-home/reviews/baked-light.json'
+    models_out.mkdir(parents=True,exist_ok=True)
+    bpy.ops.export_scene.gltf(filepath=str(models_out/f'{name}.glb'),export_format='GLB',use_selection=True,export_extras=True,export_cameras=False,export_lights=False,export_animations=False,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=7)
+report=option_path('report','artwork/coastal-home/reviews/baked-light.json')
+report.parent.mkdir(parents=True,exist_ok=True)
 if (room or chosen) and report.exists():
-    stats=[s for s in json.loads(report.read_text())['surfaces'] if not s['mesh'].startswith(prefixes)]+stats
-report.write_text(json.dumps({'method':'Cycles AO and diffuse indirect color-attribute bake','samples':24,'surfaces':stats},indent=2)+'\n')
+    stats=[s for s in json.loads(report.read_text(encoding='utf-8'))['surfaces'] if not s['mesh'].startswith(prefixes)]+stats
+report.write_text(json.dumps({'method':'Cycles AO and diffuse indirect color-attribute bake','samples':24,'surfaces':stats},indent=2)+'\n',encoding='utf-8',newline='\n')

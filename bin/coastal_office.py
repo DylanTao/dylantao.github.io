@@ -7,10 +7,11 @@ The desk is one L of milky veined marble, 5 cm thick, on two marble waterfall le
 drawer pedestal at the corner. Sirui sits at the long run beside the bedroom screen facing south,
 the 43-inch monitor (AORUS FV43U size, 967 x 586 mm) straight ahead and the 32-inch (714 x 425 mm)
 turned toward him on the corner, so the side view from the gallery shows his profile, both screens
-and the return behind him: research papers, the turntable, and the black tower with its tempered
-glass side, RGB fans and a three-fan RTX 3080 Ti, glass facing the room. The LG gram Pro 16 (357 x
-248 x 15 mm, black magnesium) is open at his right hand. A bookshelf wall behind the return closes
-the office off from the walk to the stair and holds the records.
+and the return behind him with research papers and the turntable. The black tower sits in a clear
+floor bay beside the return, with its tempered-glass side, RGB fans and three-fan RTX 3080 Ti facing
+the room. The LG gram Pro 16 (357 x
+248 x 15 mm, black magnesium) is open at his right hand. The fitted west book wall holds the records
+while leaving the compact bedroom stair's aisle open.
 
 The typing pose fixes the ergonomics: hands 34.5 cm in front of the hips at 92.5 cm, the seat
 cushion at 51.5 cm and the feet on a footrest at 22 cm (bin/review_coastal_models.py). The desk top
@@ -27,7 +28,7 @@ Z0 = 2.6
 DESK_TOP = 0.88
 SLAB = 0.05
 MAIN = {"x": (-1.38, -0.66), "y": (-4.37, -2.15)}
-RETURN = {"x": (-1.38, 1.0), "y": (-5.09, -4.37)}
+RETURN = {"x": (-1.38, .15), "y": (-5.09, -4.37)}
 ACTOR = (-0.36, -3.55)  # between the hips; Sirui faces -X (south)
 EYE = (ACTOR[0] - 0.05, ACTOR[1], Z0 + 1.2)
 SHELF = {"x": (-1.4, 1.0), "y": (-5.72, -5.42), "levels": (0.04, 0.44, 0.84, 1.24, 1.64), "top": 1.95}
@@ -36,7 +37,7 @@ SHELF = {"x": (-1.4, 1.0), "y": (-5.72, -5.42), "levels": (0.04, 0.44, 0.84, 1.2
 RECORDS = [(-0.62 + 0.38 * k, -5.53) for k in range(4)]
 PAPERS = ((-0.72, -4.6), (-0.41, -4.63))
 TURNTABLE = (0.17, -4.7)
-PC = {"x": (0.53, 0.99), "y": (-4.85, -4.62), "height": 0.49}
+PC = {"x": (-.53, -.07), "y": (-5.715, -5.485), "height": 0.49}
 LAMP = (-1.2, -2.32)
 LAPTOP = (-0.98, -2.76)
 MONITOR_43 = {"size": (0.967, 0.586), "center": (-1.24, ACTOR[1]), "bottom": 0.075}
@@ -310,11 +311,11 @@ def build_laptop(p, m):
 
 
 def build_pc(p, m):
-    """A black mid-tower on the return: tempered glass toward the room, three RGB intake fans in the
+    """A black mid-tower on the clear floor bay: tempered glass toward the room, three RGB intake fans in the
     front, a 240 mm radiator with two RGB fans under the roof, an RGB-topped memory bank and a long
     three-fan RTX 3080 Ti across the board, over a power-supply shroud."""
     (x0, x1), (y0, y1), h = PC["x"], PC["y"], PC["height"]
-    base = Z0 + DESK_TOP
+    base = Z0
     steel, board, glass, rgb, gpu, black = (p.bm(m[k]) for k in ("pc", "board", "glass", "rgb", "gpu", "black"))
     t = 0.008
     # Shell: feet, floor, roof, front, back and the solid right side (-Y); the glass is the left (+Y).

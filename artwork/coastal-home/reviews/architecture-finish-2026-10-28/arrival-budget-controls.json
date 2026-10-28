@@ -1,0 +1,2496 @@
+{
+  "ceilingBytes": 4194304,
+  "gzipLevel": 6,
+  "scope": "The existing core source formula counts every unminified scene/vendor module, all rooms, coast, default furniture, the largest avatar, and a loading-sketch view. The broad raw formula also counts the three table-setting assets observed before the first frame. Neither is an actual production network closure; source inputs and regenerated sketch/cache are pending. No complete arrival pass is claimed.",
+  "worktreeRawFormula": {
+    "runtimeDirectory": "assets/js/home-scene",
+    "categories": {
+      "rawRuntime": 631091,
+      "vendorJS": 65268,
+      "decoder": 63407,
+      "three": 167206,
+      "coast": 194472,
+      "manifest": 73852,
+      "vignette": 367,
+      "shell": 615460,
+      "wallArt": 93066,
+      "rooms": 1050436,
+      "largestAvatar": 512492,
+      "defaultFurniture": 357948,
+      "auxiliaryExcludingCache": 79511,
+      "knownFirstReadyLunch": 84705
+    },
+    "coreFormulaExcludingCacheGzip6Bytes": 3904576,
+    "knownFirstReadyLunchGzip6Bytes": 84705,
+    "broadRawFormulaExcludingCacheGzip6Bytes": 3989281,
+    "freshFieldGzipBytesBeforeSourceInputs": 263391,
+    "coreFormulaWithUnboundFieldBytes": 4167967,
+    "broadRawFormulaWithUnboundFieldBytes": 4252672,
+    "entries": [
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/activities.mjs",
+        "bytes": 6219,
+        "sha256": "d90e1ba8005765ad07a6b9c5afbbef9e0252fef2be3daee2c1c09aadb7dcc96c",
+        "gzip6Bytes": 2118
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/atmosphere-model.mjs",
+        "bytes": 27002,
+        "sha256": "4a7ef726dd098efd5736e92ef63cb5a974a5ec783bbbfdcfc5383051c0bc2efb",
+        "gzip6Bytes": 9069
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/atmosphere.mjs",
+        "bytes": 44906,
+        "sha256": "f612c36d1edf4a6adb96aa68ceb59eaff263ee922ebdb0985f6ee6c26f76505f",
+        "gzip6Bytes": 14069
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/bathymetry.mjs",
+        "bytes": 13806,
+        "sha256": "5951056c3e782fe5380bcd6f17c6c2f028de80dff1667dde7829cd3eaef80b3e",
+        "gzip6Bytes": 4747
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/bedding-breath.mjs",
+        "bytes": 5434,
+        "sha256": "9e56728edcb89e1d10ba29130cd0dde1bf02ec3cf8ab9ee7b7959d5cdc8f9c47",
+        "gzip6Bytes": 2016
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/camera-field-worker.mjs",
+        "bytes": 1396,
+        "sha256": "5325474f837ad1e6410d53466bdef26e62ce6ab59506fd56e7935273f157a5cf",
+        "gzip6Bytes": 668
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/camera-field.mjs",
+        "bytes": 9452,
+        "sha256": "a483225e04ac1a5cf45f45857136af57b94ea5fb6bf06f5d6ff7dc2a82280cac",
+        "gzip6Bytes": 3336
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/camera-motion.mjs",
+        "bytes": 3562,
+        "sha256": "bb40c1289d623def704511f76514e05471ff6d3362ab5a4cfe6b4c978dcacb0e",
+        "gzip6Bytes": 1388
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/camera.mjs",
+        "bytes": 36303,
+        "sha256": "b1734f40fa3d3dfd21538911f99a19840d6b0cbfb5c2221fa54c56055f4069eb",
+        "gzip6Bytes": 11822
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/character-performance.mjs",
+        "bytes": 10042,
+        "sha256": "ca4ead9aac7ab222436befbd7cbc8f409571f46ae060019dac4a288de582b7ff",
+        "gzip6Bytes": 3377
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/cloth-solver.mjs",
+        "bytes": 55857,
+        "sha256": "5aa51d5e64e8a9c2c01f986a80895e021b13966e0af7d99d9b73fd69a50292f4",
+        "gzip6Bytes": 16590
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/coastal-rain.mjs",
+        "bytes": 6538,
+        "sha256": "9e3850aaa874420f18a4d07f9523d3c2683dc601c67d1f5ea5cd88ed1953e055",
+        "gzip6Bytes": 2646
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/coastal-weather.mjs",
+        "bytes": 8710,
+        "sha256": "100e90505ac86641b47f2d6d9cc9e78e9a492fbec795c5fa55017779ed1a8b19",
+        "gzip6Bytes": 3487
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/coastal-wind.mjs",
+        "bytes": 7029,
+        "sha256": "596984bb7d46d2dc92c2d25d7888b5b5ec560b8faab64e5f09d9ce933cea022f",
+        "gzip6Bytes": 2500
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/colliders.mjs",
+        "bytes": 29024,
+        "sha256": "eb27df9e3c5a9be1a304cd7390a05b8c710a6d6d643a9b8def4540b40a7bc79b",
+        "gzip6Bytes": 9558
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/companion.mjs",
+        "bytes": 21280,
+        "sha256": "7fb11dd5f9726fd3ecc23068d424fdefd4873043b0025032d59e1d43af63eb4f",
+        "gzip6Bytes": 6663
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/contact-lab.mjs",
+        "bytes": 4753,
+        "sha256": "586f0cd46c0ae909cbede86f2ef5456541378bcdcf2d565525e0fb6d8882a3be",
+        "gzip6Bytes": 1878
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/contact-occlusion.mjs",
+        "bytes": 8135,
+        "sha256": "588296c04101a8b068d920553af3e126273ea45309368063af36f34443eef03b",
+        "gzip6Bytes": 2945
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/controller.mjs",
+        "bytes": 197044,
+        "sha256": "adba79f87ab775da4bd3977f2f4c9f229ea3cb721ea8b25d9be17064c68ca826",
+        "gzip6Bytes": 57720
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/curtain-cloth.mjs",
+        "bytes": 45890,
+        "sha256": "a0efa83fe9415ba9d7da6c17625a1911f6bd01daf751304c43ec67f479b97b98",
+        "gzip6Bytes": 15347
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/curtain-rig.mjs",
+        "bytes": 17535,
+        "sha256": "56b3a1e0358a7fc656a81ed2bfddf5d913a2c1730dfe86651e1ad655b18ca87c",
+        "gzip6Bytes": 5817
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/daylight.mjs",
+        "bytes": 2277,
+        "sha256": "e88eacd50abce6436ba973acde205f82c0a7a95a1862a9002172dfe2c14241f7",
+        "gzip6Bytes": 994
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/detail-levels.mjs",
+        "bytes": 5030,
+        "sha256": "deb681dddd3ad965474bcc1d537e5348f16c522e2074a25a41866aeef26be838",
+        "gzip6Bytes": 2090
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/dining-menu.mjs",
+        "bytes": 6988,
+        "sha256": "48f076799f411989538912a32c2cb09b780a144c7089b0b9b21b86bb1630934b",
+        "gzip6Bytes": 2509
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/dining-motion.mjs",
+        "bytes": 41831,
+        "sha256": "07aacd05d8a8485dc1a53707edb7ecc857e0e70f6eeea72f08ab4f94dfe5e313",
+        "gzip6Bytes": 11295
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/dining.mjs",
+        "bytes": 69921,
+        "sha256": "04b62c87fcee701eb1e87cfd0a4402315f6e7d319db8c257f70dbe1e6b35e6d6",
+        "gzip6Bytes": 20227
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/draw-order.mjs",
+        "bytes": 1560,
+        "sha256": "85690ebf60dde4f85f6a1cbde7aed28b0b33b7b2c48cc258a6446dd831a0892e",
+        "gzip6Bytes": 738
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/duvet-solver.mjs",
+        "bytes": 6072,
+        "sha256": "66a87ca9fe9097f3177a68a34cf6618eb1b50c511d9e57279e62c28e50ca6202",
+        "gzip6Bytes": 2192
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/environment.mjs",
+        "bytes": 46552,
+        "sha256": "201e1fcaadbad4e55c28ca84b6f68721309e3d1bf8930eceef77b801d6bba209",
+        "gzip6Bytes": 15950
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/estate-doors.mjs",
+        "bytes": 5418,
+        "sha256": "174d227c50a8e39c68a897249bbc3224a819b6b2a12b1b1fa065f8a9a9fb2fc7",
+        "gzip6Bytes": 1946
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/far-field.mjs",
+        "bytes": 25514,
+        "sha256": "14b31d034f9d811526ec8f7c3bdacd315c99cc4333ed213d18101b35e2b4a834",
+        "gzip6Bytes": 9242
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/fft-ocean.mjs",
+        "bytes": 7028,
+        "sha256": "891c635c375328c10f1f7a34f0f81a7d0e038728c3f1b26741b7381c0ffcc765",
+        "gzip6Bytes": 2295
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/furniture-fire.mjs",
+        "bytes": 2994,
+        "sha256": "8744a7a780dce9548b2ecc334aabe0d7dbeef910b2595599ff010918e9e1a5b9",
+        "gzip6Bytes": 1326
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/furniture.mjs",
+        "bytes": 25547,
+        "sha256": "bfd591bdde64976079778cbeaee8c3591f0b2f48fca9e9c4c18f5d29af28a8f5",
+        "gzip6Bytes": 8122
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/gamepad.mjs",
+        "bytes": 2718,
+        "sha256": "c78c65e02431b6e84ce165253c5f0da5abc7381a67f1b4328c7a952d3b73c2fe",
+        "gzip6Bytes": 1132
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/glazing.mjs",
+        "bytes": 2492,
+        "sha256": "1ed856c97059df3dda43e814c22277fd4dea3cee0266ee57fc7425bc96d8a60e",
+        "gzip6Bytes": 1226
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/gliders.mjs",
+        "bytes": 5958,
+        "sha256": "b6c4c5c3055d5462214b4f37d54ae6fa14c7102f873c89fb9f745c519f80115b",
+        "gzip6Bytes": 2393
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/gpu-timer.mjs",
+        "bytes": 2068,
+        "sha256": "04fee0377ba3d1d7c709a0c8fa8d1a555d3a3b0c07a82cb34bdc5092d805257e",
+        "gzip6Bytes": 827
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/grip-targets.mjs",
+        "bytes": 716,
+        "sha256": "b8bbfc150f4a8187998d09d442b55bb6a8523ba1fa3fe93f481843f231a149eb",
+        "gzip6Bytes": 391
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/gym-props.mjs",
+        "bytes": 17333,
+        "sha256": "d2fe5bdd66b08e310d3124aa9c32dbbe6c6254da611a8680f602b915bcb27fc0",
+        "gzip6Bytes": 6240
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/gym-session.mjs",
+        "bytes": 33922,
+        "sha256": "703b7b2143bd17e79cafdcec481ba0b5ad41411a3c94f50f6fada26f9e7f5b93",
+        "gzip6Bytes": 9125
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/haze.mjs",
+        "bytes": 19672,
+        "sha256": "342155b9d3fa4e2c8aff34d2765fe3f2770437302ee8fafbc54e22df193bf2eb",
+        "gzip6Bytes": 6944
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/heightfield-water.mjs",
+        "bytes": 16977,
+        "sha256": "53fab41b33a65e75a4d9195f968fc1ebce83ec136cb428337bc96984a32a5ade",
+        "gzip6Bytes": 4669
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/hinterland.mjs",
+        "bytes": 4475,
+        "sha256": "512d3e1e83c4e2f87fd8528a1c09c0e1893499e87d2c6dc1aa12deae6d13049d",
+        "gzip6Bytes": 1839
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/infinity-pool.mjs",
+        "bytes": 3191,
+        "sha256": "32584f24b18b95e168fe12c604b06e94ec76d9071713cad83779072010a86c26",
+        "gzip6Bytes": 1374
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/ink-study.mjs",
+        "bytes": 2966,
+        "sha256": "b176273adaf443519aed230386d08f3b4791ba166f8d2103a7b655dd8c4e9e61",
+        "gzip6Bytes": 1273
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/interior-reflections.mjs",
+        "bytes": 18574,
+        "sha256": "86e794cb5dbb0430d0e2776f1f4bc94aa3ecbe7055d72daa336dd7fb46ca29fa",
+        "gzip6Bytes": 5720
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/laundry-line.mjs",
+        "bytes": 20285,
+        "sha256": "d2db48f521b967221242a3806ddaa63fe155ce4988a04ccd2258ccd19eaff689",
+        "gzip6Bytes": 7049
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/laundry-rig.mjs",
+        "bytes": 16205,
+        "sha256": "f182c3b83987bdb5304d7a766b7ea36c6b9ca4f6128ee0b36a86a63a26f1aa90",
+        "gzip6Bytes": 5201
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/library-ladder.mjs",
+        "bytes": 8296,
+        "sha256": "e1b3983a00ef45b9d70b24bdc9b7acc3031ce0206a4aa87fc0c7cae5c0983716",
+        "gzip6Bytes": 2680
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/lift-rig.mjs",
+        "bytes": 33806,
+        "sha256": "04ec8f9befa98b0fc2e67667dc06bb66332eab1e61a4a9d089bde947237d2344",
+        "gzip6Bytes": 10301
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/light-installations.mjs",
+        "bytes": 41242,
+        "sha256": "414605362a2f37e306bcf9d3628f375420ca42f9fd78934b59fd6f81e74eb20c",
+        "gzip6Bytes": 12150
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/light-trace-core.mjs",
+        "bytes": 11694,
+        "sha256": "787271d05f2143026a37ab6653bc938a7ed5d704ab4b81086627646df0ca61c3",
+        "gzip6Bytes": 3574
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/light-well.mjs",
+        "bytes": 18694,
+        "sha256": "28091da2cd529362e737114741ae04d3bb1f622976b56fa4ecc3be55902dbc44",
+        "gzip6Bytes": 6570
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/loading-sketch-core.mjs",
+        "bytes": 22730,
+        "sha256": "8721c7f4c2337f3214b5f47550eed1e258a2b7e0f289b2fff2dfeb333001681f",
+        "gzip6Bytes": 7523
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/loading-sketch-worker.mjs",
+        "bytes": 3015,
+        "sha256": "47034647bdd542511376805b8dca4301d6f695c71ba75b93c35031498cb29858",
+        "gzip6Bytes": 1041
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/loading-sketch.mjs",
+        "bytes": 10103,
+        "sha256": "59755084f7e9b5b2a385bcef6e413e3dbef8680dc58b0f0de39080746b62f3f1",
+        "gzip6Bytes": 3707
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/local-scene-frame.mjs",
+        "bytes": 842,
+        "sha256": "97e01ed6ffcd4f6a8fc7efcc36a0df70743c58b95341b5b0f196c99a81239f48",
+        "gzip6Bytes": 451
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/locomotion.mjs",
+        "bytes": 2905,
+        "sha256": "94d1f9035ae8eae3f66995fa16408cd8f2b3e83ba6d8e8344ec1aed8aa6f0854",
+        "gzip6Bytes": 1085
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/look.mjs",
+        "bytes": 1491,
+        "sha256": "1d5184320a900a2caf724a58cc56efa57df1c93cf82c8d274d577deca04762f2",
+        "gzip6Bytes": 786
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/materials.mjs",
+        "bytes": 8504,
+        "sha256": "5b2b53bc74bec3e3e4d6b286ae16e1e40fcc8f482ae5f1ec5ebc0b83cd1fcf87",
+        "gzip6Bytes": 2853
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/model-loader.mjs",
+        "bytes": 3055,
+        "sha256": "2442bd5a59f8fe927ecc0c415600a0d6af256fe07538d64f47891c5d570d466b",
+        "gzip6Bytes": 1354
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/navigation.mjs",
+        "bytes": 6907,
+        "sha256": "c2acb426cd8e1defcaf4fccb0c70c7e6024f04b4bc25a20afe5e13d595def0d0",
+        "gzip6Bytes": 2603
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/occlusion-region.mjs",
+        "bytes": 3801,
+        "sha256": "28425bb513e639ae8d4d9c0699e5d9ba417c95dae938496d49fe583f606b774b",
+        "gzip6Bytes": 1386
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/ocean-spectrum.mjs",
+        "bytes": 17140,
+        "sha256": "e04caba220c4daa5f64db2226c943c1a7478e13bcce8fffd127955d3f9669e7b",
+        "gzip6Bytes": 6267
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/onsen-water.mjs",
+        "bytes": 26222,
+        "sha256": "bcfc491176ce2e0ad88d0f67f7791fa391fe54da2fb5cfd3111b271bd8593399",
+        "gzip6Bytes": 8714
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/perf-overlay.mjs",
+        "bytes": 4711,
+        "sha256": "51d49b80183882f9dfe9033a2a43b094eedbd07a61f5dac9896e38a607f1d67b",
+        "gzip6Bytes": 2042
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/planets.mjs",
+        "bytes": 5512,
+        "sha256": "014a3665e111a7dad70bce7d63123149b0821e37e4c774078aa22e55d92a07aa",
+        "gzip6Bytes": 2247
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/plant-motion.mjs",
+        "bytes": 19987,
+        "sha256": "a4450da3a0df5186ff6d3da57f82abddbda40f498e5272c7c81d433e3acb0b28",
+        "gzip6Bytes": 6472
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/pool-geometry.mjs",
+        "bytes": 1920,
+        "sha256": "c9f96f1ed7ad7e1b00ec770dcc7b7bce744423dc648122d6f491f29abf7da664",
+        "gzip6Bytes": 943
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/pool-stroke.mjs",
+        "bytes": 7247,
+        "sha256": "a54e9a489e7980822a652fab80d106cd738b441d27e588679b1a13b2b1d5b5b1",
+        "gzip6Bytes": 2552
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/program-warmup.mjs",
+        "bytes": 14704,
+        "sha256": "d374ad59331c622e8c490f1928f00c9cce5a66e1dd9e5db2b934dcdb947f7fea",
+        "gzip6Bytes": 4990
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/quality.mjs",
+        "bytes": 10272,
+        "sha256": "2cf236812344738cc900b1192be8a58342bca880d83283ab3d10da2f2319d400",
+        "gzip6Bytes": 3803
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/realism.mjs",
+        "bytes": 43348,
+        "sha256": "d29206aa0ce59c4aff490b3fe2ff9f1ccf84cb25a068673a1a64d9e67c42e5e4",
+        "gzip6Bytes": 13072
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/record-motion.mjs",
+        "bytes": 4395,
+        "sha256": "90a6df17ca9b6300b6c75311f6ac648daf5e9284ece38cff7058d5cea7d5368d",
+        "gzip6Bytes": 1486
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/reflection.mjs",
+        "bytes": 7579,
+        "sha256": "41642a95574e98706e368efd1627006ebab47057aa3304537a67d9d1668244d3",
+        "gzip6Bytes": 2745
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/resolution.mjs",
+        "bytes": 13974,
+        "sha256": "15babc9b765fbc253819ee985d6690c2bdfe1537271459ad881024f17009a194",
+        "gzip6Bytes": 4937
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/routine.mjs",
+        "bytes": 4428,
+        "sha256": "59284523bba40f1ccf7e06366ecd15303361ca654e9d7944425beb549eb24105",
+        "gzip6Bytes": 1769
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/sea-optics.mjs",
+        "bytes": 20250,
+        "sha256": "068d87ce6f8717e00ade27eeb58c0dbe903eb2f47aa9be5d0ce69e804a2dda48",
+        "gzip6Bytes": 7999
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/shadow-cache.mjs",
+        "bytes": 12828,
+        "sha256": "27f4617053df08be14b8b00054089f739c90d68b529846dbb97d665c2ba5551e",
+        "gzip6Bytes": 4031
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/shadow-fit.mjs",
+        "bytes": 2074,
+        "sha256": "65eb1da2425fa525fa0cb22e41b5115ae5206c800f9b420b9ca7f454c3102fea",
+        "gzip6Bytes": 1028
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/sheer-fabric.mjs",
+        "bytes": 32559,
+        "sha256": "5985ed6ac2a947d153fff4d894a1e4ddd6469401f04659f53d8cc5348d54ed4e",
+        "gzip6Bytes": 10555
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/shore.mjs",
+        "bytes": 2060,
+        "sha256": "3872a5c53af372451b048ed7f0667d66fa0359e26a4b9770f2152e96fbef043f",
+        "gzip6Bytes": 851
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/skin-diffusion-profile.mjs",
+        "bytes": 7888,
+        "sha256": "295dcf78d23eed1bd3176e972e2c6243ad7079c976209dfcdd025347dc0a7d4b",
+        "gzip6Bytes": 2736
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/skin-diffusion.mjs",
+        "bytes": 8321,
+        "sha256": "e4af05566bdd28c91279e71c801c8be79fd30f9c0b0814cc991680897c99e3af",
+        "gzip6Bytes": 2732
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/star-catalogue.mjs",
+        "bytes": 37165,
+        "sha256": "31ff8991dab2003e57dcce3202118d3197f8674a0ff79fbe3ea09e887a0baf11",
+        "gzip6Bytes": 27267
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/stars.mjs",
+        "bytes": 24057,
+        "sha256": "77b0c0ae0bb357c96d5908af8d4f1803b81a6a476eee3ba1728d1ce504720483",
+        "gzip6Bytes": 8499
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/static-light-field.mjs",
+        "bytes": 38094,
+        "sha256": "98b215e8347a997261afb4dbda8a392e7e353f5c0cd62551276464a8ddbc3301",
+        "gzip6Bytes": 11565
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/steam-density.mjs",
+        "bytes": 15935,
+        "sha256": "cf80a561790534bab1f3cf525062f7cc10fd11f5077323b919eb05850f3b2c1e",
+        "gzip6Bytes": 4916
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/steam-volume.mjs",
+        "bytes": 13024,
+        "sha256": "9f79e594ed509574066a543a3dc9c65079189b4718b198fb7f8510eb67d9af44",
+        "gzip6Bytes": 4423
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/still-photo.mjs",
+        "bytes": 3804,
+        "sha256": "c3e588bfe7d3d0452efc9a6f0f1875ce252459d85ce0e213ad5a5b4e0bcb3c35",
+        "gzip6Bytes": 1561
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/temporal-aa.mjs",
+        "bytes": 24848,
+        "sha256": "f67d081175e927099df47fa9ccf83b2940836d7151c5a468a3c53cf5be326193",
+        "gzip6Bytes": 6811
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/training.mjs",
+        "bytes": 14436,
+        "sha256": "ee9b9741952ae0b7932c69fc0af141deadb26fdc8add92b7ee699fb351d74125",
+        "gzip6Bytes": 5005
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/virtual-joysticks.mjs",
+        "bytes": 4677,
+        "sha256": "4757ee3dbb65650fcfd6d2049fbd39e9265c772b9f0faa69db7f284518b78954",
+        "gzip6Bytes": 1741
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/volume-depth.mjs",
+        "bytes": 4048,
+        "sha256": "d10141dd8f84269cda38ea55c72f2e4186a43163fa86f724207b1ddc0efe84e6",
+        "gzip6Bytes": 1396
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/walk-collar-liner.mjs",
+        "bytes": 12931,
+        "sha256": "84dfa3a3c7cc10db7318b738cd7b999858b852359c100b87f91bf89271675730",
+        "gzip6Bytes": 4337
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/walk-controls.mjs",
+        "bytes": 35087,
+        "sha256": "88d84b0eb6b538baf1303bb1e7eee2b17547c07c4bc3e2e5ff5c9307a1609852",
+        "gzip6Bytes": 11092
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/walk-field-worker.mjs",
+        "bytes": 868,
+        "sha256": "e3ac54eca52e4b2584ba479d19dbf57dc161d83bbe0f98ad4d4549867636ac05",
+        "gzip6Bytes": 460
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/walk-presence.mjs",
+        "bytes": 22332,
+        "sha256": "fc592879e415d65a724b5c80fa9f721b9abd58c82f03acbb7b7d7daec0b13eab",
+        "gzip6Bytes": 7107
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/warm-practicals.mjs",
+        "bytes": 7788,
+        "sha256": "8f4a605be504cd1d1ffbc1a17b0a8501f5ad25c07401131ee7f35cbd710ba3dc",
+        "gzip6Bytes": 3053
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/water-garden.mjs",
+        "bytes": 7229,
+        "sha256": "8a092dfb3f3a10230b5940c9b432ed3a989d12901f90d5f55504f304e56349bc",
+        "gzip6Bytes": 2760
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/weather-data.mjs",
+        "bytes": 13793,
+        "sha256": "c7a7b767b6e878fba489cc9a2dc65e7a9b449dbc8c4b51b24c17d7c0680fce0a",
+        "gzip6Bytes": 4770
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/wildlife-acting.mjs",
+        "bytes": 7690,
+        "sha256": "ca0eb1fcf8023b24828bbd9f37fc27f588b2657aec3881bd45ce3324a146966f",
+        "gzip6Bytes": 3015
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/wildlife-ground-contact.mjs",
+        "bytes": 7977,
+        "sha256": "1e4aabf10658a9217d90f45ca819c69f9ae1a6a86c3d7605e55a9d265b1713cf",
+        "gzip6Bytes": 2863
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/wildlife-motion.mjs",
+        "bytes": 23924,
+        "sha256": "e5ee5af0f0f2197ecc0478ffa6641aafedd1c201499340eafa1ec2c444a92088",
+        "gzip6Bytes": 7476
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/wildlife-neighbor-motion.mjs",
+        "bytes": 41240,
+        "sha256": "491c646f829f13e815d7301b93f5ba587faba7ab0e92841727e233364235513c",
+        "gzip6Bytes": 12823
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/wildlife-perch-contact.mjs",
+        "bytes": 6875,
+        "sha256": "aa83f828c94157d4d6ba2f76c8d2e85de2c1227c02edc1c2f3f7b92fb3cd9d17",
+        "gzip6Bytes": 2310
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/wildlife-seabird-motion.mjs",
+        "bytes": 17007,
+        "sha256": "3f44269d3f17a0515574fdb72f56d4b2586500825b023bf32a4a62822ba28718",
+        "gzip6Bytes": 5916
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/wildlife.mjs",
+        "bytes": 52651,
+        "sha256": "d54121ea026938d27733aad91542ebbc722de01885c06495f3b1ad6065b32c6c",
+        "gzip6Bytes": 14875
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/wind-field.mjs",
+        "bytes": 21956,
+        "sha256": "8a17b900e26f0fa4e55c9459b59bb53d251d917e759317c35dfd3f0bf55763dc",
+        "gzip6Bytes": 7648
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/wind-particles.mjs",
+        "bytes": 6669,
+        "sha256": "e2f44bfd9d0174f0cd94cc2c1f23cd9b5578902542837e87d8c24062b757bcfe",
+        "gzip6Bytes": 2301
+      },
+      {
+        "category": "rawRuntime",
+        "file": "assets/js/home-scene/world-fullscreen.mjs",
+        "bytes": 9136,
+        "sha256": "f9048c1d5981c4c9be23b267ad9f22a1b3621a7818b360e91a0470e162acb2ec",
+        "gzip6Bytes": 2976
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/libs/draco/draco-worker.js",
+        "bytes": 5385,
+        "sha256": "218bfacb2e647189cbe2d756267f987bfd08f971fd6947345ff757e3e1a50ef9",
+        "gzip6Bytes": 1745
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/libs/draco/draco_wasm_wrapper.js",
+        "bytes": 58456,
+        "sha256": "8bb2952d2ba7d67e1414f8df819410cb0434a666be53f671fff75f68843d76f6",
+        "gzip6Bytes": 11688
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/loaders/DRACOLoader.js",
+        "bytes": 13651,
+        "sha256": "7c54926e14cf506a53b36a051864a673dfd70bc25d01ce1d817419e0fb0c14e2",
+        "gzip6Bytes": 4180
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/loaders/GLTFLoader.js",
+        "bytes": 109805,
+        "sha256": "45c7282acb680a1799920810f1da8a2f2bd8ac09827c66600f7315eb94a6c46e",
+        "gzip6Bytes": 23574
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/math/SimplexNoise.js",
+        "bytes": 14351,
+        "sha256": "9b8d541b77b0ddc79afaa6a1de8941452c191b8b9006f04e7b8fc422e2b263f7",
+        "gzip6Bytes": 3694
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/EffectComposer.js",
+        "bytes": 4674,
+        "sha256": "50cebcd63a553e28cd615678c06f5d4e93e3341ffa664c7e7e4853141b4940b4",
+        "gzip6Bytes": 1196
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/MaskPass.js",
+        "bytes": 2231,
+        "sha256": "328cf7db0da5d9be83ffe39d54b01d5ac1fddf108cc98182ddbb056f5c8b537f",
+        "gzip6Bytes": 670
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/OutputPass.js",
+        "bytes": 2547,
+        "sha256": "f1c975fa535fbb83971a24e8b3b806b603dd5e6e9affea2d344942c8c5dccdb7",
+        "gzip6Bytes": 836
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/Pass.js",
+        "bytes": 1729,
+        "sha256": "b5e80974d22b920facf778c560cecdffb94e51181c683a7c61b50ad454d25566",
+        "gzip6Bytes": 763
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/RenderPass.js",
+        "bytes": 1938,
+        "sha256": "ef3f895f0b960d0f0dd32b8c22717377aaf4c9760f2b33367e98080094537cce",
+        "gzip6Bytes": 627
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/ShaderPass.js",
+        "bytes": 1599,
+        "sha256": "428c6dc08d8d01aa8bc9dcc423eb3c2b435ae7c5491bfaaeed01785416e0ada1",
+        "gzip6Bytes": 657
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/SSAOPass.js",
+        "bytes": 11331,
+        "sha256": "bf48c4f2faa9509a5327c3f0a80f5b8f0d7afba7fc5758f4c4c736f433ac6beb",
+        "gzip6Bytes": 2519
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/UnrealBloomPass.js",
+        "bytes": 12429,
+        "sha256": "8909b6fc84669836666781ea1d98edfa1f9959daccc8617163417047de97bf3f",
+        "gzip6Bytes": 2933
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/shaders/CopyShader.js",
+        "bytes": 571,
+        "sha256": "4e3346db194db56a596cd074e9bdb39fb5eb52040c333e0d29dc4eb1324d3b1d",
+        "gzip6Bytes": 330
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/shaders/LuminosityHighPassShader.js",
+        "bytes": 1215,
+        "sha256": "59a493e8deed790b0eddcc3bf1f7964f0bbbe83f88bef5977cb04f5a2a233f2e",
+        "gzip6Bytes": 550
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/shaders/OutputShader.js",
+        "bytes": 1498,
+        "sha256": "291c9abf4beac165524f5963bda38691ed4631d8e6288d07f9e8910a452790a7",
+        "gzip6Bytes": 569
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/shaders/SSAOShader.js",
+        "bytes": 6497,
+        "sha256": "b54fc9b5d535163486559f14ea07ae803a43d4b0e7eb8825a0450a061c43f77b",
+        "gzip6Bytes": 1859
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/utils/BufferGeometryUtils.js",
+        "bytes": 31578,
+        "sha256": "cb90892109217645ee8524c3c155c1a1f5b52ee33cac7c79579b83d3c1d7150e",
+        "gzip6Bytes": 6878
+      },
+      {
+        "category": "decoder",
+        "file": "assets/js/vendor/three-r164/libs/draco/draco_decoder.wasm",
+        "bytes": 192420,
+        "sha256": "a680d927bed9cb864ddbd63521868891af2bfbe755092761b4837487618df8ac",
+        "gzip6Bytes": 63407
+      },
+      {
+        "category": "three",
+        "file": "assets/js/three.module.min.js",
+        "bytes": 674428,
+        "sha256": "d08334115492bd88100491499f9dc9c830759154e524ec536739d1dacb2bce18",
+        "gzip6Bytes": 167206
+      },
+      {
+        "category": "coast",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/coast.glb",
+        "bytes": 241576,
+        "sha256": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
+        "gzip6Bytes": 194472
+      },
+      {
+        "category": "manifest",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/manifest.json",
+        "bytes": 572029,
+        "sha256": "f80ef39ce0520f5540579d32800a15e3bf9e62800e3f62fecdbb9903180ccab9",
+        "gzip6Bytes": 73852
+      },
+      {
+        "category": "vignette",
+        "file": "assets/img/home/coastal-vignette.svg",
+        "bytes": 538,
+        "sha256": "15bda95ff10967fe1b7da898422bada7a1d805ad6c31798f42a169c3c2340220",
+        "gzip6Bytes": 367
+      },
+      {
+        "category": "shell",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/home-shell.glb",
+        "bytes": 894112,
+        "sha256": "54733b6da084ced6949ef3b6cc2fd535e9ad1924887fe7d2766762c626aaca18",
+        "gzip6Bytes": 615460
+      },
+      {
+        "category": "wallArt",
+        "file": "assets/img/home/sirui_capy.jpg",
+        "bytes": 93168,
+        "sha256": "9f8d0e4bdd10c98351130600b20417a9d624ba82af15a4963d7e549ec64f0dc0",
+        "gzip6Bytes": 93066
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-study.glb",
+        "bytes": 112436,
+        "sha256": "2a605f9445ec9523f935d9f71042e26027b57b3fd67310e0fe611e1a32467d92",
+        "gzip6Bytes": 62300
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-kitchen.glb",
+        "bytes": 244696,
+        "sha256": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e",
+        "gzip6Bytes": 139352
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-gym.glb",
+        "bytes": 222576,
+        "sha256": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
+        "gzip6Bytes": 144949
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-onsen.glb",
+        "bytes": 94408,
+        "sha256": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
+        "gzip6Bytes": 64244
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-lounge.glb",
+        "bytes": 231300,
+        "sha256": "56be7ae08742b1d9c4d30b765466d54c0cb7e8345e13cbe59343ccec299ce7ce",
+        "gzip6Bytes": 152723
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-sleep.glb",
+        "bytes": 292636,
+        "sha256": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
+        "gzip6Bytes": 243882
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-library.glb",
+        "bytes": 185640,
+        "sha256": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9",
+        "gzip6Bytes": 118192
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-library-upper.glb",
+        "bytes": 22272,
+        "sha256": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85",
+        "gzip6Bytes": 8782
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-bath-living.glb",
+        "bytes": 104924,
+        "sha256": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72",
+        "gzip6Bytes": 57318
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-bath-bedroom.glb",
+        "bytes": 106412,
+        "sha256": "23122cb51c7d2f3d580389eb4ffbf41a8f64f0e12f612ccb12a9f94fe37b2b80",
+        "gzip6Bytes": 58694
+      },
+      {
+        "category": "largestAvatar",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/sirui-south-park.glb",
+        "bytes": 714480,
+        "sha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63",
+        "gzip6Bytes": 512492
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/aeron-lod1.glb",
+        "bytes": 82404,
+        "sha256": "b8426379cae8f3f065f1c35434e9fbce2c2ee8432b1695ce33b977fb21ca4c54",
+        "gzip6Bytes": 72163
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/banquette-lod1.glb",
+        "bytes": 31432,
+        "sha256": "5ce8f0e210401f8ceff43e18704c0bed407b969a9bf2455a656ca97e09f64708",
+        "gzip6Bytes": 25943
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/cast-iron-pan-lod1.glb",
+        "bytes": 9488,
+        "sha256": "ca767c5adec75521ac90cfe9760927a83515016cc83c9dfe91e83b70d7cc0d5d",
+        "gzip6Bytes": 8138
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/cloud-sofa-lod1.glb",
+        "bytes": 55376,
+        "sha256": "74c1dc6b032f4f8d29d657b6ad129089366deb121008fc3f65d6817c554105b0",
+        "gzip6Bytes": 46640
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/dining-chair-lod1.glb",
+        "bytes": 17196,
+        "sha256": "bb79a676b7bdc24c87ff05e99542bb0ca5d5807adec20886a38c6d02bf1b39f6",
+        "gzip6Bytes": 14446
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/dining-table-lod1.glb",
+        "bytes": 6880,
+        "sha256": "01c35852cbea182878bdbbe67baa4517090005850d9befaff215be0db9cfd884",
+        "gzip6Bytes": 3649
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/dumbbell-lod1.glb",
+        "bytes": 4676,
+        "sha256": "7dc3be036ca00f584cc87d68fe2ca8db596704215a7439d1b3a6f713f942b92e",
+        "gzip6Bytes": 2525
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/eames-lounge-lod1.glb",
+        "bytes": 66616,
+        "sha256": "10028738fd7b5511e8cf7bf78eefd6ee283472a4e3a4f07cd8c426aa7d054ae4",
+        "gzip6Bytes": 58214
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/floating-fireplace-lod1.glb",
+        "bytes": 12588,
+        "sha256": "a2e4b7ccaa0c94c17bd4d36aa53d652f6babca7c1c7de6916c0311c89983be36",
+        "gzip6Bytes": 8583
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/glass-fridge-lod1.glb",
+        "bytes": 33380,
+        "sha256": "d5aa3c3d41fb8fd1dbfa627bbbb59fb72d36eeb79dc32105d6420c80f5e1c52e",
+        "gzip6Bytes": 20760
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/italian-range-lod1.glb",
+        "bytes": 32936,
+        "sha256": "d0df11d63b14764d755cd73b4b8ecfacc88dc87bd03d88514f048b9af56d776a",
+        "gzip6Bytes": 24491
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/pot-filler-lod1.glb",
+        "bytes": 7340,
+        "sha256": "f326aa0fbf62e4c5bc3e24789d2314a29b983099b276d941748e5ce506d1560d",
+        "gzip6Bytes": 4126
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/range-hood-lod1.glb",
+        "bytes": 7520,
+        "sha256": "3c2c15aeb1d4e666a400d456bfcabeaca3c86c5151c9e694f4429a232f6a4195",
+        "gzip6Bytes": 3467
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-bottles-lod1.glb",
+        "bytes": 31808,
+        "sha256": "55f88df63ac7f7cc1177e7ed87dbd0900563e06b5a86ad66a28a886dc37d09af",
+        "gzip6Bytes": 21872
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-loveseat-lod1.glb",
+        "bytes": 14860,
+        "sha256": "8192e15ecfaa11899f7dff5923c582908f673da9d8a62a7f0bff0128628bff4d",
+        "gzip6Bytes": 12263
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-ottoman-lod1.glb",
+        "bytes": 7924,
+        "sha256": "aec6d5ce339227c32223e4f835977e4801afc26a69ec69736ef2f41f132b8d6e",
+        "gzip6Bytes": 5500
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-side-table-lod1.glb",
+        "bytes": 35292,
+        "sha256": "3626132b589e67b5f8a72743497ca3820316fbd3edd6286732118816127eb99e",
+        "gzip6Bytes": 25168
+      },
+      {
+        "category": "auxiliaryExcludingCache",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/index.json",
+        "bytes": 12939,
+        "sha256": "7c8e61168fded60891fef92e74d7244cbb8b80a3124d604441c09ffa556892f8",
+        "gzip6Bytes": 2965
+      },
+      {
+        "category": "auxiliaryExcludingCache",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/loading-sketch.json",
+        "bytes": 49057,
+        "sha256": "e427a6cdd19b7627f958e967cb0fd40de34c77ca4be4072e5a977f949760ecfc",
+        "gzip6Bytes": 31144
+      },
+      {
+        "category": "auxiliaryExcludingCache",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/loading-sketch/study.json",
+        "bytes": 69903,
+        "sha256": "f1744b71fa8f01d40e639584858a59d06eec91f8dfff0c9225f4f315bd735dfb",
+        "gzip6Bytes": 45402
+      },
+      {
+        "category": "knownFirstReadyLunch",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/index.json",
+        "bytes": 28976,
+        "sha256": "d5a1b00ec3815b30d1e969cecda54ce24923ed7bce1fcf6c79cc41dbd0d01abd",
+        "gzip6Bytes": 6412
+      },
+      {
+        "category": "knownFirstReadyLunch",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/tableware-lod1.glb",
+        "bytes": 84140,
+        "sha256": "ba3dfb80225f3a819ea61e47087b73922d9a815ff7fc1f3d4d18deab4dfbdb41",
+        "gzip6Bytes": 55466
+      },
+      {
+        "category": "knownFirstReadyLunch",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-shrimp-bowl-lod1.glb",
+        "bytes": 26688,
+        "sha256": "c57fc06a3ceb10d5fd1403a210d738a553db8381ac6976e2be50f48b6b440ba6",
+        "gzip6Bytes": 22827
+      }
+    ]
+  },
+  "servedRawRuntimeFormula": {
+    "runtimeDirectory": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene",
+    "categories": {
+      "rawRuntime": 641754,
+      "vendorJS": 65268,
+      "decoder": 63407,
+      "three": 167206,
+      "coast": 194472,
+      "manifest": 73852,
+      "vignette": 367,
+      "shell": 615460,
+      "wallArt": 93066,
+      "rooms": 1050436,
+      "largestAvatar": 512492,
+      "defaultFurniture": 357948,
+      "auxiliaryExcludingCache": 79511,
+      "knownFirstReadyLunch": 84705
+    },
+    "coreFormulaExcludingCacheGzip6Bytes": 3915239,
+    "knownFirstReadyLunchGzip6Bytes": 84705,
+    "broadRawFormulaExcludingCacheGzip6Bytes": 3999944,
+    "freshFieldGzipBytesBeforeSourceInputs": 263391,
+    "coreFormulaWithUnboundFieldBytes": 4178630,
+    "broadRawFormulaWithUnboundFieldBytes": 4263335,
+    "entries": [
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/activities.mjs",
+        "bytes": 6219,
+        "sha256": "d90e1ba8005765ad07a6b9c5afbbef9e0252fef2be3daee2c1c09aadb7dcc96c",
+        "gzip6Bytes": 2118
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/atmosphere-model.mjs",
+        "bytes": 27002,
+        "sha256": "4a7ef726dd098efd5736e92ef63cb5a974a5ec783bbbfdcfc5383051c0bc2efb",
+        "gzip6Bytes": 9069
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/atmosphere.mjs",
+        "bytes": 45196,
+        "sha256": "42895cfc9f3bfcad65a4957ecfafd4e6952cda4b8eec80da9dee247695a719ec",
+        "gzip6Bytes": 14190
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/bathymetry.mjs",
+        "bytes": 13806,
+        "sha256": "5951056c3e782fe5380bcd6f17c6c2f028de80dff1667dde7829cd3eaef80b3e",
+        "gzip6Bytes": 4747
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/bedding-breath.mjs",
+        "bytes": 5434,
+        "sha256": "9e56728edcb89e1d10ba29130cd0dde1bf02ec3cf8ab9ee7b7959d5cdc8f9c47",
+        "gzip6Bytes": 2016
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/camera-field-worker.mjs",
+        "bytes": 1396,
+        "sha256": "5325474f837ad1e6410d53466bdef26e62ce6ab59506fd56e7935273f157a5cf",
+        "gzip6Bytes": 668
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/camera-field.mjs",
+        "bytes": 9452,
+        "sha256": "a483225e04ac1a5cf45f45857136af57b94ea5fb6bf06f5d6ff7dc2a82280cac",
+        "gzip6Bytes": 3336
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/camera-motion.mjs",
+        "bytes": 3562,
+        "sha256": "bb40c1289d623def704511f76514e05471ff6d3362ab5a4cfe6b4c978dcacb0e",
+        "gzip6Bytes": 1388
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/camera.mjs",
+        "bytes": 36303,
+        "sha256": "b1734f40fa3d3dfd21538911f99a19840d6b0cbfb5c2221fa54c56055f4069eb",
+        "gzip6Bytes": 11822
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/character-contacts.mjs",
+        "bytes": 917,
+        "sha256": "2badda050309c0f797a52fa0c46a881ac4a90470602e5b89f45cd2c3e3577f94",
+        "gzip6Bytes": 486
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/character-performance.mjs",
+        "bytes": 10042,
+        "sha256": "ca4ead9aac7ab222436befbd7cbc8f409571f46ae060019dac4a288de582b7ff",
+        "gzip6Bytes": 3377
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/cloth-solver.mjs",
+        "bytes": 55857,
+        "sha256": "5aa51d5e64e8a9c2c01f986a80895e021b13966e0af7d99d9b73fd69a50292f4",
+        "gzip6Bytes": 16590
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/coastal-rain.mjs",
+        "bytes": 6650,
+        "sha256": "c9058e2909041000eec130568dc21f86eb8ad458d79bd542c6bc7c02d61a948a",
+        "gzip6Bytes": 2686
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/coastal-weather.mjs",
+        "bytes": 8710,
+        "sha256": "100e90505ac86641b47f2d6d9cc9e78e9a492fbec795c5fa55017779ed1a8b19",
+        "gzip6Bytes": 3487
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/coastal-wind.mjs",
+        "bytes": 7029,
+        "sha256": "596984bb7d46d2dc92c2d25d7888b5b5ec560b8faab64e5f09d9ce933cea022f",
+        "gzip6Bytes": 2500
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/colliders.mjs",
+        "bytes": 29024,
+        "sha256": "eb27df9e3c5a9be1a304cd7390a05b8c710a6d6d643a9b8def4540b40a7bc79b",
+        "gzip6Bytes": 9558
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/companion.mjs",
+        "bytes": 21280,
+        "sha256": "7fb11dd5f9726fd3ecc23068d424fdefd4873043b0025032d59e1d43af63eb4f",
+        "gzip6Bytes": 6663
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/contact-lab.mjs",
+        "bytes": 4753,
+        "sha256": "586f0cd46c0ae909cbede86f2ef5456541378bcdcf2d565525e0fb6d8882a3be",
+        "gzip6Bytes": 1878
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/contact-occlusion.mjs",
+        "bytes": 8135,
+        "sha256": "588296c04101a8b068d920553af3e126273ea45309368063af36f34443eef03b",
+        "gzip6Bytes": 2945
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/controller.mjs",
+        "bytes": 204524,
+        "sha256": "f97c4d44a9952e3dc3a66bb8edcfbe2a1116b024d5c0e1339f6654fb441232fd",
+        "gzip6Bytes": 59694
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/curtain-cloth.mjs",
+        "bytes": 45890,
+        "sha256": "a0efa83fe9415ba9d7da6c17625a1911f6bd01daf751304c43ec67f479b97b98",
+        "gzip6Bytes": 15347
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/curtain-rig.mjs",
+        "bytes": 17535,
+        "sha256": "56b3a1e0358a7fc656a81ed2bfddf5d913a2c1730dfe86651e1ad655b18ca87c",
+        "gzip6Bytes": 5817
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/daylight.mjs",
+        "bytes": 2277,
+        "sha256": "e88eacd50abce6436ba973acde205f82c0a7a95a1862a9002172dfe2c14241f7",
+        "gzip6Bytes": 994
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/detail-levels.mjs",
+        "bytes": 5030,
+        "sha256": "deb681dddd3ad965474bcc1d537e5348f16c522e2074a25a41866aeef26be838",
+        "gzip6Bytes": 2090
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/dining-menu.mjs",
+        "bytes": 6988,
+        "sha256": "48f076799f411989538912a32c2cb09b780a144c7089b0b9b21b86bb1630934b",
+        "gzip6Bytes": 2509
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/dining-motion.mjs",
+        "bytes": 41831,
+        "sha256": "07aacd05d8a8485dc1a53707edb7ecc857e0e70f6eeea72f08ab4f94dfe5e313",
+        "gzip6Bytes": 11295
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/dining.mjs",
+        "bytes": 69921,
+        "sha256": "04b62c87fcee701eb1e87cfd0a4402315f6e7d319db8c257f70dbe1e6b35e6d6",
+        "gzip6Bytes": 20227
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/draw-order.mjs",
+        "bytes": 1560,
+        "sha256": "85690ebf60dde4f85f6a1cbde7aed28b0b33b7b2c48cc258a6446dd831a0892e",
+        "gzip6Bytes": 738
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/duvet-solver.mjs",
+        "bytes": 6072,
+        "sha256": "66a87ca9fe9097f3177a68a34cf6618eb1b50c511d9e57279e62c28e50ca6202",
+        "gzip6Bytes": 2192
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/environment.mjs",
+        "bytes": 46552,
+        "sha256": "201e1fcaadbad4e55c28ca84b6f68721309e3d1bf8930eceef77b801d6bba209",
+        "gzip6Bytes": 15950
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/estate-doors.mjs",
+        "bytes": 5418,
+        "sha256": "174d227c50a8e39c68a897249bbc3224a819b6b2a12b1b1fa065f8a9a9fb2fc7",
+        "gzip6Bytes": 1946
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/far-field.mjs",
+        "bytes": 25514,
+        "sha256": "14b31d034f9d811526ec8f7c3bdacd315c99cc4333ed213d18101b35e2b4a834",
+        "gzip6Bytes": 9242
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/fft-ocean.mjs",
+        "bytes": 7028,
+        "sha256": "891c635c375328c10f1f7a34f0f81a7d0e038728c3f1b26741b7381c0ffcc765",
+        "gzip6Bytes": 2295
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/furniture-fire.mjs",
+        "bytes": 2994,
+        "sha256": "8744a7a780dce9548b2ecc334aabe0d7dbeef910b2595599ff010918e9e1a5b9",
+        "gzip6Bytes": 1326
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/furniture.mjs",
+        "bytes": 25547,
+        "sha256": "bfd591bdde64976079778cbeaee8c3591f0b2f48fca9e9c4c18f5d29af28a8f5",
+        "gzip6Bytes": 8122
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/gamepad.mjs",
+        "bytes": 2718,
+        "sha256": "c78c65e02431b6e84ce165253c5f0da5abc7381a67f1b4328c7a952d3b73c2fe",
+        "gzip6Bytes": 1132
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/glazing.mjs",
+        "bytes": 2492,
+        "sha256": "1ed856c97059df3dda43e814c22277fd4dea3cee0266ee57fc7425bc96d8a60e",
+        "gzip6Bytes": 1226
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/gliders.mjs",
+        "bytes": 5958,
+        "sha256": "b6c4c5c3055d5462214b4f37d54ae6fa14c7102f873c89fb9f745c519f80115b",
+        "gzip6Bytes": 2393
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/gpu-timer.mjs",
+        "bytes": 2068,
+        "sha256": "04fee0377ba3d1d7c709a0c8fa8d1a555d3a3b0c07a82cb34bdc5092d805257e",
+        "gzip6Bytes": 827
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/grip-targets.mjs",
+        "bytes": 716,
+        "sha256": "b8bbfc150f4a8187998d09d442b55bb6a8523ba1fa3fe93f481843f231a149eb",
+        "gzip6Bytes": 391
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/gym-props.mjs",
+        "bytes": 17333,
+        "sha256": "d2fe5bdd66b08e310d3124aa9c32dbbe6c6254da611a8680f602b915bcb27fc0",
+        "gzip6Bytes": 6240
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/gym-session.mjs",
+        "bytes": 33922,
+        "sha256": "703b7b2143bd17e79cafdcec481ba0b5ad41411a3c94f50f6fada26f9e7f5b93",
+        "gzip6Bytes": 9125
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/haze.mjs",
+        "bytes": 19672,
+        "sha256": "342155b9d3fa4e2c8aff34d2765fe3f2770437302ee8fafbc54e22df193bf2eb",
+        "gzip6Bytes": 6944
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/heightfield-water.mjs",
+        "bytes": 16977,
+        "sha256": "53fab41b33a65e75a4d9195f968fc1ebce83ec136cb428337bc96984a32a5ade",
+        "gzip6Bytes": 4669
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/hinterland.mjs",
+        "bytes": 4475,
+        "sha256": "512d3e1e83c4e2f87fd8528a1c09c0e1893499e87d2c6dc1aa12deae6d13049d",
+        "gzip6Bytes": 1839
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/infinity-pool.mjs",
+        "bytes": 3191,
+        "sha256": "32584f24b18b95e168fe12c604b06e94ec76d9071713cad83779072010a86c26",
+        "gzip6Bytes": 1374
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/ink-study.mjs",
+        "bytes": 2966,
+        "sha256": "b176273adaf443519aed230386d08f3b4791ba166f8d2103a7b655dd8c4e9e61",
+        "gzip6Bytes": 1273
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/interior-reflections.mjs",
+        "bytes": 18574,
+        "sha256": "86e794cb5dbb0430d0e2776f1f4bc94aa3ecbe7055d72daa336dd7fb46ca29fa",
+        "gzip6Bytes": 5720
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/laundry-line.mjs",
+        "bytes": 20285,
+        "sha256": "d2db48f521b967221242a3806ddaa63fe155ce4988a04ccd2258ccd19eaff689",
+        "gzip6Bytes": 7049
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/laundry-rig.mjs",
+        "bytes": 16205,
+        "sha256": "f182c3b83987bdb5304d7a766b7ea36c6b9ca4f6128ee0b36a86a63a26f1aa90",
+        "gzip6Bytes": 5201
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/library-ladder.mjs",
+        "bytes": 8296,
+        "sha256": "e1b3983a00ef45b9d70b24bdc9b7acc3031ce0206a4aa87fc0c7cae5c0983716",
+        "gzip6Bytes": 2680
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/lift-rig.mjs",
+        "bytes": 33806,
+        "sha256": "04ec8f9befa98b0fc2e67667dc06bb66332eab1e61a4a9d089bde947237d2344",
+        "gzip6Bytes": 10301
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/light-installations.mjs",
+        "bytes": 41242,
+        "sha256": "414605362a2f37e306bcf9d3628f375420ca42f9fd78934b59fd6f81e74eb20c",
+        "gzip6Bytes": 12150
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/light-trace-core.mjs",
+        "bytes": 11694,
+        "sha256": "787271d05f2143026a37ab6653bc938a7ed5d704ab4b81086627646df0ca61c3",
+        "gzip6Bytes": 3574
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/light-well.mjs",
+        "bytes": 18694,
+        "sha256": "28091da2cd529362e737114741ae04d3bb1f622976b56fa4ecc3be55902dbc44",
+        "gzip6Bytes": 6570
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/loading-sketch-core.mjs",
+        "bytes": 22760,
+        "sha256": "4364d9aa560ed054553d6dbc9e9d898ce651a23b9d1f7f1649eaa059e015092d",
+        "gzip6Bytes": 7539
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/loading-sketch-worker.mjs",
+        "bytes": 3015,
+        "sha256": "47034647bdd542511376805b8dca4301d6f695c71ba75b93c35031498cb29858",
+        "gzip6Bytes": 1041
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/loading-sketch.mjs",
+        "bytes": 10103,
+        "sha256": "59755084f7e9b5b2a385bcef6e413e3dbef8680dc58b0f0de39080746b62f3f1",
+        "gzip6Bytes": 3707
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/local-scene-frame.mjs",
+        "bytes": 842,
+        "sha256": "97e01ed6ffcd4f6a8fc7efcc36a0df70743c58b95341b5b0f196c99a81239f48",
+        "gzip6Bytes": 451
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/locomotion.mjs",
+        "bytes": 2905,
+        "sha256": "94d1f9035ae8eae3f66995fa16408cd8f2b3e83ba6d8e8344ec1aed8aa6f0854",
+        "gzip6Bytes": 1085
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/look.mjs",
+        "bytes": 1491,
+        "sha256": "1d5184320a900a2caf724a58cc56efa57df1c93cf82c8d274d577deca04762f2",
+        "gzip6Bytes": 786
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/materials.mjs",
+        "bytes": 8504,
+        "sha256": "5b2b53bc74bec3e3e4d6b286ae16e1e40fcc8f482ae5f1ec5ebc0b83cd1fcf87",
+        "gzip6Bytes": 2853
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/model-loader.mjs",
+        "bytes": 3055,
+        "sha256": "2442bd5a59f8fe927ecc0c415600a0d6af256fe07538d64f47891c5d570d466b",
+        "gzip6Bytes": 1354
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/navigation.mjs",
+        "bytes": 6939,
+        "sha256": "6f0884c0692969d6cda736972df644c7952ca949c8a7ff594d9eacee4cfc17e3",
+        "gzip6Bytes": 2615
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/occlusion-region.mjs",
+        "bytes": 3801,
+        "sha256": "28425bb513e639ae8d4d9c0699e5d9ba417c95dae938496d49fe583f606b774b",
+        "gzip6Bytes": 1386
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/ocean-spectrum.mjs",
+        "bytes": 17140,
+        "sha256": "e04caba220c4daa5f64db2226c943c1a7478e13bcce8fffd127955d3f9669e7b",
+        "gzip6Bytes": 6267
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/onsen-water.mjs",
+        "bytes": 26222,
+        "sha256": "bcfc491176ce2e0ad88d0f67f7791fa391fe54da2fb5cfd3111b271bd8593399",
+        "gzip6Bytes": 8714
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/perf-overlay.mjs",
+        "bytes": 4711,
+        "sha256": "51d49b80183882f9dfe9033a2a43b094eedbd07a61f5dac9896e38a607f1d67b",
+        "gzip6Bytes": 2042
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/planets.mjs",
+        "bytes": 5512,
+        "sha256": "014a3665e111a7dad70bce7d63123149b0821e37e4c774078aa22e55d92a07aa",
+        "gzip6Bytes": 2247
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/plant-motion.mjs",
+        "bytes": 19987,
+        "sha256": "a4450da3a0df5186ff6d3da57f82abddbda40f498e5272c7c81d433e3acb0b28",
+        "gzip6Bytes": 6472
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/planted-feet.mjs",
+        "bytes": 4705,
+        "sha256": "59490889f54c4f3ee6f6a68339a1c08c367b927736ee5cd99d5986934a84cb52",
+        "gzip6Bytes": 1596
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/pool-activity.mjs",
+        "bytes": 4314,
+        "sha256": "6bbe50976cd24d03ce6a772f7c5bf4b472245ffd86f2dfdf094424fc0640d726",
+        "gzip6Bytes": 1667
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/pool-geometry.mjs",
+        "bytes": 1920,
+        "sha256": "c9f96f1ed7ad7e1b00ec770dcc7b7bce744423dc648122d6f491f29abf7da664",
+        "gzip6Bytes": 943
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/pool-stroke.mjs",
+        "bytes": 7247,
+        "sha256": "a54e9a489e7980822a652fab80d106cd738b441d27e588679b1a13b2b1d5b5b1",
+        "gzip6Bytes": 2552
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/program-warmup.mjs",
+        "bytes": 14704,
+        "sha256": "d374ad59331c622e8c490f1928f00c9cce5a66e1dd9e5db2b934dcdb947f7fea",
+        "gzip6Bytes": 4990
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/quality.mjs",
+        "bytes": 10272,
+        "sha256": "2cf236812344738cc900b1192be8a58342bca880d83283ab3d10da2f2319d400",
+        "gzip6Bytes": 3803
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/rain-roof-field.mjs",
+        "bytes": 4820,
+        "sha256": "7df871570af91bafd2d9b0387e914e2de678f010bf7377c0e3ec37b38782cd02",
+        "gzip6Bytes": 1718
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/realism.mjs",
+        "bytes": 43348,
+        "sha256": "d29206aa0ce59c4aff490b3fe2ff9f1ccf84cb25a068673a1a64d9e67c42e5e4",
+        "gzip6Bytes": 13072
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/record-motion.mjs",
+        "bytes": 4395,
+        "sha256": "90a6df17ca9b6300b6c75311f6ac648daf5e9284ece38cff7058d5cea7d5368d",
+        "gzip6Bytes": 1486
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/reflection.mjs",
+        "bytes": 7579,
+        "sha256": "41642a95574e98706e368efd1627006ebab47057aa3304537a67d9d1668244d3",
+        "gzip6Bytes": 2745
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/resolution.mjs",
+        "bytes": 13974,
+        "sha256": "15babc9b765fbc253819ee985d6690c2bdfe1537271459ad881024f17009a194",
+        "gzip6Bytes": 4937
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/room-journey.mjs",
+        "bytes": 6166,
+        "sha256": "dcba76b28e65b57527a44d6da4a4f108758deac71656f23179a80c5a32570047",
+        "gzip6Bytes": 2080
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/routine.mjs",
+        "bytes": 4615,
+        "sha256": "4a7f2b0130be102d1f4b7ecc9c8fdfd0cc211b2dfff71b377d522949a9ec8340",
+        "gzip6Bytes": 1839
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/sea-optics.mjs",
+        "bytes": 20250,
+        "sha256": "068d87ce6f8717e00ade27eeb58c0dbe903eb2f47aa9be5d0ce69e804a2dda48",
+        "gzip6Bytes": 7999
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/seat-surface.mjs",
+        "bytes": 1729,
+        "sha256": "37b69e69d227e2522edb3563934fc52d52d3af493d8e09ef4a97e36893a6e216",
+        "gzip6Bytes": 876
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/shadow-cache.mjs",
+        "bytes": 12828,
+        "sha256": "27f4617053df08be14b8b00054089f739c90d68b529846dbb97d665c2ba5551e",
+        "gzip6Bytes": 4031
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/shadow-fit.mjs",
+        "bytes": 2074,
+        "sha256": "65eb1da2425fa525fa0cb22e41b5115ae5206c800f9b420b9ca7f454c3102fea",
+        "gzip6Bytes": 1028
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/sheer-fabric.mjs",
+        "bytes": 32559,
+        "sha256": "5985ed6ac2a947d153fff4d894a1e4ddd6469401f04659f53d8cc5348d54ed4e",
+        "gzip6Bytes": 10555
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/shore.mjs",
+        "bytes": 2060,
+        "sha256": "3872a5c53af372451b048ed7f0667d66fa0359e26a4b9770f2152e96fbef043f",
+        "gzip6Bytes": 851
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/skin-diffusion-profile.mjs",
+        "bytes": 7888,
+        "sha256": "295dcf78d23eed1bd3176e972e2c6243ad7079c976209dfcdd025347dc0a7d4b",
+        "gzip6Bytes": 2736
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/skin-diffusion.mjs",
+        "bytes": 8321,
+        "sha256": "e4af05566bdd28c91279e71c801c8be79fd30f9c0b0814cc991680897c99e3af",
+        "gzip6Bytes": 2732
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/star-catalogue.mjs",
+        "bytes": 37165,
+        "sha256": "31ff8991dab2003e57dcce3202118d3197f8674a0ff79fbe3ea09e887a0baf11",
+        "gzip6Bytes": 27267
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/stars.mjs",
+        "bytes": 24057,
+        "sha256": "77b0c0ae0bb357c96d5908af8d4f1803b81a6a476eee3ba1728d1ce504720483",
+        "gzip6Bytes": 8499
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/static-light-field.mjs",
+        "bytes": 38099,
+        "sha256": "aa6cc8a38f45cfbb4b9ab61e4ea5ec805a40551675d8951931088ec22b454c77",
+        "gzip6Bytes": 11572
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/steam-density.mjs",
+        "bytes": 15935,
+        "sha256": "cf80a561790534bab1f3cf525062f7cc10fd11f5077323b919eb05850f3b2c1e",
+        "gzip6Bytes": 4916
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/steam-volume.mjs",
+        "bytes": 13024,
+        "sha256": "9f79e594ed509574066a543a3dc9c65079189b4718b198fb7f8510eb67d9af44",
+        "gzip6Bytes": 4423
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/still-photo.mjs",
+        "bytes": 3804,
+        "sha256": "c3e588bfe7d3d0452efc9a6f0f1875ce252459d85ce0e213ad5a5b4e0bcb3c35",
+        "gzip6Bytes": 1561
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/temporal-aa.mjs",
+        "bytes": 24848,
+        "sha256": "f67d081175e927099df47fa9ccf83b2940836d7151c5a468a3c53cf5be326193",
+        "gzip6Bytes": 6811
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/training.mjs",
+        "bytes": 14436,
+        "sha256": "ee9b9741952ae0b7932c69fc0af141deadb26fdc8add92b7ee699fb351d74125",
+        "gzip6Bytes": 5005
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/virtual-joysticks.mjs",
+        "bytes": 4677,
+        "sha256": "4757ee3dbb65650fcfd6d2049fbd39e9265c772b9f0faa69db7f284518b78954",
+        "gzip6Bytes": 1741
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/volume-depth.mjs",
+        "bytes": 4048,
+        "sha256": "d10141dd8f84269cda38ea55c72f2e4186a43163fa86f724207b1ddc0efe84e6",
+        "gzip6Bytes": 1396
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/walk-collar-liner.mjs",
+        "bytes": 12931,
+        "sha256": "84dfa3a3c7cc10db7318b738cd7b999858b852359c100b87f91bf89271675730",
+        "gzip6Bytes": 4337
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/walk-controls.mjs",
+        "bytes": 35087,
+        "sha256": "88d84b0eb6b538baf1303bb1e7eee2b17547c07c4bc3e2e5ff5c9307a1609852",
+        "gzip6Bytes": 11092
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/walk-field-worker.mjs",
+        "bytes": 868,
+        "sha256": "e3ac54eca52e4b2584ba479d19dbf57dc161d83bbe0f98ad4d4549867636ac05",
+        "gzip6Bytes": 460
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/walk-presence.mjs",
+        "bytes": 22332,
+        "sha256": "fc592879e415d65a724b5c80fa9f721b9abd58c82f03acbb7b7d7daec0b13eab",
+        "gzip6Bytes": 7107
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/warm-practicals.mjs",
+        "bytes": 7788,
+        "sha256": "8f4a605be504cd1d1ffbc1a17b0a8501f5ad25c07401131ee7f35cbd710ba3dc",
+        "gzip6Bytes": 3053
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/water-garden.mjs",
+        "bytes": 7229,
+        "sha256": "8a092dfb3f3a10230b5940c9b432ed3a989d12901f90d5f55504f304e56349bc",
+        "gzip6Bytes": 2760
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/weather-data.mjs",
+        "bytes": 13793,
+        "sha256": "c7a7b767b6e878fba489cc9a2dc65e7a9b449dbc8c4b51b24c17d7c0680fce0a",
+        "gzip6Bytes": 4770
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/wildlife-acting.mjs",
+        "bytes": 7690,
+        "sha256": "ca0eb1fcf8023b24828bbd9f37fc27f588b2657aec3881bd45ce3324a146966f",
+        "gzip6Bytes": 3015
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/wildlife-ground-contact.mjs",
+        "bytes": 7977,
+        "sha256": "1e4aabf10658a9217d90f45ca819c69f9ae1a6a86c3d7605e55a9d265b1713cf",
+        "gzip6Bytes": 2863
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/wildlife-motion.mjs",
+        "bytes": 23924,
+        "sha256": "e5ee5af0f0f2197ecc0478ffa6641aafedd1c201499340eafa1ec2c444a92088",
+        "gzip6Bytes": 7476
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/wildlife-neighbor-motion.mjs",
+        "bytes": 41240,
+        "sha256": "491c646f829f13e815d7301b93f5ba587faba7ab0e92841727e233364235513c",
+        "gzip6Bytes": 12823
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/wildlife-perch-contact.mjs",
+        "bytes": 6875,
+        "sha256": "aa83f828c94157d4d6ba2f76c8d2e85de2c1227c02edc1c2f3f7b92fb3cd9d17",
+        "gzip6Bytes": 2310
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/wildlife-seabird-motion.mjs",
+        "bytes": 17007,
+        "sha256": "3f44269d3f17a0515574fdb72f56d4b2586500825b023bf32a4a62822ba28718",
+        "gzip6Bytes": 5916
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/wildlife.mjs",
+        "bytes": 52651,
+        "sha256": "d54121ea026938d27733aad91542ebbc722de01885c06495f3b1ad6065b32c6c",
+        "gzip6Bytes": 14875
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/wind-field.mjs",
+        "bytes": 21956,
+        "sha256": "8a17b900e26f0fa4e55c9459b59bb53d251d917e759317c35dfd3f0bf55763dc",
+        "gzip6Bytes": 7648
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/wind-particles.mjs",
+        "bytes": 6669,
+        "sha256": "e2f44bfd9d0174f0cd94cc2c1f23cd9b5578902542837e87d8c24062b757bcfe",
+        "gzip6Bytes": 2301
+      },
+      {
+        "category": "rawRuntime",
+        "file": "C:/dev/site-takeover-worktrees/finish-room-runtime/assets/js/home-scene/world-fullscreen.mjs",
+        "bytes": 9136,
+        "sha256": "f9048c1d5981c4c9be23b267ad9f22a1b3621a7818b360e91a0470e162acb2ec",
+        "gzip6Bytes": 2976
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/libs/draco/draco-worker.js",
+        "bytes": 5385,
+        "sha256": "218bfacb2e647189cbe2d756267f987bfd08f971fd6947345ff757e3e1a50ef9",
+        "gzip6Bytes": 1745
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/libs/draco/draco_wasm_wrapper.js",
+        "bytes": 58456,
+        "sha256": "8bb2952d2ba7d67e1414f8df819410cb0434a666be53f671fff75f68843d76f6",
+        "gzip6Bytes": 11688
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/loaders/DRACOLoader.js",
+        "bytes": 13651,
+        "sha256": "7c54926e14cf506a53b36a051864a673dfd70bc25d01ce1d817419e0fb0c14e2",
+        "gzip6Bytes": 4180
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/loaders/GLTFLoader.js",
+        "bytes": 109805,
+        "sha256": "45c7282acb680a1799920810f1da8a2f2bd8ac09827c66600f7315eb94a6c46e",
+        "gzip6Bytes": 23574
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/math/SimplexNoise.js",
+        "bytes": 14351,
+        "sha256": "9b8d541b77b0ddc79afaa6a1de8941452c191b8b9006f04e7b8fc422e2b263f7",
+        "gzip6Bytes": 3694
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/EffectComposer.js",
+        "bytes": 4674,
+        "sha256": "50cebcd63a553e28cd615678c06f5d4e93e3341ffa664c7e7e4853141b4940b4",
+        "gzip6Bytes": 1196
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/MaskPass.js",
+        "bytes": 2231,
+        "sha256": "328cf7db0da5d9be83ffe39d54b01d5ac1fddf108cc98182ddbb056f5c8b537f",
+        "gzip6Bytes": 670
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/OutputPass.js",
+        "bytes": 2547,
+        "sha256": "f1c975fa535fbb83971a24e8b3b806b603dd5e6e9affea2d344942c8c5dccdb7",
+        "gzip6Bytes": 836
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/Pass.js",
+        "bytes": 1729,
+        "sha256": "b5e80974d22b920facf778c560cecdffb94e51181c683a7c61b50ad454d25566",
+        "gzip6Bytes": 763
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/RenderPass.js",
+        "bytes": 1938,
+        "sha256": "ef3f895f0b960d0f0dd32b8c22717377aaf4c9760f2b33367e98080094537cce",
+        "gzip6Bytes": 627
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/ShaderPass.js",
+        "bytes": 1599,
+        "sha256": "428c6dc08d8d01aa8bc9dcc423eb3c2b435ae7c5491bfaaeed01785416e0ada1",
+        "gzip6Bytes": 657
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/SSAOPass.js",
+        "bytes": 11331,
+        "sha256": "bf48c4f2faa9509a5327c3f0a80f5b8f0d7afba7fc5758f4c4c736f433ac6beb",
+        "gzip6Bytes": 2519
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/postprocessing/UnrealBloomPass.js",
+        "bytes": 12429,
+        "sha256": "8909b6fc84669836666781ea1d98edfa1f9959daccc8617163417047de97bf3f",
+        "gzip6Bytes": 2933
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/shaders/CopyShader.js",
+        "bytes": 571,
+        "sha256": "4e3346db194db56a596cd074e9bdb39fb5eb52040c333e0d29dc4eb1324d3b1d",
+        "gzip6Bytes": 330
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/shaders/LuminosityHighPassShader.js",
+        "bytes": 1215,
+        "sha256": "59a493e8deed790b0eddcc3bf1f7964f0bbbe83f88bef5977cb04f5a2a233f2e",
+        "gzip6Bytes": 550
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/shaders/OutputShader.js",
+        "bytes": 1498,
+        "sha256": "291c9abf4beac165524f5963bda38691ed4631d8e6288d07f9e8910a452790a7",
+        "gzip6Bytes": 569
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/shaders/SSAOShader.js",
+        "bytes": 6497,
+        "sha256": "b54fc9b5d535163486559f14ea07ae803a43d4b0e7eb8825a0450a061c43f77b",
+        "gzip6Bytes": 1859
+      },
+      {
+        "category": "vendorJS",
+        "file": "assets/js/vendor/three-r164/utils/BufferGeometryUtils.js",
+        "bytes": 31578,
+        "sha256": "cb90892109217645ee8524c3c155c1a1f5b52ee33cac7c79579b83d3c1d7150e",
+        "gzip6Bytes": 6878
+      },
+      {
+        "category": "decoder",
+        "file": "assets/js/vendor/three-r164/libs/draco/draco_decoder.wasm",
+        "bytes": 192420,
+        "sha256": "a680d927bed9cb864ddbd63521868891af2bfbe755092761b4837487618df8ac",
+        "gzip6Bytes": 63407
+      },
+      {
+        "category": "three",
+        "file": "assets/js/three.module.min.js",
+        "bytes": 674428,
+        "sha256": "d08334115492bd88100491499f9dc9c830759154e524ec536739d1dacb2bce18",
+        "gzip6Bytes": 167206
+      },
+      {
+        "category": "coast",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/coast.glb",
+        "bytes": 241576,
+        "sha256": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
+        "gzip6Bytes": 194472
+      },
+      {
+        "category": "manifest",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/attempts/v84/manifest.json",
+        "bytes": 572029,
+        "sha256": "f80ef39ce0520f5540579d32800a15e3bf9e62800e3f62fecdbb9903180ccab9",
+        "gzip6Bytes": 73852
+      },
+      {
+        "category": "vignette",
+        "file": "assets/img/home/coastal-vignette.svg",
+        "bytes": 538,
+        "sha256": "15bda95ff10967fe1b7da898422bada7a1d805ad6c31798f42a169c3c2340220",
+        "gzip6Bytes": 367
+      },
+      {
+        "category": "shell",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/home-shell.glb",
+        "bytes": 894112,
+        "sha256": "54733b6da084ced6949ef3b6cc2fd535e9ad1924887fe7d2766762c626aaca18",
+        "gzip6Bytes": 615460
+      },
+      {
+        "category": "wallArt",
+        "file": "assets/img/home/sirui_capy.jpg",
+        "bytes": 93168,
+        "sha256": "9f8d0e4bdd10c98351130600b20417a9d624ba82af15a4963d7e549ec64f0dc0",
+        "gzip6Bytes": 93066
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-study.glb",
+        "bytes": 112436,
+        "sha256": "2a605f9445ec9523f935d9f71042e26027b57b3fd67310e0fe611e1a32467d92",
+        "gzip6Bytes": 62300
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-kitchen.glb",
+        "bytes": 244696,
+        "sha256": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e",
+        "gzip6Bytes": 139352
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-gym.glb",
+        "bytes": 222576,
+        "sha256": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
+        "gzip6Bytes": 144949
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-onsen.glb",
+        "bytes": 94408,
+        "sha256": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
+        "gzip6Bytes": 64244
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-lounge.glb",
+        "bytes": 231300,
+        "sha256": "56be7ae08742b1d9c4d30b765466d54c0cb7e8345e13cbe59343ccec299ce7ce",
+        "gzip6Bytes": 152723
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-sleep.glb",
+        "bytes": 292636,
+        "sha256": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
+        "gzip6Bytes": 243882
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-library.glb",
+        "bytes": 185640,
+        "sha256": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9",
+        "gzip6Bytes": 118192
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-library-upper.glb",
+        "bytes": 22272,
+        "sha256": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85",
+        "gzip6Bytes": 8782
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-bath-living.glb",
+        "bytes": 104924,
+        "sha256": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72",
+        "gzip6Bytes": 57318
+      },
+      {
+        "category": "rooms",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/room-bath-bedroom.glb",
+        "bytes": 106412,
+        "sha256": "23122cb51c7d2f3d580389eb4ffbf41a8f64f0e12f612ccb12a9f94fe37b2b80",
+        "gzip6Bytes": 58694
+      },
+      {
+        "category": "largestAvatar",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/sirui-south-park.glb",
+        "bytes": 714480,
+        "sha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63",
+        "gzip6Bytes": 512492
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/aeron-lod1.glb",
+        "bytes": 82404,
+        "sha256": "b8426379cae8f3f065f1c35434e9fbce2c2ee8432b1695ce33b977fb21ca4c54",
+        "gzip6Bytes": 72163
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/banquette-lod1.glb",
+        "bytes": 31432,
+        "sha256": "5ce8f0e210401f8ceff43e18704c0bed407b969a9bf2455a656ca97e09f64708",
+        "gzip6Bytes": 25943
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/cast-iron-pan-lod1.glb",
+        "bytes": 9488,
+        "sha256": "ca767c5adec75521ac90cfe9760927a83515016cc83c9dfe91e83b70d7cc0d5d",
+        "gzip6Bytes": 8138
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/cloud-sofa-lod1.glb",
+        "bytes": 55376,
+        "sha256": "74c1dc6b032f4f8d29d657b6ad129089366deb121008fc3f65d6817c554105b0",
+        "gzip6Bytes": 46640
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/dining-chair-lod1.glb",
+        "bytes": 17196,
+        "sha256": "bb79a676b7bdc24c87ff05e99542bb0ca5d5807adec20886a38c6d02bf1b39f6",
+        "gzip6Bytes": 14446
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/dining-table-lod1.glb",
+        "bytes": 6880,
+        "sha256": "01c35852cbea182878bdbbe67baa4517090005850d9befaff215be0db9cfd884",
+        "gzip6Bytes": 3649
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/dumbbell-lod1.glb",
+        "bytes": 4676,
+        "sha256": "7dc3be036ca00f584cc87d68fe2ca8db596704215a7439d1b3a6f713f942b92e",
+        "gzip6Bytes": 2525
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/eames-lounge-lod1.glb",
+        "bytes": 66616,
+        "sha256": "10028738fd7b5511e8cf7bf78eefd6ee283472a4e3a4f07cd8c426aa7d054ae4",
+        "gzip6Bytes": 58214
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/floating-fireplace-lod1.glb",
+        "bytes": 12588,
+        "sha256": "a2e4b7ccaa0c94c17bd4d36aa53d652f6babca7c1c7de6916c0311c89983be36",
+        "gzip6Bytes": 8583
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/glass-fridge-lod1.glb",
+        "bytes": 33380,
+        "sha256": "d5aa3c3d41fb8fd1dbfa627bbbb59fb72d36eeb79dc32105d6420c80f5e1c52e",
+        "gzip6Bytes": 20760
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/italian-range-lod1.glb",
+        "bytes": 32936,
+        "sha256": "d0df11d63b14764d755cd73b4b8ecfacc88dc87bd03d88514f048b9af56d776a",
+        "gzip6Bytes": 24491
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/pot-filler-lod1.glb",
+        "bytes": 7340,
+        "sha256": "f326aa0fbf62e4c5bc3e24789d2314a29b983099b276d941748e5ce506d1560d",
+        "gzip6Bytes": 4126
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/range-hood-lod1.glb",
+        "bytes": 7520,
+        "sha256": "3c2c15aeb1d4e666a400d456bfcabeaca3c86c5151c9e694f4429a232f6a4195",
+        "gzip6Bytes": 3467
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-bottles-lod1.glb",
+        "bytes": 31808,
+        "sha256": "55f88df63ac7f7cc1177e7ed87dbd0900563e06b5a86ad66a28a886dc37d09af",
+        "gzip6Bytes": 21872
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-loveseat-lod1.glb",
+        "bytes": 14860,
+        "sha256": "8192e15ecfaa11899f7dff5923c582908f673da9d8a62a7f0bff0128628bff4d",
+        "gzip6Bytes": 12263
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-ottoman-lod1.glb",
+        "bytes": 7924,
+        "sha256": "aec6d5ce339227c32223e4f835977e4801afc26a69ec69736ef2f41f132b8d6e",
+        "gzip6Bytes": 5500
+      },
+      {
+        "category": "defaultFurniture",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/whiskey-side-table-lod1.glb",
+        "bytes": 35292,
+        "sha256": "3626132b589e67b5f8a72743497ca3820316fbd3edd6286732118816127eb99e",
+        "gzip6Bytes": 25168
+      },
+      {
+        "category": "auxiliaryExcludingCache",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/furniture/index.json",
+        "bytes": 12939,
+        "sha256": "7c8e61168fded60891fef92e74d7244cbb8b80a3124d604441c09ffa556892f8",
+        "gzip6Bytes": 2965
+      },
+      {
+        "category": "auxiliaryExcludingCache",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/loading-sketch.json",
+        "bytes": 49057,
+        "sha256": "e427a6cdd19b7627f958e967cb0fd40de34c77ca4be4072e5a977f949760ecfc",
+        "gzip6Bytes": 31144
+      },
+      {
+        "category": "auxiliaryExcludingCache",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/loading-sketch/study.json",
+        "bytes": 69903,
+        "sha256": "f1744b71fa8f01d40e639584858a59d06eec91f8dfff0c9225f4f315bd735dfb",
+        "gzip6Bytes": 45402
+      },
+      {
+        "category": "knownFirstReadyLunch",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/index.json",
+        "bytes": 28976,
+        "sha256": "d5a1b00ec3815b30d1e969cecda54ce24923ed7bce1fcf6c79cc41dbd0d01abd",
+        "gzip6Bytes": 6412
+      },
+      {
+        "category": "knownFirstReadyLunch",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/tableware-lod1.glb",
+        "bytes": 84140,
+        "sha256": "ba3dfb80225f3a819ea61e47087b73922d9a815ff7fc1f3d4d18deab4dfbdb41",
+        "gzip6Bytes": 55466
+      },
+      {
+        "category": "knownFirstReadyLunch",
+        "file": ".jekyll-cache/visual-qa/finish-house-2026-10-26/models-v84/table-setting/dish-shrimp-bowl-lod1.glb",
+        "bytes": 26688,
+        "sha256": "c57fc06a3ceb10d5fd1403a210d738a553db8381ac6976e2be50f48b6b440ba6",
+        "gzip6Bytes": 22827
+      }
+    ]
+  },
+  "productionReceiptRequired": true
+}

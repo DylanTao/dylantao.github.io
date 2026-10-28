@@ -48,6 +48,7 @@ def _path(key, default):
 
 SOURCE = _path("source", "artwork/coastal-home/coastal-home.blend")
 MANIFEST = _path("manifest", "assets/models/home/manifest.json")
+MODELS = _path("models", "assets/models/home")
 OUT = _path("out", ".jekyll-cache/overlap-audit/overlap-audit.json")
 FURNITURE = ARGS.get("furniture", "1") != "0"
 DELIVERED = ARGS.get("delivered", "0") == "1"  # audit the decoded delivered GLBs instead of the source
@@ -170,14 +171,14 @@ def mesh_arrays(obj):
 
 def import_furniture(scene, config):
     """Place every streamed item as furniture.mjs does: anchor position, yaw about +Y (Blender +Z)."""
-    index = json.loads((ROOT / "assets/models/home/furniture/index.json").read_text(encoding="utf-8"))
+    index = json.loads((MODELS / "furniture/index.json").read_text(encoding="utf-8"))
     placed = []
     for anchor in config.get("furniture", []):
         item = index["items"].get(anchor["item"])
         if not item:
             continue
         lod = max(item["lods"], key=lambda q: q.get("triangles", 0))
-        path = ROOT / "assets/models/home/furniture" / lod["file"]
+        path = MODELS / "furniture" / lod["file"]
         before = set(scene.objects)
         bpy.ops.import_scene.gltf(filepath=str(path))
         new = [o for o in scene.objects if o not in before]
@@ -765,9 +766,9 @@ def import_delivered(scene, config):
     loaded = []
     for name in [f for f in files if f]:
         before = set(scene.objects)
-        bpy.ops.import_scene.gltf(filepath=str(ROOT / "assets/models/home" / name))
+        bpy.ops.import_scene.gltf(filepath=str(MODELS / name))
         new = [o for o in scene.objects if o not in before]
-        loaded.append({"file": name, "objects": len(new), "sha256": sha256(ROOT / "assets/models/home" / name)})
+        loaded.append({"file": name, "objects": len(new), "sha256": sha256(MODELS / name)})
     return loaded
 
 
@@ -803,7 +804,7 @@ def main():
     rule_counts = {}
     for r in sites:
         rule_counts[r["contactRule"] or "unclassified"] = rule_counts.get(r["contactRule"] or "unclassified", 0) + 1
-    exports = {p.name: sha256(p) for p in sorted((ROOT / "assets/models/home").glob("*.glb"))
+    exports = {p.name: sha256(p) for p in sorted(MODELS.glob("*.glb"))
                if p.name.startswith(("home-shell", "room-", "coast", "flora"))}
     report = {
         "tool": "bin/audit_coastal_overlaps.py",

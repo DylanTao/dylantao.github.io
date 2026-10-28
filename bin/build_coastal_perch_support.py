@@ -15,6 +15,10 @@ from mathutils import Vector
 from mathutils.bvhtree import BVHTree
 
 ROOT = Path(__file__).resolve().parents[1]
+ARGS = {a[2:].split('=', 1)[0]: a.split('=', 1)[1] for a in sys.argv if a.startswith('--') and '=' in a}
+def option_path(name, default):
+    path = Path(ARGS.get(name, default))
+    return path if path.is_absolute() else ROOT / path
 sys.path.insert(0, str(ROOT / 'bin'))
 from coastal_camera import camera_support_meshes
 
@@ -34,9 +38,10 @@ def three(point):
 
 
 def main():
-    source = ROOT / 'artwork/coastal-home/coastal-home.blend'
-    glb = ROOT / 'assets/models/home/WesternGull.glb'
-    manifest = json.loads((ROOT / 'assets/models/home/manifest.json').read_text())
+    source = option_path('source', 'artwork/coastal-home/coastal-home.blend')
+    models = option_path('models', 'assets/models/home')
+    glb = models / 'WesternGull.glb'
+    manifest = json.loads(option_path('manifest', str(models / 'manifest.json')).read_text(encoding='utf-8'))
     bpy.ops.wm.open_mainfile(filepath=str(source))
     coast = camera_support_meshes(list(bpy.context.scene.objects))
     # Leaves and grass blades (refresh_coastal_flora.py) are not something a gull stands on.
@@ -79,7 +84,7 @@ def main():
     # gull to that face leaves its webbed sole visibly above or below the rock.
     # Preserve every original native patch alongside its delivered replacement.
     exported = set(bpy.context.scene.objects)
-    delivered_files = [ROOT / 'assets/models/home/home-shell.glb', ROOT / 'assets/models/home/coast.glb']
+    delivered_files = [models / 'home-shell.glb', models / 'coast.glb']
     for delivered in delivered_files:
         bpy.ops.import_scene.gltf(filepath=str(delivered))
     decoded = [o for o in set(bpy.context.scene.objects) - exported if o.type == 'MESH']
@@ -164,7 +169,7 @@ def main():
               'deliveredSha256': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in delivered_files},
               'method': 'Retained physical local triangles and decoded native sole/ankle/tarsus geometry',
               'patches': patches, 'feet': feet}
-    destination = ROOT / 'assets/models/home/wildlife-perch-support.json'
+    destination = option_path('out', str(models / 'wildlife-perch-support.json'))
     destination.write_text(json.dumps(result, separators=(',', ':')) + '\n', encoding='utf-8', newline='\n')
     print('PERCH SUPPORT', destination.stat().st_size, 'bytes;', [(p['id'], len(p['triangles'])) for p in patches],
           'sole samples', {side: len(foot['sole']) for side, foot in feet.items()})
