@@ -50,3 +50,9 @@ node artwork/la-jolla/reviews/surfer-2026-10-28/close-review.cjs
 ```
 
 This checkpoint is local and ready for coordinator integration. Publication and the combined release checks belong to the coordinator.
+
+## Rendered-cycle test follow-up
+
+The first published checkpoint, `8c6f4d018`, exposed a test-sampling failure in visual run `40669495377`: eight protocol-spaced reads missed a heading extremum on the desktop software renderer. The case now records each actual rendered frame in-page through the whole cycle, while retaining the original heading, sole/deck, wave-power and pause requirements. It does not change the animation or loosen a threshold.
+
+Both complete-production Chromium cases pass on the PC. The [bounded receipt](rendered-cycle-followup.json) records 1,010 desktop and 1,006 phone-emulated rendered frames over more than 33 seconds, including both full heading extrema. These functional runs do not establish Linux performance or physical-phone behavior; the next CI run supplies the software-renderer check.

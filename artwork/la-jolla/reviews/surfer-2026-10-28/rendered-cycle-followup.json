@@ -1,0 +1,32 @@
+{
+  "scope": "Complete production preview at localhost:4111/al-folio, Windows Chromium desktop and phone emulation; functional evidence, not a performance benchmark or physical iPhone.",
+  "reason": "CI run40669495377 desktop footer case sampled only eight protocol-spaced phases and missed a turn extremum (-0.4908 against -0.6). The test now records every actual rendered frame while preserving all original motion/contact thresholds.",
+  "cases": [
+    {
+      "project": "desktop-1440",
+      "renderedFrames": 1010,
+      "elapsedSpanSeconds": 33.68200000000017,
+      "headingRange": [
+        [-0.9999998506810127, 0.9999999888201216],
+        [-0.9999956954963178, 0.9999926758370485]
+      ],
+      "maximumSoleDeckErrorMeters": 4.163336342344337e-17,
+      "maximumWaterRiderPowerDifference": 0.0,
+      "maximumFrameGapSeconds": 0.05000000000000071,
+      "rawSha256": "305257ad90193ae206e20c31158810ce7902b4f423e86cd3740b7e1d6c60493e"
+    },
+    {
+      "project": "mobile-390",
+      "renderedFrames": 1006,
+      "elapsedSpanSeconds": 33.515300000000195,
+      "headingRange": [
+        [-0.9999998340464945, 0.9999991480805729],
+        [-0.9999984504710929, 0.999996571174165]
+      ],
+      "maximumSoleDeckErrorMeters": 4.163336342344337e-17,
+      "maximumWaterRiderPowerDifference": 0.0,
+      "maximumFrameGapSeconds": 0.05009999999999959,
+      "rawSha256": "6a5cf466343aa983c8cf3ca841c76fd546c5345ee85c0767a78355993467c854"
+    }
+  ]
+}

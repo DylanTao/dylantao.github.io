@@ -496,6 +496,28 @@ test("coastal surfer: a full carve follows its nose, keeps deck contacts and hol
   const host = page.locator("footer [data-footer-coast]");
   await host.scrollIntoViewIfNeeded();
   await expect(host).toHaveAttribute("data-state", "ready", { timeout: 60000 });
+  // Sample the actual rendered frames in-page. Eight protocol reads can alias
+  // the turn on software WebGL, especially when screenshots consume wall time.
+  await host.evaluate((element) => {
+    const recorder = (window.surferCycleRecorder = { frames: [], stopped: false });
+    let previous = -1;
+    const sample = () => {
+      if (recorder.stopped || !element.isConnected) return;
+      const state = element.getCoastEvidence();
+      if (state.frames !== previous) {
+        previous = state.frames;
+        recorder.frames.push({
+          elapsed: state.elapsed,
+          frames: state.frames,
+          rider: state.surfers.find((rider) => rider.name === "Surfer1"),
+          contacts: state.people.riders[0].feet,
+          waterRide: state.water.ride,
+        });
+      }
+      requestAnimationFrame(sample);
+    };
+    requestAnimationFrame(sample);
+  });
   const samples = [];
   for (let i = 0; i <= 8; i++) {
     if (i) await page.waitForTimeout((Math.PI * 10 * 1000) / 8);
@@ -516,7 +538,21 @@ test("coastal surfer: a full carve follows its nose, keeps deck contacts and hol
     if ([0, 2, 4, 6, 8].includes(i)) await host.locator("canvas").screenshot({ path: testInfo.outputPath(`surfer-cycle-${i}.png`) });
   }
   expect(samples.at(-1).elapsed - samples[0].elapsed).toBeGreaterThanOrEqual(Math.PI * 10);
-  const headings = samples.map((s) => s.rider.ride.heading);
+  const renderedFrames = await page.evaluate(() => {
+    window.surferCycleRecorder.stopped = true;
+    return window.surferCycleRecorder.frames;
+  });
+  await writeFile(testInfo.outputPath("surfer-rendered-cycle.json"), JSON.stringify(renderedFrames, null, 2));
+  expect(renderedFrames.at(-1).elapsed - renderedFrames[0].elapsed).toBeGreaterThanOrEqual(Math.PI * 10);
+  expect(renderedFrames.length).toBeGreaterThan(16);
+  for (const state of renderedFrames) {
+    const [qx, qy, qz, qw] = state.rider.quaternion;
+    const nose = [1 - 2 * (qy * qy + qz * qz), 2 * (qx * qz - qy * qw)];
+    expect((nose[0] * state.rider.ride.heading[0] + nose[1] * state.rider.ride.heading[1]) / Math.hypot(...nose)).toBeGreaterThan(0.9999);
+    for (const foot of state.contacts) expect(Math.abs(foot.a[1] - foot.radius - 0.043)).toBeLessThan(1e-8);
+    expect(Math.abs(state.waterRide.power - state.rider.ride.power)).toBeLessThan(1e-6);
+  }
+  const headings = renderedFrames.map((s) => s.rider.ride.heading);
   expect(Math.min(...headings.map((h) => h[0]))).toBeLessThan(-0.8);
   expect(Math.max(...headings.map((h) => h[0]))).toBeGreaterThan(0.8);
   expect(Math.min(...headings.map((h) => h[1]))).toBeLessThan(-0.6);
