@@ -5,6 +5,7 @@
 // Coordinates are the browser's Y-up space. Each figure is built in its own frame
 // (x = the figure's left, y = up, z = forward), then placed by a root and a yaw.
 import { sampleCoastWave } from "./wave-motion.mjs";
+import { sampleSurferRide } from "./surfer-motion.mjs?v=hollan-20261028";
 
 const TAU = Math.PI * 2;
 const clamp = (x, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, x));
@@ -98,7 +99,7 @@ export const LOOKS = [
   look(1, "auburn", "green", "denim", "black", { sleeves: true, trousers: true }),
   look(1, "black", "yellow", "black", "white"),
   look(1, "black", "wetsuit", "wetsuit", null, { sleeves: true, trousers: true }),
-  look(0, "blond", "wetsuit", "wetsuit", null, { sleeves: true, trousers: true }),
+  look(0, "grey", "black", "black", null, { sleeves: true, trousers: true, glasses: true, beard: true }),
   look(3, "black", "wetsuit", "wetsuit", null, { sleeves: true, trousers: true }),
   look(2, "black", "teal", "teal", null, { cap: "red" }),
   look(0, "brown", "teal", "teal", null),
@@ -207,6 +208,12 @@ function createHuman(look) {
     handL: part("ball", look.skin),
     handR: part("ball", look.skin),
   };
+  if (look.glasses) {
+    parts.glassesL = part("rod", CLOTH.black);
+    parts.glassesR = part("rod", CLOTH.black);
+    parts.glassesBridge = part("rod", CLOTH.black);
+  }
+  if (look.beard) parts.beard = part("ball", look.hair);
   return {
     parts,
     list: Object.values(parts),
@@ -302,6 +309,23 @@ function solveHuman(h) {
   copy(parts.hair.b, parts.head.b);
   parts.hair.r = h.look.cap ? 0.035 : 0.058;
   parts.hair.r2 = h.look.cap ? 0.082 : 0.079;
+  if (h.look.glasses) {
+    for (const [name, a, b] of [
+      ["glassesL", [-0.062, 0.012, 0.064], [-0.012, 0.012, 0.077]],
+      ["glassesR", [0.012, 0.012, 0.077], [0.062, 0.012, 0.064]],
+      ["glassesBridge", [-0.012, 0.012, 0.077], [0.012, 0.012, 0.077]],
+    ]) {
+      apply(parts[name].a, headM, ...a, j.head);
+      apply(parts[name].b, headM, ...b, j.head);
+      parts[name].r = 0.006;
+    }
+  }
+  if (h.look.beard) {
+    apply(parts.beard.a, headM, 0, -0.044, 0.045, j.head);
+    apply(parts.beard.b, headM, 0, 1, 0);
+    parts.beard.r = 0.031;
+    parts.beard.r2 = 0.048;
+  }
   limb(parts.thighL, j.hipL, j.kneeL, RADIUS.thigh);
   limb(parts.thighR, j.hipR, j.kneeR, RADIUS.thigh);
   limb(parts.shinL, j.kneeL, j.ankleL, RADIUS.shin);
@@ -1220,19 +1244,21 @@ function poseSurfer(actor, t) {
   h.yaw = 0;
   const seed = actor.seed;
   if (stance === "ride") {
-    // Side-on, knees bent, arms out for balance, looking toward the nose.
-    const sway = Math.sin(t * 1.7 + seed) * 0.03;
-    set(spec.pelvis, sway * 0.4, BOARD_TOP + 0.255 + Math.sin(t * 2.3 + seed) * 0.008, 0);
+    // Feet remain planted in the deck frame. Load the turn through the knees and hips;
+    // no independent bob or swaying clock, and the existing two-bone solver keeps limb lengths.
+    const ride = actor.ride || sampleSurferRide(t);
+    const lean = ride.bank;
+    set(spec.pelvis, 0.012 + ride.acceleration * 0.2, BOARD_TOP + 0.265 - ride.crouch, lean * 0.1);
     set(spec.footL, 0.19, BOARD_TOP + BODY.ankle, 0.02);
     set(spec.footR, -0.19, BOARD_TOP + BODY.ankle, -0.01);
     spec.footYawL = 1.2;
     spec.footYawR = 1.35;
     set(spec.kneePole, 0, 0.3, 1);
     spec.yaw = 0.35;
-    spec.pitch = 0.3;
-    spec.roll = sway;
-    set(spec.handL, 0.34, 0.43 + sway, 0.06);
-    set(spec.handR, -0.31, 0.4 - sway, -0.04);
+    spec.pitch = 0.2 + ride.crouch * 1.2;
+    spec.roll = -lean * 0.7;
+    set(spec.handL, 0.23, 0.43 - ride.crouch, 0.13 + lean * 0.1);
+    set(spec.handR, -0.22, 0.4 - ride.crouch, 0.01 - lean * 0.1);
     set(spec.elbowPoleL, 0.2, -1, 0.2);
     set(spec.elbowPoleR, -0.2, -1, 0.2);
     spec.headYaw = 0.75;

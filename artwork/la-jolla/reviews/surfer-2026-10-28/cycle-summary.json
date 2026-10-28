@@ -1,0 +1,16 @@
+{
+  "desktop-1440": {
+    "sampleCount": 9,
+    "observedSceneSeconds": 34.348700000000186,
+    "heldPose": 36.24489999996442,
+    "initialReducedPose": 0,
+    "errors": []
+  },
+  "mobile-390": {
+    "sampleCount": 9,
+    "observedSceneSeconds": 32.11540000000015,
+    "heldPose": 33.33980000001207,
+    "initialReducedPose": 0,
+    "errors": []
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "blender": "4.5.9 LTS",
+  "build_hash": "8bf95cbd38d1",
+  "files": {
+    "la-jolla": {
+      "untouched_objects": 233,
+      "untouched_materials": 38,
+      "untouched_snapshot_sha256": "891764d9648c2acc41c670f88e3a3072f0cf3ed277255e88e8ee9760f3765202",
+      "save_reopen_equal": true,
+      "retained_orphan_materials": ["Material"],
+      "scope": "Surfer1 board material, deck stringer, removed rigid wake only",
+      "source_version_before": [4, 5, 92],
+      "source_version_after": [4, 5, 91]
+    },
+    "miniature": {
+      "untouched_objects": 41,
+      "untouched_materials": 38,
+      "untouched_snapshot_sha256": "9287775a54d605eee33a02fbe7061065bb2ef67b5fcb9d8020a69d11f2b940f7",
+      "save_reopen_equal": true,
+      "retained_orphan_materials": [
+        "Bougainvillea petals",
+        "Brockton blue trim",
+        "Brockton weathered cedar",
+        "Coastal groundcover",
+        "Dusty rose stucco",
+        "Firelight",
+        "Harbor seal warm grey",
+        "La Valencia rose plaster",
+        "La Valencia tiled dome",
+        "New palm frond",
+        "Sage shutters",
+        "Sandstone stratum 0",
+        "Sandstone stratum 2",
+        "Sandstone stratum 3",
+        "Sunlit clay",
+        "Tennis blue",
+        "Tennis green",
+        "Terracotta",
+        "Tidal sand",
+        "Village glazing",
+        "Village lamplight",
+        "Weathered breakwater concrete",
+        "Apricot stucco"
+      ],
+      "scope": "Surfer1 board material, deck stringer, removed rigid wake only",
+      "source_version_before": [4, 5, 92],
+      "source_version_after": [4, 5, 91]
+    }
+  }
+}

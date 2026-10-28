@@ -41,6 +41,8 @@ For the wider coast, I compared map outlines and aerial views with building plan
 
 The selected site theme changes the light and the little activities: a quiet morning, surfing around noon, warm afternoon light, and a small evening bonfire on the footer beach. My DIB office gets a light from noon onward and on some nights. That is a personal vignette, not live occupancy information.
 
+One rider is a tiny nod to [Jim Hollan](https://hci.ucsd.edu/hollan/): grey hair, glasses, black clothes, and a red board with a white stripe. The outfit and board are my miniature's art direction.
+
 ## From reference to geometry
 
 <p><a href="{{ '/design-lab/coastal-process/' | relative_url }}">Open the illustrated process notes</a> to compare the design studies, reconstructed shape, and production miniature.</p>
@@ -71,6 +73,7 @@ The reconstruction recovered the overall coastal mass, but softened the glass ba
 - The hills behind the footer coast: elevation from the [USGS 3D Elevation Program (3DEP)](https://www.usgs.gov/3d-elevation-program), U.S. Geological Survey, public domain; house positions on their slopes from map data © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright) (ODbL). The sky over them is physically based, after Sébastien Hillaire's "A Scalable and Production Ready Sky and Atmosphere Rendering Technique" (EGSR 2020).
 - Shape experiment: [Tencent Hunyuan3D-2](https://github.com/Tencent-Hunyuan/Hunyuan3D-2), with its model license retained in the process notes.
 - Modeling and rendering: [Blender](https://www.blender.org/) and [Three.js](https://threejs.org/).
+- Jim Hollan cameo: [his UC San Diego portrait](https://cse.ucsd.edu/people/faculty-profiles/james-d-hollan) guided the small face details. The figure is original procedural geometry; the portrait is not shipped with the site.
 
 <details class="resource-folder project-story-disclosure">
   <summary>Open the model folder</summary>

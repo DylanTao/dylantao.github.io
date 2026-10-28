@@ -1,0 +1,127 @@
+{
+  "cameraOnlyDiagnostic": true,
+  "sourceBinding": {
+    "assets/js/footer-coast/scene.mjs": "bcc335c80671321a948ea8ab4f5b9965599159ed606af7f5a5448597928f20b4",
+    "assets/js/footer-coast/assets.mjs": "b681c6357c2f6bf221789cd57bca0b586e255fa66ccad5302f3ccd5e1173b784",
+    "assets/js/footer-coast/wave-motion.mjs": "9e2d7f7d3e9ba2d5d0a676d530f89bcb23841001b0ccf0a038b812a3fdc03370",
+    "assets/js/footer-coast/people.mjs": "ea242065c3592ef59a3dd9d402a9c00ea9b8951dc1df68e2f09108dda9a0cf19",
+    "assets/js/footer-coast/water.mjs": "2e683c63d1d1c123a4587c46a3ff97788175acd951f085b90977373c5a9f43cb",
+    "assets/js/footer-coast/sky.mjs": "4586c768c1275b1913384cc04a3d9ef660c7e347f3b4b319abf2b97500e2c1f4",
+    "assets/js/footer-coast/marine-layer.mjs": "a2f9dcf02407873c35bc7866d8b3d7279ad68cefdd53e1dc63f442aaae8c0a93",
+    "assets/js/footer-coast/sky-look.mjs": "97e4aa23c2f2c6837604e7c76f4cbd66a671610977f01512c61ee83430d7eab2",
+    "assets/js/footer-coast/people-pose.mjs": "6fe5ea31b16b7a2219bdd98424527a04277dcae1c1d479bf8a31393fd34eae66",
+    "assets/js/footer-coast/water-optics.mjs": "0009cdbe0e20a011ed2d0afb77de09f2bbe00facd49cf5d96e04fb275f317936",
+    "assets/js/footer-coast/bed-relief.mjs": "237a77c5c86a9330113433b1a71f051ac8cdae940f74167da2df717f859a9039",
+    "assets/js/footer-coast/atmosphere.mjs": "cef9dc7fa6a4874b6ab0e74747703234b7cf142c1f51c0e4e257df065df80404",
+    "assets/js/footer-coast/skyline.mjs": "885c249d07bf654cf1afcdc31108b0b6c158a075c3930a80accd869bd10e94f8",
+    "assets/js/footer-coast/skyline-data.mjs": "75a6efe0ba07be28bea101873cb83bd6b24edcb4cc32a388bb5d2d9ad03ae04d"
+  },
+  "evidence": {
+    "miniature": false,
+    "selectedPlace": null,
+    "frames": 5,
+    "reveal": 1,
+    "targetReveal": 1,
+    "office": true,
+    "theme": "noon",
+    "running": false,
+    "buildings": 13,
+    "landmarks": [
+      "SalkCoast",
+      "GeiselCoast",
+      "Tennis",
+      "CliffVilla",
+      "CasitaApricot",
+      "BeachVolleyball",
+      "CasitaCream",
+      "CasitaRose",
+      "DIB",
+      "CasitaEast",
+      "Lifeguard",
+      "BrocktonVilla",
+      "LaValencia"
+    ],
+    "orbit": [0, 0],
+    "renderedOrbit": [0, 0],
+    "motion": {},
+    "elapsed": 0,
+    "people": {
+      "live": false,
+      "period": "noon",
+      "pose": 0,
+      "actors": 17,
+      "visible": [
+        "tennis",
+        "volleyball",
+        "shore-walk",
+        "bluff-walk",
+        "surf-wait",
+        "surf-ride",
+        "surf-paddle",
+        "swimmer",
+        "sunbather",
+        "bench-0",
+        "bench-1",
+        "bench-2",
+        "bench-3",
+        "dib-laptop"
+      ],
+      "drawn": ["shore-walk", "surf-wait", "surf-ride", "surf-paddle", "sunbather", "dib-laptop"],
+      "people": 16,
+      "instances": {
+        "rod": 228,
+        "torso": 22,
+        "ball": 102,
+        "box": 4
+      }
+    },
+    "water": {
+      "sea": "footer",
+      "proof": [1, 1, 1, 1],
+      "bottom": {
+        "vertices": 49665,
+        "triangles": 98304,
+        "depthRange": [0.02, 5.1435],
+        "renders": 1,
+        "width": 1000,
+        "height": 650,
+        "depthTexture": true,
+        "cpuBuildMs": 65.6,
+        "lastSubmissionMs": 37
+      },
+      "reflection": {
+        "renders": 1,
+        "pending": false,
+        "width": 620,
+        "height": 492
+      },
+      "caustics": 1,
+      "wakes": 2,
+      "glints": []
+    },
+    "sky": {
+      "visible": true,
+      "weight": 0,
+      "exposure": 11.85,
+      "lights": 0,
+      "buildMs": 9.6,
+      "sun": null
+    },
+    "marineLayer": {
+      "visible": false,
+      "density": 0,
+      "shafts": 0
+    },
+    "sun": null,
+    "resources": {
+      "geometries": 144,
+      "textures": 17
+    },
+    "framing": {
+      "width": 40.5,
+      "height": 3.51,
+      "center": [4, 0.3, 5.7]
+    }
+  },
+  "errors": []
+}

@@ -487,6 +487,73 @@ test("coastal people: a composed still for automation, gentle loops with ?cinema
   expect(errors).toEqual([]);
 });
 
+test("coastal surfer: a full carve follows its nose, keeps deck contacts and holds its pose when motion stops", async ({ page }, testInfo) => {
+  test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
+  test.setTimeout(120000);
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "noon");
+  await page.goto(publicRouteUrl("/?cinematic=live"), { waitUntil: "domcontentloaded" });
+  const host = page.locator("footer [data-footer-coast]");
+  await host.scrollIntoViewIfNeeded();
+  await expect(host).toHaveAttribute("data-state", "ready", { timeout: 60000 });
+  const samples = [];
+  for (let i = 0; i <= 8; i++) {
+    if (i) await page.waitForTimeout((Math.PI * 10 * 1000) / 8);
+    const state = await evidence(host);
+    const rider = state.surfers.find((s) => s.name === "Surfer1");
+    const [qx, qy, qz, qw] = rider.quaternion;
+    const nose = [1 - 2 * (qy * qy + qz * qz), 2 * (qx * qz - qy * qw)];
+    expect((nose[0] * rider.ride.heading[0] + nose[1] * rider.ride.heading[1]) / Math.hypot(...nose)).toBeGreaterThan(0.9999);
+    const contacts = state.people.riders[0].feet;
+    for (const foot of contacts) expect(Math.abs(foot.a[1] - foot.radius - 0.043)).toBeLessThan(1e-8);
+    if (samples.length) {
+      const old = samples.at(-1).contacts;
+      contacts.forEach((foot, j) => foot.a.forEach((v, k) => expect(Math.abs(v - old[j].a[k])).toBeLessThan(1e-8)));
+    }
+    expect(state.water.ride.trailPoints).toBe(9);
+    expect(Math.abs(state.water.ride.power - rider.ride.power)).toBeLessThan(1e-6);
+    samples.push({ elapsed: state.elapsed, rider, contacts, frames: state.frames });
+    if ([0, 2, 4, 6, 8].includes(i)) await host.locator("canvas").screenshot({ path: testInfo.outputPath(`surfer-cycle-${i}.png`) });
+  }
+  expect(samples.at(-1).elapsed - samples[0].elapsed).toBeGreaterThanOrEqual(Math.PI * 10);
+  const headings = samples.map((s) => s.rider.ride.heading);
+  expect(Math.min(...headings.map((h) => h[0]))).toBeLessThan(-0.8);
+  expect(Math.max(...headings.map((h) => h[0]))).toBeGreaterThan(0.8);
+  expect(Math.min(...headings.map((h) => h[1]))).toBeLessThan(-0.6);
+  expect(Math.max(...headings.map((h) => h[1]))).toBeGreaterThan(0.6);
+  expect(screenshotMetrics(await host.locator("canvas").screenshot()).uniqueColors).toBeGreaterThan(300);
+  // The actual reduced-motion transition must hold the current board AND body, not
+  // reset the body to its poster pose while leaving the board halfway through a turn.
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(host).toHaveAttribute("data-running", "false");
+  const held = await evidence(host);
+  expect(held.people.pose).toBeGreaterThan(1);
+  await page.waitForTimeout(450);
+  const still = await evidence(host);
+  expect(still.surfers).toEqual(held.surfers);
+  expect(still.people.riders).toEqual(held.people.riders);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect(host).toHaveAttribute("data-running", "true");
+  await expect.poll(async () => (await evidence(host)).elapsed).toBeGreaterThan(held.elapsed);
+  await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
+  await expect(host).toHaveAttribute("data-running", "false");
+  const offscreen = await evidence(host);
+  await page.waitForTimeout(350);
+  expect((await evidence(host)).elapsed).toBe(offscreen.elapsed);
+  await host.scrollIntoViewIfNeeded();
+  await expect(host).toHaveAttribute("data-running", "true");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await host.scrollIntoViewIfNeeded();
+  await expect(host).toHaveAttribute("data-state", "ready", { timeout: 60000 });
+  const initialStill = await evidence(host);
+  expect(initialStill.elapsed).toBe(0);
+  expect(initialStill.people.pose).toBe(0);
+  await host.locator("canvas").screenshot({ path: testInfo.outputPath("surfer-reduced.png") });
+  await writeFile(testInfo.outputPath("surfer-cycle.json"), JSON.stringify({ samples, held, initialStill, errors }, null, 2));
+  expect(errors).toEqual([]);
+});
+
 test("coastal people: the evening fire circle replaces the daytime crowd", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440");
   await page.emulateMedia({ reducedMotion: "reduce" });

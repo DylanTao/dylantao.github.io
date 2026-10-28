@@ -1,10 +1,11 @@
 import * as THREE from "../three.module.min.js";
-import { coastManifest, acquireCoast } from "./assets.mjs?v=coastal-life-20261018";
+import { coastManifest, acquireCoast } from "./assets.mjs?v=hollan-20261028";
 import { createFinish } from "../home-scene/realism.mjs";
 import { createCameraMotion } from "../home-scene/camera-motion.mjs";
 import { sampleCoastWave } from "./wave-motion.mjs";
-import { createPeople } from "./people.mjs?v=coast-water-20261018";
-import { createCoastWater } from "./water.mjs?v=coast-water-20261026";
+import { sampleSurferRide, sampleRideShoulder, surferBoardFrame, surferRideTrail } from "./surfer-motion.mjs?v=hollan-20261028";
+import { createPeople } from "./people.mjs?v=hollan-20261028";
+import { createCoastWater } from "./water.mjs?v=hollan-20261028";
 import { createSky, loadRelief, sceneColor } from "./sky.mjs?v=coast-dusk-20261026";
 import { createMarineLayer } from "./marine-layer.mjs?v=coast-sky-20261019";
 import { DAY_KEY, anchorLook, creditHalo, keyDirection, lookAt, mixHex } from "./sky-look.mjs?v=coast-dusk-20261026";
@@ -282,10 +283,50 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     : null;
   water.exclude(people?.objects || []);
   const peopleLive = () => !reduced.matches && !stopped && !automated;
+  const boardMatrix = new THREE.Matrix4();
+  const boardAxes = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
+  let rideState = null;
+  function poseBoards() {
+    const t = automated ? 0 : elapsed;
+    rideState = null;
+    surfers.forEach(({ object, position, rotation }, i) => {
+      const stance = stances[object.name];
+      let x = position.x,
+        z = position.z,
+        yaw = rotation.y;
+      if (stance === "ride") {
+        const state = sampleSurferRide(t, [position.x, position.z], rotation.y);
+        const swell = sampleCoastWave(state.x, state.z, elapsed);
+        const shoulder = sampleRideShoulder(state.x, state.z, state);
+        const wave = { height: swell.height + shoulder.height, dx: swell.dx + shoulder.dx, dz: swell.dz + shoulder.dz };
+        const axes = surferBoardFrame(state.heading, wave, state.bank);
+        boardMatrix.makeBasis(...boardAxes.map((axis, n) => axis.fromArray([axes.nose, axes.up, axes.side][n])));
+        object.quaternion.setFromRotationMatrix(boardMatrix);
+        object.position.set(state.x, position.y + wave.height, state.z);
+        object.userData.coastRide = state;
+        rideState = { ...state, trail: surferRideTrail(t, [position.x, position.z], rotation.y), name: object.name };
+      } else {
+        if (stance === "wait") x += Math.sin(t * 0.11 + i) * 0.05;
+        else if (stance === "paddle") {
+          const a = t * 0.09;
+          x += Math.sin(a) * 0.9;
+          z += (1 - Math.cos(a)) * 0.25;
+          yaw += Math.atan2(-Math.sin(a) * 0.25, Math.cos(a) * 0.9);
+        }
+        const wave = sampleCoastWave(x, z, elapsed);
+        object.position.set(x, position.y + wave.height, z);
+        object.rotation.set(rotation.x + Math.atan(wave.dz), yaw, rotation.z - Math.atan(wave.dx));
+      }
+    });
+  }
   // Wake sources for the sea: the riding and paddling boards (nose along their local +x) and the swimmer.
   function movers() {
     const list = [];
     for (const { object } of surfers) {
+      if (stances[object.name] === "ride" && object.visible && rideState) {
+        list.push({ ...rideState, kind: "ride" });
+        continue;
+      }
       const power = { ride: 0.95, paddle: 0.6 }[stances[object.name]] || 0;
       if (!object.visible || !power) continue;
       const yaw = object.rotation.y;
@@ -565,11 +606,12 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     }
     camera.lookAt(target);
     placeSky();
+    poseBoards();
     // Every frame poses the people against the current boards, courts and theme; a still
     // frame holds the composed pose the posters show. People outside the camera's
     // horizontal span are skipped, not posed.
     const halfWidth = (camera.right - camera.left) / 2 + 2;
-    people?.update(peopleLive() ? elapsed : 0, { viewX: [camera.position.x - halfWidth, camera.position.x + halfWidth] });
+    people?.update(automated ? 0 : elapsed, { viewX: [camera.position.x - halfWidth, camera.position.x + halfWidth] });
     // The sea follows the camera and redraws its mirror only when the coast or the view changed.
     water.setMovers(movers());
     water.setLights(seaLights(), camera);
@@ -612,26 +654,6 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     sky?.tick(elapsed, peopleLive());
     crowns.forEach((o, i) => {
       o.rotation.z = Math.sin(elapsed * 0.65 + i) * 0.008;
-    });
-    surfers.forEach(({ object, position, rotation }, i) => {
-      // A rider glides along the swell; a surfer waiting nose-out barely drifts; a paddler
-      // loops slowly seaward and back, turning with the board.
-      const stance = stances[object.name];
-      let x = position.x,
-        z = position.z,
-        yaw = rotation.y;
-      if (stance === "wait") x += Math.sin(elapsed * 0.11 + i) * 0.05;
-      else if (stance === "paddle") {
-        const a = peopleLive() ? elapsed * 0.09 : 0;
-        x += Math.sin(a) * 0.9;
-        z += (1 - Math.cos(a)) * 0.25;
-        yaw += Math.atan2(-Math.sin(a) * 0.25, Math.cos(a) * 0.9);
-      } else x += Math.sin(elapsed * 0.17 + i) * 0.48;
-      object.position.x = x;
-      object.position.z = z;
-      const wave = sampleCoastWave(x, z, elapsed);
-      object.position.y = position.y + wave.height;
-      object.rotation.set(rotation.x + Math.atan(wave.dz), yaw, rotation.z - Math.atan(wave.dx));
     });
     draw();
   }
@@ -846,6 +868,21 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
         projected.expandByPoint(screenPoint.set((point.x + 1) / 2, (1 - point.y) / 2));
       }
     });
+    if (name === "Surfer1") {
+      const rider = people?.evidence().riders[0];
+      if (rider) {
+        for (const x of [-1, 1])
+          for (const y of [-1, 1])
+            for (const z of [-1, 1]) {
+              point
+                .fromArray(rider.head)
+                .add(new THREE.Vector3(x, y, z).multiplyScalar(rider.headRadius))
+                .applyMatrix4(object.matrixWorld)
+                .project(camera);
+              projected.expandByPoint(screenPoint.set((point.x + 1) / 2, (1 - point.y) / 2));
+            }
+      }
+    }
     return { left: projected.min.x, top: projected.min.y, right: projected.max.x, bottom: projected.max.y };
   }
   host.getCoastEvidence = ({ projectLandmarks = false } = {}) => ({
@@ -863,6 +900,13 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     renderedOrbit: [renderedOrbitX, renderedOrbitY],
     motion: motion.evidence(),
     elapsed,
+    surfers: surfers.map(({ object }) => ({
+      name: object.name,
+      visible: object.visible,
+      position: object.position.toArray(),
+      quaternion: object.quaternion.toArray(),
+      ride: stances[object.name] === "ride" ? rideState : null,
+    })),
     people: people ? { live: peopleLive(), ...people.evidence() } : null,
     water: water.evidence(),
     sky: sky?.evidence() ?? null,
@@ -871,7 +915,9 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     resources: renderer.info.memory,
     framing: { width: cameraWidth, height: camera.top - camera.bottom, center: target.toArray() },
     landmarkFrames: projectLandmarks
-      ? Object.fromEntries(["GeiselCoast", "SalkCoast", "BrocktonVilla", "LaValencia", "ChildrensPool"].map((name) => [name, landmarkFrame(name)]))
+      ? Object.fromEntries(
+          ["GeiselCoast", "SalkCoast", "BrocktonVilla", "LaValencia", "ChildrensPool", "Surfer1"].map((name) => [name, landmarkFrame(name)])
+        )
       : undefined,
   });
   if (navigator.webdriver) {

@@ -8,7 +8,7 @@
     "target": [0, 4.5, 0],
     "width": 40.5
   },
-  "triangleCount": 148480,
+  "triangleCount": 148328,
   "source": "bin/build_la_jolla.py",
   "geography": "Authored collage, not a map",
   "landmarks": ["DIB", "CliffVilla", "Village", "Tennis", "ScrippsPier", "Geisel", "Salk", "BrocktonVilla", "LaValencia", "ChildrensPool"],

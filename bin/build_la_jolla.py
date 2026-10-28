@@ -824,7 +824,7 @@ for n, spec in enumerate(life.SURFERS):
     )
     # Only a moving board leaves a wake: none for the surfer waiting nose-out.
     wake = spec["wake"]
-    if wake:
+    if wake and n != 1:
         for k in range(2):
             line(
                 "Board wake",
@@ -836,6 +836,11 @@ for n, spec in enumerate(life.SURFERS):
                 foam,
                 surfer,
             )
+
+# The riding board's localized shoulder and fading track belong to the runtime sea;
+# no rigid foam mesh follows it. Keep this treatment reproducible in both saved sources.
+from coastal_surfer import refine_rider_board
+refine_rider_board()
 
 # Parasols and towels establish beach scale; poles start in the sand.
 for x, y in life.PARASOLS:

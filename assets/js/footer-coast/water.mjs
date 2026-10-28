@@ -19,6 +19,7 @@ import {
   shoreline,
 } from "./water-optics.mjs?v=coast-water-20261026";
 import { buildBottomRelief } from "./bed-relief.mjs?v=coast-water-20261026";
+import { RIDE, SHOULDER } from "./surfer-motion.mjs?v=hollan-20261028";
 
 const f = (value) => {
   const text = Number(value).toFixed(9);
@@ -120,7 +121,20 @@ function createBottom(sea) {
 // The sea's shader. Positions are world space, so it serves the footer's bare plane and the
 // miniature's placed slab alike.
 function seaShader(material, uniforms) {
+  const rideDeclarations = `
+    uniform vec4 coastRide;
+    uniform float coastRidePower;
+    // Same separate, localized shoulder and analytic derivatives as surfer-motion.mjs.
+    vec3 coastRideShoulder(vec2 p) {
+      vec2 r = p - coastRide.xy, h = coastRide.zw;
+      float a = dot(r, h) + ${f(SHOULDER.behind)}, b = -r.x * h.y + r.y * h.x;
+      float height = ${f(SHOULDER.height)} * coastRidePower * exp(-a*a/${f(SHOULDER.alongWidth)} - b*b/${f(SHOULDER.acrossWidth)});
+      float da = -2. * a * height / ${f(SHOULDER.alongWidth)}, db = -2. * b * height / ${f(SHOULDER.acrossWidth)};
+      return vec3(height, da*h.x-db*h.y, da*h.y+db*h.x);
+    }
+  `;
   const declarations = `
+    ${rideDeclarations}
     uniform float coastTime;
     uniform vec3 coastBed;
     uniform float coastCaustic;
@@ -130,7 +144,10 @@ function seaShader(material, uniforms) {
     uniform vec3 coastView;
     uniform vec4 coastMovers[4];
     uniform float coastMoverPower[4];
+    uniform float coastMoverRide[4];
     uniform int coastMoverCount;
+    uniform vec4 coastRideTrail[${RIDE.trailPoints}];
+    uniform int coastRideTrailCount;
     uniform vec4 coastGlints[4];
     uniform int coastGlintCount;
     uniform vec3 coastGlintColor;
@@ -231,7 +248,7 @@ function seaShader(material, uniforms) {
       float foam = 0.;
       for (int i = 0; i < coastMoverCount; i++) {
         float power = coastMoverPower[i];
-        if (power < .01) continue;
+        if (power < .01 || coastMoverRide[i] > .5) continue;
         vec2 heading = coastMovers[i].zw, r = p - coastMovers[i].xy;
         float along = -dot(r, heading), across = abs(r.x * heading.y - r.y * heading.x);
         if (along < -.3 || along > 2.8 || across > 1.3) continue;
@@ -243,23 +260,43 @@ function seaShader(material, uniforms) {
         v += exp(-(along * along + across * across) / .006) * .5;
         foam = max(foam, v * smoothstep(-.25, .02, along) * power);
       }
+      if (coastRidePower > .01 && distance(p, coastRide.xy) < 3.) {
+        // A broken lip over the rolling shoulder, with foam left on the actual curved
+        // tail track. These are wet, fading patches, never two rigid arms on the board.
+        vec2 r = p - coastRide.xy, h = coastRide.zw;
+        float a = dot(r,h) + ${f(SHOULDER.behind)}, b = -r.x*h.y+r.y*h.x;
+        float grain = coastNoise(p * 19. + vec2(coastTime * .13, -coastTime * .09));
+        float lip = exp(-pow((a + b*b*.12) / .10, 2.) - b*b/.42);
+        foam = max(foam, lip * smoothstep(.28,.65,grain) * coastRidePower * .62);
+        for (int i = 1; i < coastRideTrailCount; i++) {
+          vec4 prev = coastRideTrail[i-1], next = coastRideTrail[i];
+          vec2 segment = next.xy-prev.xy;
+          float u = clamp(dot(p-prev.xy,segment)/max(dot(segment,segment),.00001),0.,1.);
+          float age = mix(prev.z,next.z,u), power = mix(prev.w,next.w,u);
+          float width = .045 + age*.022;
+          float d = distance(p,mix(prev.xy,next.xy,u));
+          float churn = exp(-d*d/(width*width)) * exp(-age/.95) * smoothstep(.19,.67,grain);
+          foam = max(foam,churn*power*.72);
+        }
+      }
       return foam;
     }
   `;
   material.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, uniforms);
-    shader.vertexShader = `uniform float coastTime; varying vec3 coastPosition;
+    shader.vertexShader = `${rideDeclarations}\nuniform float coastTime; varying vec3 coastPosition;
       float wave(vec2 p) { return sin(p.y*3.8-p.x*.28-coastTime*.8)*.023 + sin(p.x*2.7+p.y*1.2-coastTime*.6)*.013; }
       ${shader.vertexShader}`
       .replace(
         "#include <beginnormal_vertex>",
         `float a=position.z*3.8-position.x*.28-coastTime*.8;
          float b=position.x*2.7+position.z*1.2-coastTime*.6;
-         vec3 objectNormal=normalize(vec3(.00644*cos(a)-.0351*cos(b),1.,-.0874*cos(a)-.0156*cos(b)));`
+         vec3 ride=coastRideShoulder((modelMatrix*vec4(position,1.)).xz);
+         vec3 objectNormal=normalize(vec3(.00644*cos(a)-.0351*cos(b)-ride.y,1.,-.0874*cos(a)-.0156*cos(b)-ride.z));`
       )
       .replace(
         "#include <begin_vertex>",
-        `vec3 transformed=position; transformed.y+=wave(position.xz); coastPosition=(modelMatrix*vec4(transformed,1.)).xyz;`
+        `vec3 transformed=position; transformed.y+=wave(position.xz)+coastRideShoulder((modelMatrix*vec4(position,1.)).xz).x; coastPosition=(modelMatrix*vec4(transformed,1.)).xyz;`
       );
     shader.fragmentShader = `${declarations}\n${shader.fragmentShader}`
       .replace(
@@ -271,7 +308,7 @@ function seaShader(material, uniforms) {
           coastDepth = d;
           // Surface slope: the vertex waves (wave-motion.mjs) and the wind ripples.
           float wa = p.y * 3.8 - p.x * .28 - coastTime * .8, wb = p.x * 2.7 + p.y * 1.2 - coastTime * .6;
-          coastSlope = vec2(-.00644 * cos(wa) + .0351 * cos(wb), .0874 * cos(wa) + .0156 * cos(wb)) + coastRipples(p, coastTime);
+          coastSlope = vec2(-.00644 * cos(wa) + .0351 * cos(wb), .0874 * cos(wa) + .0156 * cos(wb)) + coastRipples(p, coastTime) + coastRideShoulder(p).yz;
           coastNormal = normalize(vec3(-coastSlope.x, 1., -coastSlope.y));
           // Clear shallows: follow the refracted view ray down to the seabed it meets.
           vec3 ray = refract(-coastView, coastNormal, ${f(1 / WATER_IOR)});
@@ -484,6 +521,8 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
   target.texture.name = "CoastMirror";
   const movers = new Float32Array(16),
     moverPower = new Float32Array(4),
+    moverRide = new Float32Array(4),
+    rideTrail = new Float32Array(RIDE.trailPoints * 4),
     glints = new Float32Array(16);
   const uniforms = {
     coastTime: clock,
@@ -496,6 +535,11 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
     coastView: { value: new THREE.Vector3(0, 0.39, 0.92) },
     coastMovers: { value: movers },
     coastMoverPower: { value: moverPower },
+    coastMoverRide: { value: moverRide },
+    coastRide: { value: new THREE.Vector4() },
+    coastRidePower: { value: 0 },
+    coastRideTrail: { value: rideTrail },
+    coastRideTrailCount: { value: 0 },
     coastGlints: { value: glints },
     coastGlintCount: { value: 0 },
     coastMoverCount: { value: 0 },
@@ -672,9 +716,20 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
     // Up to four wakes: [{ x, z, heading: [x, z], power }].
     setMovers(list) {
       moverPower.fill(0);
+      moverRide.fill(0);
+      uniforms.coastRidePower.value = 0;
+      uniforms.coastRideTrailCount.value = 0;
       list.slice(0, 4).forEach((mover, i) => {
         movers.set([mover.x, mover.z, mover.heading[0], mover.heading[1]], i * 4);
         moverPower[i] = mover.power;
+        if (mover.kind === "ride") {
+          moverRide[i] = 1;
+          uniforms.coastRide.value.set(mover.x, mover.z, ...mover.heading);
+          uniforms.coastRidePower.value = mover.power;
+          const trail = mover.trail.slice(0, RIDE.trailPoints);
+          trail.forEach((point, j) => rideTrail.set([point.x, point.z, point.age, point.power], j * 4));
+          uniforms.coastRideTrailCount.value = trail.length;
+        }
       });
       uniforms.coastMoverCount.value = Math.min(list.length, 4);
     },
@@ -722,6 +777,7 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
         reflection: { renders: schedule.renders, pending: schedule.dirty, ...rendered },
         caustics: uniforms.coastCaustic.value,
         wakes: moverPower.filter((power) => power > 0.01).length,
+        ride: { power: uniforms.coastRidePower.value, trailPoints: uniforms.coastRideTrailCount.value },
         glints: [0, 1, 2, 3].filter((i) => glints[i * 4 + 2] > 0.001).map((i) => Array.from(glints.slice(i * 4, i * 4 + 4), (v) => +v.toFixed(3))),
       };
     },

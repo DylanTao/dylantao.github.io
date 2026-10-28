@@ -3,7 +3,7 @@
 // matrices, adds soft contact shadows (figures move, but the coast's shadow map is
 // rendered on demand), lets the evening fire flicker, and warms its sitters with light.
 import * as THREE from "../three.module.min.js";
-import { createCast, poseActor, actorParts, actorExtent, isVisible } from "./people-pose.mjs?v=coastal-life-20261018";
+import { createCast, poseActor, actorParts, actorExtent, isVisible } from "./people-pose.mjs?v=hollan-20261028";
 
 const UP = new THREE.Vector3(0, 1, 0);
 const ZERO = new THREE.Matrix4().makeScale(0, 0, 0);
@@ -182,6 +182,7 @@ export function createPeople(scene, model, figures, { hostVisible = () => true }
       }
       const repose = force || changed || !actor.posed || (moving && (!SLOW.has(actor.figure.kind) || (tick + actor.slot) % 3 === 0));
       if (repose) {
+        actor.ride = actor.parent?.userData.coastRide;
         poseActor(actor, t);
         actor.posed = true;
         actor.cleared = false;
@@ -256,6 +257,15 @@ export function createPeople(scene, model, figures, { hostVisible = () => true }
         drawn: cast.filter((a) => visibility.get(a)).map((a) => a.figure.id),
         people: present.reduce((n, a) => n + a.people.length, 0),
         instances: Object.fromEntries(Object.entries(meshes).map(([k, mesh]) => [k, mesh.count])),
+        riders: cast
+          .filter((a) => a.figure.stance === "ride" && a.posed)
+          .map((a) => ({
+            id: a.figure.id,
+            head: [...a.people[0].parts.head.a],
+            headRadius: Math.max(a.people[0].parts.head.r, a.people[0].parts.head.r2),
+            pelvis: [...a.people[0].spec.pelvis],
+            feet: [a.people[0].parts.footL, a.people[0].parts.footR].map((p) => ({ a: [...p.a], b: [...p.b], radius: p.r })),
+          })),
       };
     },
     dispose() {
