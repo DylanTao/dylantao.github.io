@@ -320,13 +320,59 @@ test("visitor circulation: the study joins outdoor living and the living facade 
     canvas = scene.locator("canvas");
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: software ? 150000 : 90000 });
   await canvas.scrollIntoViewIfNeeded();
-  await pauseSceneClock(page);
-  await useSoftwareSceneCadence(page, { continuousHz: 10, force: true });
+  const startup = [];
+  async function recordStartup(stage) {
+    startup.push(
+      await scene.evaluate((element, stage) => {
+        const evidence = element.getSceneEvidence();
+        return {
+          stage,
+          frames: evidence.frames,
+          framePending: evidence.framePending,
+          fullscreen: evidence.fullscreen,
+          resolution: evidence.resolution,
+          hidden: document.hidden,
+          visibilityState: document.visibilityState,
+          bounds: element.getBoundingClientRect().toJSON(),
+          canvas: [element.querySelector("canvas").width, element.querySelector("canvas").height],
+        };
+      }, stage)
+    );
+    fs.writeFileSync(testInfo.outputPath("visitor-startup.json"), JSON.stringify(startup, null, 2));
+  }
+  await recordStartup("ready");
   if (software) {
     testInfo.annotations.push({ type: "functional viewport", description: "480x320 after complete full-size loading; actual assets and capsule" });
     await page.setViewportSize({ width: 480, height: 320 });
   }
-  await inputFrame(page, scene, canvas, () => page.locator("[data-world-fullscreen]").click());
+  await canvas.scrollIntoViewIfNeeded();
+  const beforeFullscreen = (await stateOf(scene)).frames;
+  await page.locator("[data-world-fullscreen]").click();
+  // Fullscreen and its IntersectionObserver/layout notifications belong to the
+  // browser. Require an actual fullscreen frame before freezing the page clock
+  // for deterministic walking, rather than mixing the two startup schedules.
+  await expect.poll(async () => (await stateOf(scene)).fullscreen, { timeout: 60000 }).toBeTruthy();
+  await expect
+    .poll(async () => (await stateOf(scene)).resolution.css, { timeout: 60000 })
+    .toEqual(software ? [480, 320] : [requestedViewport.width, requestedViewport.height]);
+  if (software)
+    await expect
+      .poll(
+        async () => {
+          const state = await stateOf(scene);
+          return [state.canvasWidth, state.canvasHeight];
+        },
+        { timeout: 60000 }
+      )
+      .toEqual([480, 320]);
+  await expect.poll(async () => (await stateOf(scene)).frames, { timeout: 60000 }).toBeGreaterThan(beforeFullscreen);
+  const fullscreenPixels = await canvas.screenshot();
+  expect(visibleSceneFraction(fullscreenPixels), "the fullscreen startup frame contains the actual home").toBeGreaterThan(0.1);
+  await testInfo.attach("visitor-fullscreen-startup", { body: fullscreenPixels, contentType: "image/png" });
+  await recordStartup("fullscreen-rendered");
+  await pauseSceneClock(page);
+  await useSoftwareSceneCadence(page, { continuousHz: 10, force: true });
+  await recordStartup("walking-clock-paused");
   await inputFrame(page, scene, canvas, () => canvas.press("v"));
   await expect
     .poll(

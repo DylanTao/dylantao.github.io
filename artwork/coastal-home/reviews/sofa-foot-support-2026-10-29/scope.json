@@ -1,0 +1,18 @@
+{
+  "sourceSha256": "16713ed5e6efcb5f6b2cc9e70da678c4dc729255929f4248ca5b705a2e87b1a0",
+  "candidateSha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad",
+  "objects": 470,
+  "meshObjects": 459,
+  "changes": [
+    {
+      "mesh": "lounge__ochre knit textile",
+      "movedVertices": 280,
+      "maxDisplacementM": 0.27764194787983276,
+      "normalChangedCorners": 926
+    }
+  ],
+  "colorChanges": ["lounge__ochre knit textile", "lounge__oatmeal wool textile", "lounge__linen"],
+  "approvedBakedColorOwners": ["lounge__ochre knit textile", "lounge__oatmeal wool textile", "lounge__linen"],
+  "failures": [],
+  "scope": "All object matrices, native mesh positions/topology/material slots/face assignments and actual corner normals before/save/reload. Only one complete280vertex pouf may move. Colors remain exact except explicitly approved bake owners; the untouched second pouf stays exact even within its shared material owner."
+}

@@ -1,0 +1,199 @@
+{
+  "bakedColorQuantization": "32 grayscale steps, shared per vertex",
+  "dracoColorBits": 6,
+  "sourceSha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad",
+  "activeStaticGeologyAO": false,
+  "constantPlanarCompaction": [],
+  "meshes": [
+    {
+      "mesh": "lounge_decor woven jute",
+      "facesBefore": 1872,
+      "facesExported": 1872
+    },
+    {
+      "mesh": "lounge_decor terracotta",
+      "facesBefore": 432,
+      "facesExported": 432
+    },
+    {
+      "mesh": "lounge_decor pale oak",
+      "facesBefore": 162,
+      "facesExported": 162
+    },
+    {
+      "mesh": "lounge_decor celadon glaze",
+      "facesBefore": 253,
+      "facesExported": 253
+    },
+    {
+      "mesh": "lounge_decor tenmoku glaze",
+      "facesBefore": 197,
+      "facesExported": 197
+    },
+    {
+      "mesh": "lounge_decor oatmeal glaze",
+      "facesBefore": 197,
+      "facesExported": 197
+    },
+    {
+      "mesh": "lounge_retained_plant_table_stems",
+      "facesBefore": 43,
+      "facesExported": 43
+    },
+    {
+      "mesh": "lounge_retained_plant_table_pot",
+      "facesBefore": 102,
+      "facesExported": 102
+    },
+    {
+      "mesh": "lounge_retained_plant_table_foliage",
+      "facesBefore": 7,
+      "facesExported": 7
+    },
+    {
+      "mesh": "lounge__warm cut stone",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "lounge__pale oak",
+      "facesBefore": 1484,
+      "facesExported": 1484
+    },
+    {
+      "mesh": "lounge__chalk limestone",
+      "facesBefore": 784,
+      "facesExported": 784
+    },
+    {
+      "mesh": "lounge__honey ash",
+      "facesBefore": 3848,
+      "facesExported": 3848
+    },
+    {
+      "mesh": "lounge__cloud boucle textile",
+      "facesBefore": 0,
+      "facesExported": 0
+    },
+    {
+      "mesh": "lounge__indigo textile",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "lounge__ochre textile",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "lounge__terracotta",
+      "facesBefore": 32,
+      "facesExported": 32
+    },
+    {
+      "mesh": "lounge__ochre knit textile",
+      "facesBefore": 484,
+      "facesExported": 484
+    },
+    {
+      "mesh": "lounge__oatmeal wool textile",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "lounge__linen",
+      "facesBefore": 24,
+      "facesExported": 24
+    },
+    {
+      "mesh": "lounge__washi lantern paper",
+      "facesBefore": 292,
+      "facesExported": 292
+    },
+    {
+      "mesh": "lounge__matte black device",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "lounge__tv black glass",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "lounge__charcoal",
+      "facesBefore": 42,
+      "facesExported": 42
+    },
+    {
+      "mesh": "lounge__polished nickel",
+      "facesBefore": 10,
+      "facesExported": 10
+    },
+    {
+      "mesh": "lounge__record sleeve card",
+      "facesBefore": 12,
+      "facesExported": 12
+    },
+    {
+      "mesh": "lounge__brushed brass",
+      "facesBefore": 326,
+      "facesExported": 326
+    },
+    {
+      "mesh": "lounge__woven jute",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "lounge__honed travertine",
+      "facesBefore": 130,
+      "facesExported": 130
+    },
+    {
+      "mesh": "lounge__blackened steel flue",
+      "facesBefore": 34,
+      "facesExported": 34
+    },
+    {
+      "mesh": "lounge__dark bronze",
+      "facesBefore": 110,
+      "facesExported": 110
+    },
+    {
+      "mesh": "lounge_placeholder_living-fireplace",
+      "facesBefore": 644,
+      "facesExported": 644
+    },
+    {
+      "mesh": "lounge_placeholder_living-eames-lounge",
+      "facesBefore": 902,
+      "facesExported": 902
+    },
+    {
+      "mesh": "lounge_refined_botanical__honed travertine",
+      "facesBefore": 490,
+      "facesExported": 490
+    },
+    {
+      "mesh": "lounge_refined_botanical__interior botanical mineral soil",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "lounge_refined_botanical__interior botanical leaf stem",
+      "facesBefore": 325,
+      "facesExported": 325
+    },
+    {
+      "mesh": "lounge_refined_botanical__interior Strelitzia broadleaf",
+      "facesBefore": 80,
+      "facesExported": 80
+    },
+    {
+      "mesh": "lounge_placeholder_living-sofa",
+      "facesBefore": 8676,
+      "facesExported": 8676
+    }
+  ]
+}

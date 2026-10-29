@@ -2,8 +2,8 @@
   "tool": "bin/audit_coastal_overlaps.py",
   "toolSha256": "925eaee2e04132dd7d1dbbd909d144b060af783352bf586452e7e6228350e5fe",
   "source": "artwork/coastal-home/coastal-home.blend",
-  "sourceSha256": "16713ed5e6efcb5f6b2cc9e70da678c4dc729255929f4248ca5b705a2e87b1a0",
-  "manifestSha256": "63364c38e77fae393d83e77f380005c7f84543fc59e496ae08f1dd9aad329b60",
+  "sourceSha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad",
+  "manifestSha256": "1b6432399e77efcfe9f2d3c6f79e5cb2b8cb5489806f14cea1b13a2cc1da1681",
   "exportsSha256": {
     "coast.glb": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
     "flora.glb": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2",
@@ -14,7 +14,7 @@
     "room-kitchen.glb": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e",
     "room-library-upper.glb": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85",
     "room-library.glb": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9",
-    "room-lounge.glb": "56be7ae08742b1d9c4d30b765466d54c0cb7e8345e13cbe59343ccec299ce7ce",
+    "room-lounge.glb": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390",
     "room-onsen.glb": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
     "room-sleep.glb": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
     "room-study.glb": "2a605f9445ec9523f935d9f71042e26027b57b3fd67310e0fe611e1a32467d92"
@@ -244,16 +244,16 @@
     "pairsTested": 4037,
     "crossingPairs": 897,
     "sites": 17621,
-    "offenders": 871,
+    "offenders": 872,
     "coplanarPairs": 362,
     "zFightingPairs": 32,
-    "coplanarTrianglePairsTested": 77527
+    "coplanarTrianglePairsTested": 77517
   },
   "ruleCounts": {
-    "unclassified": 871,
+    "unclassified": 872,
     "one-sided-embed": 2294,
     "support-rest": 175,
-    "shallow-seam": 9601,
+    "shallow-seam": 9600,
     "water-in-basin": 187,
     "structural-joint": 101,
     "planting-root": 1888,
@@ -268,9 +268,9 @@
     "zFightingVisibleAreaM2": 0.7307,
     "grazingSites": 25,
     "grazingSeamM": 3.257,
-    "deepSites": 846,
+    "deepSites": 847,
     "deepSitesOver5cm": 288,
-    "deepSeverity": 33489.3,
+    "deepSeverity": 33500.0,
     "maxDeepSeverity": 1327.6
   },
   "before": {
@@ -287,8 +287,8 @@
     }
   },
   "beforeProvenance": {
-    "file": "artwork\\coastal-home\\reviews\\walk-patio-2026-10-28\\native-overlap-before.json",
-    "sha256": "4b3c68a870a773f9d1bc3d591ea59bd958dbda2e53c134ee40e35565651d14a3",
+    "file": "artwork\\coastal-home\\reviews\\sofa-foot-support-2026-10-29\\before-overlap-audit.json",
+    "sha256": "6da1277bcece719199c8e39dc499a1d78650dcdcab32d8566ee8def73b51e17a",
     "kind": "retained-before-record-in-compact-audit"
   },
   "delivered": {
@@ -300,7 +300,7 @@
       "room-kitchen.glb": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e",
       "room-gym.glb": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
       "room-onsen.glb": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
-      "room-lounge.glb": "56be7ae08742b1d9c4d30b765466d54c0cb7e8345e13cbe59343ccec299ce7ce",
+      "room-lounge.glb": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390",
       "room-sleep.glb": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
       "room-library.glb": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9",
       "room-library-upper.glb": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85",

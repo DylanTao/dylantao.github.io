@@ -24,6 +24,8 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 - Readable controls and the exact greeting “Welcome to Sirui’s crib.” at every supported viewport.
 - Duh is the default page companion in both homepage modes. It stays clear of reading text and links; P remains on its project page. See [the companion transition](duh-companion.md).
 - Physical-phone walking and orbit performance still need a device baseline. The [bathroom checkpoint](evidence/coastal-bathrooms-2026-10-23/README.md) retains a host-emulated camera stress trace and its limits; keep this inspection open rather than treating phone-sized screenshots as phone frame-rate evidence.
+- October29 visitor steering: a physical iPhone can walk through the furnished fullscreen house, but the main clifftop descent should become broad and direct, with an integrated water feature and local planting. Audit the actual entrance, interior and exterior journeys for narrow paths, empty terrain, ugly walls/light, incomplete planting, animal appearance/motion and views into the mountain. Reproduce the PC-specific rotation limit independently of the phone.
+- Sirui also requests ordinary cliff jumps with no fall damage: a well-aimed jump may land in the pool, and a fall may continue down to the beach. Implement actual airborne motion, collision and water-impact behaviour; do not substitute a staged pose or teleport for the journey. The pool splash needs impact-driven forcing, bounded numerical behaviour and visible recovery. These are open implementation requests, not completed features.
 
 ## Architecture And Assets
 

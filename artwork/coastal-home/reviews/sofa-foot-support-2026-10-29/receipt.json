@@ -1,0 +1,17 @@
+{
+  "mesh": "lounge__ochre knit textile",
+  "vertices": 280,
+  "nativeBeforeBounds": [
+    [-0.4300000071525574, -8.260000228881836, -0.40799999237060547],
+    [0.12999999523162842, -7.699999809265137, -0.2630000114440918]
+  ],
+  "worldTranslationM": [0.25, 0, 0.12],
+  "nativeBottomM": -0.40799999237060547,
+  "nativeTopM": -0.2766,
+  "heightScale": 0.9062069631388384,
+  "outsideCornerNormalDelta": 0.0,
+  "intent": "The complete real foot support follows the existing lounge seat; actor, clips and leg lengths stay exact",
+  "sourceBeforeSha256": "16713ed5e6efcb5f6b2cc9e70da678c4dc729255929f4248ca5b705a2e87b1a0",
+  "sourceAfterSha256": "f2059bb6327082109c52f2a4fcfb0daea5df0002b6f821c844d0d6c6da55de96",
+  "sourceOut": ".jekyll-cache\\visual-qa\\house-final-2026-10-28\\sofa-current\\native-candidate\\candidate.blend"
+}

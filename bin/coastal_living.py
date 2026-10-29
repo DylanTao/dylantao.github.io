@@ -46,7 +46,11 @@ TREAD = (2.35, PIT["y"][1])  # one oak tread across the open sea side
 SEAT = (0.10, PIT["y"][0] + UPSTAND + BACK_CUSHION + 0.12)
 SEAT_ACTOR_Z = SEAT_TOP - 0.515
 FEET_Z = SEAT_ACTOR_Z + 0.22
-FLOOR_CUSHIONS = ((-0.15, 0.02), (0.15, 1.95))
+# Follow the inward lounge seat; the broad, flat top bears both complete soles.
+# The extra 1.6 mm follows the lowest measured decoded foot (the Lizard), rather
+# than adding the rug's 12 mm height to the old nominal foot level twice.
+FOOT_CUSHION_TOP = FEET_Z - 0.0016
+FLOOR_CUSHIONS = ((SEAT[0], -0.10), (0.15, 1.95))
 FIREPLACE = (0.95, 1.15)  # on the pit floor; the bowl's centre 0.75 m above it
 FLUE_START = PIT_FLOOR + 1.9
 FLUE_ITEM = 0.3  # scene-furniture's fireplace includes this much of the flue
@@ -229,7 +233,7 @@ def build_pit(p, m):
         box(p.bm(m["linen"]), (cx, cy, PIT_FLOOR + 0.0125), (sx, sy, 0.002), 0.0)
     # Floor cushions of ochre knit: the first under Sirui's feet, its top at the seated feet.
     for k, (cx, cy) in enumerate(FLOOR_CUSHIONS):
-        top = FEET_Z - PIT_FLOOR if k == 0 else 0.16
+        top = FOOT_CUSHION_TOP - (PIT_FLOOR + 0.012) if k == 0 else 0.16
         r = 0.27
         lathe(p.bm(m["knit"]), [(0.0, 0.0), (r - 0.03, 0.0), (r, 0.03), (r + 0.01, top * 0.5), (r, top - 0.03), (r - 0.04, top), (0.0, top)], (cx, cy, PIT_FLOOR + 0.012), 40)
     return treads

@@ -1,0 +1,125 @@
+{
+  "scope": "Checkpoint payloads, excluding this manifest. Text is LF under the local attributes; raw producer records are byte-preserving gzip or trace archives. Later release qualification is separate.",
+  "files": [
+    {
+      "file": ".gitattributes",
+      "bytes": 39,
+      "sha256": "12e8eb7dca9f32cd00f0b2bb57910c81cddcf0552bd3a65bfecdf3b9b41bc15f"
+    },
+    {
+      "file": "controls/final-linux-complete-visitor-patio-circulation.json.gz",
+      "bytes": 4217,
+      "sha256": "2ba0188ebf3aba0c8c37cf5d2b78dcf2a847bc35a9e089059d4e30b3b17109f6"
+    },
+    {
+      "file": "controls/final-linux-visitor-startup.json.gz",
+      "bytes": 472,
+      "sha256": "aa031657f7c845e175b1fc7150a0f4b00c58bdd867b429075af691fd242df492"
+    },
+    {
+      "file": "controls/final-linux.log.gz",
+      "bytes": 989,
+      "sha256": "0036ebb38447900d28a33dc4d35c6bd7cb844672b76d8bdbfa067046523214b0"
+    },
+    {
+      "file": "controls/final-native-complete-visitor-patio-circulation.json.gz",
+      "bytes": 4378,
+      "sha256": "f0ea5403ee1b135c31087e84670ad7f03c2db46768b13ced7b24cd1f7a47d6b1"
+    },
+    {
+      "file": "controls/final-native-visitor-startup.json.gz",
+      "bytes": 483,
+      "sha256": "0852238b647335727d6537f261b478ef5769ad61690e78d15c5b515da2d50570"
+    },
+    {
+      "file": "controls/final-native.log.gz",
+      "bytes": 625,
+      "sha256": "d65c3f60a7685914de645bd7fa3181123d5d1e530f0de58be8fb4ff9eff6c8fa"
+    },
+    {
+      "file": "controls/intermediate-linux-complete-route.json.gz",
+      "bytes": 4268,
+      "sha256": "c03f3637e4dbdf93a1ea5f92643fb906df9437a8c3ef33ba36f838afde0709fd"
+    },
+    {
+      "file": "controls/intermediate-linux-startup.json.gz",
+      "bytes": 323,
+      "sha256": "3e2c6f166db71df00ff72830984f9777f75db7be0af7b98b0cfb459723235c90"
+    },
+    {
+      "file": "controls/intermediate-linux.log.gz",
+      "bytes": 1025,
+      "sha256": "8e585b5b59076b5a044a1394586a0b9c563625f1af3095066bd93d25cff521a4"
+    },
+    {
+      "file": "controls/intermediate-native-complete-route.json.gz",
+      "bytes": 4277,
+      "sha256": "b62942cf8ca7f972d2d0f58c867850564fb7389b37ce6a2b20f350f5cede44ce"
+    },
+    {
+      "file": "controls/intermediate-native-startup.json.gz",
+      "bytes": 322,
+      "sha256": "75c8a9e01e0a6edf8b99980975ca60e008a0ccc7dea72576de7b3caad91ebc51"
+    },
+    {
+      "file": "controls/intermediate-native.log.gz",
+      "bytes": 624,
+      "sha256": "4c247a21cb66ccd2050d3234e02e97f73b5c5ebda148ac993d7a0b9dd6c5a2fe"
+    },
+    {
+      "file": "controls/linux-pause-after-layout.json.gz",
+      "bytes": 595,
+      "sha256": "b8922a3f37d0155b66d908eb3c479bd545684c8f59bffc05ce1da352046ce12b"
+    },
+    {
+      "file": "controls/linux-pause-after-layout.png",
+      "bytes": 136092,
+      "sha256": "06aa31c80dd8a9e137ab999e3a69b7ef48eb6f28a53005a008d6bbe52d62b285"
+    },
+    {
+      "file": "controls/linux-pause-before-layout.json.gz",
+      "bytes": 525,
+      "sha256": "35d22ea00744461f22b288b586bd9948ce03d6ad50bcb7956f0c1d56c07e40f4"
+    },
+    {
+      "file": "controls/linux-pause-before-layout.png",
+      "bytes": 135076,
+      "sha256": "56fa4ec1b096ff597f7c56c100dff493996093c34e5d818efca3326f6f7bd41c"
+    },
+    {
+      "file": "failure/0-trace.trace.gz",
+      "bytes": 1996729,
+      "sha256": "41237ea9dd7518acc06016bbcfa9d01361f7cef8bd162afa223e3840188a690a"
+    },
+    {
+      "file": "failure/error-context.md.gz",
+      "bytes": 7925,
+      "sha256": "2e69c1ac0c8a8e99d0b0d56b3cb6374c7368439cb12d0bc202ca446a54fc8648"
+    },
+    {
+      "file": "failure/test.trace.gz",
+      "bytes": 16066,
+      "sha256": "745f163636a7ec72a40f66153af443f896c60d6d057173793a78fccd5599cbb3"
+    },
+    {
+      "file": "failure/white-fullscreen.png",
+      "bytes": 61732,
+      "sha256": "bfa6340a55038c333c512d47060e09f61fbd8d2bdf8ae01c78e70b010cc1436e"
+    },
+    {
+      "file": "failure-receipt.json",
+      "bytes": 703,
+      "sha256": "ec146a8d6ea6187c4dc7fd9d415bf025763367339cd7fee70b03682c3f271f98"
+    },
+    {
+      "file": "physical-iphone-user-report.json",
+      "bytes": 662,
+      "sha256": "bc570083b4e839123120798873234d8e2909a97e58876c9303d1697a3213b400"
+    },
+    {
+      "file": "README.md",
+      "bytes": 3042,
+      "sha256": "a5473ab50a61ea5e9cd6b53b75ebcf44e6618d675dd2697aac7172ba8da4aff3"
+    }
+  ]
+}

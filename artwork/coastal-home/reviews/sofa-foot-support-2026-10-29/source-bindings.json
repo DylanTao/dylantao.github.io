@@ -1,0 +1,209 @@
+{
+  "beforeGitHead": "c153c44ac451eefa025b581c32070c393d48fdf5",
+  "nativeBeforeSha256": "16713ed5e6efcb5f6b2cc9e70da678c4dc729255929f4248ca5b705a2e87b1a0",
+  "nativeAfterSha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad",
+  "changedGlbs": [
+    {
+      "file": "assets/models/home/room-lounge.glb",
+      "beforeSha256": "56be7ae08742b1d9c4d30b765466d54c0cb7e8345e13cbe59343ccec299ce7ce",
+      "afterSha256": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390",
+      "beforeBytes": 231300,
+      "afterBytes": 231436
+    }
+  ],
+  "unchangedGlbs": [
+    {
+      "file": "assets/models/home/BrandtsCormorant.glb",
+      "beforeSha256": "1bf0f9cd47a413903472c1dacfe5f8dfd554b6dfddbc668ca80d211cef98829a",
+      "afterSha256": "1bf0f9cd47a413903472c1dacfe5f8dfd554b6dfddbc668ca80d211cef98829a",
+      "beforeBytes": 31040,
+      "afterBytes": 31040
+    },
+    {
+      "file": "assets/models/home/BrownPelican.glb",
+      "beforeSha256": "97ef0286ae9e75740bc05a60726d8321a2c0afe6a1ac60ae0ff38e66fe11749c",
+      "afterSha256": "97ef0286ae9e75740bc05a60726d8321a2c0afe6a1ac60ae0ff38e66fe11749c",
+      "beforeBytes": 34440,
+      "afterBytes": 34440
+    },
+    {
+      "file": "assets/models/home/BrushRabbit.glb",
+      "beforeSha256": "9f2c82d3e6d4845f9420395f805bcaaa4ee9ebfba9e1d4bbde21d87433cdd8e4",
+      "afterSha256": "9f2c82d3e6d4845f9420395f805bcaaa4ee9ebfba9e1d4bbde21d87433cdd8e4",
+      "beforeBytes": 51116,
+      "afterBytes": 51116
+    },
+    {
+      "file": "assets/models/home/CaliforniaSeaLion.glb",
+      "beforeSha256": "42adf172e236ee3be115efc4112b4e2b05389029c5e4518649324162803ae103",
+      "afterSha256": "42adf172e236ee3be115efc4112b4e2b05389029c5e4518649324162803ae103",
+      "beforeBytes": 34376,
+      "afterBytes": 34376
+    },
+    {
+      "file": "assets/models/home/coast.glb",
+      "beforeSha256": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
+      "afterSha256": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
+      "beforeBytes": 241576,
+      "afterBytes": 241576
+    },
+    {
+      "file": "assets/models/home/flora.glb",
+      "beforeSha256": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2",
+      "afterSha256": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2",
+      "beforeBytes": 2203180,
+      "afterBytes": 2203180
+    },
+    {
+      "file": "assets/models/home/HarborSeal.glb",
+      "beforeSha256": "6e7b70c892d7b8aaa1351c9b16a7e33ba342348ff93012a4af9da368eb1949b6",
+      "afterSha256": "6e7b70c892d7b8aaa1351c9b16a7e33ba342348ff93012a4af9da368eb1949b6",
+      "beforeBytes": 35632,
+      "afterBytes": 35632
+    },
+    {
+      "file": "assets/models/home/hinterland.glb",
+      "beforeSha256": "bef9e5588f58d1475eead6ee7e41a90981d7f8d366f6317da0f9d4912aad2922",
+      "afterSha256": "bef9e5588f58d1475eead6ee7e41a90981d7f8d366f6317da0f9d4912aad2922",
+      "beforeBytes": 1465588,
+      "afterBytes": 1465588
+    },
+    {
+      "file": "assets/models/home/home-shell.glb",
+      "beforeSha256": "b51f302da52907dc1d707c14ea3a3c4578da9f43f9147d7917a6bb0e1f99ce72",
+      "afterSha256": "b51f302da52907dc1d707c14ea3a3c4578da9f43f9147d7917a6bb0e1f99ce72",
+      "beforeBytes": 898704,
+      "afterBytes": 898704
+    },
+    {
+      "file": "assets/models/home/Raccoon.glb",
+      "beforeSha256": "52deb93ddfb227b521472adfe5ab2007cdba9903d28b333c8e290b4c2b8d5808",
+      "afterSha256": "52deb93ddfb227b521472adfe5ab2007cdba9903d28b333c8e290b4c2b8d5808",
+      "beforeBytes": 49332,
+      "afterBytes": 49332
+    },
+    {
+      "file": "assets/models/home/room-bath-bedroom.glb",
+      "beforeSha256": "23122cb51c7d2f3d580389eb4ffbf41a8f64f0e12f612ccb12a9f94fe37b2b80",
+      "afterSha256": "23122cb51c7d2f3d580389eb4ffbf41a8f64f0e12f612ccb12a9f94fe37b2b80",
+      "beforeBytes": 106412,
+      "afterBytes": 106412
+    },
+    {
+      "file": "assets/models/home/room-bath-living.glb",
+      "beforeSha256": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72",
+      "afterSha256": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72",
+      "beforeBytes": 104924,
+      "afterBytes": 104924
+    },
+    {
+      "file": "assets/models/home/room-gym.glb",
+      "beforeSha256": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
+      "afterSha256": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
+      "beforeBytes": 222576,
+      "afterBytes": 222576
+    },
+    {
+      "file": "assets/models/home/room-kitchen.glb",
+      "beforeSha256": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e",
+      "afterSha256": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e",
+      "beforeBytes": 244696,
+      "afterBytes": 244696
+    },
+    {
+      "file": "assets/models/home/room-library-upper.glb",
+      "beforeSha256": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85",
+      "afterSha256": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85",
+      "beforeBytes": 22272,
+      "afterBytes": 22272
+    },
+    {
+      "file": "assets/models/home/room-library.glb",
+      "beforeSha256": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9",
+      "afterSha256": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9",
+      "beforeBytes": 185640,
+      "afterBytes": 185640
+    },
+    {
+      "file": "assets/models/home/room-onsen.glb",
+      "beforeSha256": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
+      "afterSha256": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
+      "beforeBytes": 94408,
+      "afterBytes": 94408
+    },
+    {
+      "file": "assets/models/home/room-sleep.glb",
+      "beforeSha256": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
+      "afterSha256": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
+      "beforeBytes": 292636,
+      "afterBytes": 292636
+    },
+    {
+      "file": "assets/models/home/room-study.glb",
+      "beforeSha256": "2a605f9445ec9523f935d9f71042e26027b57b3fd67310e0fe611e1a32467d92",
+      "afterSha256": "2a605f9445ec9523f935d9f71042e26027b57b3fd67310e0fe611e1a32467d92",
+      "beforeBytes": 112436,
+      "afterBytes": 112436
+    },
+    {
+      "file": "assets/models/home/Sandpiper.glb",
+      "beforeSha256": "0b1868fc7b7840cb3d6a8a822bdbdd053f3cdb73cb3ab69e8d07e6d65628d381",
+      "afterSha256": "0b1868fc7b7840cb3d6a8a822bdbdd053f3cdb73cb3ab69e8d07e6d65628d381",
+      "beforeBytes": 20696,
+      "afterBytes": 20696
+    },
+    {
+      "file": "assets/models/home/sirui-ghibli.glb",
+      "beforeSha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db",
+      "afterSha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db",
+      "beforeBytes": 858356,
+      "afterBytes": 858356
+    },
+    {
+      "file": "assets/models/home/sirui-lizard.glb",
+      "beforeSha256": "ca6bac2c2610fdc72d705f144e36a9800f11715198f64d74f4f177034d90ba3d",
+      "afterSha256": "ca6bac2c2610fdc72d705f144e36a9800f11715198f64d74f4f177034d90ba3d",
+      "beforeBytes": 540496,
+      "afterBytes": 540496
+    },
+    {
+      "file": "assets/models/home/sirui-rick-and-morty.glb",
+      "beforeSha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253",
+      "afterSha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253",
+      "beforeBytes": 661616,
+      "afterBytes": 661616
+    },
+    {
+      "file": "assets/models/home/sirui-simpsons.glb",
+      "beforeSha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f",
+      "afterSha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f",
+      "beforeBytes": 666964,
+      "afterBytes": 666964
+    },
+    {
+      "file": "assets/models/home/sirui-south-park.glb",
+      "beforeSha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63",
+      "afterSha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63",
+      "beforeBytes": 714480,
+      "afterBytes": 714480
+    },
+    {
+      "file": "assets/models/home/WesternGull.glb",
+      "beforeSha256": "af06b16e55042d2fe314868703e5cd4edb64ba057fde2e809a628fce95c71a29",
+      "afterSha256": "af06b16e55042d2fe314868703e5cd4edb64ba057fde2e809a628fce95c71a29",
+      "beforeBytes": 22912,
+      "afterBytes": 22912
+    }
+  ],
+  "officialCombinedCache": {
+    "url": "static-light-field.json",
+    "signature": "e396ca6b861957192d9091a4ef964fc03282e5dd28a993f11b557e45e9ef143a",
+    "sha256": "a66421e75e6ab0c8ef7e1f8aca947df094678e72665cf1fa2f847633bb9941b0"
+  },
+  "cacheBytes": 792936,
+  "perchSurveyChangedKeys": ["coastSha256", "patches"],
+  "notes": [
+    "The perch producer was rerun; two delivered triangle arrays reorder while origins/native patches/feet and delivered hashes remain unchanged. Actual delivered-surface checks qualify the new result.",
+    "Cache statistics vary across official bakes; the final descriptor binds the exact committed bytes."
+  ]
+}

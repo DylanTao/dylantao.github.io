@@ -15,7 +15,11 @@ test("coastal reflection: late models are excluded on the first sea mirror draw 
     testInfo.project.name !== "desktop-1440" && testInfo.project.use.browserName !== "webkit",
     "One desktop and an independent WebKit touch control cover composition invalidation."
   );
-  test.setTimeout(300000);
+  // The retained Mesa trace returns a correct outside state after one40s
+  // synchronous frame. Keep native waits tight, and allow real software draws.
+  const software = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1",
+    viewTimeout = software ? readyTimeout : 15000;
+  test.setTimeout(software ? 600000 : 300000);
   const errors = collectRuntimeErrors(page),
     manifest = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../assets/models/home/manifest.json"), "utf8"));
   await preparePage(page);
@@ -79,7 +83,7 @@ test("coastal reflection: late models are excluded on the first sea mirror draw 
       };
     });
     await page.locator("[data-world-view]").click();
-    await expect.poll(async () => (await sceneEvidence(scene)).currentRoom).toBe("outside");
+    await expect.poll(async () => (await sceneEvidence(scene)).currentRoom, { timeout: viewTimeout }).toBe("outside");
     await draw();
     expect(held).toBe(true);
     expect(await page.evaluate(() => window.__lateSeaProbe.passes.length)).toBeGreaterThan(0);
@@ -92,12 +96,23 @@ test("coastal reflection: late models are excluded on the first sea mirror draw 
     await draw();
     const first = await scene.evaluate((element) => {
       const root = element.labScene.scene.getObjectByName("coastal-hinterland"),
-        water = [];
+        water = [],
+        gl = window.__lateSeaProbe.renderer.getContext(),
+        debug = gl.getExtension("WEBGL_debug_renderer_info");
       root.traverse((object) => {
         if (/^hinterland_garden_.*_water$/.test(object.name))
           water.push({ name: object.name, visible: object.visible, transmission: object.material.transmission });
       });
-      return { passes: window.__lateSeaProbe.passes.filter((p) => p.late), water, evidence: element.getSceneEvidence() };
+      return {
+        passes: window.__lateSeaProbe.passes.filter((p) => p.late),
+        water,
+        backend: {
+          renderer: gl.getParameter(debug?.UNMASKED_RENDERER_WEBGL || gl.RENDERER),
+          maxSamples: gl.getParameter(gl.MAX_SAMPLES),
+          floatColorBuffer: Boolean(gl.getExtension("EXT_color_buffer_float")),
+        },
+        evidence: element.getSceneEvidence(),
+      };
     });
     expect(first.passes.length).toBeGreaterThan(0);
     expect(first.passes.every((p) => p.transmission.length === 0)).toBe(true);
@@ -105,17 +120,22 @@ test("coastal reflection: late models are excluded on the first sea mirror draw 
     expect(first.water.every((w) => w.visible && w.transmission > 0)).toBe(true);
     expect(first.evidence.roomCount).toBe(manifest.rooms.length);
     expect(first.evidence.simulation.lightField.ready).toBe(true);
+    if (process.env.VISUAL_SCENE_BACKEND === "llvmpipe" && testInfo.project.use.browserName !== "webkit") {
+      expect(first.backend.renderer).toMatch(/llvmpipe/i);
+      expect(first.backend.maxSamples).toBeGreaterThanOrEqual(4);
+      expect(first.backend.floatColorBuffer).toBe(true);
+    }
 
     // A new model can be prepared while the sea mirror is disabled inside.
     await page.locator("[data-world-view]").click();
-    await expect.poll(async () => (await sceneEvidence(scene)).currentRoom).not.toBe("outside");
+    await expect.poll(async () => (await sceneEvidence(scene)).currentRoom, { timeout: viewTimeout }).not.toBe("outside");
     await page.locator("[data-world-lab] > summary").click();
     const nextAvatar = first.evidence.avatarId === "ghibli" ? "south-park" : "ghibli";
     await page.locator("[data-world-avatar]").selectOption(nextAvatar);
     await expect.poll(async () => (await sceneEvidence(scene)).avatarId, { timeout: readyTimeout }).toBe(nextAvatar);
     await page.locator("[data-world-lab] > summary").click();
     await page.locator("[data-world-view]").click();
-    await expect.poll(async () => (await sceneEvidence(scene)).currentRoom).toBe("outside");
+    await expect.poll(async () => (await sceneEvidence(scene)).currentRoom, { timeout: viewTimeout }).toBe("outside");
     await scene.evaluate((element) => element.setQualityTier("low"));
     await draw();
     await draw();

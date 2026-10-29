@@ -1,0 +1,80 @@
+{
+  "scope": "Checkpoint payloads, excluding this manifest. Text is LF under the local attributes; raw producer records are byte-preserving gzip or trace archives. Later release qualification is separate.",
+  "files": [
+    {
+      "file": ".gitattributes",
+      "bytes": 52,
+      "sha256": "033ed08550f864e5c0d0dbfc77aa6cea4a7ca848ed53b21127132aac6c984aa7"
+    },
+    {
+      "file": "raw/combined-jekyll.log.gz",
+      "bytes": 7732,
+      "sha256": "0125aacb845fb5ed654e5f35404060a2552b146d34900bc46162da8412bdb953"
+    },
+    {
+      "file": "raw/compiled-assets.json.gz",
+      "bytes": 6034,
+      "sha256": "a16a114caf98e2036b0d2cf7d728cb25450896d8abaa6fd2a888f1617bb693f0"
+    },
+    {
+      "file": "raw/compiled-mirror-linux-failure.zip",
+      "bytes": 11729690,
+      "sha256": "9eaa04fa063d4d2465dde54c89a92a2994ea01c350905ec862528ea6706ea41f"
+    },
+    {
+      "file": "raw/compiled-mirror-linux.log.gz",
+      "bytes": 1136,
+      "sha256": "5cb113ecea6b8b47173563b69a134d2f24910ad563a1e2b49003c79435dda46a"
+    },
+    {
+      "file": "raw/compiled-mirror-mesa-corrected.log.gz",
+      "bytes": 568,
+      "sha256": "4f3f6918f19cb9b419f55aedca5b1c82a2ff5d03135047fd6cb0931d253069c8"
+    },
+    {
+      "file": "raw/compiled-mirror-mesa-failure.zip",
+      "bytes": 11305379,
+      "sha256": "fe9faf6c08b6e719846f94124351cdabdadcc343baeee03964b579670ddd7eec"
+    },
+    {
+      "file": "raw/compiled-mirror-mesa.log.gz",
+      "bytes": 1161,
+      "sha256": "6b562ceecc01dae3310bcecd0fe2b246a9ae2fdbf0ea0f5c955580c3c0ef0fdd"
+    },
+    {
+      "file": "raw/compiled-responsive.log.gz",
+      "bytes": 853,
+      "sha256": "1b962d59703893dcc84a6f9cb78e07ef673b427d1b0b3bec6ea643eab0ef6d0b"
+    },
+    {
+      "file": "raw/compiled-webkit.log.gz",
+      "bytes": 644,
+      "sha256": "53ed497a2b70860f7bd77d1b17e95b27207a38c83a106f46a28efaac588ef944"
+    },
+    {
+      "file": "raw/mirror-mesa-wait-control.json.gz",
+      "bytes": 384,
+      "sha256": "b6b83ff04305932fd841b1065d0542b23e9375b02c3023d465fd320a46c9c1b8"
+    },
+    {
+      "file": "README.md",
+      "bytes": 2871,
+      "sha256": "22a002b92dd44f30149750a486812abfd6e596159670a2b05046d97040c14bfb"
+    },
+    {
+      "file": "recipes/qualified-webkit.config.cjs.gz",
+      "bytes": 219,
+      "sha256": "9fecaeff0999fb9bc9a383b9bdc2ca44ecbcedea4fba379dd92fae778aa7e435"
+    },
+    {
+      "file": "recipes/qualified.config.cjs.gz",
+      "bytes": 152,
+      "sha256": "9a2b07aba4c58a9ecef21618515abc0fa513fa674268857abf56cd3f9cedf90e"
+    },
+    {
+      "file": "recipes/run-qualified-scene.cjs.gz",
+      "bytes": 465,
+      "sha256": "82c00da3160a52ad6820d31d9b7e02bd4c05746edb71f8a68c3d84cd8efe2f45"
+    }
+  ]
+}

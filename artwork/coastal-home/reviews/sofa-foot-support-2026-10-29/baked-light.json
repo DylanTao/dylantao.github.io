@@ -1,0 +1,24 @@
+{
+  "method": "Cycles AO and diffuse indirect color-attribute bake",
+  "samples": 24,
+  "surfaces": [
+    {
+      "mesh": "lounge__ochre knit textile",
+      "corners": 2080,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "lounge__oatmeal wool textile",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7151284118617576
+    },
+    {
+      "mesh": "lounge__linen",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7167946362992129
+    }
+  ]
+}

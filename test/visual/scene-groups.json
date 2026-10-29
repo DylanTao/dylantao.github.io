@@ -1,5 +1,5 @@
 {
-  "head": "090f277a1a5d97c60445b29660a5f7e770824fda",
+  "head": "834fe5442",
   "manifestOrder": [
     "companion.spec.js",
     "duh.spec.js",
@@ -268,6 +268,10 @@
       {
         "file": "desk-scene.spec.js",
         "title": "character performance: P acknowledges a visitor without changing the room or camera"
+      },
+      {
+        "file": "coastal-finish.spec.js",
+        "title": "coastal reflection: late models are excluded on the first sea mirror draw and remain in the main scene"
       }
     ],
     "scene-exploration": [

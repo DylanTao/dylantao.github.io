@@ -1,0 +1,365 @@
+{
+  "scope": "Checkpoint payloads, excluding this manifest. Text is LF under the local attributes; raw producer records are byte-preserving gzip or trace archives. Later release qualification is separate.",
+  "files": [
+    {
+      "file": ".gitattributes",
+      "bytes": 52,
+      "sha256": "23f7cd3e44ae54d48588dad662e039fc724e2b3d91149d9b02c91d5d6e757081"
+    },
+    {
+      "file": "bake-custody.json",
+      "bytes": 497,
+      "sha256": "b996347f4e540efeebe3efb8bd4fed6f45ad8dab9b39c8fe5580ecbbd0524f50"
+    },
+    {
+      "file": "baked-export.json",
+      "bytes": 4456,
+      "sha256": "7d4dcc20617914a5876d3022e723b7d86531bc3bcac463c580346d324cb9ea6c"
+    },
+    {
+      "file": "baked-light.json",
+      "bytes": 486,
+      "sha256": "10ec9e6a0ccc57befe13f875fa19dcfafec977c880fba2b10859dc07f58f5767"
+    },
+    {
+      "file": "before-overlap-audit.json",
+      "bytes": 62112,
+      "sha256": "6da1277bcece719199c8e39dc499a1d78650dcdcab32d8566ee8def73b51e17a"
+    },
+    {
+      "file": "before-room-lounge.glb",
+      "bytes": 231300,
+      "sha256": "56be7ae08742b1d9c4d30b765466d54c0cb7e8345e13cbe59343ccec299ce7ce"
+    },
+    {
+      "file": "geometry-proof.mjs",
+      "bytes": 5722,
+      "sha256": "aa24d5910415457f8313ee76b21fe63883c858f430b4bcfbeb577fe5d9f5d559"
+    },
+    {
+      "file": "images/compiled-lounge-desktop-1440.png",
+      "bytes": 204280,
+      "sha256": "fa4aa8fb44dd9162770eab3447e09fe99f2a4c8492a4a6193b4f3a46f2122d16"
+    },
+    {
+      "file": "images/compiled-lounge-laptop-1280.png",
+      "bytes": 174883,
+      "sha256": "515b96bcc3a3bc6dd1ed320e70bea3b143aeefa5c46a67355b166149826799bc"
+    },
+    {
+      "file": "images/compiled-lounge-mobile-390.png",
+      "bytes": 102175,
+      "sha256": "066510531c68ab0995d3f552109e702a45e986930ecac9c4db99702d2f9d8d02"
+    },
+    {
+      "file": "images/compiled-lounge-tablet-768.png",
+      "bytes": 215150,
+      "sha256": "67163b308a1114e0de06065f444ca0699619e35a3ead36fcb8ad828e183b2a86"
+    },
+    {
+      "file": "images/ghibli-current-front.png",
+      "bytes": 711212,
+      "sha256": "a19307d451c6b16bc235c1037f416c9afa618ec5b74cb5567a40907f417615b4"
+    },
+    {
+      "file": "images/ghibli-current-full-front.png",
+      "bytes": 1567023,
+      "sha256": "3e7dc2fa96d5f25429f594aabc56a9b34951c53ae562336f8b97c9f1239111c9"
+    },
+    {
+      "file": "images/ghibli-current-three-quarter.png",
+      "bytes": 922206,
+      "sha256": "7d7a46ae292f74a6da592ee19b49ce95ef9ce3ebf34e99815950fbee4ca5c22b"
+    },
+    {
+      "file": "images/ghibli-feet.png",
+      "bytes": 1342203,
+      "sha256": "f7a9da496584505383d4007280bb481f5622d03db76f4778b9568e8847b8485f"
+    },
+    {
+      "file": "images/ghibli-whole.png",
+      "bytes": 1626268,
+      "sha256": "27b13078e31b2ce85cd175c924c968d17e704923f077212fef3db7829d0ca713"
+    },
+    {
+      "file": "images/lizard-feet.png",
+      "bytes": 1347716,
+      "sha256": "b92a49337947e83c324c2c6b2cdfec962f793f15a12f8da90321cf202afcbfaa"
+    },
+    {
+      "file": "images/lizard-whole.png",
+      "bytes": 1626418,
+      "sha256": "3b3914e970f94b822e5752899797a3f569ed732a5ae1e8fe48383139f134a310"
+    },
+    {
+      "file": "images/rick-and-morty-feet.png",
+      "bytes": 1389856,
+      "sha256": "f63d46beb93cc7170d6d22c6e6ae511fee89f55b5916ecf5a2e07f483167e866"
+    },
+    {
+      "file": "images/rick-and-morty-whole.png",
+      "bytes": 1678006,
+      "sha256": "bc107728a6b0a5d9d5262b5ec330f4f872227779418d6903e98e550d8db82144"
+    },
+    {
+      "file": "images/simpsons-feet.png",
+      "bytes": 1342247,
+      "sha256": "4be4b848dda9932963763077e6ff1bdada6aa5ca0a42236f5a16bc9325d280f5"
+    },
+    {
+      "file": "images/simpsons-whole.png",
+      "bytes": 1662972,
+      "sha256": "30e319244d3ea2d524006feea23e48a909adb46283b396cb1f2ecdaea4a7519a"
+    },
+    {
+      "file": "images/south-park-feet.png",
+      "bytes": 1296985,
+      "sha256": "8c9f17861986027383b55e97a947ec26036ea3c7299bdc8ef8284837db78e5f1"
+    },
+    {
+      "file": "images/south-park-whole.png",
+      "bytes": 1684198,
+      "sha256": "2deb90bb6839872c7663a9c0bce853c82b8b5c0de71b89e7017b1f1638e84459"
+    },
+    {
+      "file": "raw/actual-floor-controls-candidate.json.gz",
+      "bytes": 20013,
+      "sha256": "223e6924d9da1793f99b33480a68a8d21be715f16dda449ed3e75825187b8aee"
+    },
+    {
+      "file": "raw/actual-floor-controls.json.gz",
+      "bytes": 20805,
+      "sha256": "d92f88d39cce7c4b7e4bc146dc8cac898121ee27d1483020620a1ee5bb5ca8f2"
+    },
+    {
+      "file": "raw/actual-start-audit.json.gz",
+      "bytes": 1361,
+      "sha256": "ddbe6a591c036734e92c703cb91282c49f848a90751d324388f2ed12a6833090"
+    },
+    {
+      "file": "raw/actual-start-poses.json.gz",
+      "bytes": 4209551,
+      "sha256": "25c49ea13e33060aa39509ed2713b377d4f963bd40e02a16e9783138472227bc"
+    },
+    {
+      "file": "raw/bake.log.gz",
+      "bytes": 34025,
+      "sha256": "9a220e6b33cc72e5d3974386750ae5786e57f05367ae54c32717f1381fa5572e"
+    },
+    {
+      "file": "raw/baked-export.log.gz",
+      "bytes": 2526,
+      "sha256": "65f642f1a5353ade0d60054f70df9c06adaf52eb4ede375cdc2e14b1671dd3df"
+    },
+    {
+      "file": "raw/baked-scope-final.log.gz",
+      "bytes": 874,
+      "sha256": "27ff64675f42e693af576310639b35089f6829f37439bfe8a47d94115fe934fa"
+    },
+    {
+      "file": "raw/candidate-support-phases.json.gz",
+      "bytes": 34609,
+      "sha256": "ca3d4d9d97ec61bbd6f3223db8fae8b69c39bbfc97a0a488b009bada695c4606"
+    },
+    {
+      "file": "raw/combined-jekyll.log.gz",
+      "bytes": 7732,
+      "sha256": "0125aacb845fb5ed654e5f35404060a2552b146d34900bc46162da8412bdb953"
+    },
+    {
+      "file": "raw/combined-node-after-survey.log.gz",
+      "bytes": 49466,
+      "sha256": "361c4b923030aa01b072a4e20d9d3cdbf54419492f44a85979eb6f002bddaba7"
+    },
+    {
+      "file": "raw/combined-node.log.gz",
+      "bytes": 50116,
+      "sha256": "dc5e38b7dcd073f2f2dbafdcfaafe30cfb0defe1a6a878b99f778345bcb20ad4"
+    },
+    {
+      "file": "raw/combined-prettier.log.gz",
+      "bytes": 108,
+      "sha256": "36bc12bc19730bdc9b971ca6b326c6cf184b828d482ed97e3fb4350210e9a1a0"
+    },
+    {
+      "file": "raw/combined-python.log.gz",
+      "bytes": 334,
+      "sha256": "de2ddf1eb7ff3d047afad004322f26f10f0bc1df93b14a05fd444493cd0ba173"
+    },
+    {
+      "file": "raw/combined-registry.log.gz",
+      "bytes": 530,
+      "sha256": "f473479778c9fcb7e47e644609fa85e101c3d11bb9e30963eb0bcd3333cfadb9"
+    },
+    {
+      "file": "raw/combined-static-bake-after-survey.log.gz",
+      "bytes": 499,
+      "sha256": "b0c332bd998ab33e03adbd5d471c08d506b572d6143fde8b30725b6f05a44875"
+    },
+    {
+      "file": "raw/combined-static-bake.log.gz",
+      "bytes": 501,
+      "sha256": "4fc9483131fc70f5c7c3146647c0814630c9882e0e33c13f1362e1e3b8fd8fc1"
+    },
+    {
+      "file": "raw/compiled-assets.json.gz",
+      "bytes": 6034,
+      "sha256": "a16a114caf98e2036b0d2cf7d728cb25450896d8abaa6fd2a888f1617bb693f0"
+    },
+    {
+      "file": "raw/compiled-responsive.log.gz",
+      "bytes": 853,
+      "sha256": "1b962d59703893dcc84a6f9cb78e07ef673b427d1b0b3bec6ea643eab0ef6d0b"
+    },
+    {
+      "file": "raw/compiled-webkit.log.gz",
+      "bytes": 644,
+      "sha256": "53ed497a2b70860f7bd77d1b17e95b27207a38c83a106f46a28efaac588ef944"
+    },
+    {
+      "file": "raw/delivered-overlap.json.gz",
+      "bytes": 1323048,
+      "sha256": "db72c47db56348a6690ce5ea56ede3dc9dd49abe98b8fa434dc9af45f6de4614"
+    },
+    {
+      "file": "raw/geometry-proof.log.gz",
+      "bytes": 773,
+      "sha256": "c4ef59d78d78498399a7b04e899f7da414eb80f3f8e4bb9037af508aaed954d9"
+    },
+    {
+      "file": "raw/loading-sketch.log.gz",
+      "bytes": 909,
+      "sha256": "614ed6c76a0ec299a05981f25c659edc4f912166254b0d801205a52eb47123aa"
+    },
+    {
+      "file": "raw/lower-clip-controls.json.gz",
+      "bytes": 7320,
+      "sha256": "4fb302ada88a850822a51d81b2f9ad18d4e9d0d1418228f7bc1153ebe50f876e"
+    },
+    {
+      "file": "raw/native-overlap.json.gz",
+      "bytes": 1346216,
+      "sha256": "3f36af2e4378051ab744b1c590f36363ac1e4726be3ae4a8f02cc57a76d04f17"
+    },
+    {
+      "file": "raw/native-poufs.json.gz",
+      "bytes": 14202,
+      "sha256": "75b72203755cdcfe759dd6744e262a542dba46816da8c0208a971a4c7cd7f93a"
+    },
+    {
+      "file": "raw/overlap-summary.log.gz",
+      "bytes": 957,
+      "sha256": "1ce2e6741e289134918c97a3a5078ff357715f8576524771066266301eda3b5e"
+    },
+    {
+      "file": "raw/overlap-tests-corrected.log.gz",
+      "bytes": 310,
+      "sha256": "74b357da1b8fa3cb0ed3daf1021f6956997b7fe0bb2ddb8af26071c1e7de56c7"
+    },
+    {
+      "file": "raw/overlap-tests.log.gz",
+      "bytes": 591,
+      "sha256": "e5d46140e2a4e23ee0ae40481f33d706e792ac3f7ec91f979073c606ab3ea6fd"
+    },
+    {
+      "file": "raw/perch-resurvey.log.gz",
+      "bytes": 4594,
+      "sha256": "2002afc3c6cad53cfcffaae11637bd43edc4b9b2416b679976cadff540d260d1"
+    },
+    {
+      "file": "raw/plant-trial.json.gz",
+      "bytes": 31878,
+      "sha256": "936f5c6747e51a30d968a04d75d1474d8bffa3e378c9e97b7c62c15cbd1e291f"
+    },
+    {
+      "file": "raw/regression-tests.log.gz",
+      "bytes": 665,
+      "sha256": "c2baae8359ba5592b6e63881990d6df6cc6023dde751cbedd952a2f781b98dbc"
+    },
+    {
+      "file": "raw/retired-support-phases.json.gz",
+      "bytes": 37100,
+      "sha256": "b730067594207142030beef3bdcba0cabbef25e784294566be76fb1f6edd910c"
+    },
+    {
+      "file": "raw/runtime-start-poses.json.gz",
+      "bytes": 130036,
+      "sha256": "58e4e5fc368e2fce4c3f0be76cbae76cb636947196d9c953603cabf0fbb1cd58"
+    },
+    {
+      "file": "raw/stills.json.gz",
+      "bytes": 52942,
+      "sha256": "c3e03f667ffe3f4ccca95b1d984a4da9fe6277d56b45e200369c6c9185f48efa"
+    },
+    {
+      "file": "README.md",
+      "bytes": 5582,
+      "sha256": "9c0f74654866e2c313621cf6a1bbb59603bef400778b042d5586f48524e18adb"
+    },
+    {
+      "file": "receipt.json",
+      "bytes": 826,
+      "sha256": "682da2679d231d2f054b5560d64b2bba0c3c9b756fd0e40262a052d562f9cb18"
+    },
+    {
+      "file": "recipes/bake-pouf-candidate.py.gz",
+      "bytes": 1012,
+      "sha256": "27585bcbe5745a76b78e948666f188db29273e6de354d3288ba842e0f4d277af"
+    },
+    {
+      "file": "recipes/pouf-render.cjs.gz",
+      "bytes": 1379,
+      "sha256": "9cc661fe5f17a57f6def1017caa8e62c4834c14060a81c41ca178f950ca353c4"
+    },
+    {
+      "file": "recipes/sofa-audit.mjs.gz",
+      "bytes": 1760,
+      "sha256": "4605f1d2255278c7db8097281388371acf935bd9f88ccb6f3afa56a1dd5aa2d5"
+    },
+    {
+      "file": "recipes/sofa-capture.cjs.gz",
+      "bytes": 1870,
+      "sha256": "0cae01e6807da4713eeb4c3326c4f7f29d5b81f64025eebade4b0ebc53513a0d"
+    },
+    {
+      "file": "recipes/sofa-feet.mjs.gz",
+      "bytes": 1781,
+      "sha256": "6fc3a20750261af24802375050ce5161d627269a16051c0033d510ce85de620a"
+    },
+    {
+      "file": "recipes/sofa-lower-clips.mjs.gz",
+      "bytes": 962,
+      "sha256": "70518d5b6679785a56c84bc1c2f470cff1296920ce228b58af39ef189f07ec83"
+    },
+    {
+      "file": "recipes/sofa-plant-trial.mjs.gz",
+      "bytes": 1609,
+      "sha256": "0a6e1a612d062d8b7cc1fbd10b970ad675092f4abe7e171ac2c6dc1b304b8981"
+    },
+    {
+      "file": "recipes/sofa-pouf-native.py.gz",
+      "bytes": 532,
+      "sha256": "f72abca43fd561f2de5082d0a807f9b7c54136a1b0908b0971fcb54abdbb3e46"
+    },
+    {
+      "file": "recipes/sofa-pouf-scope.py.gz",
+      "bytes": 1514,
+      "sha256": "2c20eee47a802a7d9bed003a4ade6866aff85e6721e02906e24a9a9f5a924a49"
+    },
+    {
+      "file": "recipes/sofa-probe.cjs.gz",
+      "bytes": 1447,
+      "sha256": "21dd6b7ce12f76d35037d0c8c5f1398abb33ead4a7fa884cbf90c765d4eea088"
+    },
+    {
+      "file": "scope.json",
+      "bytes": 954,
+      "sha256": "5c6a538088a41bd70f0f0eccb2ad02fe0a6684f3fa7aef293a0714c5c9529dc2"
+    },
+    {
+      "file": "source-bindings.json",
+      "bytes": 9050,
+      "sha256": "10bc87e7ad84609083c0021d5384effaecbc1f81f7eeeb251b2da900c2069951"
+    }
+  ]
+}

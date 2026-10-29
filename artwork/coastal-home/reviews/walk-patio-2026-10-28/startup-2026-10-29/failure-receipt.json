@@ -1,0 +1,21 @@
+{
+  "source": "4a95797817fc4daef97c8c8b2a2beeaaf3e560b8",
+  "run": 40826812362,
+  "job": 123292140483,
+  "artifact": 12877256438,
+  "jobUrl": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40826812362/job/123292140483",
+  "visualJobs": {
+    "success": 41,
+    "failure": 1
+  },
+  "observed": {
+    "frames": 2,
+    "framePending": false,
+    "fullscreen": "native",
+    "canvas": [480, 320],
+    "ready": true,
+    "roomCount": 10,
+    "walkingStarted": false
+  },
+  "scope": "Actual Linux software-renderer startup failure; not a collision or long-route timeout. The original job remains failed. A unique causal application defect was not reproduced by the passive paired diagnostic."
+}

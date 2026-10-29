@@ -1,0 +1,7 @@
+{
+  "method": "Official24sample CPU AO+diffuse producer; only the moved pouf and its actual wool/linen floor receivers bake. Restore exact untouched second-pouf corners afterward.",
+  "beforeSha256": "f2059bb6327082109c52f2a4fcfb0daea5df0002b6f821c844d0d6c6da55de96",
+  "afterSha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad",
+  "restoredSecondPoufCorners": 1040,
+  "approvedColorOwners": ["lounge__ochre knit textile", "lounge__oatmeal wool textile", "lounge__linen"]
+}
