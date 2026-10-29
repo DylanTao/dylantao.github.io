@@ -1,0 +1,61 @@
+{
+  "nativeInputSha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad",
+  "nativeCandidateSha256": "6b3bd8459dea3f412f40f8d3c99d2aee76e330477e977661899218edd62faf0b",
+  "deliveredGlbSha256": "2a605f9445ec9523f935d9f71042e26027b57b3fd67310e0fe611e1a32467d92",
+  "candidateGlbSha256": "16295563bff0783f8544e2be6df7dfce1d6d53ae38122fc9effcca917b84e913",
+  "sourceCommit": "e773eb0d1",
+  "sourceBindings": [
+    {
+      "path": "bin/refresh_coastal_study_hardware.py",
+      "gitBlobSha256": "92b8f3e171512999758561f48b9d3aa321054e911d71712acd7aa2d3069f21ca",
+      "bytes": 14556
+    },
+    {
+      "path": "bin/optimize_coastal_exports.py",
+      "gitBlobSha256": "175905df1edbd161473700e8a753ac4ca64e9a48ab6336a4f01fbcb5b19f4171",
+      "bytes": 7303
+    },
+    {
+      "path": "bin/coastal_office.py",
+      "gitBlobSha256": "2eac1215ea981ad9f099fa5a231853f9413c38c792b745272694a3661d5da9cb",
+      "bytes": 29425
+    },
+    {
+      "path": "bin/coastal_architecture_finish.py",
+      "gitBlobSha256": "c7eb1658d0c1e180f32596d2b8bf4bbb711d450d0fdc94e72266419561b162f8",
+      "bytes": 86201
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "gitBlobSha256": "1b6432399e77efcfe9f2d3c6f79e5cb2b8cb5489806f14cea1b13a2cc1da1681",
+      "bytes": 331153
+    },
+    {
+      "path": "assets/models/home/room-study.glb",
+      "gitBlobSha256": "2a605f9445ec9523f935d9f71042e26027b57b3fd67310e0fe611e1a32467d92",
+      "bytes": 112436
+    },
+    {
+      "path": "artwork/coastal-home/coastal-home.blend",
+      "gitBlobSha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad",
+      "bytes": 28997902
+    },
+    {
+      "path": "test/visual/estate-redesign.spec.js",
+      "gitBlobSha256": "3a6ad2c39abf85a71aa8e656559b7fb6adaea5c45ab8d56c4547b9464017feff",
+      "bytes": 25709
+    },
+    {
+      "path": "test/visual/helpers.js",
+      "gitBlobSha256": "64f1acf2b692b5b4d5b6375c567a0b9f5427e7dfbe5b6a8e35f6eb1b5edda942",
+      "bytes": 13070
+    },
+    {
+      "path": "test/visual/scene-clock.js",
+      "gitBlobSha256": "0db58578b093c50519c28fb495dd6f5d7b647d1d22c3624444c2f6c7053e1fbc",
+      "bytes": 2918
+    }
+  ],
+  "compiledScope": "Supplied complete frozen coordinator build,1360files; only room-study changed. Newer coordinator infinityPool/cache metadata are bound in compiled/manifest separately from worker export-input manifest.",
+  "candidateScope": "pre-final vertexAO/staticlight rebuild; geometry and public-control qualification only"
+}
