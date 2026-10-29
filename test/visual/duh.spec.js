@@ -3,6 +3,7 @@ const { publicRouteUrl } = require("./public-routes");
 const { preparePage, collectRuntimeErrors, screenshotDiffRatio, screenshotMetrics } = require("./helpers");
 const { pauseSceneClock, useSoftwareSceneCadence } = require("./scene-clock");
 const evidence = (page) => page.locator(".duh-companion").evaluate((e) => e.getDuhEvidence());
+const nativeTouchStream = (page, isMobile) => isMobile && page.context().browser().browserType().name() === "chromium";
 async function open(page, route = "/projects/p/", reduced = false) {
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
@@ -271,8 +272,12 @@ test("duh: reduced motion and keyboard alternatives never launch or scatter", as
   expect(errors).toEqual([]);
 });
 
-test("duh: direct touch drag, cancellation, hold to sleep and tap to wake remain accessible", async ({ page, isMobile }) => {
+test("duh: direct touch drag, cancellation, hold to sleep and tap to wake remain accessible", async ({ page, isMobile, browserName }) => {
   test.skip(!isMobile, "Touch contract is exercised by the phone project.");
+  test.skip(
+    browserName !== "chromium",
+    "Native touch-stream dispatch requires Chromium CDP; WebKit tap and pointer capture are qualified separately."
+  );
   await page.clock.install({ time: new Date("2026-10-09T08:00:00Z") });
   const errors = await open(page, "/blog/2024/");
   await page.clock.pauseAt(new Date("2026-10-09T08:10:00Z"));
@@ -430,7 +435,9 @@ async function dropDuhOn(page, isMobile, point) {
   const start = await evidence(page);
   // The first move follows the press at once: a busy page could otherwise hold the press past
   // duh's 700 ms hold-to-sleep before any movement arrives.
-  if (isMobile) {
+  // Public Touchscreen supports tap only; the generic drop still uses a real
+  // mouse-pointer stream on WebKit, as the viewport/capture case already does.
+  if (nativeTouchStream(page, isMobile)) {
     const touch = await page.context().newCDPSession(page);
     const t0 = Date.now() / 1000;
     await touch.send("Input.dispatchTouchEvent", { type: "touchStart", timestamp: t0, touchPoints: [{ x: start.x, y: start.y, id: 5 }] });
@@ -456,7 +463,7 @@ async function dropDuhOn(page, isMobile, point) {
 // Press duh where it is drawn; true when the press picked duh up rather than the page beneath.
 async function pressDuh(page, isMobile, at) {
   const p = at || (await evidence(page));
-  if (isMobile) {
+  if (nativeTouchStream(page, isMobile)) {
     const touch = await page.context().newCDPSession(page);
     await touch.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: p.x, y: p.y, id: 6 }] });
     const held = await expect
@@ -591,7 +598,7 @@ test("duh: dropped on the 3D home, it can be caught, settles clear, and the canv
   const turning = await orbit();
   const targets = await canvas.evaluate((node, points) => points.map((p) => document.elementFromPoint(p.x, p.y) === node), [from, to]);
   expect(targets).toEqual([true, true]);
-  if (isMobile) {
+  if (nativeTouchStream(page, isMobile)) {
     const touch = await page.context().newCDPSession(page);
     await touch.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ ...from, id: 7 }] });
     for (let i = 1; i <= 8; i++)
