@@ -408,12 +408,17 @@ test("keyboard explorers distinguish verified zero, missing dates, leap day and 
 
 test("interrupted range changes retarget from the painted frame and update counts atomically", async ({ page }) => {
   const errors = collectRuntimeErrors(page);
+  // Install before application timers exist, keeping real Date for snapshot admission.
+  // After the page settles, freeze Date before pausing.
+  // A fixed one-second pause target can be in the past after a busy CI round trip.
+  const instant = new Date("2026-10-23T08:00:00Z");
+  await page.clock.install();
   await open(page);
   await page.locator("[data-rhythm-chart]").scrollIntoViewIfNeeded();
   // Control animation time: two real RAFs can exceed the whole 220 ms transition on a busy runner.
-  const instant = new Date("2026-10-23T08:00:00Z");
-  await page.clock.install({ time: instant });
-  await page.clock.pauseAt(new Date(instant.getTime() + 1000));
+  await page.clock.setFixedTime(instant);
+  await page.clock.pauseAt(instant);
+  await page.clock.setSystemTime(instant);
   await page.evaluate(() => {
     const node = document.querySelector("[data-rhythm-range-start]");
     node.value = "2026";
