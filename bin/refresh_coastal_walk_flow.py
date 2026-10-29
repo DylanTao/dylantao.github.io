@@ -14,7 +14,6 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "bin"))
 from coastal_architecture_finish import edit_islands, inside, tool_difference
 from coastal_office import Parts, box, cylinder
-import coastal_estate_architecture as architecture
 import coastal_shell as shell
 
 ARGS = {a[2:].split("=", 1)[0]: a.split("=", 1)[1]
@@ -50,7 +49,11 @@ def migrate(scene, config):
     if sum(len(row["islands"]) for row in pulls) != 2:
         raise RuntimeError(f"Expected exactly two complete cabinet pulls: {pulls}")
 
-    materials = architecture.materials()
+    # Use the retained finishes, without resetting a later palette through a
+    # historical builder's material factory.
+    materials = {"stone": bpy.data.materials["warm cut stone"],
+                 "oak": bpy.data.materials["pale oak"],
+                 "bronze": bpy.data.materials["brushed brass"]}
     tool = shell._box_object("temporary cook-counter entrance trim",
                              (4.05, -1.50, -.10), (5.25, -.50, 1.10), materials["stone"])
     cuts = []

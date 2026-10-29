@@ -783,7 +783,28 @@
     "architectureFourWidths": "4 passed",
     "native4KSameGeometryAO": "1 passed",
     "homeLightDarkFourWidths": "3 initial passed; tablet search-module local connection failed, trace retained; same tablet case passed unchanged on rerun",
-    "visitorProof": "See worker browser receipt; Oct28 measured runs and final deterministic Oct23 case are distinct"
+    "visitorProof": {
+      "fixture": "2026-10-23T13:00:00-07:00",
+      "finalDateCasePassed": true,
+      "waypoints": 41,
+      "subsequentPlacements": 0,
+      "backend": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "vendor": "Google Inc. (NVIDIA)",
+        "buffer": [1440, 1000]
+      },
+      "evidence": "coordinator-oct23-circulation.json",
+      "earlierFailedFixture": "Original port4145 trace records one failed local lift-rig.mjs connection during startup; same complete build passed on backlog128/keepalive server4146. No product change or weakened error gate."
+    }
   },
-  "limitations": "This checkpoint repairs real visitor circulation. It does not admit any F6 terrain candidate or close the remaining appearance, character-contact or performance goals."
+  "limitations": "This checkpoint repairs real visitor circulation. It does not admit any F6 terrain candidate or close the remaining appearance, character-contact or performance goals.",
+  "sourceCheckpoint": "1dbff163f",
+  "compiledModelReadback": "All121homefiles; semanticJSONor exactbinary, allmatches",
+  "nativeMaterialReadback": {
+    "changed": 0,
+    "added": 0,
+    "removed": 0,
+    "fields": "diffuse values, surface method, node types/input defaults and links",
+    "evidence": "material-scope.json"
+  }
 }

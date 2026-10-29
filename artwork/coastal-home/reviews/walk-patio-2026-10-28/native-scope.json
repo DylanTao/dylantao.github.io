@@ -1,0 +1,137 @@
+{
+  "baselineSha256": "92c06962eabe924b1e4cd91b32d06f23fa6407b63d83e64828c8309c03ce51ca",
+  "finalSha256": "16713ed5e6efcb5f6b2cc9e70da678c4dc729255929f4248ca5b705a2e87b1a0",
+  "changed": {
+    "core_estate_pavilion__charcoal": {
+      "color:Baked contact and bounce": [
+        "357d20bcf4036f85e8b8f55899f0e2ebc3c27c78a37e7611a15fdb4643ce6057",
+        "5cb525c95d57bbb54b9fec7414a69fbde34429fb7d6b7c8bfc05426555f43ea5"
+      ]
+    },
+    "core_estate_pavilion__festoon bulb glass": {
+      "color:Baked contact and bounce": [
+        "a8d358a4bb6a4dd9087ef788983f2c36f13a7659ef8fd4ba3e717239e23e3dbd",
+        "230880843968be0421be68eeb778aa75322b3f770423d18f7d4aa5199d71c75d"
+      ]
+    },
+    "core_estate_pavilion__honey ash": {
+      "faces": [
+        "eb28894a665db874ad76802f26a7f04ed3a4506ccd42683226fe80a8f6b8d8fb",
+        "cb866a5fbd338a54a9bff4f552015d5720b0e9556c4a5b3ab35791b13016416a"
+      ],
+      "materials": [
+        ["honey ash", "polished nickel"],
+        ["honey ash", "polished nickel", "warm cut stone"]
+      ],
+      "normals": [
+        "2d11e77b4b4417ad8faea79e5c8819b268c0af34d5137bbbf2f48d208ba99834",
+        "7f0e75ada910e8e5dcf60419ce84030acabf2e8cedb30324e2c8db138b0a49f3"
+      ],
+      "color:Baked contact and bounce": [
+        "dae88cb596d17337041feb9a06e4a25c42050a98b66c17ec190e471f650289af",
+        "a1d96e84642ca96679071f27d4727bfc3d49e73f4a9f777dc907ad99c8665743"
+      ],
+      "positions": [
+        "e49787e265ac02471a1d480c8de6c12603db82dcaeb8c4e9d2f2cf7a9b32a697",
+        "9a91fd5104eded7cd9432366094289e2604a098123b31447cd448c9b288b1a4b"
+      ]
+    },
+    "core_estate_pavilion__travertine paving stone": {
+      "faces": [
+        "fcfe3983c3e4b58aae8861de349fc15284bb06fdb449be7f14f51c80139b4c3f",
+        "16169c693732b78072c9a0f0b624369562ff85d4c880988747acfff17d346343"
+      ],
+      "materials": [
+        ["travertine paving stone", "polished nickel"],
+        ["travertine paving stone", "polished nickel", "warm cut stone"]
+      ],
+      "normals": [
+        "e12a6e589645b807730063f1329692cc9d37c2d1d088630a6e7f6ac12efe85e7",
+        "2f3bd2ff91485c2d60c085cdcf092d48d6a77c19904ec9510da45aa34a27278b"
+      ],
+      "color:Baked contact and bounce": [
+        "a4ba01c415bdc18b26bce660d1423e55b8991426b89d9635a399c68392853d9f",
+        "eb3d206a08ce2e1fc9c15756435b839c7ad10ba19de73fe333bc1fba27531654"
+      ],
+      "positions": [
+        "9c6cb93848426041181290f236c38418a5b0617b6bf592806ad2c7351cb1ae8c",
+        "35dffd77c28b58ccc334450c9666bf7f4771032e816a0c2c4a08371b0a2ccc49"
+      ]
+    },
+    "core_estate_pavilion__pale oak": {
+      "faces": [
+        "fd6f43361ecb19685259e1473ac3f9519dad2852b8e51e2073ba8166554826d4",
+        "f23510860b8360a42c2e5705704460eb465074ffc1f3c3e48e04dca252d09162"
+      ],
+      "normals": [
+        "07fb23dd0455858ceef19772930b2c2a8b06002610ba6e5d982431ac41d27b0a",
+        "bbd311a981b73f2679f3cd042e1b5bc6ee75b0807d250322ffd164b3227eb905"
+      ],
+      "color:Baked contact and bounce": [
+        "22ac75c0d25ddba6240198a3dfbe96f96bbccffa53d6d1e0cee9839e3481a55a",
+        "2b695627044aa23f0586ab60b06606a349f8736ce866f04a85de9938c170a5a0"
+      ],
+      "positions": [
+        "7c6ccdcc84fbca9e15da8312333da8588aecf3feb12f75543c07c53bab808140",
+        "d34fbba14ae0fe4d3c56944c0d92c8cf9b2e43b6201c853d7ec7fd78de62d942"
+      ]
+    },
+    "core_estate_pavilion__brushed brass": {
+      "faces": [
+        "6b273da9c79d923fc9c85f5be490c23f310e17bedc001a5c22f439f42fe62020",
+        "dac0b19b2ce8519abbb16c52016c6c0e1e903757e6d1e768c9eb9f1220016d92"
+      ],
+      "normals": [
+        "c189885a79b0c41f450a8fcb90ad3ea8b601a1c8726dbb75c9429ee978b968b6",
+        "5a29e58d9ba874ab602496f2530fb93b414c3f490e1110cfc530e4d0cd13b73e"
+      ],
+      "color:Baked contact and bounce": [
+        "79d851dca9babaadd5d0e4cc131b1cd896d2691ba5c501a3948eab7ee17d2d44",
+        "9fa2936f5112589d849cc1a491a729d8414dff0b287ead737ae9d4257e4ec61f"
+      ],
+      "positions": [
+        "95f4447bbe249ba08ce72d0870d2e57ac168f48be1eaf4663f81aef5619bbeb8",
+        "ccc1a74ef995d00988e302f64f02f1a44c83e98ea838c98bea7d80767cfcb632"
+      ]
+    },
+    "core_estate_pavilion__warm cut stone": {
+      "color:Baked contact and bounce": [
+        "1c933401c2cd0117a47d78a7488ca51afc8fab415b0f95f00abb89ff016df14d",
+        "e3aff3a1658afa1edb3944270c7e14edf0f37304971117b478692b5a19ae90fc"
+      ]
+    },
+    "core_estate_pavilion__polished nickel": {
+      "color:Baked contact and bounce": [
+        "be534715ff3ecdc358c4b2f3e83bd7a00aca0fb3e5eaf5c31b1b2eccb15ffef9",
+        "d08b63c31b1929239e6d2f3650dba1f7870ddeb30a4668089566d3b19fc2539b"
+      ]
+    },
+    "core_estate_pavilion__linen": {
+      "color:Baked contact and bounce": [
+        "2dc44b2a0009e2098da615970f81f1139c95921f87fc23e41f7f3e3d9094f50c",
+        "64b231a8afd1405b0cf102189bf7763aff951f60f377f3cb98a987fccd8dfea5"
+      ]
+    },
+    "core_facade__weathered_teak_wood": {
+      "faces": [
+        "5f526bcd2901f0d26590cc7f5ae225728d6b25f4a35184639eb7aa1732fbe598",
+        "e8cea108f21b4195ab258248d4e19f1b85cdf0fa5970f3987bcb6abf1ce35673"
+      ],
+      "normals": [
+        "b981a2486d81696e1587f6d885b58ca6f29e82e6d3e9856627e66f7964da56de",
+        "0aa527170eea5e387286b6421142f41f4484f5f58c0a0d932baf84b9882809d6"
+      ],
+      "color:Baked contact and bounce": [
+        "d566712236b145e5d4a9953ae46d0155da40461b9ae272fc5cd3549aff798dc1",
+        "5540fb181438520d86c36758bc859c62bc509cd5b66bd25e97acb0b3c717fd5c"
+      ],
+      "positions": [
+        "a1edaec69d06866e421132ef0838ba1cb376f25c8d330382e33bcbdfb12a7eb3",
+        "a643a7018e1f960dd61e0b5002fc272126e4c113c659c232bd4df375df6dbbca"
+      ]
+    }
+  },
+  "added": ["core_walkflow_pavilion_cabinet__brushed brass", "core_walkflow_pavilion_cabinet__pale oak"],
+  "removed": [],
+  "unchangedObjects": 447
+}

@@ -310,7 +310,7 @@ test("visitor circulation: the study joins outdoor living and the living facade 
     requestedViewport = page.viewportSize();
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.clock.install({ time: new Date("2026-10-28T13:00:00-07:00") });
+  await page.clock.install({ time: new Date("2026-10-23T13:00:00-07:00") });
   await page.goto(publicRouteUrl("/") + "?scene-lab=1", { waitUntil: "domcontentloaded" });
   await page.locator('[data-home-desk-mode="3d"]').click();
   const scene = page.locator("[data-home-desk-scene]"),

@@ -424,6 +424,10 @@
       {
         "file": "estate-redesign.spec.js",
         "title": "estate thresholds: real leaves open before the body, cross both ways and close after leaving"
+      },
+      {
+        "file": "estate-redesign.spec.js",
+        "title": "visitor circulation: the study joins outdoor living and the living facade returns to the same floor"
       }
     ],
     "scene-footer-light": [
