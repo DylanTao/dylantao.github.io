@@ -1,5 +1,5 @@
 {
-  "head": "834fe5442",
+  "head": "52878f882",
   "manifestOrder": [
     "companion.spec.js",
     "duh.spec.js",
@@ -563,7 +563,11 @@
       },
       {
         "file": "footer-coast.spec.js",
-        "title": "coastal tilt: explicit permission, screen rotation and pause keep a calibrated view"
+        "title": "coastal tilt: a footer gesture grants access and rotation keeps the view calibrated"
+      },
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal tilt: automatically permitted motion needs no prompt or badge"
       },
       {
         "file": "footer-coast.spec.js",
