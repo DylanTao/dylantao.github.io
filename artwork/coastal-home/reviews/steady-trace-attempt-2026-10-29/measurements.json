@@ -1,0 +1,185 @@
+{
+  "status": "incomplete bounded trace; steady-FPS item remains open",
+  "startedUTC": "2026-10-29T08:03:00.560Z",
+  "closedUTC": "2026-10-29T08:04:20.596Z",
+  "scope": {
+    "url": "http://127.0.0.1:4150/al-folio/",
+    "actualNativeBuffer": [2560, 1440],
+    "nativeRenderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "rooms": 10,
+    "quality": {
+      "tier": "high",
+      "pinned": true,
+      "demoted": false,
+      "canPromote": true,
+      "failedReductions": 0,
+      "trial": null,
+      "history": [],
+      "settings": {
+        "embed": {
+          "pixelBudget": 4200000,
+          "maxDensity": 2
+        },
+        "fullscreen": {
+          "pixelBudget": 8300000,
+          "maxDensity": 2
+        },
+        "maxSamples": 4,
+        "shadowMapSize": 4096,
+        "contactScale": 1.5,
+        "reflectionScale": 1.5,
+        "mirrorSize": 512,
+        "hazeSteps": 1.25,
+        "hazeDivisor": -1,
+        "anisotropy": {
+          "embed": 8,
+          "fullscreen": 16
+        },
+        "lodReach": 1.4,
+        "memoryBudget": 1342177280
+      },
+      "memoryBytes": 801297818,
+      "lastSwitch": null
+    },
+    "resolution": {
+      "profile": "fullscreen",
+      "compact": false,
+      "css": [2560, 1440],
+      "density": 1,
+      "cap": 1,
+      "factor": 1,
+      "adaptive": false,
+      "pixels": 3686400,
+      "budget": 8300000,
+      "minFactor": 0.8,
+      "failedProbes": 0,
+      "history": []
+    },
+    "lightCache": {
+      "state": "restored",
+      "reason": null
+    },
+    "view": "outside",
+    "conditioning": {
+      "routineDate": "2026-10-23T13:20:00-07:00",
+      "randomSeed": 7,
+      "avatar": "South Park via public selector",
+      "nativeRAFPerformanceTimers": true,
+      "movingScene": true
+    },
+    "servedProductOverrides": []
+  },
+  "completedPhases": [
+    {
+      "name": "untraced-before",
+      "seconds": 3.821899999976158,
+      "fps": 17.007247704127654,
+      "frames": 65,
+      "startPageSeconds": 59.70619999998808,
+      "endPageSeconds": 63.52809999996424,
+      "processCPUCoreEquivalent": {
+        "browser": 0.03752348308456385,
+        "renderer": 0.9340820011047558,
+        "GPU": 1.6021682932672796,
+        "network.mojom.NetworkService": 0.000696773855939883
+      },
+      "mainTaskWallSeconds": 4.2074929999999995,
+      "drawCallsLastObserved": 2320
+    },
+    {
+      "name": "whole-frame-query",
+      "seconds": 3.860399999976158,
+      "fps": 16.837633405968667,
+      "frames": 65,
+      "startPageSeconds": 63.9265,
+      "endPageSeconds": 67.78689999997616,
+      "processCPUCoreEquivalent": {
+        "browser": 0.03746399336879426,
+        "renderer": 0.8664244637914881,
+        "GPU": 1.6162713708523806,
+        "network.mojom.NetworkService": 0.00037716298829368707
+      },
+      "mainTaskWallSeconds": 4.22681,
+      "drawCallsLastObserved": 2320
+    },
+    {
+      "name": "render-pass-query",
+      "seconds": 3.8886000000238417,
+      "fps": 16.71552743907871,
+      "frames": 65,
+      "startPageSeconds": 68.22159999996424,
+      "endPageSeconds": 72.11019999998808,
+      "processCPUCoreEquivalent": {
+        "browser": 0.036327984364330115,
+        "renderer": 0.9020961271353426,
+        "GPU": 1.6119119991671975,
+        "network.mojom.NetworkService": 1.568687959668242e-5
+      },
+      "mainTaskWallSeconds": 4.280196000000004,
+      "drawCallsLastObserved": 2320
+    }
+  ],
+  "nvidia": {
+    "scope": "coarse global driver samples across the collection window, including OS/compositor; not per-phase/per-shader occupancy",
+    "rows": 99,
+    "gpuPercent": {
+      "samples": 99,
+      "median": 100.0,
+      "min": 99.0,
+      "max": 100.0
+    },
+    "memoryPercent": {
+      "samples": 99,
+      "median": 7.0,
+      "min": 6.0,
+      "max": 9.0
+    },
+    "graphicsMHz": {
+      "samples": 99,
+      "median": 1935.0,
+      "min": 1830.0,
+      "max": 1965.0
+    },
+    "smMHz": {
+      "samples": 99,
+      "median": 1935.0,
+      "min": 1830.0,
+      "max": 1965.0
+    },
+    "memoryMHz": {
+      "samples": 99,
+      "median": 9501.0,
+      "min": 9501.0,
+      "max": 9501.0
+    },
+    "powerWatts": {
+      "samples": 99,
+      "median": 314.3,
+      "min": 307.53,
+      "max": 319.93
+    }
+  },
+  "preserved": [
+    "three completed phase FPS/process-CPU/native-app-evidence records",
+    "coarse NVIDIA CSV",
+    "full startup evidence",
+    "producer sources"
+  ],
+  "notObtained": [
+    "completed Chrome GPU/ANGLE trace",
+    "CPU sampling profile",
+    "program/shader/uniform census",
+    "in-page whole-frame and per-render GPU-query raw results",
+    "post-trace timing control",
+    "new beauty PNG"
+  ],
+  "failureInterpretation": "The first phase began at page performance59.706s and the third ended72.110s. The80s watchdog left about7s for a requested6.5s trace plus its setup/readback. Budget exhaustion is sufficient to explain the cutoff. Trace overhead/stall was not established.",
+  "limits": [
+    "One run, three65-frame windows; no paired source change, speedup or broad population claim.",
+    "Query modes use different observers. Similar pacing does not recover the lost query results.",
+    "GPU-process CPU is CPU time accumulated by that process, not hardware GPU execution or shader occupancy.",
+    "No kernel GPU queue trace was captured. The current process reported Administrator=False.",
+    "The producer-integrity self-check is synthetic tooling proof only, not scene or performance acceptance.",
+    "Process CPU and Performance metrics use CDP snapshots around the atomic FPS interval; their brackets are slightly wider, so CPU normalization is approximate and TaskDuration delta can exceed the FPS interval."
+  ]
+}

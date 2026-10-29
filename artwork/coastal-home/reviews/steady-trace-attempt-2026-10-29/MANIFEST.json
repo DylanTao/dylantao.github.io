@@ -1,0 +1,61 @@
+{
+  "schema": "coastal-review-manifest-v1",
+  "producerBaseCommit": "58b4a1da168edb7ff36572bc97ce46fd66863c28",
+  "scope": "Incomplete bounded trace attempt; manifest excludes itself",
+  "fileCount": 13,
+  "totalBytes": 525951,
+  "files": {
+    ".gitattributes": {
+      "bytes": 26,
+      "sha256": "abeba78466be388a1c5f3cb4ad595b915a0aa9402d1d87e37dfe42762e5b91c5"
+    },
+    "measurements.json": {
+      "bytes": 5741,
+      "sha256": "957f8ff0aae554385b6266dc1d3d6e225f00b053a5d2dde386b8c3d5a29bece4"
+    },
+    "producers/check-driver-hooks.cjs.gz": {
+      "bytes": 1444,
+      "sha256": "05328fee99d5fa7109f04fe392acc503ad1a46e19ffca4c0a4d07ae606895e59"
+    },
+    "producers/driver-hooks.js.gz": {
+      "bytes": 3529,
+      "sha256": "44d231e7048ee112321333d0cbc4147385b2a91796d86c2b4d259b38164505d9"
+    },
+    "producers/driver-trace.cjs.gz": {
+      "bytes": 5666,
+      "sha256": "bf30ca5a74c4abfdb115943d8fade792ad9f05cf08e14679d521e4f2f99a32aa"
+    },
+    "production-readback.json": {
+      "bytes": 40654,
+      "sha256": "135384053a2d38d92eae68f26a2e583df487d289da0a29a23229fccd79e7f87b"
+    },
+    "raw/bounded-run.json.gz": {
+      "bytes": 196236,
+      "sha256": "46830945bea31de745f0a3754652971e3fab8b9556ec249fbcb02cdbff986837"
+    },
+    "raw/completed-phases.json.gz": {
+      "bytes": 194991,
+      "sha256": "a6381361200bc64203d12e28e027afa6898a53710121a2c714ac6122383fff01"
+    },
+    "raw/first-preflight-timeout.json.gz": {
+      "bytes": 5967,
+      "sha256": "431b78e8a611b009c657a90689590d9f7fff6a703686df72771c017a0a52dc80"
+    },
+    "raw/nvidia-smi.csv.gz": {
+      "bytes": 883,
+      "sha256": "beac9a589b1569ab091b6d87eb18733bc68d3f477e5eca74d8ab2e4dddf95006"
+    },
+    "raw/passing-preflight.json.gz": {
+      "bytes": 32650,
+      "sha256": "21d4f5b44f535504a82b18de64e5168f106907c0ff8a0697545afd59c443f4ad"
+    },
+    "raw/startup-assertion-failure.json.gz": {
+      "bytes": 32569,
+      "sha256": "464c02a77a53b4f6e8cffbde165e3418ed31b5845c2a4d14d230d4479064af52"
+    },
+    "README.md": {
+      "bytes": 5595,
+      "sha256": "d8b9488a1756bbec098388bf4ec911117c5ff5ce1c13dd2ff837e7b73478b082"
+    }
+  }
+}
