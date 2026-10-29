@@ -1,0 +1,82 @@
+{
+  "clockForRetainedBrowserRuns": "2026-10-28T13:00:00-07:00",
+  "finalCiFixtureClock": "2026-10-23T13:00:00-07:00",
+  "functionalCadenceHz": 10,
+  "physicalPhone": false,
+  "performanceBenchmark": false,
+  "cacheSignature": "5251671b73123ad948736e5235dfef440004516270ca4b5e03a044242e140ae9",
+  "sourceModuleMatchesCompiledReceipt": true,
+  "linuxImage": "mcr.microsoft.com/playwright:v1.58.2-noble",
+  "linuxImageId": "sha256:6446946a1d9fd62d9ae501312a2d76a43ee688542b21622056a372959b65d63d",
+  "cases": [
+    {
+      "label": "canonical Chromium, fresh field",
+      "proof": "canonical-chromium-circulation.json",
+      "images": ["canonical-chromium-cook-aisle.png", "canonical-chromium-living-return.png"],
+      "package": "1.58.2",
+      "waypoints": 41,
+      "distanceM": 99.91536339008832,
+      "latePlacements": 0,
+      "errors": [],
+      "backend": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "vendor": "Google Inc. (NVIDIA)",
+        "buffer": [1440, 1000]
+      },
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "pixelFractions": {
+        "canonical-chromium-cook-aisle.png": 0.9999953703703703,
+        "canonical-chromium-living-return.png": 1
+      }
+    },
+    {
+      "label": "official cache, Windows WebKit27.2",
+      "proof": "official-webkit27-circulation.json",
+      "images": ["official-webkit27-cook-aisle.png", "official-webkit27-phone-living-return.png"],
+      "package": "1.65.0-alpha-2026-10-28",
+      "waypoints": 41,
+      "distanceM": 100.0773633900883,
+      "latePlacements": 0,
+      "errors": [],
+      "backend": {
+        "renderer": "Apple GPU",
+        "vendor": "Apple Inc.",
+        "buffer": [390, 1000]
+      },
+      "requestedViewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "pixelFractions": {
+        "official-webkit27-cook-aisle.png": 0.9994791666666667,
+        "official-webkit27-phone-living-return.png": 1
+      }
+    },
+    {
+      "label": "official cache, Linux WebKit26.0",
+      "proof": "official-linux-webkit-circulation.json",
+      "images": ["official-linux-webkit-cook-aisle.png", "official-linux-webkit-phone-living-return.png"],
+      "package": "1.58.2",
+      "waypoints": 41,
+      "distanceM": 99.78183478397106,
+      "latePlacements": 0,
+      "errors": [],
+      "backend": {
+        "renderer": "Apple GPU",
+        "vendor": "Apple Inc.",
+        "buffer": [390, 1000]
+      },
+      "requestedViewport": {
+        "width": 390,
+        "height": 1000
+      },
+      "pixelFractions": {
+        "official-linux-webkit-cook-aisle.png": 0.9998046875,
+        "official-linux-webkit-phone-living-return.png": 1
+      }
+    }
+  ]
+}

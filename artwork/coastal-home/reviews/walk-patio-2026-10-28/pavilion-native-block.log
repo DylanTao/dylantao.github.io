@@ -1,0 +1,30 @@
+(node:26496) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/dev/site-takeover-worktrees/walk-audit/assets/js/three.module.min.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\dev\site-takeover-worktrees\walk-audit\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✖ the study patio door joins the whole dry promenade and returns without squeezing behind old furniture (1322.9192ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1448.2499
+
+✖ failing tests:
+
+test at test\coastal-walk-native.test.mjs:143:1
+✖ the study patio door joins the whole dry promenade and returns without squeezing behind old furniture (1322.9192ms)
+  AssertionError [ERR_ASSERTION]: native route blocked before [4.6,0,-0.1] at {"x":4.599522343311856,"z":1.6400034996498984,"foot":0.0011761579662561417,"moved":0.00000980524873916977,"blocked":true}
+      at traverse (file:///C:/dev/site-takeover-worktrees/walk-audit/test/coastal-walk-native.test.mjs:66:14)
+      at TestContext.<anonymous> (file:///C:/dev/site-takeover-worktrees/walk-audit/test/coastal-walk-native.test.mjs:148:19)
+      at async Test.run (node:internal/test_runner/test:1113:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

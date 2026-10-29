@@ -1,0 +1,22 @@
+{
+  "sourceBase": "ac86b2827075be337df35e9c99af0f1decdcc293",
+  "runtimeFix": "2976862d4",
+  "baselineShellSha256": "9cb7746437d43c6e8c40651d3b26994f81d1893186d7933626adfcad71a5998f",
+  "chairOnlyShellSha256": "7e0dea753413dcc0faddc1baae45e0276a33a635ccaa9b3b33495625ced5c80f",
+  "previews": {
+    "port": 4142,
+    "completeOriginalSiteRoot": "footer-daylight-20261028/site",
+    "ownedOverlay": "walk-audit-20261028/site",
+    "lightCache": "Descriptor omitted in the candidate preview manifest, so the changed scene derives a fresh field. Official bake and release qualification remain coordinator owned."
+  },
+  "testCommit": "504bf34a0",
+  "canonicalRuntimeCommit": "be289b9e3",
+  "canonicalNativeSourceSha256": "16713ed5e6efcb5f6b2cc9e70da678c4dc729255929f4248ca5b705a2e87b1a0",
+  "canonicalShellSha256": "b51f302da52907dc1d707c14ea3a3c4578da9f43f9147d7917a6bb0e1f99ce72",
+  "canonicalManifestBeforeCacheSha256": "63364c38e77fae393d83e77f380005c7f84543fc59e496ae08f1dd9aad329b60",
+  "canonicalPreviewManifestSha256": "4d8273495cf9e315551852f3276bd98a5bd098064748ff8bff8bb2a1de801809",
+  "canonicalPreviewPort": 4143,
+  "viewportSettleCommit": "27f07759b",
+  "upstreamWebkitIssue": "https://github.com/microsoft/playwright/issues/42885",
+  "upstreamWebkitFix": "https://github.com/WebKit/WebKit/pull/75957"
+}

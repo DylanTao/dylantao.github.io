@@ -1,0 +1,185 @@
+{
+  "scope": "Worker-owned browser packet. Coordinator native receipts are independent and excluded. Hashes bind normalized Git index blobs; this manifest excludes itself.",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 6603,
+      "sha256": "b90309d3a0fcdf30d70ddfbdf25dab399d8db5f7a3dd13ff0a6b21289377fb31"
+    },
+    {
+      "file": "baseline-pavilion-to-study.json",
+      "bytes": 29427,
+      "sha256": "5933417c04a19208319f41343ff0fffc1c206bc0f85cca4447a62ea980baf74d"
+    },
+    {
+      "file": "before-chair-block.png",
+      "bytes": 903079,
+      "sha256": "f8953b3b15cbb52166e4b4334d22e7cb761c5563d4a297fccf5447f23ca8356a"
+    },
+    {
+      "file": "before-pavilion-block.png",
+      "bytes": 912466,
+      "sha256": "81dc7bd528cab21fd865d59596176482714826ea6f5be6fdd853a9a341c24bb3"
+    },
+    {
+      "file": "browser-qualification.json",
+      "bytes": 2758,
+      "sha256": "82ae13f491bbbcb71f0f39a0353b77a9c5ff991f1b198c9c437ca8c2c7eabced"
+    },
+    {
+      "file": "canonical-chromium-circulation.json",
+      "bytes": 56093,
+      "sha256": "8f530391d449ee94d5e5b4433e89cd3806bb0031fa2b9cb77063f5ae871415f4"
+    },
+    {
+      "file": "canonical-chromium-cook-aisle.png",
+      "bytes": 947436,
+      "sha256": "5855d41cbbd63948890f0ece9871625ff9725f5530bcd2fe7c85bf50d396e16d"
+    },
+    {
+      "file": "canonical-chromium-desk-return.png",
+      "bytes": 684318,
+      "sha256": "bcc51090333ccceeca1599923c7d53d3f5c862ae6dbc2966b389b46f59f8a8cf"
+    },
+    {
+      "file": "canonical-chromium-living-return.png",
+      "bytes": 648887,
+      "sha256": "bc0b807dd740e0cebfe1352e42010926792d7084cbd48e61b3e26a956e07c7a2"
+    },
+    {
+      "file": "chair-only-partial-loop.json",
+      "bytes": 67430,
+      "sha256": "454ebb7f80604f039c87697516b6d710feb2b98116e4205b9fd909dcab57a4a1"
+    },
+    {
+      "file": "east-door-approach.png",
+      "bytes": 759270,
+      "sha256": "178c72cd8aa61e018de1bb29c74ffe1e955ea741ccc835c1fa8c34b3f08bfdd1"
+    },
+    {
+      "file": "east-door-from-desk.png",
+      "bytes": 502673,
+      "sha256": "f5138a7f90fabb0c410054b86060ec831aa5df60b91aad16d4f61cec98894e1d"
+    },
+    {
+      "file": "native-canonical-final.log",
+      "bytes": 3564,
+      "sha256": "6b19a8f1665135b44a0147a10274c3a04284feb00e4e817dfab835f31b8a9e63"
+    },
+    {
+      "file": "official-asset-readback.json",
+      "bytes": 1463,
+      "sha256": "44c71491f16c87a59167fdd6b26f872c04c1ebf97cee0331671b70e0fee5e606"
+    },
+    {
+      "file": "official-linux-webkit-circulation.json",
+      "bytes": 55255,
+      "sha256": "a901a522def1c281cdedff60b89b51ab7087200b43e28167b33662bce2aa90ab"
+    },
+    {
+      "file": "official-linux-webkit-cook-aisle.png",
+      "bytes": 166909,
+      "sha256": "e2d8d7622692dad4e246e1fbd3844045e85fd50f48b7b6f83ea9c356bdfbb1cc"
+    },
+    {
+      "file": "official-linux-webkit-phone-living-return.png",
+      "bytes": 204077,
+      "sha256": "a57c80a2396f783c8a8171df710829260b48d1a1b888cb3c98a40c461015f7c1"
+    },
+    {
+      "file": "official-webkit27-circulation.json",
+      "bytes": 55928,
+      "sha256": "e15a6135995ea98e680c17d28be5ea4e79b1e3f1c3eeb1aae350da94fd497f6a"
+    },
+    {
+      "file": "official-webkit27-cook-aisle.png",
+      "bytes": 164329,
+      "sha256": "df7704f015d70fb26b6db66cb872e935c51d33bf851d7ea9ce5438368de084ea"
+    },
+    {
+      "file": "official-webkit27-desk-return.png",
+      "bytes": 131550,
+      "sha256": "4198a86e7b9b6ae31e6f44f07e1861848d81cfd104d4b19e53c94534de4db5df"
+    },
+    {
+      "file": "official-webkit27-phone-living-return.png",
+      "bytes": 190980,
+      "sha256": "e01350cb177a70bfbe23d5458d75ca976f92382f901131b5bc3ca545faea678f"
+    },
+    {
+      "file": "pavilion-native-block.log",
+      "bytes": 1620,
+      "sha256": "4ecf061bc77d04c01c5d39d4d969be7dd78838361fdb6e6bb282aeffd8f4b235"
+    },
+    {
+      "file": "pre-ao-actual-covered-table.png",
+      "bytes": 940011,
+      "sha256": "5509cf93c0b30049993378703bcbc937b2b7bfa2122e84cd2b818b1d739c595f"
+    },
+    {
+      "file": "pre-ao-whole-keyboard-loop.json",
+      "bytes": 89165,
+      "sha256": "ae0481b3ce69dd8f71326e57a77be7a2fdf8f9e77b15f9ad68b1b7956f15aed0"
+    },
+    {
+      "file": "runtime-final.log",
+      "bytes": 3968,
+      "sha256": "0afe2a179d36ae8dc423621aed415b790f20141619d95ae7ed226b2464fbe0ff"
+    },
+    {
+      "file": "runtime-tests.log",
+      "bytes": 3963,
+      "sha256": "574e1d4f8def254bee6deba37ab8656e3bd9092e1549d86153c5367be498b1d8"
+    },
+    {
+      "file": "source-bindings.json",
+      "bytes": 1314,
+      "sha256": "f11eea07de28a7c15218ff3acc2f377f5faa58ecda194944f02681bf5e668475"
+    },
+    {
+      "file": "webkit-resize-repro.cjs",
+      "bytes": 2956,
+      "sha256": "5f068b9fbb6a67e2a6f35543c6c472e0f6f4e8f486200ace28a58a515d4d7e0a"
+    },
+    {
+      "file": "windows-fixed-matrix.json",
+      "bytes": 1310,
+      "sha256": "f201fa07f70717bdb3a1828c3710e7b3ae977f531c8ea980eaa67e2e27794802"
+    },
+    {
+      "file": "windows-fixed-resize/after.png",
+      "bytes": 3389,
+      "sha256": "73e99fe5ccf093ac35e9b9a8c2ebd772eecb290bfdd2dbc0e36b12f5196c21ea"
+    },
+    {
+      "file": "windows-fixed-resize/before.png",
+      "bytes": 3389,
+      "sha256": "73e99fe5ccf093ac35e9b9a8c2ebd772eecb290bfdd2dbc0e36b12f5196c21ea"
+    },
+    {
+      "file": "windows-fixed-resize/proof.json",
+      "bytes": 272,
+      "sha256": "b787b144ae6adda1d0898e57094dcea094ad1895840b8f70df76abfd411ce9cb"
+    },
+    {
+      "file": "windows-old-matrix.json",
+      "bytes": 1310,
+      "sha256": "b154255ec4834ce5b1160abc08c8dc8a022741b506858c2ecba1ec7ec9a8b45b"
+    },
+    {
+      "file": "windows-old-resize/after.png",
+      "bytes": 3629,
+      "sha256": "715535776f7fb1b18b2bfb50976328b23f27f8dedb4b9d147127915163bd87f0"
+    },
+    {
+      "file": "windows-old-resize/before.png",
+      "bytes": 3648,
+      "sha256": "2fefdb84b015ff1c127d68d4eb0f2467d5e9aa618034593834eb5d083fde7e33"
+    },
+    {
+      "file": "windows-old-resize/proof.json",
+      "bytes": 257,
+      "sha256": "efe6bf3e332e932ad0746b31616451d96067804d0ff3e61d3b5efaf07a028b83"
+    }
+  ]
+}

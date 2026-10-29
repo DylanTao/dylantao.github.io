@@ -1,0 +1,22 @@
+(node:9456) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/dev/site-takeover-worktrees/walk-audit/assets/js/three.module.min.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\dev\site-takeover-worktrees\walk-audit\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ the delivered main entrance continuously descends into the living floor and climbs back outside (1710.0652ms)
+ℹ {"inward":{"state":{"x":3.2698268204970957,"z":9.22532836797354,"foot":0.0026175621896982193,"moved":0.03499999999999929,"blocked":false},"travelled":34.12499999999991,"maximumRise":0.17819786071777344},"outward":{"state":{"x":-2.8,"z":22.94957521136292,"foot":8.300078392028809,"moved":0.03500000000000014,"blocked":false},"travelled":34.159999999999684,"maximumRise":0.17819786071777344},"field":{"cell":0.1,"size":[360,462],"columns":166320,"filled":155090,"intervals":496884,"triangles":950588,"samples":16431239,"overflows":12253,"meshes":590}}
+✔ the study patio door joins the whole dry promenade and returns without squeezing behind old furniture (12.8221ms)
+ℹ {"route":[[-10.1,0,4.85],[-9.41,0,4.3],[-9.41,0,2.55],[-8.5,0,2.55],[-7.95,0,2.55],[3,0,2.4],[4.6,0,1.8],[4.6,0,-0.1],[6.8,0,-0.1],[5.05,0,-0.35]],"outward":{"state":{"x":5.072717142129428,"z":-0.34669513141903835,"foot":0.0011761579662561417,"moved":0.03499999999999974,"blocked":false},"travelled":22.505000000000035,"maximumRise":0.013720586895942688},"inward":{"state":{"x":-10.094188549841219,"z":4.845367034628441,"foot":0.011914730072021484,"moved":0.03499999999999973,"blocked":false},"travelled":22.540000000000042,"maximumRise":0.013720586895942688}}
+✔ the stair hall's landing door joins the upper floor in both directions (2.0389ms)
+ℹ {"inward":{"state":{"x":2.65,"z":14.119958009244318,"foot":2.6023969650268555,"moved":0.03500000000000014,"blocked":false},"travelled":18.27000000000017,"maximumRise":0.17350563406944275},"outward":{"state":{"x":0.19500000984129237,"z":13.623097355370763,"foot":0.0026175621896982193,"moved":0.03499999999999977,"blocked":false},"travelled":18.270000000000074,"maximumRise":0.17350563406944275}}
+✔ the clifftop walking field extends beyond the entrance over real terrain (2ms)
+ℹ {"inward":{"state":{"x":-2.781114509943018,"z":22.968233105531755,"foot":8.300078392028809,"moved":0.0349999999999995,"blocked":false},"travelled":13.783048494484335,"maximumRise":0.09018898010253906},"outward":{"state":{"x":-2.999758558912785,"z":24.230024868897484,"foot":8.387674331665039,"moved":0.03500000000000079,"blocked":false},"travelled":13.834798932675936,"maximumRise":0.10386180877685547}}
+✔ the hidden cutaway roof remains real clifftop support while crossing the dwelling and returning (105.0955ms)
+ℹ {"inward":{"state":{"x":-2.7741752234789323,"z":22.952114802345292,"foot":8.300078392028809,"moved":0.03500000000000003,"blocked":false},"travelled":30.555000000000042,"maximumRise":0.15850830078125},"outward":{"state":{"x":-1.9974458510293822,"z":11.002568205228735,"foot":7.735912322998047,"moved":0.035000000000000336,"blocked":false},"travelled":30.59000000000013,"maximumRise":0.15850830078125},"supports":[{"x":0,"z":8,"foot":7.00044059753418},{"x":0,"z":14,"foot":7.390991687774658},{"x":-2,"z":11,"foot":7.735912322998047}]}
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1990.1362

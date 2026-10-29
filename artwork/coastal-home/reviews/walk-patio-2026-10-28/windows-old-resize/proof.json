@@ -1,0 +1,10 @@
+{
+  "platform": "win32",
+  "playwright": "1.58.2",
+  "browser": "26.0",
+  "beforeGpu": [255, 51, 25, 255],
+  "afterGpu": [255, 51, 25, 255],
+  "beforeComposed": [255, 51, 25, 255],
+  "afterComposed": [255, 255, 255, 255],
+  "expected": [255, 51, 25, 255]
+}

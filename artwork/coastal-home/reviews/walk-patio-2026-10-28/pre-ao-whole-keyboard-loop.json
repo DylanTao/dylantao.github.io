@@ -1,0 +1,3176 @@
+{
+  "scope": "Coherent full native geometry before selective pavilion AO save. No body placement calls; ordinary keyboard from pavilion to covered dining and back. Final canonical AO export has separate checks.",
+  "source": {
+    "runtime": "2976862d4",
+    "shellSha256": "94f7412ce4d6764a9f0f046d6bcdd9ada789bf6cd1ed751f89a2e653072ff394",
+    "manifestSha256": "4d8273495cf9e315551852f3276bd98a5bd098064748ff8bff8bb2a1de801809"
+  },
+  "route": [
+    {
+      "target": [-2.8, 5.45, 17],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-2.8, 5.4498820304870605, 16.94200000000013],
+        "eye": 7.04988203048706,
+        "yaw": 3.141592653589793,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [2.4492935982947064e-16, -2],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 6.007999999999868,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [2.65, 2.6, 17],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [2.6332225960828146, 2.6001780033111572, 17.049835900043043],
+        "eye": 4.200178003311157,
+        "yaw": 1.4315926535897936,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [1.9806536083123163, 0.2775090699047545],
+        "room": "library-upper",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 11.465999999999852,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [2.65, 0, 22.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [2.6455811521891666, 6.669759750366211e-5, 22.13055919061664],
+        "eye": 1.6000666975975038,
+        "yaw": -0.1834073464102062,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [-0.364761647894862, 1.9664559339647112],
+        "room": "bath-living",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 16.567999999999792,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [0.9, 0, 22.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [0.8528246848168948, 6.669759750366211e-5, 22.120054560029818],
+        "eye": 1.6000666975975038,
+        "yaw": -1.513407346410206,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [-1.99670740875699, 0.11471496770232847],
+        "room": "bath-living",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 18.367999999999785,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [0.195, 0, 18.2],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [0.2657242344051198, 6.669759750366211e-5, 18.29849445006332],
+        "eye": 1.6000666975975038,
+        "yaw": -3.0011073464102056,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [-0.2800473142497339, -1.9802963166610978],
+        "room": "bath-living",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 22.245999999999835,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [0.195, 0, 13.6],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [0.19182712764305943, 0.0026175621896982193, 13.661307998721862],
+        "eye": 1.6026175621896983,
+        "yaw": -3.1588073464102053,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [0.03442768516624929, -1.999703661669422],
+        "room": "lounge",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 26.903999999999805,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [3.27, 0, 13.6],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [3.241434779785788, 0.0026175621896982193, 13.608890708422795],
+        "eye": 1.6026175621896983,
+        "yaw": -4.931507346410207,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [1.952178937367233, 0.43473830806560065],
+        "room": "lounge",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 29.959999999999788,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [3.27, 0, 9.2],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [3.288025339055905, 0.0026175621896982193, 9.173367032078545],
+        "eye": 1.6026175621896983,
+        "yaw": -3.1569073464102053,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [0.03062818835311849, -1.9997654647678578],
+        "room": "lounge",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 34.40799999999982,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [3.27, 0, 13.6],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [3.267835036067563, 0.0026175621896982193, 13.65815233301237],
+        "eye": 1.6026175621896983,
+        "yaw": -6.41730734641021,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [-0.2674405735037457, 1.982038228603068],
+        "room": "lounge",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 38.91599999999987,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-2.8, 0, 13.6],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-2.8423193238622932, 0.0026175621896982193, 13.59729715265867],
+        "eye": 1.6026175621896983,
+        "yaw": -7.754907346410213,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [-1.9901923119379308, 0.19782457254636898],
+        "room": "bath-living",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 45.053999999999945,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-3.65, 0, 13.6],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-3.6315368575840066, 0.0026175621896982193, 13.601195486223142],
+        "eye": 1.6026175621896983,
+        "yaw": -8.134907346410213,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [-1.921598401403333, -0.5544903819942737],
+        "room": "bath-living",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 45.85399999999996,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-3.65, 0, 9.05],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-3.6606610898449916, 0.0026175621896982193, 9.121778795830709],
+        "eye": 1.6026175621896983,
+        "yaw": -9.430707346410209,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [0.01185870179409652, -1.999964842488927],
+        "room": "bath-living",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 50.34999999999999,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-9, 0, 9.05],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-8.95349998977727, -0.00020606815814971924, 9.022651964245316],
+        "eye": 1.5997939318418504,
+        "yaw": -7.650407346410211,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [-1.9587004352113317, 0.4043421881314634],
+        "room": "study",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 55.653538293732396,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-9, 0, 7.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-9.007798857013704, -0.00020606815814971924, 7.2234711414771],
+        "eye": 1.5997939318418504,
+        "yaw": -9.394607346410208,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [-0.060332074707126516, -1.999089803075773],
+        "room": "study",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 57.45353829373242,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-9.7, 0, 7.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-9.594539029407855, -0.00020606815814971924, 7.098028046414493],
+        "eye": 1.5997939318418504,
+        "yaw": -8.064607346410211,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [-1.9558005746471603, -0.4181436502086789],
+        "room": "study",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 58.05353829373243,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-9.927, 0, 5.509],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-9.936114141054862, 0.011914730072021484, 5.476961938972635],
+        "eye": 1.6119147300720216,
+        "yaw": -9.014607346410209,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [-0.7975315923270395, -1.8341056019870547],
+        "room": "study",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 59.716930211423715,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-10.1, 0, 4.85],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-10.067151814267897, 0.011914730072021484, 4.891445817760831],
+        "eye": 1.6119147300720216,
+        "yaw": -9.204607346410208,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [-0.4367922440434895, -1.951720404039332],
+        "room": "study",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 60.316930211423724,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-9.41, 0, 4.3],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-9.501148533674131, -0.00020606815814971924, 4.332657448596226],
+        "eye": 1.5997939318418504,
+        "yaw": -10.403507346410205,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": "study",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 61.11693021142371,
+        "blockedFrames": 0,
+        "lastBlocked": null,
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-9.41, 0, 2.55],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-9.36674979136239, -0.00020606815814971924, 2.5711868030328775],
+        "eye": 1.5997939318418504,
+        "yaw": -9.594107346410206,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [0.33704272755403386, -1.971396002786588],
+        "room": "library",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 62.89548172903575,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-8.5, 0, 2.55],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-8.567148346974493, 0.005020751617848873, 2.5459374439761016],
+        "eye": 1.605020751617849,
+        "yaw": -10.964007346410202,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": "library",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 63.695481729035734,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-7.95, 0, 2.55],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-7.917878388184046, 0.0011761579662561417, 2.563225773029265],
+        "eye": 1.6011761579662562,
+        "yaw": -11.154007346410202,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [1.9749514271128377, 0.31554216920241557],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 64.34748172903574,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [3, 0, 2.4],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [2.951180714963729, 0.0011761579662561417, 2.387186048844689],
+        "eye": 1.6011761579662562,
+        "yaw": -11.186307346410201,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [1.9637310531873824, 0.37915742211853626],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 75.23348172903597,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [4.6, 0, 1.8],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [4.64454849092594, 0.0011761579662561417, 1.7935950123017401],
+        "eye": 1.6011761579662562,
+        "yaw": -10.616307346410203,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [1.8578725851254034, -0.7404792079724118],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 77.033481729036,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [4.6, 0, -0.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [4.601817091425257, 0.0011761579662561417, -0.12423919380917078],
+        "eye": 1.6011761579662562,
+        "yaw": -9.444007346410206,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [0.03845640118016261, -1.9996302421218455],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 78.96148172903602,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [6.8, 0, -0.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [6.710013521866984, 0.0011761579662561417, -0.11980801858737988],
+        "eye": 1.6011761579662562,
+        "yaw": -11.344007346410201,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [1.8798177201816477, 0.6828508906716548],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 81.07748172903605,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [5.05, 0, -0.35],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [5.158464000110206, 0.0011761579662561417, -0.300191170617383],
+        "eye": 1.6011761579662562,
+        "yaw": -14.252907346410193,
+        "pitch": -0.08,
+        "fov": 62,
+        "velocity": [-1.986619105962598, -0.2309643431882239],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 82.63948172903609,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [6.8, 0, -0.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [6.745730130982244, 0.0011761579662561417, -0.09873092693009411],
+        "eye": 1.6011761579662562,
+        "yaw": -17.405007346410198,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [1.984082663590035, 0.25182530460911084],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 84.23948172903611,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [4.6, 0, -0.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [4.700532944478074, 0.0011761579662561417, -0.12696866187792452],
+        "eye": 1.6011761579662562,
+        "yaw": -20.28160734641022,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-1.980780713064367, 0.2766003737383901],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 86.29548172903614,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [4.6, 0, 1.8],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [4.604571932300726, 0.0011761579662561417, 1.8627172983807638],
+        "eye": 1.6011761579662562,
+        "yaw": -18.98200734641021,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-0.26412898031199544, 1.9824822525710906],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 88.29548172903617,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [3, 0, 2.4],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [2.950930408434855, 0.0011761579662561417, 2.4230191783689796],
+        "eye": 1.6011761579662562,
+        "yaw": -19.932007346410217,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-1.7662211634959213, 0.9383297936328754],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 90.0454817290362,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-7.95, 0, 2.55],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-7.886783513846655, 0.0011761579662561417, 2.529739834064313],
+        "eye": 1.6011761579662562,
+        "yaw": -20.655907346410217,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-1.94476988162716, -0.4667655809031797],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 100.93748172903638,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-8.5, 0, 2.55],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-8.483966227159955, 0.005020751617848873, 2.587815706160712],
+        "eye": 1.605020751617849,
+        "yaw": -20.323407346410214,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-1.9906090443776887, 0.19358624032132177],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 101.53748172903639,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-9.41, 0, 2.55],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-9.280431230239145, -0.00020606815814971924, 2.5514218152142143],
+        "eye": 1.5997939318418504,
+        "yaw": -20.323407346410214,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": "library",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 102.3374817290364,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-9.41, 0, 4.3],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-9.41774302214456, -0.00020606815814971924, 4.339951046337108],
+        "eye": 1.5997939318418504,
+        "yaw": -19.010507346410204,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-0.3205148139111147, 1.9741505145412606],
+        "room": "study",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 104.13748172903642,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-10.1, 0, 4.85],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-10.054685143921429, 0.011914730072021484, 4.824001388250386],
+        "eye": 1.6119147300720216,
+        "yaw": -19.77050734641021,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-1.5923553044422059, 1.2101258547832],
+        "room": "study",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 104.93748172903643,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-9.927, 0, 5.509],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-9.924304525115064, 0.011914730072021484, 5.409664170267197],
+        "eye": 1.6119147300720216,
+        "yaw": -18.6305073464102,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [0.43460206268789225, 1.9522092733893641],
+        "room": "study",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 105.53748172903644,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-9.7, 0, 7.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-9.684421634256086, -0.00020606815814971924, 6.984055017756586],
+        "eye": 1.5997939318418504,
+        "yaw": -18.6305073464102,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [0.43460206268789225, 1.9522092733893641],
+        "room": "study",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 107.13722478900395,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-9, 0, 7.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-9.097822583250963, -0.00020606815814971924, 7.110156379207978],
+        "eye": 1.5997939318418504,
+        "yaw": -17.490507346410194,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": "study",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 107.73722478900396,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-9, 0, 9.05],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-9.006099176133597, -0.00020606815814971924, 9.100471412458692],
+        "eye": 1.5997939318418504,
+        "yaw": -18.860407346410202,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-0.021702423814590192, 1.999882247733744],
+        "room": "study",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 109.73722478900399,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-3.65, 0, 9.05],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-3.733968481379545, 0.0026175621896982193, 9.031416806288613],
+        "eye": 1.6026175621896983,
+        "yaw": -17.15040734641019,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [0, 0],
+        "room": "bath-living",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 115.04418512178674,
+        "blockedFrames": 1,
+        "lastBlocked": {
+          "at": [-9.46829653587077, -0.00020606815814971924, 3.162563501226808],
+          "wanted": [-0.004133828477382673, -0.19995727409154085]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-3.65, 0, 13.6],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-3.6346648443757497, 0.0026175621896982193, 13.6012393708837],
+        "eye": 1.6026175621896983,
+        "yaw": -18.6799073464102,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [0.33767195925431504, 1.97128832186805],
+        "room": "bath-living",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 119.63640551820835,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-2.8, 0, 13.6],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-2.7963488422835843, 0.0026175621896982193, 13.572571391122331],
+        "eye": 1.6026175621896983,
+        "yaw": -17.12760734641019,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [1.9771964635023247, -0.30115468569142395],
+        "room": "bath-living",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 120.48040551820836,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [3.27, 0, 13.6],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [3.2654010959213617, 0.0026175621896982193, 13.594620751860772],
+        "eye": 1.6026175621896983,
+        "yaw": -17.09530734641019,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [1.9664395534827526, -0.3648499451809642],
+        "room": "lounge",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 126.56040551820847,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [3.27, 0, 9.2],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [3.2713125616291556, 0.0026175621896982193, 9.262389702661563],
+        "eye": 1.6026175621896983,
+        "yaw": -15.400507346410187,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-0.6052696810271894, -1.9062131604910413],
+        "room": "lounge",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 130.9144055182085,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [3.27, 0, 5.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [3.3008352051296903, 0.0026175621896982193, 5.079810707943082],
+        "eye": 1.6026175621896983,
+        "yaw": -15.695007346410186,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-0.02591111817434121, -1.9998321464450348],
+        "room": "lounge",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 135.11440551820826,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [3, 0, 3.5],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [2.978330471449759, 0.006982848048210144, 3.5126506341937316],
+        "eye": 1.6069828480482102,
+        "yaw": -15.505007346410187,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-0.4031309170999187, -1.958950092186674],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 136.71440551820817,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [3, 0, 2.4],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [2.96537491236259, 0.0011761579662561417, 2.512734560971214],
+        "eye": 1.6011761579662562,
+        "yaw": -15.695007346410186,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-0.02591111817434121, -1.9998321464450348],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 137.7144055182081,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [4.6, 0, 1.8],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [4.68323289978968, 0.0011761579662561417, 1.793758877839685],
+        "eye": 1.6011761579662562,
+        "yaw": -17.05730734641019,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [1.9511589934790832, -0.4392932758029547],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 139.584405518208,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [4.6, 0, -0.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [4.628053596274861, 0.0011761579662561417, -0.06132757212859309],
+        "eye": 1.6011761579662562,
+        "yaw": -15.649407346410186,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-0.1170449291148203, -1.996572183660913],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 141.4404055182079,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [6.8, 0, -0.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [6.858193712259237, 0.0011761579662561417, -0.11618141444036689],
+        "eye": 1.6011761579662562,
+        "yaw": -16.97940734641019,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [1.9110554247948446, -0.5898026478087364],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 143.6884055182078,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [5.05, 0, -0.35],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [5.132660362123087, 0.0011761579662561417, -0.34008911320914376],
+        "eye": 1.6011761579662562,
+        "yaw": -14.26620734641019,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-1.983371666823156, -0.257365170998594],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 145.42840551820768,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [6.8, 0, -0.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [6.714961523557205, 0.0011761579662561417, -0.1424857219507524],
+        "eye": 1.6011761579662562,
+        "yaw": -17.545607346410193,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [1.929213820735536, 0.5273841426161718],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 147.0284055182076,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [4.6, 0, -0.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [4.515635030378202, 0.0011761579662561417, -0.08805249311930821],
+        "eye": 1.6011761579662562,
+        "yaw": -20.395607346410213,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-1.999387721071807, 0.04948475348313122],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 149.22840551820747,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [4.6, 0, 1.8],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [4.574458008354219, 0.0011761579662561417, 1.783959181770813],
+        "eye": 1.6011761579662562,
+        "yaw": -18.6533073464102,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [0.38998259065824686, 1.9616099456781622],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 151.10840551820735,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [3, 0, 2.4],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [3.0993946064958644, 0.0011761579662561417, 2.3896918176842554],
+        "eye": 1.6011761579662562,
+        "yaw": -20.173307346410212,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-1.9392785860984425, 0.48907930389664367],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 152.70840551820726,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [3, 0, 3.5],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [2.9399895444392055, 0.006982848048210144, 3.577522838340933],
+        "eye": 1.6069828480482102,
+        "yaw": -18.932607346410204,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-0.16591196543423747, 1.9931064245859398],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 153.9084055182072,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [3.27, 0, 5.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [3.2640224079135782, 0.0026175621896982193, 5.17498398947032],
+        "eye": 1.6026175621896983,
+        "yaw": -18.710307346410204,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [0.2775980047816765, 1.9806411456246265],
+        "room": "lounge",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 155.5464055182071,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [3.27, 0, 9.2],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [3.302662079407006, 0.0026175621896982193, 9.202462007384675],
+        "eye": 1.6026175621896983,
+        "yaw": -18.759707346410202,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [0.17945547230718603, 1.99193266288271],
+        "room": "lounge",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 159.59440551820688,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [3.27, 0, 13.6],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [3.280963595691915, 0.0026175621896982193, 13.641289743844805],
+        "eye": 1.6026175621896983,
+        "yaw": -18.807207346410202,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [0.0846718365232679, 1.9982068661927315],
+        "room": "lounge",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 164.05440551820664,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [0.195, 0, 13.6],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [0.1854340152504972, 0.0026175621896982193, 13.539528092543524],
+        "eye": 1.6026175621896983,
+        "yaw": -20.58370734641021,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-1.9733743994455257, -0.3252590961264743],
+        "room": "lounge",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 167.16840551820644,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [0.195, 0, 18.2],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [0.20575123823388633, 6.669759750366211e-5, 18.193537026937953],
+        "eye": 1.6000666975975038,
+        "yaw": -18.581107346410196,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [0.5304717962984387, 1.928367100251378],
+        "room": "bath-living",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 171.85040551820657,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [0.9, 0, 22.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [0.9322497514476072, 6.669759750366211e-5, 22.14825509256593],
+        "eye": 1.6000666975975038,
+        "yaw": -18.358807346410195,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [0.9425724973629516, 1.7639606251883766],
+        "room": "bath-living",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 175.89840551820666,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [2.65, 0, 22.1],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [2.723433033568103, 6.669759750366211e-5, 22.072435910158543],
+        "eye": 1.6000666975975038,
+        "yaw": -17.173207346410187,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [1.988869063035627, -0.2107127193592908],
+        "room": "bath-living",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 177.69840551820656,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [2.65, 2.6, 17],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [2.658083228866677, 2.6001780033111572, 17.09382899339756],
+        "eye": 4.200178003311157,
+        "yaw": -15.87550734641018,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [0.33352264485439104, -1.9719945855324583],
+        "room": "library-upper",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 182.69440551820637,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-2.8, 5.45, 17],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-2.860905047377734, 5.4498820304870605, 17.038998474888427],
+        "eye": 7.04988203048706,
+        "yaw": -14.148407346410183,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [-1.9998736546199636, -0.022480337119141727],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 188.22640551820604,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    },
+    {
+      "target": [-2.8, 8.3, 22.95],
+      "pose": {
+        "active": true,
+        "ready": true,
+        "placed": true,
+        "provisional": false,
+        "position": [-2.8098477625914167, 8.300078392028809, 22.864827723490684],
+        "eye": 9.900078392028808,
+        "yaw": -12.269307346410189,
+        "pitch": -0.34,
+        "fov": 62,
+        "velocity": [0.5854267381326732, 1.9124004638880787],
+        "room": "outside",
+        "locked": false,
+        "keys": [],
+        "joysticks": false,
+        "gamepads": 0,
+        "transition": false,
+        "distance": 194.08040551820568,
+        "blockedFrames": 2,
+        "lastBlocked": {
+          "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+          "wanted": [-0.010525420354139779, 0.19972284678115487]
+        },
+        "body": {
+          "radius": 0.24,
+          "height": 1.75,
+          "maxStep": 0.46,
+          "maxDrop": 0.5,
+          "eyeHeight": 1.6
+        },
+        "field": {
+          "ready": true,
+          "worker": true,
+          "meshes": 594,
+          "builtMilliseconds": 516,
+          "cell": 0.1,
+          "size": [390, 492],
+          "columns": 191880,
+          "filled": 191880,
+          "intervals": 755547,
+          "triangles": 881823,
+          "samples": 18501485,
+          "overflows": 20376
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "finalWalk": {
+    "active": true,
+    "ready": true,
+    "placed": true,
+    "provisional": false,
+    "position": [-2.8098477625914167, 8.300078392028809, 22.864827723490684],
+    "eye": 9.900078392028808,
+    "yaw": -12.269307346410189,
+    "pitch": -0.34,
+    "fov": 62,
+    "velocity": [0.5854267381326732, 1.9124004638880787],
+    "room": "outside",
+    "locked": false,
+    "keys": [],
+    "joysticks": false,
+    "gamepads": 0,
+    "transition": false,
+    "distance": 194.08040551820568,
+    "blockedFrames": 2,
+    "lastBlocked": {
+      "at": [-3.6914166502343977, 0.0026175621896982193, 9.381281272459216],
+      "wanted": [-0.010525420354139779, 0.19972284678115487]
+    },
+    "body": {
+      "radius": 0.24,
+      "height": 1.75,
+      "maxStep": 0.46,
+      "maxDrop": 0.5,
+      "eyeHeight": 1.6
+    },
+    "field": {
+      "ready": true,
+      "worker": true,
+      "meshes": 594,
+      "builtMilliseconds": 516,
+      "cell": 0.1,
+      "size": [390, 492],
+      "columns": 191880,
+      "filled": 191880,
+      "intervals": 755547,
+      "triangles": 881823,
+      "samples": 18501485,
+      "overflows": 20376
+    }
+  },
+  "finalCamera": [-2.7688678909221296, 9.900078392028808, 22.99869575596285],
+  "backend": {
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "vendor": "Google Inc. (NVIDIA)",
+    "buffer": [1440, 1000]
+  }
+}

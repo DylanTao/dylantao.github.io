@@ -1,0 +1,80 @@
+[
+  {
+    "mode": "resize-only",
+    "proof": {
+      "count": 12,
+      "pixel": [255, 51, 25, 255],
+      "buffer": [390, 1000],
+      "rect": {
+        "w": 350,
+        "h": 352
+      }
+    },
+    "errors": []
+  },
+  {
+    "mode": "css-only",
+    "proof": {
+      "count": 12,
+      "pixel": [255, 51, 25, 255],
+      "buffer": [350, 352],
+      "rect": {
+        "w": 390,
+        "h": 1000
+      }
+    },
+    "errors": []
+  },
+  {
+    "mode": "reparent-only",
+    "proof": {
+      "count": 12,
+      "pixel": [255, 51, 25, 255],
+      "buffer": [350, 352],
+      "rect": {
+        "w": 390,
+        "h": 1000
+      }
+    },
+    "errors": []
+  },
+  {
+    "mode": "preserve-buffer",
+    "proof": {
+      "count": 12,
+      "pixel": [255, 51, 25, 255],
+      "buffer": [390, 1000],
+      "rect": {
+        "w": 390,
+        "h": 1000
+      }
+    },
+    "errors": []
+  },
+  {
+    "mode": "antialias",
+    "proof": {
+      "count": 12,
+      "pixel": [255, 51, 25, 255],
+      "buffer": [390, 1000],
+      "rect": {
+        "w": 390,
+        "h": 1000
+      }
+    },
+    "errors": []
+  },
+  {
+    "mode": "no-transform",
+    "proof": {
+      "count": 12,
+      "pixel": [255, 51, 25, 255],
+      "buffer": [390, 1000],
+      "rect": {
+        "w": 390,
+        "h": 1000
+      }
+    },
+    "errors": []
+  }
+]

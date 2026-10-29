@@ -1,0 +1,47 @@
+(node:59408) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/dev/site-takeover-worktrees/walk-audit/assets/js/three.module.min.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\dev\site-takeover-worktrees\walk-audit\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ the recessed two-storey library stays indoors beyond the old facade (1.1255ms)
+✔ the delivered tall library and study stay indoors until the visitor crosses their actual patio threshold (4.437ms)
+✔ floors carry the walker at their exact height; walls and furniture stop it (21.5375ms)
+✔ a long step is broken into short ones: nothing a column thick is tunnelled (7.6362ms)
+✔ stairs climb tread by tread to the gallery, and the gallery's open edge holds the walker (12.615ms)
+✔ a diagonal walk glides along a wall without alternating stops or crossing it (10.053ms)
+✔ the cliff is a wall: the walker can never step off the property (7.2428ms)
+✔ a sunken pit's 0.42 m edge is a step down and back up; the fireplace inside it is a block (6.6418ms)
+✔ water is raised into a block: walked around, never on or into (4.6302ms)
+✔ walkKind keeps glass and static cutaway roofs, skips doors, props and characters, and honours userData.walk (0.4768ms)
+✔ soft clifftop planting permits walking while tree trunks and authored plant barriers stay solid (0.2585ms)
+✔ a field rebuilt during the lower bathroom cutaway retains its hidden upper floor and roof (8.0761ms)
+✔ moving neighbours: Sirui and a closed sliding door push the capsule aside (2.6539ms)
+✔ findStand finds the nearest place a capsule fits on the wanted floor (8.1371ms)
+✔ the field crosses to the page as a transferable snapshot (11.3689ms)
+✔ keys become axes; diagonals are no faster; speeds and eases follow the input (0.2684ms)
+✔ starting and releasing movement cover equal distances at phone and desktop frame rates (0.2585ms)
+✔ directions, mouse and drag look follow the characters' facing convention (0.358ms)
+✔ the walk starts in front of what the room view looks at, on that room's floor (0.284ms)
+✔ the authored main entrance starts Walk from every orbit view and faces down its native route (0.2351ms)
+✔ a collision worker failure replays native geometry and restores walking in fallback slices (4.0142ms)
+✔ the walker's room: storey and nearest room, the terrace, and a little hysteresis (0.1925ms)
+✔ controllers: a radial dead zone, the standard mapping and one toggle per press (0.4406ms)
+✔ thumb sticks: a dead zone at rest, the rim at full deflection, up is up (0.131ms)
+(node:32648) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/dev/site-takeover-worktrees/walk-audit/assets/js/three.module.min.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\dev\site-takeover-worktrees\walk-audit\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ the entry sensor uses the real framed opening and the walker's floor (2.2629ms)
+✔ a walking arrival opens the physical leaf and holds it clear until the capsule leaves (0.7712ms)
+✔ reduced motion snaps functional doors and disposal restores the authored pose (1.2105ms)
+✔ autonomous house occupants open the same physical leaf on their actual storey (0.5765ms)
+✔ material-batched glass and pulls travel together as one logical threshold (0.6174ms)
+✔ a pivot leaf turns its batched parts about the authored axis and closes back flush (2.1313ms)
+✔ a pivot needs a real axis and a real turn (0.6548ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 245.276
