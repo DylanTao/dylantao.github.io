@@ -1,0 +1,241 @@
+{
+  "at": "2026-10-29T00:13:30.953Z",
+  "sourceCommit": "c145c647d23eec7ebe3302e63934a526a1ca2b56",
+  "footerCssRulesEqual": true,
+  "productionCss": "Deploy workflow runs PurgeCSS; entire stylesheet differs from the unpurged local build.",
+  "runs": [
+    {
+      "name": "local-desktop",
+      "rules": [
+        {
+          "context": "",
+          "selector": ".footer-coast__tilt-controls",
+          "style": "position: absolute; z-index: 3; top: 0.75rem; left: max(1rem,env(safe-area-inset-left, 0px));"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast:not([data-state=\"ready\"]) .footer-coast__tilt-controls, html[data-motion=\"paused\"] .footer-coast__tilt-controls",
+          "style": "display: none;"
+        },
+        {
+          "context": "(prefers-reduced-motion: reduce);",
+          "selector": ".footer-coast__tilt-controls",
+          "style": "display: none;"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast .footer-coast__tilt",
+          "style": "min-height: 44px; padding: 0.5rem 0.85rem; border: 1px solid var(--global-divider-color); border-radius: var(--md-lite-shape-full, 999px); background: var(--global-card-bg-color); color: var(--global-text-color); font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; font-family: inherit; font-optical-sizing: inherit; font-size-adjust: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-language-override: inherit; font-size: 0.78rem; cursor: pointer;"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast .footer-coast__tilt[hidden]",
+          "style": "display: none;"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast .footer-coast__tilt:focus-visible",
+          "style": "outline: 2px solid var(--global-theme-color); outline-offset: 3px;"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast .footer-coast__tilt[aria-pressed=\"true\"]",
+          "style": "border-color: var(--global-theme-color);"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast .footer-coast__tilt:disabled",
+          "style": "cursor: default;"
+        }
+      ],
+      "control": null,
+      "sky": {
+        "visible": true,
+        "tableAltitude": 55,
+        "samples": {
+          "near": 7049922,
+          "far": 11388378
+        },
+        "weight": 0.38,
+        "exposure": 11.85,
+        "lights": 0,
+        "buildMs": 10.5,
+        "sun": null
+      },
+      "view": {
+        "x": 0,
+        "y": 0,
+        "camera": [0, 20.5, 38],
+        "up": [0, 1, 0],
+        "tilt": {
+          "supported": false,
+          "enabled": false,
+          "active": false,
+          "listening": false,
+          "state": "unsupported",
+          "x": 0,
+          "y": 0
+        }
+      },
+      "errors": []
+    },
+    {
+      "name": "live-desktop",
+      "rules": [
+        {
+          "context": "",
+          "selector": ".footer-coast__tilt-controls",
+          "style": "position: absolute; z-index: 3; top: 0.75rem; left: max(1rem,env(safe-area-inset-left, 0px));"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast:not([data-state=\"ready\"]) .footer-coast__tilt-controls, html[data-motion=\"paused\"] .footer-coast__tilt-controls",
+          "style": "display: none;"
+        },
+        {
+          "context": "(prefers-reduced-motion: reduce);",
+          "selector": ".footer-coast__tilt-controls",
+          "style": "display: none;"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast .footer-coast__tilt",
+          "style": "min-height: 44px; padding: 0.5rem 0.85rem; border: 1px solid var(--global-divider-color); border-radius: var(--md-lite-shape-full, 999px); background: var(--global-card-bg-color); color: var(--global-text-color); font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; font-family: inherit; font-optical-sizing: inherit; font-size-adjust: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-language-override: inherit; font-size: 0.78rem; cursor: pointer;"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast .footer-coast__tilt[hidden]",
+          "style": "display: none;"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast .footer-coast__tilt:focus-visible",
+          "style": "outline: 2px solid var(--global-theme-color); outline-offset: 3px;"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast .footer-coast__tilt[aria-pressed=\"true\"]",
+          "style": "border-color: var(--global-theme-color);"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast .footer-coast__tilt:disabled",
+          "style": "cursor: default;"
+        }
+      ],
+      "control": null,
+      "sky": {
+        "visible": true,
+        "tableAltitude": 55,
+        "samples": {
+          "near": 7049922,
+          "far": 11388378
+        },
+        "weight": 0.38,
+        "exposure": 11.85,
+        "lights": 0,
+        "buildMs": 13.8,
+        "sun": null
+      },
+      "view": {
+        "x": 0,
+        "y": 0,
+        "camera": [0, 20.5, 38],
+        "up": [0, 1, 0],
+        "tilt": {
+          "supported": false,
+          "enabled": false,
+          "active": false,
+          "listening": false,
+          "state": "unsupported",
+          "x": 0,
+          "y": 0
+        }
+      },
+      "errors": []
+    },
+    {
+      "name": "live-mobile",
+      "rules": [
+        {
+          "context": "",
+          "selector": ".footer-coast__tilt-controls",
+          "style": "position: absolute; z-index: 3; top: 0.75rem; left: max(1rem,env(safe-area-inset-left, 0px));"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast:not([data-state=\"ready\"]) .footer-coast__tilt-controls, html[data-motion=\"paused\"] .footer-coast__tilt-controls",
+          "style": "display: none;"
+        },
+        {
+          "context": "(prefers-reduced-motion: reduce);",
+          "selector": ".footer-coast__tilt-controls",
+          "style": "display: none;"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast .footer-coast__tilt",
+          "style": "min-height: 44px; padding: 0.5rem 0.85rem; border: 1px solid var(--global-divider-color); border-radius: var(--md-lite-shape-full, 999px); background: var(--global-card-bg-color); color: var(--global-text-color); font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; font-family: inherit; font-optical-sizing: inherit; font-size-adjust: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; font-language-override: inherit; font-size: 0.78rem; cursor: pointer;"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast .footer-coast__tilt[hidden]",
+          "style": "display: none;"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast .footer-coast__tilt:focus-visible",
+          "style": "outline: 2px solid var(--global-theme-color); outline-offset: 3px;"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast .footer-coast__tilt[aria-pressed=\"true\"]",
+          "style": "border-color: var(--global-theme-color);"
+        },
+        {
+          "context": "",
+          "selector": ".footer-coast .footer-coast__tilt:disabled",
+          "style": "cursor: default;"
+        }
+      ],
+      "control": {
+        "pressed": "true",
+        "minHeight": "44px",
+        "padding": "8px 13.6px",
+        "border": "1px solid rgb(59, 106, 152)",
+        "borderRadius": "999px",
+        "outline": "rgb(35, 40, 42) none 0px",
+        "pausedDisplay": "none"
+      },
+      "sky": {
+        "visible": true,
+        "tableAltitude": 55,
+        "samples": {
+          "near": 7049922,
+          "far": 11388378
+        },
+        "weight": 0.38,
+        "exposure": 11.85,
+        "lights": 0,
+        "buildMs": 9.9,
+        "sun": null
+      },
+      "view": {
+        "x": 0,
+        "y": 0,
+        "camera": [10.1, 18, 38],
+        "up": [0, 1, 0],
+        "tilt": {
+          "supported": true,
+          "enabled": true,
+          "active": false,
+          "listening": false,
+          "state": "suspended",
+          "x": 0,
+          "y": 0
+        }
+      },
+      "errors": []
+    }
+  ]
+}

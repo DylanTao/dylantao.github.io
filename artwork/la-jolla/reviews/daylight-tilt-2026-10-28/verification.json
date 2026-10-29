@@ -1,5 +1,5 @@
 {
-  "status": "local gates passed; CI and deployed readback pending",
+  "status": "verified local gates, source CI, Pages source mapping and deployed module bytes; physical iPhone and appearance feedback pending",
   "browserStats": {
     "nativeFull": {
       "startTime": "2026-10-28T23:07:19.321Z",
@@ -164,5 +164,14 @@
     "certificate": "local self-signed test certificate accepted only by the test context",
     "image": "mcr.microsoft.com/playwright:v1.58.2-noble",
     "hardwarePhone": false
-  }
+  },
+  "verifiedSourceCommit": "1a4c1c9fb56bce076a7c7075e47fbc0e0e9fdbf2",
+  "visualCi": {
+    "runId": 40793829383,
+    "jobsSucceeded": 41,
+    "failed": 0,
+    "cancelled": 0,
+    "jobSkips": 0
+  },
+  "deployedPagesCommit": "05c12b660017c668d13eabad23275f143a35a4de"
 }

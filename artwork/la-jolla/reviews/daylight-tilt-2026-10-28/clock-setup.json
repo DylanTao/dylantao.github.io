@@ -1,0 +1,57 @@
+{
+  "failedSource": "c145c647d23eec7ebe3302e63934a526a1ca2b56",
+  "failedJob": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40790006606/job/123172594633",
+  "error": "Cannot fast-forward to the past",
+  "stage": "clock.pauseAt after clock.install, before interrupted-animation assertions",
+  "oldVisualOutcome": {
+    "success": 38,
+    "failure": 1,
+    "cancelledByNextPush": 2
+  },
+  "correctedSource": "1a4c1c9fb56bce076a7c7075e47fbc0e0e9fdbf2",
+  "changedPaths": ["test/visual/build-rhythm-story.spec.js"],
+  "method": [
+    "Install the clock before application timers using its real current Date",
+    "Open and settle the page so snapshot admission retains the completion-day boundary",
+    "Set a fixed Date before pauseAt so wall time cannot overtake its target",
+    "Restore advancing Date with setSystemTime while keeping the clock paused",
+    "Run the original 32ms/300ms interrupted-animation assertions"
+  ],
+  "rejectedCandidate": "Installing historical October23 Date before opening correctly rejected the checked-in completion day as not yet complete. Initial install now retains real Date; only the animation phase uses the historical clock.",
+  "nativeViewportChecks": {
+    "passed": 4,
+    "failed": 0
+  },
+  "linuxHttpsViewportChecks": {
+    "startTime": "2026-10-29T00:20:15.350Z",
+    "duration": 109054.28099999999,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "delayedPublicApiProbe": {
+    "wallDelayBeforePauseMs": 2200,
+    "wallDelayAfterPauseMs": 1500,
+    "before": {
+      "date": 1792742400000,
+      "perf": 2179
+    },
+    "held": {
+      "date": 1792742400000,
+      "perf": 2179
+    },
+    "advanced": {
+      "date": 1792742400032,
+      "perf": 2211
+    },
+    "passed": true
+  },
+  "ciStatus": "success",
+  "visualRunId": 40793829383,
+  "tabletFullSite": {
+    "passed": 68,
+    "skipped": 24,
+    "clockCaseExecuted": true
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "checkedAt": "2026-10-29T00:36:32.459Z",
+  "commit": "1a4c1c9fb56bce076a7c7075e47fbc0e0e9fdbf2",
+  "receiptStatus": 200,
+  "htmlStatus": 200,
+  "hasTiltControl": true,
+  "checks": [
+    {
+      "path": "assets/js/footer-coast/scene.mjs",
+      "status": 200,
+      "sourceMatch": true,
+      "outputMatch": true,
+      "expectedSource": "bc8a1a62e3b831cd9b6fe08f1cf482bd0485c90642cbd29100478f273506829e",
+      "actualSource": "bc8a1a62e3b831cd9b6fe08f1cf482bd0485c90642cbd29100478f273506829e"
+    },
+    {
+      "path": "assets/js/footer-coast/sky.mjs",
+      "status": 200,
+      "sourceMatch": true,
+      "outputMatch": true,
+      "expectedSource": "b9384a571101b6f3d3ff1f82798e4a307bfc1d2e4b4acc04dbf0c79e4dbc059f",
+      "actualSource": "b9384a571101b6f3d3ff1f82798e4a307bfc1d2e4b4acc04dbf0c79e4dbc059f"
+    },
+    {
+      "path": "assets/js/footer-coast/sky-look.mjs",
+      "status": 200,
+      "sourceMatch": true,
+      "outputMatch": true,
+      "expectedSource": "e1119f16c252b432366181232ec2317f7cb68c7d525ff5737a250f26477ca27f",
+      "actualSource": "e1119f16c252b432366181232ec2317f7cb68c7d525ff5737a250f26477ca27f"
+    },
+    {
+      "path": "assets/js/footer-coast/water.mjs",
+      "status": 200,
+      "sourceMatch": true,
+      "outputMatch": true,
+      "expectedSource": "457bb987d228213ccb88c2475f66ff45b7a9b5a7e2a2b35620189646476a4157",
+      "actualSource": "457bb987d228213ccb88c2475f66ff45b7a9b5a7e2a2b35620189646476a4157"
+    },
+    {
+      "path": "assets/js/footer-coast/view-tilt.mjs",
+      "status": 200,
+      "sourceMatch": true,
+      "outputMatch": true,
+      "expectedSource": "1128ccf8df458155ca36bbd27608492f61f3d69c779570a1419831e0d3d5715f",
+      "actualSource": "1128ccf8df458155ca36bbd27608492f61f3d69c779570a1419831e0d3d5715f"
+    }
+  ],
+  "css": {
+    "url": "/assets/css/main.css?v=20261029002531",
+    "sha256": "42c99cad3e890a64588e71636dc0378864bf81a6202c4273a18b50ac4c8c0615",
+    "localSha256": "778a779dfbd492170f832be115f386e7563e43cb6fba6b91732157a379d367d7",
+    "match": false,
+    "differenceReason": "deploy.yml runs PurgeCSS after the Jekyll build; the local build retains unused rules",
+    "allTiltCssomRulesMatch": true
+  },
+  "publication": {
+    "sourceCommit": "1a4c1c9fb56bce076a7c7075e47fbc0e0e9fdbf2",
+    "pagesCommit": "05c12b660017c668d13eabad23275f143a35a4de",
+    "commitMessage": "Deploying to gh-pages from @ DylanTao/dylantao.github.io@1a4c1c9fb56bce076a7c7075e47fbc0e0e9fdbf2 🚀",
+    "committedAt": "2026-10-29T00:27:47Z",
+    "pagesRun": {
+      "id": 40794215963,
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40794215963",
+      "status": "completed",
+      "conclusion": "success",
+      "headSha": "05c12b660017c668d13eabad23275f143a35a4de"
+    }
+  }
+}

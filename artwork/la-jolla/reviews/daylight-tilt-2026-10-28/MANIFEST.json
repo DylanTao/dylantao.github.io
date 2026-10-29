@@ -1,10 +1,22 @@
 {
   "schema": "sirui-coast-daylight-review-v1",
+  "textLineEndings": "UTF-8 LF",
+  "imageBytes": "raw",
   "files": [
     {
       "path": "captures.json",
       "bytes": 29721,
       "sha256": "a31c38f1b447dd3609ba6ff739f88bdaee8e68d990e788df066730e3b94e5722"
+    },
+    {
+      "path": "ci-results.json",
+      "bytes": 16492,
+      "sha256": "315e639a184277d5e705c9678dc75b6400a8b7bf4269eed198abc7d64197bf5b"
+    },
+    {
+      "path": "clock-setup.json",
+      "bytes": 1925,
+      "sha256": "35d4afcd4d1decb0f383a41306fa21923b62bd4ffb92da2142b4da1f5a92b804"
     },
     {
       "path": "evening-after-2560.png",
@@ -15,6 +27,21 @@
       "path": "evening-before-2560.png",
       "bytes": 713012,
       "sha256": "037eebfae0e64a90dcc33a3e4209740207925addd43d5db27a828c7d9d7de7a5"
+    },
+    {
+      "path": "live-mobile.png",
+      "bytes": 931036,
+      "sha256": "4a5252405f9e9cf86a49a266210f8e0cd08d5f5bfa64214b3d6df38c7b7295a5"
+    },
+    {
+      "path": "live-readback.json",
+      "bytes": 2774,
+      "sha256": "394c4a1706d2d3d1166ad87c10d0f7d2ed57e83053e3ccf069195122f97ec768"
+    },
+    {
+      "path": "live-render-proof.json",
+      "bytes": 8681,
+      "sha256": "a08f5db12c6ca0f46433af2de60b1859718a5d827fa4804c0c85bcc654d0bdea"
     },
     {
       "path": "noon-after-2560.png",
@@ -38,8 +65,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5007,
-      "sha256": "c6c73ea57854468eacb8486003ab4e2eefba55516a1d9d07913e40018310daca"
+      "bytes": 7516,
+      "sha256": "be7886ee3a0d5cb9b4c514ebb6831c6ab23e02c3a1421b930a4dfdb368ddf0d1"
     },
     {
       "path": "source-build-proof.json",
@@ -48,8 +75,8 @@
     },
     {
       "path": "verification.json",
-      "bytes": 5462,
-      "sha256": "093c36fdd8523657e55cc20147925ff1a2aaa18e4f04c152c16ff961bdcaf73a"
+      "bytes": 5804,
+      "sha256": "71adf49c8039b116bbf8dcf0dd596843fcf120f468e18dd417bf6aa86ff023c7"
     }
   ]
 }
