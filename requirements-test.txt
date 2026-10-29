@@ -1,0 +1,4 @@
+# The full policy suite includes numerical terrain fixtures and PDF parity.
+pyyaml==6.0.3
+numpy==2.5.3
+-r requirements-cv-pdf.txt

@@ -111,7 +111,7 @@ jobs:
         run: npm run lint:style-contract
 
       - name: Install Python test dependencies
-        run: python -m pip install pyyaml -r requirements-cv-pdf.txt
+        run: python -m pip install -r requirements-test.txt
 
       - name: Run Python policy and agent guidance tests
         run: python -m unittest discover -s test -p "test_*.py"
