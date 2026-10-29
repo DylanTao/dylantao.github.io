@@ -351,7 +351,7 @@ html[data-theme-mode="evening"] .navbar.navbar-light .site-brand {
 // Preserve the 320/350px control row, but let a 375px iPhone discover the name.
 @media (min-width: 375px) and (max-width: 388px) {
   .navbar.navbar-light > .container.panel-shell {
-    padding-inline: 0.5rem;
+    padding-inline: 0.375rem;
   }
   .navbar.navbar-light .navbar-toggler {
     box-sizing: border-box;
@@ -361,7 +361,7 @@ html[data-theme-mode="evening"] .navbar.navbar-light .site-brand {
     padding-inline: 0.5rem;
   }
   .navbar.navbar-light .site-brand-name {
-    width: 3.75rem;
+    width: 3.9rem;
     font-size: 0.875rem;
   }
   .brand-name-story {

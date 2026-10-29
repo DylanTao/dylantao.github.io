@@ -2256,7 +2256,7 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
     expect(geometry.scrollWidth - geometry.clientWidth, `${width}px JavaScript page overflows`).toBeLessThanOrEqual(1);
     expect(geometry.article.top, `${width}px article is occluded by fixed navigation`).toBeGreaterThanOrEqual(geometry.nav.bottom - 1);
     expect(geometry.brandMark).not.toBeNull();
-    expect(geometry.brandNameVisible).toBe(width > 388);
+    expect(geometry.brandNameVisible).toBe(width >= 375);
     expect(geometry.brand.right, `${width}px brand overlaps format controls`).toBeLessThanOrEqual(geometry.actions.left - 2);
     expect(Math.abs(geometry.actions.top + geometry.actions.height / 2 - (geometry.toggler.top + geometry.toggler.height / 2))).toBeLessThanOrEqual(
       1
@@ -2305,7 +2305,7 @@ test("Human and AI formats keep stable, auditable route counterparts", async ({ 
       const geometry = await getNarrowAiChromeGeometry(noScriptPage);
       expect(geometry.scrollWidth - geometry.clientWidth, `${width}px no-JavaScript page overflows`).toBeLessThanOrEqual(1);
       expect(geometry.article.top, `${width}px no-JavaScript article is occluded`).toBeGreaterThanOrEqual(geometry.nav.bottom - 1);
-      expect(geometry.brandNameVisible).toBe(width > 388);
+      expect(geometry.brandNameVisible).toBe(width >= 375);
       expect(geometry.brand.right, `${width}px no-JavaScript brand overlaps format controls`).toBeLessThanOrEqual(geometry.actions.left - 2);
       expect(Math.abs(geometry.actions.top + geometry.actions.height / 2 - (geometry.toggler.top + geometry.toggler.height / 2))).toBeLessThanOrEqual(
         1
