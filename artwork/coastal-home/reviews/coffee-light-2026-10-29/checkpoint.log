@@ -1,0 +1,47 @@
+
+Running 4 tests using 1 worker
+
+
+
+npx.cmd : [1A[2K(node:26936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:79
++ ... /al-folio'; npx.cmd playwright test --config test/visual/public.confi ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([1A[2K(node:2... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1A[2K(node:26936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[1/4] [desktop-1440] › test\visual\sitewide.spec.js:2850:1 › the desk's coffee ring rests on the top slip clear of its words, stays whole, and settles in only for people
+[1A[2K(node:39100) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:39100) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[2/4] [laptop-1280] › test\visual\sitewide.spec.js:2850:1 › the desk's coffee ring rests on the top slip clear of its words, stays whole, and settles in only for people
+
+
+[1A[2K(node:40156) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:40156) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1A[2K[3/4] [tablet-768] › test\visual\sitewide.spec.js:2850:1 › the desk's coffee ring rests on the top slip clear of its words, stays whole, and settles in only for people
+[1A[2K(node:3016) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+
+
+[1A[2K(node:3016) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1A[2K[4/4] [mobile-390] › test\visual\sitewide.spec.js:2850:1 › the desk's coffee ring rests on the top slip clear of its words, stays whole, and settles in only for people
+[1A[2K  2 skipped
+  2 passed (1.7m)

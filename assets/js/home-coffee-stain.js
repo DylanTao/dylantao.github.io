@@ -46,7 +46,7 @@
       cy: size * rand(0.453, 0.478),
       radius: size * rand(0.36, 0.38),
       squash: rand(0.94, 1.015),
-      rim: size * rand(0.038, 0.049),
+      rim: size * rand(0.021, 0.031),
       outline: periodic(random, 2, 6, 1.0),
       roughness: periodic(random, 15, 19, 0.55),
       widthNoise: periodic(random, 1, 7, 0.7),
@@ -219,16 +219,16 @@
               const cover = smooth(-0.15 * u, 0.22 * u, s) * (1 - smooth(wetWidth * 0.7, wetWidth + 0.7 * u, s));
               // The wash has broad material variation; contact-line concentration
               // is broken and localized, without a uniform radial bevel.
-              const wash = cover * (0.24 + 0.85 * m * m + 0.32 * f + 0.06 * grain) * (0.68 + pool * 0.6);
+              const wash = cover * (0.14 + 0.55 * m * m + 0.18 * f + 0.04 * grain) * (0.65 + pool * 0.4);
               const edge =
                 smooth(-0.15 * u, 0.25 * u, s) *
                 Math.exp(-(((s - 0.7 * u) / (0.9 * u + 0.25 * grain * u)) ** 2)) *
                 (0.55 + 0.45 * smooth(0.18, 0.78, f));
-              const pooled = cover * pool * 0.26 * smooth(0.12, 0.77, f + (m - 0.5) * 0.6);
+              const pooled = cover * pool * 0.16 * smooth(0.12, 0.77, f + (m - 0.5) * 0.6);
               const bleed = s < 0 ? 0.055 * Math.exp(s / (0.8 * u)) * smooth(0.64, 0.91, fibers) * (0.4 + m) : 0;
-              const pigmentDetail = 1 + 0.5 * (granule - 0.5);
+              const pigmentDetail = 1 + 0.24 * (granule - 0.5);
               const pinWear = 0.9 + 0.2 * granule;
-              value = contact * (wash * pigmentDetail + pooled + bleed) * (0.92 + grain * 0.14) + pin * edge * 0.95 * pinWear;
+              value = contact * (wash * pigmentDetail + pooled + bleed) * (0.92 + grain * 0.14) + pin * edge * 0.7 * pinWear;
               const wetCover = smooth(-0.65 * u, 0.3 * u, s) * (1 - smooth(wetWidth * 0.85, wetWidth * 1.18 + u, s));
               wetValue = contact * (wetCover * (0.22 + m * 0.27 + pool * 0.08) + edge * 0.08 + bleed * 0.25);
             }
@@ -245,7 +245,7 @@
               grain = tooth(px, py),
               cover = 1 - smooth(0.86 + (grain - 0.5) * 0.09, 1.07, q);
             const edge = Math.exp(-(((q - 0.87) / 0.085) ** 2)) * (0.5 + f * 0.5);
-            value += cover * drop.strength * (0.085 + f * 0.16 + grain * 0.04 + edge * 0.95);
+            value += cover * drop.strength * (0.085 + f * 0.16 + grain * 0.04 + edge * 0.65);
             wetValue += cover * drop.strength * (0.26 + f * 0.18);
           }
           field[y * size + x] = value;
@@ -265,8 +265,8 @@
   const paintField = (plan, field, palette, pixels = new Uint8ClampedArray(plan.size * plan.size * 4)) => {
     const { size, brew } = plan,
       light = palette !== "dark",
-      thin = light ? [184 - 12 * brew, 100 - 8 * brew, 20] : [114, 75, 38];
-    const thick = light ? [84 - 8 * brew, 34 - 4 * brew, 10] : [178 - 10 * brew, 115 - 8 * brew, 55];
+      thin = light ? [195 - 8 * brew, 142 - 7 * brew, 86 - 7 * brew] : [139, 105, 69];
+    const thick = light ? [120 - 6 * brew, 66 - 4 * brew, 29] : [116 - 6 * brew, 78 - 4 * brew, 43];
     let row = 0;
     const stats = { chunks: 0, cpuMs: 0, maxChunkMs: 0 };
     return {
@@ -284,7 +284,7 @@
             pixels[offset] = thin[0] + (thick[0] - thin[0]) * t;
             pixels[offset + 1] = thin[1] + (thick[1] - thin[1]) * t;
             pixels[offset + 2] = thin[2] + (thick[2] - thin[2]) * t;
-            pixels[offset + 3] = 255 * (1 - Math.exp(-5.0 * d));
+            pixels[offset + 3] = 255 * (1 - Math.exp(-2.3 * d));
           }
           if (performance.now() - start >= maxMs) break;
         }

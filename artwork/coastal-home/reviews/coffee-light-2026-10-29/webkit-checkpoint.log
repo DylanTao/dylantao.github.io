@@ -1,0 +1,6 @@
+{"sceneBackend":{"webgl2":true,"renderer":"ANGLE (Mesa, llvmpipe (LLVM 20.1.2 256 bits), OpenGL 4.5)","maxSamples":4,"floatColorBuffer":true,"attempts":1,"browserVersion":"145.0.7632.6","headless":true,"channel":"chromium","args":["--use-gl=angle","--use-angle=gl","--ignore-gpu-blocklist"],"softwareFunctionalProof":true,"performanceBenchmark":false}}
+
+Running 1 test using 1 worker
+
+[1A[2K[1/1] [mobile-390] › test/visual/sitewide.spec.js:2850:1 › the desk's coffee ring rests on the top slip clear of its words, stays whole, and settles in only for people
+[1A[2K  1 passed (2.0m)

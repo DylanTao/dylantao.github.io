@@ -1,0 +1,50 @@
+
+> test:visual:checkpoint
+> playwright test --config test/visual/checkpoint.config.js sitewide.spec.js --grep "public route:"
+
+
+Running 4 tests using 1 worker
+
+
+
+npm.cmd : [1A[2K(node:23664) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+At line:2 char:109
++ ... IDS='home'; npm.cmd run test:visual:checkpoint > .jekyll-cache/visual ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([1A[2K(node:2... env being set.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1A[2K(node:23664) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[1/4] [desktop-1440] › test\visual\sitewide.spec.js:1466:3 › public route: home
+[1A[2K(node:48076) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+
+
+[1A[2K(node:48076) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1A[2K[2/4] [laptop-1280] › test\visual\sitewide.spec.js:1466:3 › public route: home
+
+
+[1A[2K(node:26944) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1A[2K(node:26944) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[3/4] [tablet-768] › test\visual\sitewide.spec.js:1466:3 › public route: home
+
+
+[1A[2K(node:672) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:672) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1A[2K[4/4] [mobile-390] › test\visual\sitewide.spec.js:1466:3 › public route: home
+[1A[2K  4 passed (30.2s)

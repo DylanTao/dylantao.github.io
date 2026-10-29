@@ -1,0 +1,88 @@
+{
+  "rows": [
+    {
+      "id": "before-light-52",
+      "width": 1024,
+      "height": 1024,
+      "palette": "light",
+      "source": "procedural",
+      "opacity": "0.86",
+      "marked": 98148,
+      "meanMarkedAlpha": 158.22677996495088,
+      "opaqueFraction": 0.20964258059257448,
+      "pngSha256": "43821d04f2cc2cd6a1477b521c5857ef8cccd2563b624d3d8729563d2d78156d",
+      "errors": [],
+      "scope": "Matched full-site material control using exact old compiled script; no other interception"
+    },
+    {
+      "id": "before-dark-52",
+      "width": 1024,
+      "height": 1024,
+      "palette": "dark",
+      "source": "procedural",
+      "opacity": "0.78",
+      "marked": 98148,
+      "meanMarkedAlpha": 158.22677996495088,
+      "opaqueFraction": 0.20964258059257448,
+      "pngSha256": "bb6fe1343b777dbebdab741408c576a0a78c998abc03f8636c8e770c51ab3081",
+      "errors": [],
+      "scope": "Matched full-site material control using exact old compiled script; no other interception"
+    },
+    {
+      "id": "candidate-light-52",
+      "width": 1024,
+      "height": 1024,
+      "palette": "light",
+      "source": "procedural",
+      "opacity": "0.86",
+      "marked": 55517,
+      "meanMarkedAlpha": 86.61613559810509,
+      "opaqueFraction": 0.001999387574977034,
+      "pngSha256": "06ecee3660cbddfa29d67ac020e16030a536ac6e81c98bc036a04d0b6c647c24",
+      "errors": [],
+      "scope": "Complete copied production site with candidate compiled coffee script; no route interception. Explicit fixed CSS placement and reduced motion for comparison."
+    },
+    {
+      "id": "candidate-dark-52",
+      "width": 1024,
+      "height": 1024,
+      "palette": "dark",
+      "source": "procedural",
+      "opacity": "0.78",
+      "marked": 55517,
+      "meanMarkedAlpha": 86.61613559810509,
+      "opaqueFraction": 0.001999387574977034,
+      "pngSha256": "3e8f9488b4cdd71b39d017934f3df2271c104e2e8f6c61293c55d49c2e737803",
+      "errors": [],
+      "scope": "Complete copied production site with candidate compiled coffee script; no route interception. Explicit fixed CSS placement and reduced motion for comparison."
+    },
+    {
+      "id": "candidate-light-103",
+      "width": 1024,
+      "height": 1024,
+      "palette": "light",
+      "source": "procedural",
+      "opacity": "0.86",
+      "marked": 69976,
+      "meanMarkedAlpha": 111.79164284897679,
+      "opaqueFraction": 0.012647193323425175,
+      "pngSha256": "79fd1711ed0e2f56f4aa318ac0baf540f964e4f41d1e3ede7c415d9d0bf4995a",
+      "errors": [],
+      "scope": "Complete copied production site with candidate compiled coffee script; no route interception. Explicit fixed CSS placement and reduced motion for comparison."
+    },
+    {
+      "id": "candidate-dark-103",
+      "width": 1024,
+      "height": 1024,
+      "palette": "dark",
+      "source": "procedural",
+      "opacity": "0.78",
+      "marked": 69976,
+      "meanMarkedAlpha": 111.79164284897679,
+      "opaqueFraction": 0.012647193323425175,
+      "pngSha256": "be4f120cd6e9a1b0a7acad9cbbc928216217605c734c37b9d226ee28ef2dff00",
+      "errors": [],
+      "scope": "Complete copied production site with candidate compiled coffee script; no route interception. Explicit fixed CSS placement and reduced motion for comparison."
+    }
+  ]
+}
