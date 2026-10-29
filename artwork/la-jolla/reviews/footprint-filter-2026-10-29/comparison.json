@@ -1,0 +1,2984 @@
+[
+  {
+    "width": 390,
+    "theme": "noon",
+    "pixelDifference": {
+      "pixels": 154,
+      "ratio": 0.001192966147648927,
+      "max": 10,
+      "meanChanged": 1.7467532467532467,
+      "y": [51, 319]
+    },
+    "renders": [
+      {
+        "control": "before",
+        "info": {
+          "miniature": false,
+          "selectedPlace": null,
+          "frames": 5,
+          "reveal": 1,
+          "targetReveal": 1,
+          "office": true,
+          "theme": "noon",
+          "running": false,
+          "buildings": 13,
+          "landmarks": [
+            "SalkCoast",
+            "GeiselCoast",
+            "Tennis",
+            "CliffVilla",
+            "CasitaApricot",
+            "BeachVolleyball",
+            "CasitaCream",
+            "CasitaRose",
+            "DIB",
+            "CasitaEast",
+            "Lifeguard",
+            "BrocktonVilla",
+            "LaValencia"
+          ],
+          "orbit": [0, 0],
+          "renderedOrbit": [0, 0],
+          "motion": {},
+          "elapsed": 0,
+          "surfers": [
+            {
+              "name": "Surfer0",
+              "visible": true,
+              "position": [-6.199999809265137, 0.10584267073061945, 4.099999904632568],
+              "quaternion": [0.013632275769440743, -0.6129763606632005, -0.01458897091158631, 0.7898489122947405],
+              "ride": null
+            },
+            {
+              "name": "Surfer1",
+              "visible": true,
+              "position": [4, 0.1310609430165068, 5.099999904632568],
+              "quaternion": [-0.01683752980912595, 0.07555023627323895, -0.06624768163902346, 0.9947964133763445],
+              "ride": {
+                "x": 4,
+                "z": 5.099999904632568,
+                "velocity": [0.31007861017217625, -0.04686379747407989],
+                "heading": [0.9887710783551538, -0.14943812970050985],
+                "speed": 0.31360000000000005,
+                "turnRate": 0.08800000000000001,
+                "acceleration": 0,
+                "bank": 0.03940359408550746,
+                "power": 0.9223529411764707,
+                "crouch": 0.01312246723111597,
+                "trail": [
+                  {
+                    "x": 3.3869619314198047,
+                    "z": 5.192651545046885,
+                    "age": 0,
+                    "power": 0.9223529411764707
+                  },
+                  {
+                    "x": 3.2080386877855416,
+                    "z": 5.2579598926359195,
+                    "age": 0.6,
+                    "power": 0.9146221025793139
+                  },
+                  {
+                    "x": 3.0361544611571882,
+                    "z": 5.332996924489363,
+                    "age": 1.2,
+                    "power": 0.8917332651483195
+                  },
+                  {
+                    "x": 2.8752260180638594,
+                    "z": 5.4177723092526096,
+                    "age": 1.7999999999999998,
+                    "power": 0.8545894173833773
+                  },
+                  {
+                    "x": 2.729236418656706,
+                    "z": 5.512216182906014,
+                    "age": 2.4,
+                    "power": 0.804671760267128
+                  },
+                  {
+                    "x": 2.602310882458855,
+                    "z": 5.616277459513572,
+                    "age": 3,
+                    "power": 0.7440152120004679
+                  },
+                  {
+                    "x": 2.4989442696562745,
+                    "z": 5.729997181312586,
+                    "age": 3.5999999999999996,
+                    "power": 0.6751985463796221
+                  },
+                  {
+                    "x": 2.424469920216003,
+                    "z": 5.85346817294452,
+                    "age": 4.2,
+                    "power": 0.6013787923300727
+                  },
+                  {
+                    "x": 2.3858625272913003,
+                    "z": 5.986420613167749,
+                    "age": 4.8,
+                    "power": 0.5264137283160933
+                  }
+                ],
+                "name": "Surfer1"
+              }
+            },
+            {
+              "name": "Surfer2",
+              "visible": true,
+              "position": [15, 0.10958607439648327, 4],
+              "quaternion": [0.0024052760775703655, -0.05995390617883662, -0.004500964641528302, 0.9981881010602087],
+              "ride": null
+            }
+          ],
+          "people": {
+            "live": false,
+            "period": "noon",
+            "pose": 0,
+            "actors": 17,
+            "visible": [
+              "tennis",
+              "volleyball",
+              "shore-walk",
+              "bluff-walk",
+              "surf-wait",
+              "surf-ride",
+              "surf-paddle",
+              "swimmer",
+              "sunbather",
+              "bench-0",
+              "bench-1",
+              "bench-2",
+              "bench-3",
+              "dib-laptop"
+            ],
+            "drawn": ["volleyball", "shore-walk", "surf-wait", "surf-ride", "surf-paddle", "swimmer", "sunbather", "dib-laptop"],
+            "people": 16,
+            "instances": {
+              "rod": 231,
+              "torso": 22,
+              "ball": 103,
+              "box": 4
+            },
+            "riders": [
+              {
+                "id": "surf-ride",
+                "head": [0.039624848945583435, 0.5712637844849563, 0.07100346416347744],
+                "headRadius": 0.085,
+                "pelvis": [0.012, 0.294877532768884, 0.003940359408550746],
+                "feet": [
+                  {
+                    "a": [0.17800259482972772, 0.06200000000000001, 0.019750462066362884],
+                    "b": [0.23798962068108914, 0.06200000000000001, 0.020998151734548443],
+                    "radius": 0.019
+                  },
+                  {
+                    "a": [-0.2018999777254296, 0.06200000000000001, -0.008453866068453704],
+                    "b": [-0.1424000890982815, 0.06200000000000001, -0.016184535726185195],
+                    "radius": 0.019
+                  }
+                ]
+              }
+            ]
+          },
+          "water": {
+            "sea": "footer",
+            "skyColors": {
+              "near": 8629967,
+              "far": 10207448
+            },
+            "proof": [1, 1, 1, 1],
+            "bottom": {
+              "vertices": 49665,
+              "triangles": 98304,
+              "depthRange": [0.02, 5.1435],
+              "renders": 1,
+              "width": 390,
+              "height": 330,
+              "depthTexture": true,
+              "cpuBuildMs": 43,
+              "lastSubmissionMs": 25
+            },
+            "reflection": {
+              "renders": 1,
+              "pending": false,
+              "width": 242,
+              "height": 79
+            },
+            "caustics": 1,
+            "wakes": 3,
+            "ride": {
+              "power": 0.9223529411764707,
+              "trailPoints": 9
+            },
+            "glints": []
+          },
+          "sky": {
+            "visible": true,
+            "tableAltitude": 55,
+            "samples": {
+              "near": 7049922,
+              "far": 11388378
+            },
+            "weight": 0.38,
+            "exposure": 11.85,
+            "lights": 0,
+            "buildMs": 10,
+            "sun": null
+          },
+          "marineLayer": {
+            "visible": false,
+            "density": 0,
+            "shafts": 0
+          },
+          "sun": null,
+          "resources": {
+            "geometries": 157,
+            "textures": 17
+          },
+          "framing": {
+            "width": 21,
+            "height": 17.76923076923077,
+            "center": [5.1, 2, 0]
+          },
+          "viewMotion": {
+            "x": 0,
+            "y": 0,
+            "camera": [10.1, 18, 38],
+            "up": [0, 1, 0],
+            "tilt": {
+              "supported": false,
+              "enabled": false,
+              "active": false,
+              "listening": false,
+              "permission": "unavailable",
+              "requested": false,
+              "state": "unsupported",
+              "x": 0,
+              "y": 0
+            }
+          }
+        },
+        "errors": []
+      },
+      {
+        "control": "after",
+        "info": {
+          "miniature": false,
+          "selectedPlace": null,
+          "frames": 5,
+          "reveal": 1,
+          "targetReveal": 1,
+          "office": true,
+          "theme": "noon",
+          "running": false,
+          "buildings": 13,
+          "landmarks": [
+            "SalkCoast",
+            "GeiselCoast",
+            "Tennis",
+            "CliffVilla",
+            "CasitaApricot",
+            "BeachVolleyball",
+            "CasitaCream",
+            "CasitaRose",
+            "DIB",
+            "CasitaEast",
+            "Lifeguard",
+            "BrocktonVilla",
+            "LaValencia"
+          ],
+          "orbit": [0, 0],
+          "renderedOrbit": [0, 0],
+          "motion": {},
+          "elapsed": 0,
+          "surfers": [
+            {
+              "name": "Surfer0",
+              "visible": true,
+              "position": [-6.199999809265137, 0.10584267073061945, 4.099999904632568],
+              "quaternion": [0.013632275769440743, -0.6129763606632005, -0.01458897091158631, 0.7898489122947405],
+              "ride": null
+            },
+            {
+              "name": "Surfer1",
+              "visible": true,
+              "position": [4, 0.1310609430165068, 5.099999904632568],
+              "quaternion": [-0.01683752980912595, 0.07555023627323895, -0.06624768163902346, 0.9947964133763445],
+              "ride": {
+                "x": 4,
+                "z": 5.099999904632568,
+                "velocity": [0.31007861017217625, -0.04686379747407989],
+                "heading": [0.9887710783551538, -0.14943812970050985],
+                "speed": 0.31360000000000005,
+                "turnRate": 0.08800000000000001,
+                "acceleration": 0,
+                "bank": 0.03940359408550746,
+                "power": 0.9223529411764707,
+                "crouch": 0.01312246723111597,
+                "trail": [
+                  {
+                    "x": 3.3869619314198047,
+                    "z": 5.192651545046885,
+                    "age": 0,
+                    "power": 0.9223529411764707
+                  },
+                  {
+                    "x": 3.2080386877855416,
+                    "z": 5.2579598926359195,
+                    "age": 0.6,
+                    "power": 0.9146221025793139
+                  },
+                  {
+                    "x": 3.0361544611571882,
+                    "z": 5.332996924489363,
+                    "age": 1.2,
+                    "power": 0.8917332651483195
+                  },
+                  {
+                    "x": 2.8752260180638594,
+                    "z": 5.4177723092526096,
+                    "age": 1.7999999999999998,
+                    "power": 0.8545894173833773
+                  },
+                  {
+                    "x": 2.729236418656706,
+                    "z": 5.512216182906014,
+                    "age": 2.4,
+                    "power": 0.804671760267128
+                  },
+                  {
+                    "x": 2.602310882458855,
+                    "z": 5.616277459513572,
+                    "age": 3,
+                    "power": 0.7440152120004679
+                  },
+                  {
+                    "x": 2.4989442696562745,
+                    "z": 5.729997181312586,
+                    "age": 3.5999999999999996,
+                    "power": 0.6751985463796221
+                  },
+                  {
+                    "x": 2.424469920216003,
+                    "z": 5.85346817294452,
+                    "age": 4.2,
+                    "power": 0.6013787923300727
+                  },
+                  {
+                    "x": 2.3858625272913003,
+                    "z": 5.986420613167749,
+                    "age": 4.8,
+                    "power": 0.5264137283160933
+                  }
+                ],
+                "name": "Surfer1"
+              }
+            },
+            {
+              "name": "Surfer2",
+              "visible": true,
+              "position": [15, 0.10958607439648327, 4],
+              "quaternion": [0.0024052760775703655, -0.05995390617883662, -0.004500964641528302, 0.9981881010602087],
+              "ride": null
+            }
+          ],
+          "people": {
+            "live": false,
+            "period": "noon",
+            "pose": 0,
+            "actors": 17,
+            "visible": [
+              "tennis",
+              "volleyball",
+              "shore-walk",
+              "bluff-walk",
+              "surf-wait",
+              "surf-ride",
+              "surf-paddle",
+              "swimmer",
+              "sunbather",
+              "bench-0",
+              "bench-1",
+              "bench-2",
+              "bench-3",
+              "dib-laptop"
+            ],
+            "drawn": ["volleyball", "shore-walk", "surf-wait", "surf-ride", "surf-paddle", "swimmer", "sunbather", "dib-laptop"],
+            "people": 16,
+            "instances": {
+              "rod": 231,
+              "torso": 22,
+              "ball": 103,
+              "box": 4
+            },
+            "riders": [
+              {
+                "id": "surf-ride",
+                "head": [0.039624848945583435, 0.5712637844849563, 0.07100346416347744],
+                "headRadius": 0.085,
+                "pelvis": [0.012, 0.294877532768884, 0.003940359408550746],
+                "feet": [
+                  {
+                    "a": [0.17800259482972772, 0.06200000000000001, 0.019750462066362884],
+                    "b": [0.23798962068108914, 0.06200000000000001, 0.020998151734548443],
+                    "radius": 0.019
+                  },
+                  {
+                    "a": [-0.2018999777254296, 0.06200000000000001, -0.008453866068453704],
+                    "b": [-0.1424000890982815, 0.06200000000000001, -0.016184535726185195],
+                    "radius": 0.019
+                  }
+                ]
+              }
+            ]
+          },
+          "water": {
+            "sea": "footer",
+            "skyColors": {
+              "near": 8629967,
+              "far": 10207448
+            },
+            "proof": [1, 1, 1, 1],
+            "bottom": {
+              "vertices": 49665,
+              "triangles": 98304,
+              "depthRange": [0.02, 5.1435],
+              "renders": 1,
+              "width": 390,
+              "height": 330,
+              "depthTexture": true,
+              "cpuBuildMs": 44,
+              "lastSubmissionMs": 9
+            },
+            "reflection": {
+              "renders": 1,
+              "pending": false,
+              "width": 242,
+              "height": 79
+            },
+            "caustics": 1,
+            "wakes": 3,
+            "ride": {
+              "power": 0.9223529411764707,
+              "trailPoints": 9
+            },
+            "glints": []
+          },
+          "sky": {
+            "visible": true,
+            "tableAltitude": 55,
+            "samples": {
+              "near": 7049922,
+              "far": 11388378
+            },
+            "weight": 0.38,
+            "exposure": 11.85,
+            "lights": 0,
+            "buildMs": 9,
+            "sun": null
+          },
+          "marineLayer": {
+            "visible": false,
+            "density": 0,
+            "shafts": 0
+          },
+          "sun": null,
+          "resources": {
+            "geometries": 157,
+            "textures": 17
+          },
+          "framing": {
+            "width": 21,
+            "height": 17.76923076923077,
+            "center": [5.1, 2, 0]
+          },
+          "viewMotion": {
+            "x": 0,
+            "y": 0,
+            "camera": [10.1, 18, 38],
+            "up": [0, 1, 0],
+            "tilt": {
+              "supported": false,
+              "enabled": false,
+              "active": false,
+              "listening": false,
+              "permission": "unavailable",
+              "requested": false,
+              "state": "unsupported",
+              "x": 0,
+              "y": 0
+            }
+          }
+        },
+        "errors": []
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "theme": "evening",
+    "pixelDifference": {
+      "pixels": 41,
+      "ratio": 0.0003176078704779611,
+      "max": 127,
+      "meanChanged": 13.682926829268293,
+      "y": [52, 88]
+    },
+    "renders": [
+      {
+        "control": "before",
+        "info": {
+          "miniature": false,
+          "selectedPlace": null,
+          "frames": 5,
+          "reveal": 1,
+          "targetReveal": 1,
+          "office": false,
+          "theme": "evening",
+          "running": false,
+          "buildings": 13,
+          "landmarks": [
+            "SalkCoast",
+            "GeiselCoast",
+            "Tennis",
+            "CliffVilla",
+            "CasitaApricot",
+            "BeachVolleyball",
+            "CasitaCream",
+            "CasitaRose",
+            "DIB",
+            "CasitaEast",
+            "Lifeguard",
+            "BrocktonVilla",
+            "LaValencia"
+          ],
+          "orbit": [0, 0],
+          "renderedOrbit": [0, 0],
+          "motion": {},
+          "elapsed": 0,
+          "surfers": [
+            {
+              "name": "Surfer0",
+              "visible": false,
+              "position": [-6.199999809265137, 0.10584267073061945, 4.099999904632568],
+              "quaternion": [0.013632275769440743, -0.6129763606632005, -0.01458897091158631, 0.7898489122947405],
+              "ride": null
+            },
+            {
+              "name": "Surfer1",
+              "visible": false,
+              "position": [4, 0.1310609430165068, 5.099999904632568],
+              "quaternion": [-0.01683752980912595, 0.07555023627323895, -0.06624768163902346, 0.9947964133763445],
+              "ride": {
+                "x": 4,
+                "z": 5.099999904632568,
+                "velocity": [0.31007861017217625, -0.04686379747407989],
+                "heading": [0.9887710783551538, -0.14943812970050985],
+                "speed": 0.31360000000000005,
+                "turnRate": 0.08800000000000001,
+                "acceleration": 0,
+                "bank": 0.03940359408550746,
+                "power": 0.9223529411764707,
+                "crouch": 0.01312246723111597,
+                "trail": [
+                  {
+                    "x": 3.3869619314198047,
+                    "z": 5.192651545046885,
+                    "age": 0,
+                    "power": 0.9223529411764707
+                  },
+                  {
+                    "x": 3.2080386877855416,
+                    "z": 5.2579598926359195,
+                    "age": 0.6,
+                    "power": 0.9146221025793139
+                  },
+                  {
+                    "x": 3.0361544611571882,
+                    "z": 5.332996924489363,
+                    "age": 1.2,
+                    "power": 0.8917332651483195
+                  },
+                  {
+                    "x": 2.8752260180638594,
+                    "z": 5.4177723092526096,
+                    "age": 1.7999999999999998,
+                    "power": 0.8545894173833773
+                  },
+                  {
+                    "x": 2.729236418656706,
+                    "z": 5.512216182906014,
+                    "age": 2.4,
+                    "power": 0.804671760267128
+                  },
+                  {
+                    "x": 2.602310882458855,
+                    "z": 5.616277459513572,
+                    "age": 3,
+                    "power": 0.7440152120004679
+                  },
+                  {
+                    "x": 2.4989442696562745,
+                    "z": 5.729997181312586,
+                    "age": 3.5999999999999996,
+                    "power": 0.6751985463796221
+                  },
+                  {
+                    "x": 2.424469920216003,
+                    "z": 5.85346817294452,
+                    "age": 4.2,
+                    "power": 0.6013787923300727
+                  },
+                  {
+                    "x": 2.3858625272913003,
+                    "z": 5.986420613167749,
+                    "age": 4.8,
+                    "power": 0.5264137283160933
+                  }
+                ],
+                "name": "Surfer1"
+              }
+            },
+            {
+              "name": "Surfer2",
+              "visible": false,
+              "position": [15, 0.10958607439648327, 4],
+              "quaternion": [0.0024052760775703655, -0.05995390617883662, -0.004500964641528302, 0.9981881010602087],
+              "ride": null
+            }
+          ],
+          "people": {
+            "live": false,
+            "period": "evening",
+            "pose": 0,
+            "actors": 17,
+            "visible": ["fire", "shore-couple", "bench-2"],
+            "drawn": ["fire", "shore-couple"],
+            "people": 6,
+            "instances": {
+              "rod": 231,
+              "torso": 22,
+              "ball": 103,
+              "box": 4
+            },
+            "riders": []
+          },
+          "water": {
+            "sea": "footer",
+            "skyColors": {
+              "near": 2373196,
+              "far": 2373196
+            },
+            "proof": [1, 1, 1, 1],
+            "bottom": {
+              "vertices": 49665,
+              "triangles": 98304,
+              "depthRange": [0.02, 5.1435],
+              "renders": 1,
+              "width": 390,
+              "height": 330,
+              "depthTexture": true,
+              "cpuBuildMs": 43,
+              "lastSubmissionMs": 8
+            },
+            "reflection": {
+              "renders": 1,
+              "pending": false,
+              "width": 242,
+              "height": 79
+            },
+            "caustics": 0,
+            "wakes": 0,
+            "ride": {
+              "power": 0,
+              "trailPoints": 0
+            },
+            "glints": [
+              [1.099, 2.033, 0.998, 0.24],
+              [13.75, 5.174, 0.34, 0.11],
+              [12.23, 7.374, 0.34, 0.11],
+              [13.75, 9.574, 0.34, 0.11]
+            ]
+          },
+          "sky": {
+            "visible": true,
+            "tableAltitude": -24,
+            "samples": {
+              "near": 0,
+              "far": 0
+            },
+            "weight": 0,
+            "exposure": 346116.69,
+            "lights": 1,
+            "buildMs": 7,
+            "sun": null
+          },
+          "marineLayer": {
+            "visible": false,
+            "density": 0,
+            "shafts": 0
+          },
+          "sun": null,
+          "resources": {
+            "geometries": 157,
+            "textures": 17
+          },
+          "framing": {
+            "width": 21,
+            "height": 17.76923076923077,
+            "center": [5.1, 2, 0]
+          },
+          "viewMotion": {
+            "x": 0,
+            "y": 0,
+            "camera": [10.1, 18, 38],
+            "up": [0, 1, 0],
+            "tilt": {
+              "supported": false,
+              "enabled": false,
+              "active": false,
+              "listening": false,
+              "permission": "unavailable",
+              "requested": false,
+              "state": "unsupported",
+              "x": 0,
+              "y": 0
+            }
+          }
+        },
+        "errors": []
+      },
+      {
+        "control": "after",
+        "info": {
+          "miniature": false,
+          "selectedPlace": null,
+          "frames": 5,
+          "reveal": 1,
+          "targetReveal": 1,
+          "office": false,
+          "theme": "evening",
+          "running": false,
+          "buildings": 13,
+          "landmarks": [
+            "SalkCoast",
+            "GeiselCoast",
+            "Tennis",
+            "CliffVilla",
+            "CasitaApricot",
+            "BeachVolleyball",
+            "CasitaCream",
+            "CasitaRose",
+            "DIB",
+            "CasitaEast",
+            "Lifeguard",
+            "BrocktonVilla",
+            "LaValencia"
+          ],
+          "orbit": [0, 0],
+          "renderedOrbit": [0, 0],
+          "motion": {},
+          "elapsed": 0,
+          "surfers": [
+            {
+              "name": "Surfer0",
+              "visible": false,
+              "position": [-6.199999809265137, 0.10584267073061945, 4.099999904632568],
+              "quaternion": [0.013632275769440743, -0.6129763606632005, -0.01458897091158631, 0.7898489122947405],
+              "ride": null
+            },
+            {
+              "name": "Surfer1",
+              "visible": false,
+              "position": [4, 0.1310609430165068, 5.099999904632568],
+              "quaternion": [-0.01683752980912595, 0.07555023627323895, -0.06624768163902346, 0.9947964133763445],
+              "ride": {
+                "x": 4,
+                "z": 5.099999904632568,
+                "velocity": [0.31007861017217625, -0.04686379747407989],
+                "heading": [0.9887710783551538, -0.14943812970050985],
+                "speed": 0.31360000000000005,
+                "turnRate": 0.08800000000000001,
+                "acceleration": 0,
+                "bank": 0.03940359408550746,
+                "power": 0.9223529411764707,
+                "crouch": 0.01312246723111597,
+                "trail": [
+                  {
+                    "x": 3.3869619314198047,
+                    "z": 5.192651545046885,
+                    "age": 0,
+                    "power": 0.9223529411764707
+                  },
+                  {
+                    "x": 3.2080386877855416,
+                    "z": 5.2579598926359195,
+                    "age": 0.6,
+                    "power": 0.9146221025793139
+                  },
+                  {
+                    "x": 3.0361544611571882,
+                    "z": 5.332996924489363,
+                    "age": 1.2,
+                    "power": 0.8917332651483195
+                  },
+                  {
+                    "x": 2.8752260180638594,
+                    "z": 5.4177723092526096,
+                    "age": 1.7999999999999998,
+                    "power": 0.8545894173833773
+                  },
+                  {
+                    "x": 2.729236418656706,
+                    "z": 5.512216182906014,
+                    "age": 2.4,
+                    "power": 0.804671760267128
+                  },
+                  {
+                    "x": 2.602310882458855,
+                    "z": 5.616277459513572,
+                    "age": 3,
+                    "power": 0.7440152120004679
+                  },
+                  {
+                    "x": 2.4989442696562745,
+                    "z": 5.729997181312586,
+                    "age": 3.5999999999999996,
+                    "power": 0.6751985463796221
+                  },
+                  {
+                    "x": 2.424469920216003,
+                    "z": 5.85346817294452,
+                    "age": 4.2,
+                    "power": 0.6013787923300727
+                  },
+                  {
+                    "x": 2.3858625272913003,
+                    "z": 5.986420613167749,
+                    "age": 4.8,
+                    "power": 0.5264137283160933
+                  }
+                ],
+                "name": "Surfer1"
+              }
+            },
+            {
+              "name": "Surfer2",
+              "visible": false,
+              "position": [15, 0.10958607439648327, 4],
+              "quaternion": [0.0024052760775703655, -0.05995390617883662, -0.004500964641528302, 0.9981881010602087],
+              "ride": null
+            }
+          ],
+          "people": {
+            "live": false,
+            "period": "evening",
+            "pose": 0,
+            "actors": 17,
+            "visible": ["fire", "shore-couple", "bench-2"],
+            "drawn": ["fire", "shore-couple"],
+            "people": 6,
+            "instances": {
+              "rod": 231,
+              "torso": 22,
+              "ball": 103,
+              "box": 4
+            },
+            "riders": []
+          },
+          "water": {
+            "sea": "footer",
+            "skyColors": {
+              "near": 2373196,
+              "far": 2373196
+            },
+            "proof": [1, 1, 1, 1],
+            "bottom": {
+              "vertices": 49665,
+              "triangles": 98304,
+              "depthRange": [0.02, 5.1435],
+              "renders": 1,
+              "width": 390,
+              "height": 330,
+              "depthTexture": true,
+              "cpuBuildMs": 47,
+              "lastSubmissionMs": 12
+            },
+            "reflection": {
+              "renders": 1,
+              "pending": false,
+              "width": 242,
+              "height": 79
+            },
+            "caustics": 0,
+            "wakes": 0,
+            "ride": {
+              "power": 0,
+              "trailPoints": 0
+            },
+            "glints": [
+              [1.099, 2.033, 0.998, 0.24],
+              [13.75, 5.174, 0.34, 0.11],
+              [12.23, 7.374, 0.34, 0.11],
+              [13.75, 9.574, 0.34, 0.11]
+            ]
+          },
+          "sky": {
+            "visible": true,
+            "tableAltitude": -24,
+            "samples": {
+              "near": 0,
+              "far": 0
+            },
+            "weight": 0,
+            "exposure": 346116.69,
+            "lights": 1,
+            "buildMs": 7,
+            "sun": null
+          },
+          "marineLayer": {
+            "visible": false,
+            "density": 0,
+            "shafts": 0
+          },
+          "sun": null,
+          "resources": {
+            "geometries": 157,
+            "textures": 17
+          },
+          "framing": {
+            "width": 21,
+            "height": 17.76923076923077,
+            "center": [5.1, 2, 0]
+          },
+          "viewMotion": {
+            "x": 0,
+            "y": 0,
+            "camera": [10.1, 18, 38],
+            "up": [0, 1, 0],
+            "tilt": {
+              "supported": false,
+              "enabled": false,
+              "active": false,
+              "listening": false,
+              "permission": "unavailable",
+              "requested": false,
+              "state": "unsupported",
+              "x": 0,
+              "y": 0
+            }
+          }
+        },
+        "errors": []
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "theme": "noon",
+    "pixelDifference": {
+      "pixels": 102,
+      "ratio": 0.00020413064361191164,
+      "max": 7,
+      "meanChanged": 1.3725490196078431,
+      "y": [76, 345]
+    },
+    "renders": [
+      {
+        "control": "before",
+        "info": {
+          "miniature": false,
+          "selectedPlace": null,
+          "frames": 5,
+          "reveal": 1,
+          "targetReveal": 1,
+          "office": true,
+          "theme": "noon",
+          "running": false,
+          "buildings": 13,
+          "landmarks": [
+            "SalkCoast",
+            "GeiselCoast",
+            "Tennis",
+            "CliffVilla",
+            "CasitaApricot",
+            "BeachVolleyball",
+            "CasitaCream",
+            "CasitaRose",
+            "DIB",
+            "CasitaEast",
+            "Lifeguard",
+            "BrocktonVilla",
+            "LaValencia"
+          ],
+          "orbit": [0, 0],
+          "renderedOrbit": [0, 0],
+          "motion": {},
+          "elapsed": 0,
+          "surfers": [
+            {
+              "name": "Surfer0",
+              "visible": true,
+              "position": [-6.199999809265137, 0.10584267073061945, 4.099999904632568],
+              "quaternion": [0.013632275769440743, -0.6129763606632005, -0.01458897091158631, 0.7898489122947405],
+              "ride": null
+            },
+            {
+              "name": "Surfer1",
+              "visible": true,
+              "position": [4, 0.1310609430165068, 5.099999904632568],
+              "quaternion": [-0.01683752980912595, 0.07555023627323895, -0.06624768163902346, 0.9947964133763445],
+              "ride": {
+                "x": 4,
+                "z": 5.099999904632568,
+                "velocity": [0.31007861017217625, -0.04686379747407989],
+                "heading": [0.9887710783551538, -0.14943812970050985],
+                "speed": 0.31360000000000005,
+                "turnRate": 0.08800000000000001,
+                "acceleration": 0,
+                "bank": 0.03940359408550746,
+                "power": 0.9223529411764707,
+                "crouch": 0.01312246723111597,
+                "trail": [
+                  {
+                    "x": 3.3869619314198047,
+                    "z": 5.192651545046885,
+                    "age": 0,
+                    "power": 0.9223529411764707
+                  },
+                  {
+                    "x": 3.2080386877855416,
+                    "z": 5.2579598926359195,
+                    "age": 0.6,
+                    "power": 0.9146221025793139
+                  },
+                  {
+                    "x": 3.0361544611571882,
+                    "z": 5.332996924489363,
+                    "age": 1.2,
+                    "power": 0.8917332651483195
+                  },
+                  {
+                    "x": 2.8752260180638594,
+                    "z": 5.4177723092526096,
+                    "age": 1.7999999999999998,
+                    "power": 0.8545894173833773
+                  },
+                  {
+                    "x": 2.729236418656706,
+                    "z": 5.512216182906014,
+                    "age": 2.4,
+                    "power": 0.804671760267128
+                  },
+                  {
+                    "x": 2.602310882458855,
+                    "z": 5.616277459513572,
+                    "age": 3,
+                    "power": 0.7440152120004679
+                  },
+                  {
+                    "x": 2.4989442696562745,
+                    "z": 5.729997181312586,
+                    "age": 3.5999999999999996,
+                    "power": 0.6751985463796221
+                  },
+                  {
+                    "x": 2.424469920216003,
+                    "z": 5.85346817294452,
+                    "age": 4.2,
+                    "power": 0.6013787923300727
+                  },
+                  {
+                    "x": 2.3858625272913003,
+                    "z": 5.986420613167749,
+                    "age": 4.8,
+                    "power": 0.5264137283160933
+                  }
+                ],
+                "name": "Surfer1"
+              }
+            },
+            {
+              "name": "Surfer2",
+              "visible": true,
+              "position": [15, 0.10958607439648327, 4],
+              "quaternion": [0.0024052760775703655, -0.05995390617883662, -0.004500964641528302, 0.9981881010602087],
+              "ride": null
+            }
+          ],
+          "people": {
+            "live": false,
+            "period": "noon",
+            "pose": 0,
+            "actors": 17,
+            "visible": [
+              "tennis",
+              "volleyball",
+              "shore-walk",
+              "bluff-walk",
+              "surf-wait",
+              "surf-ride",
+              "surf-paddle",
+              "swimmer",
+              "sunbather",
+              "bench-0",
+              "bench-1",
+              "bench-2",
+              "bench-3",
+              "dib-laptop"
+            ],
+            "drawn": [
+              "tennis",
+              "volleyball",
+              "shore-walk",
+              "bluff-walk",
+              "surf-wait",
+              "surf-ride",
+              "surf-paddle",
+              "swimmer",
+              "sunbather",
+              "bench-1",
+              "dib-laptop"
+            ],
+            "people": 16,
+            "instances": {
+              "rod": 231,
+              "torso": 22,
+              "ball": 103,
+              "box": 4
+            },
+            "riders": [
+              {
+                "id": "surf-ride",
+                "head": [0.039624848945583435, 0.5712637844849563, 0.07100346416347744],
+                "headRadius": 0.085,
+                "pelvis": [0.012, 0.294877532768884, 0.003940359408550746],
+                "feet": [
+                  {
+                    "a": [0.17800259482972772, 0.06200000000000001, 0.019750462066362884],
+                    "b": [0.23798962068108914, 0.06200000000000001, 0.020998151734548443],
+                    "radius": 0.019
+                  },
+                  {
+                    "a": [-0.2018999777254296, 0.06200000000000001, -0.008453866068453704],
+                    "b": [-0.1424000890982815, 0.06200000000000001, -0.016184535726185195],
+                    "radius": 0.019
+                  }
+                ]
+              }
+            ]
+          },
+          "water": {
+            "sea": "footer",
+            "skyColors": {
+              "near": 8629967,
+              "far": 10207448
+            },
+            "proof": [1, 1, 1, 1],
+            "bottom": {
+              "vertices": 49665,
+              "triangles": 98304,
+              "depthRange": [0.02, 5.1435],
+              "renders": 1,
+              "width": 1440,
+              "height": 345,
+              "depthTexture": true,
+              "cpuBuildMs": 48,
+              "lastSubmissionMs": 11
+            },
+            "reflection": {
+              "renders": 1,
+              "pending": false,
+              "width": 893,
+              "height": 64
+            },
+            "caustics": 1,
+            "wakes": 3,
+            "ride": {
+              "power": 0.9223529411764707,
+              "trailPoints": 9
+            },
+            "glints": []
+          },
+          "sky": {
+            "visible": true,
+            "tableAltitude": 55,
+            "samples": {
+              "near": 7049922,
+              "far": 11388378
+            },
+            "weight": 0.38,
+            "exposure": 11.85,
+            "lights": 0,
+            "buildMs": 11,
+            "sun": null
+          },
+          "marineLayer": {
+            "visible": false,
+            "density": 0,
+            "shafts": 0
+          },
+          "sun": null,
+          "resources": {
+            "geometries": 170,
+            "textures": 17
+          },
+          "framing": {
+            "width": 60.41775929107514,
+            "height": 14.5,
+            "center": [0, 4.5, 0]
+          },
+          "viewMotion": {
+            "x": 0,
+            "y": 0,
+            "camera": [0, 20.5, 38],
+            "up": [0, 1, 0],
+            "tilt": {
+              "supported": false,
+              "enabled": false,
+              "active": false,
+              "listening": false,
+              "permission": "unavailable",
+              "requested": false,
+              "state": "unsupported",
+              "x": 0,
+              "y": 0
+            }
+          }
+        },
+        "errors": []
+      },
+      {
+        "control": "after",
+        "info": {
+          "miniature": false,
+          "selectedPlace": null,
+          "frames": 5,
+          "reveal": 1,
+          "targetReveal": 1,
+          "office": true,
+          "theme": "noon",
+          "running": false,
+          "buildings": 13,
+          "landmarks": [
+            "SalkCoast",
+            "GeiselCoast",
+            "Tennis",
+            "CliffVilla",
+            "CasitaApricot",
+            "BeachVolleyball",
+            "CasitaCream",
+            "CasitaRose",
+            "DIB",
+            "CasitaEast",
+            "Lifeguard",
+            "BrocktonVilla",
+            "LaValencia"
+          ],
+          "orbit": [0, 0],
+          "renderedOrbit": [0, 0],
+          "motion": {},
+          "elapsed": 0,
+          "surfers": [
+            {
+              "name": "Surfer0",
+              "visible": true,
+              "position": [-6.199999809265137, 0.10584267073061945, 4.099999904632568],
+              "quaternion": [0.013632275769440743, -0.6129763606632005, -0.01458897091158631, 0.7898489122947405],
+              "ride": null
+            },
+            {
+              "name": "Surfer1",
+              "visible": true,
+              "position": [4, 0.1310609430165068, 5.099999904632568],
+              "quaternion": [-0.01683752980912595, 0.07555023627323895, -0.06624768163902346, 0.9947964133763445],
+              "ride": {
+                "x": 4,
+                "z": 5.099999904632568,
+                "velocity": [0.31007861017217625, -0.04686379747407989],
+                "heading": [0.9887710783551538, -0.14943812970050985],
+                "speed": 0.31360000000000005,
+                "turnRate": 0.08800000000000001,
+                "acceleration": 0,
+                "bank": 0.03940359408550746,
+                "power": 0.9223529411764707,
+                "crouch": 0.01312246723111597,
+                "trail": [
+                  {
+                    "x": 3.3869619314198047,
+                    "z": 5.192651545046885,
+                    "age": 0,
+                    "power": 0.9223529411764707
+                  },
+                  {
+                    "x": 3.2080386877855416,
+                    "z": 5.2579598926359195,
+                    "age": 0.6,
+                    "power": 0.9146221025793139
+                  },
+                  {
+                    "x": 3.0361544611571882,
+                    "z": 5.332996924489363,
+                    "age": 1.2,
+                    "power": 0.8917332651483195
+                  },
+                  {
+                    "x": 2.8752260180638594,
+                    "z": 5.4177723092526096,
+                    "age": 1.7999999999999998,
+                    "power": 0.8545894173833773
+                  },
+                  {
+                    "x": 2.729236418656706,
+                    "z": 5.512216182906014,
+                    "age": 2.4,
+                    "power": 0.804671760267128
+                  },
+                  {
+                    "x": 2.602310882458855,
+                    "z": 5.616277459513572,
+                    "age": 3,
+                    "power": 0.7440152120004679
+                  },
+                  {
+                    "x": 2.4989442696562745,
+                    "z": 5.729997181312586,
+                    "age": 3.5999999999999996,
+                    "power": 0.6751985463796221
+                  },
+                  {
+                    "x": 2.424469920216003,
+                    "z": 5.85346817294452,
+                    "age": 4.2,
+                    "power": 0.6013787923300727
+                  },
+                  {
+                    "x": 2.3858625272913003,
+                    "z": 5.986420613167749,
+                    "age": 4.8,
+                    "power": 0.5264137283160933
+                  }
+                ],
+                "name": "Surfer1"
+              }
+            },
+            {
+              "name": "Surfer2",
+              "visible": true,
+              "position": [15, 0.10958607439648327, 4],
+              "quaternion": [0.0024052760775703655, -0.05995390617883662, -0.004500964641528302, 0.9981881010602087],
+              "ride": null
+            }
+          ],
+          "people": {
+            "live": false,
+            "period": "noon",
+            "pose": 0,
+            "actors": 17,
+            "visible": [
+              "tennis",
+              "volleyball",
+              "shore-walk",
+              "bluff-walk",
+              "surf-wait",
+              "surf-ride",
+              "surf-paddle",
+              "swimmer",
+              "sunbather",
+              "bench-0",
+              "bench-1",
+              "bench-2",
+              "bench-3",
+              "dib-laptop"
+            ],
+            "drawn": [
+              "tennis",
+              "volleyball",
+              "shore-walk",
+              "bluff-walk",
+              "surf-wait",
+              "surf-ride",
+              "surf-paddle",
+              "swimmer",
+              "sunbather",
+              "bench-1",
+              "dib-laptop"
+            ],
+            "people": 16,
+            "instances": {
+              "rod": 231,
+              "torso": 22,
+              "ball": 103,
+              "box": 4
+            },
+            "riders": [
+              {
+                "id": "surf-ride",
+                "head": [0.039624848945583435, 0.5712637844849563, 0.07100346416347744],
+                "headRadius": 0.085,
+                "pelvis": [0.012, 0.294877532768884, 0.003940359408550746],
+                "feet": [
+                  {
+                    "a": [0.17800259482972772, 0.06200000000000001, 0.019750462066362884],
+                    "b": [0.23798962068108914, 0.06200000000000001, 0.020998151734548443],
+                    "radius": 0.019
+                  },
+                  {
+                    "a": [-0.2018999777254296, 0.06200000000000001, -0.008453866068453704],
+                    "b": [-0.1424000890982815, 0.06200000000000001, -0.016184535726185195],
+                    "radius": 0.019
+                  }
+                ]
+              }
+            ]
+          },
+          "water": {
+            "sea": "footer",
+            "skyColors": {
+              "near": 8629967,
+              "far": 10207448
+            },
+            "proof": [1, 1, 1, 1],
+            "bottom": {
+              "vertices": 49665,
+              "triangles": 98304,
+              "depthRange": [0.02, 5.1435],
+              "renders": 1,
+              "width": 1440,
+              "height": 345,
+              "depthTexture": true,
+              "cpuBuildMs": 44,
+              "lastSubmissionMs": 11
+            },
+            "reflection": {
+              "renders": 1,
+              "pending": false,
+              "width": 893,
+              "height": 64
+            },
+            "caustics": 1,
+            "wakes": 3,
+            "ride": {
+              "power": 0.9223529411764707,
+              "trailPoints": 9
+            },
+            "glints": []
+          },
+          "sky": {
+            "visible": true,
+            "tableAltitude": 55,
+            "samples": {
+              "near": 7049922,
+              "far": 11388378
+            },
+            "weight": 0.38,
+            "exposure": 11.85,
+            "lights": 0,
+            "buildMs": 10,
+            "sun": null
+          },
+          "marineLayer": {
+            "visible": false,
+            "density": 0,
+            "shafts": 0
+          },
+          "sun": null,
+          "resources": {
+            "geometries": 170,
+            "textures": 17
+          },
+          "framing": {
+            "width": 60.41775929107514,
+            "height": 14.5,
+            "center": [0, 4.5, 0]
+          },
+          "viewMotion": {
+            "x": 0,
+            "y": 0,
+            "camera": [0, 20.5, 38],
+            "up": [0, 1, 0],
+            "tilt": {
+              "supported": false,
+              "enabled": false,
+              "active": false,
+              "listening": false,
+              "permission": "unavailable",
+              "requested": false,
+              "state": "unsupported",
+              "x": 0,
+              "y": 0
+            }
+          }
+        },
+        "errors": []
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "theme": "evening",
+    "pixelDifference": {
+      "pixels": 25,
+      "ratio": 0.00005003202049311559,
+      "max": 100,
+      "meanChanged": 14.32,
+      "y": [81, 116]
+    },
+    "renders": [
+      {
+        "control": "before",
+        "info": {
+          "miniature": false,
+          "selectedPlace": null,
+          "frames": 5,
+          "reveal": 1,
+          "targetReveal": 1,
+          "office": false,
+          "theme": "evening",
+          "running": false,
+          "buildings": 13,
+          "landmarks": [
+            "SalkCoast",
+            "GeiselCoast",
+            "Tennis",
+            "CliffVilla",
+            "CasitaApricot",
+            "BeachVolleyball",
+            "CasitaCream",
+            "CasitaRose",
+            "DIB",
+            "CasitaEast",
+            "Lifeguard",
+            "BrocktonVilla",
+            "LaValencia"
+          ],
+          "orbit": [0, 0],
+          "renderedOrbit": [0, 0],
+          "motion": {},
+          "elapsed": 0,
+          "surfers": [
+            {
+              "name": "Surfer0",
+              "visible": false,
+              "position": [-6.199999809265137, 0.10584267073061945, 4.099999904632568],
+              "quaternion": [0.013632275769440743, -0.6129763606632005, -0.01458897091158631, 0.7898489122947405],
+              "ride": null
+            },
+            {
+              "name": "Surfer1",
+              "visible": false,
+              "position": [4, 0.1310609430165068, 5.099999904632568],
+              "quaternion": [-0.01683752980912595, 0.07555023627323895, -0.06624768163902346, 0.9947964133763445],
+              "ride": {
+                "x": 4,
+                "z": 5.099999904632568,
+                "velocity": [0.31007861017217625, -0.04686379747407989],
+                "heading": [0.9887710783551538, -0.14943812970050985],
+                "speed": 0.31360000000000005,
+                "turnRate": 0.08800000000000001,
+                "acceleration": 0,
+                "bank": 0.03940359408550746,
+                "power": 0.9223529411764707,
+                "crouch": 0.01312246723111597,
+                "trail": [
+                  {
+                    "x": 3.3869619314198047,
+                    "z": 5.192651545046885,
+                    "age": 0,
+                    "power": 0.9223529411764707
+                  },
+                  {
+                    "x": 3.2080386877855416,
+                    "z": 5.2579598926359195,
+                    "age": 0.6,
+                    "power": 0.9146221025793139
+                  },
+                  {
+                    "x": 3.0361544611571882,
+                    "z": 5.332996924489363,
+                    "age": 1.2,
+                    "power": 0.8917332651483195
+                  },
+                  {
+                    "x": 2.8752260180638594,
+                    "z": 5.4177723092526096,
+                    "age": 1.7999999999999998,
+                    "power": 0.8545894173833773
+                  },
+                  {
+                    "x": 2.729236418656706,
+                    "z": 5.512216182906014,
+                    "age": 2.4,
+                    "power": 0.804671760267128
+                  },
+                  {
+                    "x": 2.602310882458855,
+                    "z": 5.616277459513572,
+                    "age": 3,
+                    "power": 0.7440152120004679
+                  },
+                  {
+                    "x": 2.4989442696562745,
+                    "z": 5.729997181312586,
+                    "age": 3.5999999999999996,
+                    "power": 0.6751985463796221
+                  },
+                  {
+                    "x": 2.424469920216003,
+                    "z": 5.85346817294452,
+                    "age": 4.2,
+                    "power": 0.6013787923300727
+                  },
+                  {
+                    "x": 2.3858625272913003,
+                    "z": 5.986420613167749,
+                    "age": 4.8,
+                    "power": 0.5264137283160933
+                  }
+                ],
+                "name": "Surfer1"
+              }
+            },
+            {
+              "name": "Surfer2",
+              "visible": false,
+              "position": [15, 0.10958607439648327, 4],
+              "quaternion": [0.0024052760775703655, -0.05995390617883662, -0.004500964641528302, 0.9981881010602087],
+              "ride": null
+            }
+          ],
+          "people": {
+            "live": false,
+            "period": "evening",
+            "pose": 0,
+            "actors": 17,
+            "visible": ["fire", "shore-couple", "bench-2"],
+            "drawn": ["fire", "shore-couple"],
+            "people": 6,
+            "instances": {
+              "rod": 231,
+              "torso": 22,
+              "ball": 103,
+              "box": 4
+            },
+            "riders": []
+          },
+          "water": {
+            "sea": "footer",
+            "skyColors": {
+              "near": 2373196,
+              "far": 2373196
+            },
+            "proof": [1, 1, 1, 1],
+            "bottom": {
+              "vertices": 49665,
+              "triangles": 98304,
+              "depthRange": [0.02, 5.1435],
+              "renders": 1,
+              "width": 1440,
+              "height": 345,
+              "depthTexture": true,
+              "cpuBuildMs": 45,
+              "lastSubmissionMs": 11
+            },
+            "reflection": {
+              "renders": 1,
+              "pending": false,
+              "width": 893,
+              "height": 64
+            },
+            "caustics": 0,
+            "wakes": 0,
+            "ride": {
+              "power": 0,
+              "trailPoints": 0
+            },
+            "glints": [
+              [1, 2.033, 0.998, 0.24],
+              [13.26, 5.174, 0.34, 0.11],
+              [11.74, 7.374, 0.34, 0.11],
+              [13.26, 9.574, 0.34, 0.11]
+            ]
+          },
+          "sky": {
+            "visible": true,
+            "tableAltitude": -24,
+            "samples": {
+              "near": 0,
+              "far": 0
+            },
+            "weight": 0,
+            "exposure": 346116.69,
+            "lights": 1,
+            "buildMs": 6,
+            "sun": null
+          },
+          "marineLayer": {
+            "visible": false,
+            "density": 0,
+            "shafts": 0
+          },
+          "sun": null,
+          "resources": {
+            "geometries": 170,
+            "textures": 17
+          },
+          "framing": {
+            "width": 60.41775929107514,
+            "height": 14.5,
+            "center": [0, 4.5, 0]
+          },
+          "viewMotion": {
+            "x": 0,
+            "y": 0,
+            "camera": [0, 20.5, 38],
+            "up": [0, 1, 0],
+            "tilt": {
+              "supported": false,
+              "enabled": false,
+              "active": false,
+              "listening": false,
+              "permission": "unavailable",
+              "requested": false,
+              "state": "unsupported",
+              "x": 0,
+              "y": 0
+            }
+          }
+        },
+        "errors": []
+      },
+      {
+        "control": "after",
+        "info": {
+          "miniature": false,
+          "selectedPlace": null,
+          "frames": 5,
+          "reveal": 1,
+          "targetReveal": 1,
+          "office": false,
+          "theme": "evening",
+          "running": false,
+          "buildings": 13,
+          "landmarks": [
+            "SalkCoast",
+            "GeiselCoast",
+            "Tennis",
+            "CliffVilla",
+            "CasitaApricot",
+            "BeachVolleyball",
+            "CasitaCream",
+            "CasitaRose",
+            "DIB",
+            "CasitaEast",
+            "Lifeguard",
+            "BrocktonVilla",
+            "LaValencia"
+          ],
+          "orbit": [0, 0],
+          "renderedOrbit": [0, 0],
+          "motion": {},
+          "elapsed": 0,
+          "surfers": [
+            {
+              "name": "Surfer0",
+              "visible": false,
+              "position": [-6.199999809265137, 0.10584267073061945, 4.099999904632568],
+              "quaternion": [0.013632275769440743, -0.6129763606632005, -0.01458897091158631, 0.7898489122947405],
+              "ride": null
+            },
+            {
+              "name": "Surfer1",
+              "visible": false,
+              "position": [4, 0.1310609430165068, 5.099999904632568],
+              "quaternion": [-0.01683752980912595, 0.07555023627323895, -0.06624768163902346, 0.9947964133763445],
+              "ride": {
+                "x": 4,
+                "z": 5.099999904632568,
+                "velocity": [0.31007861017217625, -0.04686379747407989],
+                "heading": [0.9887710783551538, -0.14943812970050985],
+                "speed": 0.31360000000000005,
+                "turnRate": 0.08800000000000001,
+                "acceleration": 0,
+                "bank": 0.03940359408550746,
+                "power": 0.9223529411764707,
+                "crouch": 0.01312246723111597,
+                "trail": [
+                  {
+                    "x": 3.3869619314198047,
+                    "z": 5.192651545046885,
+                    "age": 0,
+                    "power": 0.9223529411764707
+                  },
+                  {
+                    "x": 3.2080386877855416,
+                    "z": 5.2579598926359195,
+                    "age": 0.6,
+                    "power": 0.9146221025793139
+                  },
+                  {
+                    "x": 3.0361544611571882,
+                    "z": 5.332996924489363,
+                    "age": 1.2,
+                    "power": 0.8917332651483195
+                  },
+                  {
+                    "x": 2.8752260180638594,
+                    "z": 5.4177723092526096,
+                    "age": 1.7999999999999998,
+                    "power": 0.8545894173833773
+                  },
+                  {
+                    "x": 2.729236418656706,
+                    "z": 5.512216182906014,
+                    "age": 2.4,
+                    "power": 0.804671760267128
+                  },
+                  {
+                    "x": 2.602310882458855,
+                    "z": 5.616277459513572,
+                    "age": 3,
+                    "power": 0.7440152120004679
+                  },
+                  {
+                    "x": 2.4989442696562745,
+                    "z": 5.729997181312586,
+                    "age": 3.5999999999999996,
+                    "power": 0.6751985463796221
+                  },
+                  {
+                    "x": 2.424469920216003,
+                    "z": 5.85346817294452,
+                    "age": 4.2,
+                    "power": 0.6013787923300727
+                  },
+                  {
+                    "x": 2.3858625272913003,
+                    "z": 5.986420613167749,
+                    "age": 4.8,
+                    "power": 0.5264137283160933
+                  }
+                ],
+                "name": "Surfer1"
+              }
+            },
+            {
+              "name": "Surfer2",
+              "visible": false,
+              "position": [15, 0.10958607439648327, 4],
+              "quaternion": [0.0024052760775703655, -0.05995390617883662, -0.004500964641528302, 0.9981881010602087],
+              "ride": null
+            }
+          ],
+          "people": {
+            "live": false,
+            "period": "evening",
+            "pose": 0,
+            "actors": 17,
+            "visible": ["fire", "shore-couple", "bench-2"],
+            "drawn": ["fire", "shore-couple"],
+            "people": 6,
+            "instances": {
+              "rod": 231,
+              "torso": 22,
+              "ball": 103,
+              "box": 4
+            },
+            "riders": []
+          },
+          "water": {
+            "sea": "footer",
+            "skyColors": {
+              "near": 2373196,
+              "far": 2373196
+            },
+            "proof": [1, 1, 1, 1],
+            "bottom": {
+              "vertices": 49665,
+              "triangles": 98304,
+              "depthRange": [0.02, 5.1435],
+              "renders": 1,
+              "width": 1440,
+              "height": 345,
+              "depthTexture": true,
+              "cpuBuildMs": 44,
+              "lastSubmissionMs": 9
+            },
+            "reflection": {
+              "renders": 1,
+              "pending": false,
+              "width": 893,
+              "height": 64
+            },
+            "caustics": 0,
+            "wakes": 0,
+            "ride": {
+              "power": 0,
+              "trailPoints": 0
+            },
+            "glints": [
+              [1, 2.033, 0.998, 0.24],
+              [13.26, 5.174, 0.34, 0.11],
+              [11.74, 7.374, 0.34, 0.11],
+              [13.26, 9.574, 0.34, 0.11]
+            ]
+          },
+          "sky": {
+            "visible": true,
+            "tableAltitude": -24,
+            "samples": {
+              "near": 0,
+              "far": 0
+            },
+            "weight": 0,
+            "exposure": 346116.69,
+            "lights": 1,
+            "buildMs": 6,
+            "sun": null
+          },
+          "marineLayer": {
+            "visible": false,
+            "density": 0,
+            "shafts": 0
+          },
+          "sun": null,
+          "resources": {
+            "geometries": 170,
+            "textures": 17
+          },
+          "framing": {
+            "width": 60.41775929107514,
+            "height": 14.5,
+            "center": [0, 4.5, 0]
+          },
+          "viewMotion": {
+            "x": 0,
+            "y": 0,
+            "camera": [0, 20.5, 38],
+            "up": [0, 1, 0],
+            "tilt": {
+              "supported": false,
+              "enabled": false,
+              "active": false,
+              "listening": false,
+              "permission": "unavailable",
+              "requested": false,
+              "state": "unsupported",
+              "x": 0,
+              "y": 0
+            }
+          }
+        },
+        "errors": []
+      }
+    ]
+  },
+  {
+    "width": 2560,
+    "theme": "noon",
+    "pixelDifference": {
+      "pixels": 66,
+      "ratio": 0.00005359927234927235,
+      "max": 8,
+      "meanChanged": 1.303030303030303,
+      "y": [106, 431]
+    },
+    "renders": [
+      {
+        "control": "before",
+        "info": {
+          "miniature": false,
+          "selectedPlace": null,
+          "frames": 5,
+          "reveal": 1,
+          "targetReveal": 1,
+          "office": true,
+          "theme": "noon",
+          "running": false,
+          "buildings": 13,
+          "landmarks": [
+            "SalkCoast",
+            "GeiselCoast",
+            "Tennis",
+            "CliffVilla",
+            "CasitaApricot",
+            "BeachVolleyball",
+            "CasitaCream",
+            "CasitaRose",
+            "DIB",
+            "CasitaEast",
+            "Lifeguard",
+            "BrocktonVilla",
+            "LaValencia"
+          ],
+          "orbit": [0, 0],
+          "renderedOrbit": [0, 0],
+          "motion": {},
+          "elapsed": 0,
+          "surfers": [
+            {
+              "name": "Surfer0",
+              "visible": true,
+              "position": [-6.199999809265137, 0.10584267073061945, 4.099999904632568],
+              "quaternion": [0.013632275769440743, -0.6129763606632005, -0.01458897091158631, 0.7898489122947405],
+              "ride": null
+            },
+            {
+              "name": "Surfer1",
+              "visible": true,
+              "position": [4, 0.1310609430165068, 5.099999904632568],
+              "quaternion": [-0.01683752980912595, 0.07555023627323895, -0.06624768163902346, 0.9947964133763445],
+              "ride": {
+                "x": 4,
+                "z": 5.099999904632568,
+                "velocity": [0.31007861017217625, -0.04686379747407989],
+                "heading": [0.9887710783551538, -0.14943812970050985],
+                "speed": 0.31360000000000005,
+                "turnRate": 0.08800000000000001,
+                "acceleration": 0,
+                "bank": 0.03940359408550746,
+                "power": 0.9223529411764707,
+                "crouch": 0.01312246723111597,
+                "trail": [
+                  {
+                    "x": 3.3869619314198047,
+                    "z": 5.192651545046885,
+                    "age": 0,
+                    "power": 0.9223529411764707
+                  },
+                  {
+                    "x": 3.2080386877855416,
+                    "z": 5.2579598926359195,
+                    "age": 0.6,
+                    "power": 0.9146221025793139
+                  },
+                  {
+                    "x": 3.0361544611571882,
+                    "z": 5.332996924489363,
+                    "age": 1.2,
+                    "power": 0.8917332651483195
+                  },
+                  {
+                    "x": 2.8752260180638594,
+                    "z": 5.4177723092526096,
+                    "age": 1.7999999999999998,
+                    "power": 0.8545894173833773
+                  },
+                  {
+                    "x": 2.729236418656706,
+                    "z": 5.512216182906014,
+                    "age": 2.4,
+                    "power": 0.804671760267128
+                  },
+                  {
+                    "x": 2.602310882458855,
+                    "z": 5.616277459513572,
+                    "age": 3,
+                    "power": 0.7440152120004679
+                  },
+                  {
+                    "x": 2.4989442696562745,
+                    "z": 5.729997181312586,
+                    "age": 3.5999999999999996,
+                    "power": 0.6751985463796221
+                  },
+                  {
+                    "x": 2.424469920216003,
+                    "z": 5.85346817294452,
+                    "age": 4.2,
+                    "power": 0.6013787923300727
+                  },
+                  {
+                    "x": 2.3858625272913003,
+                    "z": 5.986420613167749,
+                    "age": 4.8,
+                    "power": 0.5264137283160933
+                  }
+                ],
+                "name": "Surfer1"
+              }
+            },
+            {
+              "name": "Surfer2",
+              "visible": true,
+              "position": [15, 0.10958607439648327, 4],
+              "quaternion": [0.0024052760775703655, -0.05995390617883662, -0.004500964641528302, 0.9981881010602087],
+              "ride": null
+            }
+          ],
+          "people": {
+            "live": false,
+            "period": "noon",
+            "pose": 0,
+            "actors": 17,
+            "visible": [
+              "tennis",
+              "volleyball",
+              "shore-walk",
+              "bluff-walk",
+              "surf-wait",
+              "surf-ride",
+              "surf-paddle",
+              "swimmer",
+              "sunbather",
+              "bench-0",
+              "bench-1",
+              "bench-2",
+              "bench-3",
+              "dib-laptop"
+            ],
+            "drawn": [
+              "tennis",
+              "volleyball",
+              "shore-walk",
+              "bluff-walk",
+              "surf-wait",
+              "surf-ride",
+              "surf-paddle",
+              "swimmer",
+              "sunbather",
+              "bench-0",
+              "bench-1",
+              "bench-2",
+              "bench-3",
+              "dib-laptop"
+            ],
+            "people": 16,
+            "instances": {
+              "rod": 231,
+              "torso": 22,
+              "ball": 103,
+              "box": 4
+            },
+            "riders": [
+              {
+                "id": "surf-ride",
+                "head": [0.039624848945583435, 0.5712637844849563, 0.07100346416347744],
+                "headRadius": 0.085,
+                "pelvis": [0.012, 0.294877532768884, 0.003940359408550746],
+                "feet": [
+                  {
+                    "a": [0.17800259482972772, 0.06200000000000001, 0.019750462066362884],
+                    "b": [0.23798962068108914, 0.06200000000000001, 0.020998151734548443],
+                    "radius": 0.019
+                  },
+                  {
+                    "a": [-0.2018999777254296, 0.06200000000000001, -0.008453866068453704],
+                    "b": [-0.1424000890982815, 0.06200000000000001, -0.016184535726185195],
+                    "radius": 0.019
+                  }
+                ]
+              }
+            ]
+          },
+          "water": {
+            "sea": "footer",
+            "skyColors": {
+              "near": 8629967,
+              "far": 10207448
+            },
+            "proof": [1, 1, 1, 1],
+            "bottom": {
+              "vertices": 49665,
+              "triangles": 98304,
+              "depthRange": [0.02, 5.1435],
+              "renders": 1,
+              "width": 2560,
+              "height": 480,
+              "depthTexture": true,
+              "cpuBuildMs": 48,
+              "lastSubmissionMs": 10
+            },
+            "reflection": {
+              "renders": 1,
+              "pending": false,
+              "width": 1587,
+              "height": 89
+            },
+            "caustics": 1,
+            "wakes": 3,
+            "ride": {
+              "power": 0.9223529411764707,
+              "trailPoints": 9
+            },
+            "glints": []
+          },
+          "sky": {
+            "visible": true,
+            "tableAltitude": 55,
+            "samples": {
+              "near": 7049922,
+              "far": 11388378
+            },
+            "weight": 0.38,
+            "exposure": 11.85,
+            "lights": 0,
+            "buildMs": 9,
+            "sun": null
+          },
+          "marineLayer": {
+            "visible": false,
+            "density": 0,
+            "shafts": 0
+          },
+          "sun": null,
+          "resources": {
+            "geometries": 189,
+            "textures": 17
+          },
+          "framing": {
+            "width": 77.33333333333333,
+            "height": 14.5,
+            "center": [0, 4.5, 0]
+          },
+          "viewMotion": {
+            "x": 0,
+            "y": 0,
+            "camera": [0, 20.5, 38],
+            "up": [0, 1, 0],
+            "tilt": {
+              "supported": false,
+              "enabled": false,
+              "active": false,
+              "listening": false,
+              "permission": "unavailable",
+              "requested": false,
+              "state": "unsupported",
+              "x": 0,
+              "y": 0
+            }
+          }
+        },
+        "errors": []
+      },
+      {
+        "control": "after",
+        "info": {
+          "miniature": false,
+          "selectedPlace": null,
+          "frames": 5,
+          "reveal": 1,
+          "targetReveal": 1,
+          "office": true,
+          "theme": "noon",
+          "running": false,
+          "buildings": 13,
+          "landmarks": [
+            "SalkCoast",
+            "GeiselCoast",
+            "Tennis",
+            "CliffVilla",
+            "CasitaApricot",
+            "BeachVolleyball",
+            "CasitaCream",
+            "CasitaRose",
+            "DIB",
+            "CasitaEast",
+            "Lifeguard",
+            "BrocktonVilla",
+            "LaValencia"
+          ],
+          "orbit": [0, 0],
+          "renderedOrbit": [0, 0],
+          "motion": {},
+          "elapsed": 0,
+          "surfers": [
+            {
+              "name": "Surfer0",
+              "visible": true,
+              "position": [-6.199999809265137, 0.10584267073061945, 4.099999904632568],
+              "quaternion": [0.013632275769440743, -0.6129763606632005, -0.01458897091158631, 0.7898489122947405],
+              "ride": null
+            },
+            {
+              "name": "Surfer1",
+              "visible": true,
+              "position": [4, 0.1310609430165068, 5.099999904632568],
+              "quaternion": [-0.01683752980912595, 0.07555023627323895, -0.06624768163902346, 0.9947964133763445],
+              "ride": {
+                "x": 4,
+                "z": 5.099999904632568,
+                "velocity": [0.31007861017217625, -0.04686379747407989],
+                "heading": [0.9887710783551538, -0.14943812970050985],
+                "speed": 0.31360000000000005,
+                "turnRate": 0.08800000000000001,
+                "acceleration": 0,
+                "bank": 0.03940359408550746,
+                "power": 0.9223529411764707,
+                "crouch": 0.01312246723111597,
+                "trail": [
+                  {
+                    "x": 3.3869619314198047,
+                    "z": 5.192651545046885,
+                    "age": 0,
+                    "power": 0.9223529411764707
+                  },
+                  {
+                    "x": 3.2080386877855416,
+                    "z": 5.2579598926359195,
+                    "age": 0.6,
+                    "power": 0.9146221025793139
+                  },
+                  {
+                    "x": 3.0361544611571882,
+                    "z": 5.332996924489363,
+                    "age": 1.2,
+                    "power": 0.8917332651483195
+                  },
+                  {
+                    "x": 2.8752260180638594,
+                    "z": 5.4177723092526096,
+                    "age": 1.7999999999999998,
+                    "power": 0.8545894173833773
+                  },
+                  {
+                    "x": 2.729236418656706,
+                    "z": 5.512216182906014,
+                    "age": 2.4,
+                    "power": 0.804671760267128
+                  },
+                  {
+                    "x": 2.602310882458855,
+                    "z": 5.616277459513572,
+                    "age": 3,
+                    "power": 0.7440152120004679
+                  },
+                  {
+                    "x": 2.4989442696562745,
+                    "z": 5.729997181312586,
+                    "age": 3.5999999999999996,
+                    "power": 0.6751985463796221
+                  },
+                  {
+                    "x": 2.424469920216003,
+                    "z": 5.85346817294452,
+                    "age": 4.2,
+                    "power": 0.6013787923300727
+                  },
+                  {
+                    "x": 2.3858625272913003,
+                    "z": 5.986420613167749,
+                    "age": 4.8,
+                    "power": 0.5264137283160933
+                  }
+                ],
+                "name": "Surfer1"
+              }
+            },
+            {
+              "name": "Surfer2",
+              "visible": true,
+              "position": [15, 0.10958607439648327, 4],
+              "quaternion": [0.0024052760775703655, -0.05995390617883662, -0.004500964641528302, 0.9981881010602087],
+              "ride": null
+            }
+          ],
+          "people": {
+            "live": false,
+            "period": "noon",
+            "pose": 0,
+            "actors": 17,
+            "visible": [
+              "tennis",
+              "volleyball",
+              "shore-walk",
+              "bluff-walk",
+              "surf-wait",
+              "surf-ride",
+              "surf-paddle",
+              "swimmer",
+              "sunbather",
+              "bench-0",
+              "bench-1",
+              "bench-2",
+              "bench-3",
+              "dib-laptop"
+            ],
+            "drawn": [
+              "tennis",
+              "volleyball",
+              "shore-walk",
+              "bluff-walk",
+              "surf-wait",
+              "surf-ride",
+              "surf-paddle",
+              "swimmer",
+              "sunbather",
+              "bench-0",
+              "bench-1",
+              "bench-2",
+              "bench-3",
+              "dib-laptop"
+            ],
+            "people": 16,
+            "instances": {
+              "rod": 231,
+              "torso": 22,
+              "ball": 103,
+              "box": 4
+            },
+            "riders": [
+              {
+                "id": "surf-ride",
+                "head": [0.039624848945583435, 0.5712637844849563, 0.07100346416347744],
+                "headRadius": 0.085,
+                "pelvis": [0.012, 0.294877532768884, 0.003940359408550746],
+                "feet": [
+                  {
+                    "a": [0.17800259482972772, 0.06200000000000001, 0.019750462066362884],
+                    "b": [0.23798962068108914, 0.06200000000000001, 0.020998151734548443],
+                    "radius": 0.019
+                  },
+                  {
+                    "a": [-0.2018999777254296, 0.06200000000000001, -0.008453866068453704],
+                    "b": [-0.1424000890982815, 0.06200000000000001, -0.016184535726185195],
+                    "radius": 0.019
+                  }
+                ]
+              }
+            ]
+          },
+          "water": {
+            "sea": "footer",
+            "skyColors": {
+              "near": 8629967,
+              "far": 10207448
+            },
+            "proof": [1, 1, 1, 1],
+            "bottom": {
+              "vertices": 49665,
+              "triangles": 98304,
+              "depthRange": [0.02, 5.1435],
+              "renders": 1,
+              "width": 2560,
+              "height": 480,
+              "depthTexture": true,
+              "cpuBuildMs": 45,
+              "lastSubmissionMs": 13
+            },
+            "reflection": {
+              "renders": 1,
+              "pending": false,
+              "width": 1587,
+              "height": 89
+            },
+            "caustics": 1,
+            "wakes": 3,
+            "ride": {
+              "power": 0.9223529411764707,
+              "trailPoints": 9
+            },
+            "glints": []
+          },
+          "sky": {
+            "visible": true,
+            "tableAltitude": 55,
+            "samples": {
+              "near": 7049922,
+              "far": 11388378
+            },
+            "weight": 0.38,
+            "exposure": 11.85,
+            "lights": 0,
+            "buildMs": 9,
+            "sun": null
+          },
+          "marineLayer": {
+            "visible": false,
+            "density": 0,
+            "shafts": 0
+          },
+          "sun": null,
+          "resources": {
+            "geometries": 189,
+            "textures": 17
+          },
+          "framing": {
+            "width": 77.33333333333333,
+            "height": 14.5,
+            "center": [0, 4.5, 0]
+          },
+          "viewMotion": {
+            "x": 0,
+            "y": 0,
+            "camera": [0, 20.5, 38],
+            "up": [0, 1, 0],
+            "tilt": {
+              "supported": false,
+              "enabled": false,
+              "active": false,
+              "listening": false,
+              "permission": "unavailable",
+              "requested": false,
+              "state": "unsupported",
+              "x": 0,
+              "y": 0
+            }
+          }
+        },
+        "errors": []
+      }
+    ]
+  },
+  {
+    "width": 2560,
+    "theme": "evening",
+    "pixelDifference": {
+      "pixels": 53,
+      "ratio": 0.00004304183991683992,
+      "max": 6,
+      "meanChanged": 1.0943396226415094,
+      "y": [114, 462]
+    },
+    "renders": [
+      {
+        "control": "before",
+        "info": {
+          "miniature": false,
+          "selectedPlace": null,
+          "frames": 5,
+          "reveal": 1,
+          "targetReveal": 1,
+          "office": false,
+          "theme": "evening",
+          "running": false,
+          "buildings": 13,
+          "landmarks": [
+            "SalkCoast",
+            "GeiselCoast",
+            "Tennis",
+            "CliffVilla",
+            "CasitaApricot",
+            "BeachVolleyball",
+            "CasitaCream",
+            "CasitaRose",
+            "DIB",
+            "CasitaEast",
+            "Lifeguard",
+            "BrocktonVilla",
+            "LaValencia"
+          ],
+          "orbit": [0, 0],
+          "renderedOrbit": [0, 0],
+          "motion": {},
+          "elapsed": 0,
+          "surfers": [
+            {
+              "name": "Surfer0",
+              "visible": false,
+              "position": [-6.199999809265137, 0.10584267073061945, 4.099999904632568],
+              "quaternion": [0.013632275769440743, -0.6129763606632005, -0.01458897091158631, 0.7898489122947405],
+              "ride": null
+            },
+            {
+              "name": "Surfer1",
+              "visible": false,
+              "position": [4, 0.1310609430165068, 5.099999904632568],
+              "quaternion": [-0.01683752980912595, 0.07555023627323895, -0.06624768163902346, 0.9947964133763445],
+              "ride": {
+                "x": 4,
+                "z": 5.099999904632568,
+                "velocity": [0.31007861017217625, -0.04686379747407989],
+                "heading": [0.9887710783551538, -0.14943812970050985],
+                "speed": 0.31360000000000005,
+                "turnRate": 0.08800000000000001,
+                "acceleration": 0,
+                "bank": 0.03940359408550746,
+                "power": 0.9223529411764707,
+                "crouch": 0.01312246723111597,
+                "trail": [
+                  {
+                    "x": 3.3869619314198047,
+                    "z": 5.192651545046885,
+                    "age": 0,
+                    "power": 0.9223529411764707
+                  },
+                  {
+                    "x": 3.2080386877855416,
+                    "z": 5.2579598926359195,
+                    "age": 0.6,
+                    "power": 0.9146221025793139
+                  },
+                  {
+                    "x": 3.0361544611571882,
+                    "z": 5.332996924489363,
+                    "age": 1.2,
+                    "power": 0.8917332651483195
+                  },
+                  {
+                    "x": 2.8752260180638594,
+                    "z": 5.4177723092526096,
+                    "age": 1.7999999999999998,
+                    "power": 0.8545894173833773
+                  },
+                  {
+                    "x": 2.729236418656706,
+                    "z": 5.512216182906014,
+                    "age": 2.4,
+                    "power": 0.804671760267128
+                  },
+                  {
+                    "x": 2.602310882458855,
+                    "z": 5.616277459513572,
+                    "age": 3,
+                    "power": 0.7440152120004679
+                  },
+                  {
+                    "x": 2.4989442696562745,
+                    "z": 5.729997181312586,
+                    "age": 3.5999999999999996,
+                    "power": 0.6751985463796221
+                  },
+                  {
+                    "x": 2.424469920216003,
+                    "z": 5.85346817294452,
+                    "age": 4.2,
+                    "power": 0.6013787923300727
+                  },
+                  {
+                    "x": 2.3858625272913003,
+                    "z": 5.986420613167749,
+                    "age": 4.8,
+                    "power": 0.5264137283160933
+                  }
+                ],
+                "name": "Surfer1"
+              }
+            },
+            {
+              "name": "Surfer2",
+              "visible": false,
+              "position": [15, 0.10958607439648327, 4],
+              "quaternion": [0.0024052760775703655, -0.05995390617883662, -0.004500964641528302, 0.9981881010602087],
+              "ride": null
+            }
+          ],
+          "people": {
+            "live": false,
+            "period": "evening",
+            "pose": 0,
+            "actors": 17,
+            "visible": ["fire", "shore-couple", "bench-2"],
+            "drawn": ["fire", "shore-couple", "bench-2"],
+            "people": 6,
+            "instances": {
+              "rod": 231,
+              "torso": 22,
+              "ball": 103,
+              "box": 4
+            },
+            "riders": []
+          },
+          "water": {
+            "sea": "footer",
+            "skyColors": {
+              "near": 2373196,
+              "far": 2373196
+            },
+            "proof": [1, 1, 1, 1],
+            "bottom": {
+              "vertices": 49665,
+              "triangles": 98304,
+              "depthRange": [0.02, 5.1435],
+              "renders": 1,
+              "width": 2560,
+              "height": 480,
+              "depthTexture": true,
+              "cpuBuildMs": 47,
+              "lastSubmissionMs": 12
+            },
+            "reflection": {
+              "renders": 1,
+              "pending": false,
+              "width": 1587,
+              "height": 89
+            },
+            "caustics": 0,
+            "wakes": 0,
+            "ride": {
+              "power": 0,
+              "trailPoints": 0
+            },
+            "glints": [
+              [1, 2.033, 0.998, 0.24],
+              [13.26, 5.174, 0.34, 0.11],
+              [11.74, 7.374, 0.34, 0.11],
+              [13.26, 9.574, 0.34, 0.11]
+            ]
+          },
+          "sky": {
+            "visible": true,
+            "tableAltitude": -24,
+            "samples": {
+              "near": 0,
+              "far": 0
+            },
+            "weight": 0,
+            "exposure": 346116.69,
+            "lights": 1,
+            "buildMs": 7,
+            "sun": null
+          },
+          "marineLayer": {
+            "visible": false,
+            "density": 0,
+            "shafts": 0
+          },
+          "sun": null,
+          "resources": {
+            "geometries": 189,
+            "textures": 17
+          },
+          "framing": {
+            "width": 77.33333333333333,
+            "height": 14.5,
+            "center": [0, 4.5, 0]
+          },
+          "viewMotion": {
+            "x": 0,
+            "y": 0,
+            "camera": [0, 20.5, 38],
+            "up": [0, 1, 0],
+            "tilt": {
+              "supported": false,
+              "enabled": false,
+              "active": false,
+              "listening": false,
+              "permission": "unavailable",
+              "requested": false,
+              "state": "unsupported",
+              "x": 0,
+              "y": 0
+            }
+          }
+        },
+        "errors": []
+      },
+      {
+        "control": "after",
+        "info": {
+          "miniature": false,
+          "selectedPlace": null,
+          "frames": 5,
+          "reveal": 1,
+          "targetReveal": 1,
+          "office": false,
+          "theme": "evening",
+          "running": false,
+          "buildings": 13,
+          "landmarks": [
+            "SalkCoast",
+            "GeiselCoast",
+            "Tennis",
+            "CliffVilla",
+            "CasitaApricot",
+            "BeachVolleyball",
+            "CasitaCream",
+            "CasitaRose",
+            "DIB",
+            "CasitaEast",
+            "Lifeguard",
+            "BrocktonVilla",
+            "LaValencia"
+          ],
+          "orbit": [0, 0],
+          "renderedOrbit": [0, 0],
+          "motion": {},
+          "elapsed": 0,
+          "surfers": [
+            {
+              "name": "Surfer0",
+              "visible": false,
+              "position": [-6.199999809265137, 0.10584267073061945, 4.099999904632568],
+              "quaternion": [0.013632275769440743, -0.6129763606632005, -0.01458897091158631, 0.7898489122947405],
+              "ride": null
+            },
+            {
+              "name": "Surfer1",
+              "visible": false,
+              "position": [4, 0.1310609430165068, 5.099999904632568],
+              "quaternion": [-0.01683752980912595, 0.07555023627323895, -0.06624768163902346, 0.9947964133763445],
+              "ride": {
+                "x": 4,
+                "z": 5.099999904632568,
+                "velocity": [0.31007861017217625, -0.04686379747407989],
+                "heading": [0.9887710783551538, -0.14943812970050985],
+                "speed": 0.31360000000000005,
+                "turnRate": 0.08800000000000001,
+                "acceleration": 0,
+                "bank": 0.03940359408550746,
+                "power": 0.9223529411764707,
+                "crouch": 0.01312246723111597,
+                "trail": [
+                  {
+                    "x": 3.3869619314198047,
+                    "z": 5.192651545046885,
+                    "age": 0,
+                    "power": 0.9223529411764707
+                  },
+                  {
+                    "x": 3.2080386877855416,
+                    "z": 5.2579598926359195,
+                    "age": 0.6,
+                    "power": 0.9146221025793139
+                  },
+                  {
+                    "x": 3.0361544611571882,
+                    "z": 5.332996924489363,
+                    "age": 1.2,
+                    "power": 0.8917332651483195
+                  },
+                  {
+                    "x": 2.8752260180638594,
+                    "z": 5.4177723092526096,
+                    "age": 1.7999999999999998,
+                    "power": 0.8545894173833773
+                  },
+                  {
+                    "x": 2.729236418656706,
+                    "z": 5.512216182906014,
+                    "age": 2.4,
+                    "power": 0.804671760267128
+                  },
+                  {
+                    "x": 2.602310882458855,
+                    "z": 5.616277459513572,
+                    "age": 3,
+                    "power": 0.7440152120004679
+                  },
+                  {
+                    "x": 2.4989442696562745,
+                    "z": 5.729997181312586,
+                    "age": 3.5999999999999996,
+                    "power": 0.6751985463796221
+                  },
+                  {
+                    "x": 2.424469920216003,
+                    "z": 5.85346817294452,
+                    "age": 4.2,
+                    "power": 0.6013787923300727
+                  },
+                  {
+                    "x": 2.3858625272913003,
+                    "z": 5.986420613167749,
+                    "age": 4.8,
+                    "power": 0.5264137283160933
+                  }
+                ],
+                "name": "Surfer1"
+              }
+            },
+            {
+              "name": "Surfer2",
+              "visible": false,
+              "position": [15, 0.10958607439648327, 4],
+              "quaternion": [0.0024052760775703655, -0.05995390617883662, -0.004500964641528302, 0.9981881010602087],
+              "ride": null
+            }
+          ],
+          "people": {
+            "live": false,
+            "period": "evening",
+            "pose": 0,
+            "actors": 17,
+            "visible": ["fire", "shore-couple", "bench-2"],
+            "drawn": ["fire", "shore-couple", "bench-2"],
+            "people": 6,
+            "instances": {
+              "rod": 231,
+              "torso": 22,
+              "ball": 103,
+              "box": 4
+            },
+            "riders": []
+          },
+          "water": {
+            "sea": "footer",
+            "skyColors": {
+              "near": 2373196,
+              "far": 2373196
+            },
+            "proof": [1, 1, 1, 1],
+            "bottom": {
+              "vertices": 49665,
+              "triangles": 98304,
+              "depthRange": [0.02, 5.1435],
+              "renders": 1,
+              "width": 2560,
+              "height": 480,
+              "depthTexture": true,
+              "cpuBuildMs": 43,
+              "lastSubmissionMs": 12
+            },
+            "reflection": {
+              "renders": 1,
+              "pending": false,
+              "width": 1587,
+              "height": 89
+            },
+            "caustics": 0,
+            "wakes": 0,
+            "ride": {
+              "power": 0,
+              "trailPoints": 0
+            },
+            "glints": [
+              [1, 2.033, 0.998, 0.24],
+              [13.26, 5.174, 0.34, 0.11],
+              [11.74, 7.374, 0.34, 0.11],
+              [13.26, 9.574, 0.34, 0.11]
+            ]
+          },
+          "sky": {
+            "visible": true,
+            "tableAltitude": -24,
+            "samples": {
+              "near": 0,
+              "far": 0
+            },
+            "weight": 0,
+            "exposure": 346116.69,
+            "lights": 1,
+            "buildMs": 8,
+            "sun": null
+          },
+          "marineLayer": {
+            "visible": false,
+            "density": 0,
+            "shafts": 0
+          },
+          "sun": null,
+          "resources": {
+            "geometries": 189,
+            "textures": 17
+          },
+          "framing": {
+            "width": 77.33333333333333,
+            "height": 14.5,
+            "center": [0, 4.5, 0]
+          },
+          "viewMotion": {
+            "x": 0,
+            "y": 0,
+            "camera": [0, 20.5, 38],
+            "up": [0, 1, 0],
+            "tilt": {
+              "supported": false,
+              "enabled": false,
+              "active": false,
+              "listening": false,
+              "permission": "unavailable",
+              "requested": false,
+              "state": "unsupported",
+              "x": 0,
+              "y": 0
+            }
+          }
+        },
+        "errors": []
+      }
+    ]
+  }
+]

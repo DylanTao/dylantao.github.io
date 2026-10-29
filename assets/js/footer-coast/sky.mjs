@@ -292,7 +292,13 @@ const lightVertex = `
     float flicker = 1. + uTwinkle * .04 * sin(uTime * (.2 + seed * .3) + seed * 40.) * sin(uTime * .1 + seed * 17.);
     // Mostly warm interior light, with a few cooler porches; no saturated orange light ribbon.
     vGlow = mix(vec3(1., .72, .46), vec3(.74, .84, 1.), step(.84, fract(seed * 7.13))) * on * aHouse.y * flicker * .72;
-    gl_PointSize = clamp(uPixel * aHouse.z * max(1., aBuilding.x), 1.4, 14.);
+    float pixels = uPixel * aHouse.z * max(1., aBuilding.x);
+    // A footprint smaller than one pixel contributes its area, rather than
+    // inflating every remote house into an equally bright 1.4px dash.
+    float coverage = min(pixels * pixels, 1.);
+    vCover *= coverage;
+    vGlow *= coverage;
+    gl_PointSize = clamp(pixels, 1., 14.);
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
   }`;
 const lightFragment = `

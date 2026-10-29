@@ -1,0 +1,68 @@
+{
+  "files": {
+    "after-1440-evening.png": {
+      "bytes": 308519,
+      "sha256": "6c55316d667854bd42a946b9eb7e619beeee8db55c04f7ed4fcfd247f60f1dd9"
+    },
+    "after-1440-noon.png": {
+      "bytes": 393815,
+      "sha256": "ef892ebb15ab9caa1e8e0ef4dc06cde090e8a3093c452bbf407f056e45fe39c6"
+    },
+    "after-2560-evening.png": {
+      "bytes": 660407,
+      "sha256": "af0630e23cdde8461578777805be4902fbadbed79180e15cd1aceb16ae218c6e"
+    },
+    "after-2560-noon.png": {
+      "bytes": 865387,
+      "sha256": "2109a26778d486e4aea09a691af0c7c33becd812087cd444c330b23a531c2f46"
+    },
+    "after-390-evening.png": {
+      "bytes": 99432,
+      "sha256": "2820bb79c41088960c163c5b0e0dcbf278ceed284383d71f2d6fd9bdd546a9b8"
+    },
+    "after-390-noon.png": {
+      "bytes": 133496,
+      "sha256": "5f544e96a4a842540c146a0a373505b49a88b4c994df4ad4f788c3e2c2b1e696"
+    },
+    "baseline-compiled.mjs.gz": {
+      "bytes": 8866,
+      "sha256": "65b7006a35ceaff30d2a063b9a07cd972fc92b9c92303ec21e2ce32e1dcd1da7"
+    },
+    "before-1440-evening.png": {
+      "bytes": 308528,
+      "sha256": "6f2b6bdc3a5010a5d26afbe6248a9862532592b6f92a0413e73c6137eaddd3e4"
+    },
+    "before-1440-noon.png": {
+      "bytes": 393829,
+      "sha256": "1e5fc1dc4590a4635427fdd172cd91da35a05aa3b0cf8454991e40976b7e470c"
+    },
+    "before-2560-evening.png": {
+      "bytes": 660419,
+      "sha256": "165700710371c8c79e1dfe996274d1e66a08db0038b5d408a5af8fa4bd356697"
+    },
+    "before-2560-noon.png": {
+      "bytes": 865395,
+      "sha256": "ba969e5b60754be41f5286f567fdc51b1ac8c4189cffbe200a87f05d528b41e9"
+    },
+    "before-390-evening.png": {
+      "bytes": 99458,
+      "sha256": "7ab122f7024f65cd3d6030ad5736240060722cbbc9399ed489e7e8eed3db24cb"
+    },
+    "before-390-noon.png": {
+      "bytes": 133515,
+      "sha256": "980ff3fdfd4d80c574c3c6bf465b463f7d0a6f9cd2be0ec5d25ec3321865495d"
+    },
+    "capture.cjs": {
+      "bytes": 3490,
+      "sha256": "e0ebe87e9ef3df5560cf4babce7e33e754e5030ac34dd1b7dbae3c5897e48112"
+    },
+    "comparison.json": {
+      "bytes": 92273,
+      "sha256": "448eb77491fde9d991258943a1d1502eb0275ab49dc46efb186d1bb232cd6157"
+    },
+    "README.md": {
+      "bytes": 1988,
+      "sha256": "faedac1d43151a20479fc81c88cb802c8c89c72e0e3383955c8d7f0bfff274a5"
+    }
+  }
+}
