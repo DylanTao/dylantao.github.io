@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { BODY, createWalkField, createWalkFieldBuilder, isWater, walkKind, WATER_BLOCK } from "../assets/js/home-scene/colliders.mjs";
 import * as THREE from "../assets/js/three.module.min.js";
 import {
@@ -35,6 +36,18 @@ test("the recessed two-storey library stays indoors beyond the old facade", () =
   assert.equal(roomAt(config, -9.3, -5, 0.975), "library");
   assert.equal(roomAt(config, -9.3, -7, 2.275), "library-upper");
   assert.equal(roomAt(config, 0, -10, 0), "outside");
+});
+
+test("the delivered tall library and study stay indoors until the visitor crosses their actual patio threshold", () => {
+  const config = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
+  const study = config.rooms.find((room) => room.id === "study");
+  const reading = config.rooms.find((room) => room.id === "library");
+  assert.equal(roomAt(config, study.walkActor[0], study.walkActor[2], study.floor), "study", "working side of the shared enclosed floor");
+  assert.equal(roomAt(config, reading.target[0], reading.target[2], reading.floor), "library", "the sea-facing reading nook is still indoors");
+  assert.equal(roomAt(config, -9.41, 2.55, 0), "library", "approaching the actual east patio leaf remains an indoor visit");
+  assert.equal(roomAt(config, -7.95, 2.55, 0, "library"), "outside", "crossing its east wall reaches the dry terrace");
+  assert.equal(roomAt(config, -9.41, 2.55, 0, "outside"), "library", "the complete return recovers the indoor room");
+  assert.equal(roomAt(config, -10, 0.2, 0, "library"), "outside", "a future apron beyond the fixed front glazing remains outside");
 });
 
 // A small world built from boxes, the way the loaded meshes reach the field: as triangles.

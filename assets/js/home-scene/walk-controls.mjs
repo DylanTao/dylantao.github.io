@@ -175,12 +175,31 @@ export function spawnPlan(config, view) {
 // storey (the clifftop, an entrance stair's top) is the coast too.
 export function roomAt(config, x, z, foot, previous = null) {
   // The recessed library projects beyond the original facade plane. Its actual enclosed
-  // footprint takes precedence over the legacy seaward/outdoor shortcut, on both storeys.
+  // footprint takes precedence over the legacy seaward/outdoor shortcut. The retreat's
+  // single tall library shares its lower floor with the study; its native bounds use
+  // Blender +Y toward the sea, hence world Z = -Y. Earlier manifests put world bounds
+  // on each of the two library floors instead. Keep both authored representations.
+  const nativeLibrary = config?.retreat?.libraryBounds;
+  const inNativeLibrary =
+    nativeLibrary?.x &&
+    nativeLibrary?.y &&
+    x >= nativeLibrary.x[0] &&
+    x <= nativeLibrary.x[1] &&
+    z >= -nativeLibrary.y[1] &&
+    z <= -nativeLibrary.y[0];
   const enclosed = (config?.rooms || []).filter((room) => {
     const bounds = room.library?.floorBounds;
-    return bounds && x >= bounds.min[0] && x <= bounds.max[0] && z >= bounds.min[2] && z <= bounds.max[2] && Math.abs(room.floor - foot) <= 1.4;
+    const inside = bounds
+      ? x >= bounds.min[0] && x <= bounds.max[0] && z >= bounds.min[2] && z <= bounds.max[2]
+      : inNativeLibrary && (room.id === "study" || room.id === "library");
+    return inside && Math.abs((room.floor ?? 0) - foot) <= 1.4;
   });
-  if (enclosed.length) return enclosed.sort((a, b) => Math.abs(a.floor - foot) - Math.abs(b.floor - foot))[0].id;
+  if (enclosed.length)
+    return enclosed.sort(
+      (a, b) =>
+        Math.abs((a.floor ?? 0) - foot) - Math.abs((b.floor ?? 0) - foot) ||
+        Math.hypot(a.target[0] - x, a.target[2] - z) - Math.hypot(b.target[0] - x, b.target[2] - z)
+    )[0].id;
   const terrace = config?.terrace?.region;
   if (terrace && x >= terrace.min[0] && x <= terrace.max[0] && z >= terrace.min[2] && z <= terrace.max[2] && foot <= terrace.max[1]) return "outside";
   const planeZ = config?.facade?.planeZ ?? config?.cameraCollision?.facade?.planeZ;
