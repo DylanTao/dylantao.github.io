@@ -6,7 +6,7 @@ import { sampleCoastWave } from "./wave-motion.mjs";
 import { sampleSurferRide, sampleRideShoulder, surferBoardFrame, surferRideTrail } from "./surfer-motion.mjs?v=hollan-20261028";
 import { createPeople } from "./people.mjs?v=hollan-20261028";
 import { createCoastWater } from "./water.mjs?v=coast-daylight-20261028";
-import { createSky, loadRelief, sceneColor } from "./sky.mjs?v=coast-daylight-20261028";
+import { createSky, loadRelief, sceneColor } from "./sky.mjs?v=coast-depth-20261029";
 import { createMarineLayer } from "./marine-layer.mjs?v=coast-sky-20261019";
 import { DAY_KEY, anchorLook, creditHalo, keyDirection, lookAt, mixHex } from "./sky-look.mjs?v=coast-daylight-20261028";
 import { createViewTilt } from "./view-tilt.mjs?v=coast-touch-20261029";

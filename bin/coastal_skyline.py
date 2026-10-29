@@ -14,10 +14,12 @@ them in compact form to assets/js/footer-coast/skyline-data.mjs; skyline.mjs war
 onto the frieze's x axis. Downloads are cached in .jekyll-cache/coastal-skyline/ and never
 committed; artwork/la-jolla/skyline/provenance.json records the sources, queries and counts.
 
-Usage: python bin/coastal_skyline.py [--refresh]
+Usage: python bin/coastal_skyline.py [--refresh] [--relief-only]
 """
+import ast
 import gzip
 import hashlib
+import importlib.util
 import json
 import math
 import random
@@ -74,6 +76,20 @@ RELIEF_LOW = -0.4
 RELIEF_STEP = 0.04
 RELIEF_ROWS = 147
 RELIEF_KM = 8.0
+# Keep the original angular texture byte-for-byte at the top. The appended
+# opaque RGB atlas holds real radial ground, plus explicit map-to-stage anchors.
+DEPTH_LAYOUT = {
+    "schema": "sirui-coastal-depth-v1",
+    "width": RELIEF_BEARINGS,
+    "rows": 235,
+    "angular_rows": RELIEF_ROWS,
+    "metadata_first_row": 148,
+    "radial_first_row": 153,
+    "radial_intervals": 80,
+    "height_range_m": 280.0,
+    "stage_fraction": 1000,
+    "cotangent_fraction": 4096,
+}
 NEAR_REACH = 1700.0  # metres: the foothills in front of Mount Soledad and the Shores ridge
 NEAR_FALLOFF = 2.5 / 600  # degrees per metre beyond the reach
 
@@ -294,6 +310,151 @@ def relief(ground):
     return image
 
 
+def stage_mapping():
+    """Read existing collage anchors; never alter its foreground or camera."""
+    terrain_path = ROOT / "bin" / "coastal_terrain.py"
+    spec = importlib.util.spec_from_file_location("coastal_terrain_edge", terrain_path)
+    terrain = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(terrain)
+    map_path = ROOT / "assets" / "js" / "footer-coast" / "skyline.mjs"
+    source = map_path.read_text(encoding="utf-8")
+    match = re.search(r"FRIEZE_BEARINGS = Object\.freeze\((\[[\s\S]*?\])\);", source)
+    if not match:
+        raise ValueError("The existing bearing map could not be read")
+    bearings = ast.literal_eval(match.group(1))
+    manifest_path = ROOT / "assets" / "models" / "la-jolla" / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    camera = manifest["camera"]
+    dy = camera["position"][1] - camera["target"][1]
+    dz = camera["position"][2] - camera["target"][2]
+    if camera["position"][0] != camera["target"][0] or not 0 < dz / dy < 16:
+        raise ValueError("The reference camera needs an explicit new stage projection")
+    edge = []
+    for i in range(terrain.TERRAIN_GRID[0] + 1):
+        x, _front, back = terrain._terrain_column(i)
+        height = terrain.ground_height(x, back) + 0.014 * math.sin(x * 4 + 17)
+        edge.append([x, height, -back])
+    binding_paths = [terrain_path, manifest_path, map_path, ROOT / "assets" / "models" / "la-jolla" / "la-jolla.glb"]
+    return {
+        "bearings": bearings,
+        "edge": edge,
+        "camera": camera,
+        "cotangent": dz / dy,
+        "source_bindings": {
+            p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes().replace(b"\r\n", b"\n") if p.suffix != ".glb" else p.read_bytes()).hexdigest()
+            for p in binding_paths
+        },
+    }
+
+
+def stage_x(bearings, bearing):
+    """The existing monotonic compass-to-collage map, with its endpoint rule."""
+    for a, b in zip(bearings, bearings[1:]):
+        if bearing <= b[1]:
+            return a[0] + (bearing - a[1]) / (b[1] - a[1]) * (b[0] - a[0])
+    a, b = bearings[-2:]
+    return a[0] + (bearing - a[1]) / (b[1] - a[1]) * (b[0] - a[0])
+
+
+def depth_relief(ground, angular, stage=None):
+    """Append real shore-to-crest samples; zero/no-data never becomes land.
+
+    Radial depth and height share one scale in the runtime. Its two explicit
+    anchors are the authored native back edge and the unchanged measured crest.
+    Heights use one byte: zero is no positive support; positive sub-quantum
+    elevations retain a nonzero code, with at most 280/255 m error.
+    """
+    import numpy as np
+
+    stage = stage or stage_mapping()
+    layout = {**DEPTH_LAYOUT, "width": RELIEF_BEARINGS}
+    if angular.shape != (RELIEF_ROWS, RELIEF_BEARINGS, 3):
+        raise ValueError("The angular prefix does not match the measured relief")
+    image = np.zeros((layout["rows"], RELIEF_BEARINGS, 3), dtype=np.uint8)
+    image[:RELIEF_ROWS] = angular
+    image[RELIEF_ROWS] = angular[-1]
+    first = layout["radial_first_row"]
+    count = layout["radial_intervals"]
+    metadata = layout["metadata_first_row"]
+    cotangent = round(stage["cotangent"] * layout["cotangent_fraction"])
+    edge = np.array(stage["edge"])
+    supported_columns = 0
+    positive_samples = 0
+    radial_spacing = []
+
+    def u16(value):
+        if not 0 <= value <= 65535:
+            raise ValueError("A depth anchor exceeds the declared atlas range")
+        return value >> 8, value & 255
+
+    def height_byte(value):
+        return 0 if value <= 0 else max(1, round(min(layout["height_range_m"], value) / layout["height_range_m"] * 255))
+
+    for i in range(RELIEF_BEARINGS):
+        bearing = i * RELIEF_BEARING_STEP
+        land = [sample for sample in ray(ground, bearing, step=8.0) if sample[1] > 0]
+        if not land:
+            continue
+        supported_columns += 1
+        shore = land[0]
+        crest = max(land, key=lambda sample: sample[2])
+        d0, h0, _ = shore
+        d1, h1, _ = crest
+        radial_spacing.append((d1 - d0) / count)
+        x = stage_x(stage["bearings"], bearing)
+        back_height = float(np.interp(x, edge[:, 0], edge[:, 1]))
+        back_depth = float(np.interp(x, edge[:, 0], edge[:, 2]))
+        # Outside the authored native edge there is no stage datum to invent.
+        projection = cotangent if edge[0, 0] <= x <= edge[-1, 0] else 0
+        image[metadata, i] = (*u16(round(d0)), height_byte(h0))
+        image[metadata + 1, i] = (*u16(round(d1)), height_byte(h1))
+        image[metadata + 2, i] = (*u16(round(back_height * layout["stage_fraction"])), projection >> 8)
+        image[metadata + 3, i] = (*u16(round(-back_depth * layout["stage_fraction"])), projection & 255)
+        for j in range(count + 1):
+            distance = d0 + (d1 - d0) * j / count
+            lat, lon = ground.point(bearing, distance)
+            height = ground.at(lat, lon)
+            step_lon = 20.0 / (111320.0 * ground.cos)
+            step_lat = 20.0 / 110574.0
+            gx = (ground.at(lat, lon + step_lon) - ground.at(lat, lon - step_lon)) / 40.0
+            gy = (ground.at(lat + step_lat, lon) - ground.at(lat - step_lat, lon)) / 40.0
+            normal = np.array([-gx, -gy, 1.0])
+            normal /= np.linalg.norm(normal)
+            code = height_byte(height)
+            positive_samples += code > 0
+            image[first + j, i] = (round((normal[0] * 0.5 + 0.5) * 255), round((normal[1] * 0.5 + 0.5) * 255), code)
+        image[first - 1, i] = image[first, i]
+        image[first + count + 1, i] = image[first + count, i]
+    return image, {
+        "schema": layout["schema"],
+        "layout": layout,
+        "angular_rgb_sha256": hashlib.sha256(angular.tobytes()).hexdigest(),
+        "support_rule": "Only positive heights in the filtered bare-earth DEM support ground; zero/no-data cells are not land. This is not a surveyed shoreline or bathymetry.",
+        "height_quantization_error_bound_m": layout["height_range_m"] / 255,
+        "radial_search_step_m": 8,
+        "radial_spacing_range_m": [min(radial_spacing, default=0), max(radial_spacing, default=0)],
+        "normal_gradient_span_m": 40,
+        "supported_columns": supported_columns,
+        "positive_radial_samples": positive_samples,
+        "stage_projection": {
+            "method": "One isotropic radial depth/height scale between the native back edge and the measured crest in the existing reference camera; compass X mapping is unchanged.",
+            "camera": stage["camera"],
+            "text_binding_normalization": "UTF-8 source bytes with CRLF normalized to LF; binaries exact",
+            "source_bindings": stage.get("source_bindings", {}),
+        },
+    }
+
+
+def write_relief(ground):
+    from PIL import Image
+
+    image, details = depth_relief(ground, relief(ground))
+    Image.fromarray(image, "RGB").save(RELIEF, optimize=True)
+    details["png_sha256"] = hashlib.sha256(RELIEF.read_bytes()).hexdigest()
+    details["png_bytes"] = RELIEF.stat().st_size
+    return details
+
+
 def visible_houses(ground, buildings):
     """Houses seen from the bay on the slopes behind the shore, each with its window height."""
     lo, hi = LIGHT_BEARINGS
@@ -320,13 +481,24 @@ def visible_houses(ground, buildings):
 
 
 def main():
-    from PIL import Image
-
     ground = Ground(load_ground())
+    if "--relief-only" in sys.argv:
+        # Existing OSM custody and skyline data are deliberately untouched.
+        provenance = json.loads(PROVENANCE.read_text(encoding="utf-8"))
+        details = write_relief(ground)
+        provenance["ground"].update(
+            {
+                "raw_sha256": hashlib.sha256((CACHE / "3dep.tif").read_bytes()).hexdigest(),
+                "relief_pixels": [RELIEF_BEARINGS, DEPTH_LAYOUT["rows"]],
+                "depth_relief": details,
+            }
+        )
+        PROVENANCE.write_text(json.dumps(provenance, indent=2) + "\n", encoding="utf-8")
+        print(f"Depth relief: {RELIEF_BEARINGS} x {DEPTH_LAYOUT['rows']}; {details['positive_radial_samples']} positive ground samples")
+        return
     osm, buildings = load_buildings()
     profile = skyline(ground)
-    view = relief(ground)
-    Image.fromarray(view, "RGB").save(RELIEF, optimize=True)
+    depth_details = write_relief(ground)
     houses = visible_houses(ground, buildings)
     rng = random.Random(20261024)
     lights = sorted(rng.sample(houses, min(MAX_LIGHTS, len(houses))), key=lambda r: (r[0], r[1]))
@@ -390,7 +562,8 @@ export const SKYLINE = Object.freeze({{
                     "raw_sha256": hashlib.sha256((CACHE / "3dep.tif").read_bytes()).hexdigest(),
                     "relief_bearing_step_deg": RELIEF_BEARING_STEP,
                     "relief_elevation_step_deg": RELIEF_STEP,
-                    "relief_pixels": [RELIEF_BEARINGS, RELIEF_ROWS],
+                    "relief_pixels": [RELIEF_BEARINGS, DEPTH_LAYOUT["rows"]],
+                    "depth_relief": depth_details,
                 },
                 "houses": {
                     "source": "OpenStreetMap contributors",

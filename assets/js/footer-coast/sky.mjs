@@ -1,5 +1,5 @@
-// What lies behind the footer coast: La Jolla's hills and the sky over them, in one screen-space
-// layer at the far plane, and the hillside houses as one set of points in front of it.
+// What lies behind the footer coast: a screen-space atmospheric sky, source-derived ground
+// fitted between the authored coast edge and its measured ridge, and hillside house glyphs.
 //
 // The frieze looks at the land from La Jolla Bay (skyline.mjs), so the band behind the coast is
 // ground, not sea: the Torrey Pines mesa, the hills above La Jolla Shores and Mount Soledad, their
@@ -29,6 +29,7 @@ import {
 } from "./atmosphere.mjs?v=coast-hills-20261024";
 import { HEADLAND, bearingAt, houseLights, skylineAt, skylineStrip, xAtBearing } from "./skyline.mjs?v=coast-hills-20261026";
 import { VIEW_BEARING, lookAt } from "./sky-look.mjs?v=coast-daylight-20261028";
+import { SKYLINE } from "./skyline-data.mjs?v=coast-hills-20261026";
 
 // three's ACES input and output matrices, row-major, and their inverses.
 const ACES_IN = [0.59719, 0.35458, 0.04823, 0.076, 0.90834, 0.01566, 0.0284, 0.13383, 0.83777];
@@ -61,7 +62,7 @@ export function displayColor(color, out = new THREE.Color()) {
   return out.setRGB(...scratch.toArray().map((v) => Math.min(Math.max(v, 0), 1)));
 }
 
-// The hills stand on a plane this far behind the coast (scene z), where the sea horizon lies at
+// The original angular ridge is projected on this reference plane (scene z), where the sea horizon lies at
 // HORIZON_Y and one degree of elevation spans DEGREE units, so the open sea beyond the headland
 // meets the sky where the earlier backdrop put it, and the measured angles keep their proportions
 // against the frieze's compressed bearings.
@@ -71,7 +72,7 @@ export const DEGREE = 0.5;
 const STRIP = { width: 1024, x0: -96, x1: 96 };
 // The relief image's layout (bin/coastal_skyline.py RELIEF_*).
 const RELIEF = { bearings: 929, bearingStep: 0.25, rows: 147, low: -0.4, step: 0.04, km: 8 };
-export const RELIEF_URL = new URL("../../models/la-jolla/hills.png?v=coast-hills-20261026", import.meta.url).href;
+export const RELIEF_URL = new URL("../../models/la-jolla/hills.png?v=coast-depth-20261029", import.meta.url).href;
 
 const vertexShader = `
   varying vec2 vScreen;
@@ -80,9 +81,11 @@ const vertexShader = `
     gl_Position = vec4(position.xy, .99995, 1.);
   }`;
 
-const fragmentShader = `
+const skyShaderFunctions = `
   uniform sampler2D uSkyView;
   uniform sampler2D uSkyline;
+  uniform bool uDepthRelief;
+  uniform vec2 uReliefRows; // prefix offset and reciprocal packed texture height
   uniform sampler2D uRelief;   // the ground the bay sees: slope (east, north) and distance (8 km)
   uniform vec3 uKey;           // toward the coast's key light, east, north, up
   uniform vec3 uMapX;        // screen (u, v, 1) to the hills' plane x
@@ -171,6 +174,32 @@ const fragmentShader = `
     return smoothstep(.28, .72, .7 * groundNoise(km * 9.) + .3 * groundNoise(km * 31.));
   }
 
+  vec3 groundDisplay(vec3 normal, float km, float height, float bearing, float fromSun) {
+      // The marine aerosol thins with height, so the crests stand out sharper than the slopes.
+      float rise = height * .001 / uHazeHeight;
+      float path = km * (rise > .01 ? (1. - exp(-rise)) / rise : 1.);
+      vec3 clear = exp(-(uHaze * path + uClearAir * km));
+      // The coast's light on the slopes; at sunset the Earth's shadow climbs them and the crests keep
+      // the glow longest.
+      vec3 key = mix(uHillLight, uHillCrest, clamp(height / 250., 0., 1.));
+      // Sunlight follows the measured ground normal. The coast's presentation studio does not
+      // illuminate hills kilometres away; canyons retain shade instead of becoming a flat band.
+      float sun = max(dot(normal, uKey), 0.);
+      // Small, stationary patches of dry grass and chaparral follow world position,
+      // never the pointer or screen pixels. Relief remains the measured USGS surface;
+      // this is authored ground cover, not a land-cover survey.
+      vec2 groundAt = vec2(sin(radians(bearing)), cos(radians(bearing))) * km;
+      float cover = groundCover(groundAt);
+      vec3 albedo = mix(uAlbedo * vec3(1.15, 1.06, .82), uAlbedo * vec3(.61, .82, .73), cover);
+      vec3 surface = albedo * (key * sun + uHillSky * (.55 + .45 * normal.z));
+      vec3 ground = aces(surface * uSceneExposure);
+      // The air between: lit haze along a level path, whose limit is the sky at the horizon.
+      vec3 air = mixLab(uPage, skyDisplay(skyAt(fromSun, .6), .6, fromSun), uSkyWeight);
+      return mix(air, ground, clear);
+  }
+`;
+
+const fragmentShader = `${skyShaderFunctions}
   void main() {
     vec3 q = vec3(vScreen, 1.);
     float x = dot(uMapX, q), elevation = dot(uMapE, q);
@@ -200,41 +229,42 @@ const fragmentShader = `
     // ground the bay sees (bin/coastal_skyline.py).
     float edge = fwidth(elevation) * .8 + .002;
     float far = smoothstep(ridge.x + edge, ridge.x - edge, elevation) * more.z;
-    if (far > 0.) {
-      vec3 land = texture2D(uRelief, vec2((more.y / ${RELIEF.bearingStep.toFixed(2)} + .5) / ${RELIEF.bearings}., ((elevation - ${RELIEF.low.toFixed(3)}) / ${RELIEF.step.toFixed(3)} + .5) / ${RELIEF.rows}.)).rgb;
+    if (!uDepthRelief && far > 0.) {
+      float row = clamp((elevation - ${RELIEF.low.toFixed(3)}) / ${RELIEF.step.toFixed(3)}, 0., ${(RELIEF.rows - 1).toFixed(1)});
+      vec3 land = texture2D(uRelief, vec2((more.y / ${RELIEF.bearingStep.toFixed(2)} + .5) / ${RELIEF.bearings}., (uReliefRows.x + row + .5) * uReliefRows.y)).rgb;
       vec2 slope = land.xy * 2. - 1.;
       vec3 normal = vec3(slope, sqrt(max(1. - dot(slope, slope), 0.)));
       float km = land.z * ${RELIEF.km.toFixed(1)};
       // The ground's height at this pixel (m), from its elevation angle and distance.
       float height = km * 1000. * tan(radians(max(elevation, 0.))) + 15. + km * km * .0683;
-      // The marine aerosol thins with height, so the crests stand out sharper than the slopes.
-      float rise = height * .001 / uHazeHeight;
-      float path = km * (rise > .01 ? (1. - exp(-rise)) / rise : 1.);
-      vec3 clear = exp(-(uHaze * path + uClearAir * km));
-      // The coast's light on the slopes; at sunset the Earth's shadow climbs them and the crests keep
-      // the glow longest.
-      vec3 key = mix(uHillLight, uHillCrest, clamp(height / 250., 0., 1.));
-      // Sunlight follows the measured ground normal. The coast's presentation studio does not
-      // illuminate hills kilometres away; canyons retain shade instead of becoming a flat band.
-      float sun = max(dot(normal, uKey), 0.);
-      // Small, stationary patches of dry grass and chaparral follow world position,
-      // never the pointer or screen pixels. Relief remains the measured USGS surface;
-      // this is authored ground cover, not a land-cover survey.
-      vec2 groundAt = vec2(sin(radians(more.y)), cos(radians(more.y))) * km;
-      float cover = groundCover(groundAt);
-      vec3 albedo = mix(uAlbedo * vec3(1.15, 1.06, .82), uAlbedo * vec3(.61, .82, .73), cover);
-      vec3 surface = albedo * (key * sun + uHillSky * (.55 + .45 * normal.z));
-      vec3 ground = aces(surface * uSceneExposure);
-      // The air between: lit haze along a level path, whose limit is the sky at the horizon.
-      vec3 air = mixLab(uPage, skyDisplay(skyAt(fromSun, .6), .6, fromSun), uSkyWeight);
-      vec3 hill = mix(air, ground, clear);
-      color = mix(color, hill, far);
+      color = mix(color, groundDisplay(normal, km, height, more.y, fromSun), far);
       alpha = max(alpha, far);
     }
     gl_FragColor = vec4(sceneLinear(color), alpha);
   }`;
 
-// The hillside houses: points on the hills' plane, depth-tested so the coast stands in front. By
+const depthVertexShader = `
+  attribute vec3 aSource;
+  attribute vec2 aDataUv;
+  varying vec3 vSource;
+  varying vec2 vDataUv;
+  void main() {
+    vSource = aSource;
+    vDataUv = aDataUv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
+  }`;
+const depthFragmentShader = `${skyShaderFunctions}
+  varying vec3 vSource;
+  varying vec2 vDataUv;
+  void main() {
+    vec2 slope = texture2D(uRelief, vDataUv).xy * 2. - 1.;
+    vec3 normal = vec3(slope, sqrt(max(1. - dot(slope, slope), 0.)));
+    float fromSun = abs(mod(vSource.x - uSun.x + 540., 360.) - 180.);
+    vec3 color = groundDisplay(normal, vSource.y, vSource.z, vSource.x, fromSun);
+    gl_FragColor = vec4(sceneLinear(color), 1.);
+  }`;
+
+// The hillside houses: depth-tested points at their source-derived stage depth (or the legacy plane). By
 // day each is a few pixels of pale wall facing the bay, lit by the coast's key like the slopes
 // around it and hazed like them (from the sea, Mount Soledad's houses glow at sunset); through the
 // afterglow their windows light, each house at its own depth of dusk, warm, dimmed by the haze, and
@@ -411,6 +441,139 @@ export async function loadRelief(url = RELIEF_URL) {
   }
 }
 
+// The atlas keeps the original angular image above an explicit radial field.
+// Its metadata binds the authored coast edge to measured land and the old crest.
+export const DEPTH_LAYOUT = Object.freeze({
+  width: 929,
+  rows: 235,
+  angularRows: 147,
+  metadata: 148,
+  radialFirst: 153,
+  radialIntervals: 80,
+  heightRange: 280,
+  stageFraction: 1000,
+  cotangentFraction: 4096,
+  bearingStride: 2,
+});
+
+export function decodeDepthField({ width, height, data }) {
+  if (
+    width !== DEPTH_LAYOUT.width ||
+    height !== DEPTH_LAYOUT.rows ||
+    !(data instanceof Uint8Array || data instanceof Uint8ClampedArray) ||
+    data.length !== width * height * 4
+  )
+    return null;
+  return { width, height, data, anchors: new Map() };
+}
+const depthByte = (field, column, row, channel) => field.data[(row * field.width + column) * 4 + channel];
+const depthWord = (field, column, row) => depthByte(field, column, row, 0) * 256 + depthByte(field, column, row, 1);
+const depthHeight = (field, column, row) => (depthByte(field, column, row, 2) * DEPTH_LAYOUT.heightRange) / 255;
+
+export function depthStageAnchor(field, bearing) {
+  if (field.anchors.has(bearing)) return field.anchors.get(bearing);
+  const t = THREE.MathUtils.clamp(bearing / RELIEF.bearingStep, 0, field.width - 1),
+    i = Math.min(Math.floor(t), field.width - 2),
+    f = t - i;
+  const read = (column) => ({
+    d0: depthWord(field, column, DEPTH_LAYOUT.metadata),
+    d1: depthWord(field, column, DEPTH_LAYOUT.metadata + 1),
+    h0: depthHeight(field, column, DEPTH_LAYOUT.metadata),
+    h1: depthHeight(field, column, DEPTH_LAYOUT.metadata + 1),
+    y0: depthWord(field, column, DEPTH_LAYOUT.metadata + 2) / DEPTH_LAYOUT.stageFraction,
+    z0: -depthWord(field, column, DEPTH_LAYOUT.metadata + 3) / DEPTH_LAYOUT.stageFraction,
+    cot:
+      (depthByte(field, column, DEPTH_LAYOUT.metadata + 2, 2) * 256 + depthByte(field, column, DEPTH_LAYOUT.metadata + 3, 2)) /
+      DEPTH_LAYOUT.cotangentFraction,
+  });
+  const a = read(i),
+    b = read(i + 1),
+    anchor = {};
+  for (const key of Object.keys(a)) anchor[key] = THREE.MathUtils.lerp(a[key], b[key], f);
+  const margin = anchor.cot * (HORIZON_Y + skylineAt(bearing).far * DEGREE - anchor.y0) - (HILLS_Z - anchor.z0);
+  const denominator = anchor.cot * (anchor.h1 - anchor.h0) + anchor.d1 - anchor.d0;
+  anchor.scale = anchor.cot > 0 && margin > 0 && denominator > 0 && bearing < HEADLAND[1] ? margin / denominator : 0;
+  field.anchors.set(bearing, anchor);
+  return anchor;
+}
+
+export function depthStagePoint(field, bearing, distance, height) {
+  const anchor = depthStageAnchor(field, bearing);
+  return { x: xAtBearing(bearing), y: anchor.y0 + anchor.scale * (height - anchor.h0), z: anchor.z0 - anchor.scale * (distance - anchor.d0), anchor };
+}
+
+export function createDepthGeometry(field) {
+  const columns = Math.floor((field.width - 1) / DEPTH_LAYOUT.bearingStride) + 1,
+    rows = DEPTH_LAYOUT.radialIntervals + 1,
+    count = columns * rows;
+  const positions = new Float32Array(count * 3),
+    sources = new Float32Array(count * 3),
+    uvs = new Float32Array(count * 2),
+    support = new Uint8Array(count),
+    indices = [];
+  let crestError = 0;
+  for (let c = 0; c < columns; c++) {
+    const column = c * DEPTH_LAYOUT.bearingStride,
+      bearing = column * RELIEF.bearingStep,
+      a = depthStageAnchor(field, bearing),
+      x = xAtBearing(bearing);
+    for (let j = 0; j < rows; j++) {
+      const n = c * rows + j,
+        distance = a.d0 + ((a.d1 - a.d0) * j) / DEPTH_LAYOUT.radialIntervals,
+        height = depthHeight(field, column, DEPTH_LAYOUT.radialFirst + j);
+      const y = a.y0 + a.scale * (height - a.h0),
+        z = a.z0 - a.scale * (distance - a.d0);
+      positions.set([x, y, z], n * 3);
+      sources.set([bearing, distance / 1000, height], n * 3);
+      uvs.set([(column + 0.5) / field.width, 1 - (DEPTH_LAYOUT.radialFirst + j + 0.5) / field.height], n * 2);
+      support[n] = a.scale > 0 && height > 0 ? 1 : 0;
+      if (j === rows - 1 && support[n])
+        crestError = Math.max(crestError, Math.abs((y - (z - HILLS_Z) / a.cot - HORIZON_Y) / DEGREE - skylineAt(bearing).far));
+    }
+  }
+  for (let c = 0; c < columns - 1; c++)
+    for (let j = 0; j < rows - 1; j++) {
+      const a = c * rows + j,
+        b = a + 1,
+        d = (c + 1) * rows + j,
+        e = d + 1;
+      if (support[a] && support[b] && support[d]) indices.push(a, d, b);
+      if (support[d] && support[b] && support[e]) indices.push(d, e, b);
+    }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute("aSource", new THREE.BufferAttribute(sources, 3));
+  geometry.setAttribute("aDataUv", new THREE.BufferAttribute(uvs, 2));
+  geometry.setIndex(indices);
+  geometry.computeBoundingSphere();
+  return {
+    geometry,
+    evidence: {
+      vertices: count,
+      triangles: indices.length / 3,
+      bufferBytes: positions.byteLength + sources.byteLength + uvs.byteLength + geometry.index.array.byteLength,
+      crestProjectionErrorDegrees: crestError,
+      atlas: [field.width, field.height],
+      originalAngularRows: RELIEF.rows,
+    },
+  };
+}
+
+function readDepthField(texture) {
+  const image = texture.image;
+  if (image?.width !== DEPTH_LAYOUT.width || image?.height !== DEPTH_LAYOUT.rows) return null;
+  try {
+    const canvas = document.createElement("canvas");
+    canvas.width = image.width;
+    canvas.height = image.height;
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    context.drawImage(image, 0, 0);
+    return decodeDepthField(context.getImageData(0, 0, canvas.width, canvas.height));
+  } catch {
+    return null; // The unchanged angular prefix remains the fallback.
+  }
+}
+
 export function createSky({ relief, onLate = null }) {
   const tables = defaultTables();
   const strip = skylineStrip(STRIP.width, STRIP.x0, STRIP.x1);
@@ -422,7 +585,16 @@ export function createSky({ relief, onLate = null }) {
   }
   const view = new Float32Array(SKY_VIEW.columns * SKY_VIEW.rows * 4);
   const viewTexture = halfFloatTexture(view, SKY_VIEW.columns, SKY_VIEW.rows);
+  const field = readDepthField(relief);
+  const depth = field ? createDepthGeometry(field) : null;
   const uniforms = {
+    uDepthRelief: { value: Boolean(depth) },
+    uReliefRows: {
+      value: new THREE.Vector2(
+        Math.max(0, (relief.image?.height ?? RELIEF.rows) - RELIEF.rows),
+        1 / Math.max(1, relief.image?.height ?? RELIEF.rows)
+      ),
+    },
     uSkyView: { value: viewTexture },
     uSkyline: { value: halfFloatTexture(strip.data, strip.width, 2) },
     uRelief: { value: relief },
@@ -462,15 +634,49 @@ export function createSky({ relief, onLate = null }) {
   mesh.renderOrder = -1000;
   mesh.userData.noOcclusion = true;
 
-  // The houses on the hills' plane.
+  const backdrop = new THREE.Group();
+  backdrop.name = "CoastSky";
+  backdrop.add(mesh);
+  let depthMaterial = null;
+  if (depth) {
+    depthMaterial = new THREE.ShaderMaterial({
+      uniforms,
+      vertexShader: depthVertexShader,
+      fragmentShader: depthFragmentShader,
+      depthWrite: true,
+      depthTest: true,
+    });
+    const terrain = new THREE.Mesh(depth.geometry, depthMaterial);
+    terrain.name = "SourceDepthRelief";
+    // Opaque coast objects establish depth first; distant ground cannot paint over them.
+    terrain.renderOrder = 999;
+    terrain.userData.noOcclusion = true;
+    backdrop.add(terrain);
+  }
+
+  // Houses use the same source/stage fit as the ground beneath them.
   const houses = houseLights();
   const positions = new Float32Array(houses.length * 3),
     attributes = new Float32Array(houses.length * 4),
     footprints = new Float32Array(houses.length * 2);
   houses.forEach((house, i) => {
     const ground = skylineAt(house.bearing);
-    const km = house.angle < ground.near + 0.02 ? ground.nearKm : ground.farKm;
-    positions.set([house.x, HORIZON_Y + house.angle * DEGREE, HILLS_Z], i * 3);
+    const km = field ? Math.max(100, house.distance) / 1000 : house.angle < ground.near + 0.02 ? ground.nearKm : ground.farKm;
+    let position = [house.x, HORIZON_Y + house.angle * DEGREE, HILLS_Z];
+    if (field) {
+      const distance = Math.max(100, house.distance);
+      // Recover the already published source window altitude, including Earth
+      // curvature/refraction. The radial ground field stops at its bare crest;
+      // it must not invent window heights for visible houses beyond that crest.
+      const height = 15 + distance * Math.tan((SKYLINE.lights[i * 2 + 1] / 100) * DEG) + (distance * distance * 0.87) / (2 * 6371000);
+      const at = depthStagePoint(field, house.bearing, distance, height);
+      if (at.anchor.scale > 0) {
+        // Preserve the existing bare-earth skyline ceiling for distant glyphs.
+        const ceiling = HORIZON_Y + (skylineAt(house.bearing).far - 0.05) * DEGREE + (at.z - HILLS_Z) / at.anchor.cot;
+        position = [house.x, Math.min(at.y, ceiling), at.z];
+      }
+    }
+    positions.set(position, i * 3);
     const distance = Math.max(house.distance, 100),
       widthAngle = (Math.atan2(house.width, distance) * 180) / Math.PI,
       width = Math.abs(xAtBearing(house.bearing + widthAngle / 2) - xAtBearing(house.bearing - widthAngle / 2)),
@@ -590,7 +796,7 @@ export function createSky({ relief, onLate = null }) {
   }
 
   return {
-    mesh,
+    mesh: backdrop,
     lights,
     // The hour: the coast's look (sky-look.mjs) and La Jolla's sun (null for a theme's anchor), the
     // page color behind the canvas (linear display) and the coast's exposure and key direction.
@@ -690,6 +896,7 @@ export function createSky({ relief, onLate = null }) {
     },
     evidence() {
       return {
+        depthRelief: depth?.evidence ?? null,
         visible: mesh.visible,
         tableAltitude: built,
         samples: { near: this.skyColor(24).getHex(), far: this.skyColor(7).getHex() },
@@ -702,6 +909,10 @@ export function createSky({ relief, onLate = null }) {
     },
     dispose() {
       clearTimeout(slicing);
+      depth?.geometry.dispose();
+      depthMaterial?.dispose();
+      field?.anchors.clear();
+      if (field) field.data = new Uint8Array(0);
       geometry.dispose();
       material.dispose();
       viewTexture.dispose();

@@ -8,7 +8,47 @@
     "raw_sha256": "86761b4871928941bb7c454074ef0ee5f7e8c2dc10e93b3d4438edbe3a006809",
     "relief_bearing_step_deg": 0.25,
     "relief_elevation_step_deg": 0.04,
-    "relief_pixels": [929, 147]
+    "relief_pixels": [929, 235],
+    "depth_relief": {
+      "schema": "sirui-coastal-depth-v1",
+      "layout": {
+        "schema": "sirui-coastal-depth-v1",
+        "width": 929,
+        "rows": 235,
+        "angular_rows": 147,
+        "metadata_first_row": 148,
+        "radial_first_row": 153,
+        "radial_intervals": 80,
+        "height_range_m": 280.0,
+        "stage_fraction": 1000,
+        "cotangent_fraction": 4096
+      },
+      "angular_rgb_sha256": "417e10a3934d88331e00b1f0e7e2eca113f5320dc65288ef956b66cb82fca20f",
+      "support_rule": "Only positive heights in the filtered bare-earth DEM support ground; zero/no-data cells are not land. This is not a surveyed shoreline or bathymetry.",
+      "height_quantization_error_bound_m": 1.0980392156862746,
+      "radial_search_step_m": 8,
+      "radial_spacing_range_m": [0.3, 82.1],
+      "normal_gradient_span_m": 40,
+      "supported_columns": 929,
+      "positive_radial_samples": 66196,
+      "stage_projection": {
+        "method": "One isotropic radial depth/height scale between the native back edge and the measured crest in the existing reference camera; compass X mapping is unchanged.",
+        "camera": {
+          "position": [0, 20.5, 38],
+          "target": [0, 4.5, 0],
+          "width": 40.5
+        },
+        "text_binding_normalization": "UTF-8 source bytes with CRLF normalized to LF; binaries exact",
+        "source_bindings": {
+          "bin/coastal_terrain.py": "0751d5eaa229117431d4b901fc795276fd6eb82528178a92b5334759427e8f0b",
+          "assets/models/la-jolla/manifest.json": "51cc3ee4f1d8ea70c75e0b9f4bccb0a5b7637b3f4d2b8a7d7417c6b93811be79",
+          "assets/js/footer-coast/skyline.mjs": "885c249d07bf654cf1afcdc31108b0b6c158a075c3930a80accd869bd10e94f8",
+          "assets/models/la-jolla/la-jolla.glb": "8b18f608c2cada56eafa7b1ddea3e7a052a2e9c811e4f475dea44a0239ac6725"
+        }
+      },
+      "png_sha256": "28b9f91e453750ffea3f7031280053dc5861353205bcca0457c3dfef85237717",
+      "png_bytes": 133098
+    }
   },
   "houses": {
     "source": "OpenStreetMap contributors",

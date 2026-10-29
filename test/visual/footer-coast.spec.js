@@ -907,6 +907,118 @@ test("coastal sky: a completed atmosphere relights the reflected sea in the same
   await testInfo.attach("one-clock-sky-and-sea", { body: JSON.stringify(result), contentType: "application/json" });
 });
 
+test("coastal ground: source relief meets the native coast and keeps the measured ridge", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const openGround = async (target, intercept = null) => {
+    await target.emulateMedia({ reducedMotion: "reduce" });
+    await target.clock.setFixedTime(new Date("2026-10-23T12:30:00-07:00"));
+    await preparePage(target, "noon");
+    if (intercept) await intercept(target);
+    await target.goto(publicRouteUrl("/blog/"), { waitUntil: "domcontentloaded" });
+    const host = target.locator("footer [data-footer-coast]");
+    await host.scrollIntoViewIfNeeded();
+    await expect(host).toHaveAttribute("data-state", "ready", { timeout: 60000 });
+    await expect.poll(async () => (await evidence(host)).reveal).toBe(1);
+    return host;
+  };
+  const host = await openGround(page);
+  expect((await evidence(host)).sky.depthRelief).toMatchObject({ vertices: 37665, originalAngularRows: 147, atlas: [929, 235] });
+  expect((await evidence(host)).sky.depthRelief.triangles).toBeGreaterThan(50000);
+  const actual = await host.evaluate(async (element) => {
+    const module = new URL(element.dataset.coastModule, location.href);
+    const { loadRelief, decodeDepthField, createDepthGeometry, depthStageAnchor } = await import(new URL("./sky.mjs?v=coast-depth-20261029", module));
+    const { acquireCoast } = await import(new URL("./assets.mjs?v=hollan-20261028", module));
+    const THREE = await import(new URL("../three.module.min.js", module));
+    const texture = await loadRelief(),
+      canvas = document.createElement("canvas");
+    canvas.width = texture.image.width;
+    canvas.height = texture.image.height;
+    canvas.getContext("2d").drawImage(texture.image, 0, 0);
+    const pixels = canvas.getContext("2d").getImageData(0, 0, canvas.width, canvas.height);
+    const field = decodeDepthField(pixels),
+      { geometry, evidence: source } = createDepthGeometry(field);
+    const model = await acquireCoast("la-jolla.glb");
+    try {
+      model.scene.updateMatrixWorld(true);
+      const edge = Array(521).fill(null),
+        point = new THREE.Vector3();
+      let found = false;
+      model.scene.traverse((owner) => {
+        if (!/Connected[ _]sandstone[ _]bluffs[ _]and[ _]park/.test(owner.name)) return;
+        found = true;
+        owner.traverse((mesh) => {
+          const positions = mesh.geometry?.getAttribute("position");
+          if (!positions) return;
+          for (let i = 0; i < positions.count; i++) {
+            point.fromBufferAttribute(positions, i).applyMatrix4(mesh.matrixWorld);
+            const column = Math.round(((point.x + 82) / 164) * 520);
+            if (column < 0 || column > 520) continue;
+            if (!edge[column] || point.z < edge[column].z) edge[column] = { x: point.x, y: point.y, z: point.z };
+          }
+        });
+      });
+      if (!found || edge.some((p) => !p)) throw new Error("The actual native back edge was not available");
+      let yError = 0,
+        zError = 0,
+        checked = 0;
+      const positions = geometry.getAttribute("position");
+      for (let c = 0; c < 465; c++) {
+        const anchor = depthStageAnchor(field, c * 0.5);
+        if (anchor.scale <= 0) continue;
+        const x = positions.getX(c * 81),
+          u = ((x + 82) / 164) * 520,
+          i = Math.min(Math.floor(u), 519),
+          f = u - i;
+        if (i < 0 || i > 519) continue;
+        const y = edge[i].y + (edge[i + 1].y - edge[i].y) * f,
+          z = edge[i].z + (edge[i + 1].z - edge[i].z) * f;
+        yError = Math.max(yError, Math.abs(positions.getY(c * 81) - y));
+        zError = Math.max(zError, Math.abs(positions.getZ(c * 81) - z));
+        checked++;
+      }
+      const digest = await crypto.subtle.digest("SHA-256", pixels.data);
+      return {
+        source,
+        nativeSeam: { yError, zError, checked },
+        decodedSha256: Array.from(new Uint8Array(digest), (x) => x.toString(16).padStart(2, "0")).join(""),
+      };
+    } finally {
+      model.release();
+      geometry.dispose();
+      texture.dispose();
+    }
+  });
+  expect(actual.nativeSeam.checked).toBeGreaterThan(350);
+  // The actual exported model differs by about 5mm from its source edge;
+  // the atlas datum is stored to 1mm. Keep that measured seam bound tight.
+  expect(actual.nativeSeam.yError).toBeLessThan(0.006);
+  expect(actual.nativeSeam.zError).toBeLessThan(0.006);
+  expect(actual.source.crestProjectionErrorDegrees).toBeLessThan(1e-8);
+  await writeFile(testInfo.outputPath("source-depth-proof.json"), JSON.stringify(actual, null, 2));
+  const response = await page.request.get(publicRouteUrl("/assets/models/la-jolla/hills.png?v=coast-depth-20261029"));
+  const atlas = PNG.sync.read(await response.body());
+  expect(require("node:crypto").createHash("sha256").update(atlas.data).digest("hex")).toBe(actual.decodedSha256);
+  const candidate = await host.locator("canvas").screenshot({ path: testInfo.outputPath("source-depth-ground.png") });
+  const legacy = new PNG({ width: atlas.width, height: 147 });
+  atlas.data.copy(legacy.data, 0, 0, legacy.data.length);
+  const control = await page.context().newPage(),
+    controlErrors = collectRuntimeErrors(control);
+  try {
+    // Sensitive control: the retained original angular rows invoke the legacy
+    // plane fallback. All foreground models, materials, buffers and sky remain.
+    const before = await openGround(control, (target) =>
+      target.route(/\/models\/la-jolla\/hills\.png(?:\?.*)?$/, (route) => route.fulfill({ body: PNG.sync.write(legacy), contentType: "image/png" }))
+    );
+    expect((await evidence(before)).sky.depthRelief).toBeNull();
+    const old = await before.locator("canvas").screenshot({ path: testInfo.outputPath("retained-angular-ground.png") });
+    expect(screenshotDiffRatio(old, candidate, { threshold: 0.03 })).toBeGreaterThan(0.01);
+    expect(controlErrors).toEqual([]);
+  } finally {
+    await control.close();
+  }
+  expect(errors).toEqual([]);
+});
+
 test("coastal view: pointer glide stays bounded and settles without rolling the horizon", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   const host = await openTiltCoast(page);
