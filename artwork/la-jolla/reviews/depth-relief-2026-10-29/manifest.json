@@ -1,0 +1,1058 @@
+{
+  "schema": "sirui-footer-depth-review-v1",
+  "sourceCheckpoint": "6d24859d92e0d6351b2cf7cc538b697e3c35e7a2",
+  "sourceBindings": [
+    {
+      "path": "Gemfile.lock",
+      "mode": "text-lf",
+      "bytes": 24446,
+      "sha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46"
+    },
+    {
+      "path": "_plugins/site_module_assets.rb",
+      "mode": "text-lf",
+      "bytes": 3186,
+      "sha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75"
+    },
+    {
+      "path": "artwork/la-jolla/skyline/provenance.json",
+      "mode": "text-lf",
+      "bytes": 9819,
+      "sha256": "e1a6634eb2530b3fef5527f56df5b56bea0b675bde02a5f83dd52f83ba5540a0"
+    },
+    {
+      "path": "assets/js/footer-coast/scene.mjs",
+      "mode": "text-lf",
+      "bytes": 43186,
+      "sha256": "ba04ef97410015667f8748e38ea9495092d7b6d448a3719ea1fadff1e796c058"
+    },
+    {
+      "path": "assets/js/footer-coast/sky-look.mjs",
+      "mode": "text-lf",
+      "bytes": 14195,
+      "sha256": "e1119f16c252b432366181232ec2317f7cb68c7d525ff5737a250f26477ca27f"
+    },
+    {
+      "path": "assets/js/footer-coast/sky.mjs",
+      "mode": "text-lf",
+      "bytes": 46078,
+      "sha256": "f145de4b36ad7c4454b0d4ac9920221cda68ca5faa95a9cbd2a2a1dc2ed6c9a4"
+    },
+    {
+      "path": "assets/js/footer-coast/skyline-data.mjs",
+      "mode": "text-lf",
+      "bytes": 49555,
+      "sha256": "75a6efe0ba07be28bea101873cb83bd6b24edcb4cc32a388bb5d2d9ad03ae04d"
+    },
+    {
+      "path": "assets/js/footer-coast/skyline.mjs",
+      "mode": "text-lf",
+      "bytes": 6033,
+      "sha256": "885c249d07bf654cf1afcdc31108b0b6c158a075c3930a80accd869bd10e94f8"
+    },
+    {
+      "path": "assets/js/footer-coast/view-tilt.mjs",
+      "mode": "text-lf",
+      "bytes": 8135,
+      "sha256": "92b8dc48025f4cf380496db9de82f6acfa393773d235ee80aaeee3df5ac68586"
+    },
+    {
+      "path": "assets/js/footer-coast/water.mjs",
+      "mode": "text-lf",
+      "bytes": 40751,
+      "sha256": "457bb987d228213ccb88c2475f66ff45b7a9b5a7e2a2b35620189646476a4157"
+    },
+    {
+      "path": "assets/models/la-jolla/hills.png",
+      "mode": "binary",
+      "bytes": 133098,
+      "sha256": "28b9f91e453750ffea3f7031280053dc5861353205bcca0457c3dfef85237717"
+    },
+    {
+      "path": "assets/models/la-jolla/la-jolla.glb",
+      "mode": "binary",
+      "bytes": 1290720,
+      "sha256": "8b18f608c2cada56eafa7b1ddea3e7a052a2e9c811e4f475dea44a0239ac6725"
+    },
+    {
+      "path": "assets/models/la-jolla/manifest.json",
+      "mode": "text-lf",
+      "bytes": 10415,
+      "sha256": "51cc3ee4f1d8ea70c75e0b9f4bccb0a5b7637b3f4d2b8a7d7417c6b93811be79"
+    },
+    {
+      "path": "assets/models/la-jolla/miniature.glb",
+      "mode": "binary",
+      "bytes": 367520,
+      "sha256": "64588d747fc7b7231fff46ce05fb6ce1164cb084765d093a37b67ac50f7e38c9"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/coast-afternoon.webp",
+      "mode": "binary",
+      "bytes": 159044,
+      "sha256": "ef6262f3f9e31aede3cdc26338f751d0129268b02ddfa719645d2d3d140fb36d"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/coast-evening.webp",
+      "mode": "binary",
+      "bytes": 94438,
+      "sha256": "c058e0b88e43d1205f301d62f4f7915c74d5f969a7653963b616235d44b6227a"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/coast-mobile-afternoon.webp",
+      "mode": "binary",
+      "bytes": 23944,
+      "sha256": "09e84ce5b4a3315a26c06eab29d286c5321ac8f288ac9bc1541e9f61e9f9e80d"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/coast-mobile-evening.webp",
+      "mode": "binary",
+      "bytes": 16284,
+      "sha256": "3e38deadd32175ccc948249db9913273905327d5dbcb72492195b6490f29f6a1"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/coast-mobile-morning.webp",
+      "mode": "binary",
+      "bytes": 22690,
+      "sha256": "44a8ee49b6fa2a90c22d562f213dbc02b0e180ea709bbe9d2f8212dbdff7fbc2"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/coast-mobile-noon.webp",
+      "mode": "binary",
+      "bytes": 23780,
+      "sha256": "b88b81fa29a2a1e996c479486e031447b71f66c35e86f16ecfb0c6c29636c28c"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/coast-morning.webp",
+      "mode": "binary",
+      "bytes": 152344,
+      "sha256": "77ffa3494751ba446a16643e547e4f32d4e657b51c371425fa8a501d701801f7"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/coast-noon.webp",
+      "mode": "binary",
+      "bytes": 157128,
+      "sha256": "e41c7a38821716e3354b260ab10d1018aca653da41839ed780447cf7c5da4d18"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/miniature-afternoon.webp",
+      "mode": "binary",
+      "bytes": 40874,
+      "sha256": "b1ba21c9288349182e8917084c32015a691c6a63aa4bb850af145f5e0c9df932"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/miniature-evening.webp",
+      "mode": "binary",
+      "bytes": 30456,
+      "sha256": "db704d1270b5f01774d2d62a73cb0e21fdfafa87e629acbf18636ce894e3fd60"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/miniature-morning.webp",
+      "mode": "binary",
+      "bytes": 38734,
+      "sha256": "7cda8beab00308a829694f19e270b312060722577f3509a85057d7675946e06f"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/miniature-noon.webp",
+      "mode": "binary",
+      "bytes": 41856,
+      "sha256": "795510bdcc9240ee3ce4b9def5432aa2d94b78d7a25040ca8e6fea472f5c01ca"
+    },
+    {
+      "path": "assets/models/la-jolla/posters/version.txt",
+      "mode": "text-lf",
+      "bytes": 65,
+      "sha256": "6e4f591ace6c3e11d77f118263681375991515d9bee26b704a3f9f93f41b53c3"
+    },
+    {
+      "path": "bin/coastal_skyline.py",
+      "mode": "text-lf",
+      "bytes": 29840,
+      "sha256": "c0afa9f2256933f1ccbbecd80a69ee37d15ea45d5f67eb561e12410f7f23d0c8"
+    },
+    {
+      "path": "bin/coastal_terrain.py",
+      "mode": "text-lf",
+      "bytes": 7784,
+      "sha256": "0751d5eaa229117431d4b901fc795276fd6eb82528178a92b5334759427e8f0b"
+    },
+    {
+      "path": "bin/render_coast_posters.cjs",
+      "mode": "text-lf",
+      "bytes": 4499,
+      "sha256": "faa39f3a2a5cde04a45f521fddea9940aad70b3be18922ea52de163b681dec21"
+    },
+    {
+      "path": "docs/la-jolla-footer.md",
+      "mode": "text-lf",
+      "bytes": 44574,
+      "sha256": "68004a7d0fcbdb2a576594216fa8709789554d5470866e6af046da7815d9e860"
+    },
+    {
+      "path": "package-lock.json",
+      "mode": "text-lf",
+      "bytes": 6369,
+      "sha256": "54b9779b4ca3eeca5586a055a96957ceefe16abbd8749500a219f3ae0789aa8a"
+    },
+    {
+      "path": "test/coast-depth.test.mjs",
+      "mode": "text-lf",
+      "bytes": 4497,
+      "sha256": "d96187baa9a569a98589acd35c7833be041b6f76e3064e15ac6bc887268141bc"
+    },
+    {
+      "path": "test/test_coastal_skyline.py",
+      "mode": "text-lf",
+      "bytes": 6499,
+      "sha256": "7027b29c83cbc25bcf732e8f0eabd909b93fbec110a4ddaa1d07ea923161c0e1"
+    },
+    {
+      "path": "test/visual/footer-coast.spec.js",
+      "mode": "text-lf",
+      "bytes": 65019,
+      "sha256": "0264a0537fa73fcaa8078dda0f510e70f4e607101f16d364b03bd0337480c729"
+    }
+  ],
+  "payloads": [
+    {
+      "path": "attempts/alpha-upload.json.gz",
+      "mode": "binary",
+      "bytes": 183,
+      "sha256": "2d1b7464c87dd68561b5b21004e1e512486b3fd1f4d66e7a554b9f358bcb3369"
+    },
+    {
+      "path": "attempts/apron-1440-evening.png",
+      "mode": "binary",
+      "bytes": 317272,
+      "sha256": "58489b52d4df8b8a1a02f14d72b7973e11e7ee7b3dd6cb2ecc113315db2c0bcc"
+    },
+    {
+      "path": "attempts/apron-1440-noon.png",
+      "mode": "binary",
+      "bytes": 408073,
+      "sha256": "b1247642039188bcef9035779a26b6a4547c0ee30ea1582f336cbf5a18c514ca"
+    },
+    {
+      "path": "attempts/apron-390-evening.png",
+      "mode": "binary",
+      "bytes": 103528,
+      "sha256": "4a95f8d3ce921fe5490d0e82ff90e66f0453e7c6112ccb1a97b04c21da9cb467"
+    },
+    {
+      "path": "attempts/apron-390-noon.png",
+      "mode": "binary",
+      "bytes": 137657,
+      "sha256": "acfae44a3b94e33a13eb0c9bf211e6b1c45b1bf6ad5feb3adcf875ef46969608"
+    },
+    {
+      "path": "attempts/apron-compiled.mjs.gz",
+      "mode": "binary",
+      "bytes": 9180,
+      "sha256": "9fa4b28f4e033b179106927b2ab57b638f9e84d745cc89faf943187952fbb0ad"
+    },
+    {
+      "path": "attempts/apron-source.mjs.gz",
+      "mode": "binary",
+      "bytes": 13083,
+      "sha256": "21e75b498cb53f67465fbef0e8c9569e3dcf17498887bcfdfbcb563c35f06f11"
+    },
+    {
+      "path": "attempts/baseline-1440.png",
+      "mode": "binary",
+      "bytes": 393816,
+      "sha256": "74cd64553c4534947de559596b554189ab4a8d7ed430f612c91aeef7f95f26a6"
+    },
+    {
+      "path": "attempts/baseline-390.png",
+      "mode": "binary",
+      "bytes": 133494,
+      "sha256": "cbb7246d65ebc1dfe0c7e59aa050732c1d8edc2e906f0a868e807e70c3d13677"
+    },
+    {
+      "path": "attempts/bearing-anchors.json.gz",
+      "mode": "binary",
+      "bytes": 15466,
+      "sha256": "7d9374abde121e86c8606eccd7bb6dd56fdc1498f22a1bc154b895873f8fc4d1"
+    },
+    {
+      "path": "attempts/coverage-mask-1440.png",
+      "mode": "binary",
+      "bytes": 398065,
+      "sha256": "d5fe25b101324c3c18fd7d38360348b0677ec25dad486df2998ace16efdcc050"
+    },
+    {
+      "path": "attempts/coverage-mask-390.png",
+      "mode": "binary",
+      "bytes": 134077,
+      "sha256": "b9833bcab336f678dd3c75bedacb0287be761f52cc60fabd3e974b3e4423652b"
+    },
+    {
+      "path": "attempts/coverage-mask-compiled.mjs.gz",
+      "mode": "binary",
+      "bytes": 8983,
+      "sha256": "224691ae821adb8373a6454b4ffe65080dac4473abd60096ab6bf38bf7aa18ef"
+    },
+    {
+      "path": "attempts/coverage-mask-source.mjs.gz",
+      "mode": "binary",
+      "bytes": 12884,
+      "sha256": "c1cb5b72edb252455f903e3946fa6eed28fcbe9a095912e475bfe9e7b42b3d2a"
+    },
+    {
+      "path": "attempts/coverage.json.gz",
+      "mode": "binary",
+      "bytes": 3099,
+      "sha256": "75b5012804dd72d7163c55d1a6ec6b17665446db183abbbe4fdbcffcf07cad01"
+    },
+    {
+      "path": "attempts/depth-v1/1440-afternoon.png",
+      "mode": "binary",
+      "bytes": 423851,
+      "sha256": "e498c3c5943586a2e4a16a4fd4290ee34ce94c960207c87a7afca793e901d76a"
+    },
+    {
+      "path": "attempts/depth-v1/1440-evening.png",
+      "mode": "binary",
+      "bytes": 323327,
+      "sha256": "d51762051389f6032ea6c2b4ae8881210600ee11a478e12ea0a50ccd87f1b410"
+    },
+    {
+      "path": "attempts/depth-v1/1440-morning.png",
+      "mode": "binary",
+      "bytes": 420414,
+      "sha256": "071d8be93c4e858fbd51d299104e9a0196145dac33d5559a697a32d40305a655"
+    },
+    {
+      "path": "attempts/depth-v1/1440-noon.png",
+      "mode": "binary",
+      "bytes": 429384,
+      "sha256": "122e09dc89fc911e1333379eb290b6cbdfffa87a6b423c8d8841cbf741453f0e"
+    },
+    {
+      "path": "attempts/depth-v1/3840-afternoon.png",
+      "mode": "binary",
+      "bytes": 1276297,
+      "sha256": "3fa5591152e450d91c7fe3617c512a9abf96e1199c861eb8fd541d98ee1ccec4"
+    },
+    {
+      "path": "attempts/depth-v1/3840-evening.png",
+      "mode": "binary",
+      "bytes": 982233,
+      "sha256": "1330db2606be9098efa88d5469dda23aaa9c7ac924885ad271baa06cfc8663dd"
+    },
+    {
+      "path": "attempts/depth-v1/3840-morning.png",
+      "mode": "binary",
+      "bytes": 1271459,
+      "sha256": "3ff7d6600cee90e10eae6cfb4f834737d33f663781c9383c93282429f13f2a37"
+    },
+    {
+      "path": "attempts/depth-v1/3840-noon.png",
+      "mode": "binary",
+      "bytes": 1306546,
+      "sha256": "f77e8c445162322f5cd78d2ea4e0f9c04affd71471346dbdc22ec4b0e7c66af5"
+    },
+    {
+      "path": "attempts/depth-v1/390-afternoon.png",
+      "mode": "binary",
+      "bytes": 140974,
+      "sha256": "e048074524a6674a61d1b1e1bb5a7f9a740a1a60ed76895dd28d96c438a13f79"
+    },
+    {
+      "path": "attempts/depth-v1/390-evening.png",
+      "mode": "binary",
+      "bytes": 102572,
+      "sha256": "c0a0cb617a06c2f82b33af6fff99129e1c65c1be33be69550ad00c51904d0efb"
+    },
+    {
+      "path": "attempts/depth-v1/390-morning.png",
+      "mode": "binary",
+      "bytes": 139312,
+      "sha256": "8c9c4ae9be1cabd9c6e9c58dd706864ac8f57b221f4de11203daca65ec6ef45b"
+    },
+    {
+      "path": "attempts/depth-v1/390-noon.png",
+      "mode": "binary",
+      "bytes": 141821,
+      "sha256": "ae1340386804166034ab1e43355cab836015be1033487a990d8bd0a122898ec0"
+    },
+    {
+      "path": "attempts/depth-v1-generation.json.gz",
+      "mode": "binary",
+      "bytes": 69419,
+      "sha256": "d0b851186e9ef674ba9df6edc18116165a9e49fa7d6d0843cfb37b345040a60b"
+    },
+    {
+      "path": "attempts/depth-v1-houses.mjs.gz",
+      "mode": "binary",
+      "bytes": 15370,
+      "sha256": "2862e249b2d94503e70d12570d1fa508202d502414a81c9e9e81aeb5a1adc2c7"
+    },
+    {
+      "path": "attempts/extended-1440.png",
+      "mode": "binary",
+      "bytes": 405485,
+      "sha256": "24e77b35b548299b01a5aeb040c216191b4d8e40642531865cfe2ff99593b44c"
+    },
+    {
+      "path": "attempts/extended-390.png",
+      "mode": "binary",
+      "bytes": 137295,
+      "sha256": "5abaea3fdf3aa0bc7d8699e22a178855a017f3087a4d72ae50c563c976235268"
+    },
+    {
+      "path": "attempts/extended-compiled.mjs.gz",
+      "mode": "binary",
+      "bytes": 8967,
+      "sha256": "83ba2ae231e03f33c548fc883275132448c37938b9dc530b34a6e64fb6657956"
+    },
+    {
+      "path": "attempts/extended-generation.json.gz",
+      "mode": "binary",
+      "bytes": 300,
+      "sha256": "09ffa538b1cfcb3827d9c51d136b93e4df6c920748c9d420107959593009406d"
+    },
+    {
+      "path": "attempts/extended-source.mjs.gz",
+      "mode": "binary",
+      "bytes": 12868,
+      "sha256": "6a941caf6041ff0a53daffe854898c1494aec1188cd8c1cb1e8718c894b74c04"
+    },
+    {
+      "path": "attempts/extended.png",
+      "mode": "binary",
+      "bytes": 69291,
+      "sha256": "ab909185da7c788ca3a5405c7af4eb015432be462e4cca746e851918ab402c67"
+    },
+    {
+      "path": "attempts/land-generation.json.gz",
+      "mode": "binary",
+      "bytes": 270,
+      "sha256": "fc65d44daa93e5c8528390eae6ec3c04f84887f70fa5d04ee77dce90c7949064"
+    },
+    {
+      "path": "attempts/land-hit-1440.png",
+      "mode": "binary",
+      "bytes": 399317,
+      "sha256": "090ec5db7201a3e6121429b9e1ab2dde0488f1b148308bf84c5b3392354923f8"
+    },
+    {
+      "path": "attempts/land-hit-390.png",
+      "mode": "binary",
+      "bytes": 135809,
+      "sha256": "0e3e27897bfddeb1b4be45d7a10b41b40192827fb56893999004a76970bb5da2"
+    },
+    {
+      "path": "attempts/land-hit-compiled.mjs.gz",
+      "mode": "binary",
+      "bytes": 8983,
+      "sha256": "96ae68f8918b99fef0bdf89b0b57f4b20ddb7a3107996dc2f260cb91925ef834"
+    },
+    {
+      "path": "attempts/land-hit-producer.py.gz",
+      "mode": "binary",
+      "bytes": 993,
+      "sha256": "676bec764d1d1eb78eea18ee6a21868263c5ce63ddf65471ee5e9b3292ec06e1"
+    },
+    {
+      "path": "attempts/land-hit-source.mjs.gz",
+      "mode": "binary",
+      "bytes": 12884,
+      "sha256": "df870c5dde2a32270148d897930f1a067ca1b7dbecd7b67a6f46bc62621f15df"
+    },
+    {
+      "path": "attempts/land-hit.png",
+      "mode": "binary",
+      "bytes": 75597,
+      "sha256": "8e0081201e16ed96ac6c53a02f6e66e9dccfde531f105932bde44a44d1645c8d"
+    },
+    {
+      "path": "attempts/land-views.json.gz",
+      "mode": "binary",
+      "bytes": 2489,
+      "sha256": "2340c05a6926fcb320ba51e51c0d55c38fc400fd10482fb8cf9c33bdcc54facb"
+    },
+    {
+      "path": "before-posters/coast-afternoon.webp",
+      "mode": "binary",
+      "bytes": 157868,
+      "sha256": "a4da7d16ac8f929fa5bb6e496b46505fbbab60db412ef780e483359ad8f7a4e4"
+    },
+    {
+      "path": "before-posters/coast-evening.webp",
+      "mode": "binary",
+      "bytes": 94884,
+      "sha256": "7fb05095d20f40c81985922080fedd5dd2402a7d306587727cca6de3959200d7"
+    },
+    {
+      "path": "before-posters/coast-mobile-afternoon.webp",
+      "mode": "binary",
+      "bytes": 23866,
+      "sha256": "dbd45794ca1eb3bedc9548e411c65709b4d9181b48b09ecbdbcb2d9841b077f4"
+    },
+    {
+      "path": "before-posters/coast-mobile-evening.webp",
+      "mode": "binary",
+      "bytes": 16544,
+      "sha256": "59eabf2e38250f8b75f9963d629fe8a2adc35051590e6d7db7cbb0ce5aa3ba22"
+    },
+    {
+      "path": "before-posters/coast-mobile-morning.webp",
+      "mode": "binary",
+      "bytes": 22544,
+      "sha256": "79f26155072d3f0c76367df9ad7ef4165d975c5385ced0112619c8c1496f19ad"
+    },
+    {
+      "path": "before-posters/coast-mobile-noon.webp",
+      "mode": "binary",
+      "bytes": 23414,
+      "sha256": "ce681fe1dfd19beb4c601c6dd476062f5698793aac95647044f5f1330924bca6"
+    },
+    {
+      "path": "before-posters/coast-morning.webp",
+      "mode": "binary",
+      "bytes": 149048,
+      "sha256": "0ecafbbfb0ba8bfd4babd3b2245084dbcdb01e287e8f7602cb94c62e03042582"
+    },
+    {
+      "path": "before-posters/coast-noon.webp",
+      "mode": "binary",
+      "bytes": 155248,
+      "sha256": "24adb09bc485c9dd38b892b460857c97f6b1e2721e361acf319af4acda0aa857"
+    },
+    {
+      "path": "before-posters/miniature-afternoon.webp",
+      "mode": "binary",
+      "bytes": 40878,
+      "sha256": "711aa1552e8fd78b02cdd8ca8eb2880f4ac2a447c9b3c5fb4638fe175f209507"
+    },
+    {
+      "path": "before-posters/miniature-evening.webp",
+      "mode": "binary",
+      "bytes": 29340,
+      "sha256": "d3c1797bec85569af280f687891072d3b577b768c2375eb6362ab24e63a5104a"
+    },
+    {
+      "path": "before-posters/miniature-morning.webp",
+      "mode": "binary",
+      "bytes": 38724,
+      "sha256": "8d30af2ea0368a5a185cef5ad96d6a7d0d0a8c2c81fa591513b38905d3c9e1dc"
+    },
+    {
+      "path": "before-posters/miniature-noon.webp",
+      "mode": "binary",
+      "bytes": 41858,
+      "sha256": "511c689d595acec33ff6c5259cf1f88e0f8f2af28703b1a6b37460105bbcee99"
+    },
+    {
+      "path": "before-posters/version.txt.gz",
+      "mode": "binary",
+      "bytes": 76,
+      "sha256": "9d1f4338a9c0abb48dfb2362f569ecc0ffcf1ccdd730386607f3e8af0149d227"
+    },
+    {
+      "path": "browser/ground-1280.json.gz",
+      "mode": "binary",
+      "bytes": 289,
+      "sha256": "84d19098350fb3af562dc8365466ee2fa4164f2460659c863ca51f208e3862bc"
+    },
+    {
+      "path": "browser/ground-1440.json.gz",
+      "mode": "binary",
+      "bytes": 289,
+      "sha256": "84d19098350fb3af562dc8365466ee2fa4164f2460659c863ca51f208e3862bc"
+    },
+    {
+      "path": "browser/ground-390.json.gz",
+      "mode": "binary",
+      "bytes": 289,
+      "sha256": "84d19098350fb3af562dc8365466ee2fa4164f2460659c863ca51f208e3862bc"
+    },
+    {
+      "path": "browser/ground-768.json.gz",
+      "mode": "binary",
+      "bytes": 289,
+      "sha256": "84d19098350fb3af562dc8365466ee2fa4164f2460659c863ca51f208e3862bc"
+    },
+    {
+      "path": "browser/native-ground.log.gz",
+      "mode": "binary",
+      "bytes": 2300,
+      "sha256": "8caee530767292a2b3ee6ea2869a738eeef97051641a115eb06c7014b354647c"
+    },
+    {
+      "path": "browser/native-regression.json.gz",
+      "mode": "binary",
+      "bytes": 4705878,
+      "sha256": "64a3e474d6ebb597a504ab6c2f7aa23dfa51ed9d1e4e9385664e6677123ec1f7"
+    },
+    {
+      "path": "browser/native-regression.log.gz",
+      "mode": "binary",
+      "bytes": 1285,
+      "sha256": "1262b47461c6c9482ab722f8b172fa24c4e1fb14eb4691a86a10414c0144bbed"
+    },
+    {
+      "path": "browser/native-views.json.gz",
+      "mode": "binary",
+      "bytes": 3815,
+      "sha256": "26020a1c316ed14a1f213320dda87ebce72a0f8cb98aef834255c34269c37101"
+    },
+    {
+      "path": "browser/webkit.json.gz",
+      "mode": "binary",
+      "bytes": 3358,
+      "sha256": "9faaad3f148682b1115bd9a9d12343151b555dc51920cf4f723acc169f725724"
+    },
+    {
+      "path": "build/first-missing-parent.log.gz",
+      "mode": "binary",
+      "bytes": 2945,
+      "sha256": "600278edf7eefe53f1918890702c1ce4f6d19d618865b5c5fc56d5d20335c099"
+    },
+    {
+      "path": "build/full-baseline.json.gz",
+      "mode": "binary",
+      "bytes": 70270,
+      "sha256": "1c381f8a19775937df9b55c2b180a5d392c071488002cb6ecab5693df88d680d"
+    },
+    {
+      "path": "build/jekyll.log.gz",
+      "mode": "binary",
+      "bytes": 7665,
+      "sha256": "9a13a87fe6a9d78758f5fe073dc8c62ee88d30bb931434ca33c2f2398835d8ca"
+    },
+    {
+      "path": "build/preview-compiler.json.gz",
+      "mode": "binary",
+      "bytes": 6246,
+      "sha256": "759a9a61e35686899668999923924e370021a715e675e26397b4541720212084"
+    },
+    {
+      "path": "build/readback.json.gz",
+      "mode": "binary",
+      "bytes": 3139,
+      "sha256": "4e1f27e4a05a230299a005288c776897f2c106efee294c7af29d2e08ee319fce"
+    },
+    {
+      "path": "checks/node.log.gz",
+      "mode": "binary",
+      "bytes": 4645,
+      "sha256": "996781ff20c465d0d33ebebc0a5ed59f6660b8be87fc0b8198e5a44038c44390"
+    },
+    {
+      "path": "checks/python.log.gz",
+      "mode": "binary",
+      "bytes": 382,
+      "sha256": "6acd3b117ab5b2e564f54fc47807ed2140acdfa86d206d60f449d59d326bbcf4"
+    },
+    {
+      "path": "cost/base-hills.png",
+      "mode": "binary",
+      "bytes": 60822,
+      "sha256": "071eef43c30605b340ff980130b8fcafe4c461b28e390a657a5147c367061b5e"
+    },
+    {
+      "path": "cost/base-sky.mjs.gz",
+      "mode": "binary",
+      "bytes": 8967,
+      "sha256": "203f24b716832382721da1677f28ba5e056350c4ce98fdbf64a6511030ca1b1b"
+    },
+    {
+      "path": "cost/hook-0.png",
+      "mode": "binary",
+      "bytes": 1539001,
+      "sha256": "4a68a894e873b23dfb7e9e2e90fb123e203bc8c51b10fd2b169188d6d2bd258e"
+    },
+    {
+      "path": "cost/hook-1.png",
+      "mode": "binary",
+      "bytes": 1539019,
+      "sha256": "3d66f8d5cb2a7ef6aa4469317beb7ba686801311c4a28b0d5221d001650d912a"
+    },
+    {
+      "path": "cost/hook-10.png",
+      "mode": "binary",
+      "bytes": 1539011,
+      "sha256": "6e3ef972c08068c52f4aaa030ec27895d9efc70ba2b9282dad7ebe4b74f39ed5"
+    },
+    {
+      "path": "cost/hook-11.png",
+      "mode": "binary",
+      "bytes": 1538967,
+      "sha256": "fcf034eb3ff5f4bd99c9af8a49c2f9a5bb4a9c93d2554afa836d53d4e2fdaa6c"
+    },
+    {
+      "path": "cost/hook-2.png",
+      "mode": "binary",
+      "bytes": 1538979,
+      "sha256": "f9c02c035d9f20cd79f9b9eab55beb830334cdf440b673dec00809371815802f"
+    },
+    {
+      "path": "cost/hook-3.png",
+      "mode": "binary",
+      "bytes": 1539039,
+      "sha256": "b7a8253b4217be530974f2d2a9ed4c40178ce809f508cb7832c6a07c64443710"
+    },
+    {
+      "path": "cost/hook-4.png",
+      "mode": "binary",
+      "bytes": 1539032,
+      "sha256": "a7dde9563c7d65453ecccb7da7d83f467f3801025d6da9e0a064ae8968d363bb"
+    },
+    {
+      "path": "cost/hook-5.png",
+      "mode": "binary",
+      "bytes": 1539004,
+      "sha256": "879721c62d23ef91c031772110b21588b666d00bb52679ac7a1359c63244d39b"
+    },
+    {
+      "path": "cost/hook-6.png",
+      "mode": "binary",
+      "bytes": 1538977,
+      "sha256": "997094f6b3d9415351a482ea5bd1d12783deb286e8a2543eaaf150618f8a0cfb"
+    },
+    {
+      "path": "cost/hook-7.png",
+      "mode": "binary",
+      "bytes": 1539026,
+      "sha256": "2481b999fd21b48338e98e9eeb4eaaa965109f2994fdbb71b96963ef24f817a9"
+    },
+    {
+      "path": "cost/hook-8.png",
+      "mode": "binary",
+      "bytes": 1539052,
+      "sha256": "9336d34e0e0b60dbf0aa71a70d2dc3e5c6e186d02c6aafd90ac125583e367e93"
+    },
+    {
+      "path": "cost/hook-9.png",
+      "mode": "binary",
+      "bytes": 1538993,
+      "sha256": "6227f64105c405dac20492fa4541e1c867f636c336ae3ea852e6a6b487977e7d"
+    },
+    {
+      "path": "cost/rejected-independent-context-parity.json.gz",
+      "mode": "binary",
+      "bytes": 5660,
+      "sha256": "a8fee876e270b299994da239d3e79129fdaf75d0e395c3badbbd2e4eeccc821b"
+    },
+    {
+      "path": "cost/rejected-repeated-redraw-parity.json.gz",
+      "mode": "binary",
+      "bytes": 5658,
+      "sha256": "71d4e94fe637db9c5e73ace731079f354ac377f4b799cadd5172e2e0657e6825"
+    },
+    {
+      "path": "cost/rejected-seeded-settled-parity.json.gz",
+      "mode": "binary",
+      "bytes": 2944,
+      "sha256": "1fb36588ef92a1189e9f605d2b60ecb33be626bd1e67c9911a0a42455b84f626"
+    },
+    {
+      "path": "cost/rejected-seeded-unsettled-parity.json.gz",
+      "mode": "binary",
+      "bytes": 2942,
+      "sha256": "b2c1a86609ba3af0e837775b554d928f3be842f5ecb0c33b3f879f19e6b4831b"
+    },
+    {
+      "path": "cost/results.json.gz",
+      "mode": "binary",
+      "bytes": 23257,
+      "sha256": "cdeff3a1b86ed2d46f85fec04393285122d40d416a110d9a4228b943397ff515"
+    },
+    {
+      "path": "cost/rounding-controls.json.gz",
+      "mode": "binary",
+      "bytes": 6014,
+      "sha256": "6e48b9fdf9ffa6a6c96219c066bb6722b9dde9a810b27d30c1825fa0f49a50ef"
+    },
+    {
+      "path": "cost/scene-receipt.json.gz",
+      "mode": "binary",
+      "bytes": 273,
+      "sha256": "05717fb4aca7fa37b694bb5a4efbc8d0433f42e3a60bcff1153d95e8bcb338dd"
+    },
+    {
+      "path": "cost/scene-source.mjs.gz",
+      "mode": "binary",
+      "bytes": 14345,
+      "sha256": "ea52ce713a5732b0fa003e6805164a673e782535e7b330595ac12318972995c9"
+    },
+    {
+      "path": "cost/scene.mjs.gz",
+      "mode": "binary",
+      "bytes": 8719,
+      "sha256": "2470b3cefae47d46c8c5c76846d79328a5c11d1ff6516815914d0166fe25d140"
+    },
+    {
+      "path": "cost/summary.json.gz",
+      "mode": "binary",
+      "bytes": 443,
+      "sha256": "a1e7189fbca71b709265678589934d511389866239fe37ef37002ef14b649b1d"
+    },
+    {
+      "path": "producers/analyze-mask.py.gz",
+      "mode": "binary",
+      "bytes": 621,
+      "sha256": "9c187d9231e7a8a5286aace0e1eade5bb094988908de629641d2a68cc2271cf6"
+    },
+    {
+      "path": "producers/capture-depth.cjs.gz",
+      "mode": "binary",
+      "bytes": 896,
+      "sha256": "e74fb77b5308b6e3eb7d8d238e5d0d8b1a264fc2baf39c86b11b257523d30417"
+    },
+    {
+      "path": "producers/compile-ui.rb.gz",
+      "mode": "binary",
+      "bytes": 1935,
+      "sha256": "74b8cd0630bc67787fbc37fae86206fc4b32934540f37deed992ee8a8bf4ccff"
+    },
+    {
+      "path": "producers/depth-cost.cjs.gz",
+      "mode": "binary",
+      "bytes": 4246,
+      "sha256": "bfc726c5533522f5d1d5ac3e7811a2053d16c7cdd2df1f670bc2b001bcece27a"
+    },
+    {
+      "path": "producers/generate-depth.py.gz",
+      "mode": "binary",
+      "bytes": 1769,
+      "sha256": "878ea081df801d9a77d99bc7c8838dfbf42a24e0a60e437b25eb1e59682018bb"
+    },
+    {
+      "path": "producers/pack-depth.py.gz",
+      "mode": "binary",
+      "bytes": 2190,
+      "sha256": "04d2ec15941e33ffc48d1c0608e70dcb96d976e31f269a5b0ae3a29835e31044"
+    },
+    {
+      "path": "producers/prepare-depth-cost.rb.gz",
+      "mode": "binary",
+      "bytes": 652,
+      "sha256": "641355c3c197f8a59f814d09205fb436029b9bc724be610619c9b1fccf09dee4"
+    },
+    {
+      "path": "producers/probe-depth.cjs.gz",
+      "mode": "binary",
+      "bytes": 1533,
+      "sha256": "e180e7e77667958754d55e9ea1dcac98269c9be08a466bf279621b54c54e1075"
+    },
+    {
+      "path": "producers/probe-land-hit.cjs.gz",
+      "mode": "binary",
+      "bytes": 1553,
+      "sha256": "43bfa1709f658699c0a32e3caa641d75b91bdf8c1a0ad8e0990ee56cbd6d2bf7"
+    },
+    {
+      "path": "producers/probe-relief.cjs.gz",
+      "mode": "binary",
+      "bytes": 1544,
+      "sha256": "0cbb14998a33429e901bd58e924f969c87c178f76c9247aa2706a0748e436ff8"
+    },
+    {
+      "path": "producers/readback-depth.py.gz",
+      "mode": "binary",
+      "bytes": 953,
+      "sha256": "88993de617337535181b72496f6ef6a76c8dc034ed105ad10416a5198f1506b5"
+    },
+    {
+      "path": "producers/webkit-depth.config.cjs.gz",
+      "mode": "binary",
+      "bytes": 396,
+      "sha256": "75ebf3fb4edb87adc78fae0cbfec27817a46293f6fadc6e370d865ac5b140847"
+    },
+    {
+      "path": "README.md",
+      "mode": "text-lf",
+      "bytes": 12232,
+      "sha256": "c1d69ba7bc633475403a7d4b6e5a1e2dac6292d075d8d7e13a2c186f8f4da339"
+    },
+    {
+      "path": "source/artwork__la-jolla__skyline__provenance.json.gz",
+      "mode": "binary",
+      "bytes": 3027,
+      "sha256": "cb8ea10d670124cd3ccae0a36fd31eb9274c77c8bc78e2f85eb8ae06fa205e53"
+    },
+    {
+      "path": "source/assets__js__footer-coast__scene.mjs.gz",
+      "mode": "binary",
+      "bytes": 14247,
+      "sha256": "745ce7c4959d3458508295554432e9768e9ad39e090b25fd39e67fb12e3db41a"
+    },
+    {
+      "path": "source/assets__js__footer-coast__sky.mjs.gz",
+      "mode": "binary",
+      "bytes": 15456,
+      "sha256": "627eb678ba9729393b18eea005c6a2519f4bdea6d3ed939cbf2098acb87941bb"
+    },
+    {
+      "path": "source/assets__models__la-jolla__posters__version.txt.gz",
+      "mode": "binary",
+      "bytes": 72,
+      "sha256": "4c59031919e7e515790a08a7d1a87acb076df4d52e3ae355a315e9e778ca71ae"
+    },
+    {
+      "path": "source/bin__coastal_skyline.py.gz",
+      "mode": "binary",
+      "bytes": 10355,
+      "sha256": "c184c74bc1f4894a3830f267a78621273a1eeb32b192828c72540b0f975e451a"
+    },
+    {
+      "path": "source/docs__la-jolla-footer.md.gz",
+      "mode": "binary",
+      "bytes": 17974,
+      "sha256": "c36ea1e34684348d9ad322474c3b950a62b003ccb0dfa9662a8f226cce696ff3"
+    },
+    {
+      "path": "source/test__coast-depth.test.mjs.gz",
+      "mode": "binary",
+      "bytes": 1809,
+      "sha256": "38bf6648c4d8a530d65460f604281db97923d6170b81979de0504746ec273e1d"
+    },
+    {
+      "path": "source/test__test_coastal_skyline.py.gz",
+      "mode": "binary",
+      "bytes": 2300,
+      "sha256": "26d2ed69d64164c13dcb1113805c896f3f432f8ddd165253691450cf1b0c0960"
+    },
+    {
+      "path": "source/test__visual__footer-coast.spec.js.gz",
+      "mode": "binary",
+      "bytes": 15386,
+      "sha256": "9c8c03f6a1e8f583e98b231bd9481fdbca2564172d77f2432279ccd9d472fa80"
+    },
+    {
+      "path": "source/usgs-read.json.gz",
+      "mode": "binary",
+      "bytes": 392,
+      "sha256": "7024799b8e751b7461681161163e0e67fb8e65a76b77ff26f63f8db84c747016"
+    },
+    {
+      "path": "verify.py",
+      "mode": "text-lf",
+      "bytes": 1259,
+      "sha256": "edc6f44a3c7d05552b85d51592a6890ae50eea1d6f501dac9032f26e139f2ca0"
+    },
+    {
+      "path": "views/1440-afternoon.png",
+      "mode": "binary",
+      "bytes": 423849,
+      "sha256": "841722696ca68b3b403c7fedc07fbc3dddf7e135ba92d24fe65b0c220fb58658"
+    },
+    {
+      "path": "views/1440-evening.png",
+      "mode": "binary",
+      "bytes": 323442,
+      "sha256": "eb3301b04c27463f47bb51da9c253565b9fef266398e827ec47e0443674420e6"
+    },
+    {
+      "path": "views/1440-morning.png",
+      "mode": "binary",
+      "bytes": 420285,
+      "sha256": "5f2be19254105eac3f2048572624b8c21d708db17512ba510c5dc9c83685c01c"
+    },
+    {
+      "path": "views/1440-noon.png",
+      "mode": "binary",
+      "bytes": 429197,
+      "sha256": "0f530d720fb67cc933c83b9d51837b2a73f3e4b0dc7b84aaefd94bd74d1dbbb8"
+    },
+    {
+      "path": "views/3840-afternoon.png",
+      "mode": "binary",
+      "bytes": 1276134,
+      "sha256": "051870f54f9a5d4fd8e05c08a7602c4730a3e826f0c8a162ac739f6223436d86"
+    },
+    {
+      "path": "views/3840-evening.png",
+      "mode": "binary",
+      "bytes": 982126,
+      "sha256": "b350facd818d44698fbbfe5e6c5f95c5a9b68fe4eebdca1974f238680b5b7877"
+    },
+    {
+      "path": "views/3840-morning.png",
+      "mode": "binary",
+      "bytes": 1271077,
+      "sha256": "afc31c6f169b48272b35cc0f104bb83e8541e00ebdfa627cd6f916c8e9c3ec89"
+    },
+    {
+      "path": "views/3840-noon.png",
+      "mode": "binary",
+      "bytes": 1306317,
+      "sha256": "475ac3cfc2aa8dcb8c2a677c98d5b07623e18225d931dfbe63a6fbc818cc6d2c"
+    },
+    {
+      "path": "views/390-afternoon.png",
+      "mode": "binary",
+      "bytes": 140895,
+      "sha256": "26bf223273d0e5fe897f46425e3d2c2c48042e3b8da82c4582c0c468ff22058a"
+    },
+    {
+      "path": "views/390-evening.png",
+      "mode": "binary",
+      "bytes": 102627,
+      "sha256": "f7b4046c94e1d83855ec131ac3d2deb1d0f5f0ba38043ada7a00d34a765d8daa"
+    },
+    {
+      "path": "views/390-morning.png",
+      "mode": "binary",
+      "bytes": 139270,
+      "sha256": "c668b05a4aeab6a556fef4526ea564c295ece851e43d490fc74c5ea74b9b5e37"
+    },
+    {
+      "path": "views/390-noon.png",
+      "mode": "binary",
+      "bytes": 141695,
+      "sha256": "31fdf4550f0e329050f3547420f2c94c04215267194c458ebda9ae2aa6ab028a"
+    },
+    {
+      "path": "views/control-1280.png",
+      "mode": "binary",
+      "bytes": 324450,
+      "sha256": "b88fb1cd98387af618ca2779a7710386b0bbe7658de5e16ad2552c3f4bcf60ba"
+    },
+    {
+      "path": "views/control-1440.png",
+      "mode": "binary",
+      "bytes": 393818,
+      "sha256": "eb9616e0a5fb6464726dd787b9e226bf17495bb77d00270724db803cc49df612"
+    },
+    {
+      "path": "views/control-390.png",
+      "mode": "binary",
+      "bytes": 133495,
+      "sha256": "a24306eb85fac0ed2413a076263e82ad89905d417f412f71d37f279d4064cb79"
+    },
+    {
+      "path": "views/control-768.png",
+      "mode": "binary",
+      "bytes": 192280,
+      "sha256": "0c4343ec9bf6de9f97ef9963d4fb27b864e61eadee6b3c0c7fd67436f27f4834"
+    },
+    {
+      "path": "views/ground-1280.png",
+      "mode": "binary",
+      "bytes": 353350,
+      "sha256": "371ce8c505f4c84def2a160f826cb860461ccc814a9070769f113b788fb288d9"
+    },
+    {
+      "path": "views/ground-1440.png",
+      "mode": "binary",
+      "bytes": 429181,
+      "sha256": "bf879e1183b3e8b5846921ce4688a4c0c7f4f607246b86b0ac5d4b5207cec124"
+    },
+    {
+      "path": "views/ground-390.png",
+      "mode": "binary",
+      "bytes": 141693,
+      "sha256": "9e0935521837275c90798b50040cca05f5948ae6bb7629b485c729f85234efc9"
+    },
+    {
+      "path": "views/ground-768.png",
+      "mode": "binary",
+      "bytes": 210528,
+      "sha256": "c45d87d979211a89f55b1f1daf3ce9504000d3b2939087439faa72b535ba7bc8"
+    }
+  ]
+}
