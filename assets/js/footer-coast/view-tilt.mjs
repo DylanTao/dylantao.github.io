@@ -46,15 +46,18 @@ export function relativeTilt(neutral, current) {
   return { x: response(right), y: response(up) };
 }
 
-// setActive is the scene's visibility/motion/drag gate, not visitor permission. An inactive scene
-// detaches its listener and clears neutral; re-entry resumes only an already requested session.
-export function createViewTilt({ button, status, onChange = () => {}, window: scope = window, document: doc = document }) {
+// The scene owns the visibility/motion/drag gate. Listen automatically where relative sensor
+// events are already allowed; a meaningful footer gesture requests any still-required system
+// permission. No permission request is made by mount, visibility, or animation frames.
+export function createViewTilt({ status, onChange = () => {}, window: scope = window, document: doc = document }) {
   const Orientation = scope.DeviceOrientationEvent;
   const coarse = scope.matchMedia?.("(any-pointer: coarse)").matches || scope.navigator?.maxTouchPoints > 0;
   const supported = Boolean(scope.isSecureContext && typeof Orientation === "function" && coarse);
+  const requiresRequest = typeof Orientation?.requestPermission === "function";
   let active = false,
-    enabled = false,
+    permission = requiresRequest ? "unknown" : "granted",
     pending = false,
+    requested = false,
     listening = false,
     disposed = false,
     failure = "",
@@ -67,7 +70,7 @@ export function createViewTilt({ button, status, onChange = () => {}, window: sc
   const angle = () => turn(Number.isFinite(scope.screen?.orientation?.angle) ? scope.screen.orientation.angle : (scope.orientation ?? 0));
   const live = () => active && !doc.hidden && !disposed;
   const say = (text) => {
-    if (status) status.textContent = text;
+    if (requested && status) status.textContent = text;
   };
   const emit = (value) => {
     output = { ...value };
@@ -76,12 +79,6 @@ export function createViewTilt({ button, status, onChange = () => {}, window: sc
   const clearDeadline = () => {
     scope.clearTimeout(deadline);
     deadline = 0;
-  };
-  const controls = () => {
-    button.hidden = !supported;
-    button.disabled = Boolean(!supported || !live() || pending || failure || disposed);
-    button.textContent = pending ? "Enabling tilt…" : enabled ? "Tilt on" : "Enable tilt";
-    button.setAttribute("aria-pressed", String(enabled));
   };
   const disconnect = () => {
     clearDeadline();
@@ -92,16 +89,14 @@ export function createViewTilt({ button, status, onChange = () => {}, window: sc
   };
   const fail = (reason, text) => {
     failure = reason;
-    enabled = false;
     pending = false;
     disconnect();
-    controls();
     say(text);
   };
   const waitForData = () => {
     clearDeadline();
     deadline = scope.setTimeout(() => {
-      if (listening && !neutral) fail("unavailable", "Tilt is unavailable on this device.");
+      if (listening && !neutral) fail("unavailable", "Motion is unavailable on this device. You can still swipe the coast.");
     }, 5000);
   };
   function onOrientation(event) {
@@ -110,6 +105,9 @@ export function createViewTilt({ button, status, onChange = () => {}, window: sc
     if (currentAngle !== lastAngle) reset();
     const gravity = screenGravity(event, currentAngle);
     if (!gravity) return;
+    // A usable event proves that this API already permits relative orientation. This also
+    // covers a returning iPhone that has granted access, without prompting on every visit.
+    permission = "granted";
     if (!neutral) {
       neutral = gravity;
       clearDeadline();
@@ -123,84 +121,86 @@ export function createViewTilt({ button, status, onChange = () => {}, window: sc
     neutral = null;
     lastAngle = angle();
     emit(ZERO);
-    if (listening) waitForData();
+    if (listening && permission === "granted") waitForData();
   }
   function sync() {
-    const wanted = supported && enabled && live() && !failure;
+    const wanted = supported && live() && !failure;
     if (wanted && !listening) {
       reset();
       scope.addEventListener("deviceorientation", onOrientation, { passive: true });
       listening = true;
-      waitForData();
-      say("Hold your phone comfortably, then tilt gently.");
     } else if (!wanted && listening) disconnect();
-    controls();
+    // Unknown permission is not a failed sensor: leave time for the visitor's first gesture.
+    if (listening && permission === "granted" && !neutral && !deadline) waitForData();
   }
-  async function toggle() {
-    if (!supported || !live() || pending || failure || disposed) return;
-    if (enabled) {
-      enabled = false;
-      disconnect();
-      controls();
-      say("Tilt off.");
-      return;
-    }
+  async function requestFromGesture() {
+    if (!supported || !live() || pending || failure || disposed || permission === "granted" || !requiresRequest) return;
+    if (scope.navigator?.userActivation?.isActive === false) return;
     const request = ++generation;
-    pending = true;
-    controls();
-    say("Waiting for motion permission…");
+    requested = pending = true;
+    say("Waiting for motion permission...");
     try {
-      // Called synchronously from the click handler, before any await: iPhone Safari requires
-      // transient user activation. No absolute/magnetometer permission is requested.
-      const permission = typeof Orientation.requestPermission === "function" ? await Orientation.requestPermission() : "granted";
+      // Synchronous call from touch pointerup/keyboard handling, before any await. Prompt
+      // permission still requires transient activation; absolute/magnetometer is not requested.
+      const answer = await Orientation.requestPermission();
       if (disposed || request !== generation) return;
-      if (permission !== "granted") {
+      pending = false;
+      if (answer !== "granted") {
+        permission = "denied";
         fail("denied", "Motion access was not allowed. You can still swipe the coast.");
         return;
       }
-      pending = false;
-      enabled = true;
+      permission = "granted";
       sync();
     } catch {
       if (!disposed && request === generation) fail("unavailable", "Motion access is unavailable. You can still swipe the coast.");
     }
   }
 
-  button.addEventListener("click", toggle);
   scope.screen?.orientation?.addEventListener("change", reset);
   scope.addEventListener("orientationchange", reset);
   doc.addEventListener("visibilitychange", sync);
-  controls();
 
   return {
     setActive(value) {
       active = Boolean(value);
       sync();
     },
+    requestFromGesture,
     reset,
     evidence() {
       return {
         supported,
-        enabled,
+        enabled: supported && permission === "granted" && !failure,
         active: live(),
         listening,
+        permission: supported ? permission : "unavailable",
+        requested,
         state: disposed
           ? "disposed"
           : failure ||
-            (!supported ? "unsupported" : pending ? "permission" : !enabled ? "off" : !live() ? "suspended" : neutral ? "on" : "calibrating"),
+            (!supported
+              ? "unsupported"
+              : pending
+                ? "permission"
+                : !live()
+                  ? "suspended"
+                  : neutral
+                    ? "on"
+                    : permission === "unknown"
+                      ? "waiting"
+                      : "calibrating"),
         ...output,
       };
     },
     dispose() {
       disposed = true;
       generation++;
-      enabled = pending = false;
+      pending = false;
       disconnect();
-      button.removeEventListener("click", toggle);
       scope.screen?.orientation?.removeEventListener("change", reset);
       scope.removeEventListener("orientationchange", reset);
       doc.removeEventListener("visibilitychange", sync);
-      controls();
     },
   };
 }

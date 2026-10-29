@@ -756,7 +756,7 @@ test("coastal footer: phone navigation reaches both landmark wings and returns h
   await attachScreenshot(page, testInfo, "phone-village-wing", { locator: host });
   await surface.press("Home");
   expect((await evidence(host)).framing.center[0]).toBeCloseTo(5.1);
-  expect(await surface.evaluate((e) => getComputedStyle(e).touchAction)).toBe("pan-y");
+  expect(await surface.evaluate((e) => getComputedStyle(e).touchAction)).toBe("pan-y pinch-zoom");
   expect(errors).toEqual([]);
 });
 
@@ -789,7 +789,7 @@ test("La Jolla miniature: touch orbit preserves vertical page scrolling", async 
   await expect(host).toHaveAttribute("data-state", "ready", { timeout: 30000 });
   const surface = host.locator(".footer-coast__scene"),
     box = await surface.boundingBox();
-  expect(await surface.evaluate((e) => getComputedStyle(e).touchAction)).toBe("pan-y");
+  expect(await surface.evaluate((e) => getComputedStyle(e).touchAction)).toBe("pan-y pinch-zoom");
   const session = await context.newCDPSession(page),
     x = box.x + box.width * 0.65,
     y = box.y + box.height * 0.5;
@@ -835,10 +835,12 @@ async function openTiltCoast(page, permission = "granted") {
     Object.defineProperty(screen, "orientation", { value: orientation, configurable: true });
     const Sensor = window.DeviceOrientationEvent ?? class extends Event {};
     window.coastPermissionCalls = 0;
+    window.coastPermissionActivation = [];
     Object.defineProperty(Sensor, "requestPermission", {
       configurable: true,
       value: () => {
         window.coastPermissionCalls++;
+        window.coastPermissionActivation.push(navigator.userActivation.isActive);
         return Promise.resolve(result);
       },
     });
@@ -928,9 +930,9 @@ test("coastal view: pointer glide stays bounded and settles without rolling the 
   await expect.poll(async () => (await evidence(host)).viewMotion.x).toBeGreaterThan(0.78);
   const moved = await evidence(host);
   expect(moved.viewMotion.up).toEqual([0, 1, 0]);
-  expect(moved.viewMotion.camera[0] - before.viewMotion.camera[0]).toBeGreaterThan(0.23);
-  expect(moved.viewMotion.camera[0] - before.viewMotion.camera[0]).toBeLessThan(0.33);
-  expect(moved.viewMotion.camera[1] - before.viewMotion.camera[1]).toBeLessThan(0.16);
+  expect(moved.viewMotion.camera[0] - before.viewMotion.camera[0]).toBeGreaterThan(0.34);
+  expect(moved.viewMotion.camera[0] - before.viewMotion.camera[0]).toBeLessThan(0.46);
+  expect(Math.abs(moved.viewMotion.camera[1] - before.viewMotion.camera[1])).toBeLessThan(0.19);
   expect(screenshotDiffRatio(still, await page.screenshot({ clip }), { threshold: 0.01 })).toBeGreaterThan(0.001);
   await page.mouse.move(box.x + box.width / 2, box.y - 20);
   await expect.poll(async () => Math.abs((await evidence(host)).viewMotion.x)).toBeLessThan(0.02);
@@ -942,15 +944,26 @@ test("coastal view: pointer glide stays bounded and settles without rolling the 
   expect(errors).toEqual([]);
 });
 
-test("coastal tilt: explicit permission, screen rotation and pause keep a calibrated view", async ({ page }, testInfo) => {
+// The phone uses a real trusted tap. Other profiles use the existing keyboard
+// pan gesture at phone width; both must call the API while activation is live.
+async function requestTilt(page, host, testInfo) {
+  const surface = host.locator(".footer-coast__scene");
+  if (testInfo.project.use.hasTouch) await surface.tap({ position: { x: 55, y: 80 } });
+  else {
+    await page.setViewportSize({ width: 390, height: 1000 });
+    await host.scrollIntoViewIfNeeded();
+    await surface.press("ArrowRight");
+    await surface.press("Home");
+  }
+  expect(await page.evaluate(() => window.coastPermissionActivation)).toEqual([true]);
+}
+
+test("coastal tilt: a footer gesture grants access and rotation keeps the view calibrated", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   const host = await openTiltCoast(page);
-  const button = host.locator("[data-coast-tilt]");
-  await expect(button).toBeEnabled();
+  await expect(host.locator("[data-coast-tilt]")).toHaveCount(0);
   expect(await page.evaluate(() => window.coastPermissionCalls)).toBe(0);
-  await button.focus();
-  await button.press("Enter");
-  await expect(button).toHaveAttribute("aria-pressed", "true");
+  await requestTilt(page, host, testInfo);
   expect(await page.evaluate(() => window.coastPermissionCalls)).toBe(1);
   await page.evaluate(() => coastSensorSample(55, 0));
   expect((await evidence(host)).viewMotion.tilt.state).toBe("on");
@@ -977,36 +990,61 @@ test("coastal tilt: explicit permission, screen rotation and pause keep a calibr
   }
   await page.evaluate(() => window.siteMotion.setPaused(true));
   await expect(host).toHaveAttribute("data-running", "false");
-  await expect(button).toBeDisabled();
   expect((await evidence(host)).viewMotion).toMatchObject({ x: 0, y: 0, tilt: { state: "suspended", listening: false } });
   await page.evaluate(() => {
     coastSensorSample(40, 12, 90);
     window.siteMotion.setPaused(false);
   });
-  await expect(button).toBeEnabled();
   await page.evaluate(() => coastSensorSample(40, 12, 90));
   neutral = (await evidence(host)).viewMotion.tilt;
   expect(neutral.state).toBe("on");
   expect(Math.hypot(neutral.x, neutral.y)).toBeLessThan(1e-8);
   expect(await page.evaluate(() => window.coastPermissionCalls)).toBe(1);
-  await button.click();
-  expect((await evidence(host)).viewMotion.tilt).toMatchObject({ state: "off", listening: false });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(host).toHaveAttribute("data-running", "false");
+  expect((await evidence(host)).viewMotion.tilt).toMatchObject({ state: "suspended", listening: false });
   await testInfo.attach("simulated-tilt-camera", { body: JSON.stringify(moving.viewMotion), contentType: "application/json" });
   expect(errors).toEqual([]);
 });
 
-test("coastal tilt: denied permission preserves the coast and native scrolling", async ({ page }) => {
+test("coastal tilt: automatically permitted motion needs no prompt or badge", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  const host = await openTiltCoast(page);
+  await expect(host.locator("[data-coast-tilt]")).toHaveCount(0);
+  await page.evaluate(() => coastSensorSample(55, 0));
+  expect((await evidence(host)).viewMotion.tilt).toMatchObject({ state: "on", permission: "granted", requested: false });
+  const canvas = host.locator("canvas");
+  const before = await canvas.screenshot();
+  await page.evaluate(() => coastSensorSample(55, -25));
+  await expect.poll(async () => (await evidence(host)).viewMotion.x).toBeGreaterThan(0.6);
+  expect((await evidence(host)).viewMotion.up).toEqual([0, 1, 0]);
+  expect(screenshotDiffRatio(before, await canvas.screenshot(), { threshold: 0.01 })).toBeGreaterThan(0.001);
+  expect(await page.evaluate(() => window.coastPermissionCalls)).toBe(0);
+  await attachScreenshot(page, testInfo, "automatic-motion-no-badge", { locator: host });
+  expect(errors).toEqual([]);
+});
+
+test("coastal tilt: denied permission preserves the coast and native scrolling", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   const host = await openTiltCoast(page, "denied");
-  const button = host.locator("[data-coast-tilt]");
-  await button.click();
-  await expect(button).toBeDisabled();
+  await requestTilt(page, host, testInfo);
+  await expect(host.locator("[data-coast-tilt]")).toHaveCount(0);
   await expect(host.locator("[data-coast-tilt-status]")).toContainText("not allowed");
   expect((await evidence(host)).viewMotion.tilt).toMatchObject({ state: "denied", listening: false, enabled: false });
-  expect(await host.locator(".footer-coast__scene").evaluate((e) => getComputedStyle(e).touchAction)).toBe("pan-y");
+  expect(await host.locator(".footer-coast__scene").evaluate((e) => getComputedStyle(e).touchAction)).toBe("pan-y pinch-zoom");
   const before = await page.evaluate(() => scrollY);
-  await page.evaluate(() => scrollBy({ top: -120, behavior: "instant" }));
-  expect(await page.evaluate(() => scrollY)).toBeLessThan(before - 100);
+  if (testInfo.project.use.hasTouch && page.context().browser().browserType().name() === "chromium") {
+    const surface = host.locator(".footer-coast__scene"),
+      box = await surface.boundingBox();
+    const session = await page.context().newCDPSession(page),
+      x = box.x + 90,
+      y = box.y + 50;
+    await session.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y, id: 0 }] });
+    for (let i = 1; i <= 10; i++) await session.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x, y: y + 16 * i, id: 0 }] });
+    await session.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+    await session.detach();
+  } else await host.locator(".footer-coast__scene").press("PageUp");
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeLessThan(before - 100);
   await expect(host).toHaveAttribute("data-state", "ready");
   expect(screenshotMetrics(await host.locator("canvas").screenshot()).uniqueColors).toBeGreaterThan(300);
   expect(errors).toEqual([]);

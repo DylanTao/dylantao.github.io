@@ -33,17 +33,16 @@ class Target {
   }
 }
 
-function fixture({ permission = "granted", request = true, secure = true, touch = true, orientation = true } = {}) {
+function fixture({ permission = "granted", request = true, secure = true, touch = true, orientation = true, activation = true } = {}) {
   const scope = new Target(),
     doc = new Target(),
-    button = new Target(),
     status = new Target(),
     samples = [],
     timers = new Map();
   let requests = 0,
     timerId = 0;
   scope.isSecureContext = secure;
-  scope.navigator = { maxTouchPoints: touch ? 5 : 0 };
+  scope.navigator = { maxTouchPoints: touch ? 5 : 0, userActivation: { isActive: activation } };
   scope.matchMedia = () => ({ matches: touch });
   scope.screen = { orientation: Object.assign(new Target(), { angle: 0 }) };
   scope.DeviceOrientationEvent = orientation ? class {} : undefined;
@@ -58,11 +57,10 @@ function fixture({ permission = "granted", request = true, secure = true, touch 
   };
   scope.clearTimeout = (id) => timers.delete(id);
   doc.hidden = false;
-  const controller = createViewTilt({ button, status, window: scope, document: doc, onChange: (value) => samples.push(value) });
+  const controller = createViewTilt({ status, window: scope, document: doc, onChange: (value) => samples.push(value) });
   return {
     scope,
     doc,
-    button,
     status,
     samples,
     timers,
@@ -77,7 +75,7 @@ function fixture({ permission = "granted", request = true, secure = true, touch 
     },
     enable: async () => {
       controller.setActive(true);
-      button.emit("click");
+      controller.requestFromGesture();
       await flush();
     },
   };
@@ -127,16 +125,19 @@ test("relative movement has a dead zone, reaches its bound at 18 degrees, and cr
   assert.ok(Number.isFinite(relativeTilt({ x: 1, y: 0, z: 0 }, { x: 1, y: 0.01, z: 0 }).y));
 });
 
-test("mount and visibility alone never ask permission; an explicit tap calibrates before moving", async () => {
+test("mount and visibility listen for already permitted data without prompting; a meaningful gesture can request access", async () => {
   const f = fixture();
   assert.equal(f.requests(), 0);
   f.controller.setActive(true);
   assert.equal(f.requests(), 0);
-  assert.equal(f.scope.count("deviceorientation"), 0);
+  assert.equal(f.scope.count("deviceorientation"), 1);
+  assert.equal(f.controller.evidence().state, "waiting");
+  assert.equal(f.timers.size, 0, "unknown permission is not a sensor timeout");
+  f.timeout();
+  assert.equal(f.controller.evidence().state, "waiting");
   await f.enable();
   assert.equal(f.requests(), 1);
   assert.equal(f.scope.count("deviceorientation"), 1);
-  assert.equal(f.button.attributes.get("aria-pressed"), "true");
   assert.equal(f.controller.evidence().state, "calibrating");
   f.sample(62, 14);
   assert.deepEqual(f.last(), { x: 0, y: 0 });
@@ -144,10 +145,9 @@ test("mount and visibility alone never ask permission; an explicit tap calibrate
   assert.equal(f.controller.evidence().state, "on");
   f.sample(72, 26);
   assert.ok(Math.abs(f.last().x) + Math.abs(f.last().y) > 0.2);
-  f.button.emit("click");
+  f.controller.setActive(false);
   assert.equal(f.scope.count("deviceorientation"), 0);
   assert.deepEqual(f.last(), { x: 0, y: 0 });
-  assert.equal(f.button.attributes.get("aria-pressed"), "false");
   f.controller.dispose();
 });
 
@@ -201,10 +201,9 @@ test("screen rotation and an explicit reset use a fresh neutral in portrait and 
   f.controller.dispose();
 });
 
-test("unavailable, denied, and rejected sensor access leave a truthful disabled fallback", async () => {
+test("unavailable, denied, and rejected sensor access retain a silent native-interaction fallback", async () => {
   for (const options of [{ secure: false }, { orientation: false }, { touch: false }]) {
     const f = fixture(options);
-    assert.equal(f.button.hidden, true);
     await f.enable();
     assert.equal(f.requests(), 0);
     assert.equal(f.controller.evidence().state, "unsupported");
@@ -213,10 +212,12 @@ test("unavailable, denied, and rejected sensor access leave a truthful disabled 
   for (const permission of ["denied", () => Promise.reject(new Error("sensor blocked"))]) {
     const f = fixture({ permission });
     await f.enable();
-    assert.equal(f.button.disabled, true);
-    assert.equal(f.button.attributes.get("aria-pressed"), "false");
+    assert.equal(f.controller.evidence().enabled, false);
     assert.equal(f.scope.count("deviceorientation"), 0);
     assert.match(f.status.textContent, /not allowed|unavailable/);
+    f.controller.requestFromGesture();
+    await flush();
+    assert.equal(f.requests(), 1, "denial does not prompt again on every gesture");
     f.controller.dispose();
   }
   const f = fixture({ request: false });
@@ -224,9 +225,9 @@ test("unavailable, denied, and rejected sensor access leave a truthful disabled 
   f.sample(null, null);
   f.timeout();
   assert.equal(f.controller.evidence().state, "unavailable");
-  assert.equal(f.button.disabled, true);
   assert.equal(f.scope.count("deviceorientation"), 0);
   assert.deepEqual(f.last(), { x: 0, y: 0 });
+  assert.equal(f.status.textContent, "", "automatic no-data fallback does not announce an unsolicited control");
   f.controller.dispose();
 });
 
@@ -234,15 +235,68 @@ test("late permission resolution cannot revive a disposed controller", async () 
   let resolve;
   const f = fixture({ permission: () => new Promise((done) => (resolve = done)) });
   f.controller.setActive(true);
-  f.button.emit("click");
+  f.controller.requestFromGesture();
   assert.equal(f.controller.evidence().state, "permission");
   f.controller.dispose();
   resolve("granted");
   await flush();
   assert.equal(f.scope.count("deviceorientation"), 0);
-  assert.equal(f.button.count("click"), 0);
   assert.equal(f.doc.count("visibilitychange"), 0);
   assert.equal(f.scope.screen.orientation.count("change"), 0);
   assert.equal(f.timers.size, 0);
   assert.equal(f.controller.evidence().state, "disposed");
+});
+
+test("usable automatically permitted events calibrate and resume without any system request", () => {
+  const f = fixture();
+  f.controller.setActive(true);
+  f.sample(62, -11);
+  assert.deepEqual(f.last(), { x: 0, y: 0 });
+  assert.equal(f.controller.evidence().permission, "granted");
+  assert.equal(f.controller.evidence().state, "on");
+  f.sample(72, -2);
+  assert.notDeepEqual(f.last(), { x: 0, y: 0 });
+  f.controller.requestFromGesture();
+  assert.equal(f.requests(), 0, "already usable data does not trigger another permission request");
+  f.controller.setActive(false);
+  assert.equal(f.scope.count("deviceorientation"), 0);
+  f.controller.setActive(true);
+  f.sample(30, 20);
+  assert.deepEqual(f.last(), { x: 0, y: 0 }, "re-entry uses the current comfortable pose");
+  assert.equal(f.requests(), 0);
+  assert.equal(f.status.textContent, "");
+  f.controller.dispose();
+});
+
+test("missing transient activation preserves the chance for a later real gesture", async () => {
+  const f = fixture({ activation: false });
+  f.controller.setActive(true);
+  await f.controller.requestFromGesture();
+  assert.equal(f.requests(), 0);
+  assert.equal(f.controller.evidence().state, "waiting");
+  f.scope.navigator.userActivation.isActive = true;
+  const pending = f.controller.requestFromGesture();
+  assert.equal(f.requests(), 1, "the native request happens synchronously in the gesture call");
+  await pending;
+  assert.equal(f.controller.evidence().state, "calibrating");
+  f.controller.dispose();
+});
+
+test("permission granted after suspension never attaches a hidden sensor listener", async () => {
+  let resolve;
+  const f = fixture({ permission: () => new Promise((done) => (resolve = done)) });
+  f.controller.setActive(true);
+  const pending = f.controller.requestFromGesture();
+  f.controller.setActive(false);
+  resolve("granted");
+  await pending;
+  assert.equal(f.scope.count("deviceorientation"), 0);
+  assert.equal(f.timers.size, 0);
+  assert.equal(f.controller.evidence().state, "suspended");
+  f.controller.setActive(true);
+  assert.equal(f.scope.count("deviceorientation"), 1);
+  f.sample();
+  assert.equal(f.controller.evidence().state, "on");
+  assert.equal(f.requests(), 1);
+  f.controller.dispose();
 });

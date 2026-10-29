@@ -14,16 +14,21 @@
       {% if page.ai_profile %}
         {% capture brand_href %}{{ '/ai/' | relative_url }}#identity{% endcapture %}
       {% endif %}
-      <a
+      <div
         class="navbar-brand title site-brand"
-        href="{{ brand_href }}"
-        aria-label="{{ brand_name }}{% if page.ai_profile %} AI profile{% else %} home{% endif %}"
         {% if page.ai_profile %}
           data-brand-static
         {% endif %}
       >
-        {% include brand-orange.liquid initials=brand_initials %}
-        <span class="site-brand-name" aria-hidden="true">
+        <a class="site-brand-home" href="{{ brand_href }}" aria-label="{{ brand_name }}{% if page.ai_profile %} AI profile{% else %} home{% endif %}">
+          {% include brand-orange.liquid initials=brand_initials %}
+        </a>
+        {% if page.ai_profile %}
+          <span class="site-brand-name" aria-hidden="true">
+        {% else %}
+          <a class="site-brand-name" data-brand-discover href="{{ brand_href }}" aria-label="{{ brand_name }} home">
+        {% endif %}
+        <span class="brand-name-visible" aria-hidden="true">
           <span class="brand-name-identity">
             <span class="brand-name-first">
               {{- site.first_name -}}
@@ -33,7 +38,12 @@
           </span>
           <span class="brand-name-story"><span>an orange</span><span>floating in ocean</span></span>
         </span>
-      </a>
+        {% if page.ai_profile %}
+          </span>
+        {% else %}
+          </a>
+        {% endif %}
+      </div>
       <div class="navbar-actions" role="group" aria-label="Site actions">
         {% include site_format_switch.liquid %}
         {% if site.search_enabled %}

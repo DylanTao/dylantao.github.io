@@ -1,24 +1,95 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Noon still of the navbar orange floating behind blue water. -->
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- The tiny icon uses a slightly firmer front stroke; its wave geometry is unchanged. -->
   <defs>
     <linearGradient id="brand-orange-light" x1="0.15" y1="0" x2="0.85" y2="1">
-      <stop class="brand-float-stop-light" offset="0" stop-color="#f79c55"></stop>
-      <stop class="brand-float-stop-body" offset="0.58" stop-color="#f07a38"></stop>
-      <stop class="brand-float-stop-deep" offset="1" stop-color="#e77332"></stop>
+      <stop class="brand-float-stop-light" offset="0" stop-color="#f6a466" />
+      <stop class="brand-float-stop-body" offset="0.55" stop-color="#ea7f43" />
+      <stop class="brand-float-stop-deep" offset="1" stop-color="#e57b57" />
     </linearGradient>
-    <clipPath id="brand-orange-waterline" clipPathUnits="userSpaceOnUse"><path class="brand-orange-current" d="M-20 19Q-15 17-10 19T0 19T10 19T20 19T30 19T40 19T50 19T60 19V-20H-20Z"></path></clipPath>
-    <clipPath id="brand-orange-wave-window"><path d="M1 15H31V29H1Z"></path></clipPath>
-    <clipPath id="brand-orange-glint-window"><path class="brand-orange-glint-zone" d="M14 15H18V29H14Z"></path></clipPath>
+    <clipPath id="brand-orange-waterline" clipPathUnits="userSpaceOnUse">
+      <path class="brand-orange-current brand-orange-wave-clip" d="M-20 19Q-15 17-10 19T0 19T10 19T20 19T30 19T40 19T50 19T60 19V-20H-20Z" />
+    </clipPath>
+    <clipPath id="brand-orange-wave-window"><path d="M1 15H31V29H1Z" /></clipPath>
+    <clipPath id="brand-orange-glint-window"><path class="brand-orange-glint-zone" d="M12.5 15H19.5V29H12.5Z" /></clipPath>
+    <linearGradient id="brand-orange-reflection" gradientUnits="userSpaceOnUse" x1="12.5" y1="0" x2="19.5" y2="0">
+      <stop offset="0" stop-color="#efab9b" stop-opacity="0" />
+      <stop class="brand-glint-stop-rose" offset="0.25" stop-color="#e5a2a1" />
+      <stop class="brand-glint-stop-gold" offset="0.55" stop-color="#ecc08f" />
+      <stop class="brand-glint-stop-rose" offset="0.8" stop-color="#e5a2a1" />
+      <stop offset="1" stop-color="#efab9b" stop-opacity="0" />
+    </linearGradient>
   </defs>
   <g clip-path="url(#brand-orange-waterline)">
-    <g class="brand-orange-sun"><circle class="brand-orange-body" cx="16" cy="13.2" r="9.5" fill="url(#brand-orange-light)"></circle></g>
+    <g class="brand-orange-sun"><circle class="brand-orange-body" cx="16" cy="13.2" r="9.5" fill="url(#brand-orange-light)" /></g>
   </g>
   <g clip-path="url(#brand-orange-wave-window)">
-    <g class="brand-orange-current"><path class="brand-orange-sea" d="M-20 19Q-15 17-10 19T0 19T10 19T20 19T30 19T40 19T50 19T60 19" fill="none" stroke="#3d7eb8" stroke-width="1.25" stroke-linecap="round"></path></g>
-    <g class="brand-orange-ripple"><path class="brand-orange-sea-back" d="M6 24.7Q10.5 23.5 15 24.7T26 24.7" fill="none" stroke="#3d7eb8" stroke-width="0.95" stroke-linecap="round" opacity="0.65"></path></g>
+    <g class="brand-orange-current">
+      <path
+        class="brand-orange-sea"
+        d="M-20 19Q-15 17-10 19T0 19T10 19T20 19T30 19T40 19T50 19T60 19"
+        fill="none"
+        stroke="#688ec3"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        opacity="1"
+      />
+    </g>
+    <g class="brand-orange-ripple">
+      <path
+        class="brand-orange-sea-fine"
+        d="M3 22Q8 21.15 13 22T29 22"
+        fill="none"
+        stroke="#688ec3"
+        stroke-width="0.45px"
+        stroke-linecap="round"
+        opacity="0.38"
+      />
+    </g>
+    <g class="brand-orange-ripple">
+      <path
+        class="brand-orange-sea-back"
+        d="M6 24.7Q10.5 23.5 15 24.7T26 24.7"
+        fill="none"
+        stroke="#688ec3"
+        stroke-width="0.75px"
+        stroke-linecap="round"
+        opacity="0.64"
+      />
+    </g>
     <g clip-path="url(#brand-orange-glint-window)">
-      <g class="brand-orange-current"><path class="brand-orange-glint" d="M-20 19Q-15 17-10 19T0 19T10 19T20 19T30 19T40 19T50 19T60 19" fill="none" stroke="#f6a866" stroke-width="0.65" stroke-linecap="round" opacity="0.6"></path></g>
-      <g class="brand-orange-ripple"><path class="brand-orange-glint brand-orange-glint-back" d="M6 24.7Q10.5 23.5 15 24.7T26 24.7" fill="none" stroke="#f6a866" stroke-width="0.55" stroke-linecap="round" opacity="0.45"></path></g>
+      <g class="brand-orange-current">
+        <path
+          class="brand-orange-glint brand-orange-glint-front"
+          d="M-20 19Q-15 17-10 19T0 19T10 19T20 19T30 19T40 19T50 19T60 19"
+          fill="none"
+          stroke="url(#brand-orange-reflection)"
+          stroke-width="0.62"
+          stroke-linecap="round"
+          opacity="0.88"
+        />
+      </g>
+      <g class="brand-orange-ripple">
+        <path
+          class="brand-orange-glint brand-orange-glint-fine"
+          d="M3 22Q8 21.15 13 22T29 22"
+          fill="none"
+          stroke="url(#brand-orange-reflection)"
+          stroke-width="0.4"
+          stroke-linecap="round"
+          opacity="0.6"
+        />
+      </g>
+      <g class="brand-orange-ripple">
+        <path
+          class="brand-orange-glint brand-orange-glint-back"
+          d="M6 24.7Q10.5 23.5 15 24.7T26 24.7"
+          fill="none"
+          stroke="url(#brand-orange-reflection)"
+          stroke-width="0.48"
+          stroke-linecap="round"
+          opacity="0.65"
+        />
+      </g>
     </g>
   </g>
 </svg>

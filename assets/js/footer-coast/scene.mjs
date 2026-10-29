@@ -9,7 +9,7 @@ import { createCoastWater } from "./water.mjs?v=coast-daylight-20261028";
 import { createSky, loadRelief, sceneColor } from "./sky.mjs?v=coast-daylight-20261028";
 import { createMarineLayer } from "./marine-layer.mjs?v=coast-sky-20261019";
 import { DAY_KEY, anchorLook, creditHalo, keyDirection, lookAt, mixHex } from "./sky-look.mjs?v=coast-daylight-20261028";
-import { createViewTilt } from "./view-tilt.mjs?v=coast-daylight-20261028";
+import { createViewTilt } from "./view-tilt.mjs?v=coast-touch-20261029";
 import { localDateKey, sunState } from "../la-jolla-sun.mjs?v=coast-sky-20261019";
 
 // People keep a composed still pose under reduced motion and under automation, as the
@@ -255,19 +255,17 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   const orbitSphere = new THREE.Spherical();
   let renderedOrbitX = 0,
     renderedOrbitY = 0;
-  let drag = null;
+  let drag = null,
+    touchStart = null;
   let tiltInput = { x: 0, y: 0 };
-  const tiltButton = host.querySelector("[data-coast-tilt]");
-  const tilt =
-    !miniature && tiltButton
-      ? createViewTilt({
-          button: tiltButton,
-          status: host.querySelector("[data-coast-tilt-status]"),
-          onChange: (value) => {
-            tiltInput = value;
-          },
-        })
-      : null;
+  const tilt = !miniature
+    ? createViewTilt({
+        status: host.querySelector("[data-coast-tilt-status]"),
+        onChange: (value) => {
+          tiltInput = value;
+        },
+      })
+    : null;
   let orbitY = 0,
     orbitX = 0;
   const buildings = [];
@@ -609,8 +607,8 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     camera.position.copy(cameraBase);
     // A shallow eye movement, with a fixed world-up and no roll. The measured
     // hills, foreground and water mirror share this camera; no sliding bitmap.
-    camera.position.x += currentX * 0.32;
-    camera.position.y += currentY * 0.15;
+    camera.position.x += currentX * 0.45;
+    camera.position.y += currentY * 0.18;
     if (miniature) {
       if (stopped || reduced.matches) {
         renderedOrbitX = orbitX;
@@ -668,9 +666,11 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     reveal = clamp(motion.step("reveal", reveal, targetReveal, dt, false, 8));
     if (reveal === 0 || reveal === 1) motion.stop("reveal");
     revealBuildings(reveal);
-    const tiltOn = tilt?.evidence().enabled;
-    currentX = motion.step("parallaxX", currentX, tiltOn ? tiltInput.x : pointerX, dt, false, 8);
-    currentY = motion.step("parallaxY", currentY, tiltOn ? tiltInput.y : pointerY, dt, false, 8);
+    const tiltOn = tilt?.evidence().state === "on";
+    const inputX = Math.max(-1, Math.min(1, pointerX + (tiltOn ? tiltInput.x : 0)));
+    const inputY = Math.max(-1, Math.min(1, pointerY + (tiltOn ? tiltInput.y : 0)));
+    currentX = motion.step("parallaxX", currentX, inputX, dt, false, 8);
+    currentY = motion.step("parallaxY", currentY, inputY, dt, false, 8);
     renderedOrbitX = clamp(motion.step("orbitX", renderedOrbitX, orbitX, dt, false, drag ? 28 : 16), -Math.PI / 6, Math.PI / 6);
     renderedOrbitY = clamp(motion.step("orbitY", renderedOrbitY, orbitY, dt, false, drag ? 28 : 16), -Math.PI / 18, Math.PI / 18);
     sky?.tick(elapsed, peopleLive());
@@ -720,6 +720,10 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     draw();
   };
   const onDown = (event) => {
+    if (event.pointerType === "touch") {
+      touchStart = event.isPrimary === false ? null : { x: event.clientX, y: event.clientY, id: event.pointerId };
+      if (event.isPrimary === false) return;
+    }
     if (miniature || narrowViewport.matches) drag = { x: event.clientX, y: event.clientY, id: event.pointerId };
     if (drag) {
       pointerX = pointerY = 0;
@@ -749,10 +753,16 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     pointerX = clamp((event.clientX - r.left) / r.width) * 2 - 1;
     pointerY = 1 - clamp((event.clientY - r.top) / r.height) * 2;
   };
-  const onLeave = () => {
+  const onLeave = (event) => {
+    const touch = event.type === "pointerup" && event.pointerType === "touch" && touchStart?.id === event.pointerId ? touchStart : null;
+    const dx = touch ? Math.abs(event.clientX - touch.x) : 0;
+    const dy = touch ? Math.abs(event.clientY - touch.y) : 0;
+    const meaningfulTouch = Boolean(touch && (Math.hypot(dx, dy) < 8 || dx > dy * 1.2));
+    touchStart = null;
     pointerX = pointerY = 0;
     drag = null;
     tilt?.setActive(running);
+    if (meaningfulTouch) tilt?.requestFromGesture();
   };
   const onKey = (event) => {
     if (miniature && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home"].includes(event.key)) {
@@ -767,6 +777,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     if (narrowViewport.matches && ["ArrowLeft", "ArrowRight", "Home"].includes(event.key)) {
       event.preventDefault();
       pan(event.key === "Home" ? 5.1 - target.x : event.key === "ArrowLeft" ? -3.5 : 3.5);
+      tilt?.requestFromGesture();
     }
   };
   const onMotion = () => {

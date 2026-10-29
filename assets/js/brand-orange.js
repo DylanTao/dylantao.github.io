@@ -387,17 +387,112 @@
   }
 
   function initFloatingBrand() {
-    const link = document.querySelector("#navbar .site-brand:not([data-brand-static])");
-    if (!link) return;
+    const brand = document.querySelector("#navbar .site-brand:not([data-brand-static])");
+    if (!brand) return;
+    const fallback = brand.querySelector("[data-brand-discover]");
+    if (!fallback) return;
+    // Without JavaScript both visible identity parts remain native home links. With it, the
+    // name is an actual button; touch never has to cancel a home link to tell its story.
+    const name = document.createElement("button");
+    name.type = "button";
+    name.className = fallback.className;
+    name.setAttribute("data-brand-discover", "");
+    name.setAttribute("aria-label", "Let Sirui float away");
+    while (fallback.firstChild) name.append(fallback.firstChild);
+    fallback.replaceWith(name);
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-    let dwell = null;
+    let dwell = null,
+      raf = 0,
+      last = null,
+      painted = 0,
+      elapsed = 0,
+      pulseAt = -Infinity,
+      visible = true;
 
-    // Preserve the accessible home-link name. Only this visible, decorative story drifts.
-    link.querySelectorAll(".brand-name-story > span").forEach(function (line) {
+    const waveClip = brand.querySelector(".brand-orange-wave-clip");
+    const front = brand.querySelector(".brand-orange-sea");
+    const fine = brand.querySelector(".brand-orange-sea-fine");
+    const back = brand.querySelector(".brand-orange-sea-back");
+    const frontGlint = brand.querySelector(".brand-orange-glint-front");
+    const fineGlint = brand.querySelector(".brand-orange-glint-fine");
+    const backGlint = brand.querySelector(".brand-orange-glint-back");
+    const water = [waveClip, front, fine, back, frontGlint, fineGlint, backGlint];
+    const rest = water.map((path) => path?.getAttribute("d"));
+
+    // Cubic Hermite samples of two slow wave components. The mask and the blue/gold edge
+    // consume one curve, so water really occludes the fixed sun instead of rocking its icon.
+    function wavePath(left, right, level, amplitude, wavelength, phase) {
+      const k = (Math.PI * 2) / wavelength;
+      const secondary = 0.12 * Math.sin(elapsed * 0.23);
+      const sample = (x) => ({
+        y: level - amplitude * (Math.sin(x * k - phase) + secondary * Math.sin(x * k * 1.73 + phase * 0.61)),
+        slope: -amplitude * k * (Math.cos(x * k - phase) + secondary * 1.73 * Math.cos(x * k * 1.73 + phase * 0.61)),
+      });
+      let x = left,
+        point = sample(x),
+        path = `M${number(x)} ${number(point.y)}`;
+      while (x < right) {
+        const end = Math.min(right, x + 4);
+        const next = sample(end);
+        const third = (end - x) / 3;
+        path += `C${number(x + third)} ${number(point.y + point.slope * third)} ${number(end - third)} ${number(next.y - next.slope * third)} ${number(end)} ${number(next.y)}`;
+        x = end;
+        point = next;
+      }
+      return path;
+    }
+    function paintWater() {
+      const phase = (elapsed * Math.PI * 2) / 5.6;
+      const surge = Number.isFinite(pulseAt) ? Math.max(0, elapsed - pulseAt) : 0;
+      const pulse = Number.isFinite(pulseAt) ? Math.exp(-surge * 2.8) * Math.sin(surge * Math.PI * 2.2) : 0;
+      const amplitude = 1.1 + 0.65 * pulse;
+      const a = wavePath(-2, 34, 19, amplitude, 25, phase);
+      const b = wavePath(3, 29, 22, 0.38, 23, phase * 0.87 + 0.7);
+      const c = wavePath(6, 27, 24.7, 0.56, 25, phase * 0.73 + 1.4);
+      waveClip.setAttribute("d", `${a}V-20H-2Z`);
+      front.setAttribute("d", a);
+      fine.setAttribute("d", b);
+      back.setAttribute("d", c);
+      frontGlint.setAttribute("d", a);
+      fineGlint.setAttribute("d", b);
+      backGlint.setAttribute("d", c);
+    }
+    function animate(now) {
+      if (last !== null) elapsed += Math.max(0, now - last) / 1000;
+      last = now;
+      if (now - painted >= 1000 / 30) {
+        paintWater();
+        painted = now;
+      }
+      raf = requestAnimationFrame(animate);
+    }
+    function finishDiscovery() {
+      brand.dataset.brandState = "adrift";
+      name.setAttribute("aria-label", "Make waves around the orange");
+    }
+
+    // Preserve native home navigation and the button's action name. Only decorative letters drift.
+    const first = brand.querySelector(".brand-name-first");
+    const comma = first.querySelector(".brand-name-comma");
+    const identity = Array.from(first.childNodes)
+      .filter((node) => node.nodeType === Node.TEXT_NODE)
+      .map((node) => node.textContent)
+      .join("")
+      .trim();
+    first.textContent = "";
+    Array.from(identity).forEach((letter, index) => {
+      const span = document.createElement("span");
+      span.className = "brand-wave-letter";
+      span.style.setProperty("--brand-letter", index);
+      span.textContent = letter;
+      first.append(span);
+    });
+    first.append(comma);
+    let phase = 0;
+    brand.querySelectorAll(".brand-name-story > span").forEach(function (line) {
       const words = line.textContent.split(" ");
       line.textContent = "";
-      let phase = 0;
       words.forEach(function (word, index) {
         if (index) line.append(document.createTextNode(" "));
         const group = document.createElement("span");
@@ -414,35 +509,61 @@
     });
 
     function discover() {
-      if (link.dataset.brandState) return;
-      link.dataset.brandState = reduceMotion.matches || window.siteMotion?.paused ? "adrift" : "discovering";
+      if (brand.dataset.brandState) {
+        if (!reduceMotion.matches && !window.siteMotion?.paused) pulseAt = elapsed;
+        return;
+      }
+      if (reduceMotion.matches || window.siteMotion?.paused) finishDiscovery();
+      else brand.dataset.brandState = "discovering";
+      syncMotion();
     }
 
-    link.addEventListener("pointermove", function (event) {
+    brand.addEventListener("pointermove", function (event) {
       if (event.pointerType === "touch" || !finePointer.matches) return;
       // A page appearing beneath a stationary pointer is not a new discovery. In particular,
       // refreshing or following this home link must bring back the composed name first.
-      if ((!event.movementX && !event.movementY) || dwell || link.dataset.brandState) return;
+      if ((!event.movementX && !event.movementY) || dwell || brand.dataset.brandState) return;
       dwell = window.setTimeout(discover, 120);
     });
-    link.addEventListener("pointerleave", function () {
+    brand.addEventListener("pointerleave", function () {
       window.clearTimeout(dwell);
       dwell = null;
     });
-    link.addEventListener("focus", function () {
-      if (link.matches(":focus-visible")) discover();
+    brand.addEventListener("focusin", function (event) {
+      if (event.target.matches(":focus-visible")) discover();
     });
-    link.addEventListener("animationend", function (event) {
-      if (event.animationName === "brand-name-drift" || event.animationName === "brand-compact-name-drift") link.dataset.brandState = "adrift";
+    name.addEventListener("click", discover);
+    brand.addEventListener("animationend", function (event) {
+      if (event.animationName === "brand-name-drift" || event.animationName === "brand-compact-name-drift") finishDiscovery();
     });
     reduceMotion.addEventListener("change", function () {
-      if (reduceMotion.matches && link.dataset.brandState) link.dataset.brandState = "adrift";
+      if (reduceMotion.matches && brand.dataset.brandState) finishDiscovery();
+      syncMotion();
     });
     function syncMotion() {
-      link.classList.toggle("brand-motion-paused", document.hidden || Boolean(window.siteMotion?.paused));
+      const paused = Boolean(window.siteMotion?.paused);
+      brand.classList.toggle("brand-motion-paused", document.hidden || paused);
+      if (paused && brand.dataset.brandState) finishDiscovery();
+      name.setAttribute("aria-disabled", String(Boolean(brand.dataset.brandState && (paused || reduceMotion.matches))));
+      cancelAnimationFrame(raf);
+      last = null;
+      if (reduceMotion.matches) water.forEach((path, index) => path?.setAttribute("d", rest[index]));
+      if (brand.dataset.brandState && !document.hidden && !paused && !reduceMotion.matches && visible) raf = requestAnimationFrame(animate);
     }
     document.addEventListener("visibilitychange", syncMotion);
     window.addEventListener("siteMotionChange", syncMotion);
+    window.addEventListener("pagehide", () => {
+      cancelAnimationFrame(raf);
+      last = null;
+    });
+    window.addEventListener("pageshow", syncMotion);
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        syncMotion();
+      });
+      observer.observe(brand);
+    }
     syncMotion();
   }
 

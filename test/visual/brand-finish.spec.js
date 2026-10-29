@@ -30,13 +30,15 @@ const artworkBounds = (mark) =>
     })
   );
 
-test("brand mark: the orange floats, Sirui drifts away and the home link restores the name", async ({ page }, testInfo) => {
+test("brand mark: the sun stays fixed while waves and the name answer touch and keyboard", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await preparePage(page, "noon");
   await page.goto(publicRouteUrl("/blog/"), { waitUntil: "domcontentloaded" });
   await page.evaluate(() => document.fonts.ready);
   const brand = page.locator("#navbar .site-brand");
+  const home = brand.locator(".site-brand-home");
+  const name = brand.getByRole("button", { name: "Let Sirui float away", exact: true });
   const mark = brand.locator(".brand-orange-svg");
   await expect(brand.locator(".brand-name-first")).toHaveText("Sirui,");
   await expect(brand.locator(".brand-name-last")).toHaveText("Tao");
@@ -52,7 +54,8 @@ test("brand mark: the orange floats, Sirui drifts away and the home link restore
   const layout = await navigation();
   expect(box.width).toBeGreaterThanOrEqual(44);
   expect(box.height).toBeGreaterThanOrEqual(44);
-  await expect(brand).toHaveAttribute("href", /\/al-folio\/$/);
+  await expect(home).toHaveAttribute("href", /\/al-folio\/$/);
+  await expect(name).toBeVisible();
   const palettes = [];
   for (const theme of ["morning", "noon", "afternoon", "evening"]) {
     await page.evaluate((mode) => setThemeSetting(mode), theme);
@@ -63,7 +66,7 @@ test("brand mark: the orange floats, Sirui drifts away and the home link restore
         mode: document.documentElement.dataset.themeMode,
         orange: getComputedStyle(svg.querySelector(".brand-float-stop-body")).stopColor,
         water: getComputedStyle(svg.querySelector(".brand-orange-sea")).stroke,
-        glint: getComputedStyle(svg.querySelector(".brand-orange-glint")).stroke,
+        glint: getComputedStyle(svg.querySelector(".brand-glint-stop-gold")).stopColor,
         glintPosition: getComputedStyle(svg.querySelector(".brand-orange-glint-zone")).transform,
       }))
     );
@@ -79,13 +82,20 @@ test("brand mark: the orange floats, Sirui drifts away and the home link restore
   const resting = await mark.screenshot();
   await page.waitForTimeout(300);
   expect(await mark.screenshot(), "the identity is still before discovery").toEqual(resting);
-  await page.keyboard.press("Tab");
-  await brand.focus();
+  const pageBeforeDiscovery = page.url();
+  if (testInfo.project.use.hasTouch) await name.tap();
+  else {
+    await page.keyboard.press("Tab");
+    await home.focus();
+  }
   await expect(brand).toHaveAttribute("data-brand-state", "discovering");
+  expect(page.url(), "the discovery action never consumes native home navigation").toBe(pageBeforeDiscovery);
   await page.waitForTimeout(1000);
   const focused = await mark.screenshot({ path: testInfo.outputPath("brand-focused.png") });
-  expect(screenshotDiffRatio(resting, focused, { threshold: 0.03 }), "keyboard discovery moves the orange and water").toBeGreaterThan(0.001);
+  expect(screenshotDiffRatio(resting, focused, { threshold: 0.03 }), "discovery moves the water around the fixed orange").toBeGreaterThan(0.001);
   const visibleOrange = [];
+  const sunBounds = [],
+    wavePaths = [];
   // Observe a full 5.6 s water cycle. Half a cycle can miss the exposed-area
   // extrema at phone size, where a single edge pixel is a material fraction.
   for (let i = 0; i < 21; i++) {
@@ -93,13 +103,25 @@ test("brand mark: the orange floats, Sirui drifts away and the home link restore
     let count = 0;
     for (let p = 0; p < png.data.length; p += 4) if (png.data[p] > png.data[p + 1] * 1.2 && png.data[p + 1] > png.data[p + 2] * 1.2) count++;
     visibleOrange.push(count);
+    sunBounds.push(await mark.locator(".brand-orange-body").boundingBox());
+    const { wave, clip } = await mark.evaluate((svg) => ({
+      wave: svg.querySelector(".brand-orange-sea").getAttribute("d"),
+      clip: svg.querySelector(".brand-orange-wave-clip").getAttribute("d"),
+    }));
+    wavePaths.push(wave);
+    expect(wave).not.toMatch(/NaN|Infinity/);
+    expect(clip).toBe(`${wave}V-20H-2Z`);
     await page.waitForTimeout(300);
   }
   const occlusionRange = (Math.max(...visibleOrange) - Math.min(...visibleOrange)) / Math.max(...visibleOrange);
   expect(occlusionRange, "the moving water conceals and reveals the orange; a 1.5% scale alone is insufficient").toBeGreaterThan(0.04);
+  expect(new Set(sunBounds.map((bounds) => JSON.stringify(bounds))).size, "the sun neither bobs nor changes size").toBe(1);
+  expect(new Set(wavePaths).size, "the actual waterline evolves rather than rotating a static image").toBeGreaterThan(15);
+  await page.keyboard.press("Tab");
+  await home.focus();
   expect(await brand.evaluate((e) => getComputedStyle(e.querySelector(".brand-orange")).outlineStyle)).not.toBe("none");
   await page.locator("#navbar").screenshot({ path: testInfo.outputPath("brand-discovery.png") });
-  await brand.evaluate((element) => element.blur());
+  await home.evaluate((element) => element.blur());
   await page.mouse.move(0, 100);
   await expect(brand).toHaveAttribute("data-brand-state", "adrift");
   await expect(brand.locator(".brand-name-identity")).toBeHidden();
@@ -138,7 +160,11 @@ test("brand mark: the orange floats, Sirui drifts away and the home link restore
   const geometryTransforms = () =>
     brand
       .locator(".brand-orange-sun, .brand-orange-current, .brand-orange-ripple, .brand-wave-letter")
-      .evaluateAll((nodes) => nodes.map((node) => getComputedStyle(node).transform));
+      .evaluateAll((nodes) =>
+        nodes
+          .map((node) => getComputedStyle(node).transform)
+          .concat(Array.from(document.querySelectorAll(".site-brand .brand-orange-svg path"), (node) => node.getAttribute("d")))
+      );
   await page.evaluate(() => window.siteMotion.setPaused(true));
   await twoFrames(page);
   const globallyHeld = await geometryTransforms();
@@ -152,7 +178,7 @@ test("brand mark: the orange floats, Sirui drifts away and the home link restore
   const still = await mark.screenshot({ path: testInfo.outputPath("brand-reduced-rest.png") });
   const bounds = await artworkBounds(mark);
   const seaStroke = await mark.locator(".brand-orange-sea").evaluate((path) => getComputedStyle(path).stroke);
-  await brand.focus();
+  await home.focus();
   await twoFrames(page);
   const reduced = await mark.screenshot({ path: testInfo.outputPath("brand-reduced-focus.png") });
   // Preserve focus-ring paint while measuring the still orange; check water geometry/stroke too.
@@ -163,7 +189,18 @@ test("brand mark: the orange floats, Sirui drifts away and the home link restore
   await writeFile(
     testInfo.outputPath("brand-motion.json"),
     JSON.stringify(
-      { reducedArtworkDifference: difference, palettes, visibleOrange, occlusionRange, wordBounds, letterScales, navigation: layout, bounds },
+      {
+        reducedArtworkDifference: difference,
+        palettes,
+        visibleOrange,
+        occlusionRange,
+        sunBounds,
+        wavePaths,
+        wordBounds,
+        letterScales,
+        navigation: layout,
+        bounds,
+      },
       null,
       2
     )
@@ -180,6 +217,47 @@ test("brand mark: the orange floats, Sirui drifts away and the home link restore
   expect(errors).toEqual([]);
 });
 
+test("brand mark: a 375px touch header keeps the whole name and a reachable home reset", async ({ page }, testInfo) => {
+  test.skip(!testInfo.project.use.hasTouch);
+  const errors = collectRuntimeErrors(page);
+  await page.setViewportSize({ width: 375, height: 1000 });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await preparePage(page, "noon");
+  await page.goto(publicRouteUrl("/blog/"), { waitUntil: "domcontentloaded" });
+  await page.evaluate(() => document.fonts.ready);
+  const brand = page.locator("#navbar .site-brand"),
+    home = brand.locator(".site-brand-home"),
+    name = brand.locator("[data-brand-discover]");
+  const geometry = await brand.evaluate((element) => {
+    const box = (selector) => {
+      const r = document.querySelector(selector).getBoundingClientRect();
+      return { x: r.x, y: r.y, right: r.right, bottom: r.bottom, width: r.width, height: r.height };
+    };
+    return {
+      home: box(".site-brand-home"),
+      name: box(".site-brand-name"),
+      last: box(".brand-name-last"),
+      nav: box("#navbar"),
+      toggle: box(".navbar-toggler"),
+    };
+  });
+  expect(geometry.nav.height, "the brand must not force controls onto a second row").toBeLessThan(80);
+  for (const target of [geometry.home, geometry.name, geometry.toggle]) {
+    expect(target.width).toBeGreaterThanOrEqual(44);
+    expect(target.height).toBeGreaterThanOrEqual(44);
+  }
+  expect(geometry.home.right, "the name and native home hit areas do not overlap").toBeLessThanOrEqual(geometry.name.x);
+  expect(geometry.last.right, "Tao must not be clipped").toBeLessThanOrEqual(geometry.name.right + 0.5);
+  await name.tap();
+  await expect(brand).toHaveAttribute("data-brand-state", "adrift");
+  const bounds = await brand.locator(".brand-name-story").boundingBox();
+  expect(bounds.height).toBeLessThanOrEqual(geometry.name.height);
+  await page.locator("#navbar").screenshot({ path: testInfo.outputPath("brand-375-touch-story.png") });
+  await Promise.all([page.waitForURL(/\/al-folio\/$/), home.tap()]);
+  expect(await brand.getAttribute("data-brand-state")).toBeNull();
+  expect(errors).toEqual([]);
+});
+
 test("brand mark: the AI profile keeps its identity still", async ({ page }, testInfo) => {
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
   const errors = collectRuntimeErrors(page);
@@ -188,9 +266,9 @@ test("brand mark: the AI profile keeps its identity still", async ({ page }, tes
   await page.goto(publicRouteUrl("/ai/"), { waitUntil: "domcontentloaded" });
   const brand = page.locator("#navbar .site-brand");
   await expect(brand).toHaveAttribute("data-brand-static", "");
-  await expect(brand).toHaveAttribute("href", /\/ai\/#identity$/);
+  await expect(brand.locator(".site-brand-home")).toHaveAttribute("href", /\/ai\/#identity$/);
   await page.keyboard.press("Tab");
-  await brand.focus();
+  await brand.locator(".site-brand-home").focus();
   await page.waitForTimeout(450);
   expect(await brand.getAttribute("data-brand-state")).toBeNull();
   await expect(brand.locator(".brand-name-first")).toHaveText("Sirui,");
@@ -205,7 +283,8 @@ test("brand mark: the same home identity remains visible without JavaScript", as
   await page.goto(publicRouteUrl("/blog/"), { waitUntil: "domcontentloaded" });
   const mark = page.locator("#navbar [data-brand-orange] svg");
   await expect(mark).toBeVisible();
-  await expect(page.locator("#navbar .site-brand")).toHaveAttribute("href", /\/al-folio\/$/);
+  await expect(page.locator("#navbar .site-brand-home")).toHaveAttribute("href", /\/al-folio\/$/);
+  await expect(page.locator("#navbar [data-brand-discover]")).toHaveAttribute("href", /\/al-folio\/$/);
   await mark.screenshot({ path: testInfo.outputPath("brand-no-javascript.png") });
   await context.close();
 });
@@ -222,7 +301,7 @@ test("brand mark: the recovery specimen varies while the home identity stays fix
     const specimen = page.locator("[data-orange-specimen]");
     await expect(specimen).toHaveAttribute("data-orange-seed", seed);
     const brand = page.locator("#navbar .site-brand");
-    await expect(brand).toHaveAttribute("href", /\/al-folio\/$/);
+    await expect(brand.locator(".site-brand-home")).toHaveAttribute("href", /\/al-folio\/$/);
     await expect(page.getByRole("link", { name: "Return home", exact: true })).toHaveAttribute("href", /\/al-folio\/$/);
     await page.mouse.move(0, 100);
     visits.push({

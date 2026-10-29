@@ -5,17 +5,27 @@
 
 .navbar.navbar-light .site-brand {
   min-height: 44px;
+  padding-block: 0;
   gap: 0.375rem;
   --brand-orb-color: color-mix(in srgb, var(--global-brand-orange-color) 94%, rgb(var(--site-sky, 140 198 236)));
-  --brand-orb-light: color-mix(in srgb, var(--brand-orb-color) 84%, #ffd69a);
-  --brand-orb-deep: color-mix(in srgb, var(--brand-orb-color) 94%, #b95521);
-  --brand-water-color: color-mix(in srgb, #3d7eb8 92%, rgb(var(--site-sky, 140 198 236)));
-  --brand-glint-color: color-mix(in srgb, var(--brand-orb-color) 80%, #ffd9a2);
+  --brand-orb-light: color-mix(in srgb, var(--brand-orb-color) 45%, #ffc383);
+  --brand-orb-deep: color-mix(in srgb, var(--brand-orb-color) 72%, #d8738c);
+  --brand-water-color: color-mix(in srgb, #668ac0 94%, rgb(var(--site-sky, 140 198 236)));
+  --brand-glint-color: color-mix(in srgb, #f7bf85 90%, rgb(var(--site-sky, 140 198 236)));
+  --brand-glint-rose: color-mix(in srgb, #ed9f9b 92%, rgb(var(--site-sky, 140 198 236)));
+}
+
+.navbar.navbar-light .site-brand-home {
+  display: grid;
+  place-items: center;
+  flex: 0 0 2.75rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-inline: -0.375rem;
 
   &:focus-visible {
     outline: none;
   }
-
   &:focus-visible .brand-orange {
     outline: var(--md-lite-focus-ring);
     outline-offset: 3px;
@@ -56,10 +66,6 @@
   transition: transform var(--motion-standard);
 }
 
-.navbar.navbar-light .site-brand:active .brand-orange {
-  transform: scale(0.97);
-}
-
 .brand-orange-svg {
   position: absolute;
   inset: -0.16rem;
@@ -71,7 +77,7 @@
 
 // No motion until discovery. The drift survives pointer leave for this page.
 .site-brand-mark .brand-orange-sun {
-  transform-origin: 16px 13.2px;
+  transform: none;
 }
 
 .site-brand-mark .brand-orange-body {
@@ -89,12 +95,16 @@
 }
 
 .site-brand-mark .brand-orange-sea,
-.site-brand-mark .brand-orange-sea-back {
+.site-brand-mark .brand-orange-sea-back,
+.site-brand-mark .brand-orange-sea-fine {
   stroke: var(--brand-water-color);
 }
 
-.site-brand-mark .brand-orange-glint {
-  stroke: var(--brand-glint-color);
+.brand-glint-stop-gold {
+  stop-color: var(--brand-glint-color);
+}
+.brand-glint-stop-rose {
+  stop-color: var(--brand-glint-rose);
 }
 .site-brand-mark .brand-orange-glint-zone {
   transform-box: view-box;
@@ -102,21 +112,45 @@
 }
 
 .navbar.navbar-light .site-brand-name {
+  appearance: none;
   position: relative;
   display: block;
+  flex: 0 0 auto;
   width: 6.3rem;
-  height: 2.125rem;
+  height: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0;
   overflow: hidden;
   contain: paint;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
   line-height: 1;
+  text-align: left;
+  text-decoration: none;
+  text-shadow: none;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: var(--md-lite-focus-ring);
+    outline-offset: 2px;
+    box-shadow: var(--md-lite-focus-shadow);
+  }
+}
+.site-brand[data-brand-static] .site-brand-name {
+  cursor: inherit;
 }
 
 .brand-name-identity {
   position: absolute;
-  top: 0.5875rem;
+  top: 50%;
   left: 0;
   display: flex;
   gap: 0.27em;
+  transform: translateY(-50%);
 }
 
 .brand-name-first,
@@ -131,13 +165,15 @@
 
 .brand-name-story {
   position: absolute;
-  inset: 0.25rem 0 auto;
+  inset: 0;
   display: grid;
+  align-content: center;
   gap: 0.16rem;
   color: var(--global-text-color);
   font-size: calc(var(--type-compact) * 0.85);
   font-weight: 400;
   letter-spacing: 0;
+  line-height: 1.15;
   opacity: 0;
   transform: translateX(3rem);
   white-space: normal;
@@ -175,19 +211,12 @@
     opacity: 1;
     transform: none;
   }
+  .brand-name-identity .brand-wave-letter {
+    animation: none;
+  }
 }
 
 .site-brand[data-brand-state] {
-  .brand-orange-sun {
-    animation: brand-orange-float 5.6s ease-in-out infinite;
-  }
-  .brand-orange-current {
-    animation: brand-ocean-current 5.6s linear infinite;
-  }
-  .brand-orange-ripple {
-    animation: brand-ripple-breathe 5.6s ease-in-out infinite;
-    transform-origin: 16px 24.7px;
-  }
   .brand-wave-letter {
     animation: brand-letter-float 5.6s ease-in-out infinite;
     animation-delay: calc(var(--brand-letter) * -0.16s);
@@ -237,43 +266,17 @@
   }
 }
 
-@keyframes brand-orange-float {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-  }
-  50% {
-    transform: translateY(1.05px) scale(1.015);
-  }
-}
-
-@keyframes brand-ocean-current {
-  to {
-    transform: translateX(-20px);
-  }
-}
-
-@keyframes brand-ripple-breathe {
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(0.65px, 0.3px);
-  }
-}
-
-html[data-theme-mode="evening"] .site-brand {
-  --brand-water-color: color-mix(in srgb, #739eca 92%, rgb(var(--site-sky, 104 90 164)));
+html[data-theme-mode="evening"] .navbar.navbar-light .site-brand {
+  --brand-water-color: color-mix(in srgb, #9ca5d1 94%, rgb(var(--site-sky, 104 90 164)));
 }
 
 @keyframes brand-letter-float {
   0%,
   100% {
-    transform: translateY(0.6px);
+    transform: translateY(0.9px);
   }
   50% {
-    transform: translateY(-0.6px);
+    transform: translateY(-0.9px);
   }
 }
 
@@ -282,8 +285,8 @@ html[data-theme-mode="evening"] .site-brand {
     width: 16rem;
   }
   .brand-name-story {
-    top: 0.625rem;
     display: flex;
+    align-items: center;
     gap: 0.3em;
     font-size: var(--type-compact);
     white-space: nowrap;
@@ -324,6 +327,12 @@ html[data-theme-mode="evening"] .site-brand {
   }
 }
 @media (max-width: 767.98px) {
+  .navbar.navbar-light .site-brand {
+    gap: 0.25rem;
+  }
+  .navbar.navbar-light .site-brand-home {
+    margin-inline: -0.5rem -0.25rem;
+  }
   .navbar.navbar-light .site-brand .site-brand-mark.brand-orange {
     flex-basis: 1.75rem;
     width: 1.75rem;
@@ -333,16 +342,33 @@ html[data-theme-mode="evening"] .site-brand {
     width: 4.1rem;
   }
   .brand-name-story {
-    top: 0;
     gap: 0;
-    font-size: calc(var(--type-compact) * 0.75);
+    font-size: calc(var(--type-compact) * 0.85);
     line-height: 1.06;
   }
 }
 
-// Retain the compact navigation contract below389px. Showing the name here
-// overlaps the Human/AI format controls at320px and wraps the toggler at350px.
-@media (max-width: 388px) {
+// Preserve the 320/350px control row, but let a 375px iPhone discover the name.
+@media (min-width: 375px) and (max-width: 388px) {
+  .navbar.navbar-light > .container.panel-shell {
+    padding-inline: 0.5rem;
+  }
+  .navbar.navbar-light .navbar-toggler {
+    box-sizing: border-box;
+    width: 2.75rem;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding-inline: 0.5rem;
+  }
+  .navbar.navbar-light .site-brand-name {
+    width: 3.75rem;
+    font-size: 0.875rem;
+  }
+  .brand-name-story {
+    font-size: calc(var(--type-compact) * 0.82);
+  }
+}
+@media (max-width: 374.98px) {
   .navbar.navbar-light .site-brand-name {
     display: none;
   }
