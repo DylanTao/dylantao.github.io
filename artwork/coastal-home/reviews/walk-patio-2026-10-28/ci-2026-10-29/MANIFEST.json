@@ -1,0 +1,93 @@
+{
+  "scope": "Exact portable evidence bytes; generated JSON normalized for repository formatting. Raw protocol traces and logs are byte-preserving gzip files.",
+  "files": {
+    "0-trace.trace.gz": {
+      "sha256": "5860a5beac2fd5505e3b8896861fa1d642965a1ba6f2f1b43d2e2821f9bae724",
+      "bytes": 10925480
+    },
+    "circulation-inventory-final.log.gz": {
+      "sha256": "9eab8cc417458e85750dd6b330a3fba37821f0ffb54ce335dbb48dc9441ed5d2",
+      "bytes": 563
+    },
+    "error-context.md.gz": {
+      "sha256": "76c79dc213ae9eed96d47042405260f36b868e8af3ec2d1e7e47853ac85a459c",
+      "bytes": 8117
+    },
+    "failure-receipt.json": {
+      "sha256": "c44f1c492668545e31e2994567838e525c335c84ad2fb01fe04e7977d3d5bc48",
+      "bytes": 1290
+    },
+    "linux-circulation.log.gz": {
+      "sha256": "dcedd905cd3afdd9b7542d51c9f0e7728c25339415169227cc1d727c0e9dd885",
+      "bytes": 1026
+    },
+    "linux-complete-circulation.json": {
+      "sha256": "28ca0592a22054ba6b90362c9b267be2cdfe4c3ebe47a5a0be32c3e9218c478a",
+      "bytes": 56083
+    },
+    "linux-living-whole-patio-return.png": {
+      "sha256": "580cff08afdd569d03e889497678af2fb40c3ab4c1d36444806b43bd917a7b1d",
+      "bytes": 599740
+    },
+    "linux-study-usable-patio.png": {
+      "sha256": "592fde7bca2104788377227b8e02d1460cfb4d04744e8cdbb1affeef9b4a1652",
+      "bytes": 143262
+    },
+    "native-circulation.log.gz": {
+      "sha256": "a3d79a8d6f93e87fe3509058bdb40fd0cd0bc5899b54a38debb845bd6fdaa7b3",
+      "bytes": 612
+    },
+    "native-complete-circulation.json": {
+      "sha256": "c7f867deabb9deb5e5d75f373d437b10657af1f72ce536f0b3b463cf4ceb8111",
+      "bytes": 56124
+    },
+    "python.log.gz": {
+      "sha256": "6da22cbc3aa88ab7228fdd7afab3bec69eba5a7a917a22ad8d89e84bf80b26bc",
+      "bytes": 333
+    },
+    "qualification.json": {
+      "sha256": "f59b625c1b4e0a60c68892fbf94467c284c8dc9a9c384e8f236ba5b784ccfd2e",
+      "bytes": 1684
+    },
+    "selection-unit.log.gz": {
+      "sha256": "4550b443a3ab64122b2ec63869e0675d73fd20f4c9499aa980004c5c3113db61",
+      "bytes": 538
+    },
+    "shard-jekyll-final.log.gz": {
+      "sha256": "748eb03d5f8a23a2c5fa55a10d9d8545f4073466c0ca69a522e53fda9479908a",
+      "bytes": 7753
+    },
+    "shard-jekyll.log.gz": {
+      "sha256": "44b6973d272d48b24c2d5e96520df9f9529119eddfdffca999e1b27f0736032c",
+      "bytes": 2857
+    },
+    "shard-node-final.log.gz": {
+      "sha256": "1dff8cb48b228d389c48d3d358c6262fc9bfd8c35581202be9fc66872b37dde7",
+      "bytes": 49830
+    },
+    "shard-prettier.log.gz": {
+      "sha256": "cf79ef6278bcc529936aa1086262c434c31547bb7ba2a4e5c8c512cfcdd1652c",
+      "bytes": 108
+    },
+    "study-desk-return.png": {
+      "sha256": "4ea78cbab11ed08e5c0429c56aa5d9fb029bb0b5b2e8413693433d6c6c14c0aa",
+      "bytes": 110814
+    },
+    "study-usable-patio.png": {
+      "sha256": "272ae5026416b9f05dff2e2a20c862bea18c7a0af7bcfa9bd5dd3f8dc2d53053",
+      "bytes": 143386
+    },
+    "style.log.gz": {
+      "sha256": "9471cf8b48516c208868fc4eefa87e74931c6a7cbe741a57456a320d00af8691",
+      "bytes": 124
+    },
+    "test-failed-1.png": {
+      "sha256": "18a39641285d94c65587950897ac4da8cb7419295c93a08d7c3add0a2d80f6e6",
+      "bytes": 86012
+    },
+    "test.trace.gz": {
+      "sha256": "326836c4ceaa95d7fa280bbb5361bdc6c0eb4504a7f7ea415552ff12d3582b97",
+      "bytes": 47153
+    }
+  }
+}

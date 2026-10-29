@@ -303,7 +303,10 @@ test("visitor circulation: the study joins outdoor living and the living facade 
     testInfo.project.name !== "desktop-1440" && testInfo.project.use.browserName !== "webkit",
     "One complete visitor route per engine complements the separate all-viewport Walk controls."
   );
-  test.setTimeout(software ? 1200000 : 360000);
+  // The retained Linux trace walked55m without a collision stall in
+  // twenty minutes. Keep this full100m route in its own CI shard and allow the
+  // same real frames/10Hz cadence to finish; native-GPU budget stays unchanged.
+  test.setTimeout(software ? 2700000 : 360000);
   const config = manifest(),
     errors = collectRuntimeErrors(page),
     samples = [],
@@ -334,9 +337,10 @@ test("visitor circulation: the study joins outdoor living and the living facade 
       { timeout: 120000 }
     )
     .toBe(true);
+  let lastKnownPose;
   const study = config.rooms.find((room) => room.id === "study"),
     standing = study.walkActor,
-    pose = async () => (await stateOf(scene)).walk;
+    pose = async () => (lastKnownPose = (await stateOf(scene)).walk);
   // A single initial room fixture avoids repeating the separately qualified complete
   // pavilion descent. From here every crossing, turn and return is ordinary keyboard
   // input; no later pose, height, collision, door or camera override is permitted.
@@ -345,6 +349,17 @@ test("visitor circulation: the study joins outdoor living and the living facade 
   });
   expect((await pose()).room).toBe("study");
   let stagedCalls = 0;
+  const backend = await canvas.evaluate((element) => {
+    const gl = element.getContext("webgl2") || element.getContext("webgl"),
+      extension = gl?.getExtension("WEBGL_debug_renderer_info");
+    return gl
+      ? {
+          renderer: gl.getParameter(extension?.UNMASKED_RENDERER_WEBGL || gl.RENDERER),
+          vendor: gl.getParameter(extension?.UNMASKED_VENDOR_WEBGL || gl.VENDOR),
+          functionalBuffer: [gl.drawingBufferWidth, gl.drawingBufferHeight],
+        }
+      : null;
+  });
   await scene.evaluate((element) => {
     element.setLabWalk = () => {
       window.__unexpectedVisitorPlacement = (window.__unexpectedVisitorPlacement || 0) + 1;
@@ -352,6 +367,26 @@ test("visitor circulation: the study joins outdoor living and the living facade 
     };
   });
   const beginning = await pose();
+  const proofPath = testInfo.outputPath("complete-visitor-patio-circulation.json");
+  const writeProgress = (completed = false) =>
+    fs.writeFileSync(
+      proofPath,
+      JSON.stringify(
+        {
+          initialPlacement: standing,
+          stagedCalls,
+          samples,
+          final: lastKnownPose,
+          errors,
+          backend,
+          requestedViewport,
+          functionalCadenceHz: 10,
+          completed,
+        },
+        null,
+        2
+      )
+    );
   async function walkTo(target, label) {
     let stationary = 0;
     for (let step = 0; step < 150; step++) {
@@ -362,6 +397,7 @@ test("visitor circulation: the study joins outdoor living and the living facade 
       if (distance < 0.13) {
         expect(Math.abs(before.position[1] - target[1]), `${label}: native support retains the real floor`).toBeLessThan(0.16);
         samples.push({ label, target, pose: before });
+        writeProgress();
         return before;
       }
       const angle = wrapAngle(Math.atan2(dx, dz) - before.yaw);
@@ -421,27 +457,12 @@ test("visitor circulation: the study joins outdoor living and the living facade 
     stagedCalls = await page.evaluate(() => window.__unexpectedVisitorPlacement || 0);
     expect(stagedCalls).toBe(0);
     expect(errors).toEqual([]);
+    writeProgress(true);
   } finally {
-    const backend = await canvas.evaluate((element) => {
-      const gl = element.getContext("webgl2") || element.getContext("webgl"),
-        extension = gl?.getExtension("WEBGL_debug_renderer_info");
-      return gl
-        ? {
-            renderer: gl.getParameter(extension?.UNMASKED_RENDERER_WEBGL || gl.RENDERER),
-            vendor: gl.getParameter(extension?.UNMASKED_VENDOR_WEBGL || gl.VENDOR),
-            buffer: [gl.drawingBufferWidth, gl.drawingBufferHeight],
-          }
-        : null;
-    });
-    const proofPath = testInfo.outputPath("complete-visitor-patio-circulation.json");
-    fs.writeFileSync(
-      proofPath,
-      JSON.stringify(
-        { initialPlacement: standing, stagedCalls, samples, final: await pose(), errors, backend, requestedViewport, functionalCadenceHz: 10 },
-        null,
-        2
-      )
-    );
+    // The timeout closes the page before cleanup. Progress is already durable
+    // at each actual waypoint; preserve the original failure, not a teardown
+    // evaluate() error that hides where the visitor reached.
+    if (!fs.existsSync(proofPath)) writeProgress();
     await testInfo.attach("complete-visitor-patio-circulation", {
       path: proofPath,
       contentType: "application/json",

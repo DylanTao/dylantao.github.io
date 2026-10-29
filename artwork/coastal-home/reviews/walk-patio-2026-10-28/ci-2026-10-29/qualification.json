@@ -1,0 +1,54 @@
+{
+  "reviewedParent": "090f277a1a5d97c60445b29660a5f7e770824fda",
+  "sceneProductSameAs": "09a26c9a6f54cba08142166b554f17947017c981",
+  "nativeSourceSha256": "16713ed5e6efcb5f6b2cc9e70da678c4dc729255929f4248ca5b705a2e87b1a0",
+  "scope": "Test scheduling, timeout diagnostics and receipts only. The new foot-pouf recipe/candidate and all F6/performance candidates are excluded from this checkpoint.",
+  "checks": {
+    "node": {
+      "total": 886,
+      "pass": 879,
+      "skip": 7,
+      "fail": 0
+    },
+    "python": {
+      "tests": 314,
+      "pass": true
+    },
+    "sceneSelectionUnit": {
+      "tests": 8,
+      "pass": true
+    },
+    "actualRegistry": {
+      "projects": 4,
+      "casesPerProject": 134,
+      "missing": 0,
+      "extra": 0,
+      "duplicates": 0
+    },
+    "prettier": "pass with original line endings retained",
+    "styleContract": "pass",
+    "productionJekyll": {
+      "pass": true,
+      "baseurl": "/al-folio",
+      "seconds": 249.594,
+      "modelFiles": 121,
+      "modelMismatches": 0,
+      "initialSetupFailure": "ImageMagick generator could not mkdir a newly nested absent destination. Created the destination directory, then the complete unmodified build passed; both logs retained."
+    },
+    "nativeVisitor": {
+      "pass": true,
+      "distanceM": 99.91536339008832,
+      "waypoints": 41,
+      "minutesRounded": 1.7
+    },
+    "linuxMesaVisitor": {
+      "pass": true,
+      "distanceM": 100.04140111594275,
+      "waypoints": 41,
+      "testMinutesRounded": 14.7,
+      "functionalViewport": [480, 320],
+      "restoredCapture": [1440, 1000],
+      "cadenceHz": 10
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "sourceHead": "09a26c9a6f54cba08142166b554f17947017c981",
+  "workflowRun": 40812340799,
+  "job": 123245364412,
+  "jobResult": "failure",
+  "remaining40VisualJobs": "success",
+  "artifactId": 12873303577,
+  "artifactUrl": "https://github.com/DylanTao/dylantao.github.io/actions/runs/40812340799/artifacts/12873303577",
+  "artifactZipSha256": "f2c469f1405a08d8e33527f510b68080ba667cf2f9dc25ec11a632b0ecd948a8",
+  "rawTraceFiles": {
+    "0-trace.trace": {
+      "sha256": "f7bcfb182ab4a45bcb6fa11649eabeb711804e8d83cc87392b1adf1387216a4f",
+      "bytes": 59215051,
+      "gzipBytes": 10925480
+    },
+    "test.trace": {
+      "sha256": "255278050a6124c075c3a705e14d779bbc2c595e79582b0ad3b8f553ba5f276d",
+      "bytes": 737739,
+      "gzipBytes": 47153
+    }
+  },
+  "observedFailure": "New visitor case reached55.4246m after completing study/patio return;20minute budget expired during continuing real keyboard movement toward lower living. No collision-stall verdict is inferred from the timeout. Finally-block browser access masked the original timeout with a closed-page error.",
+  "correction": "Own desktop CI shard;45minute software budget; unchanged route/assets/10Hz cadence/capsule/pixel gates/native6minute budget; durable waypoint JSON before cleanup."
+}

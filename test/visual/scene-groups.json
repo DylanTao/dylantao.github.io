@@ -1,5 +1,5 @@
 {
-  "head": "e91430e5d85c86607750a351ed7739d184a0c2be",
+  "head": "090f277a1a5d97c60445b29660a5f7e770824fda",
   "manifestOrder": [
     "companion.spec.js",
     "duh.spec.js",
@@ -424,7 +424,9 @@
       {
         "file": "estate-redesign.spec.js",
         "title": "estate thresholds: real leaves open before the body, cross both ways and close after leaving"
-      },
+      }
+    ],
+    "scene-circulation": [
       {
         "file": "estate-redesign.spec.js",
         "title": "visitor circulation: the study joins outdoor living and the living facade returns to the same floor"

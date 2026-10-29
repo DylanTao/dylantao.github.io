@@ -101,6 +101,10 @@ jobs:
         include:
           - viewport: desktop-1440
             stream: legacy
+          # The complete visitor route intentionally runs once per engine;
+          # the other public viewports keep their separate Walk UI coverage.
+          - viewport: desktop-1440
+            stream: scene-circulation
     # Installs normally take about a minute; the margin absorbs a slow package mirror
     # (2026-10-22: Azure's Ubuntu mirror served 116 MB at 90 kB/s and timed nine jobs out).
     timeout-minutes: 75

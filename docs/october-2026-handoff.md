@@ -51,7 +51,8 @@ From October 24 to 26, 2026, Claude Opus coordinated this site with up to six pa
   - Expect only `inputs`, `signature` and `statistics` to change unless lighting geometry changed.
 - **`coastal-home.blend`** has one writer at a time. Other 3D work uses separate `.blend` files and JSON anchors.
 - **CI.**
-  - Watch every push to success: eight workflows, 41 of them visual jobs.
+  - Watch every triggered workflow to success. The visual matrix has 42 jobs after the complete desktop visitor route gained its own `scene-circulation` shard; the unchanged four-width roster still verifies every registered case before execution.
+  - The October 29 source `09a26c9a6` had 40 passing visual jobs and one visitor-case software timeout. Its retained trace reached 55.4246 m without a sustained collision stall. The corrected isolated case passes native and pinned Linux/Mesa in full; its software budget of 45 minutes and durable waypoint receipts preserve the route, assets, 10 Hz cadence and all physics/pixel gates. Do not relabel the original failed run green. See [the circulation CI review](../artwork/coastal-home/reviews/walk-patio-2026-10-28/README.md#october-29-ci-circulation-budget) for the failure and replacement evidence.
   - Scene tests run on software WebGL in CI, where one page call can take 30 s. Read state from in-page recorders rather than tight polls.
 - **Metrics.** Never push the site repo while the nightly "Dylan Local GitHub Metrics Refresh" task runs (1:15 AM Pacific, about two hours). At the end of a batch, follow the commit-activity rule in `AGENTS.md`.
   - **Sirui's PC exception:** the metrics pipeline remains laptop-only. Skip that refresh on this PC unless he sets it up here; preserve the last valid Build Rhythm data. He also deferred retrieving the exact October 22 archive tags until the laptop repo is available. Neither gap is permission to invent data or tag targets.
