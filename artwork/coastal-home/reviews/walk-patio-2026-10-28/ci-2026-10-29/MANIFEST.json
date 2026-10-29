@@ -1,5 +1,5 @@
 {
-  "scope": "Exact portable evidence bytes; generated JSON normalized for repository formatting. Raw protocol traces and logs are byte-preserving gzip files.",
+  "scope": "Hashes bind normalized Git index blobs. Raw protocol traces and logs remain byte-preserving gzip files; binary evidence is unchanged.",
   "files": {
     "0-trace.trace.gz": {
       "sha256": "5860a5beac2fd5505e3b8896861fa1d642965a1ba6f2f1b43d2e2821f9bae724",
@@ -14,8 +14,8 @@
       "bytes": 8117
     },
     "failure-receipt.json": {
-      "sha256": "c44f1c492668545e31e2994567838e525c335c84ad2fb01fe04e7977d3d5bc48",
-      "bytes": 1290
+      "sha256": "18986d48e160ccc55719cc4b4933883ff74966c5670c76ca99a62a08a40a5bee",
+      "bytes": 1266
     },
     "linux-circulation.log.gz": {
       "sha256": "dcedd905cd3afdd9b7542d51c9f0e7728c25339415169227cc1d727c0e9dd885",
@@ -42,16 +42,16 @@
       "bytes": 56124
     },
     "packet-integrity.json": {
-      "sha256": "420a7cf6ef9a53db741803f85c4419a49ede1c91e22d7a261b5af7318aa536a2",
-      "bytes": 720
+      "sha256": "e80aa87b4b9e48dc4a01ae92a324c3522beae795659a685d5bbd2f27c58299d2",
+      "bytes": 703
     },
     "python.log.gz": {
       "sha256": "6da22cbc3aa88ab7228fdd7afab3bec69eba5a7a917a22ad8d89e84bf80b26bc",
       "bytes": 333
     },
     "qualification.json": {
-      "sha256": "f59b625c1b4e0a60c68892fbf94467c284c8dc9a9c384e8f236ba5b784ccfd2e",
-      "bytes": 1684
+      "sha256": "8af9ddc0dd2b1f0e1ab518dc656a0036a987b4abe6a6dbbae5c32517b65e1965",
+      "bytes": 1630
     },
     "README.md": {
       "sha256": "7e1c7dac7807ab190fa34d8b5c64aca0c62d7c30a5b2f122db4f846e43c1dc88",
