@@ -29,6 +29,7 @@ export function readGamepad(pad, deadzone = STICK_DEADZONE) {
     look,
     run: pressed(buttons[10]) || pressed(buttons[4]) || pressed(buttons[6]),
     toggle: pressed(buttons[3]),
+    jump: pressed(buttons[0]),
     active: Boolean(mx || my || lx || ly),
   };
 }
@@ -36,6 +37,7 @@ export function readGamepad(pad, deadzone = STICK_DEADZONE) {
 // Every connected controller, combined: the strongest stick wins and the toggle reports one press.
 export function createGamepads({ getGamepads = () => globalThis.navigator?.getGamepads?.() || [] } = {}) {
   let wasToggle = false,
+    wasJump = false,
     connected = 0;
   return {
     poll() {
@@ -46,8 +48,9 @@ export function createGamepads({ getGamepads = () => globalThis.navigator?.getGa
         pads = [];
       }
       connected = pads.length;
-      const state = { move: [0, 0], look: [0, 0], run: false, toggled: false, active: false, connected };
-      let toggle = false;
+      const state = { move: [0, 0], look: [0, 0], run: false, toggled: false, jumped: false, active: false, connected };
+      let toggle = false,
+        jump = false;
       for (const pad of pads) {
         const read = readGamepad(pad);
         if (Math.hypot(...read.move) > Math.hypot(...state.move)) state.move = read.move;
@@ -55,9 +58,12 @@ export function createGamepads({ getGamepads = () => globalThis.navigator?.getGa
         state.run ||= read.run;
         state.active ||= read.active;
         toggle ||= read.toggle;
+        jump ||= read.jump;
       }
       state.toggled = toggle && !wasToggle;
       wasToggle = toggle;
+      state.jumped = jump && !wasJump;
+      wasJump = jump;
       return state;
     },
     get connected() {

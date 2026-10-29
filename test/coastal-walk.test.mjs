@@ -526,3 +526,22 @@ test("thumb sticks: a dead zone at rest, the rim at full deflection, up is up", 
   const half = stickVector(25, 0, 50);
   assert.ok(half.vector[0] > 0.3 && half.vector[0] < 0.5);
 });
+
+test("controllers: jump fires on a new A press, including release and reconnection", () => {
+  const pad = { connected: true, axes: [0, 0, 0, 0], buttons: Array.from({ length: 17 }, () => ({ pressed: false, value: 0 })) };
+  let connected = true;
+  const pads = createGamepads({ getGamepads: () => (connected ? [pad] : []) });
+  assert.equal(pads.poll().jumped, false);
+  pad.buttons[0].pressed = true;
+  assert.equal(pads.poll().jumped, true);
+  for (let i = 0; i < 120; i++) assert.equal(pads.poll().jumped, false, "holding A never repeats a jump");
+  pad.buttons[0].pressed = false;
+  assert.equal(pads.poll().jumped, false);
+  pad.buttons[0].value = 1;
+  assert.equal(pads.poll().jumped, true, "the standard analog button value is supported");
+  assert.equal(pads.poll().toggled, false, "A does not switch walking mode");
+  connected = false;
+  assert.equal(pads.poll().jumped, false);
+  connected = true;
+  assert.equal(pads.poll().jumped, true, "a disconnected pad cannot leave a sticky held state");
+});

@@ -263,6 +263,12 @@ export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, m
     const base = c * layers,
       n = count[c],
       reach = foot + body.maxStep;
+    // An airborne capsule needs empty volume, rather than a floor within step distance.
+    // Keep the old grounded query for stairs, spawning and authored character routes.
+    if (body.air) {
+      for (let j = 0; j < n; j++) if (hi[base + j] > foot + 0.004 && lo[base + j] < foot + body.height - 0.004) return NaN;
+      return foot;
+    }
     let top = -Infinity,
       next = Infinity;
     for (let j = 0; j < n; j++) {
@@ -408,8 +414,80 @@ export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, m
       z = next.z;
       foot = nextFoot;
     }
-    const moved = Math.hypot(x - startX, z - startZ);
-    return { x, z, foot, moved, blocked: length > 1e-9 && moved < length * 0.9 };
+    const moved = Math.hypot(x - startX, z - startZ),
+      progress = length > 0 ? ((x - startX) * dx + (z - startZ) * dz) / length : 0;
+    return { x, z, foot, moved, blocked: length > 1e-9 && progress < length * 0.9 };
+  }
+
+  // A visitor may leave a ledge. Sweep the complete capsule vertically as well as horizontally;
+  // do not snap to a distant floor or let a long frame cross a thin slab. Grounded movement still
+  // uses the existing stair solver. Only genuinely empty air can continue past its fall guard.
+  function sweepBody(start, { dx = 0, dz = 0, dy = 0, grounded = false, stepping = grounded, wading = false }, body = BODY, dynamic = null) {
+    let { x, z, foot } = start;
+    const air = { ...body, maxStep: 0, air: true },
+      steps = Math.max(1, Math.ceil(Math.max(Math.hypot(dx, dz), Math.abs(dy)) / (cell * 0.4))),
+      sx = dx / steps,
+      sz = dz / steps,
+      sy = dy / steps;
+    let landed = false,
+      ceiling = false;
+    for (let s = 0; s < steps; s++) {
+      const support = stepping ? standAt(x + sx, z + sz, foot, body) : NaN,
+        stepUp = Number.isFinite(support) && support > foot + 0.004;
+      // A moving swimmer may put their feet onto the nearby real basin floor and wade up its
+      // steps. This keeps the same half-metre step/drop limits; empty deep water still floats.
+      let next = (grounded && sy <= 0) || stepUp || (wading && Number.isFinite(support)) ? move(x, z, foot, sx, sz, body, dynamic) : null;
+      if (!next || next.blocked) {
+        const free = resolve(x + sx, z + sz, foot, air, dynamic);
+        const progress = (at) => (at.x - x) * sx + (at.z - z) * sz;
+        if (free.clear && (!next || progress(free) > progress(next) + 1e-10)) {
+          next = free;
+          grounded = false;
+        }
+      }
+      if (next) {
+        x = next.x;
+        z = next.z;
+        if (next.foot !== undefined) foot = next.foot;
+      }
+      let floor = -Infinity,
+        roof = Infinity;
+      const low = foot + Math.min(0, sy),
+        high = foot + body.height + Math.max(0, sy),
+        i0 = Math.floor((x - body.radius - ox) * inv),
+        i1 = Math.floor((x + body.radius - ox) * inv),
+        k0 = Math.floor((z - body.radius - oz) * inv),
+        k1 = Math.floor((z + body.radius - oz) * inv);
+      for (let k = k0; k <= k1; k++)
+        for (let i = i0; i <= i1; i++) {
+          if (i < 0 || k < 0 || i >= nx || k >= nz) continue;
+          const x0 = ox + i * cell,
+            z0 = oz + k * cell;
+          if ((x - clamp(x, x0, x0 + cell)) ** 2 + (z - clamp(z, z0, z0 + cell)) ** 2 >= body.radius ** 2) continue;
+          const base = (i + nx * k) * layers;
+          for (let j = 0; j < count[i + nx * k]; j++) {
+            const top = hi[base + j],
+              bottom = lo[base + j];
+            if (top <= foot + 0.004 && top >= low - 0.004) floor = Math.max(floor, top);
+            if (bottom >= foot + body.height - 0.004 && bottom <= high + 0.004) roof = Math.min(roof, bottom);
+          }
+        }
+      if (sy <= 0 && floor > -Infinity) {
+        foot = floor;
+        grounded = landed = true;
+      } else if (sy > 0 && roof < Infinity) {
+        foot = roof - body.height - 0.004;
+        ceiling = true;
+        grounded = false;
+      } else {
+        foot += sy;
+        grounded = false;
+      }
+    }
+    const moved = Math.hypot(x - start.x, z - start.z),
+      wanted = Math.hypot(dx, dz),
+      progress = wanted > 0 ? ((x - start.x) * dx + (z - start.z) * dz) / wanted : 0;
+    return { x, z, foot, moved, grounded, landed, ceiling, blocked: wanted > 1e-9 && progress < wanted * 0.9 };
   }
 
   // The nearest place within `reach` of (x, z) where a capsule fits with its feet within `tolerance`
@@ -454,6 +532,7 @@ export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, m
     floorBelow,
     resolve: (x, z, foot, body = BODY, dynamic = null) => resolve(x, z, foot, body, dynamic),
     move,
+    sweepBody,
     findStand,
     // The intervals of the column under (x, z), for tests and the lab.
     column(x, z) {
@@ -511,6 +590,9 @@ export function walkKind(object, root) {
     authored = null;
   for (let node = object; node && node !== root; node = node.parent) {
     const data = node.userData || {};
+    // Only the outdoor swimming pool is open to the visitor's buoyant flight body. Onsen water
+    // keeps its existing walk exclusion. Inspecting decoded native geometry follows the same rule.
+    if (/^core_infinity_water(?: primitive \d+)?$/.test(node.name || "")) return null;
     // Furniture keeps the native placeholder's triangles after its visual replacement arrives.
     // Only that placeholder may be hidden: a hidden ancestor room still stays out of the field.
     if (data.furnitureAnchor || data.furnitureCollision === false) return null;

@@ -1,5 +1,5 @@
 {
-  "head": "52878f882",
+  "head": "6f28da52a",
   "manifestOrder": [
     "companion.spec.js",
     "duh.spec.js",
@@ -15,6 +15,10 @@
   ],
   "groups": {
     "scene-core-1": [
+      {
+        "file": "duh.spec.js",
+        "title": "duh: live article scrolling and idle motion leave ink clear without moving prose"
+      },
       {
         "file": "desk-scene.spec.js",
         "title": "coastal quality: tier switches keep a complete home and compose full-screen pixels at each budget"
@@ -276,6 +280,10 @@
     ],
     "scene-exploration": [
       {
+        "file": "estate-redesign.spec.js",
+        "title": "visitor controls: touch jumping stays reachable in portrait and landscape"
+      },
+      {
         "file": "desk-scene.spec.js",
         "title": "character performance: rapid room changes preserve P's airborne floor and queue the latest destination"
       },
@@ -434,9 +442,21 @@
       {
         "file": "estate-redesign.spec.js",
         "title": "visitor circulation: the study joins outdoor living and the living facade returns to the same floor"
+      },
+      {
+        "file": "estate-redesign.spec.js",
+        "title": "visitor flight: a cliff jump enters the pool, settles and leaves by the native steps"
+      },
+      {
+        "file": "estate-redesign.spec.js",
+        "title": "visitor flight: a clifftop fall reaches the native beach without a respawn"
       }
     ],
     "scene-footer-light": [
+      {
+        "file": "footer-coast.spec.js",
+        "title": "coastal ground: source relief meets the native coast and keeps the measured ridge"
+      },
       {
         "file": "footer-coast.spec.js",
         "title": "La Jolla guide: names select actual landmarks without moving the view"

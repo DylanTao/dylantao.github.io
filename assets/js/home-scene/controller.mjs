@@ -3340,7 +3340,7 @@ export function createCoastalHome(container, records, artifacts) {
       wind: coastWind.sample(camera.position.x, camera.position.y, camera.position.z, elapsed, rainWind),
       daylight: daylight?.daylight ?? 0,
     });
-    infinityPool?.update(elapsed, { paused: !moving });
+    infinityPool?.update(elapsed, { paused: !moving && !walking, delta: frameDelta });
     if (currentRoom === "outside") fitSunShadow();
     actorDoorPose.active = Boolean(actor?.visible && compositionReady);
     if (actorDoorPose.active) actor.getWorldPosition(actorDoorPosition).toArray(actorDoorPose.position);
@@ -3492,6 +3492,7 @@ export function createCoastalHome(container, records, artifacts) {
       moving ||
       inertia.active ||
       walkMode?.busy ||
+      (walking && infinityPool?.busy) ||
       estateDoors?.moving ||
       libraryLadder?.moving ||
       (armWanted !== null && Math.abs(armDeficit - (radius - armWanted)) > 0.003) ||
@@ -3705,7 +3706,7 @@ export function createCoastalHome(container, records, artifacts) {
       cameraField?.addRoot(shell.scene);
       loadingStage("coast", "Opening the coast.");
       pacific = createPacific(scene, renderer, config, { atmosphere });
-      infinityPool = createInfinityPool(shellRoot, { waterSky: () => pacific?.waterSky() });
+      infinityPool = createInfinityPool(shellRoot, { waterSky: () => pacific?.waterSky(), requestFrame });
       cleanup.push(() => infinityPool?.dispose());
       pacific.bindLamps(lightInstallations, warmPracticals);
       const coast = await loadModel(new URL(config.coast, manifestUrl).href, "coast");
@@ -3815,6 +3816,8 @@ export function createCoastalHome(container, records, artifacts) {
         isFullscreen: () => Boolean(fullscreen.mode),
         isReady: () => compositionReady,
         isReduced: () => reduced || paused,
+        waterAt: (x, z) => infinityPool?.sample(x, z) || pacific?.waterAt(x, z),
+        onWaterImpact: (event) => event.water.id === "infinity" && infinityPool?.impact(event),
         hint: showHint,
         requestFrame,
         onEnter: enterWalk,

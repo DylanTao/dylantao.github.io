@@ -1,0 +1,1213 @@
+{
+  "schema": "visitor-flight-review-v1",
+  "payloads": [
+    {
+      "path": ".gitattributes",
+      "mode": "text-lf",
+      "bytes": 53,
+      "sha256": "f29df8e90a8a804ce145c296bb7a50bb385be94676334467d5d5fd13371299e0"
+    },
+    {
+      "path": "appearance/phase-0.png",
+      "mode": "binary",
+      "bytes": 469678,
+      "sha256": "5a1efa624b0d7a2a13613903dfb521eeb970ed9510e330b9f7e07226d979a977"
+    },
+    {
+      "path": "appearance/phase-1.png",
+      "mode": "binary",
+      "bytes": 484625,
+      "sha256": "35af5c1c74c00792db907fe80da7cfc10783011a70451bd073c2b2e9b020525f"
+    },
+    {
+      "path": "appearance/phase-2.png",
+      "mode": "binary",
+      "bytes": 501185,
+      "sha256": "c931cbbf24251c5fc31a155c5419355ed3a2631b5b75ad9569c68595bcaa0285"
+    },
+    {
+      "path": "appearance/phase-3.png",
+      "mode": "binary",
+      "bytes": 513235,
+      "sha256": "9d383facdc5fc30c7141d1d2754e673c227fe95b7b911c6de65b3652c4cadd4a"
+    },
+    {
+      "path": "appearance/phase-4.png",
+      "mode": "binary",
+      "bytes": 453044,
+      "sha256": "5927866969ea4165be335edd7e1f23327a48471f1195f64565d1f02f3921cc16"
+    },
+    {
+      "path": "appearance/phase-5.png",
+      "mode": "binary",
+      "bytes": 449935,
+      "sha256": "1ec024fbf676ec79a04587fcba40b4219404fb1ccd7eee996bee1ea6acad8f54"
+    },
+    {
+      "path": "appearance/phases.json.gz",
+      "mode": "binary",
+      "bytes": 2072,
+      "sha256": "c01edb25ea6ba31dac60212f80fb9cc4383e1220a6ec9c1feeae833d8ddc7991"
+    },
+    {
+      "path": "attempts/fine-spray-observer.png",
+      "mode": "binary",
+      "bytes": 464899,
+      "sha256": "a038f9bfe23d97eb5c94235f79fe2f46401bd65b28ae4821095b8e0e2c013aab"
+    },
+    {
+      "path": "attempts/material-map-observer.log.gz",
+      "mode": "binary",
+      "bytes": 1644,
+      "sha256": "cc58772dad7bb65ff9dbf67900593e981fea5cff7ce17eb4e0bd8cb3357a849d"
+    },
+    {
+      "path": "attempts/native-controls.log.gz",
+      "mode": "binary",
+      "bytes": 1021,
+      "sha256": "a85d9992eb2174002d6a943a59c2083dff539e6b76338c7bd50371b4b8600af8"
+    },
+    {
+      "path": "attempts/native-pool-exit.log.gz",
+      "mode": "binary",
+      "bytes": 1962,
+      "sha256": "792724c06285d682db6e1ae5fbf82f752290e988460c9a00e317d593d8f75eb5"
+    },
+    {
+      "path": "attempts/native-touch-controls.log.gz",
+      "mode": "binary",
+      "bytes": 995,
+      "sha256": "c2063be1cc1921331906443b4b1755b25986a632bc219c375e56d3be552e6867"
+    },
+    {
+      "path": "attempts/native-touch-final.log.gz",
+      "mode": "binary",
+      "bytes": 1025,
+      "sha256": "0d121742415fb25cdc5fadfc91361ed96f9431e7da251945f6044b443efd0391"
+    },
+    {
+      "path": "attempts/native-touch-second.log.gz",
+      "mode": "binary",
+      "bytes": 1023,
+      "sha256": "b141d20bef7d7ef778212f571c94c6d342dbd8abd1e363e82a35d059b8c8356d"
+    },
+    {
+      "path": "attempts/native-touch-third.log.gz",
+      "mode": "binary",
+      "bytes": 471,
+      "sha256": "3fdfaf8357eb4ea6c44ef8403701cf87dee8c802ec9d66849b306f377b678a67"
+    },
+    {
+      "path": "attempts/owned-sheet-observer.log.gz",
+      "mode": "binary",
+      "bytes": 1942,
+      "sha256": "f456fabef59c4c982b303d9e5204b6293637f5480671b1c4b533e10c4dc1da0e"
+    },
+    {
+      "path": "attempts/owned-sheet-observer.png",
+      "mode": "binary",
+      "bytes": 461976,
+      "sha256": "4aa0ce7626ad04e0315cb960b72d7bd68d0d5878801ad67013c34fd83c7e68a9"
+    },
+    {
+      "path": "attempts/pool-splash-cup-control.mjs.gz",
+      "mode": "binary",
+      "bytes": 1863,
+      "sha256": "a2e1fc9af672cb87f2ab5fe9dc62c75f9af7e1225075ea1e2f251f183ea481a6"
+    },
+    {
+      "path": "attempts/pool-splash-fine-control.mjs.gz",
+      "mode": "binary",
+      "bytes": 2608,
+      "sha256": "9a058e8fd1a81209323679ba702280b65cef278cd5b976705de5dde2e92cfa0b"
+    },
+    {
+      "path": "attempts/pool-splash-glass-control.mjs.gz",
+      "mode": "binary",
+      "bytes": 2434,
+      "sha256": "0705a302045409bd3fadf0a9f73c62b2dd51fb77c82433894836a59a3d47b873"
+    },
+    {
+      "path": "attempts/refined-observer.png",
+      "mode": "binary",
+      "bytes": 456624,
+      "sha256": "eda87e2783d6f59f5effcf33d33a5cdbba7d8c533831be4d4806b6e8c0d3b99a"
+    },
+    {
+      "path": "attempts/spreading-phases.log.gz",
+      "mode": "binary",
+      "bytes": 311,
+      "sha256": "a73326611edaa7106daf0b6fc6a09d6fbc05090055366d471db2a977e432d834"
+    },
+    {
+      "path": "attempts/thin-sheet-observer.png",
+      "mode": "binary",
+      "bytes": 487819,
+      "sha256": "9df331bfb7c8f920adbf56cb9ddb4cc4d8210fdec1a15b34ad389a9b1ee9cf4b"
+    },
+    {
+      "path": "attempts/webkit-flight-cases.log.gz",
+      "mode": "binary",
+      "bytes": 1196,
+      "sha256": "51a2db8038123739a5c9ce8e81284d6f6dada28faf343dae6f06793986b44c72"
+    },
+    {
+      "path": "checks/bake-formatted.log.gz",
+      "mode": "binary",
+      "bytes": 382,
+      "sha256": "853d19bbe1da1e8ba4fc4c8a179126998305fb00fde8b5bee08ca3cc7d08a8b6"
+    },
+    {
+      "path": "checks/build-readback.json",
+      "mode": "text-lf",
+      "bytes": 33881,
+      "sha256": "14c0974819c92cdcad86b226bd27d45338a3921797f06dd94d7c6dedda04a2f1"
+    },
+    {
+      "path": "checks/mesa-controls.log.gz",
+      "mode": "binary",
+      "bytes": 706,
+      "sha256": "205fb8b2547dce3f20795f6b36ab767b7f2c6fed6fbdc7ad41c74a40bc5ac9bc"
+    },
+    {
+      "path": "checks/mesa-integrated.log.gz",
+      "mode": "binary",
+      "bytes": 519,
+      "sha256": "05c1d3a2050cc19f2d9873e1368d28723ac0d4f9d5ba33f983bd7a841babc935"
+    },
+    {
+      "path": "checks/modern-runner.json.gz",
+      "mode": "binary",
+      "bytes": 251,
+      "sha256": "914dc68dd4fb8973c5c9d38026ec7b8099aaa0c38ebb6e41f2b83576cad44a02"
+    },
+    {
+      "path": "checks/modern-webkit-integrated.log.gz",
+      "mode": "binary",
+      "bytes": 581,
+      "sha256": "abfa8c3bb8ec9feb667c85207a3d9b2544c9b2a5935b637fe332ab86e69de3c6"
+    },
+    {
+      "path": "checks/native-integrated.log.gz",
+      "mode": "binary",
+      "bytes": 637,
+      "sha256": "d18be027d77d9166dcb5dc229060349a9f866148e515561c69199f234c0b0d39"
+    },
+    {
+      "path": "checks/native-touch-check.log.gz",
+      "mode": "binary",
+      "bytes": 470,
+      "sha256": "f34608e35b8142b30a69216a2bbd71a79d4da345bd42c7994c0d9a401e484519"
+    },
+    {
+      "path": "checks/node-integrated.log.gz",
+      "mode": "binary",
+      "bytes": 42061,
+      "sha256": "556fd10c4c0289c3c29255f877039cc52cf8f7d5b3061223782989b2975fc2a4"
+    },
+    {
+      "path": "checks/node-release.log.gz",
+      "mode": "binary",
+      "bytes": 42005,
+      "sha256": "30a8945b8ec74ba148b59c0aae2a345ee9633233cef2573841f22cdfcce67ae6"
+    },
+    {
+      "path": "checks/prettier-lf-result.json.gz",
+      "mode": "binary",
+      "bytes": 10651,
+      "sha256": "5047ce435d6fa9a74c8c250c3cc27b5a2e019ff0f9ab15bf20161001e8e5d97f"
+    },
+    {
+      "path": "checks/production-integrated.log.gz",
+      "mode": "binary",
+      "bytes": 4649,
+      "sha256": "18e761aef80fec1b38d10fcbcedb31675b6054bfb99f710b7a9da1e919825b64"
+    },
+    {
+      "path": "checks/production-release.log.gz",
+      "mode": "binary",
+      "bytes": 4649,
+      "sha256": "f0f1f6209d33067cccc554f8eea01e6b31435a20fc479de3b50843d5b3a999bf"
+    },
+    {
+      "path": "checks/python-integrated.log.gz",
+      "mode": "binary",
+      "bytes": 277,
+      "sha256": "acaa6065ced3f733e722d9477b561f0f38cf97be06960546d5369a55991f33c2"
+    },
+    {
+      "path": "checks/python-release.log.gz",
+      "mode": "binary",
+      "bytes": 276,
+      "sha256": "3b69332e2df803cb2087845662116ba726fb5573189859e29de9143eb33494fc"
+    },
+    {
+      "path": "checks/registry-integrated.log.gz",
+      "mode": "binary",
+      "bytes": 402,
+      "sha256": "5ebd81fd4b82b7bd540970e8836b4be111e902b1850c564f8a84a82cac09b8f0"
+    },
+    {
+      "path": "checks/registry-release.log.gz",
+      "mode": "binary",
+      "bytes": 402,
+      "sha256": "f70deca133df4491e317593bec6926cee897d37d36b6aeafe552d704acdbc747"
+    },
+    {
+      "path": "checks/settled-light.json.gz",
+      "mode": "binary",
+      "bytes": 35797,
+      "sha256": "3fdd910e31b217b97945f7dd572aaff28df8ce65eb5da74c241552e1d4aaa833"
+    },
+    {
+      "path": "checks/spreading-spray-unit.log.gz",
+      "mode": "binary",
+      "bytes": 789,
+      "sha256": "5a2050e8e58693c30c3a4a67744a70ea0532c5555bbe0b5321f517a78420bf9c"
+    },
+    {
+      "path": "controls/mesa-390.json.gz",
+      "mode": "binary",
+      "bytes": 174,
+      "sha256": "646e3b33433ff67bb568182ed1c67ee3e7ef001b11495c495528af63315f462e"
+    },
+    {
+      "path": "controls/mesa-390.png",
+      "mode": "binary",
+      "bytes": 160458,
+      "sha256": "432387d8c8a1c3c88849ccd08d4de21938f9f45627ffba6750b367a0a84514eb"
+    },
+    {
+      "path": "controls/mesa-844.json.gz",
+      "mode": "binary",
+      "bytes": 173,
+      "sha256": "fb4a7c77d51ff2e83e4c35b355b834613efc49a29a5548d374ac42ebd99e8bb4"
+    },
+    {
+      "path": "controls/mesa-844.png",
+      "mode": "binary",
+      "bytes": 207085,
+      "sha256": "b858facd4e28d768405bace529c5b731652b570fe46a4a93e6e02fc08fdf4517"
+    },
+    {
+      "path": "controls/native-390.json.gz",
+      "mode": "binary",
+      "bytes": 174,
+      "sha256": "646e3b33433ff67bb568182ed1c67ee3e7ef001b11495c495528af63315f462e"
+    },
+    {
+      "path": "controls/native-390.png",
+      "mode": "binary",
+      "bytes": 163438,
+      "sha256": "22ae179ce15857d4f51701a7562c31ac036dcd59aafa80e4c879d937a1764309"
+    },
+    {
+      "path": "controls/native-844.json.gz",
+      "mode": "binary",
+      "bytes": 173,
+      "sha256": "fb4a7c77d51ff2e83e4c35b355b834613efc49a29a5548d374ac42ebd99e8bb4"
+    },
+    {
+      "path": "controls/native-844.png",
+      "mode": "binary",
+      "bytes": 205932,
+      "sha256": "55284b46074ab3430b0b844b11450087ce9412388594618afa3ba8ffefae5b0e"
+    },
+    {
+      "path": "controls/webkit-390.json.gz",
+      "mode": "binary",
+      "bytes": 174,
+      "sha256": "646e3b33433ff67bb568182ed1c67ee3e7ef001b11495c495528af63315f462e"
+    },
+    {
+      "path": "controls/webkit-390.png",
+      "mode": "binary",
+      "bytes": 174348,
+      "sha256": "28d37dd2514679a8d2750829131665761347966d9d7fc6c66423a1339d7c24bb"
+    },
+    {
+      "path": "controls/webkit-844.json.gz",
+      "mode": "binary",
+      "bytes": 173,
+      "sha256": "fb4a7c77d51ff2e83e4c35b355b834613efc49a29a5548d374ac42ebd99e8bb4"
+    },
+    {
+      "path": "controls/webkit-844.png",
+      "mode": "binary",
+      "bytes": 228954,
+      "sha256": "24fb5b52ead22be45f3e7b6d8804788d5905cbb3467afa749559e5887be789e0"
+    },
+    {
+      "path": "journeys/mesa-beach-initial.json.gz",
+      "mode": "binary",
+      "bytes": 1153,
+      "sha256": "8ce8e80063f61943035560e538525e832e22fec0c96485f7627dc9c14f939e54"
+    },
+    {
+      "path": "journeys/mesa-complete-route.json.gz",
+      "mode": "binary",
+      "bytes": 4582,
+      "sha256": "2c4d491d682fc56240524335e2151b218f21f5279720fc1f737acf18deb274d3"
+    },
+    {
+      "path": "journeys/mesa-final-pool.json.gz",
+      "mode": "binary",
+      "bytes": 1793,
+      "sha256": "0e1d8c9863d646ef6068cd5dd8d9c6d336f46733c45df293140ed192cf7991e5"
+    },
+    {
+      "path": "journeys/mesa-pool-initial.json.gz",
+      "mode": "binary",
+      "bytes": 1739,
+      "sha256": "77529513ca4af065cb60586069d192eb6fc53c9529b1d6dd05a20b9dea12d262"
+    },
+    {
+      "path": "journeys/native-beach-initial.json.gz",
+      "mode": "binary",
+      "bytes": 1153,
+      "sha256": "ada6a2bddd58c31b2f69e6af90e8acd6256a1c0e26e031f12833c3795d86ed03"
+    },
+    {
+      "path": "journeys/native-complete-route.json.gz",
+      "mode": "binary",
+      "bytes": 4720,
+      "sha256": "9a328d4d44344a04f2ea5886217618a987e8d9562c9f6e8fae2ba699040cc6c6"
+    },
+    {
+      "path": "journeys/native-final-pool.json.gz",
+      "mode": "binary",
+      "bytes": 1810,
+      "sha256": "eaaaa8f56e61d55b02ba00a325acfa51399159333a64ac7d3481d984cfae411e"
+    },
+    {
+      "path": "journeys/native-pool-initial.json.gz",
+      "mode": "binary",
+      "bytes": 1746,
+      "sha256": "620c01bedcef18110388e82c1c57dfd33e04ac3b3de1435cccbf72109f90cc47"
+    },
+    {
+      "path": "journeys/webkit-final-pool.json.gz",
+      "mode": "binary",
+      "bytes": 1812,
+      "sha256": "80f82467c0809df550b4d4370aa3c7835d25507693d0b74ba6b762f677474d92"
+    },
+    {
+      "path": "producers/splash-phases.cjs.gz",
+      "mode": "binary",
+      "bytes": 1727,
+      "sha256": "486e1187267f8ecfff53439df57b89cbcc7fc174eac182fc4d134df75b232507"
+    },
+    {
+      "path": "README.md",
+      "mode": "text-lf",
+      "bytes": 7929,
+      "sha256": "1dd72c80cb25dcf9cab0afb49463c633b2a4e7effbd8bac6163813c40a0b7a85"
+    },
+    {
+      "path": "verify.py",
+      "mode": "text-lf",
+      "bytes": 1065,
+      "sha256": "a9041ef4a999c343751a6f01e55e23f10db945c9430bb723a74cfd085677602b"
+    }
+  ],
+  "sourceBindings": [
+    {
+      "path": "_includes/home/world_controls.liquid",
+      "mode": "text-lf",
+      "bytes": 4677,
+      "sha256": "0a2f877850b5de8f85628544ba757906c9617959774a6917dd3c3e6c59af6790"
+    },
+    {
+      "path": "_sass/_coastal-home.scss",
+      "mode": "text-lf",
+      "bytes": 17261,
+      "sha256": "676acbbb291ed59be45c203114e03c5d5210e5e3d651b8abf49c3b64c2f80ee9"
+    },
+    {
+      "path": "assets/js/home-scene/colliders.mjs",
+      "mode": "text-lf",
+      "bytes": 32437,
+      "sha256": "7067ab74d1be374d51442a6ff3a2527965d5a18bdf11e28826b6995fd647aae1"
+    },
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "mode": "text-lf",
+      "bytes": 201109,
+      "sha256": "fd6f58af54059eab0ee80ca08083102454124d62a8885a790f609f634ae17691"
+    },
+    {
+      "path": "assets/js/home-scene/environment.mjs",
+      "mode": "text-lf",
+      "bytes": 46346,
+      "sha256": "f7c0ab1f46bc6af7661fc02e98b5604b0d9ee3fc53c39116dce2c460c1ddc255"
+    },
+    {
+      "path": "assets/js/home-scene/gamepad.mjs",
+      "mode": "text-lf",
+      "bytes": 2829,
+      "sha256": "9902dd93515c3b6e1799f0052e69034ae6e9dc224a5df643c116d8cb7642f5d5"
+    },
+    {
+      "path": "assets/js/home-scene/infinity-pool.mjs",
+      "mode": "text-lf",
+      "bytes": 7281,
+      "sha256": "c61413419669223e860e888097aa97bdd1d4e399c15cfcbe96fa419f82101bec"
+    },
+    {
+      "path": "assets/js/home-scene/walk-controls.mjs",
+      "mode": "text-lf",
+      "bytes": 37246,
+      "sha256": "47d19599f372745c104aa684e6bc0d5e8a2d8943b86d3d9bae9d8c1f71afe1b1"
+    },
+    {
+      "path": "assets/js/home-scene/walk-flight.mjs",
+      "mode": "text-lf",
+      "bytes": 2677,
+      "sha256": "7cb430caeed0207b5c5dbbe2a531c3ebb2e6568bc8ce445b7e834b16212297cc"
+    },
+    {
+      "path": "assets/js/home-scene/pool-impact.mjs",
+      "mode": "text-lf",
+      "bytes": 7890,
+      "sha256": "28b51c4b3f6159ffca24d64b0049c891190b375b7cb988f325ad8f52d371de84"
+    },
+    {
+      "path": "assets/js/home-scene/pool-splash.mjs",
+      "mode": "text-lf",
+      "bytes": 9863,
+      "sha256": "f978622e20713f6931f08efc274a847534b600b9af23ef47a3790eb13720257d"
+    },
+    {
+      "path": "assets/js/home-scene/POOL-IMPACT.md",
+      "mode": "text-lf",
+      "bytes": 3875,
+      "sha256": "04effd71d12439b7b639019bb8775ff5f0c2e442772dba3762b7ab962d4efd04"
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "mode": "text-lf",
+      "bytes": 331194,
+      "sha256": "32ede57954076b739ab4fa35fdb8e7cdfc3c35ad7c8daf7c21d03079b2f5e7ce"
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "mode": "text-lf",
+      "bytes": 792953,
+      "sha256": "308e7ab19f76d6b226f0513b3301e5ac0c8119f4c1f8ac04d0e6f4becd28628f"
+    },
+    {
+      "path": "assets/models/home/furniture/index.json",
+      "mode": "text-lf",
+      "bytes": 12939,
+      "sha256": "7c8e61168fded60891fef92e74d7244cbb8b80a3124d604441c09ffa556892f8"
+    },
+    {
+      "path": "assets/models/home/table-setting/index.json",
+      "mode": "text-lf",
+      "bytes": 27935,
+      "sha256": "dab21ee2622d81fa0b8cef6e91414ba3b4c5badae7467ff32982a55ac55af612"
+    },
+    {
+      "path": "artwork/coastal-home/coastal-home.blend",
+      "mode": "binary",
+      "bytes": 28997902,
+      "sha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad"
+    },
+    {
+      "path": "test/coastal-interior.test.mjs",
+      "mode": "text-lf",
+      "bytes": 11571,
+      "sha256": "20916bb2163e98cb8ae729889934142adf4e6f0f9f0f607534e0f191a98922b0"
+    },
+    {
+      "path": "test/coastal-walk.test.mjs",
+      "mode": "text-lf",
+      "bytes": 26656,
+      "sha256": "8acc2da87745ba7e95692f88882ba80c41803218977a55cb75da9c8f7e98f209"
+    },
+    {
+      "path": "test/walk-flight.test.mjs",
+      "mode": "text-lf",
+      "bytes": 4423,
+      "sha256": "0e172969fa513e3ba110e83c3e766f0c488d6922b34dc1d0752831052aab2489"
+    },
+    {
+      "path": "test/walk-flight-native.test.mjs",
+      "mode": "text-lf",
+      "bytes": 5188,
+      "sha256": "192d0cf522552856a5b62249e30d862349ea2fdf8d42d6287ca7904ae870a64c"
+    },
+    {
+      "path": "test/pool-impact.test.mjs",
+      "mode": "text-lf",
+      "bytes": 4059,
+      "sha256": "54cdfa0e177d6615523d4b93ac88c91558f440e61e19829b55d4f1c036406174"
+    },
+    {
+      "path": "test/visual/estate-redesign.spec.js",
+      "mode": "text-lf",
+      "bytes": 38659,
+      "sha256": "2ad8f0b587dca1d7da4e84c0a634ff2ea0905e0572fd75edeed516b731b8d5c8"
+    },
+    {
+      "path": "test/visual/scene-groups.json",
+      "mode": "text-lf",
+      "bytes": 22822,
+      "sha256": "2f268b493a7953bfa016e271bde9bf5962859015f16aaf97ba822efaccac7ec4"
+    },
+    {
+      "path": "Gemfile.lock",
+      "mode": "text-lf",
+      "bytes": 24446,
+      "sha256": "c65febf05c7df8c13d4b3e167f5880d144e6bf780d7cf0c8ef4d8057ef72da46"
+    },
+    {
+      "path": "_plugins/site_module_assets.rb",
+      "mode": "text-lf",
+      "bytes": 3186,
+      "sha256": "fe93afacf8a3cc996297d2b354b999885351d64515c00e33a456b73f41af5d75"
+    },
+    {
+      "path": "assets/models/home/BrandtsCormorant.glb",
+      "mode": "binary",
+      "bytes": 31040,
+      "sha256": "1bf0f9cd47a413903472c1dacfe5f8dfd554b6dfddbc668ca80d211cef98829a"
+    },
+    {
+      "path": "assets/models/home/BrownPelican.glb",
+      "mode": "binary",
+      "bytes": 34440,
+      "sha256": "97ef0286ae9e75740bc05a60726d8321a2c0afe6a1ac60ae0ff38e66fe11749c"
+    },
+    {
+      "path": "assets/models/home/BrushRabbit.glb",
+      "mode": "binary",
+      "bytes": 51116,
+      "sha256": "9f2c82d3e6d4845f9420395f805bcaaa4ee9ebfba9e1d4bbde21d87433cdd8e4"
+    },
+    {
+      "path": "assets/models/home/CaliforniaSeaLion.glb",
+      "mode": "binary",
+      "bytes": 34376,
+      "sha256": "42adf172e236ee3be115efc4112b4e2b05389029c5e4518649324162803ae103"
+    },
+    {
+      "path": "assets/models/home/coast.glb",
+      "mode": "binary",
+      "bytes": 241576,
+      "sha256": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf"
+    },
+    {
+      "path": "assets/models/home/flora.glb",
+      "mode": "binary",
+      "bytes": 2203180,
+      "sha256": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2"
+    },
+    {
+      "path": "assets/models/home/furniture/aeron-lod0.glb",
+      "mode": "binary",
+      "bytes": 167488,
+      "sha256": "4807a4756f37bbdc20c419e12d97ce5590b04d4d14799687a7e9e3dc23afe833"
+    },
+    {
+      "path": "assets/models/home/furniture/aeron-lod1.glb",
+      "mode": "binary",
+      "bytes": 82404,
+      "sha256": "b8426379cae8f3f065f1c35434e9fbce2c2ee8432b1695ce33b977fb21ca4c54"
+    },
+    {
+      "path": "assets/models/home/furniture/banquette-lod0.glb",
+      "mode": "binary",
+      "bytes": 107644,
+      "sha256": "f19bcd3ec454b652d4f90148e118286cd6a0d0b415a9a5b35de6418aba4f8027"
+    },
+    {
+      "path": "assets/models/home/furniture/banquette-lod1.glb",
+      "mode": "binary",
+      "bytes": 31432,
+      "sha256": "5ce8f0e210401f8ceff43e18704c0bed407b969a9bf2455a656ca97e09f64708"
+    },
+    {
+      "path": "assets/models/home/furniture/cast-iron-pan-lod0.glb",
+      "mode": "binary",
+      "bytes": 45100,
+      "sha256": "9fd7d450a35326af81038e78a8ebaf426357ceef82a4c3e653d0011fd2ffd48c"
+    },
+    {
+      "path": "assets/models/home/furniture/cast-iron-pan-lod1.glb",
+      "mode": "binary",
+      "bytes": 9488,
+      "sha256": "ca767c5adec75521ac90cfe9760927a83515016cc83c9dfe91e83b70d7cc0d5d"
+    },
+    {
+      "path": "assets/models/home/furniture/cloud-sofa-lod0.glb",
+      "mode": "binary",
+      "bytes": 130840,
+      "sha256": "a6959819fff369b4fea434f149212ab8346e3b1337cff03056464bca1bf83c2e"
+    },
+    {
+      "path": "assets/models/home/furniture/cloud-sofa-lod1.glb",
+      "mode": "binary",
+      "bytes": 55376,
+      "sha256": "74c1dc6b032f4f8d29d657b6ad129089366deb121008fc3f65d6817c554105b0"
+    },
+    {
+      "path": "assets/models/home/furniture/dining-chair-lod0.glb",
+      "mode": "binary",
+      "bytes": 45364,
+      "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
+    },
+    {
+      "path": "assets/models/home/furniture/dining-chair-lod1.glb",
+      "mode": "binary",
+      "bytes": 17196,
+      "sha256": "bb79a676b7bdc24c87ff05e99542bb0ca5d5807adec20886a38c6d02bf1b39f6"
+    },
+    {
+      "path": "assets/models/home/furniture/dining-table-lod0.glb",
+      "mode": "binary",
+      "bytes": 8932,
+      "sha256": "78a97dbb32aaa76ac76eadc9c8b63a2cc2747eaeaa95fd496ed5693e496dc80a"
+    },
+    {
+      "path": "assets/models/home/furniture/dining-table-lod1.glb",
+      "mode": "binary",
+      "bytes": 6880,
+      "sha256": "01c35852cbea182878bdbbe67baa4517090005850d9befaff215be0db9cfd884"
+    },
+    {
+      "path": "assets/models/home/furniture/dumbbell-lod0.glb",
+      "mode": "binary",
+      "bytes": 8564,
+      "sha256": "4bc2e416b9296c3c5d58aada192cef9066fcd7c64d1955054326e4c221551ca4"
+    },
+    {
+      "path": "assets/models/home/furniture/dumbbell-lod1.glb",
+      "mode": "binary",
+      "bytes": 4676,
+      "sha256": "7dc3be036ca00f584cc87d68fe2ca8db596704215a7439d1b3a6f713f942b92e"
+    },
+    {
+      "path": "assets/models/home/furniture/eames-lounge-lod0.glb",
+      "mode": "binary",
+      "bytes": 444892,
+      "sha256": "a14817679cc30a7d360006af3c0d7dfd0b07b1d786648a670ad786bf9fb06691"
+    },
+    {
+      "path": "assets/models/home/furniture/eames-lounge-lod1.glb",
+      "mode": "binary",
+      "bytes": 66616,
+      "sha256": "10028738fd7b5511e8cf7bf78eefd6ee283472a4e3a4f07cd8c426aa7d054ae4"
+    },
+    {
+      "path": "assets/models/home/furniture/floating-fireplace-lod0.glb",
+      "mode": "binary",
+      "bytes": 17264,
+      "sha256": "337540ca4ae878da0ea9160e0652b8e34ca15616722b92766339696e86d54496"
+    },
+    {
+      "path": "assets/models/home/furniture/floating-fireplace-lod1.glb",
+      "mode": "binary",
+      "bytes": 12588,
+      "sha256": "a2e4b7ccaa0c94c17bd4d36aa53d652f6babca7c1c7de6916c0311c89983be36"
+    },
+    {
+      "path": "assets/models/home/furniture/glass-fridge-lod0.glb",
+      "mode": "binary",
+      "bytes": 47092,
+      "sha256": "6f41c93fe08d8519669e47fee42c0a2390143a77019d98d1704b3d3d53fa11a9"
+    },
+    {
+      "path": "assets/models/home/furniture/glass-fridge-lod1.glb",
+      "mode": "binary",
+      "bytes": 33380,
+      "sha256": "d5aa3c3d41fb8fd1dbfa627bbbb59fb72d36eeb79dc32105d6420c80f5e1c52e"
+    },
+    {
+      "path": "assets/models/home/furniture/italian-range-lod0.glb",
+      "mode": "binary",
+      "bytes": 49312,
+      "sha256": "a91cd11a8889fa140e543a3471f8ca7b506929ee7ffdb9be8b70a4ce282b976a"
+    },
+    {
+      "path": "assets/models/home/furniture/italian-range-lod1.glb",
+      "mode": "binary",
+      "bytes": 32936,
+      "sha256": "d0df11d63b14764d755cd73b4b8ecfacc88dc87bd03d88514f048b9af56d776a"
+    },
+    {
+      "path": "assets/models/home/furniture/pot-filler-lod0.glb",
+      "mode": "binary",
+      "bytes": 7812,
+      "sha256": "a4695554f61f983141a41f1554b4e854562847ba8c66a929003595248ac5088a"
+    },
+    {
+      "path": "assets/models/home/furniture/pot-filler-lod1.glb",
+      "mode": "binary",
+      "bytes": 7340,
+      "sha256": "f326aa0fbf62e4c5bc3e24789d2314a29b983099b276d941748e5ce506d1560d"
+    },
+    {
+      "path": "assets/models/home/furniture/range-hood-lod0.glb",
+      "mode": "binary",
+      "bytes": 8944,
+      "sha256": "3413e686faf5ac8e45125c5f59b09560a9ef19c3d347f7257159b5fa2f9db25d"
+    },
+    {
+      "path": "assets/models/home/furniture/range-hood-lod1.glb",
+      "mode": "binary",
+      "bytes": 7520,
+      "sha256": "3c2c15aeb1d4e666a400d456bfcabeaca3c86c5151c9e694f4429a232f6a4195"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-bottles-lod0.glb",
+      "mode": "binary",
+      "bytes": 45924,
+      "sha256": "b33a347333fb60c47f18c0df317117a8f94a1c47081af557bc4b99b1d5cb51bd"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-bottles-lod1.glb",
+      "mode": "binary",
+      "bytes": 31808,
+      "sha256": "55f88df63ac7f7cc1177e7ed87dbd0900563e06b5a86ad66a28a886dc37d09af"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-loveseat-lod0.glb",
+      "mode": "binary",
+      "bytes": 91396,
+      "sha256": "b6afbf79f015679452a930793ceb81e0c1db2761b80061b5e451b7a610fae8cd"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-loveseat-lod1.glb",
+      "mode": "binary",
+      "bytes": 14860,
+      "sha256": "8192e15ecfaa11899f7dff5923c582908f673da9d8a62a7f0bff0128628bff4d"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-ottoman-lod0.glb",
+      "mode": "binary",
+      "bytes": 62492,
+      "sha256": "878367c94474eb41f9cea3e41fcd052d85690f87037840eb6c444769c3037205"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-ottoman-lod1.glb",
+      "mode": "binary",
+      "bytes": 7924,
+      "sha256": "aec6d5ce339227c32223e4f835977e4801afc26a69ec69736ef2f41f132b8d6e"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-side-table-lod0.glb",
+      "mode": "binary",
+      "bytes": 52508,
+      "sha256": "ba32afceae5854ba441a22d15157282c218eb16bdc632034d4fdaa5989126b3b"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-side-table-lod1.glb",
+      "mode": "binary",
+      "bytes": 35292,
+      "sha256": "3626132b589e67b5f8a72743497ca3820316fbd3edd6286732118816127eb99e"
+    },
+    {
+      "path": "assets/models/home/HarborSeal.glb",
+      "mode": "binary",
+      "bytes": 35632,
+      "sha256": "6e7b70c892d7b8aaa1351c9b16a7e33ba342348ff93012a4af9da368eb1949b6"
+    },
+    {
+      "path": "assets/models/home/hinterland.glb",
+      "mode": "binary",
+      "bytes": 1465588,
+      "sha256": "bef9e5588f58d1475eead6ee7e41a90981d7f8d366f6317da0f9d4912aad2922"
+    },
+    {
+      "path": "assets/models/home/home-shell.glb",
+      "mode": "binary",
+      "bytes": 898704,
+      "sha256": "b51f302da52907dc1d707c14ea3a3c4578da9f43f9147d7917a6bb0e1f99ce72"
+    },
+    {
+      "path": "assets/models/home/Raccoon.glb",
+      "mode": "binary",
+      "bytes": 49332,
+      "sha256": "52deb93ddfb227b521472adfe5ab2007cdba9903d28b333c8e290b4c2b8d5808"
+    },
+    {
+      "path": "assets/models/home/room-bath-bedroom.glb",
+      "mode": "binary",
+      "bytes": 106412,
+      "sha256": "23122cb51c7d2f3d580389eb4ffbf41a8f64f0e12f612ccb12a9f94fe37b2b80"
+    },
+    {
+      "path": "assets/models/home/room-bath-living.glb",
+      "mode": "binary",
+      "bytes": 104924,
+      "sha256": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72"
+    },
+    {
+      "path": "assets/models/home/room-gym.glb",
+      "mode": "binary",
+      "bytes": 222576,
+      "sha256": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de"
+    },
+    {
+      "path": "assets/models/home/room-kitchen.glb",
+      "mode": "binary",
+      "bytes": 244696,
+      "sha256": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e"
+    },
+    {
+      "path": "assets/models/home/room-library-upper.glb",
+      "mode": "binary",
+      "bytes": 22272,
+      "sha256": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85"
+    },
+    {
+      "path": "assets/models/home/room-library.glb",
+      "mode": "binary",
+      "bytes": 185640,
+      "sha256": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9"
+    },
+    {
+      "path": "assets/models/home/room-lounge.glb",
+      "mode": "binary",
+      "bytes": 231436,
+      "sha256": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390"
+    },
+    {
+      "path": "assets/models/home/room-onsen.glb",
+      "mode": "binary",
+      "bytes": 94408,
+      "sha256": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba"
+    },
+    {
+      "path": "assets/models/home/room-sleep.glb",
+      "mode": "binary",
+      "bytes": 292636,
+      "sha256": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28"
+    },
+    {
+      "path": "assets/models/home/room-study.glb",
+      "mode": "binary",
+      "bytes": 112436,
+      "sha256": "2a605f9445ec9523f935d9f71042e26027b57b3fd67310e0fe611e1a32467d92"
+    },
+    {
+      "path": "assets/models/home/Sandpiper.glb",
+      "mode": "binary",
+      "bytes": 20696,
+      "sha256": "0b1868fc7b7840cb3d6a8a822bdbdd053f3cdb73cb3ab69e8d07e6d65628d381"
+    },
+    {
+      "path": "assets/models/home/sirui-ghibli.glb",
+      "mode": "binary",
+      "bytes": 858356,
+      "sha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db"
+    },
+    {
+      "path": "assets/models/home/sirui-lizard.glb",
+      "mode": "binary",
+      "bytes": 540496,
+      "sha256": "ca6bac2c2610fdc72d705f144e36a9800f11715198f64d74f4f177034d90ba3d"
+    },
+    {
+      "path": "assets/models/home/sirui-rick-and-morty.glb",
+      "mode": "binary",
+      "bytes": 661616,
+      "sha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253"
+    },
+    {
+      "path": "assets/models/home/sirui-simpsons.glb",
+      "mode": "binary",
+      "bytes": 666964,
+      "sha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f"
+    },
+    {
+      "path": "assets/models/home/sirui-south-park.glb",
+      "mode": "binary",
+      "bytes": 714480,
+      "sha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-avocado-toast-lod0.glb",
+      "mode": "binary",
+      "bytes": 30136,
+      "sha256": "eb64e7c9e32fec230ae7f09e074c4438767b7e8adf509ef29b49a020472f13bd"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-avocado-toast-lod1.glb",
+      "mode": "binary",
+      "bytes": 26132,
+      "sha256": "527efe9f7db3a9290536276d4995e56a15ec44388c4e42bc78f5f93aed704a34"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-black-cod-lod0.glb",
+      "mode": "binary",
+      "bytes": 24332,
+      "sha256": "34e3127fee6ca16db7a0c9b4ca1ca897666f0ae5b5b085e6ab34271981838014"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-black-cod-lod1.glb",
+      "mode": "binary",
+      "bytes": 18704,
+      "sha256": "85e097053cb040d1aa3ab399ddbe52235f52a381c14f4df654b1a4af5c4d46da"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-burrata-lod0.glb",
+      "mode": "binary",
+      "bytes": 28020,
+      "sha256": "f4a15190078a942fb653a8ec0d88161ecd722a0ea0795c5e7203fcc1adffa6b5"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-burrata-lod1.glb",
+      "mode": "binary",
+      "bytes": 18104,
+      "sha256": "c85ed16ef4d3f80fe0a582ed93b663ee38b74682a9ef83cca268456aff4c8a3a"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-cacio-e-pepe-lod0.glb",
+      "mode": "binary",
+      "bytes": 58060,
+      "sha256": "75d66e0a6e8f19fd4b021db176dd1364b50760f1c13782499428ff421f8bc5e0"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-cacio-e-pepe-lod1.glb",
+      "mode": "binary",
+      "bytes": 26264,
+      "sha256": "427a75ad1921112a0e7bee227120f8075c79167f59f72e5588e12f270283e636"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-chocolate-fondant-lod0.glb",
+      "mode": "binary",
+      "bytes": 20816,
+      "sha256": "bf06d7d29b5cb5ba7ca4d0a087f1522c44fd6ba848c33bc963fde002f0278cc6"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-chocolate-fondant-lod1.glb",
+      "mode": "binary",
+      "bytes": 12784,
+      "sha256": "6291bf9ddf388a5fc1a51f30450f1c6fd696ad098e8b22c3f73afab757cd55d0"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-congee-lod0.glb",
+      "mode": "binary",
+      "bytes": 61564,
+      "sha256": "64872cd60eff471eabd29db9fa79320c5eb26eaeb627fb0abf0c7caf9f925cbf"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-congee-lod1.glb",
+      "mode": "binary",
+      "bytes": 40668,
+      "sha256": "94dfd2a407b5d4c0a553a6ef0f834ae19c5dc31fdcd72a2e009421299878487c"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-creme-brulee-lod0.glb",
+      "mode": "binary",
+      "bytes": 13736,
+      "sha256": "09318e01d5f83468cec2360f4b7ff71e19fee113fe9904376082bf888485bd60"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-creme-brulee-lod1.glb",
+      "mode": "binary",
+      "bytes": 8840,
+      "sha256": "14dde65e865446e62a326a7519060c0e6fd967998410ad34ddb3e09bc0769289"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-french-toast-lod0.glb",
+      "mode": "binary",
+      "bytes": 25204,
+      "sha256": "dcc64dbf909d3226718df4e86687218f25f8d096d61d9be2a9ba861c5f993c97"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-french-toast-lod1.glb",
+      "mode": "binary",
+      "bytes": 16032,
+      "sha256": "ff5ddfdf85e844db8068b5f4021bd48dd8faafa951b84abaa4f67cf11aff3996"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-matcha-cheesecake-lod0.glb",
+      "mode": "binary",
+      "bytes": 14052,
+      "sha256": "fc8216180d1fd41fb1f509e0c5ae23cdf47f2052ef622ff1ac959c5de9c0ee80"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-matcha-cheesecake-lod1.glb",
+      "mode": "binary",
+      "bytes": 9672,
+      "sha256": "c3824fd21c6e85932e4fa86c4adaab2e7d8a6f0f977479489006cf69b51aed8e"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-nicoise-lod0.glb",
+      "mode": "binary",
+      "bytes": 38588,
+      "sha256": "b86eb6221506f2b89bfc4ba2476a089406159a5546708258432bad4966f6ca53"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-nicoise-lod1.glb",
+      "mode": "binary",
+      "bytes": 23048,
+      "sha256": "5c219e3a5651280c3985cb7f456014922c5ca7c5661b6b3e2a97dc80000b9311"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-panna-cotta-lod0.glb",
+      "mode": "binary",
+      "bytes": 19084,
+      "sha256": "f8006a559f5c3aff643dc3a3f97409813c364867d9cd30ab57c64fc219e0189f"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-panna-cotta-lod1.glb",
+      "mode": "binary",
+      "bytes": 12216,
+      "sha256": "5fd8d77623936d0aa7ff8455fab7beed19e6adbd2d5131e9434736799a6b2008"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-poke-bowl-lod0.glb",
+      "mode": "binary",
+      "bytes": 39232,
+      "sha256": "9532d73a2bbdbac5f9771c5b027a42ca6cd9cf9dd5658d8f948681507ae96ad8"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-poke-bowl-lod1.glb",
+      "mode": "binary",
+      "bytes": 27408,
+      "sha256": "42f3c96b9a9c01e8599f3d3f5a6073be3931dfb1fc477dd1dc9502694f79a8e7"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-ramen-lod0.glb",
+      "mode": "binary",
+      "bytes": 61932,
+      "sha256": "338728893743fde155d536dfa2d9859b388f6b8ccbc7649ef411513d42e5b0c1"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-ramen-lod1.glb",
+      "mode": "binary",
+      "bytes": 34788,
+      "sha256": "ddee759881b24d40375677469d31d1d182cfcf9bf12d4dca8ef8db9647ce251b"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-ribeye-lod0.glb",
+      "mode": "binary",
+      "bytes": 30980,
+      "sha256": "f265265f916fae4ab2966a0a6d9a202e0d519e69223e1e38435d484eec5f83a1"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-ribeye-lod1.glb",
+      "mode": "binary",
+      "bytes": 20516,
+      "sha256": "2f7e13327343742917fd62f315d85e70d49eb3a1dcd5335fba320e6726eaa45e"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-ricotta-pancakes-lod0.glb",
+      "mode": "binary",
+      "bytes": 27632,
+      "sha256": "4dcb7e8b666415a3aecfda2463b6d5f5b4e54e06be955c422a963a8f95d6f28f"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-ricotta-pancakes-lod1.glb",
+      "mode": "binary",
+      "bytes": 16628,
+      "sha256": "5674da4bc0e982c53c4ef365ebc6a33af643c9c2c0ca717515811e309cc1f41c"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-risotto-lod0.glb",
+      "mode": "binary",
+      "bytes": 33352,
+      "sha256": "669a03d2dfe80717dde73490576852b7dce69c6d9c17638aec6b0dab5eeecd81"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-risotto-lod1.glb",
+      "mode": "binary",
+      "bytes": 25824,
+      "sha256": "c673063d68fb6afbb4689dd80dc07ab2470936eb1a1af5a4ceb18f3b3be0052a"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-salmon-lod0.glb",
+      "mode": "binary",
+      "bytes": 24768,
+      "sha256": "7e7a59e1ef31a8cae0b0db2079339b33bf26d791ecb935a40a16d995788ec9dc"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-salmon-lod1.glb",
+      "mode": "binary",
+      "bytes": 20948,
+      "sha256": "37e2daf2fb4528a1912a49d0452f6564c2f6926eaafe828087cd58b92567dcbf"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-scallops-lod0.glb",
+      "mode": "binary",
+      "bytes": 35312,
+      "sha256": "955991970030712e587e9eb62d7b630993eee3f90d0f1ec93c85f0738a61836b"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-scallops-lod1.glb",
+      "mode": "binary",
+      "bytes": 25076,
+      "sha256": "911d5e7a499cf42919ac178a1d2859bd33c0338349464ee695dbd9e784f9fb8c"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-shakshuka-lod0.glb",
+      "mode": "binary",
+      "bytes": 26224,
+      "sha256": "50f7cc934817e2ab6f80579984f1800a50f44ccdb7879d945a1a0c8d7e7a3a15"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-shakshuka-lod1.glb",
+      "mode": "binary",
+      "bytes": 20464,
+      "sha256": "b4eb6be44b4d464b3c0b7404070523412a0ea7149ef0b2eec819b59f36ff03e6"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-shrimp-bowl-lod0.glb",
+      "mode": "binary",
+      "bytes": 31536,
+      "sha256": "49e675d613b9220d89f3e9a7c1213c6ac79390033a07d584b2e6776176f38a38"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-shrimp-bowl-lod1.glb",
+      "mode": "binary",
+      "bytes": 26688,
+      "sha256": "c57fc06a3ceb10d5fd1403a210d738a553db8381ac6976e2be50f48b6b440ba6"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-tiramisu-lod0.glb",
+      "mode": "binary",
+      "bytes": 18068,
+      "sha256": "e14db3109570e7e7434ba7fa832044246342dbf9f65989b87ac2d0b81e250c94"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-tiramisu-lod1.glb",
+      "mode": "binary",
+      "bytes": 14776,
+      "sha256": "965b517d0447c8ad5df813731f1b0e916786280fbe74f8a5c74d4bd91b9261db"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-xiaolongbao-lod0.glb",
+      "mode": "binary",
+      "bytes": 31336,
+      "sha256": "1e6b629ba1e26cc86aaff8f2cbf41ac9263a3447d1d9a3f5d9f91e986ce8c34e"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-xiaolongbao-lod1.glb",
+      "mode": "binary",
+      "bytes": 19960,
+      "sha256": "2056e41327d935ceb1f6311b3f9e920f136bf3c2fb580ba9337d1d3ef4de0462"
+    },
+    {
+      "path": "assets/models/home/table-setting/tableware-lod0.glb",
+      "mode": "binary",
+      "bytes": 119736,
+      "sha256": "0a8c3528848e98bd96e84e269d188a45b050d4ec0ad3ea837eb7293bf8560e62"
+    },
+    {
+      "path": "assets/models/home/table-setting/tableware-lod1.glb",
+      "mode": "binary",
+      "bytes": 84140,
+      "sha256": "ba3dfb80225f3a819ea61e47087b73922d9a815ff7fc1f3d4d18deab4dfbdb41"
+    },
+    {
+      "path": "assets/models/home/WesternGull.glb",
+      "mode": "binary",
+      "bytes": 22912,
+      "sha256": "af06b16e55042d2fe314868703e5cd4edb64ba057fde2e809a628fce95c71a29"
+    }
+  ]
+}

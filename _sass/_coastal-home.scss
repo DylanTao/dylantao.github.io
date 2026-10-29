@@ -595,6 +595,14 @@ html.is-world-immersive {
   .home-world-walk kbd {
     display: none;
   }
+
+  // Within thumb reach above Look; the top bar retains room for the library ladder action.
+  .home-world-jump {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right, 0px));
+    bottom: calc(6.9rem + clamp(6.5rem, 26vmin, 9rem) + env(safe-area-inset-bottom, 0px));
+    padding-inline: 0.85rem;
+  }
 }
 
 // Walk mode (walk-controls.mjs): the switch sits beside Back to the site and fills with the accent

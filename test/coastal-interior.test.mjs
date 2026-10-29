@@ -193,7 +193,7 @@ test("living pit seats Sirui with feet on the cushion and a continuous fireplace
   assert.ok(manifest.fireplace.flueStart[1] < 1.9 && manifest.fireplace.flueTop[1] > 7);
 });
 
-test("infinity basin has a supported dry approach and native water excluded from Walk", () => {
+test("infinity basin has a supported dry approach and a tagged native water surface", () => {
   const pool = manifest.infinityPool;
   assert.equal(pool.depth, 1.35);
   assert.deepEqual(
@@ -208,5 +208,5 @@ test("infinity basin has a supported dry approach and native water excluded from
   assert.ok(pool.waveAmplitude <= 0.005);
   for (const p of pool.access) assert.ok(Math.abs(supportHeight(p[0], p[2], manifest.terrain, p[1]) - p[1]) < 0.03);
   const water = glbJson(manifest.shell).nodes.find((n) => n.name === pool.node);
-  assert.ok(water?.extras?.water, "native water is a Walk exclusion");
+  assert.ok(water?.extras?.water, "the swimming surface is explicitly identified in the delivered native asset");
 });

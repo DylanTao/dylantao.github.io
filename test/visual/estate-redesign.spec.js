@@ -14,6 +14,7 @@ const stateOf = (scene) => scene.page().evaluate(() => document.querySelector("[
 
 function visibleSceneFraction(bytes) {
   const image = PNG.sync.read(bytes);
+  const colors = new Set();
   let occupied = 0,
     sampled = 0;
   // Keep full-screen controls and the two touch sticks out of this proof. A
@@ -21,10 +22,14 @@ function visibleSceneFraction(bytes) {
   for (let y = Math.ceil(image.height * 0.15); y < image.height * 0.65; y++)
     for (let x = Math.ceil(image.width * 0.2); x < image.width * 0.8; x++) {
       const i = (x + image.width * y) * 4;
-      if (image.data[i + 3] > 100 && Math.min(image.data[i], image.data[i + 1], image.data[i + 2]) < 230) occupied++;
+      if (image.data[i + 3] > 100 && Math.min(image.data[i], image.data[i + 1], image.data[i + 2]) < 230) {
+        occupied++;
+        colors.add(((image.data[i] >> 4) << 8) | ((image.data[i + 1] >> 4) << 4) | (image.data[i + 2] >> 4));
+      }
       sampled++;
     }
-  return occupied / sampled;
+  // An opaque but uniform black/background-only canvas is not scene evidence.
+  return colors.size >= 16 ? occupied / sampled : 0;
 }
 
 async function inputFrame(page, scene, canvas, input) {
@@ -514,4 +519,244 @@ test("visitor circulation: the study joins outdoor living and the living facade 
       contentType: "application/json",
     });
   }
+});
+
+async function openFlightVisitor(page, testInfo, start, { keepViewport = false } = {}) {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.clock.install({ time: new Date("2026-10-23T13:00:00-07:00") });
+  await page.goto(publicRouteUrl("/") + "?scene-lab=1", { waitUntil: "domcontentloaded" });
+  await page.locator('[data-home-desk-mode="3d"]').click();
+  const scene = page.locator("[data-home-desk-scene]"),
+    canvas = scene.locator("canvas");
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 150000 });
+  await canvas.scrollIntoViewIfNeeded();
+  if (software && !keepViewport) {
+    await page.setViewportSize({ width: 480, height: 320 });
+    testInfo.annotations.push({ type: "functional viewport", description: "480x320 after complete loading; original scene and visitor physics" });
+  }
+  const beforeFullscreen = (await stateOf(scene)).frames;
+  await page.locator("[data-world-fullscreen]").click();
+  await expect.poll(async () => (await stateOf(scene)).fullscreen, { timeout: 60000 }).toBeTruthy();
+  await expect
+    .poll(async () => (await stateOf(scene)).resolution.css, { timeout: 60000 })
+    .toEqual(software && !keepViewport ? [480, 320] : [page.viewportSize().width, page.viewportSize().height]);
+  await expect.poll(async () => (await stateOf(scene)).frames, { timeout: 60000 }).toBeGreaterThan(beforeFullscreen);
+  await page.locator("[data-world-walk]").click();
+  await expect.poll(async () => (await stateOf(scene)).walk?.ready, { timeout: 120000 }).toBe(true);
+  // Decoded presence alone is not a complete view: planting is initially hidden during warmup.
+  await expect
+    .poll(
+      () =>
+        scene.evaluate((element) =>
+          ["clifftop-flora", "coastal-hinterland"].every((name) => {
+            const object = element.labScene.scene.getObjectByName(name);
+            if (!object) return false;
+            for (let node = object; node; node = node.parent) if (!node.visible) return false;
+            return true;
+          })
+        ),
+      { timeout: 150000 }
+    )
+    .toBe(true);
+  const readyFrame = (await stateOf(scene)).frames;
+  await scene.evaluate((element) => element.labScene.requestFrame());
+  await expect.poll(async () => (await stateOf(scene)).frames, { timeout: 60000 }).toBeGreaterThan(readyFrame);
+  expect(visibleSceneFraction(await canvas.screenshot())).toBeGreaterThan(0.1);
+  await pauseSceneClock(page);
+  await useSoftwareSceneCadence(page, { continuousHz: 10, force: true });
+  await inputFrame(page, scene, canvas, async () => {
+    expect(await scene.evaluate((element, position) => element.setLabWalk({ position, yaw: Math.PI, pitch: -0.6 }), start)).toBe(true);
+  });
+  await scene.evaluate((element) => {
+    element.setLabWalk = () => {
+      throw new Error("No placement after a flight's supported starting fixture");
+    };
+  });
+  await canvas.focus();
+  const rows = [],
+    proofPath = testInfo.outputPath("visitor-flight.json"),
+    read = async () => {
+      const evidence = await stateOf(scene);
+      return { walk: evidence.walk, pool: evidence.simulation.infinityPool, camera: evidence.camera, frames: evidence.frames };
+    },
+    record = async (phase) => {
+      const state = await read();
+      rows.push({ phase, ...state });
+      fs.writeFileSync(proofPath, JSON.stringify({ start, rows, errors }, null, 2));
+      return state;
+    },
+    tick = async () => {
+      await page.clock.runFor(100);
+      return read();
+    };
+  return { scene, canvas, errors, rows, record, tick, read };
+}
+
+test("visitor flight: a cliff jump enters the pool, settles and leaves by the native steps", async ({ page }, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "desktop-1440" && testInfo.project.use.browserName !== "webkit",
+    "One complete physical journey per engine; touch controls have their own case."
+  );
+  test.setTimeout(software ? 720000 : 300000);
+  const view = await openFlightVisitor(page, testInfo, [-1, null, 5]),
+    { scene, canvas, record, tick, read, errors } = view,
+    start = await record("supported-roof");
+  await page.keyboard.down("Shift");
+  await page.keyboard.down("KeyW");
+  await page.keyboard.press("Space");
+  let current = start,
+    airborne = false;
+  for (let i = 0; i < 60 && current.walk.position[2] > -1.9; i++) {
+    current = await tick();
+    if (!current.walk.grounded && current.walk.position[1] > start.walk.position[1] + 0.1) {
+      airborne = true;
+      expect(current.camera[1] - current.walk.position[1]).toBeCloseTo(1.6, 1);
+    }
+  }
+  await page.keyboard.up("KeyW");
+  await page.keyboard.up("Shift");
+  expect(airborne).toBe(true);
+  expect(current.walk.position[2]).toBeLessThanOrEqual(-1.9);
+  for (let i = 0; i < 60 && !current.walk.waterEntries; i++) current = await tick();
+  current = await record("pool-impact");
+  expect(current.walk.waterEntries).toBe(1);
+  expect(current.pool.impacts.impacts).toBe(1);
+  expect(current.pool.impacts.lastImpact.speed).toBeGreaterThan(8);
+  expect(current.pool.spray.emitted).toBeGreaterThan(0);
+  expect(current.pool.spray.materialsOwned, "streamed model finishing must preserve the splash materials").toBe(true);
+  expect(current.pool.spray.crownCompiled, "the actual water sheet shader has rendered").toBe(true);
+  expect(current.pool.impacts.amplitudeBound).toBeLessThanOrEqual(0.12001);
+  await testInfo.attach("visitor-pool-impact", { body: await canvas.screenshot(), contentType: "image/png" });
+  const impactEnergy = current.pool.impacts.energyJ;
+  for (let i = 0; i < 110; i++) current = await tick();
+  current = await record("floating-recovery");
+  expect(current.walk.wet).toBe(true);
+  expect(current.pool.impacts.energyJ).toBeLessThan(impactEnergy * 0.05);
+  expect(current.pool.spray.active).toBe(0);
+  expect(current.pool.spray.crown).toBe(false);
+  expect(Math.abs(current.walk.verticalVelocity)).toBeLessThan(0.05);
+  // Turn with the real keyboard, then wade onto the original basin treads and dry coping.
+  await page.keyboard.down("ArrowRight");
+  await page.clock.runFor((Math.PI / 1.9) * 1000);
+  await page.keyboard.up("ArrowRight");
+  await page.keyboard.down("KeyW");
+  for (let i = 0; i < 100 && current.walk.position[2] < 1.6; i++) current = await tick();
+  await page.keyboard.up("KeyW");
+  current = await record("dry-terrace");
+  expect(current.walk.position[2]).toBeGreaterThanOrEqual(1.6);
+  expect(current.walk.grounded).toBe(true);
+  expect(current.walk.wet).toBe(false);
+  expect(Math.abs(current.walk.position[1])).toBeLessThan(0.05);
+  expect(current.walk.jumps).toBe(1);
+  expect((await read()).walk.waterEntries).toBe(1);
+  expect(visibleSceneFraction(await canvas.screenshot())).toBeGreaterThan(0.1);
+  expect(errors).toEqual([]);
+});
+
+test("visitor flight: a clifftop fall reaches the native beach without a respawn", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440" && testInfo.project.use.browserName !== "webkit", "One complete physical journey per engine.");
+  test.setTimeout(software ? 720000 : 300000);
+  const { canvas, record, tick, errors } = await openFlightVisitor(page, testInfo, [10, null, 0]),
+    start = await record("supported-clifftop");
+  await page.keyboard.down("Shift");
+  await page.keyboard.down("KeyW");
+  await page.keyboard.press("Space");
+  let current = start,
+    crossedAir = false;
+  for (let i = 0; i < 100 && current.walk.position[1] > -6.4; i++) {
+    current = await tick();
+    crossedAir ||= !current.walk.grounded && current.walk.position[1] < 0 && current.walk.position[1] > -5;
+  }
+  await page.keyboard.up("KeyW");
+  await page.keyboard.up("Shift");
+  for (let i = 0; i < 40 && !current.walk.grounded; i++) current = await tick();
+  current = await record("beach-landing");
+  expect(crossedAir).toBe(true);
+  expect(start.walk.position[1] - current.walk.position[1]).toBeGreaterThan(10);
+  expect(current.walk.position[1]).toBeLessThan(-6.4);
+  expect(current.walk.position[1]).toBeGreaterThan(-8.3);
+  expect(current.walk.grounded).toBe(true);
+  expect(current.walk.jumps).toBe(1);
+  expect(visibleSceneFraction(await canvas.screenshot())).toBeGreaterThan(0.1);
+  await testInfo.attach("visitor-beach-landing", { body: await canvas.screenshot(), contentType: "image/png" });
+  expect(errors).toEqual([]);
+});
+
+test("visitor controls: touch jumping stays reachable in portrait and landscape", async ({ page }, testInfo) => {
+  test.skip(!testInfo.project.use.hasTouch, "The real touch controller is exercised at the phone project.");
+  test.setTimeout(software ? 600000 : 300000);
+  const { scene, canvas, record, tick, read, errors } = await openFlightVisitor(page, testInfo, [-1, null, 5], { keepViewport: true });
+  const jump = page.locator("[data-world-jump]");
+  const sizes = [
+    { width: 390, height: 1000 },
+    { width: 844, height: 390 },
+  ];
+  const chromium = page.context().browser().browserType().name() === "chromium";
+  for (let index = 0; index < sizes.length; index++) {
+    const size = sizes[index];
+    if (index) {
+      // Chromium cannot resize an OS window while it is in native fullscreen. Exercise its
+      // second orientation through the real exit/re-entry controls; WebKit rotates in place.
+      if (chromium) {
+        await page.locator("[data-world-exit]").tap();
+        await expect.poll(async () => Boolean((await stateOf(scene)).fullscreen)).toBe(false);
+      }
+      await page.setViewportSize(size);
+      if (chromium) {
+        await page.locator("[data-world-fullscreen]").tap();
+        await expect.poll(async () => (await stateOf(scene)).fullscreen).toBeTruthy();
+        await page.locator("[data-world-walk]").tap();
+        await expect(page.locator("[data-world-walk]")).toHaveAttribute("aria-pressed", "true");
+        await expect.poll(async () => (await stateOf(scene)).walk?.ready).toBe(true);
+      }
+    }
+    await inputFrame(page, scene, canvas, () => scene.evaluate((element) => element.labScene.requestFrame()));
+    await expect.poll(async () => (await stateOf(scene)).resolution.css).toEqual([size.width, size.height]);
+    const geometry = await page.evaluate(() => {
+      const box = (selector) => {
+        const element = document.querySelector(selector),
+          r = element.getBoundingClientRect();
+        return { x: r.x, y: r.y, right: r.right, bottom: r.bottom, width: r.width, height: r.height };
+      };
+      const button = document.querySelector("[data-world-jump]"),
+        r = button.getBoundingClientRect();
+      return {
+        jump: box("[data-world-jump]"),
+        move: box('[data-world-stick="move"]'),
+        look: box('[data-world-stick="look"]'),
+        hit: document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)?.closest("[data-world-jump]") === button,
+      };
+    });
+    expect(geometry.jump.width).toBeGreaterThanOrEqual(44);
+    expect(geometry.jump.height).toBeGreaterThanOrEqual(44);
+    expect(geometry.jump.x).toBeGreaterThanOrEqual(0);
+    expect(geometry.jump.right).toBeLessThanOrEqual(size.width);
+    expect(geometry.jump.y).toBeGreaterThanOrEqual(0);
+    expect(geometry.jump.bottom).toBeLessThanOrEqual(size.height);
+    expect(geometry.jump.bottom).toBeLessThanOrEqual(geometry.look.y - 8);
+    expect(geometry.hit, "Jump is visible and receives its own trusted touch").toBe(true);
+    const beginning = await read();
+    await inputFrame(page, scene, canvas, () => jump.tap());
+    let peak = beginning.walk.position[1];
+    for (let i = 0; i < 4; i++) peak = Math.max(peak, (await tick()).walk.position[1]);
+    expect(peak - beginning.walk.position[1]).toBeGreaterThan(0.8);
+    // A second trusted tap in midair must not manufacture another impulse.
+    await inputFrame(page, scene, canvas, () => jump.tap());
+    for (let i = 0; i < 15; i++) await tick();
+    const landed = await record(`${size.width}x${size.height}-roof-return`);
+    expect(landed.walk.jumps).toBe(index + 1);
+    expect(landed.walk.grounded).toBe(true);
+    expect(Math.abs(landed.walk.position[1] - beginning.walk.position[1])).toBeLessThan(0.05);
+    expect(visibleSceneFraction(await canvas.screenshot())).toBeGreaterThan(0.1);
+    fs.writeFileSync(testInfo.outputPath(`touch-jump-${size.width}.json`), JSON.stringify(geometry, null, 2));
+    const screenshot = await page.screenshot();
+    const pixels = PNG.sync.read(screenshot);
+    expect([pixels.width, pixels.height]).toEqual([size.width, size.height]);
+    fs.writeFileSync(testInfo.outputPath(`touch-jump-${size.width}.png`), screenshot);
+  }
+  await page.locator("[data-world-walk]").tap();
+  await expect(jump).toBeHidden();
+  expect(errors).toEqual([]);
 });

@@ -5358,7 +5358,7 @@
       [2.42, -0.355, 0.52],
       [2.42, -0.355, -0.35]
     ],
-    "safety": "Water remains excluded from first-person walking",
+    "safety": "The visitor can enter the pool, float and leave by its native basin steps; no fall damage",
     "activity": {
       "coordinateSystem": "THREE world metres [x,up,z]",
       "waterline": -0.09,
@@ -5903,8 +5903,8 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "e396ca6b861957192d9091a4ef964fc03282e5dd28a993f11b557e45e9ef143a",
-    "sha256": "a66421e75e6ab0c8ef7e1f8aca947df094678e72665cf1fa2f847633bb9941b0"
+    "signature": "947dbaa666db522e59b9291e63705e51b72a15b4ab4839fef96109a590364bbd",
+    "sha256": "308e7ab19f76d6b226f0513b3301e5ac0c8119f4c1f8ac04d0e6f4becd28628f"
   },
   "estateDoors": [
     {

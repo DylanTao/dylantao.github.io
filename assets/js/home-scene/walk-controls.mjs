@@ -3,6 +3,7 @@ import { BODY, createWalkFieldBuilder } from "./colliders.mjs";
 import { collisionBounds, ORBIT_DIRECTION, portraitFov } from "./camera.mjs";
 import { createGamepads } from "./gamepad.mjs";
 import { createVirtualJoysticks } from "./virtual-joysticks.mjs";
+import { stepFlight } from "./walk-flight.mjs";
 
 // Walk mode for the full-screen home (Sirui, 2026-10-19: "maybe the navigation in full screen can be a
 // bit more game like, like minecraft control that better leverage keyboard ... or joy stick on both
@@ -19,8 +20,9 @@ import { createVirtualJoysticks } from "./virtual-joysticks.mjs";
 //   Gamepad   left stick walks, right stick looks, the left stick's click or a left bumper runs.
 //
 // The body (colliders.mjs BODY) is a capsule that climbs steps and stairs, stops at walls, furniture,
-// glass and water, and never steps off a drop it could not climb back. Its collision field is built
-// from the loaded meshes when full screen opens. There is no head bob; reduced motion removes every
+// glass, and can jump or fall off a ledge without damage. Pool water slows and floats the body;
+// the actual basin steps lead back out. Its collision field is built from loaded meshes when full
+// screen opens. There is no head bob; reduced motion removes every
 // ease (velocity, steps, the arrival glide) but keeps every control.
 export const WALK = Object.freeze({
   eyeHeight: 1.6,
@@ -53,9 +55,10 @@ const MOVE_KEYS = new Set([
   "ShiftRight",
   "PageUp",
   "PageDown",
+  "Space",
 ]);
 // Some on-screen keyboards report no physical code; their characters stand in.
-const KEY_CODES = { w: "KeyW", a: "KeyA", s: "KeyS", d: "KeyD", v: "KeyV", shift: "ShiftLeft" };
+const KEY_CODES = { w: "KeyW", a: "KeyA", s: "KeyS", d: "KeyD", v: "KeyV", shift: "ShiftLeft", " ": "Space" };
 export const keyCode = (event) => event.code || KEY_CODES[String(event.key || "").toLowerCase()] || event.key || "";
 // Orbit shortcuts that walking keeps to itself (D strafes; N, digits and Enter do nothing).
 const SWALLOWED = /^(KeyN|Digit[0-9]|Enter|NumpadEnter|Equal|Minus|NumpadAdd|NumpadSubtract|Home|KeyV)$/;
@@ -223,6 +226,36 @@ export function roomAt(config, x, z, foot, previous = null) {
   return current - nearest < 0.4 && previous && previous !== "outside" && current < Infinity ? previous : best;
 }
 
+// Shared with delivered-geometry journey checks. The near beach belongs to a cliff fall's
+// collision field too; stopping at the old house rectangle cuts the walk off halfway down it.
+export function walkFieldBounds(config, roots = []) {
+  const box = new THREE.Box3(),
+    add = (min, max) => box.union(new THREE.Box3(new THREE.Vector3(...min), new THREE.Vector3(...max))),
+    reach = collisionBounds(config);
+  if (reach) add(reach.min, reach.max);
+  if (config.terrace?.region) add(config.terrace.region.min, config.terrace.region.max);
+  if (config.walk?.region) add(config.walk.region.min, config.walk.region.max);
+  const part = new THREE.Box3(),
+    size = new THREE.Vector3();
+  for (const root of roots) {
+    if (!root) continue;
+    part.setFromObject(root);
+    if (!part.isEmpty() && part.getSize(size).x < 90 && size.z < 90) box.union(part);
+  }
+  if (box.isEmpty()) return null;
+  for (const row of config.beach?.samples || []) {
+    if (row[0] < box.min.x - 1 || row[0] > box.max.x + 1) continue;
+    box.min.z = Math.min(box.min.z, -(row[1] + row[2]));
+    for (const height of row.slice(4)) if (Number.isFinite(height)) box.min.y = Math.min(box.min.y, height);
+  }
+  const centre = box.getCenter(new THREE.Vector3()),
+    half = 40;
+  return {
+    min: [Math.max(box.min.x - 1.5, centre.x - half), box.min.y - 1, Math.max(box.min.z - 1.5, centre.z - half)],
+    max: [Math.min(box.max.x + 1.5, centre.x + half), box.max.y + 2.5, Math.min(box.max.z + 1.5, centre.z + half)],
+  };
+}
+
 export function createWalkMode({
   camera,
   canvas,
@@ -237,6 +270,8 @@ export function createWalkMode({
   isFullscreen,
   isReady = () => true,
   isReduced = () => false,
+  waterAt = () => null,
+  onWaterImpact = () => {},
   hint = () => {},
   requestFrame = () => {},
   onEnter = () => {},
@@ -246,7 +281,7 @@ export function createWalkMode({
   const doc = canvas.ownerDocument,
     win = doc.defaultView || globalThis;
   const keys = new Set();
-  const state = { x: 0, z: 0, foot: 0, eye: WALK.eyeHeight, eyeVelocity: 0, yaw: 0, pitch: 0, vx: 0, vz: 0 };
+  const state = { x: 0, z: 0, foot: 0, eye: WALK.eyeHeight, eyeVelocity: 0, yaw: 0, pitch: 0, vx: 0, vz: 0, vy: 0, grounded: true, wet: false };
   let active = false,
     placed = false,
     provisional = false,
@@ -268,11 +303,13 @@ export function createWalkMode({
     blockedFrames = 0,
     lastBlocked = null,
     gamepadPoller = 0,
-    distance = 0;
+    distance = 0,
+    jumpQueued = false;
   const touches = new Map();
   const listeners = [];
   const coarse = win.matchMedia?.("(pointer: coarse)");
   const button = stage.querySelector("[data-world-walk]");
+  const jumpButton = stage.querySelector("[data-world-jump]");
   const crosshair = doc.createElement("span");
   crosshair.className = "home-world-crosshair";
   crosshair.setAttribute("aria-hidden", "true");
@@ -288,33 +325,6 @@ export function createWalkMode({
   function on(target, type, fn, options) {
     target.addEventListener(type, fn, options);
     listeners.push(() => target.removeEventListener(type, fn, options));
-  }
-
-  // The collision field covers the house as loaded: the room targets' reach (camera.mjs), the
-  // terrace, an optional manifest walk.region and the bounds of the house's own models, so an
-  // expanded house or an entrance stair from the clifftop is inside it.
-  function fieldBounds(config) {
-    const box = new THREE.Box3();
-    const add = (min, max) => box.union(new THREE.Box3(new THREE.Vector3(...min), new THREE.Vector3(...max)));
-    const reach = collisionBounds(config);
-    if (reach) add(reach.min, reach.max);
-    if (config.terrace?.region) add(config.terrace.region.min, config.terrace.region.max);
-    if (config.walk?.region) add(config.walk.region.min, config.walk.region.max);
-    const part = new THREE.Box3(),
-      size = new THREE.Vector3();
-    for (const root of houseRoots()) {
-      if (!root) continue;
-      part.setFromObject(root);
-      // A model that spans the whole coast would only widen the field over the sea.
-      if (!part.isEmpty() && part.getSize(size).x < 90 && size.z < 90) box.union(part);
-    }
-    if (box.isEmpty()) return null;
-    const centre = box.getCenter(new THREE.Vector3());
-    const half = 40;
-    return {
-      min: [Math.max(box.min.x - 1.5, centre.x - half), box.min.y - 1, Math.max(box.min.z - 1.5, centre.z - half)],
-      max: [Math.min(box.max.x + 1.5, centre.x + half), box.max.y + 2.5, Math.min(box.max.z + 1.5, centre.z + half)],
-    };
   }
 
   // Builds the field when full screen opens, so walking is ready before it is asked for.
@@ -334,7 +344,7 @@ export function createWalkMode({
   function prepare() {
     const config = getConfig();
     if (builder || !config || !isReady()) return Boolean(builder);
-    const bounds = fieldBounds(config);
+    const bounds = walkFieldBounds(config, houseRoots());
     if (!bounds) return false;
     builder = createWalkFieldBuilder({
       bounds,
@@ -370,6 +380,9 @@ export function createWalkMode({
     state.foot = found.foot;
     state.eye = found.foot + WALK.eyeHeight;
     state.eyeVelocity = state.vx = state.vz = 0;
+    state.vy = 0;
+    state.grounded = true;
+    state.wet = false;
     if (next.look) {
       const dx = next.look[0] - state.x,
         dz = next.look[2] - state.z;
@@ -397,10 +410,10 @@ export function createWalkMode({
     win.clearTimeout(hintTimer);
     const touch = coarse?.matches || touchSeen;
     const text = pad.connected
-      ? "Left stick to walk · right stick to look · Y to orbit"
+      ? "Left stick to walk · right stick to look · A to jump · Y to orbit"
       : touch
         ? "Left thumb to walk · right thumb to look"
-        : "WASD to walk · drag or click to look · Esc to leave";
+        : "WASD to walk · Space to jump · drag or click to look";
     hint(text, 0);
     // Gone after the first steps, or after a while without any.
     hintTimer = win.setTimeout(() => hint(null), 12000);
@@ -419,6 +432,7 @@ export function createWalkMode({
       button.setAttribute("aria-pressed", String(active));
       button.title = active ? "Back to orbiting (V)" : "Walk around (V)";
     }
+    if (jumpButton) jumpButton.hidden = !active;
     if (active && (coarse?.matches || touchSeen)) sticks.show();
     else sticks.hide();
   }
@@ -435,6 +449,7 @@ export function createWalkMode({
     if (!plan) return false;
     active = true;
     keys.clear();
+    jumpQueued = false;
     pendingYaw = pendingPitch = 0;
     fov = WALK.fov;
     distance = 0;
@@ -444,7 +459,12 @@ export function createWalkMode({
     startPosition.copy(camera.position);
     startQuaternion.copy(camera.quaternion);
     transition = isReduced() ? null : { t: 0, fromFov: camera.fov };
-    place(plan);
+    if (resume?.motion && resume.config === config && resume.room === currentView.room) {
+      Object.assign(state, resume.motion);
+      placed = true;
+      provisional = false;
+      updateRoom(true);
+    } else place(plan);
     syncChrome();
     showHelp();
     canvas.focus({ preventScroll: true });
@@ -456,7 +476,12 @@ export function createWalkMode({
     if (!active) return false;
     resume =
       restore && placed && !provisional
-        ? { config: getConfig(), room, plan: { candidates: [[state.x, state.z]], floor: state.foot, yaw: state.yaw, pitch: state.pitch } }
+        ? {
+            config: getConfig(),
+            room,
+            plan: { candidates: [[state.x, state.z]], floor: state.foot, yaw: state.yaw, pitch: state.pitch },
+            motion: { ...state },
+          }
         : null;
     active = false;
     keys.clear();
@@ -496,6 +521,7 @@ export function createWalkMode({
   function frame(dt) {
     if (!active) return;
     const reduced = isReduced();
+    const fallingEyes = !state.grounded && (!state.wet || Math.abs(state.vy) > 0.5);
     dt = Math.min(Math.max(dt, 0), 0.25);
     pad = gamepads.poll();
     if (pad.toggled) {
@@ -519,34 +545,42 @@ export function createWalkMode({
     const magnitude = Math.hypot(strafe, forward);
     // A thumb pushed to the stick's rim runs; keys need Shift and controllers their run button.
     const thumbRun = !keyInput.strafe && !keyInput.forward && Math.hypot(...sticks.state.move) >= 0.95;
-    const speed = walkSpeed(magnitude, keyInput.run || pad.run || thumbRun, WALK);
+    const speed = walkSpeed(magnitude, keyInput.run || pad.run || thumbRun, WALK) * (state.wet ? 0.55 : 1);
     const [wx, wz] = magnitude > 0 ? walkDirection(state.yaw, strafe / magnitude, forward / magnitude) : [0, 0];
     const motionX = integrateVelocity(state.vx, wx * speed, dt, WALK.accelTau, reduced),
       motionZ = integrateVelocity(state.vz, wz * speed, dt, WALK.accelTau, reduced);
     state.vx = motionX.velocity;
     state.vz = motionZ.velocity;
     if (Math.abs(state.vx) < 1e-4 && Math.abs(state.vz) < 1e-4) state.vx = state.vz = 0;
-    if (placed && builder?.ready && (state.vx || state.vz)) {
-      const result = builder.field.move(state.x, state.z, state.foot, motionX.distance, motionZ.distance, BODY, dynamicObstacles());
+    if (placed && builder?.ready) {
+      const beforeX = state.x,
+        beforeZ = state.z,
+        result = stepFlight(state, builder.field, {
+          dt,
+          dx: motionX.distance,
+          dz: motionZ.distance,
+          jump: jumpQueued || pad.jumped,
+          waterAt,
+          impact: onWaterImpact,
+          dynamic: dynamicObstacles(),
+        });
+      jumpQueued = false;
       if (result.moved > 1e-4) firstMove();
       distance += result.moved;
       if (result.blocked) {
         blockedFrames++;
-        lastBlocked = { at: [result.x, result.foot, result.z], wanted: [motionX.distance, motionZ.distance] };
+        lastBlocked = { at: [state.x, state.foot, state.z], wanted: [motionX.distance, motionZ.distance] };
         // What a wall stops does not build up: the velocity keeps only what was travelled.
         if (dt > 0) {
-          state.vx = (result.x - state.x) / dt;
-          state.vz = (result.z - state.z) / dt;
+          state.vx = (state.x - beforeX) / dt;
+          state.vz = (state.z - beforeZ) / dt;
         }
       }
-      state.x = result.x;
-      state.z = result.z;
-      state.foot = result.foot;
       updateRoom();
     }
     // The eyes follow the feet over steps.
     const eyeTarget = state.foot + WALK.eyeHeight;
-    if (reduced || Math.abs(eyeTarget - state.eye) > 1.5) {
+    if (reduced || fallingEyes || (!state.grounded && (!state.wet || Math.abs(state.vy) > 0.5)) || Math.abs(eyeTarget - state.eye) > 1.5) {
       state.eye = eyeTarget;
       state.eyeVelocity = 0;
     } else {
@@ -608,7 +642,8 @@ export function createWalkMode({
       if (MOVE_KEYS.has(code)) {
         event.preventDefault();
         event.stopImmediatePropagation();
-        keys.add(code);
+        if (code === "Space" && !event.repeat) jumpQueued = true;
+        else if (code !== "Space") keys.add(code);
         requestFrame();
         return;
       }
@@ -639,6 +674,7 @@ export function createWalkMode({
     drag = pinch = null;
     touches.clear();
     pendingYaw = pendingPitch = state.vx = state.vz = 0;
+    jumpQueued = false;
     // Mobile browsers do not always deliver pointercancel when a held thumb loses the page.
     // Reset both captured sticks as well as the keys, so returning never resumes an old walk.
     if (active) {
@@ -783,6 +819,14 @@ export function createWalkMode({
       // Keys go to the scene, not the switch.
       canvas.focus({ preventScroll: true });
     });
+  if (jumpButton)
+    on(jumpButton, "click", () => {
+      if (active) {
+        jumpQueued = true;
+        canvas.focus({ preventScroll: true });
+        requestFrame();
+      }
+    });
 
   // A controller's Y switches to walking even while the orbit view is idle and draws no frames.
   function pollToggle() {
@@ -823,17 +867,35 @@ export function createWalkMode({
         transition ||
         state.vx ||
         state.vz ||
+        (!state.grounded && !state.wet) ||
+        Math.abs(state.vy) > 0.002 ||
+        jumpQueued ||
         Math.abs(state.eye - eyeTarget) > 0.001 ||
         (!placed && builder)
       );
     },
-    // Lab and tests (scene-lab=1): stand somewhere and face a way.
+    // Lab and tests (scene-lab=1): stand somewhere and face a way. A null height selects the
+    // highest actual supported surface, so native revisions do not require an invented spawn Y.
     labPlace({ position: at, yaw = state.yaw, pitch = 0 }) {
       if (!active) return false;
       const field = builder?.ready ? builder.field : null;
-      const found = field?.findStand(at[0], at[2], at[1], { reach: 0.6 }) ?? null;
+      const height = at[1] === null ? field?.floorBelow(at[0], at[2], Infinity) : at[1];
+      const found = field?.findStand(at[0], at[2], height, { reach: 0.6 }) ?? null;
       if (!found) return false;
-      Object.assign(state, { x: found.x, z: found.z, foot: found.foot, eye: found.foot + WALK.eyeHeight, eyeVelocity: 0, vx: 0, vz: 0, yaw, pitch });
+      Object.assign(state, {
+        x: found.x,
+        z: found.z,
+        foot: found.foot,
+        eye: found.foot + WALK.eyeHeight,
+        eyeVelocity: 0,
+        vx: 0,
+        vz: 0,
+        vy: 0,
+        grounded: true,
+        wet: false,
+        yaw,
+        pitch,
+      });
       placed = true;
       transition = null;
       updateRoom(true);
@@ -841,7 +903,15 @@ export function createWalkMode({
       return true;
     },
     // Per-frame consumers need only the live capsule, not a scan of every collision column.
-    pose: () => ({ active, position: [state.x, state.foot, state.z], yaw: state.yaw, velocity: [state.vx, state.vz] }),
+    pose: () => ({
+      active,
+      position: [state.x, state.foot, state.z],
+      yaw: state.yaw,
+      velocity: [state.vx, state.vz],
+      verticalVelocity: state.vy,
+      grounded: state.grounded,
+      wet: state.wet,
+    }),
     evidence() {
       return {
         active,
@@ -854,6 +924,11 @@ export function createWalkMode({
         pitch: state.pitch,
         fov,
         velocity: [state.vx, state.vz],
+        verticalVelocity: state.vy,
+        grounded: state.grounded,
+        wet: state.wet,
+        jumps: state.jumps || 0,
+        waterEntries: state.waterEntries || 0,
         room,
         locked,
         keys: [...keys],
@@ -864,7 +939,7 @@ export function createWalkMode({
         blockedFrames,
         lastBlocked,
         body: { ...BODY, eyeHeight: WALK.eyeHeight },
-        field: builder?.evidence() ?? null,
+        field: builder ? { ...builder.evidence(), bounds: builder.field.bounds } : null,
       };
     },
     dispose() {

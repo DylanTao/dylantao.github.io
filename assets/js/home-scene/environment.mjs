@@ -10,6 +10,7 @@ import {
   oceanFieldGLSL,
   oceanRipplesGLSL,
   sampleOcean,
+  oceanWindState,
   syncOceanFFT,
   oceanFFTEvidence,
   disposeOceanFFT,
@@ -383,7 +384,9 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
   }
   waterGeometry.computeBoundingSphere();
   const ocean = new THREE.Mesh(waterGeometry, modelWater);
+  ocean.userData.walk = "through";
   ocean.position.set(SEA_PLANE.center[0], SEA_LEVEL, SEA_PLANE.center[1]);
+  const visitorSea = { turn: [1, 0], scale: new Float32Array(OCEAN_WAVES.length) };
   ocean.receiveShadow = true;
   // The normal-depth override does not run this material's wave displacement.
   // Its flat mesh would create false animal contacts up to 26 cm away from
@@ -741,6 +744,12 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       setPalette(next, light);
     },
     waterSky,
+    waterAt(x, z) {
+      if (Math.abs(x - ocean.position.x) > SEA_PLANE.size / 2 || Math.abs(z - ocean.position.z) > SEA_PLANE.size / 2) return null;
+      const wind = oceanWindState(coastWind.state.meanSpeed, coastWind.state.yaw, visitorSea),
+        surface = sampleOcean(x - ocean.position.x, z - ocean.position.z, time.value, 0.24, wind);
+      return { id: "pacific", y: SEA_LEVEL + surface.displacement[1] };
+    },
     // The sky's colours for the house's light (linear radiance: the probe field's three-colour sky,
     // the steam's ambient, the light well's skylight), with the interior's bounce fill.
     lightColors: () => ({ zenith: skyColors.zenith.toArray(), horizon: skyColors.horizon.toArray(), ground: skyColors.ground.toArray() }),
