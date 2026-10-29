@@ -1,0 +1,133 @@
+{
+  "firstEntry": {
+    "base": {
+      "samples": 14,
+      "validGpuSamples": 14,
+      "draws": [1450],
+      "gpuMedianMs": 20.584448000000002,
+      "submitMedianMs": 19.900000005960464,
+      "gpuScope": "TIME_ELAPSED_EXT around actual sea-mirror renderer.render; includes GPU idle waiting for CPU dispatch, not pure shader time",
+      "phase": "All first visible mirror draws through next 12 requested native input draws; paused scene clock, no FPS claim",
+      "errors": []
+    },
+    "work": {
+      "samples": 14,
+      "validGpuSamples": 14,
+      "draws": [744],
+      "gpuMedianMs": 9.655296,
+      "submitMedianMs": 10.250000029802322,
+      "gpuScope": "TIME_ELAPSED_EXT around actual sea-mirror renderer.render; includes GPU idle waiting for CPU dispatch, not pure shader time",
+      "phase": "All first visible mirror draws through next 12 requested native input draws; paused scene clock, no FPS claim",
+      "errors": []
+    }
+  },
+  "broadAttempts": {
+    "finish-reuse": [
+      {
+        "variant": "off",
+        "fps": 17.43312293357379,
+        "draws": 2318,
+        "readyMs": 12440.700000047684,
+        "programs": null,
+        "bytes": 0
+      },
+      {
+        "variant": "on",
+        "fps": 17.304572492939975,
+        "draws": 2320,
+        "readyMs": 12171,
+        "programs": null,
+        "bytes": 0
+      },
+      {
+        "variant": "on",
+        "fps": 17.489099675748264,
+        "draws": 2320,
+        "readyMs": 12512.100000023842,
+        "programs": null,
+        "bytes": 0
+      },
+      {
+        "variant": "off",
+        "fps": 17.280483853622062,
+        "draws": 2320,
+        "readyMs": 12089.400000035763,
+        "programs": null,
+        "bytes": 0
+      }
+    ],
+    "raw-batching": [
+      {
+        "variant": "off",
+        "fps": 17.03550641200736,
+        "draws": 2320,
+        "readyMs": 11873.400000035763,
+        "programs": 137,
+        "bytes": 0
+      },
+      {
+        "variant": "on",
+        "fps": 15.919049270335295,
+        "draws": 2066,
+        "readyMs": 12490.300000011921,
+        "programs": 137,
+        "bytes": 32106336
+      },
+      {
+        "variant": "on",
+        "fps": 15.6602355298839,
+        "draws": 2068,
+        "readyMs": 14355.699999988079,
+        "programs": 141,
+        "bytes": 31387552
+      },
+      {
+        "variant": "off",
+        "fps": 16.67872989888969,
+        "draws": 2318,
+        "readyMs": 11804.600000023842,
+        "programs": 137,
+        "bytes": 0
+      }
+    ],
+    "memoized-batching": [
+      {
+        "variant": "off",
+        "fps": 16.989680342278735,
+        "draws": 2320,
+        "readyMs": 12162.700000047684,
+        "programs": 137,
+        "bytes": 0
+      },
+      {
+        "variant": "on",
+        "fps": 15.839410334823178,
+        "draws": 2066,
+        "readyMs": 12011.200000047684,
+        "programs": 141,
+        "bytes": 32197576
+      },
+      {
+        "variant": "on",
+        "fps": 15.779770646443112,
+        "draws": 2064,
+        "readyMs": 11995.300000011921,
+        "programs": 141,
+        "bytes": 32214672
+      },
+      {
+        "variant": "off",
+        "fps": 17.05352913311227,
+        "draws": 2318,
+        "readyMs": 11727.5,
+        "programs": 137,
+        "bytes": 0
+      }
+    ]
+  },
+  "pixelControls": {
+    "2kTimedSteady": "exact PNG match",
+    "4kFirstAndSteady": "exact PNG match",
+    "initial2k": "Two fireplace-edge pixels varied between visits; unchanged work repeat matches baseline exactly. Raw initial and repeat controls retained."
+  }
+}

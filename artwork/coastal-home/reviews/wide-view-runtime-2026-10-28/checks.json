@@ -1,0 +1,13 @@
+{
+  "sourceCommit": "e567cbbc1955a5adfa2e7c90b54357b9c4dcecd7",
+  "targetedNode": "15 passed, 0 failed across coastal-sea-reflection, coastal-contact-lighting and coastal-shadow-cache; includes 2 new sea-reflection unit tests; byte-exact UTF-8 producer log retained in raw/targeted-node.log.gz",
+  "nativeChromium": "New actual late-load/room/avatar/quality/nonblank case and existing actual context-loss/retry case passed; 2 cases, 35.0s",
+  "webkitTouch": "Same new case passed on Windows WebKit 27.2 / Playwright 1.65 alpha at 390x1000, DPR1, touch; 1 case, 2.4min; not a physical iPhone or speed measurement",
+  "browserCase": {
+    "file": "test/visual/coastal-finish.spec.js",
+    "title": "coastal reflection: late models are excluded on the first sea mirror draw and remain in the main scene",
+    "pinnedCaseDate": "2026-10-23T13:00:00-07:00"
+  },
+  "timing": "Paired first-entry native query window with root/F6 compute held; all source assets present, no reduced resolution or omitted models",
+  "pending": "Coordinator owns new scene-title registry row, final source-bound cache bake, combined CI and live publication."
+}
