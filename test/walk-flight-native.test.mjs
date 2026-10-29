@@ -46,6 +46,19 @@ function supported(field, x, z) {
   return { ...result, grounded: true, vy: 0, vz: 0 };
 }
 
+test("the public arrival marker leaves a full capsule on the flat native landing", async () => {
+  const { field } = await delivered(),
+    [x, y, z] = config.walk.start.position;
+  assert.deepEqual(config.walk.mainEntryRoute[0], [x, y, z]);
+  // Include the route's 13cm endpoint tolerance, not just an exact center placement.
+  for (let k = 0; k < 16; k++) {
+    const angle = (k * Math.PI) / 8,
+      radius = BODY.radius + 0.13,
+      floor = field.floorBelow(x + radius * Math.cos(angle), z + radius * Math.sin(angle), y + 0.2);
+    assert.ok(Math.abs(floor - y) < 0.005, `landing support at rim ${k}: ${floor}`);
+  }
+});
+
 function advance(state, field, target, waterAt, jump, impacts) {
   const dt = 1 / 120,
     motion = integrateVelocity(state.vz, target, dt);

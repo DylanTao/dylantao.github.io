@@ -485,10 +485,16 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
                     : "stoneNoise(surfacePoint*32.0)*.001"
       };
       vec3 eyeX = dFdx(-vViewPosition), eyeY = dFdy(-vViewPosition);
+      float xScale = max(length(eyeX), 1e-10);
+      float yScale = max(length(eyeY), 1e-10);
+      eyeX /= xScale;
+      eyeY /= yScale;
       vec3 r1 = cross(eyeY, normal), r2 = cross(normal, eyeX);
       float det = dot(eyeX, r1);
-      vec3 gradient = sign(det) * (dFdx(height)*r1 + dFdy(height)*r2);
-      normal = normalize(abs(det)*normal - gradient);
+      vec3 gradient = sign(det) * ((dFdx(height)/xScale)*r1 + (dFdy(height)/yScale)*r2);
+      vec3 bumpNormal = abs(det)*normal - gradient;
+      float bumpLength2 = dot(bumpNormal,bumpNormal);
+      normal = bumpLength2 > 1e-12 ? bumpNormal*inversesqrt(bumpLength2) : normal;
     `
     );
   };

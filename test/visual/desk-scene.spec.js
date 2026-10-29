@@ -2367,7 +2367,11 @@ test("coastal home: public entrance reaches the living floor and returns to the 
   // The responsive resize can move the embed below the short functional
   // viewport and queue an offscreen observation. Settle its visible draw
   // before starting the independent native fullscreen transition.
-  await sceneInputFrame(page, view, () => canvas.scrollIntoViewIfNeeded());
+  // An already-visible native embed makes scrolling a no-op and needs no new reduced-motion
+  // draw. Settle visibility itself; the next real fullscreen action must still produce a frame.
+  await canvas.scrollIntoViewIfNeeded();
+  await expect(canvas).toBeInViewport();
+  await page.clock.runFor(200);
   await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click());
   await sceneInputFrame(page, view, () => canvas.press("v"));
   await expect.poll(async () => (await evidence(scene)).walk?.ready, { timeout: 90000 }).toBe(true);
@@ -2649,6 +2653,56 @@ test("coastal bathrooms: both floors retain clear day and night views and safe c
   });
   expect(closed.every(Boolean)).toBe(true);
   fs.writeFileSync(testInfo.outputPath("bathroom-views.json"), JSON.stringify(views, null, 2));
+  expect(errors).toEqual([]);
+});
+
+test("coastal home: desktop orbit sweeps stay proportional and cross the old vertical limits", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "Fine-pointer controls; the separate touch cases retain their existing gain.");
+  test.setTimeout(process.platform === "linux" ? 300000 : 180000);
+  const errors = collectRuntimeErrors(page);
+  const view = await openClockedHome(page);
+  const { scene, canvas, ui } = view;
+  await explore(ui);
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click());
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-room="outside"]').first().click());
+  const controls = ui.locator("details").first();
+  await expect.poll(() => controls.evaluate((element) => element.open)).toBe(false);
+  const rows = [];
+  const record = async (phase) => {
+    const state = await evidence(scene);
+    rows.push({ phase, orbit: state.cameraOrbit, position: state.camera, envelope: state.cameraEnvelope, arm: state.cameraArm });
+    fs.writeFileSync(testInfo.outputPath("desktop-orbit-sweeps.json"), JSON.stringify(rows, null, 2));
+    expect(state.camera.every(Number.isFinite)).toBe(true);
+    expect((await cameraCell(scene)) & 5).toBe(0);
+    return state;
+  };
+  const drag = async (from, to) => {
+    const box = await canvas.boundingBox();
+    await sceneInputFrame(page, view, async () => {
+      await page.mouse.move(box.x + box.width * from[0], box.y + box.height * from[1]);
+      await page.mouse.down();
+      await page.mouse.move(box.x + box.width * to[0], box.y + box.height * to[1], { steps: 8 });
+      await page.mouse.up();
+    });
+  };
+  const before = await record("outside");
+  const pixels = await canvas.screenshot();
+  for (let i = 0; i < 5; i++) {
+    await drag([0.25, 0.5], [0.5, 0.5]);
+    const state = await record(`quarter turn ${i + 1}`);
+    expect(state.cameraOrbit.yaw).toBeCloseTo(before.cameraOrbit.yaw - ((i + 1) * Math.PI) / 2, 3);
+    if (i === 0) expect(screenshotDiffRatio(pixels, await canvas.screenshot())).toBeGreaterThan(0.02);
+  }
+  await drag([0.5, 0.75], [0.5, 0.25]);
+  expect((await record("below horizon")).cameraOrbit.pitch).toBeLessThan(-0.2);
+  await capture(testInfo, "desktop-orbit-below-horizon", await canvas.screenshot());
+  await drag([0.5, 0.1], [0.5, 0.9]);
+  const high = await record("above old ceiling");
+  expect(high.cameraOrbit.pitch).toBeGreaterThan(1.27);
+  expect(high.cameraOrbit.pitch).toBeLessThan(Math.PI / 2 - 0.2);
+  await capture(testInfo, "desktop-orbit-high", await canvas.screenshot());
+  await drag([0.5, 0.8], [0.5, 0.5]);
+  expect((await record("reverse away from ceiling")).cameraOrbit.pitch).toBeLessThan(high.cameraOrbit.pitch - 0.4);
   expect(errors).toEqual([]);
 });
 

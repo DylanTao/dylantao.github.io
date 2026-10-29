@@ -1828,7 +1828,7 @@
       "pitch": 0.37,
       "envelope": {
         "yaw": null,
-        "pitch": [0.12, 1.2],
+        "pitch": [-0.35, 1.35],
         "radius": [24, 160]
       }
     },
@@ -5836,12 +5836,12 @@
       "max": [18, 11.057556533813477, 35]
     },
     "start": {
-      "position": [-2.8, 8.3, 22.95],
+      "position": [-2.8, 8.3, 22.4],
       "yaw": 3.141592653589793,
       "pitch": -0.08
     },
     "mainEntryRoute": [
-      [-2.8, 8.3, 22.95],
+      [-2.8, 8.3, 22.4],
       [-2.8, 8.3, 21.95],
       [-2.8, 8.1219, 21.65],
       [-2.8, 7.9437, 21.37],
@@ -5903,8 +5903,8 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "947dbaa666db522e59b9291e63705e51b72a15b4ab4839fef96109a590364bbd",
-    "sha256": "308e7ab19f76d6b226f0513b3301e5ac0c8119f4c1f8ac04d0e6f4becd28628f"
+    "signature": "f5ec66a743d773ef5dbd04bd3ff6403e33f598681114992cd72fa17c0844fef7",
+    "sha256": "70cb939054eb796e12e076c312cd7e1bdd125064659d2b2fbe91517ab194c8bb"
   },
   "estateDoors": [
     {

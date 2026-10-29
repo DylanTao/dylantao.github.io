@@ -1,5 +1,5 @@
 {
-  "head": "6f28da52a",
+  "head": "eb1878c70",
   "manifestOrder": [
     "companion.spec.js",
     "duh.spec.js",
@@ -374,6 +374,10 @@
       {
         "file": "architecture-finish.spec.js",
         "title": "finished house: adjacent bedchamber, library patio leaf and composed exterior remain visible through public room visits"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: desktop orbit sweeps stay proportional and cross the old vertical limits"
       }
     ],
     "scene-gym": [

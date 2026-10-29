@@ -7,6 +7,7 @@ import * as THREE from "../assets/js/three.module.min.js";
 import { nativeGeometry } from "./helpers/coastal-native-geometry.mjs";
 import {
   envelopeFor,
+  orbitDrag,
   wildlifeEnvelope,
   constrainOrbit,
   keepCameraClear,
@@ -36,6 +37,22 @@ const manifestURL = process.env.COASTAL_MANIFEST_PATH
   ? pathToFileURL(resolve(process.env.COASTAL_MANIFEST_PATH))
   : new URL("../assets/models/home/manifest.json", import.meta.url);
 const c = JSON.parse(fs.readFileSync(manifestURL));
+
+test("desktop orbit gestures keep their angular scale across large canvas sizes", () => {
+  const gestures = [
+    [1280, 800],
+    [2560, 1440],
+    [3440, 1440],
+    [3840, 2160],
+  ];
+  for (const [width, height] of gestures) {
+    const [yaw, pitch] = orbitDrag(width / 4, height / 4, width, height);
+    assert.ok(Math.abs(yaw + Math.PI / 2) < 1e-12, "a quarter-width sweep turns ninety degrees");
+    assert.ok(Math.abs(pitch - Math.PI / 4) < 1e-12, "a quarter-height sweep has the same vertical scale");
+  }
+  assert.deepEqual(orbitDrag(100, 50, 390, 844, "touch"), [-0.8, 0.3], "existing touch control is retained");
+  assert.deepEqual(orbitDrag(100, 50, 400, 300), [-0.8, 0.3], "small embeds do not become over-sensitive");
+});
 
 test("the gym arrival shows the front of steady exercise poses without a clearance correction", () => {
   const room = c.rooms.find((r) => r.id === "gym"),

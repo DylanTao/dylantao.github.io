@@ -1,5 +1,12 @@
 // One envelope applies to pointer, touch, wheel, keys, and camera settling.
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+// A desktop sweep scales with the visible canvas, rather than the monitor's pixel count.
+// Small embeds and touch retain their established gain; a full-width desktop sweep is one turn.
+export function orbitDrag(dx, dy, width, height, pointerType = "mouse") {
+  const yawGain = pointerType === "touch" ? 0.008 : Math.min(0.008, (2 * Math.PI) / Math.max(1, width || 1));
+  const pitchGain = pointerType === "touch" ? 0.006 : Math.min(0.006, Math.PI / Math.max(1, height || 1));
+  return [-dx * yawGain, dy * pitchGain];
+}
 export function envelopeFor(config, room) {
   return (config.views[room] || config.rooms.find((r) => r.id === room)?.camera)?.envelope;
 }

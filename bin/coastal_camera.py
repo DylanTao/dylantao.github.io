@@ -23,6 +23,14 @@ def finish_room_arrivals(config):
     return changes
 
 
+def finish_outside_orbit(config):
+    """Open the coast's vertical inspection; actual terrain clearance still applies."""
+    envelope = config['views']['outside']['envelope']
+    before = list(envelope['pitch'])
+    envelope['pitch'] = [-.35, 1.35]
+    return {'before': before, 'after': list(envelope['pitch'])}
+
+
 def camera_support_meshes(objects):
     """Finished physical coast, including retained material-batched sources.
 
@@ -96,7 +104,7 @@ def camera_manifest(config, height):
     for key in ('outside','overview'):
         view = config['views'][key]
         view['envelope'] = {'yaw':None,
-            'pitch':[.12,1.2] if key=='outside' else [.05,1.35],
+            'pitch':[-.35,1.35] if key=='outside' else [.05,1.35],
             'radius':[24,160] if key=='outside' else [13,32]}
     for room in config['rooms']:
         if room['id']=='onsen':

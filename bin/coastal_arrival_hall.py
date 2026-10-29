@@ -902,7 +902,8 @@ def routes(caps, samples):
     door_x = round((DOOR["pivotX"] + DOOR["x"][1]) / 2 + 0.02, 3)
     floor_path = [w(ax, 22.10, 0.0), w(0.9, 22.10, 0.0), w(door_x, 18.2, 0.0), w(door_x, 16.6, 0.0)]
     # Walk arrives just inside the pavilion's portal, on the landing at the head of the stair.
-    down = [w(cx, HALL["zw"][1] - 0.05, TOP), w(cx, PORTAL["zw"][0] + 0.15, TOP)]
+    # Keep the whole body on the flat landing, clear of the rising forecourt beyond its edge.
+    down = [w(cx, (PORTAL["zw"][0] + HALL["zw"][1]) / 2, TOP), w(cx, PORTAL["zw"][0] + 0.15, TOP)]
     down += [w(cx, (a + b) / 2, h) for k, a, b, h in reversed(caps["C"])]
     down += [w(cx, bz, LB["h"])]
     down += [w((a + b) / 2, bz, h) for k, a, b, h in reversed(caps["B"])]

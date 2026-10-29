@@ -15,6 +15,7 @@ import { shadowDrift, steppedShadowExtent } from "./shadow-fit.mjs";
 import { sortOpaqueByProgram } from "./draw-order.mjs";
 import {
   envelopeFor,
+  orbitDrag,
   wildlifeEnvelope,
   constrainOrbit,
   keepCameraClear,
@@ -2456,7 +2457,14 @@ export function createCoastalHome(container, records, artifacts) {
     listen(ui, "click", (event) => {
       const b = event.target.closest("button");
       if (!b) return;
-      if (b.dataset.worldRoom) setRoom(b.dataset.worldRoom);
+      if (b.dataset.worldRoom) {
+        setRoom(b.dataset.worldRoom);
+        if (fullscreen.mode) {
+          const menu = b.closest("details");
+          if (menu) menu.open = false;
+          renderer.domElement.focus({ preventScroll: true });
+        }
+      }
       // The same semantic zoom as the wheel and plus/minus keys, so touch visitors reach the house
       // and the far coast too.
       if (b.dataset.worldZoom) zoomBy(b.dataset.worldZoom === "in" ? 1 / 1.25 : 1.25);
@@ -2574,7 +2582,8 @@ export function createCoastalHome(container, records, artifacts) {
           const moved = panBy(e.clientX - pointer.lastX, e.clientY - pointer.lastY);
           inertia.track(e.timeStamp / 1000, { x: moved.x, z: moved.z });
         } else {
-          const moved = orbitBy(-(e.clientX - pointer.lastX) * 0.008, (e.clientY - pointer.lastY) * 0.006);
+          const rect = canvas.getBoundingClientRect();
+          const moved = orbitBy(...orbitDrag(e.clientX - pointer.lastX, e.clientY - pointer.lastY, rect.width, rect.height, e.pointerType));
           inertia.track(e.timeStamp / 1000, { yaw: moved.yaw, pitch: moved.pitch });
         }
       }

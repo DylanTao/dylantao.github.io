@@ -193,6 +193,12 @@ test("the clifftop walking field extends beyond the entrance over real terrain",
   assert.ok(manifest.walk.region.max[2] >= 30 && manifest.walk.region.min[0] <= -15, "room to walk around the entrance");
   const field = await deliveredField(),
     points = [manifest.walk.start.position];
+  // Leave the centered landing through the real pavilion opening before crossing the hill.
+  // A diagonal from inside the pavilion to the eastern terrain cuts through its side wall.
+  const start = manifest.walk.start,
+    exitX = start.position[0] - Math.sin(start.yaw) * 1.8,
+    exitZ = start.position[2] - Math.cos(start.yaw) * 1.8;
+  points.push([exitX, field.floorBelow(exitX, exitZ, 12), exitZ]);
   for (const [x, z] of [
     [3.42, 25],
     [0, 25],
