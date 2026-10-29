@@ -644,6 +644,116 @@ test("duh: greeting is click-through and graphics failure retains accessible con
   expect(errors).toEqual([]);
 });
 
+test("duh: live article scrolling and idle motion leave ink clear without moving prose", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.addInitScript(() => {
+    window.duhReadingAnimations = [];
+    const animate = Element.prototype.animate;
+    Element.prototype.animate = function (frames, options) {
+      if (this.closest("#markdown-content")) window.duhReadingAnimations.push({ node: this.tagName, frames, options });
+      return animate.call(this, frames, options);
+    };
+  });
+  for (const theme of ["light", "dark"]) {
+    await preparePage(page, theme);
+    await page.goto(`${publicRouteUrl("/blog/2026/research-skills-starter-pack/")}?cinematic=live`, { waitUntil: "domcontentloaded" });
+    await page.evaluate(() => document.fonts.ready);
+    await expect.poll(() => evidence(page).then((e) => e.frames)).toBeGreaterThan(0);
+    const original = await page.locator("#markdown-content").textContent();
+    const result = await page.evaluate(async () => {
+      const host = document.querySelector(".duh-companion"),
+        canvas = host.querySelector("canvas"),
+        context = canvas.getContext("2d"),
+        paragraph = document.querySelector("#markdown-content p"),
+        header = document.querySelector("#navbar"),
+        frames = [];
+      const sample = (phase) => {
+        const e = host.getDuhEvidence(),
+          box = canvas.getBoundingClientRect(),
+          rgba = context.getImageData(0, 0, canvas.width, canvas.height).data,
+          sx = box.width / canvas.width,
+          sy = box.height / canvas.height;
+        const ink = [];
+        for (const node of document.querySelectorAll(
+          "#markdown-content p, #markdown-content h1, #markdown-content h2, #markdown-content h3, #markdown-content li"
+        )) {
+          const range = document.createRange();
+          range.selectNodeContents(node);
+          for (const r of range.getClientRects())
+            if (r.bottom > 0 && r.top < innerHeight && r.left < box.right && r.right > box.left && r.top < box.bottom && r.bottom > box.top)
+              ink.push(r);
+        }
+        let painted = 0,
+          occluded = 0;
+        for (let y = 0; y < canvas.height; y++) {
+          const py = box.top + (y + 0.5) * sy;
+          if (py < 0 || py >= innerHeight) continue;
+          for (let x = 0; x < canvas.width; x++) {
+            const px = box.left + (x + 0.5) * sx;
+            if (px < 0 || px >= innerWidth || rgba[(y * canvas.width + x) * 4 + 3] < 64) continue;
+            painted++;
+            if (ink.some((r) => px > r.left && px < r.right && py > r.top && py < r.bottom)) occluded++;
+          }
+        }
+        frames.push({
+          phase,
+          x: e.x,
+          y: e.y,
+          visible: e.visible,
+          opacity: +getComputedStyle(host).opacity,
+          state: e.state,
+          outing: e.outing,
+          form: e.form,
+          frame: e.frames,
+          painted,
+          occluded,
+          contacts: e.pageContacts,
+          displaced: e.displaced,
+          repairs: e.repairs,
+        });
+      };
+      const observe = (phase, ms) =>
+        new Promise((resolve) => {
+          const start = performance.now();
+          function tick() {
+            sample(phase);
+            if (performance.now() - start < ms) requestAnimationFrame(tick);
+            else resolve();
+          }
+          requestAnimationFrame(tick);
+        });
+      window.scrollTo({ top: scrollY + paragraph.getBoundingClientRect().top - header.getBoundingClientRect().bottom + 10, behavior: "instant" });
+      await observe("header", 400);
+      window.scrollBy({ top: 140, behavior: "instant" });
+      await observe("forward", 400);
+      window.scrollBy({ top: -90, behavior: "instant" });
+      await observe("back", 400);
+      await observe("idle", 7200);
+      return { frames, animations: window.duhReadingAnimations };
+    });
+    await require("node:fs/promises").writeFile(testInfo.outputPath(`live-reading-${theme}.json`), JSON.stringify(result, null, 2));
+    await page.screenshot({ path: testInfo.outputPath(`live-reading-${theme}.png`) });
+    expect(result.frames.length).toBeGreaterThan(100);
+    expect(
+      result.frames.filter((f) => !f.visible || f.opacity < 0.05 || f.painted < 700),
+      "duh must stay visibly present at a real clear perch"
+    ).toEqual([]);
+    expect(
+      result.frames.filter((f) => f.occluded > 0),
+      "the actual painted contour must stay outside live ink rectangles"
+    ).toEqual([]);
+    expect(
+      result.frames.some((f) => f.form !== "dot" || ["hop", "roll"].includes(f.outing)),
+      "native idle motion remains active"
+    ).toBe(true);
+    expect(result.frames.filter((f) => f.contacts || f.displaced || f.repairs)).toEqual([]);
+    expect(result.animations).toEqual([]);
+    expect(await page.locator("#markdown-content").textContent()).toBe(original);
+  }
+  expect(errors).toEqual([]);
+});
+
 test("duh: definition lists, plain captions and project facts remain protected reading", async ({ page }) => {
   const errors = await open(page, "/blog/2024/", true);
   for (const [tag, className, html] of [

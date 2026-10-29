@@ -26,7 +26,9 @@ function start() {
   const fine = matchMedia("(pointer:fine)");
   const viewport = window.visualViewport;
   let view,
-    navigationUntil = 0;
+    navigationUntil = 0,
+    lastScrollX = scrollX,
+    lastScrollY = scrollY;
   const navigating = () => performance.now() < navigationUntil;
   function readViewport() {
     const css = getComputedStyle(el);
@@ -59,6 +61,8 @@ function start() {
     // keeps a hand-placed duh where it was put when no clear spot is near (until the page scrolls).
     placed = false,
     parked = false,
+    placementOwned = false,
+    navigationPlacement = false,
     groundY = s.y,
     elevation = 0,
     tuck = 0,
@@ -155,7 +159,7 @@ function start() {
     holdTimer = 0;
     holdPoint = null;
     // A canceled grab leaves duh where the hand let go of it.
-    if (id !== null) placed = true;
+    if (id !== null) placed = placementOwned = true;
     if (id !== null && hit.hasPointerCapture(id)) hit.releasePointerCapture(id);
     model.cancel();
     inviteArmed = false;
@@ -166,9 +170,15 @@ function start() {
     cursor = null;
     restorePieces();
   }
-  function scan() {
+  function scan({ duringScroll = false } = {}) {
     layoutDirty = false;
     layoutScans++;
+    if (navigationPlacement && !navigating()) {
+      // A chosen placement keeps its existing smooth recovery after the
+      // visitor's scroll ends. It is not an unsolicited idle relocation.
+      placed = true;
+      placementOwned = navigationPlacement = false;
+    }
     if (displaced.length || pieces.length) restorePieces();
     obstacles = [];
     obstacleLabels = [];
@@ -219,11 +229,11 @@ function start() {
       hugUntil = tilt = effort = 0;
       cursor = null;
     }
-    if (!["HELD", "AIRBORNE"].includes(s.state) && !outing) perch();
+    if (!["HELD", "AIRBORNE"].includes(s.state) && !outing) perch({ duringScroll });
   }
-  function perch() {
-    if (navigating() || pointerId !== null) return;
-    const byHand = placed || parked;
+  function perch({ duringScroll = false } = {}) {
+    if ((navigating() && !duringScroll) || pointerId !== null) return;
+    const byHand = placed || parked || placementOwned;
     placed = false;
     const b = model.bounds();
     const target = chooseDuhPerch(view, b, { x: s.x, y: s.y }, obstacles, main?.getBoundingClientRect());
@@ -251,6 +261,14 @@ function start() {
     } else if (still()) {
       // No surprise repositioning during reduced-motion reading or a pause.
       visible = false;
+    } else if (target && !byHand) {
+      // The page moved beneath an idle character. Resolve that new overlap
+      // before paint; an unsolicited recovery arc would cross the reader's ink.
+      // A deliberate hand drop keeps its existing physical recovery below.
+      s.x = target.x;
+      s.y = target.y;
+      visible = true;
+      parked = false;
     } else if (target && outing?.kind !== "recover") {
       startOuting(target, "recover");
       parked = false;
@@ -276,6 +294,7 @@ function start() {
   }
   function reset() {
     navigationUntil = 0;
+    placementOwned = navigationPlacement = false;
     // Explicit recall may choose a safe nearby perch; viewport updates preserve position.
     initialized = false;
     placed = parked = false;
@@ -318,6 +337,7 @@ function start() {
     const recover = kind === "recover";
     const arc = kind === "roll" ? 0 : recover ? clamp(distance * 0.35, 28, 90) : 22;
     if (!recover && !pathClear(target, arc)) return false;
+    if (!recover && kind !== "tidy") placementOwned = false;
     if (kind !== "greet") gaze = [(target.x - s.x) / 90, (target.y - s.y) / 90];
     outing = {
       from: { x: s.x, y: s.y },
@@ -368,6 +388,9 @@ function start() {
       s.time - lastActivity < 3
     )
       return;
+    // The ordinary quiet period has ended; spontaneous motion owns its pose
+    // again, rather than indefinitely treating an old invitation as direct play.
+    placementOwned = false;
     if (morphUntil && s.time > morphUntil) {
       portrait?.change("dot", false);
       morphUntil = 0;
@@ -719,6 +742,7 @@ function start() {
       holdPoint = null;
       model.drag(event.clientX, event.clientY, event.timeStamp);
       placed = model.release(event.timeStamp, still());
+      if (placed) placementOwned = true;
       if (s.state === "REST") layoutDirty = true;
       pointerId = null;
       if (hit.hasPointerCapture(event.pointerId)) hit.releasePointerCapture(event.pointerId);
@@ -767,6 +791,7 @@ function start() {
       s.x = x;
       s.y = y;
     } else startOuting({ x, y }, "roll");
+    placementOwned = true;
     visible = true;
     request();
   }
@@ -780,6 +805,7 @@ function start() {
     if (event.key.toLowerCase() === "p") pause();
     if (event.key.toLowerCase() === "t" && !paused) {
       model.toss(s.x > innerWidth / 2 ? -450 : 450, -470, still());
+      placementOwned = true;
       request();
     }
     if (event.key.toLowerCase() === "r") reset();
@@ -827,6 +853,7 @@ function start() {
             s.x = target.x;
             s.y = target.y;
           } else startOuting(target, "hop");
+          placementOwned = true;
           lastActivity = s.time;
           cursor = null;
           nextGreeting = s.time + 12;
@@ -911,12 +938,16 @@ function start() {
     }
   });
   function viewportChanged() {
+    const scrolled = scrollX !== lastScrollX || scrollY !== lastScrollY;
+    lastScrollX = scrollX;
+    lastScrollY = scrollY;
     readViewport();
     layoutDirty = true;
     // Safari may resize browser chrome while a finger is captured. Its new
     // bounds do not end the gesture or reset the character's coordinates.
     if (pointerId === null) {
       if (!navigating()) {
+        navigationPlacement = placementOwned || placed || parked;
         clearGesture();
         lastActivity = s.time;
         nextWander = s.time + 6;
@@ -925,6 +956,14 @@ function start() {
       // Once the page moves under it, a hand-placed duh follows the ordinary reading rules again.
       placed = parked = false;
       navigationUntil = performance.now() + 180;
+      if (scrolled && !navigationPlacement) {
+        // Scrolling changes every ink rectangle. The idle delay only prevents
+        // invitations; it must not leave the old fixed pose over live prose.
+        scan({ duringScroll: true });
+        el.dataset.visible = String(visible);
+        el.style.transform = `translate3d(${s.x - 48}px,${s.y - 47}px,0)`;
+        updatePointerPolicy();
+      }
     }
     request();
   }
@@ -992,7 +1031,7 @@ function start() {
     layoutDirty = true;
     request();
   });
-  function inviteToPlayground() {
+  function inviteToPlayground(event) {
     navigationUntil = 0;
     const stage = document.querySelector("[data-duh-playground]")?.getBoundingClientRect();
     if (!stage) return;
@@ -1001,7 +1040,8 @@ function start() {
     const bottom = Math.min(b.bottom - 23, stage.bottom - 100);
     if (bottom < top) return;
     clearGesture();
-    placed = parked = false;
+    placed = placementOwned = Boolean(event);
+    parked = navigationPlacement = false;
     paused = false;
     syncPauseState();
     model.reset(stage.left + Math.min(140, stage.width * 0.28), clamp(stage.top + 140, top, bottom));
@@ -1026,6 +1066,8 @@ function start() {
     inviteArmed,
     visible,
     parked,
+    placementOwned,
+    navigationPlacement,
     // The obstacles that keep duh's current spot from being clear (the same box clearAt tests).
     blockers: obstacles
       .map((rect, i) => ({ rect, node: obstacleLabels[i] }))
