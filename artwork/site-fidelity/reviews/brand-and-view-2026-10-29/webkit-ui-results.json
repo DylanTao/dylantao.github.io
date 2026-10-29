@@ -1,0 +1,429 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\takeover-archives\\walk-audit-20261028-cache\\visual-qa\\walk-audit-20261028\\pw165\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config=.jekyll-cache/visual-qa/identity-footer-20261029/webkit.config.cjs",
+      "--grep",
+      "the sun stays fixed|375px|coastal tilt:|pointer glide|a completed atmosphere|context recovery"
+    ],
+    "configFile": "C:\\dev\\site-takeover-worktrees\\identity-footer\\.jekyll-cache\\visual-qa\\identity-footer-20261029\\webkit.config.cjs",
+    "rootDir": "C:/dev/site-takeover-worktrees/identity-footer/test/visual",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/dev/site-takeover-worktrees/identity-footer/.jekyll-cache/visual-qa/identity-footer-20261029/webkit-ui",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-390",
+        "name": "mobile-390",
+        "testDir": "C:/dev/site-takeover-worktrees/identity-footer/test/visual",
+        "testIgnore": [],
+        "testMatch": ["brand-finish.spec.js", "footer-coast.spec.js"],
+        "timeout": 90000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\dev\\site-takeover-worktrees\\identity-footer\\.jekyll-cache\\visual-qa\\identity-footer-20261029\\webkit-ui",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "mobile-390",
+        "testDir": "C:\\dev\\site-takeover-worktrees\\identity-footer\\test\\visual",
+        "snapshotDir": "C:\\dev\\site-takeover-worktrees\\identity-footer\\test\\visual",
+        "testIgnore": [],
+        "testMatch": ["brand-finish.spec.js", "footer-coast.spec.js"],
+        "timeout": 90000,
+        "use": {
+          "baseURL": "http://127.0.0.1:4151/al-folio",
+          "browserName": "webkit",
+          "deviceScaleFactor": 1,
+          "locale": "en-US",
+          "timezoneId": "America/Los_Angeles",
+          "screenshot": "only-on-failure",
+          "trace": "off",
+          "launchOptions": {},
+          "hasTouch": true,
+          "isMobile": true,
+          "viewport": {
+            "width": 390,
+            "height": 1000
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "mobile-390"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      ["line", null],
+      [
+        "json",
+        {
+          "outputFile": "C:\\dev\\site-takeover-worktrees\\identity-footer\\.jekyll-cache\\visual-qa\\identity-footer-20261029\\webkit-ui-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.0-alpha-2026-10-28",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "brand-finish.spec.js",
+      "file": "brand-finish.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "brand mark: the sun stays fixed while waves and the name answer touch and keyboard",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 27298,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T10:03:08.163Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5fd13368c74060ed62e4-a2f6da4b2f31bf3d9324",
+          "file": "brand-finish.spec.js",
+          "line": 33,
+          "column": 1
+        },
+        {
+          "title": "brand mark: a 375px touch header keeps the whole name and a reachable home reset",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5585,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T10:03:35.563Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5fd13368c74060ed62e4-5c5e85a33e139547ab02",
+          "file": "brand-finish.spec.js",
+          "line": 220,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "footer-coast.spec.js",
+      "file": "footer-coast.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "coastal scenes: reduced motion and WebGL context recovery",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6947,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T10:03:41.191Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bdd4b02aa0f516b30ef9-214616dbb6764f5e7d78",
+          "file": "footer-coast.spec.js",
+          "line": 763,
+          "column": 1
+        },
+        {
+          "title": "coastal sky: a completed atmosphere relights the reflected sea in the same clock step",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4814,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T10:03:48.150Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "one-clock-sky-and-sea",
+                      "contentType": "application/json",
+                      "body": "eyJhY3R1YWwiOnsibmVhciI6ODAyMDg5MywiZmFyIjo3NDk5OTM3fSwiZXhwZWN0ZWQiOnsibmVhciI6ODAyMDg5MywiZmFyIjo3NDk5OTM3fSwic2t5Ijp7InZpc2libGUiOnRydWUsInRhYmxlQWx0aXR1ZGUiOi00LjQ5MDQzNjE3OTYyMTcxLCJzYW1wbGVzIjp7Im5lYXIiOjgwMjA4OTMsImZhciI6NzQ5OTkzN30sIndlaWdodCI6MSwiZXhwb3N1cmUiOjEzOTAuNjgsImxpZ2h0cyI6MC42ODUsImJ1aWxkTXMiOjEwLCJzdW4iOm51bGx9fQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bdd4b02aa0f516b30ef9-c8a65c970c9cdf0737f1",
+          "file": "footer-coast.spec.js",
+          "line": 875,
+          "column": 1
+        },
+        {
+          "title": "coastal view: pointer glide stays bounded and settles without rolling the horizon",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5629,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T10:03:52.978Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "pointer-camera",
+                      "contentType": "application/json",
+                      "body": "eyJiZWZvcmUiOnsieCI6MCwieSI6MCwiY2FtZXJhIjpbMTAuMSwxOCwzOF0sInVwIjpbMCwxLDBdLCJ0aWx0Ijp7InN1cHBvcnRlZCI6dHJ1ZSwiZW5hYmxlZCI6ZmFsc2UsImFjdGl2ZSI6dHJ1ZSwibGlzdGVuaW5nIjp0cnVlLCJwZXJtaXNzaW9uIjoidW5rbm93biIsInJlcXVlc3RlZCI6ZmFsc2UsInN0YXRlIjoid2FpdGluZyIsIngiOjAsInkiOjB9fSwibW92ZWQiOnsieCI6MC44MzQyODc0NjA4NDQ0MzU1LCJ5IjowLjIwMjI2MTE5OTQ2MjI1MDc3LCJjYW1lcmEiOlsxMC40NzU0MjkzNTczNzk5OTYsMTguMDM2NDA3MDE1OTAzMjA1LDM4XSwidXAiOlswLDEsMF0sInRpbHQiOnsic3VwcG9ydGVkIjp0cnVlLCJlbmFibGVkIjpmYWxzZSwiYWN0aXZlIjp0cnVlLCJsaXN0ZW5pbmciOnRydWUsInBlcm1pc3Npb24iOiJ1bmtub3duIiwicmVxdWVzdGVkIjpmYWxzZSwic3RhdGUiOiJ3YWl0aW5nIiwieCI6MCwieSI6MH19fQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bdd4b02aa0f516b30ef9-73796462fa1bfe555062",
+          "file": "footer-coast.spec.js",
+          "line": 910,
+          "column": 1
+        },
+        {
+          "title": "coastal tilt: a footer gesture grants access and rotation keeps the view calibrated",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5692,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T10:03:58.621Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "tilt-landscape",
+                      "contentType": "image/png",
+                      "path": "C:\\dev\\site-takeover-worktrees\\identity-footer\\.jekyll-cache\\visual-qa\\identity-footer-20261029\\webkit-ui\\footer-coast-coastal-tilt--3b7b6-n-keeps-the-view-calibrated-mobile-390\\attachments\\tilt-landscape-0816110476fdd0ad8365966c944392b838454aa8.png"
+                    },
+                    {
+                      "name": "simulated-tilt-camera",
+                      "contentType": "application/json",
+                      "body": "eyJ4IjotMC44MzYxOTkxNjU2OTQ2Njc4LCJ5IjowLjE0NzQwMDQ1MDI2MDI1OTY2LCJjYW1lcmEiOls5LjcyMzcxMDM3NTQzNzM5OSwxOC4wMjY1MzIwODEwNDY4NDUsMzhdLCJ1cCI6WzAsMSwwXSwidGlsdCI6eyJzdXBwb3J0ZWQiOnRydWUsImVuYWJsZWQiOnRydWUsImFjdGl2ZSI6dHJ1ZSwibGlzdGVuaW5nIjp0cnVlLCJwZXJtaXNzaW9uIjoiZ3JhbnRlZCIsInJlcXVlc3RlZCI6dHJ1ZSwic3RhdGUiOiJvbiIsIngiOi0wLjkyMzUyMDg3ODYzMjU3NzMsInkiOjAuMTYyNzkzMDI2OTcyMzU0Njh9fQ=="
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bdd4b02aa0f516b30ef9-8c83fd2a9850314933ce",
+          "file": "footer-coast.spec.js",
+          "line": 961,
+          "column": 1
+        },
+        {
+          "title": "coastal tilt: automatically permitted motion needs no prompt or badge",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3581,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T10:04:04.321Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "automatic-motion-no-badge",
+                      "contentType": "image/png",
+                      "path": "C:\\dev\\site-takeover-worktrees\\identity-footer\\.jekyll-cache\\visual-qa\\identity-footer-20261029\\webkit-ui\\footer-coast-coastal-tilt--cb56e-on-needs-no-prompt-or-badge-mobile-390\\attachments\\automatic-motion-no-badge-c1d25709a9889da4a4406d5c6987ce41c99607fc.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bdd4b02aa0f516b30ef9-f13a885ee149fa16b88a",
+          "file": "footer-coast.spec.js",
+          "line": 1010,
+          "column": 1
+        },
+        {
+          "title": "coastal tilt: denied permission preserves the coast and native scrolling",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2939,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T10:04:07.911Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bdd4b02aa0f516b30ef9-10ba7bafc8bc910c9eb7",
+          "file": "footer-coast.spec.js",
+          "line": 1027,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-29T10:03:07.477Z",
+    "duration": 63598.399,
+    "expected": 8,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

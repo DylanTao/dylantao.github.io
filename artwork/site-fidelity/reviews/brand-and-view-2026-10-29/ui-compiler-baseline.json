@@ -1,0 +1,26 @@
+{
+  "compiler": "Jekyll page renderer + configured Sass converter and jekyll-terser; source .mjs uses site_module_assets.rb",
+  "assets": {
+    "assets/css/main.css": {
+      "bytes": 551660,
+      "sha256": "778a779dfbd492170f832be115f386e7563e43cb6fba6b91732157a379d367d7",
+      "matchesFrozenBaseline": true
+    },
+    "assets/js/brand-orange.js": {
+      "bytes": 9362,
+      "sha256": "b98f6f9d78454cba1e994123d974b2104f7c10ce90cf9d75c53488458d3f18c9",
+      "matchesFrozenBaseline": true
+    },
+    "assets/js/footer-coast/scene.mjs": {
+      "bytes": 20957,
+      "sha256": "fa27a5c38431b9fc5d5395dc104ec26e142bf769c412872d0723abd21fe3375d",
+      "matchesFrozenBaseline": true
+    },
+    "assets/js/footer-coast/view-tilt.mjs": {
+      "bytes": 3942,
+      "sha256": "f04a3b1a3ca34bbd2ed7ceb38a16d9b807dd79038d86f40005adab2ab22fdc36",
+      "matchesFrozenBaseline": true
+    }
+  },
+  "javascriptClass": "Jekyll::Terser::JSFile"
+}

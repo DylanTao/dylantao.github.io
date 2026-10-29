@@ -1,0 +1,23 @@
+[
+  {
+    "size": 16,
+    "colors": {
+      "orange": 58,
+      "sea": 4
+    }
+  },
+  {
+    "size": 32,
+    "colors": {
+      "orange": 225,
+      "sea": 37
+    }
+  },
+  {
+    "size": 48,
+    "colors": {
+      "orange": 521,
+      "sea": 88
+    }
+  }
+]

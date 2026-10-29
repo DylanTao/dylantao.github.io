@@ -1,0 +1,20 @@
+{
+  "method": "Jekyll::StaticFile.write against the complete production build, following native 16px optical correction",
+  "files": [
+    {
+      "path": "/assets/img/favicon.svg",
+      "bytes": 3750,
+      "sha256": "e3ceb73f22ac4bd47223af324f28c42d16c362d5e67fba3072d7d9ea8dfe25bf"
+    },
+    {
+      "path": "/assets/img/favicon.ico",
+      "bytes": 5155,
+      "sha256": "666e7475ab89825196447621714bb6126b993acdbd9c35891794a66ec39b6de1"
+    },
+    {
+      "path": "/assets/img/apple-touch-icon.png",
+      "bytes": 11774,
+      "sha256": "079c738a8f5e1c3e526ae01ec2438f2730907aa9c4364c96307bf8217e03d349"
+    }
+  ]
+}

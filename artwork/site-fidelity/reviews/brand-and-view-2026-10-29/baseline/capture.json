@@ -1,0 +1,74 @@
+[
+  {
+    "width": 1440,
+    "palettes": [
+      {
+        "theme": "morning",
+        "orange": "color(srgb 0.940941 0.497961 0.243843)",
+        "water": "color(srgb 0.295059 0.518902 0.713726)",
+        "glint": "color(srgb 0.952753 0.568565 0.322133)"
+      },
+      {
+        "theme": "noon",
+        "orange": "color(srgb 0.917647 0.496314 0.261961)",
+        "water": "color(srgb 0.264 0.516706 0.737882)",
+        "glint": "color(srgb 0.934118 0.567247 0.336627)"
+      },
+      {
+        "theme": "afternoon",
+        "orange": "color(srgb 0.942588 0.493961 0.229961)",
+        "water": "color(srgb 0.297255 0.513569 0.695216)",
+        "glint": "color(srgb 0.954071 0.565365 0.311027)"
+      },
+      {
+        "theme": "evening",
+        "orange": "color(srgb 0.902353 0.466431 0.23749)",
+        "water": "color(srgb 0.243608 0.476863 0.705255)",
+        "glint": "color(srgb 0.921882 0.543341 0.317051)"
+      }
+    ],
+    "errors": [],
+    "footer": {
+      "state": "ready",
+      "running": "false",
+      "bounds": [1440, 345.59375],
+      "tiltText": "Enable tilt"
+    }
+  },
+  {
+    "width": 390,
+    "palettes": [
+      {
+        "theme": "morning",
+        "orange": "color(srgb 0.940941 0.497961 0.243843)",
+        "water": "color(srgb 0.295059 0.518902 0.713726)",
+        "glint": "color(srgb 0.952753 0.568565 0.322133)"
+      },
+      {
+        "theme": "noon",
+        "orange": "color(srgb 0.917647 0.496314 0.261961)",
+        "water": "color(srgb 0.264 0.516706 0.737882)",
+        "glint": "color(srgb 0.934118 0.567247 0.336627)"
+      },
+      {
+        "theme": "afternoon",
+        "orange": "color(srgb 0.942588 0.493961 0.229961)",
+        "water": "color(srgb 0.297255 0.513569 0.695216)",
+        "glint": "color(srgb 0.954071 0.565365 0.311027)"
+      },
+      {
+        "theme": "evening",
+        "orange": "color(srgb 0.902353 0.466431 0.23749)",
+        "water": "color(srgb 0.243608 0.476863 0.705255)",
+        "glint": "color(srgb 0.921882 0.543341 0.317051)"
+      }
+    ],
+    "errors": [],
+    "footer": {
+      "state": "ready",
+      "running": "false",
+      "bounds": [390, 330],
+      "tiltText": "Enable tilt"
+    }
+  }
+]

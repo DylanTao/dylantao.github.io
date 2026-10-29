@@ -1,0 +1,24 @@
+{
+  "baselineCommit": "0dd41eb7ec0178d10dce834de90d2aa70993c44d",
+  "baselineCompleteFileCount": 1356,
+  "baselineCompleteBytes": 426402487,
+  "baselineHomeAssetCount": 121,
+  "source": {
+    "_includes/brand-orange.liquid": "ea2cf5781f69b72a824774ea2722372a6f0822a080ef7b3821ded5c79c956dab",
+    "_includes/header.liquid": "e3f0b38794dbcc190fabd4b1b25fec6376916dd6923caf63335c23cb31a662cd",
+    "_includes/la-jolla-footer.liquid": "2e054f66b321fd0684e21ee8d1727be0973b2831358a9dce9745f33bfb89edfa",
+    "_sass/_brand-orange.scss": "c8feba24bdfc133eba9d8de92216ec278693fa052f41c45c6790ebdd71dbda97",
+    "_sass/_footer-coast.scss": "2dd686b14d40eb67fb073c123e09fd85e4b468b5ad560c39e8faa16cc5fbb40d",
+    "assets/js/brand-orange.js": "722e8b73fdf6f7532188e9ee3f504373bb92ce9f459759c2364c63ecbf6850e4",
+    "assets/js/footer-coast/scene.mjs": "f93f841be65e96a8c2b01e4e52033966a59fece9bf0be272f3d5ded074862b11",
+    "assets/js/footer-coast/view-tilt.mjs": "92b8dc48025f4cf380496db9de82f6acfa393773d235ee80aaeee3df5ac68586",
+    "assets/img/favicon.svg": "32ac661865dc14b29f7fc7c5f1254c4e2e768e18ba5c20d9e5f69fd2a5a6beda",
+    "assets/img/favicon.ico": "666e7475ab89825196447621714bb6126b993acdbd9c35891794a66ec39b6de1",
+    "assets/img/apple-touch-icon.png": "079c738a8f5e1c3e526ae01ec2438f2730907aa9c4364c96307bf8217e03d349",
+    "test/coast-tilt.test.mjs": "1ba5e823924efaefd8d563279f7511a04210d84aa157227256d0fa8aa25234d6",
+    "test/visual/brand-finish.spec.js": "c1eb6e5778a0e6ecf151c19b6a43fc8119ba2a0885e4eea369416c86f18ebf74",
+    "test/visual/footer-coast.spec.js": "c7316c08a87a9ac8e1383ab18ebc0c6575a1dfa21ddba6b17aceea81e1bab2f9"
+  },
+  "sourceBaseCommit": "ed19c3de54a1a44671a5dc1fbc369dc52b12e814",
+  "sourceScope": "Functional source ed19c3de5 plus formatting only for _includes/brand-orange.liquid and docs/material-lite-revamp.md in this review commit"
+}

@@ -1,0 +1,481 @@
+{
+  "compiler": "Jekyll page renderer + configured Sass converter and jekyll-terser; source .mjs uses site_module_assets.rb",
+  "assets": {
+    "assets/css/main.css": {
+      "bytes": 551456,
+      "sha256": "b0e05e4d8341a91fd1a88f2b4feb6d9427ddb701cb91967af760791f49582d7b",
+      "matchesPreviousPreview": true
+    },
+    "assets/js/brand-orange.js": {
+      "bytes": 11960,
+      "sha256": "868caf3592c36a4566e3eea6e9d50c5578070f5ffc8e5de78b7aed8226a4b2e2",
+      "matchesPreviousPreview": true
+    },
+    "assets/js/footer-coast/scene.mjs": {
+      "bytes": 21379,
+      "sha256": "bbfc92616ed9f3d93b6085c2c296702354f8efcaa0a2f2953e1531701e454fe7",
+      "matchesPreviousPreview": true
+    },
+    "assets/js/footer-coast/view-tilt.mjs": {
+      "bytes": 3826,
+      "sha256": "4b4250988fed2ce1c90f47c2228c60d7806bfcddb644008b4132e94f449a3620",
+      "matchesPreviousPreview": true
+    },
+    "assets/js/footer-coast/sky.mjs": {
+      "bytes": 23295,
+      "sha256": "daca20b89cdefffa7587b585045283d7a0a3c3dc6c7b71186a122aa617a6410b",
+      "matchesPreviousPreview": true
+    },
+    "assets/js/footer-coast/sky-look.mjs": {
+      "bytes": 6299,
+      "sha256": "48cee06f1c98d0c49d3a8c92690c3a46576c572060d784892655611719541cd7",
+      "matchesPreviousPreview": true
+    },
+    "assets/img/favicon.svg": {
+      "bytes": 3564,
+      "sha256": "26569a0714ddfee47525815a58b034c6ca4bfeffbe041f46740339002651a4fc",
+      "matchesPreviousPreview": true
+    },
+    "assets/img/favicon.ico": {
+      "bytes": 5095,
+      "sha256": "ad9e3e8abfaf18e7928951d2e4351d7d5e45461823ac7ee53996b6303857cd6f",
+      "matchesPreviousPreview": true
+    },
+    "assets/img/apple-touch-icon.png": {
+      "bytes": 11759,
+      "sha256": "c235b11beb3b8f92da7b88aba06f58b27f96c61f876d34d6dba62fa0d0dc57ad",
+      "matchesPreviousPreview": true
+    }
+  },
+  "javascriptClass": "Jekyll::Terser::JSFile",
+  "fragments": [
+    {
+      "route": "/404.html",
+      "sha256": "c7ef9c261f9c71954a8a633d1049dd1be9efcb8125aa9a7b857e6b833f5327d2"
+    },
+    {
+      "route": "/",
+      "sha256": "220d99c4357684a2f043084585248e4250be8f639329afafb2449176d0601840"
+    },
+    {
+      "route": "/ai/",
+      "sha256": "cec3faeb73c974dea5f9c15914b2d20a0036fd08e5ef63b700962b7e1e37d409"
+    },
+    {
+      "route": "/design-lab/case-comparison/",
+      "sha256": "cadcceca2d60e5cf3067beb1e5c342ab06b18b1188e49e5f62bae193d383c2e4"
+    },
+    {
+      "route": "/design-lab/case-process/",
+      "sha256": "3cd9c54bc34dcb5b0ead3535e27cf31dfc4eee64e03eb04598e6e26f6a39e3f0"
+    },
+    {
+      "route": "/design-lab/coastal-process/",
+      "sha256": "d5120deca1f4af872070513c34b54def82d27d09ed61d95ded1804124207ec0e"
+    },
+    {
+      "route": "/cv/",
+      "sha256": "2d6f85be4a3e8762240b4867aaa4ad0eb6057be77aaca13b9ff3762526c23dd1"
+    },
+    {
+      "route": "/design-lab/",
+      "sha256": "f3ad5fbfef7cedf551eeeff5e5d54de1dc1c829715e4d5d52a3b93942eb82942"
+    },
+    {
+      "route": "/github-activity/",
+      "sha256": "caa4a83eca46a924d263d873dfbecd6b748127906352890ac1ce6b7756ebf78f"
+    },
+    {
+      "route": "/news/",
+      "sha256": "80f737ad6b588492f2e6e023a22f1b0209035b702ccffa4d040b8e95774c94ae"
+    },
+    {
+      "route": "/plugins/",
+      "sha256": "a4584b848eb9d7735ab4d78328b815da2082234c887b694de736b6f265473200"
+    },
+    {
+      "route": "/projects/",
+      "sha256": "1b857705e08d7634c44cb74affd49c896d3acb798f5cbdb36fca3b291d112ea6"
+    },
+    {
+      "route": "/publications/",
+      "sha256": "c9edd3532ddc57d93c1b70306013517640718991511664652b510b3d98018c22"
+    },
+    {
+      "route": "/projects/graphics-lab/record/",
+      "sha256": "83f31caa8a5ff3ba8b6317ded377af7519cea2d609ea19708e9fff61a52971e3"
+    },
+    {
+      "route": "/projects/homepage-desk-scene/record/",
+      "sha256": "34d1d4abb2f5618f613e20abe18b353bf569961b9866fad37f0d22dd3247a956"
+    },
+    {
+      "route": "/projects/p/record/",
+      "sha256": "699d3de1c652ac2bb74cbb2f9f226d69a520ea4e746d47385ab21292073cab5d"
+    },
+    {
+      "route": "/projects/website-revamp/record/",
+      "sha256": "a045d5a8c3c06b3d1e90dc6582a0cc034ba42b7a064b955dd7dd8b7e617cb2ce"
+    },
+    {
+      "route": "/blog/2026/sirui-research-thoughts/",
+      "sha256": "650da29a7f0f2960097de9eea519f099c8580cc27ff15132ff9680f72f035436"
+    },
+    {
+      "route": "/publications/what-happened-and-why/",
+      "sha256": "dee8cf3dbc8d48f45b3b6f957d0e41ae81fb100e98629bb35da407b33fa8d732"
+    },
+    {
+      "route": "/publications/hotspot/",
+      "sha256": "c474f90e8c096c8f6af9865e19b8aca236351d4cb338ec2b4ac19f4417e78e50"
+    },
+    {
+      "route": "/publications/designweaver/",
+      "sha256": "d6b7a8bb4ab3bc60e4d3c721053a295de54073a7df6d4cbeaeecca58cf94fe1b"
+    },
+    {
+      "route": "/publications/physion-plus-plus/",
+      "sha256": "6732c68a631acc175723989e45e9ebdd6f190cbc7281de3d0033933645b18974"
+    },
+    {
+      "route": "/publications/physion/",
+      "sha256": "401b3c0757fbb51d6b0965555512bd5b31917f64bd78d7aa55664c1027376bf7"
+    },
+    {
+      "route": "/blog/2024/",
+      "sha256": "a0d2194feb5136a454a96ec9727b39d01c965a052d148f71a70f867bc66fc0f2"
+    },
+    {
+      "route": "/blog/2025/",
+      "sha256": "7245503f25454d21917557ee83fe4c3301635d9f718f351a80288183628a0dde"
+    },
+    {
+      "route": "/blog/2026/",
+      "sha256": "9953cc302da1c093fd435022f88cb7383f01c5c08850915b54627539aaa28849"
+    },
+    {
+      "route": "/blog/tag/gen-ai/",
+      "sha256": "48151e6acd0d1992de56ff108a18e748340628242a05c469de294564a4192cf8"
+    },
+    {
+      "route": "/blog/tag/cool-things/",
+      "sha256": "22775ba69c525f6f794eb9ffa897917a4c05aeed14f983452bd9b9be9b2e0c9d"
+    },
+    {
+      "route": "/blog/tag/art/",
+      "sha256": "096affbf430d7599f61da8da86ab33984c0d7c20f4af08843d88aadc6641b788"
+    },
+    {
+      "route": "/blog/tag/pottery/",
+      "sha256": "8da6c51ab81f8c9936a93d9e4552df782d8b1610c30e1ec7e83801339e036b00"
+    },
+    {
+      "route": "/blog/tag/design/",
+      "sha256": "d1006468eb29ae2f8f1a8d668db936075bdd14185618286a74b7832a3fc7a717"
+    },
+    {
+      "route": "/blog/tag/hci/",
+      "sha256": "362fe21cb0082fc6e4abbb7a190c64732a7e2e5956cfebfa16880e63999d03ad"
+    },
+    {
+      "route": "/blog/tag/books/",
+      "sha256": "de9e59da6a3a8a0619ddb2b00c27c61710674280bef05bee211f6e530a78711b"
+    },
+    {
+      "route": "/blog/tag/talks/",
+      "sha256": "59a30ac0d340993eb830503a2c6671c023e180d8762477b7779e37a25d7c5acb"
+    },
+    {
+      "route": "/blog/tag/research/",
+      "sha256": "b9b6ff00c079e0f156e6ba7ee0c1f25411f5af09238197c052e8dfd050a4e086"
+    },
+    {
+      "route": "/blog/tag/ucsd/",
+      "sha256": "1557c71c85bb296b4d850bc081192da48baee003734ab8030e56bef715bbe453"
+    },
+    {
+      "route": "/blog/tag/mentorship/",
+      "sha256": "3922f0558d0c0466a3b0ded0e5bf447ebfcfc788efd8fa3299474811d90b8edc"
+    },
+    {
+      "route": "/blog/tag/undergraduate/",
+      "sha256": "77401b815c4b4e031c8bca9ce1af4153f6ac65f09cb5a5e1ce569652e886dd8d"
+    },
+    {
+      "route": "/blog/tag/masters/",
+      "sha256": "75d7f858a0d0e3454f8fe209bf2d639846fe3b0c0184810783e60a107928d5ed"
+    },
+    {
+      "route": "/blog/tag/writing/",
+      "sha256": "0ebdb57bed48a2a4d033be43a917a4c3d28a9fa59cb8760208fd2cb17fbfb396"
+    },
+    {
+      "route": "/blog/tag/phd/",
+      "sha256": "067ce6ff6abc8d08b138e26118429ca5e59a793bdf0eaa48c7978531eb59c790"
+    },
+    {
+      "route": "/blog/tag/methods/",
+      "sha256": "c641ba906207ecb7fe8917afb5f0b443a0763a7189a939d9654da3377162afa3"
+    },
+    {
+      "route": "/blog/tag/qualitative/",
+      "sha256": "712f7afe6b1b80e2d56983ffe26aa757b187041b7c4701977589615f69a7bd1b"
+    },
+    {
+      "route": "/blog/tag/statistics/",
+      "sha256": "c5644fc1d657d7424decd823a4f92c8d601202eaab52c536823e34c7864d3087"
+    },
+    {
+      "route": "/blog/tag/modeling/",
+      "sha256": "27123385f9386171120de6fc4a002833c09aae0b40c5a11c7c70b0731d3c3044"
+    },
+    {
+      "route": "/blog/tag/prototyping/",
+      "sha256": "42241cb28e67f00f9d045b39c606fba2886d7ba2360c56e2bac00393b6beb07e"
+    },
+    {
+      "route": "/blog/tag/science-communication/",
+      "sha256": "20a94ce75294a96e5bd5b9e7fa3bd2d8f1080537b1c79e8abc6cc70e696e47c8"
+    },
+    {
+      "route": "/blog/tag/public-speaking/",
+      "sha256": "2f66c6a841b5c3e40d1397b51863c758174b195e4c570b2819d3844b4c6aecf0"
+    },
+    {
+      "route": "/blog/tag/portfolio/",
+      "sha256": "dc3638f663c2bc339b7768b2a2fc488e43aacfce8f6a7df774ae19363dac79ea"
+    },
+    {
+      "route": "/blog/tag/teaching/",
+      "sha256": "9e16fac282e8c328796c33ff463ace22629bf550bef842157b8a82401fb27153"
+    },
+    {
+      "route": "/blog/tag/cogs125/",
+      "sha256": "89f3122ff0338810efbe926a2562ad4eb309d1be519658d85401a9f5198894e4"
+    },
+    {
+      "route": "/blog/tag/reflection/",
+      "sha256": "e5c004169c190a075550893151dfe7679c623e1f7fc4dbb057608cb11302e087"
+    },
+    {
+      "route": "/blog/tag/distributed-cognition/",
+      "sha256": "103fe322dec40998ba7fb833b96d6b0e0d20ce2bec09f48109265c9d5b227ba4"
+    },
+    {
+      "route": "/blog/tag/reading-notes/",
+      "sha256": "372779a7d6b1ed0cdd0e131310e2b362e08553b2ada992c27a8397d1c013bfea"
+    },
+    {
+      "route": "/blog/tag/papers/",
+      "sha256": "dacae5f09213d07aeadaceffd2ed5a7a7175730a1c6fa084755ff54b1e67ca04"
+    },
+    {
+      "route": "/blog/tag/diffusion-models/",
+      "sha256": "c9f6913a29f617218e545ecec5f69ccee9daf1b116c5ac4b3eb49dece098a0bf"
+    },
+    {
+      "route": "/blog/tag/design-lab/",
+      "sha256": "ae3f9b817614dc3814ccb65c00ade5b51ff4ee8b9940c297df66788c499d4310"
+    },
+    {
+      "route": "/blog/tag/documentary/",
+      "sha256": "f0b06b2764c4c9dbad1f6dc12b1feefa3ac62d2bed174774fec107aefb4e0767"
+    },
+    {
+      "route": "/blog/tag/website/",
+      "sha256": "66913314ae147bb1b84ccf672da8d41daeacc002645290380fe7d56efdd39e45"
+    },
+    {
+      "route": "/blog/category/image-posts/",
+      "sha256": "457be249ac39e79a811aeae70f6d12932498eeaeb02353c1ca51132f3ad18de9"
+    },
+    {
+      "route": "/blog/category/reflections/",
+      "sha256": "fb45f5e2232e4fe648740b8755281381bafbb54fb112a9ecdd24679bd19a3af7"
+    },
+    {
+      "route": "/blog/category/guides/",
+      "sha256": "2b77e8f2a2ab9d1d7a4aec4268212cb08c8af9ae558485df35fa51034061e7ab"
+    },
+    {
+      "route": "/blog/category/research/",
+      "sha256": "dabef0728113d81e53a49112a247153208bbcd8f55985023357132017d7cb06d"
+    },
+    {
+      "route": "/blog/index.html",
+      "sha256": "481657ca2e4e3bd7cfb630504deb1041367ab6dcb729305913fa5bcf0e717ce4"
+    },
+    {
+      "route": "/blog/page/2/index.html",
+      "sha256": "bdff3c3473c62de1dbbe4b948cd9fc72470f258ae1f5edfda90db1a532850e62"
+    },
+    {
+      "route": "/blog/page/3/index.html",
+      "sha256": "26ffef9bbb5c1a26fe614ee0cf73921c6efcd7c53c969b6bd4115fb81081ab2c"
+    },
+    {
+      "route": "/blog/2024/image-gallery/",
+      "sha256": "a46dff2e90798eb074aae44d2b8eb1588401151d67a5b6ba2304db9b5429bf70"
+    },
+    {
+      "route": "/blog/2025/starting-pottery/",
+      "sha256": "c370d61107f881d0ff03e5e1e567bc5ecb779771a1cab0bbb85be76aea2cc8f7"
+    },
+    {
+      "route": "/blog/2026/don-norman-design-lab-talk/",
+      "sha256": "a8dc2fae523f630e34fb692a748f92481b430968fe7b9dc8ded41efa28abe047"
+    },
+    {
+      "route": "/blog/2026/how-to-start-doing-research-at-ucsd/",
+      "sha256": "1ad98ee8ad84cc24a4c20aa8ab7dc3de7358c30c402e04e400daf184939cb6d8"
+    },
+    {
+      "route": "/blog/2026/research-skills-starter-pack/",
+      "sha256": "41013d697b613d65acfc14142f99ba401adda277c1c511f629bb15d823a72e61"
+    },
+    {
+      "route": "/blog/2026/prototyping-to-understand-humans/",
+      "sha256": "15b2299212c3c508875a51834b1f2ab41364af904c063fcb89912f4a45a53045"
+    },
+    {
+      "route": "/blog/2026/science-communication-is-kindness/",
+      "sha256": "881ee41d8d2e79c7c08b7c1d141406f53a5ae880e6fed8c391f30213a46fd26b"
+    },
+    {
+      "route": "/blog/2026/website-redesign-ai-agent/",
+      "sha256": "97ad9453dcf51f5ac2caf363bbec75811b9d9c2f1fb8f84b116ca3f7c3412f60"
+    },
+    {
+      "route": "/blog/2026/specialists-generalists-ai-distributed-cognition/",
+      "sha256": "0a7ff04879e150340cf2577064b75ecfbca1e921931926db85c919a34976503e"
+    },
+    {
+      "route": "/blog/2026/technical-papers-i-want-to-remember/",
+      "sha256": "daef22acf5bebff838bbeef5d9e4b4bc907add7cfea536c01975844195674865"
+    },
+    {
+      "route": "/blog/2026/design-lab-retreat-emmy/",
+      "sha256": "3cc93916a5d305da1b56da7c1944577485704913f57714356ff4a77ea0db6295"
+    },
+    {
+      "route": "/blog/2026/when-the-website-talks-back/",
+      "sha256": "07fd71a0460245808ec6ee655abdeb3c4d18242fb234bb871e6a97013f87264a"
+    },
+    {
+      "route": "/news/announcement_1/",
+      "sha256": "e342cb833eb23de71945db17496b69d73e7ad79e77d640ce80a2901ecf218b0e"
+    },
+    {
+      "route": "/news/announcement_2/",
+      "sha256": "6a3bde7f34a601749e887ba522277401547a8c53735e918f4a99ae9e01312625"
+    },
+    {
+      "route": "/news/announcement_3/",
+      "sha256": "7ec1c07ff8cb91cefeefe9e98cbdac96d55505a1f758d6353a19c1aa44fa2e1f"
+    },
+    {
+      "route": "/news/announcement_5/",
+      "sha256": "52837351ca34bf6acf3135780e926186758ad4200edd9252392095e2dc62f694"
+    },
+    {
+      "route": "/news/announcement_4/",
+      "sha256": "a1f920dd66478082f91096ab26e8e09328ebbc5ef8588df207c2dce719fe10a2"
+    },
+    {
+      "route": "/news/announcement_6/",
+      "sha256": "41a1c841ec089f249e7753ffae8d135f0afa80bbfeb9b03a2d75de87d3b82a04"
+    },
+    {
+      "route": "/projects/build-rhythm/",
+      "sha256": "fe946a622e257a34241c263d359f21b9b2860a08ec89023e3ab6b675af4dca4f"
+    },
+    {
+      "route": "/projects/context-aware-encoding/",
+      "sha256": "cccf29bac84ad6bc51a8a1350b728b1132e4f6fcbd3cc69fce91ae85c724af89"
+    },
+    {
+      "route": "/projects/designweaver/",
+      "sha256": "d7ef1e26f75d514c9233a67381bb2f054e11aa4e993f8c71f1691d7df62dff7f"
+    },
+    {
+      "route": "/projects/dogtor-portal/",
+      "sha256": "8bbd706b1e6024ace00eab3a2c40a5b40c6579d4f4eefffaf950e94a0cdefffd"
+    },
+    {
+      "route": "/projects/graphhscn/",
+      "sha256": "f45220c4fea530356875b2da90711d20d3cb48f8aa33aeaa96303137dee6c5f5"
+    },
+    {
+      "route": "/projects/graphics-lab/",
+      "sha256": "28ebe8fb19499f819d5f6916683e4f34ebe8e1c9c90a76c133496f5baec10847"
+    },
+    {
+      "route": "/projects/graphics-performance/",
+      "sha256": "889647b1a18dd17f46ef7ea2f787929ef6d8c616d2e5ed476f2f1a348a3608a2"
+    },
+    {
+      "route": "/projects/hci-spooder-man/",
+      "sha256": "aaf9b26a1a30bcbbdaeb43ecb9247864f6dfc70ea1fd8c53614c6bd67f715efb"
+    },
+    {
+      "route": "/projects/homepage-desk-scene/",
+      "sha256": "92c6505855fab5a6ed1ce31ac50b9190093774481a6a516c1d39d045e75fce7d"
+    },
+    {
+      "route": "/projects/hotspot/",
+      "sha256": "ceb5ff4d0095f8dae719db6938c320901cbd52d5326fa81e3be714f6036cc755"
+    },
+    {
+      "route": "/projects/house-in-the-cliff/",
+      "sha256": "f6f22ba1bb0d243104059673c62694c69a7022c7822937555f2d39e0e599747a"
+    },
+    {
+      "route": "/projects/ikea-project-cards/",
+      "sha256": "75067df2ff69249f154bf57e948d559276a2bf7f1d68e418445b960442e86e48"
+    },
+    {
+      "route": "/projects/la-jolla/",
+      "sha256": "3483726c658184e66a3a3629d3743f48c49fd99427ac654decdae98bf4e23308"
+    },
+    {
+      "route": "/projects/light-paths/",
+      "sha256": "ea2e0adccbabd64fa1fa86affa64da587ee5801dfbb33df251515906cd082a38"
+    },
+    {
+      "route": "/projects/not-a-good-driver/",
+      "sha256": "e6ef3cc521793eeb76fddf3636cfeadbd1c1adc89c7c70924433abc328dcd3cb"
+    },
+    {
+      "route": "/projects/openai-build-week/",
+      "sha256": "2b4353ea1f48163805079bc1ea8d0ebc436e0a4bd1eea0cb6213645c52814625"
+    },
+    {
+      "route": "/projects/paper-constellation/",
+      "sha256": "4fc9709e7966f317ce935aa881a7ac733673528d70453747d253b0655d6ec536"
+    },
+    {
+      "route": "/projects/physion/",
+      "sha256": "00fe461ee216c4c0ec8ee4cdd095f357ac494375ce69d07b626e84f157a76bc4"
+    },
+    {
+      "route": "/projects/p/",
+      "sha256": "eb5aa79d7774effe3487b5e344b5d0454b3cb531e47509141e8b87a7e526301b"
+    },
+    {
+      "route": "/projects/scholar-lens/",
+      "sha256": "83a6c7b7b1629c91c1e19214f5a4f4d3091271c5026e29ba80235d690bee26b7"
+    },
+    {
+      "route": "/projects/wall-of-rejection/",
+      "sha256": "f44ec10469030a2c3774b99287e000692488b4165995a865f384073ce5d56355"
+    },
+    {
+      "route": "/projects/website-revamp/",
+      "sha256": "bde0c772d78b6e5a90b51db6189d8bf789c68c1a173c57d35a9978f465eaefa6"
+    },
+    {
+      "route": "/projects/what-happened-and-why/",
+      "sha256": "aee4c6313c515eeb1e78dea3aeba1277861dd5bb34315e535ff5f98332916c27"
+    }
+  ]
+}
