@@ -836,6 +836,31 @@ async function openTiltCoast(page, permission = "granted") {
     const Sensor = window.DeviceOrientationEvent ?? class extends Event {};
     window.coastPermissionCalls = 0;
     window.coastPermissionActivation = [];
+    window.coastKeyTimeline = [];
+    addEventListener(
+      "keydown",
+      (event) => {
+        if (!["ArrowRight", "Home"].includes(event.key)) return;
+        const surface = document.querySelector("footer .footer-coast__scene");
+        window.coastKeyTimeline.push({
+          key: event.key,
+          target: event.target.className,
+          tabIndex: surface?.tabIndex,
+          focused: document.activeElement === surface,
+          activation: navigator.userActivation.isActive,
+          at: performance.now(),
+        });
+        queueMicrotask(() =>
+          window.coastKeyTimeline.push({
+            key: event.key,
+            phase: "after dispatch",
+            activation: navigator.userActivation.isActive,
+            at: performance.now(),
+          })
+        );
+      },
+      true
+    );
     Object.defineProperty(Sensor, "requestPermission", {
       configurable: true,
       value: () => {
@@ -1060,13 +1085,42 @@ test("coastal view: pointer glide stays bounded and settles without rolling the 
 // pan gesture at phone width; both must call the API while activation is live.
 async function requestTilt(page, host, testInfo) {
   const surface = host.locator(".footer-coast__scene");
+  const states = [];
+  const record = async (phase) =>
+    states.push({
+      phase,
+      ...(await surface.evaluate((element) => ({
+        tabIndex: element.tabIndex,
+        focused: document.activeElement === element,
+        secure: isSecureContext,
+        maxTouchPoints: navigator.maxTouchPoints,
+        orientationType: typeof DeviceOrientationEvent,
+        narrow: matchMedia("(max-width: 599px)").matches,
+        width: innerWidth,
+        tilt: element.closest("[data-footer-coast]").getCoastEvidence().viewMotion.tilt,
+      }))),
+    });
+  await record("before input");
   if (testInfo.project.use.hasTouch) await surface.tap({ position: { x: 55, y: 80 } });
   else {
     await page.setViewportSize({ width: 390, height: 1000 });
     await host.scrollIntoViewIfNeeded();
+    // ResizeObserver gives the narrow panorama its keyboard target. A resize call alone
+    // does not prove it can receive the next key or that the sensor gate has resumed.
+    await expect(surface).toHaveAttribute("tabindex", "0");
+    await expect(host).toHaveAttribute("data-running", "true");
+    await expect.poll(async () => (await evidence(host)).viewMotion.tilt.supported).toBe(true);
+    await surface.focus();
+    await expect(surface).toBeFocused();
+    await record("after resize");
     await surface.press("ArrowRight");
     await surface.press("Home");
   }
+  await record("after input");
+  await writeFile(
+    testInfo.outputPath("tilt-gesture.json"),
+    JSON.stringify({ states, keys: await page.evaluate(() => window.coastKeyTimeline) }, null, 2)
+  );
   expect(await page.evaluate(() => window.coastPermissionActivation)).toEqual([true]);
 }
 

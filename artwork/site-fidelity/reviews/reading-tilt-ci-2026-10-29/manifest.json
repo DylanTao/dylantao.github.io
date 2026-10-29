@@ -1,0 +1,282 @@
+{
+  "payloads": [
+    {
+      "path": ".gitattributes",
+      "mode": "text-lf",
+      "bytes": 53,
+      "sha256": "f29df8e90a8a804ce145c296bb7a50bb385be94676334467d5d5fd13371299e0"
+    },
+    {
+      "path": "attempts/ci-56-tablet/reading-light.json.gz",
+      "mode": "binary",
+      "bytes": 132,
+      "sha256": "6aa8992eb7a28a9735236ce4e8926e72abcd30595aba8887e83f295f55def2a2"
+    },
+    {
+      "path": "attempts/ci-56-tablet/reading-light.png",
+      "mode": "binary",
+      "bytes": 7501,
+      "sha256": "a978c238107652fc9af42655fc5d4e07c75e2c93e17cae27a638e5f0a9bb9fb5"
+    },
+    {
+      "path": "attempts/ci-56-tablet/reading-reference-light.png",
+      "mode": "binary",
+      "bytes": 6691,
+      "sha256": "82fe75830598b92da38ce13ea53ee31f46921b5c161ed1d0e847c82545df211e"
+    },
+    {
+      "path": "attempts/ci-56-tablet-job.log.gz",
+      "mode": "binary",
+      "bytes": 50751,
+      "sha256": "62bc660becd0357792a63710a7c4045aeaa41d4749dd6a41d7d2df221f218e3b"
+    },
+    {
+      "path": "attempts/mesa-tilt-before.log.gz",
+      "mode": "binary",
+      "bytes": 982,
+      "sha256": "72d092d6c4bdf31136e1408961899a0409f970401e800faef3131667ed108af7"
+    },
+    {
+      "path": "attempts/mesa-tilt-loopback.log.gz",
+      "mode": "binary",
+      "bytes": 434,
+      "sha256": "fff6bf0c7caefc6b5b13429365c55cbb9f4ae21bdab68326800966a5da905c00"
+    },
+    {
+      "path": "checks/mesa-reading-release/cases/navigation-motion-article--1d6ef-ass-the-fixed-header-light--desktop-1440/reading-light.json.gz",
+      "mode": "binary",
+      "bytes": 261,
+      "sha256": "7e16fb080cd8fb8c103bec00ff83eefe9d959e92443928376516ed4c8777b8cd"
+    },
+    {
+      "path": "checks/mesa-reading-release/cases/navigation-motion-article--1d6ef-ass-the-fixed-header-light--laptop-1280/reading-light.json.gz",
+      "mode": "binary",
+      "bytes": 259,
+      "sha256": "83b4da8077243f76603c1775e8f285e63e1a4075532a09ffc8e6493676f8f043"
+    },
+    {
+      "path": "checks/mesa-reading-release/cases/navigation-motion-article--1d6ef-ass-the-fixed-header-light--mobile-390/reading-light.json.gz",
+      "mode": "binary",
+      "bytes": 256,
+      "sha256": "9f44da0bf599c296963fd1c68fa5df19f505c6beefb93cb31cd9047e7a10b2cd"
+    },
+    {
+      "path": "checks/mesa-reading-release/cases/navigation-motion-article--1d6ef-ass-the-fixed-header-light--tablet-768/reading-light.json.gz",
+      "mode": "binary",
+      "bytes": 256,
+      "sha256": "7f676cc1d70f152caeaba2a7f8afa531c4ff83e9637ef1e16653cbc82828501a"
+    },
+    {
+      "path": "checks/mesa-reading-release/cases/navigation-motion-article--b7be2-pass-the-fixed-header-dark--desktop-1440/reading-dark.json.gz",
+      "mode": "binary",
+      "bytes": 261,
+      "sha256": "da78c652affda6edcfcac93c327b950267bd5f9f28315621b73cc1a94f10ce81"
+    },
+    {
+      "path": "checks/mesa-reading-release/cases/navigation-motion-article--b7be2-pass-the-fixed-header-dark--laptop-1280/reading-dark.json.gz",
+      "mode": "binary",
+      "bytes": 261,
+      "sha256": "f393ea0a5d6a6dec3810d7af73a50da72844d31ab3f649823a3a3c0ed44de93a"
+    },
+    {
+      "path": "checks/mesa-reading-release/cases/navigation-motion-article--b7be2-pass-the-fixed-header-dark--mobile-390/reading-dark.json.gz",
+      "mode": "binary",
+      "bytes": 256,
+      "sha256": "9f44da0bf599c296963fd1c68fa5df19f505c6beefb93cb31cd9047e7a10b2cd"
+    },
+    {
+      "path": "checks/mesa-reading-release/cases/navigation-motion-article--b7be2-pass-the-fixed-header-dark--tablet-768/reading-dark.json.gz",
+      "mode": "binary",
+      "bytes": 256,
+      "sha256": "7f676cc1d70f152caeaba2a7f8afa531c4ff83e9637ef1e16653cbc82828501a"
+    },
+    {
+      "path": "checks/mesa-reading-release.log.gz",
+      "mode": "binary",
+      "bytes": 500,
+      "sha256": "aa8855fbc83c23fe37b5a087e96db72428a62e29c32871ecbf7fa7be9237b2b3"
+    },
+    {
+      "path": "checks/mesa-tilt-after/cases/footer-coast-coastal-tilt--3b7b6-n-keeps-the-view-calibrated-desktop-1440/tilt-gesture.json.gz",
+      "mode": "binary",
+      "bytes": 427,
+      "sha256": "a44c363ecff5744352eae5efce112ec6d91a998390d6084a6033c0905feecfc5"
+    },
+    {
+      "path": "checks/mesa-tilt-after/cases/footer-coast-coastal-tilt--a19dd--coast-and-native-scrolling-desktop-1440/tilt-gesture.json.gz",
+      "mode": "binary",
+      "bytes": 418,
+      "sha256": "bf08b4d0c1caae0e531587fd62684fbabf4385026e0e5a43844c50fcda0cfffc"
+    },
+    {
+      "path": "checks/mesa-tilt-after.log.gz",
+      "mode": "binary",
+      "bytes": 524,
+      "sha256": "f3fc6322171ce9ba4dcc40b05b4f549a6142ca8f065784ecbb7b81d21675f7a6"
+    },
+    {
+      "path": "checks/modern-webkit-tilt-final/footer-coast-coastal-tilt--3b7b6-n-keeps-the-view-calibrated-mobile-390/tilt-gesture.json.gz",
+      "mode": "binary",
+      "bytes": 297,
+      "sha256": "971b3e9eeaa172b226d6d2da2bc71f6ee2d32b2ba9dca0a8aa3bb98845c0c6cc"
+    },
+    {
+      "path": "checks/modern-webkit-tilt-final/footer-coast-coastal-tilt--a19dd--coast-and-native-scrolling-mobile-390/tilt-gesture.json.gz",
+      "mode": "binary",
+      "bytes": 294,
+      "sha256": "b37c21379b34adfbf5f608ba19de3be1a46a0f6c7307b61e8d3d4d26853c7470"
+    },
+    {
+      "path": "checks/modern-webkit-tilt-final.log.gz",
+      "mode": "binary",
+      "bytes": 550,
+      "sha256": "54c110a2ec2938674b68ba749f9e2f497a3cac1fc1ab53cb215be4dfd74c2c7c"
+    },
+    {
+      "path": "checks/native-tilt-final/footer-coast-coastal-tilt--3b7b6-n-keeps-the-view-calibrated-desktop-1440/tilt-gesture.json.gz",
+      "mode": "binary",
+      "bytes": 416,
+      "sha256": "b31382ef57d958059f5a0e20bdb979d5462b842bbb2f6ad4308444f881bc3353"
+    },
+    {
+      "path": "checks/native-tilt-final/footer-coast-coastal-tilt--3b7b6-n-keeps-the-view-calibrated-mobile-390/tilt-gesture.json.gz",
+      "mode": "binary",
+      "bytes": 297,
+      "sha256": "971b3e9eeaa172b226d6d2da2bc71f6ee2d32b2ba9dca0a8aa3bb98845c0c6cc"
+    },
+    {
+      "path": "checks/native-tilt-final/footer-coast-coastal-tilt--a19dd--coast-and-native-scrolling-desktop-1440/tilt-gesture.json.gz",
+      "mode": "binary",
+      "bytes": 428,
+      "sha256": "3a26cfa7af2991ead0302b98b8e1e2ac17e5917a4f3e83bc38d71ecebff3c6d1"
+    },
+    {
+      "path": "checks/native-tilt-final/footer-coast-coastal-tilt--a19dd--coast-and-native-scrolling-mobile-390/tilt-gesture.json.gz",
+      "mode": "binary",
+      "bytes": 294,
+      "sha256": "b37c21379b34adfbf5f608ba19de3be1a46a0f6c7307b61e8d3d4d26853c7470"
+    },
+    {
+      "path": "checks/native-tilt-final.log.gz",
+      "mode": "binary",
+      "bytes": 602,
+      "sha256": "9c2ed6b1ab8dd45dd06c347cf13d1ceb5d3dcd9366daac16d5a941b414935802"
+    },
+    {
+      "path": "checks/reading-native-release/navigation-motion-article--1d6ef-ass-the-fixed-header-light--desktop-1440/reading-light.json.gz",
+      "mode": "binary",
+      "bytes": 256,
+      "sha256": "5c078ff312960c0055aa88ad03261a5827c2a237e7226a70f494e349a9fcb259"
+    },
+    {
+      "path": "checks/reading-native-release/navigation-motion-article--1d6ef-ass-the-fixed-header-light--laptop-1280/reading-light.json.gz",
+      "mode": "binary",
+      "bytes": 257,
+      "sha256": "eb07a19f77b9b5732a781980bf537c3b123e89af3c616ebbee094c8a54181dab"
+    },
+    {
+      "path": "checks/reading-native-release/navigation-motion-article--1d6ef-ass-the-fixed-header-light--mobile-390/reading-light.json.gz",
+      "mode": "binary",
+      "bytes": 257,
+      "sha256": "2053da204f47da45f0ed22aa1f817592e0665e3a8f85ba28b630ba47893c94ba"
+    },
+    {
+      "path": "checks/reading-native-release/navigation-motion-article--1d6ef-ass-the-fixed-header-light--tablet-768/reading-light.json.gz",
+      "mode": "binary",
+      "bytes": 261,
+      "sha256": "cb4bdc18f0128479c5fde290786d681eaa195d0ecf48f876e1332e423fdbec4a"
+    },
+    {
+      "path": "checks/reading-native-release/navigation-motion-article--b7be2-pass-the-fixed-header-dark--desktop-1440/reading-dark.json.gz",
+      "mode": "binary",
+      "bytes": 256,
+      "sha256": "782761f55e1c6869d6aac29f8b45578719eebd0ba4d402c84c44ab1477f28a26"
+    },
+    {
+      "path": "checks/reading-native-release/navigation-motion-article--b7be2-pass-the-fixed-header-dark--laptop-1280/reading-dark.json.gz",
+      "mode": "binary",
+      "bytes": 257,
+      "sha256": "eb07a19f77b9b5732a781980bf537c3b123e89af3c616ebbee094c8a54181dab"
+    },
+    {
+      "path": "checks/reading-native-release/navigation-motion-article--b7be2-pass-the-fixed-header-dark--mobile-390/reading-dark.json.gz",
+      "mode": "binary",
+      "bytes": 257,
+      "sha256": "c79eb3f2c3d0b5bd3360c3b4b6bea18cac24c5f4a6011c7ca839ebee749feb3f"
+    },
+    {
+      "path": "checks/reading-native-release/navigation-motion-article--b7be2-pass-the-fixed-header-dark--tablet-768/reading-dark.json.gz",
+      "mode": "binary",
+      "bytes": 261,
+      "sha256": "cb4bdc18f0128479c5fde290786d681eaa195d0ecf48f876e1332e423fdbec4a"
+    },
+    {
+      "path": "checks/reading-native-release.log.gz",
+      "mode": "binary",
+      "bytes": 573,
+      "sha256": "34d124baf45dbaf8f7798157e91e95f7c97f9bf5fda86500da6382fce73b21b9"
+    },
+    {
+      "path": "producers/loopback-proxy.cjs.gz",
+      "mode": "binary",
+      "bytes": 512,
+      "sha256": "7720eeb21dd310c0bc4df5763bed8c38b006dd15aca956e993827ffaf6695832"
+    },
+    {
+      "path": "producers/reading-release-ci-run.cjs.gz",
+      "mode": "binary",
+      "bytes": 628,
+      "sha256": "1c12a7c0249e7bb8d9e7b114647c03442f0d707ed0b90f015a5feb76c0198ce1"
+    },
+    {
+      "path": "producers/tilt-after-ci-run.cjs.gz",
+      "mode": "binary",
+      "bytes": 626,
+      "sha256": "cd91e169087aa5f7117ebeb20cbaad7523a206191677180ddbedbf1502486251"
+    },
+    {
+      "path": "README.md",
+      "mode": "text-lf",
+      "bytes": 2245,
+      "sha256": "b5a964436da942d36cf93dd1d075b514e638f8b79de583a4584aa466e0c164e7"
+    },
+    {
+      "path": "verify.py",
+      "mode": "text-lf",
+      "bytes": 1065,
+      "sha256": "a9041ef4a999c343751a6f01e55e23f10db945c9430bb723a74cfd085677602b"
+    }
+  ],
+  "sourceBindings": [
+    {
+      "path": "assets/js/footer-coast/scene.mjs",
+      "mode": "text-lf",
+      "bytes": 43283,
+      "sha256": "fb9d28b09fbea7d921594c919d6e2f6d2803cb82e3d577f2923933a5880f2662"
+    },
+    {
+      "path": "test/visual/footer-coast.spec.js",
+      "mode": "text-lf",
+      "bytes": 67124,
+      "sha256": "27a47dddf382dc253c7528a2582e4c42e3790d057663afb54d1dd7e167df9d4c"
+    },
+    {
+      "path": "test/visual/navigation-motion.spec.js",
+      "mode": "text-lf",
+      "bytes": 10909,
+      "sha256": "fa3d5cba43db40f0c756237a5dc84a38ab37da05bf6741465ad1eebe20dadd37"
+    },
+    {
+      "path": "bin/visual_scene_environment.cjs",
+      "mode": "text-lf",
+      "bytes": 6028,
+      "sha256": "ed77b9917ec640c0de31665f028bbc015ab7ba5f4a35fd1b6df8e26861957e65"
+    },
+    {
+      "path": "test/visual/public.config.js",
+      "mode": "text-lf",
+      "bytes": 3356,
+      "sha256": "9276bb8254a5efc54e7ed8931da03dc5368dd379d4744ff009bf05fbc8b4a30a"
+    }
+  ]
+}

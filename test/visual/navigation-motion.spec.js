@@ -43,16 +43,38 @@ for (const theme of ["light", "dark"]) {
       const r = node.getBoundingClientRect();
       return { x: Math.ceil(r.x), y: Math.ceil(header.getBoundingClientRect().bottom + 1), width: Math.floor(r.width) - 1, height: 50 };
     });
+    // Let this block's ordinary, once-only GSAP entrance finish. Keep real scrolling and the
+    // site's live motion enabled; comparing two points in an entrance measures translation.
+    await expect.poll(() => paragraph.evaluate((node) => getComputedStyle(node).transform)).toBe("none");
+    const geometry = () =>
+      paragraph.evaluate((node) => {
+        const r = node.getBoundingClientRect(),
+          d = document.querySelector(".duh-companion")?.getDuhEvidence?.();
+        return {
+          top: r.top,
+          left: r.left,
+          width: r.width,
+          height: r.height,
+          scrollY,
+          transform: getComputedStyle(node).transform,
+          duh: d ? { x: d.x, y: d.y, visible: d.visible, state: d.state, pageContacts: d.pageContacts, repairs: d.repairs } : null,
+        };
+      });
+    const readingGeometry = await geometry();
     const reading = await page.screenshot({ clip, path: testInfo.outputPath(`reading-${theme}.png`) });
     // The reference removes only an overlay outside the bar; it keeps fonts, theme, layout,
     // frosted header and the actual article unchanged. Visible glyphs must retain their shape.
     await page.addStyleTag({ content: "header#top::after { content: none !important; }" });
     await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    const referenceGeometry = await geometry();
     const unobstructed = await page.screenshot({ clip, path: testInfo.outputPath(`reading-reference-${theme}.png`) });
     await testInfo.attach(`reading-${theme}`, { body: reading, contentType: "image/png" });
     await testInfo.attach(`reading-reference-${theme}`, { body: unobstructed, contentType: "image/png" });
     const difference = readingShapeDifference(reading, unobstructed);
-    await writeFile(testInfo.outputPath(`reading-${theme}.json`), JSON.stringify({ clip, ...difference, errors }, null, 2));
+    await writeFile(
+      testInfo.outputPath(`reading-${theme}.json`),
+      JSON.stringify({ clip, ...difference, readingGeometry, referenceGeometry, errors }, null, 2)
+    );
     expect(difference.ratio, "the reading edge must not bend article glyphs").toBeLessThan(0.002);
     expect(errors).toEqual([]);
   });

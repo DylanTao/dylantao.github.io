@@ -776,8 +776,9 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     }
     if (narrowViewport.matches && ["ArrowLeft", "ArrowRight", "Home"].includes(event.key)) {
       event.preventDefault();
-      pan(event.key === "Home" ? 5.1 - target.x : event.key === "ArrowLeft" ? -3.5 : 3.5);
+      // Request while the trusted gesture is fresh, before a cold pan draws/compiles the scene.
       tilt?.requestFromGesture();
+      pan(event.key === "Home" ? 5.1 - target.x : event.key === "ArrowLeft" ? -3.5 : 3.5);
     }
   };
   const onMotion = () => {
