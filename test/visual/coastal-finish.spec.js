@@ -10,6 +10,138 @@ const { pathToFileURL } = require("node:url");
 const readyTimeout = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1" ? 120000 : 90000;
 const sceneEvidence = (scene) => scene.page().evaluate(() => document.querySelector("[data-home-desk-scene]").getSceneEvidence());
 
+test("coastal reflection: late models are excluded on the first sea mirror draw and remain in the main scene", async ({ page }, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "desktop-1440" && testInfo.project.use.browserName !== "webkit",
+    "One desktop and an independent WebKit touch control cover composition invalidation."
+  );
+  test.setTimeout(300000);
+  const errors = collectRuntimeErrors(page),
+    manifest = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../assets/models/home/manifest.json"), "utf8"));
+  await preparePage(page);
+  await page.clock.setFixedTime(new Date("2026-10-23T13:00:00-07:00"));
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  let release,
+    held = false;
+  const barrier = new Promise((resolve) => {
+    release = resolve;
+  });
+  await page.route(publicRouteUrl(`/assets/models/home/${manifest.hinterland.file}`), async (route) => {
+    held = true;
+    await barrier;
+    await route.continue();
+  });
+  const scene = page.locator("[data-home-desk-scene]");
+  const draw = async () => {
+    const frame = await scene.evaluate((element) => {
+      const frame = element.getSceneEvidence().frames;
+      element.labScene.requestFrame();
+      return frame;
+    });
+    await expect.poll(async () => (await sceneEvidence(scene)).frames, { timeout: readyTimeout }).toBeGreaterThan(frame);
+  };
+  try {
+    await page.goto(publicRouteUrl("/?scene-lab=1&quality=standard&resolution=fixed"), { waitUntil: "domcontentloaded" });
+    await page.locator('[data-home-desk-mode="3d"]').click();
+    await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: readyTimeout });
+    await scene.scrollIntoViewIfNeeded();
+    const installedAt = await scene.evaluate((element) => {
+      const saved = [],
+        probe = (window.__lateSeaProbe = { passes: [] });
+      element.labScene.scene.traverse((object) => {
+        if (!object.isMesh) return;
+        const before = object.onBeforeRender;
+        saved.push([object, before]);
+        object.onBeforeRender = function (renderer, scene, camera, ...args) {
+          probe.renderer = renderer;
+          probe.main = camera;
+          return before.call(this, renderer, scene, camera, ...args);
+        };
+      });
+      probe.saved = saved;
+      const frame = element.getSceneEvidence().frames;
+      element.labScene.requestFrame();
+      return frame;
+    });
+    await expect.poll(async () => (await sceneEvidence(scene)).frames, { timeout: readyTimeout }).toBeGreaterThan(installedAt);
+    await scene.evaluate((element) => {
+      const probe = window.__lateSeaProbe;
+      for (const [object, before] of probe.saved) object.onBeforeRender = before;
+      probe.original = probe.renderer.render;
+      probe.renderer.render = function (scene, camera) {
+        const result = probe.original.call(this, scene, camera);
+        if (scene === element.labScene.scene && camera !== probe.main && camera.up.y === -1)
+          probe.passes.push({
+            late: Boolean(scene.getObjectByName("coastal-hinterland")?.visible),
+            transmission: this.renderLists.get(scene, 0).transmissive.map((item) => item.object.name),
+          });
+        return result;
+      };
+    });
+    await page.locator("[data-world-view]").click();
+    await expect.poll(async () => (await sceneEvidence(scene)).currentRoom).toBe("outside");
+    await draw();
+    expect(held).toBe(true);
+    expect(await page.evaluate(() => window.__lateSeaProbe.passes.length)).toBeGreaterThan(0);
+    release();
+    await expect
+      .poll(() => scene.evaluate((element) => Boolean(element.labScene.scene.getObjectByName("coastal-hinterland")?.visible)), {
+        timeout: readyTimeout,
+      })
+      .toBe(true);
+    await draw();
+    const first = await scene.evaluate((element) => {
+      const root = element.labScene.scene.getObjectByName("coastal-hinterland"),
+        water = [];
+      root.traverse((object) => {
+        if (/^hinterland_garden_.*_water$/.test(object.name))
+          water.push({ name: object.name, visible: object.visible, transmission: object.material.transmission });
+      });
+      return { passes: window.__lateSeaProbe.passes.filter((p) => p.late), water, evidence: element.getSceneEvidence() };
+    });
+    expect(first.passes.length).toBeGreaterThan(0);
+    expect(first.passes.every((p) => p.transmission.length === 0)).toBe(true);
+    expect(first.water).toHaveLength(3);
+    expect(first.water.every((w) => w.visible && w.transmission > 0)).toBe(true);
+    expect(first.evidence.roomCount).toBe(manifest.rooms.length);
+    expect(first.evidence.simulation.lightField.ready).toBe(true);
+
+    // A new model can be prepared while the sea mirror is disabled inside.
+    await page.locator("[data-world-view]").click();
+    await expect.poll(async () => (await sceneEvidence(scene)).currentRoom).not.toBe("outside");
+    await page.locator("[data-world-lab] > summary").click();
+    const nextAvatar = first.evidence.avatarId === "ghibli" ? "south-park" : "ghibli";
+    await page.locator("[data-world-avatar]").selectOption(nextAvatar);
+    await expect.poll(async () => (await sceneEvidence(scene)).avatarId, { timeout: readyTimeout }).toBe(nextAvatar);
+    await page.locator("[data-world-lab] > summary").click();
+    await page.locator("[data-world-view]").click();
+    await expect.poll(async () => (await sceneEvidence(scene)).currentRoom).toBe("outside");
+    await scene.evaluate((element) => element.setQualityTier("low"));
+    await draw();
+    await draw();
+    expect(await page.evaluate(() => window.__lateSeaProbe.passes.slice(-2).every((p) => p.transmission.length === 0))).toBe(true);
+    const image = await scene.locator("canvas").screenshot(),
+      pixels = screenshotMetrics(image);
+    expect(pixels.uniqueColors).toBeGreaterThan(128);
+    expect(pixels.luminanceVariance).toBeGreaterThan(12);
+    expect(errors).toEqual([]);
+    await testInfo.attach("late-sea-reflection", {
+      body: JSON.stringify({ first, after: await sceneEvidence(scene), pixels, errors }, null, 2),
+      contentType: "application/json",
+    });
+    await testInfo.attach("late-sea-complete-main", { body: image, contentType: "image/png" });
+  } finally {
+    release();
+    await page
+      .evaluate(() => {
+        const probe = window.__lateSeaProbe;
+        if (probe?.original) probe.renderer.render = probe.original;
+        if (probe?.saved) for (const [object, before] of probe.saved) object.onBeforeRender = before;
+      })
+      .catch(() => {});
+  }
+});
+
 test("coastal quality: a lost graphics context returns to the desk and retries a complete lower tier", async ({ page }, testInfo) => {
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name), "Graphics lifecycle is checked at desktop and phone widths.");
   test.setTimeout(300000);

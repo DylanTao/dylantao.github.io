@@ -22,8 +22,8 @@ export function createSeaReflection(renderer, scene, ocean, material) {
   const direction = new THREE.Vector3();
   // Transmissive meshes (the onsen water, the coffee glass) make Three render a whole extra opaque
   // pass at full canvas size before drawing them. In a 384 px mirror they are a few texels, so the
-  // mirror skips them. The list refreshes once a second; a mesh that arrives in between is only
-  // drawn the old, slower way until then.
+  // mirror skips them. Model preparation invalidates this list before its next draw; the periodic
+  // refresh remains a fallback for material changes that do not load a model.
   let transmissive = [],
     transmissiveAge = Infinity;
   const refreshTransmissive = () => {
@@ -83,6 +83,9 @@ export function createSeaReflection(renderer, scene, ocean, material) {
     );
   };
   return {
+    invalidate() {
+      transmissiveAge = Infinity;
+    },
     update(camera, enabled) {
       strength.value = enabled ? 1 : 0;
       if (!enabled) return;

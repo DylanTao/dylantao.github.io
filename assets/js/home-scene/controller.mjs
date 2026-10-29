@@ -951,6 +951,7 @@ export function createCoastalHome(container, records, artifacts) {
     art.apply(root, style);
     coastalWind?.bind(root);
     bindReceiver(root, group || (outdoor ? "exterior" : "architecture"), { outdoor });
+    pacific?.invalidateReflection?.();
     return root;
   }
 

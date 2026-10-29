@@ -796,6 +796,9 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     }),
     // The mirror leaves out the sun's disc (the sea's specular lobe already reflects the sun) and the
     // stars, whose points would only alias in a mirror a few hundred pixels wide.
+    invalidateReflection() {
+      reflection.invalidate?.();
+    },
     reflect(camera, enabled) {
       syncSeaLight();
       atmosphere.setMirror(true);
