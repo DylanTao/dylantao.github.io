@@ -1,0 +1,17 @@
+{
+  "correctedCheckpoint": "487381a6a05e06bd918976d6b00eacd6fa47ab24",
+  "issue": "Coordinator appended CI notes to the original worker README without updating its frozen packet hash. No rendered evidence, test body, model or cache changed.",
+  "correction": "Restore the original worker README byte-for-byte and put coordinator notes in this separate CI packet.",
+  "originalWorkerFilesVerified": 36,
+  "originalWorkerMismatches": 0,
+  "testAndWorkflowBytesUnchanged": [
+    ".github/workflows/visual-regression.yml",
+    "test/visual/estate-redesign.spec.js",
+    "test/visual/scene-groups.json"
+  ],
+  "productionRebuild": {
+    "pass": true,
+    "seconds": 141.723,
+    "baseurl": "/al-folio"
+  }
+}

@@ -41,6 +41,10 @@
       "sha256": "c7f867deabb9deb5e5d75f373d437b10657af1f72ce536f0b3b463cf4ceb8111",
       "bytes": 56124
     },
+    "packet-integrity.json": {
+      "sha256": "420a7cf6ef9a53db741803f85c4419a49ede1c91e22d7a261b5af7318aa536a2",
+      "bytes": 720
+    },
     "python.log.gz": {
       "sha256": "6da22cbc3aa88ab7228fdd7afab3bec69eba5a7a917a22ad8d89e84bf80b26bc",
       "bytes": 333
@@ -48,6 +52,10 @@
     "qualification.json": {
       "sha256": "f59b625c1b4e0a60c68892fbf94467c284c8dc9a9c384e8f236ba5b784ccfd2e",
       "bytes": 1684
+    },
+    "README.md": {
+      "sha256": "7e1c7dac7807ab190fa34d8b5c64aca0c62d7c30a5b2f122db4f846e43c1dc88",
+      "bytes": 1631
     },
     "selection-unit.log.gz": {
       "sha256": "4550b443a3ab64122b2ec63869e0675d73fd20f4c9499aa980004c5c3113db61",
