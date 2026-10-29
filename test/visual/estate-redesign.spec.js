@@ -411,6 +411,10 @@ test("visitor circulation: the study joins outdoor living and the living facade 
     if (software && requestedViewport) {
       await page.setViewportSize(requestedViewport);
       await inputFrame(page, scene, canvas, () => canvas.scrollIntoViewIfNeeded());
+      // The GTK software compositor can present the preceding WebGL buffer
+      // after allocation. Complete a second real draw before inspecting the
+      // still; keep the same full scene, body and strict pixel gate.
+      await inputFrame(page, scene, canvas, () => scene.evaluate((element) => element.labScene.requestFrame()));
     }
     const returnedPixels = await page.screenshot({ path: testInfo.outputPath("living-whole-patio-return.png") });
     expect(visibleSceneFraction(returnedPixels), "the final full-size return retains visible geometry").toBeGreaterThan(0.08);
