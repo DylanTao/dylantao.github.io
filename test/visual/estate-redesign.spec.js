@@ -1,14 +1,31 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const { test, expect } = require("@playwright/test");
+const { PNG } = require("pngjs");
 const { preparePage, collectRuntimeErrors } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
 const { pauseSceneClock, useSoftwareSceneCadence } = require("./scene-clock");
 
 const ROOT = path.resolve(__dirname, "../..");
-const manifest = () => JSON.parse(fs.readFileSync(path.join(ROOT, "assets/models/home/manifest.json"), "utf8"));
+const manifest = () =>
+  JSON.parse(fs.readFileSync(path.join(process.env.COASTAL_MODELS_ROOT || path.join(ROOT, "assets/models/home"), "manifest.json"), "utf8"));
 const software = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1";
 const stateOf = (scene) => scene.page().evaluate(() => document.querySelector("[data-home-desk-scene]").getSceneEvidence());
+
+function visibleSceneFraction(bytes) {
+  const image = PNG.sync.read(bytes);
+  let occupied = 0,
+    sampled = 0;
+  // Keep full-screen controls and the two touch sticks out of this proof. A
+  // live solver behind a blank WebKit surface is not a rendered walking view.
+  for (let y = Math.ceil(image.height * 0.15); y < image.height * 0.65; y++)
+    for (let x = Math.ceil(image.width * 0.2); x < image.width * 0.8; x++) {
+      const i = (x + image.width * y) * 4;
+      if (image.data[i + 3] > 100 && Math.min(image.data[i], image.data[i + 1], image.data[i + 2]) < 230) occupied++;
+      sampled++;
+    }
+  return occupied / sampled;
+}
 
 async function inputFrame(page, scene, canvas, input) {
   const frames = (await stateOf(scene)).frames;
@@ -276,6 +293,153 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
   } finally {
     await testInfo.attach("estate-door-round-trips", {
       body: JSON.stringify({ receipts, errors, functionalCadenceHz: 10, performanceBenchmark: false }, null, 2),
+      contentType: "application/json",
+    });
+  }
+});
+
+test("visitor circulation: the study joins outdoor living and the living facade returns to the same floor", async ({ page }, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "desktop-1440" && testInfo.project.use.browserName !== "webkit",
+    "One complete visitor route per engine complements the separate all-viewport Walk controls."
+  );
+  test.setTimeout(software ? 1200000 : 360000);
+  const config = manifest(),
+    errors = collectRuntimeErrors(page),
+    samples = [],
+    requestedViewport = page.viewportSize();
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.clock.install({ time: new Date("2026-10-28T13:00:00-07:00") });
+  await page.goto(publicRouteUrl("/") + "?scene-lab=1", { waitUntil: "domcontentloaded" });
+  await page.locator('[data-home-desk-mode="3d"]').click();
+  const scene = page.locator("[data-home-desk-scene]"),
+    canvas = scene.locator("canvas");
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: software ? 150000 : 90000 });
+  await canvas.scrollIntoViewIfNeeded();
+  await pauseSceneClock(page);
+  await useSoftwareSceneCadence(page, { continuousHz: 10, force: true });
+  if (software) {
+    testInfo.annotations.push({ type: "functional viewport", description: "480x320 after complete full-size loading; actual assets and capsule" });
+    await page.setViewportSize({ width: 480, height: 320 });
+  }
+  await inputFrame(page, scene, canvas, () => page.locator("[data-world-fullscreen]").click());
+  await inputFrame(page, scene, canvas, () => canvas.press("v"));
+  await expect
+    .poll(
+      async () => {
+        await page.clock.runFor(200);
+        return (await stateOf(scene)).walk?.ready;
+      },
+      { timeout: 120000 }
+    )
+    .toBe(true);
+  const study = config.rooms.find((room) => room.id === "study"),
+    standing = study.walkActor,
+    pose = async () => (await stateOf(scene)).walk;
+  // A single initial room fixture avoids repeating the separately qualified complete
+  // pavilion descent. From here every crossing, turn and return is ordinary keyboard
+  // input; no later pose, height, collision, door or camera override is permitted.
+  await inputFrame(page, scene, canvas, async () => {
+    expect(await scene.evaluate((element, position) => element.setLabWalk({ position, yaw: Math.PI, pitch: -0.08 }), standing)).toBe(true);
+  });
+  expect((await pose()).room).toBe("study");
+  let stagedCalls = 0;
+  await scene.evaluate((element) => {
+    element.setLabWalk = () => {
+      window.__unexpectedVisitorPlacement = (window.__unexpectedVisitorPlacement || 0) + 1;
+      throw new Error("A visitor journey cannot place the body after its initial room fixture");
+    };
+  });
+  const beginning = await pose();
+  async function walkTo(target, label) {
+    let stationary = 0;
+    for (let step = 0; step < 150; step++) {
+      const before = await pose(),
+        dx = target[0] - before.position[0],
+        dz = target[2] - before.position[2],
+        distance = Math.hypot(dx, dz);
+      if (distance < 0.13) {
+        expect(Math.abs(before.position[1] - target[1]), `${label}: native support retains the real floor`).toBeLessThan(0.16);
+        samples.push({ label, target, pose: before });
+        return before;
+      }
+      const angle = wrapAngle(Math.atan2(dx, dz) - before.yaw);
+      if (Math.abs(angle) > 0.114) {
+        const key = angle > 0 ? "ArrowLeft" : "ArrowRight";
+        await page.keyboard.down(key);
+        await page.clock.runFor(Math.min(350, (Math.abs(angle) / 1.9) * 1000));
+        await page.keyboard.up(key);
+        await page.clock.runFor(17);
+        continue;
+      }
+      await page.keyboard.down("KeyW");
+      await page.clock.runFor(Math.max(17, Math.min(300, ((distance - 0.06) / 2) * 1000)));
+      await page.keyboard.up("KeyW");
+      await page.clock.runFor(17);
+      const after = await pose();
+      stationary = Math.hypot(after.position[0] - before.position[0], after.position[2] - before.position[2]) < 0.015 ? stationary + 1 : 0;
+      if (stationary > 8) break;
+    }
+    throw new Error(`${label}: visitor stopped before ${JSON.stringify(target)} at ${JSON.stringify(await pose())}`);
+  }
+  const studyPatio = [standing, [-9.41, 0, 4.3], ...config.estateLibrary.patioDoor.route, ...config.retreat.patioRoute.slice(3)];
+  try {
+    for (const target of studyPatio.slice(1)) await walkTo(target, "study to outdoor living");
+    const outside = await pose();
+    expect(outside.room).toBe("outside");
+    expect(outside.distance - beginning.distance).toBeGreaterThan(18);
+    const outdoorPixels = await page.screenshot({ path: testInfo.outputPath("study-usable-patio.png") });
+    expect(
+      visibleSceneFraction(outdoorPixels),
+      "the visitor sees the actual covered-patio scene, rather than controls over an empty canvas"
+    ).toBeGreaterThan(0.08);
+    for (const target of studyPatio.slice(0, -1).reverse()) await walkTo(target, "outdoor living back to study");
+    const deskReturn = await pose();
+    expect(deskReturn.room).toBe("study");
+    expect(deskReturn.distance - outside.distance).toBeGreaterThan(18);
+    await page.screenshot({ path: testInfo.outputPath("study-desk-return.png") });
+    for (const target of study.exitPath.slice(1)) await walkTo(target, "study through the lower corridor");
+    const living = config.retreat.patioRoute;
+    await walkTo([living[0][0], 0, 13.6], "lower living aisle");
+    await walkTo(living[0], "lower living");
+    expect((await pose()).room).toBe("lounge");
+    for (const target of living.slice(1)) await walkTo(target, "living to patio");
+    expect((await pose()).room).toBe("outside");
+    for (const target of living.slice(0, -1).reverse()) await walkTo(target, "patio back to living");
+    expect((await pose()).room).toBe("lounge");
+    if (software && requestedViewport) {
+      await page.setViewportSize(requestedViewport);
+      await inputFrame(page, scene, canvas, () => canvas.scrollIntoViewIfNeeded());
+    }
+    const returnedPixels = await page.screenshot({ path: testInfo.outputPath("living-whole-patio-return.png") });
+    expect(visibleSceneFraction(returnedPixels), "the final full-size return retains visible geometry").toBeGreaterThan(0.08);
+    stagedCalls = await page.evaluate(() => window.__unexpectedVisitorPlacement || 0);
+    expect(stagedCalls).toBe(0);
+    expect(errors).toEqual([]);
+  } finally {
+    const backend = await canvas.evaluate((element) => {
+      const gl = element.getContext("webgl2") || element.getContext("webgl"),
+        extension = gl?.getExtension("WEBGL_debug_renderer_info");
+      return gl
+        ? {
+            renderer: gl.getParameter(extension?.UNMASKED_RENDERER_WEBGL || gl.RENDERER),
+            vendor: gl.getParameter(extension?.UNMASKED_VENDOR_WEBGL || gl.VENDOR),
+            buffer: [gl.drawingBufferWidth, gl.drawingBufferHeight],
+          }
+        : null;
+    });
+    const proofPath = testInfo.outputPath("complete-visitor-patio-circulation.json");
+    fs.writeFileSync(
+      proofPath,
+      JSON.stringify(
+        { initialPlacement: standing, stagedCalls, samples, final: await pose(), errors, backend, requestedViewport, functionalCadenceHz: 10 },
+        null,
+        2
+      )
+    );
+    await testInfo.attach("complete-visitor-patio-circulation", {
+      path: proofPath,
       contentType: "application/json",
     });
   }

@@ -1,10 +1,15 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 import { BODY, createWalkField, walkKind, WATER_BLOCK } from "../assets/js/home-scene/colliders.mjs";
 import { nativeGeometry } from "./helpers/coastal-native-geometry.mjs";
 
-const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
+const modelBase = process.env.COASTAL_MODELS_ROOT
+  ? pathToFileURL(`${resolve(process.env.COASTAL_MODELS_ROOT)}/`)
+  : new URL("../assets/models/home/", import.meta.url);
+const manifest = JSON.parse(readFileSync(new URL("manifest.json", modelBase)));
 let delivered;
 async function deliveredField() {
   return (delivered ??= (async () => {
@@ -13,7 +18,7 @@ async function deliveredField() {
       Boolean
     );
     for (const file of files) {
-      const root = await nativeGeometry(file);
+      const root = await nativeGeometry(file, modelBase);
       // Full screen commonly opens from an interior cutaway. Hide the actual native roof nodes as
       // the controller does, then prove their static triangles still carry a visitor outside.
       root.traverse((object) => {
@@ -133,6 +138,43 @@ test("the delivered main entrance continuously descends into the living floor an
   assert.ok(Math.abs(inward.state.foot) < 0.08, "inside at the shared living floor");
   assert.ok(Math.abs(outward.state.foot - manifest.entrance.top) < 0.08, "outside on the actual clifftop portal");
   t.diagnostic(JSON.stringify({ inward, outward, field: field.evidence() }));
+});
+
+test("the study patio door joins the whole dry promenade and returns without squeezing behind old furniture", async (t) => {
+  const field = await deliveredField();
+  const study = manifest.rooms.find((room) => room.id === "study");
+  const threshold = manifest.estateLibrary.patioDoor.route;
+  const route = [study.walkActor, [-9.41, 0, 4.3], ...threshold, ...manifest.retreat.patioRoute.slice(3)];
+  const outward = traverse(field, route);
+  const inward = traverse(field, [...route].reverse());
+  // This is a usable promenade, rather than the former 0.74m slot behind an
+  // orphan bistro chair. Test the actual solid triangles with a generous body:
+  // the dry cross-terrace lane must admit a full 1.2m diameter in both directions.
+  const generous = { ...BODY, radius: 0.6 };
+  for (const z of [2.7]) {
+    for (let x = -7.4; x < 2.7; x += 0.1) {
+      const resolved = field.resolve(x, z, 0, generous);
+      assert.ok(resolved.clear && Math.hypot(resolved.x - x, resolved.z - z) < 0.015, `real 1.2m promenade is clear at ${x.toFixed(2)},${z}`);
+      for (const dx of [-0.1, 0.1]) {
+        const step = field.move(x, z, 0, dx, 0, generous);
+        assert.ok(Math.abs(step.x - (x + dx)) < 0.02, `the generous body moves along the actual promenade at ${x.toFixed(2)}`);
+      }
+    }
+  }
+  for (let z = 1.7; z >= -0.1; z -= 0.1) {
+    const x = 4.6,
+      resolved = field.resolve(x, z, 0, generous);
+    assert.ok(
+      resolved.clear && Math.hypot(resolved.x - x, resolved.z - z) < 0.015,
+      `a real 1.2m entry reaches the covered cook aisle at ${x},${z.toFixed(2)}`
+    );
+    for (const dz of [-0.1, 0.1]) {
+      const step = field.move(x, z, 0, 0, dz, generous);
+      assert.ok(Math.abs(step.z - (z + dz)) < 0.02, `the generous body enters or leaves the pavilion at ${z.toFixed(2)}`);
+    }
+  }
+  assert.ok(outward.travelled > 18 && inward.travelled > 18, "the proof reaches the covered cooking and dining area, rather than the service bay");
+  t.diagnostic(JSON.stringify({ route, outward, inward }));
 });
 
 test("the stair hall's landing door joins the upper floor in both directions", async (t) => {
