@@ -1,0 +1,4475 @@
+{
+  "sourceSha256": "16713ed5e6efcb5f6b2cc9e70da678c4dc729255929f4248ca5b705a2e87b1a0",
+  "routeCount": 9,
+  "samples": [
+    {
+      "route": "main-entry",
+      "index": 0,
+      "point": [-2.8, 8.3, 22.95],
+      "floor": {
+        "mesh": "core_arrival_court__warm cut stone",
+        "position": [-2.799999952316284, -22.950000762939453, 8.299999237060547],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1079,
+        "distance": 0.2500009834766388
+      },
+      "floorError": 7.629394538355427e-7,
+      "headroom": 2.2902709960937493,
+      "ceiling": {
+        "mesh": "core_finish_pavilion_roof__warm board-formed concrete",
+        "position": [-2.799999952316284, -22.950000762939453, 10.59027099609375],
+        "normal": [0.0, -0.045520488172769547, -0.9989633560180664],
+        "triangle": 233,
+        "distance": 2.200270175933838
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 1,
+      "point": [-2.8, 8.3, 21.95],
+      "floor": {
+        "mesh": "core_arrival_court__warm cut stone",
+        "position": [-2.799999952316284, -21.950000762939453, 8.299999237060547],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1079,
+        "distance": 0.2500009834766388
+      },
+      "floorError": 7.629394538355427e-7,
+      "headroom": 2.1036941528320305,
+      "ceiling": {
+        "mesh": "core_finish_pavilion_roof__warm board-formed concrete",
+        "position": [-2.799999952316284, -21.950000762939453, 10.403694152832031],
+        "normal": [0.0, -0.28511306643486023, -0.9584938883781433],
+        "triangle": 225,
+        "distance": 2.0136935710906982
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 2,
+      "point": [-2.8, 8.1219, 21.65],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -21.649999618530273, 8.121874809265137],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1219,
+        "distance": 0.2500247657299042
+      },
+      "floorError": 2.519073486340062e-5,
+      "headroom": 2.187588296508789,
+      "ceiling": {
+        "mesh": "core_finish_pavilion_roof__warm board-formed concrete",
+        "position": [-2.799999952316284, -21.649999618530273, 10.309488296508789],
+        "normal": [0.0, -0.3219338655471802, -0.9467621445655823],
+        "triangle": 223,
+        "distance": 2.097588539123535
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 3,
+      "point": [-2.8, 7.9437, 21.37],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -21.3700008392334, 7.943749904632568],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1193,
+        "distance": 0.24994993209838867
+      },
+      "floorError": 4.990463256859812e-5,
+      "headroom": 2.201069668579102,
+      "ceiling": {
+        "mesh": "core_arrival_court__honey ash",
+        "position": [-2.799999952316284, -21.3700008392334, 10.144769668579102],
+        "normal": [0.0, 0.5314424633979797, -0.8470943570137024],
+        "triangle": 298,
+        "distance": 2.111070156097412
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 4,
+      "point": [-2.8, 7.7656, 21.09],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -21.09000015258789, 7.765625],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1167,
+        "distance": 0.24997520446777344
+      },
+      "floorError": 2.4999999999941735e-5,
+      "headroom": 2.2684423583984374,
+      "ceiling": {
+        "mesh": "core_arrival_court__honey ash",
+        "position": [-2.799999952316284, -21.09000015258789, 10.034042358398438],
+        "normal": [0.0, -0.8135541081428528, -0.5814892649650574],
+        "triangle": 278,
+        "distance": 2.1784424781799316
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 5,
+      "point": [-2.8, 7.5875, 20.81],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -20.809999465942383, 7.587500095367432],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1141,
+        "distance": 0.2499999850988388
+      },
+      "floorError": 9.536743128535363e-8,
+      "headroom": 2.40042552947998,
+      "ceiling": {
+        "mesh": "core_finish_pavilion_roof__warm board-formed concrete",
+        "position": [-2.799999952316284, -20.809999465942383, 9.98792552947998],
+        "normal": [0.0, -0.3862963616847992, -0.9223747253417969],
+        "triangle": 217,
+        "distance": 2.3104257583618164
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 6,
+      "point": [-2.8, 7.4094, 20.53],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -20.530000686645508, 7.409374713897705],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1115,
+        "distance": 0.25002527236938477
+      },
+      "floorError": 2.5286102294685975e-5,
+      "headroom": 2.460068688964844,
+      "ceiling": {
+        "mesh": "core_finish_pavilion_roof__warm board-formed concrete",
+        "position": [-2.799999952316284, -20.530000686645508, 9.869468688964844],
+        "normal": [0.0, -0.39404845237731934, -0.9190896153450012],
+        "triangle": 215,
+        "distance": 2.370068073272705
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 7,
+      "point": [-2.8, 7.2313, 20.25],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -20.25, 7.231249809265137],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1089,
+        "distance": 0.25005003809928894
+      },
+      "floorError": 5.019073486334236e-5,
+      "headroom": 2.5179055892944335,
+      "ceiling": {
+        "mesh": "core_finish_pavilion_roof__warm board-formed concrete",
+        "position": [-2.799999952316284, -20.25, 9.749205589294434],
+        "normal": [0.0, -0.3954334259033203, -0.918494701385498],
+        "triangle": 213,
+        "distance": 2.427905321121216
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 8,
+      "point": [-2.8, 7.0531, 19.97],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -19.969999313354492, 7.053124904632568],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1063,
+        "distance": 0.24997520446777344
+      },
+      "floorError": 2.4904632568656382e-5,
+      "headroom": 2.576336492919922,
+      "ceiling": {
+        "mesh": "core_finish_pavilion_roof__warm board-formed concrete",
+        "position": [-2.799999952316284, -19.969999313354492, 9.629436492919922],
+        "normal": [0.0, -0.39046722650527954, -0.9206168055534363],
+        "triangle": 211,
+        "distance": 2.4863364696502686
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 9,
+      "point": [-2.8, 6.875, 19.69],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -19.690000534057617, 6.875],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1037,
+        "distance": 0.2499999850988388
+      },
+      "floorError": 0.0,
+      "headroom": 2.6374588012695312,
+      "ceiling": {
+        "mesh": "core_finish_pavilion_roof__warm board-formed concrete",
+        "position": [-2.799999952316284, -19.690000534057617, 9.512458801269531],
+        "normal": [0.0, -0.3790362477302551, -0.9253817796707153],
+        "triangle": 209,
+        "distance": 2.5474588871002197
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 10,
+      "point": [-2.8, 6.6969, 19.41],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -19.40999984741211, 6.696875095367432],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1011,
+        "distance": 0.2500247657299042
+      },
+      "floorError": 2.4904632568656382e-5,
+      "headroom": 2.632777581787109,
+      "ceiling": {
+        "mesh": "core_arrival_court__honey ash",
+        "position": [-2.799999952316284, -19.40999984741211, 9.32967758178711],
+        "normal": [0.0, -0.3617797791957855, -0.9322634935379028],
+        "triangle": 150,
+        "distance": 2.5427780151367188
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 11,
+      "point": [-2.8, 6.5187, 19.13],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -19.1299991607666, 6.518749713897705],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 985,
+        "distance": 0.24995039403438568
+      },
+      "floorError": 4.971389770513923e-5,
+      "headroom": 2.7773710525512696,
+      "ceiling": {
+        "mesh": "core_finish_pavilion_roof__warm board-formed concrete",
+        "position": [-2.799999952316284, -19.1299991607666, 9.29607105255127],
+        "normal": [0.0, -0.3354160785675049, -0.9420701265335083],
+        "triangle": 205,
+        "distance": 2.687371015548706
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 12,
+      "point": [-2.8, 6.3406, 18.85],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -18.850000381469727, 6.340624809265137],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 959,
+        "distance": 0.24997520446777344
+      },
+      "floorError": 2.480926513648285e-5,
+      "headroom": 2.8606577056884763,
+      "ceiling": {
+        "mesh": "core_finish_pavilion_roof__warm board-formed concrete",
+        "position": [-2.799999952316284, -18.850000381469727, 9.201257705688477],
+        "normal": [0.0, -0.3021950423717499, -0.9532461166381836],
+        "triangle": 203,
+        "distance": 2.7706573009490967
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 13,
+      "point": [-2.8, 6.1625, 18.57],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -18.56999969482422, 6.162499904632568],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 933,
+        "distance": 0.2499999850988388
+      },
+      "floorError": 9.536743128535363e-8,
+      "headroom": 2.9559291839599613,
+      "ceiling": {
+        "mesh": "core_finish_pavilion_roof__warm board-formed concrete",
+        "position": [-2.799999952316284, -18.56999969482422, 9.118429183959961],
+        "normal": [0.0, -0.2605234682559967, -0.9654675722122192],
+        "triangle": 201,
+        "distance": 2.8659286499023438
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 14,
+      "point": [-2.8, 5.9844, 18.29],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -18.290000915527344, 5.984375],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 907,
+        "distance": 0.2500247657299042
+      },
+      "floorError": 2.4999999999941735e-5,
+      "headroom": 3.0654828887939454,
+      "ceiling": {
+        "mesh": "core_finish_pavilion_roof__warm board-formed concrete",
+        "position": [-2.799999952316284, -18.290000915527344, 9.049882888793945],
+        "normal": [0.0, -0.2097340077161789, -0.9777584671974182],
+        "triangle": 199,
+        "distance": 2.975482940673828
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 15,
+      "point": [-2.8, 5.8063, 18.01],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -18.010000228881836, 5.806250095367432],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 881,
+        "distance": 0.25005003809928894
+      },
+      "floorError": 4.990463256859812e-5,
+      "headroom": 3.1916171752929685,
+      "ceiling": {
+        "mesh": "core_finish_pavilion_roof__warm board-formed concrete",
+        "position": [-2.799999952316284, -18.010000228881836, 8.997917175292969],
+        "normal": [0.0, -0.14931385219097137, -0.9887897968292236],
+        "triangle": 197,
+        "distance": 3.1016175746917725
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 16,
+      "point": [-2.8, 5.6281, 17.73],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -17.729999542236328, 5.628124713897705],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 855,
+        "distance": 0.24997520446777344
+      },
+      "floorError": 2.4713897705197496e-5,
+      "headroom": 3.26417294921875,
+      "ceiling": {
+        "mesh": "core_arrival_court__honey ash",
+        "position": [-2.799999952316284, -17.729999542236328, 8.89227294921875],
+        "normal": [0.0, -0.08512324094772339, -0.9963704943656921],
+        "triangle": 20,
+        "distance": 3.17417311668396
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 17,
+      "point": [-2.8, 5.45, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.799999952316284, -17.0, 5.449999809265137],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 829,
+        "distance": 0.25
+      },
+      "floorError": 1.9073486345888568e-7,
+      "headroom": 2.149999904632568,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [-2.799999952316284, -17.0, 7.599999904632568],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 64,
+        "distance": 2.059999942779541
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 18,
+      "point": [-2.05, 5.2719, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-2.049999952316284, -17.0, 5.271874904632568],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 803,
+        "distance": 0.25002527236938477
+      },
+      "floorError": 2.509536743122709e-5,
+      "headroom": 2.3280999046325688,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [-2.049999952316284, -17.0, 7.599999904632568],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 64,
+        "distance": 2.238100051879883
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 19,
+      "point": [-1.77, 5.0938, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-1.7699999809265137, -17.0, 5.09375],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 777,
+        "distance": 0.25005006790161133
+      },
+      "floorError": 4.999999999988347e-5,
+      "headroom": 2.5061999046325685,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [-1.7699999809265137, -17.0, 7.599999904632568],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 64,
+        "distance": 2.4161996841430664
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 20,
+      "point": [-1.49, 4.9156, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-1.4900000095367432, -17.0, 4.915625095367432],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 751,
+        "distance": 0.24997472763061523
+      },
+      "floorError": 2.509536743122709e-5,
+      "headroom": 2.684399904632568,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [-1.4900000095367432, -17.0, 7.599999904632568],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 64,
+        "distance": 2.594399929046631
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 21,
+      "point": [-1.21, 4.7375, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-1.2100000381469727, -17.0, 4.737499713897705],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 725,
+        "distance": 0.2500004768371582
+      },
+      "floorError": 2.861022947442393e-7,
+      "headroom": 2.8624994277954103,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [-1.2100000381469727, -17.0, 7.59999942779541],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 64,
+        "distance": 2.7724997997283936
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 22,
+      "point": [-0.93, 4.5594, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-0.9300000071525574, -17.0, 4.559374809265137],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 699,
+        "distance": 0.25002530217170715
+      },
+      "floorError": 2.519073486340062e-5,
+      "headroom": 3.0405999046325682,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [-0.9300000071525574, -17.0, 7.599999904632568],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 64,
+        "distance": 2.9505996704101562
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 23,
+      "point": [-0.65, 4.3812, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-0.6499999761581421, -17.0, 4.381249904632568],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 673,
+        "distance": 0.24994991719722748
+      },
+      "floorError": 4.990463256859812e-5,
+      "headroom": 3.2187994277954104,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [-0.6499999761581421, -17.0, 7.59999942779541],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 64,
+        "distance": 3.1287996768951416
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 24,
+      "point": [-0.37, 4.2031, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-0.3700000047683716, -17.0, 4.203125],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 647,
+        "distance": 0.24997518956661224
+      },
+      "floorError": 2.4999999999941735e-5,
+      "headroom": 3.3968999046325683,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [-0.3700000047683716, -17.0, 7.599999904632568],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 64,
+        "distance": 3.3069000244140625
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 25,
+      "point": [-0.09, 4.025, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [-0.09000000357627869, -17.0, 4.025000095367432],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 621,
+        "distance": 0.25
+      },
+      "floorError": 9.536743128535363e-8,
+      "headroom": 3.574999904632568,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [-0.09000000357627869, -17.0, 7.599999904632568],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 64,
+        "distance": 3.4850001335144043
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 26,
+      "point": [0.19, 3.8469, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [0.1899999976158142, -17.0, 3.846874952316284],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 595,
+        "distance": 0.25002503395080566
+      },
+      "floorError": 2.50476837160285e-5,
+      "headroom": 2.1531,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [0.1899999976158142, -17.0, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 70,
+        "distance": 2.0631000995635986
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 27,
+      "point": [0.47, 3.6688, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [0.4699999988079071, -17.0, 3.668750047683716],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 569,
+        "distance": 0.25005006790161133
+      },
+      "floorError": 4.9952316284240794e-5,
+      "headroom": 2.3312,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [0.4699999988079071, -17.0, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 70,
+        "distance": 2.2411999702453613
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 28,
+      "point": [0.75, 3.4906, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [0.75, -17.0, 3.4906249046325684],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 543,
+        "distance": 0.24997520446777344
+      },
+      "floorError": 2.4904632568212293e-5,
+      "headroom": 2.5094,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [0.75, -17.0, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 70,
+        "distance": 2.419400215148926
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 29,
+      "point": [1.03, 3.3125, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [1.0299999713897705, -17.0, 3.3125],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 517,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 2.6875,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [1.0299999713897705, -17.0, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 70,
+        "distance": 2.5975000858306885
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 30,
+      "point": [1.31, 3.1344, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [1.309999942779541, -17.0, 3.1343748569488525],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 491,
+        "distance": 0.25002503395080566
+      },
+      "floorError": 2.5143051147313855e-5,
+      "headroom": 2.8656,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [1.309999942779541, -17.0, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 70,
+        "distance": 2.775599956512451
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 31,
+      "point": [1.59, 2.9562, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [1.590000033378601, -17.0, 2.956249952316284],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 465,
+        "distance": 0.24994991719722748
+      },
+      "floorError": 4.9952316284240794e-5,
+      "headroom": 3.0438,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [1.590000033378601, -17.0, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 70,
+        "distance": 2.9537999629974365
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 32,
+      "point": [1.87, 2.7781, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [1.8700000047683716, -17.0, 2.778125047683716],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 439,
+        "distance": 0.24997496604919434
+      },
+      "floorError": 2.50476837160285e-5,
+      "headroom": 3.2219,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [1.8700000047683716, -17.0, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 70,
+        "distance": 3.131899833679199
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 33,
+      "point": [2.65, 2.6, 17.0],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -17.0, 2.5999999046325684],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 413,
+        "distance": 0.25
+      },
+      "floorError": 9.536743172944284e-8,
+      "headroom": 3.4,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -17.0, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 70,
+        "distance": 3.309999942779541
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 34,
+      "point": [2.65, 2.6, 17.3],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -17.299999237060547, 2.5999999046325684],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 413,
+        "distance": 0.25
+      },
+      "floorError": 9.536743172944284e-8,
+      "headroom": 3.4,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -17.299999237060547, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 70,
+        "distance": 3.309999942779541
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 35,
+      "point": [2.65, 2.4267, 17.75],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -17.75, 2.426666498184204],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 387,
+        "distance": 0.2500336170196533
+      },
+      "floorError": 3.350181579575562e-5,
+      "headroom": 3.5733,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -17.75, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 3.483299732208252
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 36,
+      "point": [2.65, 2.2533, 18.03],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -18.030000686645508, 2.253333330154419],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 361,
+        "distance": 0.2499666064977646
+      },
+      "floorError": 3.333015441908671e-5,
+      "headroom": 3.7467,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -18.030000686645508, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 3.6566998958587646
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 37,
+      "point": [2.65, 2.08, 18.31],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -18.309999465942383, 2.0799999237060547],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 335,
+        "distance": 0.2499999850988388
+      },
+      "floorError": 7.629394538355427e-8,
+      "headroom": 3.92,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -18.309999465942383, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 3.8299996852874756
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 38,
+      "point": [2.65, 1.9067, 18.59],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -18.59000015258789, 1.9066667556762695],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 309,
+        "distance": 0.2500331401824951
+      },
+      "floorError": 3.324432373053021e-5,
+      "headroom": 4.0933,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -18.59000015258789, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 4.003299713134766
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 39,
+      "point": [2.65, 1.7333, 18.87],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -18.8700008392334, 1.7333333492279053],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 283,
+        "distance": 0.2499666064977646
+      },
+      "floorError": 3.3349227905210554e-5,
+      "headroom": 4.266699523162842,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -18.8700008392334, 5.999999523162842],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 4.176699638366699
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 40,
+      "point": [2.65, 1.56, 19.15],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -19.149999618530273, 1.5600000619888306],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 257,
+        "distance": 0.24999986588954926
+      },
+      "floorError": 6.198883051311554e-8,
+      "headroom": 4.439999523162841,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -19.149999618530273, 5.999999523162842],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 4.34999942779541
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 41,
+      "point": [2.65, 1.3867, 19.43],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -19.43000030517578, 1.3866667747497559],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 231,
+        "distance": 0.25003325939178467
+      },
+      "floorError": 3.322525024418432e-5,
+      "headroom": 4.6133,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -19.43000030517578, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 4.5233001708984375
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 42,
+      "point": [2.65, 1.2133, 19.71],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -19.709999084472656, 1.2133333683013916],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 205,
+        "distance": 0.2499666064977646
+      },
+      "floorError": 3.336830139155644e-5,
+      "headroom": 4.7867,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -19.709999084472656, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 4.696700096130371
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 43,
+      "point": [2.65, 1.04, 19.99],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -19.989999771118164, 1.040000081062317],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 179,
+        "distance": 0.24999986588954926
+      },
+      "floorError": 8.106231685900411e-8,
+      "headroom": 4.959999523162842,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -19.989999771118164, 5.999999523162842],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 4.869999408721924
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 44,
+      "point": [2.65, 0.8667, 20.27],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -20.270000457763672, 0.8666666746139526],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 153,
+        "distance": 0.2500333786010742
+      },
+      "floorError": 3.3325386047389216e-5,
+      "headroom": 5.133299523162842,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -20.270000457763672, 5.999999523162842],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 5.043299674987793
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 45,
+      "point": [2.65, 0.6933, 20.55],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -20.549999237060547, 0.6933333277702332],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 127,
+        "distance": 0.24996666610240936
+      },
+      "floorError": 3.332777023312694e-5,
+      "headroom": 5.306700476837158,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -20.549999237060547, 6.000000476837158],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 5.216700553894043
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 46,
+      "point": [2.65, 0.52, 20.83],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -20.829999923706055, 0.5199999809265137],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 101,
+        "distance": 0.2499999850988388
+      },
+      "floorError": 1.907348634588857e-8,
+      "headroom": 5.48,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -20.829999923706055, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 5.389999866485596
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 47,
+      "point": [2.65, 0.3467, 21.11],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -21.110000610351562, 0.34666669368743896],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 75,
+        "distance": 0.25003331899642944
+      },
+      "floorError": 3.330631256104333e-5,
+      "headroom": 5.653300476837158,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -21.110000610351562, 6.000000476837158],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 5.563300609588623
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 48,
+      "point": [2.65, 0.1733, 21.39],
+      "floor": {
+        "mesh": "core_arrival_hall__pale oak",
+        "position": [2.6500000953674316, -21.389999389648438, 0.17333334684371948],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 49,
+        "distance": 0.24996665120124817
+      },
+      "floorError": 3.334684371947283e-5,
+      "headroom": 5.8267,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -21.389999389648438, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 5.736700057983398
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 49,
+      "point": [2.65, 0.0, 22.1],
+      "floor": {
+        "mesh": "core_arrival_hall__warm cut stone",
+        "position": [2.6500000953674316, -22.100000381469727, 0.0],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 23,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 5.999999523162842,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [2.6500000953674316, -22.100000381469727, 5.999999523162842],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 5.909999370574951
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 50,
+      "point": [0.9, 0.0, 22.1],
+      "floor": {
+        "mesh": "core_arrival_hall__warm cut stone",
+        "position": [0.8999999761581421, -22.100000381469727, 0.0],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 23,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 6.0,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [0.8999999761581421, -22.100000381469727, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 5.909999847412109
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 51,
+      "point": [0.195, 0.0, 18.2],
+      "floor": {
+        "mesh": "core_arrival_hall__warm cut stone",
+        "position": [0.19499999284744263, -18.200000762939453, 0.0],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 23,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 6.0,
+      "ceiling": {
+        "mesh": "core_arrival_hall__golden coastal sandstone",
+        "position": [0.19499999284744263, -18.200000762939453, 6.0],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 78,
+        "distance": 5.909999847412109
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 52,
+      "point": [0.195, 0.0, 16.6],
+      "floor": {
+        "mesh": "core_arrival_hall__warm cut stone",
+        "position": [0.19499999284744263, -16.600000381469727, 0.0],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 23,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 3.5248212814331055,
+      "ceiling": {
+        "mesh": "core_arrival_hall__warm cut stone",
+        "position": [0.19499999284744263, -16.600000381469727, 3.5248212814331055],
+        "normal": [-0.5615012645721436, 0.0, -0.8274758458137512],
+        "triangle": 165,
+        "distance": 3.434821367263794
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 53,
+      "point": [0.195, 0.0, 15.32],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [0.19499999284744263, -15.319999694824219, 0.002500012516975403],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1579,
+        "distance": 0.2474999874830246
+      },
+      "floorError": 0.002500012516975403,
+      "headroom": 5.987589359283447,
+      "ceiling": {
+        "mesh": "core_retreat_liftaway_roof",
+        "position": [0.19499999284744263, -15.319999694824219, 5.987589359283447],
+        "normal": [-0.012359777465462685, 7.377601196623118e-9, -0.999923586845398],
+        "triangle": 545,
+        "distance": 5.897589206695557
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 54,
+      "point": [0.195, 0.0, 14.6],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [0.19499999284744263, -14.600000381469727, 0.002500012516975403],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1579,
+        "distance": 0.2474999874830246
+      },
+      "floorError": 0.002500012516975403,
+      "headroom": 5.987588882446289,
+      "ceiling": {
+        "mesh": "core_retreat_liftaway_roof",
+        "position": [0.19499999284744263, -14.600000381469727, 5.987588882446289],
+        "normal": [-0.012359777465462685, 7.377601196623118e-9, -0.999923586845398],
+        "triangle": 545,
+        "distance": 5.897588729858398
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 55,
+      "point": [0.195, 0.0, 13.6],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [0.19499999284744263, -13.600000381469727, 0.002499997615814209],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1593,
+        "distance": 0.2475000023841858
+      },
+      "floorError": 0.002499997615814209,
+      "headroom": 2.359999895095825,
+      "ceiling": {
+        "mesh": "core_reno_slab_upper",
+        "position": [0.19499999284744263, -13.600000381469727, 2.359999895095825],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 289,
+        "distance": 2.2699999809265137
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 56,
+      "point": [3.27, 0.0, 13.6],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [3.2699999809265137, -13.600000381469727, 0.002500012516975403],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 2503,
+        "distance": 0.2474999874830246
+      },
+      "floorError": 0.002500012516975403,
+      "headroom": 2.359999895095825,
+      "ceiling": {
+        "mesh": "core_reno_slab_upper",
+        "position": [3.2699999809265137, -13.600000381469727, 2.359999895095825],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 289,
+        "distance": 2.2699999809265137
+      }
+    },
+    {
+      "route": "main-entry",
+      "index": 57,
+      "point": [3.27, 0.0, 9.2],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [3.2699999809265137, -9.199999809265137, 0.002499997615814209],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 2531,
+        "distance": 0.2475000023841858
+      },
+      "floorError": 0.002499997615814209,
+      "headroom": 2.2294886112213135,
+      "ceiling": {
+        "mesh": "core__chalk limestone",
+        "position": [3.2699999809265137, -9.199999809265137, 2.2294886112213135],
+        "normal": [-0.17269547283649445, 0.0, -0.9849752187728882],
+        "triangle": 645,
+        "distance": 2.139488697052002
+      }
+    },
+    {
+      "route": "patio",
+      "index": 0,
+      "point": [3.27, 0, 9.2],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [3.2699999809265137, -9.199999809265137, 0.002499997615814209],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 2531,
+        "distance": 0.2475000023841858
+      },
+      "floorError": 0.002499997615814209,
+      "headroom": 2.2294886112213135,
+      "ceiling": {
+        "mesh": "core__chalk limestone",
+        "position": [3.2699999809265137, -9.199999809265137, 2.2294886112213135],
+        "normal": [-0.17269547283649445, 0.0, -0.9849752187728882],
+        "triangle": 645,
+        "distance": 2.139488697052002
+      }
+    },
+    {
+      "route": "patio",
+      "index": 1,
+      "point": [3.27, 0, 5.1],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [3.2699999809265137, -5.099999904632568, 0.002499997615814209],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 2559,
+        "distance": 0.2475000023841858
+      },
+      "floorError": 0.002499997615814209,
+      "headroom": 5.365689754486084,
+      "ceiling": {
+        "mesh": "core_liftaway_cave_ceiling",
+        "position": [3.2699999809265137, -5.099999904632568, 5.365689754486084],
+        "normal": [-0.4095873534679413, -3.131478365503426e-8, -0.9122709035873413],
+        "triangle": 96,
+        "distance": 5.275689601898193
+      }
+    },
+    {
+      "route": "patio",
+      "index": 2,
+      "point": [3.0, 0, 3.5],
+      "floor": {
+        "mesh": "core_facade__dark_bronze",
+        "position": [3.0, -3.5, 0.006999984383583069],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 587,
+        "distance": 0.24300001561641693
+      },
+      "floorError": 0.006999984383583069,
+      "headroom": 3.190000057220459,
+      "ceiling": {
+        "mesh": "core_facade__dark_bronze",
+        "position": [3.0, -3.5, 3.190000057220459],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 556,
+        "distance": 3.1000001430511475
+      }
+    },
+    {
+      "route": "patio",
+      "index": 3,
+      "point": [3.0, 0, 2.4],
+      "floor": {
+        "mesh": "core_estate_terrace__travertine paving stone",
+        "position": [3.0, -2.4000000953674316, 0.0010000169277191162],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 829,
+        "distance": 0.24899998307228088
+      },
+      "floorError": 0.0010000169277191162,
+      "headroom": 6.495183944702148,
+      "ceiling": {
+        "mesh": "core_liftaway_cave_ceiling",
+        "position": [3.0, -2.4000000953674316, 6.495183944702148],
+        "normal": [-0.08823444694280624, 0.5726104378700256, -0.8150656819343567],
+        "triangle": 616,
+        "distance": 6.405183792114258
+      }
+    },
+    {
+      "route": "patio",
+      "index": 4,
+      "point": [4.6, 0, 1.8],
+      "floor": {
+        "mesh": "core_estate_terrace__travertine paving stone",
+        "position": [4.599999904632568, -1.7999999523162842, 0.0009999722242355347],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 933,
+        "distance": 0.24900002777576447
+      },
+      "floorError": 0.0009999722242355347,
+      "headroom": 6.88463830947876,
+      "ceiling": {
+        "mesh": "core_liftaway_cave_ceiling",
+        "position": [4.599999904632568, -1.7999999523162842, 6.88463830947876],
+        "normal": [0.08662834763526917, 0.5086851119995117, -0.8565833568572998],
+        "triangle": 753,
+        "distance": 6.794638156890869
+      }
+    },
+    {
+      "route": "patio",
+      "index": 5,
+      "point": [4.6, 0, -0.1],
+      "floor": {
+        "mesh": "core_estate_terrace__travertine paving stone",
+        "position": [4.599999904632568, 0.10000000149011612, 0.0010000020265579224],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1531,
+        "distance": 0.24899999797344208
+      },
+      "floorError": 0.0010000020265579224,
+      "headroom": 2.8349997997283936,
+      "ceiling": {
+        "mesh": "core_estate_pavilion__honey ash",
+        "position": [4.599999904632568, 0.10000000149011612, 2.8349997997283936],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 723,
+        "distance": 2.744999885559082
+      }
+    },
+    {
+      "route": "patio",
+      "index": 6,
+      "point": [6.8, 0, -0.1],
+      "floor": {
+        "mesh": "core_estate_terrace__travertine paving stone",
+        "position": [6.800000190734863, 0.10000000149011612, 0.0010000020265579224],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1843,
+        "distance": 0.24899999797344208
+      },
+      "floorError": 0.0010000020265579224,
+      "headroom": 2.8350000381469727,
+      "ceiling": {
+        "mesh": "core_estate_pavilion__honey ash",
+        "position": [6.800000190734863, 0.10000000149011612, 2.8350000381469727],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 722,
+        "distance": 2.745000123977661
+      }
+    },
+    {
+      "route": "patio",
+      "index": 7,
+      "point": [5.05, 0, -0.35],
+      "floor": {
+        "mesh": "core_estate_terrace__travertine paving stone",
+        "position": [5.050000190734863, 0.3499999940395355, 0.0010000020265579224],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1531,
+        "distance": 0.24899999797344208
+      },
+      "floorError": 0.0010000020265579224,
+      "headroom": 2.8350000381469727,
+      "ceiling": {
+        "mesh": "core_estate_pavilion__honey ash",
+        "position": [5.050000190734863, 0.3499999940395355, 2.8350000381469727],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 722,
+        "distance": 2.745000123977661
+      }
+    },
+    {
+      "route": "bedroom-study",
+      "index": 0,
+      "point": [-8.536159699810856, 1.5, 6.093978858398437],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-8.53615951538086, -6.0939788818359375, 1.5],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 145,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 3.739999771118164,
+      "ceiling": {
+        "mesh": "core_retreat_library__chalk limestone",
+        "position": [-8.53615951538086, -6.0939788818359375, 5.239999771118164],
+        "normal": [4.3166323848709e-6, 0.0, -0.9999999403953552],
+        "triangle": 3,
+        "distance": 3.6499996185302734
+      }
+    },
+    {
+      "route": "bedroom-study",
+      "index": 1,
+      "point": [-8.536159699810856, 1.35, 5.906021141601562],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-8.53615951538086, -5.9060211181640625, 1.350000023841858],
+        "normal": [1.3865474102203734e-7, 0.0, 1.0],
+        "triangle": 129,
+        "distance": 0.25
+      },
+      "floorError": 2.3841857821338408e-8,
+      "headroom": 3.889999771118164,
+      "ceiling": {
+        "mesh": "core_retreat_library__chalk limestone",
+        "position": [-8.53615951538086, -5.9060211181640625, 5.239999771118164],
+        "normal": [4.3166323848709e-6, 0.0, -0.9999999403953552],
+        "triangle": 3,
+        "distance": 3.799999475479126
+      }
+    },
+    {
+      "route": "bedroom-study",
+      "index": 2,
+      "point": [-8.584806736591874, 1.2, 5.724467928697136],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-8.584806442260742, -5.724467754364014, 1.2000000476837158],
+        "normal": [-4.621822924377739e-8, 0.0, 1.0],
+        "triangle": 113,
+        "distance": 0.2499999850988388
+      },
+      "floorError": 4.768371586472142e-8,
+      "headroom": 4.449999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-8.584806442260742, -5.724467754364014, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 4.359999656677246
+      }
+    },
+    {
+      "route": "bedroom-study",
+      "index": 3,
+      "point": [-8.67878559499031, 1.05, 5.561691771113721],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-8.67878532409668, -5.561691761016846, 1.0499999523162842],
+        "normal": [4.15965871525259e-7, 0.0, 1.0],
+        "triangle": 97,
+        "distance": 0.25
+      },
+      "floorError": 4.768371586472142e-8,
+      "headroom": 4.599999618530274,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-8.67878532409668, -5.561691761016846, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 4.509999752044678
+      }
+    },
+    {
+      "route": "bedroom-study",
+      "index": 4,
+      "point": [-8.811691771113722, 0.9, 5.428785594990311],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-8.811692237854004, -5.428785800933838, 0.8999999761581421],
+        "normal": [6.932759788469411e-8, 0.0, 0.9999999403953552],
+        "triangle": 81,
+        "distance": 0.25
+      },
+      "floorError": 2.384185793236071e-8,
+      "headroom": 4.749999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-8.811692237854004, -5.428785800933838, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 4.659999370574951
+      }
+    },
+    {
+      "route": "bedroom-study",
+      "index": 5,
+      "point": [-8.974467928697136, 0.75, 5.334806736591874],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-8.974468231201172, -5.3348069190979, 0.75],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 65,
+        "distance": 0.2499999850988388
+      },
+      "floorError": 0.0,
+      "headroom": 4.899999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-8.974468231201172, -5.3348069190979, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 4.809999465942383
+      }
+    },
+    {
+      "route": "bedroom-study",
+      "index": 6,
+      "point": [-9.156021141601563, 0.6, 5.286159699810856],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-9.156021118164062, -5.286159515380859, 0.6000000238418579],
+        "normal": [-8.015990005105778e-8, 0.0, 1.0],
+        "triangle": 49,
+        "distance": 0.25
+      },
+      "floorError": 2.384185793236071e-8,
+      "headroom": 5.049999618530274,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.156021118164062, -5.286159515380859, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 4.9599995613098145
+      }
+    },
+    {
+      "route": "bedroom-study",
+      "index": 7,
+      "point": [-9.343978858398437, 0.45, 5.286159699810857],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-9.343978881835938, -5.286159515380859, 0.44999998807907104],
+        "normal": [-4.6218310956192e-8, 0.0, 1.0],
+        "triangle": 33,
+        "distance": 0.25
+      },
+      "floorError": 1.1920928966180355e-8,
+      "headroom": 5.199999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.343978881835938, -5.286159515380859, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.109999656677246
+      }
+    },
+    {
+      "route": "bedroom-study",
+      "index": 8,
+      "point": [-9.525532071302866, 0.3, 5.334806736591874],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-9.525531768798828, -5.3348069190979, 0.30000001192092896],
+        "normal": [-1.5309788636841404e-7, 0.0, 1.0],
+        "triangle": 17,
+        "distance": 0.25
+      },
+      "floorError": 1.1920928966180355e-8,
+      "headroom": 5.349999141693115,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.525531768798828, -5.3348069190979, 5.649999141693115],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.2599992752075195
+      }
+    },
+    {
+      "route": "bedroom-study",
+      "index": 9,
+      "point": [-9.68830822888628, 0.15, 5.428785594990311],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-9.688307762145996, -5.428785800933838, 0.15000000596046448],
+        "normal": [-3.177515139896059e-8, 0.0, 0.9999999403953552],
+        "triangle": 1,
+        "distance": 0.25
+      },
+      "floorError": 5.960464483090178e-9,
+      "headroom": 5.499999141693115,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.688307762145996, -5.428785800933838, 5.649999141693115],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.409999370574951
+      }
+    },
+    {
+      "route": "bedroom-study",
+      "index": 10,
+      "point": [-10.041389857711337, 0, 4.968640657621394],
+      "floor": {
+        "mesh": "study__linen",
+        "position": [-10.041389465332031, -4.9686408042907715, 0.012000113725662231],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 257,
+        "distance": 0.23799988627433777
+      },
+      "floorError": 0.012000113725662231,
+      "headroom": 5.649999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-10.041389465332031, -4.9686408042907715, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.559999465942383
+      }
+    },
+    {
+      "route": "bedroom-study",
+      "index": 11,
+      "point": [-10.1, 0, 4.85],
+      "floor": {
+        "mesh": "study__linen",
+        "position": [-10.100000381469727, -4.849999904632568, 0.012000098824501038],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 257,
+        "distance": 0.23799990117549896
+      },
+      "floorError": 0.012000098824501038,
+      "headroom": 5.649999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-10.100000381469727, -4.849999904632568, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.559999465942383
+      }
+    },
+    {
+      "route": "spiral",
+      "index": 0,
+      "point": [-9.68830822888628, 0.15, 5.428785594990311],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-9.688307762145996, -5.428785800933838, 0.15000000596046448],
+        "normal": [-3.177515139896059e-8, 0.0, 0.9999999403953552],
+        "triangle": 1,
+        "distance": 0.25
+      },
+      "floorError": 5.960464483090178e-9,
+      "headroom": 5.499999141693115,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.688307762145996, -5.428785800933838, 5.649999141693115],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.409999370574951
+      }
+    },
+    {
+      "route": "spiral",
+      "index": 1,
+      "point": [-9.525532071302866, 0.3, 5.334806736591874],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-9.525531768798828, -5.3348069190979, 0.30000001192092896],
+        "normal": [-1.5309788636841404e-7, 0.0, 1.0],
+        "triangle": 17,
+        "distance": 0.25
+      },
+      "floorError": 1.1920928966180355e-8,
+      "headroom": 5.349999141693115,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.525531768798828, -5.3348069190979, 5.649999141693115],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.2599992752075195
+      }
+    },
+    {
+      "route": "spiral",
+      "index": 2,
+      "point": [-9.343978858398437, 0.45, 5.286159699810857],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-9.343978881835938, -5.286159515380859, 0.44999998807907104],
+        "normal": [-4.6218310956192e-8, 0.0, 1.0],
+        "triangle": 33,
+        "distance": 0.25
+      },
+      "floorError": 1.1920928966180355e-8,
+      "headroom": 5.199999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.343978881835938, -5.286159515380859, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.109999656677246
+      }
+    },
+    {
+      "route": "spiral",
+      "index": 3,
+      "point": [-9.156021141601563, 0.6, 5.286159699810856],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-9.156021118164062, -5.286159515380859, 0.6000000238418579],
+        "normal": [-8.015990005105778e-8, 0.0, 1.0],
+        "triangle": 49,
+        "distance": 0.25
+      },
+      "floorError": 2.384185793236071e-8,
+      "headroom": 5.049999618530274,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.156021118164062, -5.286159515380859, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 4.9599995613098145
+      }
+    },
+    {
+      "route": "spiral",
+      "index": 4,
+      "point": [-8.974467928697136, 0.75, 5.334806736591874],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-8.974468231201172, -5.3348069190979, 0.75],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 65,
+        "distance": 0.2499999850988388
+      },
+      "floorError": 0.0,
+      "headroom": 4.899999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-8.974468231201172, -5.3348069190979, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 4.809999465942383
+      }
+    },
+    {
+      "route": "spiral",
+      "index": 5,
+      "point": [-8.811691771113722, 0.9, 5.428785594990311],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-8.811692237854004, -5.428785800933838, 0.8999999761581421],
+        "normal": [6.932759788469411e-8, 0.0, 0.9999999403953552],
+        "triangle": 81,
+        "distance": 0.25
+      },
+      "floorError": 2.384185793236071e-8,
+      "headroom": 4.749999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-8.811692237854004, -5.428785800933838, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 4.659999370574951
+      }
+    },
+    {
+      "route": "spiral",
+      "index": 6,
+      "point": [-8.67878559499031, 1.05, 5.561691771113721],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-8.67878532409668, -5.561691761016846, 1.0499999523162842],
+        "normal": [4.15965871525259e-7, 0.0, 1.0],
+        "triangle": 97,
+        "distance": 0.25
+      },
+      "floorError": 4.768371586472142e-8,
+      "headroom": 4.599999618530274,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-8.67878532409668, -5.561691761016846, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 4.509999752044678
+      }
+    },
+    {
+      "route": "spiral",
+      "index": 7,
+      "point": [-8.584806736591874, 1.2, 5.724467928697136],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-8.584806442260742, -5.724467754364014, 1.2000000476837158],
+        "normal": [-4.621822924377739e-8, 0.0, 1.0],
+        "triangle": 113,
+        "distance": 0.2499999850988388
+      },
+      "floorError": 4.768371586472142e-8,
+      "headroom": 4.449999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-8.584806442260742, -5.724467754364014, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 4.359999656677246
+      }
+    },
+    {
+      "route": "spiral",
+      "index": 8,
+      "point": [-8.536159699810856, 1.35, 5.906021141601562],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-8.53615951538086, -5.9060211181640625, 1.350000023841858],
+        "normal": [1.3865474102203734e-7, 0.0, 1.0],
+        "triangle": 129,
+        "distance": 0.25
+      },
+      "floorError": 2.3841857821338408e-8,
+      "headroom": 3.889999771118164,
+      "ceiling": {
+        "mesh": "core_retreat_library__chalk limestone",
+        "position": [-8.53615951538086, -5.9060211181640625, 5.239999771118164],
+        "normal": [4.3166323848709e-6, 0.0, -0.9999999403953552],
+        "triangle": 3,
+        "distance": 3.799999475479126
+      }
+    },
+    {
+      "route": "spiral",
+      "index": 9,
+      "point": [-8.536159699810856, 1.5, 6.093978858398437],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral__pale oak",
+        "position": [-8.53615951538086, -6.0939788818359375, 1.5],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 145,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 3.739999771118164,
+      "ceiling": {
+        "mesh": "core_retreat_library__chalk limestone",
+        "position": [-8.53615951538086, -6.0939788818359375, 5.239999771118164],
+        "normal": [4.3166323848709e-6, 0.0, -0.9999999403953552],
+        "triangle": 3,
+        "distance": 3.6499996185302734
+      }
+    },
+    {
+      "route": "bedroom-approach",
+      "index": 0,
+      "point": [-8.03, 1.5, 6.97],
+      "floor": {
+        "mesh": "core_finish_bedchamber_floor__pale oak",
+        "position": [-8.029999732971191, -6.96999979019165, 1.5],
+        "normal": [2.588506333722762e-7, 0.0, 1.0],
+        "triangle": 60,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 3.3562917709350586,
+      "ceiling": {
+        "mesh": "core_finish_bedchamber_vault__chalk limestone",
+        "position": [-8.029999732971191, -6.96999979019165, 4.856291770935059],
+        "normal": [0.446939080953598, 0.0, -0.8945644497871399],
+        "triangle": 29,
+        "distance": 3.266291618347168
+      }
+    },
+    {
+      "route": "bedroom-approach",
+      "index": 1,
+      "point": [-8.33208798397888, 1.5, 6.370860527481753],
+      "floor": {
+        "mesh": "core_finish_bedroom_spiral_landing__pale oak",
+        "position": [-8.332087516784668, -6.370860576629639, 1.5],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 1,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 3.7400002479553223,
+      "ceiling": {
+        "mesh": "core_bathwing_liftaway_roof",
+        "position": [-8.332087516784668, -6.370860576629639, 5.240000247955322],
+        "normal": [1.7148129245470045e-6, 0.0, -1.0],
+        "triangle": 743,
+        "distance": 3.6500000953674316
+      }
+    },
+    {
+      "route": "pool-entry-coping",
+      "index": 0,
+      "point": [3.27, 0, 9.2],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [3.2699999809265137, -9.199999809265137, 0.002499997615814209],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 2531,
+        "distance": 0.2475000023841858
+      },
+      "floorError": 0.002499997615814209,
+      "headroom": 2.2294886112213135,
+      "ceiling": {
+        "mesh": "core__chalk limestone",
+        "position": [3.2699999809265137, -9.199999809265137, 2.2294886112213135],
+        "normal": [-0.17269547283649445, 0.0, -0.9849752187728882],
+        "triangle": 645,
+        "distance": 2.139488697052002
+      }
+    },
+    {
+      "route": "pool-entry-coping",
+      "index": 1,
+      "point": [3.27, 0, 5.1],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [3.2699999809265137, -5.099999904632568, 0.002499997615814209],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 2559,
+        "distance": 0.2475000023841858
+      },
+      "floorError": 0.002499997615814209,
+      "headroom": 5.365689754486084,
+      "ceiling": {
+        "mesh": "core_liftaway_cave_ceiling",
+        "position": [3.2699999809265137, -5.099999904632568, 5.365689754486084],
+        "normal": [-0.4095873534679413, -3.131478365503426e-8, -0.9122709035873413],
+        "triangle": 96,
+        "distance": 5.275689601898193
+      }
+    },
+    {
+      "route": "pool-entry-coping",
+      "index": 2,
+      "point": [3.0, 0, 3.5],
+      "floor": {
+        "mesh": "core_facade__dark_bronze",
+        "position": [3.0, -3.5, 0.006999984383583069],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 587,
+        "distance": 0.24300001561641693
+      },
+      "floorError": 0.006999984383583069,
+      "headroom": 3.190000057220459,
+      "ceiling": {
+        "mesh": "core_facade__dark_bronze",
+        "position": [3.0, -3.5, 3.190000057220459],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 556,
+        "distance": 3.1000001430511475
+      }
+    },
+    {
+      "route": "pool-entry-coping",
+      "index": 3,
+      "point": [3.0, 0, 2.4],
+      "floor": {
+        "mesh": "core_estate_terrace__travertine paving stone",
+        "position": [3.0, -2.4000000953674316, 0.0010000169277191162],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 829,
+        "distance": 0.24899998307228088
+      },
+      "floorError": 0.0010000169277191162,
+      "headroom": 6.495183944702148,
+      "ceiling": {
+        "mesh": "core_liftaway_cave_ceiling",
+        "position": [3.0, -2.4000000953674316, 6.495183944702148],
+        "normal": [-0.08823444694280624, 0.5726104378700256, -0.8150656819343567],
+        "triangle": 616,
+        "distance": 6.405183792114258
+      }
+    },
+    {
+      "route": "pool-entry-coping",
+      "index": 4,
+      "point": [-1.5, 0, 2.4],
+      "floor": {
+        "mesh": "core_estate_terrace__travertine paving stone",
+        "position": [-1.5, -2.4000000953674316, 0.0009999871253967285],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 517,
+        "distance": 0.24900001287460327
+      },
+      "floorError": 0.0009999871253967285,
+      "headroom": 6.226324081420898,
+      "ceiling": {
+        "mesh": "core_liftaway_cave_ceiling",
+        "position": [-1.5, -2.4000000953674316, 6.226324081420898],
+        "normal": [-0.1582472026348114, 0.7619466781616211, -0.6280087828636169],
+        "triangle": 300,
+        "distance": 6.136323928833008
+      }
+    },
+    {
+      "route": "pool-entry-coping",
+      "index": 5,
+      "point": [-1.5, 0, 1.65],
+      "floor": {
+        "mesh": "core_estate_terrace__travertine paving stone",
+        "position": [-1.5, -1.649999976158142, 0.0010000169277191162],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 543,
+        "distance": 0.24899998307228088
+      },
+      "floorError": 0.0010000169277191162,
+      "headroom": 6.719182968139648,
+      "ceiling": {
+        "mesh": "core_liftaway_cave_ceiling",
+        "position": [-1.5, -1.649999976158142, 6.719182968139648],
+        "normal": [-0.16561196744441986, 0.4796926975250244, -0.8616655468940735],
+        "triangle": 506,
+        "distance": 6.629182815551758
+      }
+    },
+    {
+      "route": "gym-connection",
+      "index": 0,
+      "point": [7.6, 0.0, 6.75],
+      "floor": {
+        "mesh": "gym__gym rubber",
+        "position": [7.599999904632568, -6.75, 0.019999995827674866],
+        "normal": [-0.9238777756690979, 0.0, 0.3826878070831299],
+        "triangle": 4770,
+        "distance": 0.23000000417232513
+      },
+      "floorError": 0.019999995827674866,
+      "headroom": 3.700000047683716,
+      "ceiling": {
+        "mesh": "core__golden coastal sandstone",
+        "position": [7.599999904632568, -6.75, 3.700000047683716],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 37823,
+        "distance": 3.6100001335144043
+      }
+    },
+    {
+      "route": "gym-connection",
+      "index": 1,
+      "point": [7.6, 0, 5.9],
+      "floor": {
+        "mesh": "gym__gym rubber",
+        "position": [7.599999904632568, -5.900000095367432, 0.019999995827674866],
+        "normal": [-0.9238777756690979, 0.0, 0.3826878070831299],
+        "triangle": 4770,
+        "distance": 0.23000000417232513
+      },
+      "floorError": 0.019999995827674866,
+      "headroom": 3.700000047683716,
+      "ceiling": {
+        "mesh": "core__golden coastal sandstone",
+        "position": [7.599999904632568, -5.900000095367432, 3.700000047683716],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 37823,
+        "distance": 3.6100001335144043
+      }
+    },
+    {
+      "route": "gym-connection",
+      "index": 2,
+      "point": [6.2, 0, 5.9],
+      "floor": {
+        "mesh": "gym__gym rubber",
+        "position": [6.199999809265137, -5.900000095367432, 0.01800002157688141],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 375,
+        "distance": 0.2319999784231186
+      },
+      "floorError": 0.01800002157688141,
+      "headroom": 3.6999998092651367,
+      "ceiling": {
+        "mesh": "core__golden coastal sandstone",
+        "position": [6.199999809265137, -5.900000095367432, 3.6999998092651367],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 37823,
+        "distance": 3.609999895095825
+      }
+    },
+    {
+      "route": "gym-connection",
+      "index": 3,
+      "point": [5.5, 0, 6.3],
+      "floor": {
+        "mesh": "core_retreat_gym_threshold__warm cut stone",
+        "position": [5.5, -6.300000190734863, 0.0],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 68,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 2.4499998092651367,
+      "ceiling": {
+        "mesh": "core__golden coastal sandstone",
+        "position": [5.5, -6.300000190734863, 2.4499998092651367],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 69304,
+        "distance": 2.359999895095825
+      }
+    },
+    {
+      "route": "gym-connection",
+      "index": 4,
+      "point": [4.45, 0, 6.3],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [4.449999809265137, -6.300000190734863, 0.002500012516975403],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 3035,
+        "distance": 0.2474999874830246
+      },
+      "floorError": 0.002500012516975403,
+      "headroom": 4.491461277008057,
+      "ceiling": {
+        "mesh": "core_liftaway_cave_ceiling_rear",
+        "position": [4.449999809265137, -6.300000190734863, 4.491461277008057],
+        "normal": [-0.748572826385498, 0.0, -0.663052499294281],
+        "triangle": 752,
+        "distance": 4.401461124420166
+      }
+    },
+    {
+      "route": "gym-connection",
+      "index": 5,
+      "point": [3.5, 0, 6.45],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [3.5, -6.449999809265137, 0.002499997615814209],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 2657,
+        "distance": 0.2475000023841858
+      },
+      "floorError": 0.002499997615814209,
+      "headroom": 5.250106334686279,
+      "ceiling": {
+        "mesh": "core_liftaway_cave_ceiling_rear",
+        "position": [3.5, -6.449999809265137, 5.250106334686279],
+        "normal": [-0.49807778000831604, -0.0, -0.8671323657035828],
+        "triangle": 777,
+        "distance": 5.160106182098389
+      }
+    },
+    {
+      "route": "study",
+      "index": 0,
+      "point": [-2.8, 0, 13.6],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [-2.799999952316284, -13.600000381469727, 0.002499982714653015],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 543,
+        "distance": 0.24750001728534698
+      },
+      "floorError": 0.002499982714653015,
+      "headroom": 2.359999895095825,
+      "ceiling": {
+        "mesh": "core_reno_slab_upper",
+        "position": [-2.799999952316284, -13.600000381469727, 2.359999895095825],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 289,
+        "distance": 2.2699999809265137
+      }
+    },
+    {
+      "route": "study",
+      "index": 1,
+      "point": [-3.65, 0, 13.6],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [-3.6500000953674316, -13.600000381469727, 0.002499982714653015],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 277,
+        "distance": 0.24750001728534698
+      },
+      "floorError": 0.002499982714653015,
+      "headroom": 2.359999895095825,
+      "ceiling": {
+        "mesh": "core_reno_slab_upper",
+        "position": [-3.6500000953674316, -13.600000381469727, 2.359999895095825],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 289,
+        "distance": 2.2699999809265137
+      }
+    },
+    {
+      "route": "study",
+      "index": 2,
+      "point": [-3.65, 0, 9.05],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [-3.6500000953674316, -9.050000190734863, 0.002499997615814209],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 305,
+        "distance": 0.2475000023841858
+      },
+      "floorError": 0.002499997615814209,
+      "headroom": 5.163947105407715,
+      "ceiling": {
+        "mesh": "core__golden coastal sandstone",
+        "position": [-3.6500000953674316, -9.050000190734863, 5.163947105407715],
+        "normal": [0.49807363748550415, -1.162524654318986e-7, -0.867134690284729],
+        "triangle": 68317,
+        "distance": 5.073946952819824
+      }
+    },
+    {
+      "route": "study",
+      "index": 3,
+      "point": [-9.0, 0, 9.05],
+      "floor": {
+        "mesh": "core_retreat_library__pale oak",
+        "position": [-9.0, -9.050000190734863, 0.0],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 439,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 5.649999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.0, -9.050000190734863, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.559999465942383
+      }
+    },
+    {
+      "route": "study",
+      "index": 4,
+      "point": [-9.0, 0, 7.1],
+      "floor": {
+        "mesh": "core_retreat_library__pale oak",
+        "position": [-9.0, -7.099999904632568, 0.0],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 439,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 5.649999141693115,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.0, -7.099999904632568, 5.649999141693115],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.559998989105225
+      }
+    },
+    {
+      "route": "study",
+      "index": 5,
+      "point": [-9.7, 0, 7.1],
+      "floor": {
+        "mesh": "core_retreat_library__pale oak",
+        "position": [-9.699999809265137, -7.099999904632568, 0.0],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 361,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 5.649999141693115,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.699999809265137, -7.099999904632568, 5.649999141693115],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.559998989105225
+      }
+    },
+    {
+      "route": "study",
+      "index": 6,
+      "point": [-9.927, 0, 5.509],
+      "floor": {
+        "mesh": "study__linen",
+        "position": [-9.927000045776367, -5.508999824523926, 0.012000098824501038],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 257,
+        "distance": 0.23799990117549896
+      },
+      "floorError": 0.012000098824501038,
+      "headroom": 5.649999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.927000045776367, -5.508999824523926, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.559999465942383
+      }
+    },
+    {
+      "route": "study",
+      "index": 7,
+      "point": [-10.1, 0, 4.85],
+      "floor": {
+        "mesh": "study__linen",
+        "position": [-10.100000381469727, -4.849999904632568, 0.012000098824501038],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 257,
+        "distance": 0.23799990117549896
+      },
+      "floorError": 0.012000098824501038,
+      "headroom": 5.649999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-10.100000381469727, -4.849999904632568, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.559999465942383
+      }
+    },
+    {
+      "route": "library",
+      "index": 0,
+      "point": [-2.8, 0, 13.6],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [-2.799999952316284, -13.600000381469727, 0.002499982714653015],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 543,
+        "distance": 0.24750001728534698
+      },
+      "floorError": 0.002499982714653015,
+      "headroom": 2.359999895095825,
+      "ceiling": {
+        "mesh": "core_reno_slab_upper",
+        "position": [-2.799999952316284, -13.600000381469727, 2.359999895095825],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 289,
+        "distance": 2.2699999809265137
+      }
+    },
+    {
+      "route": "library",
+      "index": 1,
+      "point": [-3.65, 0, 13.6],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [-3.6500000953674316, -13.600000381469727, 0.002499982714653015],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 277,
+        "distance": 0.24750001728534698
+      },
+      "floorError": 0.002499982714653015,
+      "headroom": 2.359999895095825,
+      "ceiling": {
+        "mesh": "core_reno_slab_upper",
+        "position": [-3.6500000953674316, -13.600000381469727, 2.359999895095825],
+        "normal": [0.0, 0.0, -1.0],
+        "triangle": 289,
+        "distance": 2.2699999809265137
+      }
+    },
+    {
+      "route": "library",
+      "index": 2,
+      "point": [-3.65, 0, 9.05],
+      "floor": {
+        "mesh": "core_reno_floorboards_lower",
+        "position": [-3.6500000953674316, -9.050000190734863, 0.002499997615814209],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 305,
+        "distance": 0.2475000023841858
+      },
+      "floorError": 0.002499997615814209,
+      "headroom": 5.163947105407715,
+      "ceiling": {
+        "mesh": "core__golden coastal sandstone",
+        "position": [-3.6500000953674316, -9.050000190734863, 5.163947105407715],
+        "normal": [0.49807363748550415, -1.162524654318986e-7, -0.867134690284729],
+        "triangle": 68317,
+        "distance": 5.073946952819824
+      }
+    },
+    {
+      "route": "library",
+      "index": 3,
+      "point": [-9.0, 0, 9.05],
+      "floor": {
+        "mesh": "core_retreat_library__pale oak",
+        "position": [-9.0, -9.050000190734863, 0.0],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 439,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 5.649999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.0, -9.050000190734863, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.559999465942383
+      }
+    },
+    {
+      "route": "library",
+      "index": 4,
+      "point": [-9.0, 0, 7.1],
+      "floor": {
+        "mesh": "core_retreat_library__pale oak",
+        "position": [-9.0, -7.099999904632568, 0.0],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 439,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 5.649999141693115,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.0, -7.099999904632568, 5.649999141693115],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.559998989105225
+      }
+    },
+    {
+      "route": "library",
+      "index": 5,
+      "point": [-9.7, 0, 7.1],
+      "floor": {
+        "mesh": "core_retreat_library__pale oak",
+        "position": [-9.699999809265137, -7.099999904632568, 0.0],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 361,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 5.649999141693115,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.699999809265137, -7.099999904632568, 5.649999141693115],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.559998989105225
+      }
+    },
+    {
+      "route": "library",
+      "index": 6,
+      "point": [-9.927, 0, 5.509],
+      "floor": {
+        "mesh": "study__linen",
+        "position": [-9.927000045776367, -5.508999824523926, 0.012000098824501038],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 257,
+        "distance": 0.23799990117549896
+      },
+      "floorError": 0.012000098824501038,
+      "headroom": 5.649999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.927000045776367, -5.508999824523926, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.559999465942383
+      }
+    },
+    {
+      "route": "library",
+      "index": 7,
+      "point": [-10.1, 0, 4.85],
+      "floor": {
+        "mesh": "study__linen",
+        "position": [-10.100000381469727, -4.849999904632568, 0.012000098824501038],
+        "normal": [0.0, 0.0, 0.9999999403953552],
+        "triangle": 257,
+        "distance": 0.23799990117549896
+      },
+      "floorError": 0.012000098824501038,
+      "headroom": 5.649999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-10.100000381469727, -4.849999904632568, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.559999465942383
+      }
+    },
+    {
+      "route": "library",
+      "index": 8,
+      "point": [-10.1, 0, 3.42],
+      "floor": {
+        "mesh": "core_retreat_library__pale oak",
+        "position": [-10.100000381469727, -3.4200000762939453, 0.0],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 309,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 5.649999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-10.100000381469727, -3.4200000762939453, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.559999465942383
+      }
+    },
+    {
+      "route": "library",
+      "index": 9,
+      "point": [-9.41, 0, 3.42],
+      "floor": {
+        "mesh": "core_retreat_library__pale oak",
+        "position": [-9.40999984741211, -3.4200000762939453, 0.0],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 387,
+        "distance": 0.25
+      },
+      "floorError": 0.0,
+      "headroom": 5.649999618530273,
+      "ceiling": {
+        "mesh": "core_retreat_library_ceiling__chalk limestone",
+        "position": [-9.40999984741211, -3.4200000762939453, 5.649999618530273],
+        "normal": [0.0, 0.0, -0.9999999403953552],
+        "triangle": 92,
+        "distance": 5.559999465942383
+      }
+    }
+  ],
+  "bearing": [
+    {
+      "native": [-7.5, -0.8, -1.72],
+      "bearing": {
+        "mesh": "coast_shared_golden coastal sandstone",
+        "position": [-7.5, -0.800000011920929, -1.7200000286102295],
+        "normal": [0.0, -0.0, 1.0],
+        "triangle": 44157,
+        "distance": 0.019999980926513672
+      }
+    },
+    {
+      "native": [-7.5, 1.2, -1.72],
+      "bearing": {
+        "mesh": "coast_shared_golden coastal sandstone",
+        "position": [-7.5, 1.2000000476837158, -1.7200000286102295],
+        "normal": [0.0, -0.0, 1.0],
+        "triangle": 44157,
+        "distance": 0.019999980926513672
+      }
+    },
+    {
+      "native": [-7.5, 1.95, -1.72],
+      "bearing": {
+        "mesh": "coast_shared_golden coastal sandstone",
+        "position": [-7.5, 1.9500000476837158, -1.7200000286102295],
+        "normal": [0.0, -0.0, 1.0],
+        "triangle": 11267,
+        "distance": 0.01999998278915882
+      }
+    },
+    {
+      "native": [-4.5, -0.8, -1.72],
+      "bearing": {
+        "mesh": "coast_shared_golden coastal sandstone",
+        "position": [-4.5, -0.800000011920929, -1.7200000286102295],
+        "normal": [0.0, -0.0, 1.0],
+        "triangle": 11268,
+        "distance": 0.019999980926513672
+      }
+    },
+    {
+      "native": [-4.5, 1.2, -1.72],
+      "bearing": {
+        "mesh": "coast_shared_golden coastal sandstone",
+        "position": [-4.5, 1.2000000476837158, -1.7200000286102295],
+        "normal": [0.0, -0.0, 1.0],
+        "triangle": 73513,
+        "distance": 0.019999980926513672
+      }
+    },
+    {
+      "native": [-4.5, 1.95, -1.72],
+      "bearing": {
+        "mesh": "coast_shared_golden coastal sandstone",
+        "position": [-4.5, 1.9500000476837158, -1.7200000286102295],
+        "normal": [-0.0, 0.0, 1.0],
+        "triangle": 73901,
+        "distance": 0.01999998278915882
+      }
+    },
+    {
+      "native": [-1.5, -0.8, -1.72],
+      "bearing": {
+        "mesh": "coast_shared_golden coastal sandstone",
+        "position": [-1.5, -0.800000011920929, -1.7200000286102295],
+        "normal": [0.0, -0.0, 1.0],
+        "triangle": 11268,
+        "distance": 0.019999979063868523
+      }
+    },
+    {
+      "native": [-1.5, 1.2, -1.72],
+      "bearing": {
+        "mesh": "coast_shared_golden coastal sandstone",
+        "position": [-1.5, 1.2000000476837158, -1.7200000286102295],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 11112,
+        "distance": 0.019999980926513672
+      }
+    },
+    {
+      "native": [-1.5, 1.95, -1.72],
+      "bearing": {
+        "mesh": "coast_shared_golden coastal sandstone",
+        "position": [-1.5, 1.9500000476837158, -1.7200000286102295],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 11112,
+        "distance": 0.01999998278915882
+      }
+    },
+    {
+      "native": [2.5, -0.8, -1.72],
+      "bearing": {
+        "mesh": "coast_shared_golden coastal sandstone",
+        "position": [2.5, -0.800000011920929, -1.7200000286102295],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 11112,
+        "distance": 0.019999980926513672
+      }
+    },
+    {
+      "native": [2.5, 1.2, -1.72],
+      "bearing": {
+        "mesh": "coast_shared_golden coastal sandstone",
+        "position": [2.5, 1.2000000476837158, -1.7200000286102295],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 11112,
+        "distance": 0.019999980926513672
+      }
+    },
+    {
+      "native": [2.5, 1.95, -1.72],
+      "bearing": {
+        "mesh": "coast_shared_golden coastal sandstone",
+        "position": [2.5, 1.9500000476837158, -1.7200000286102295],
+        "normal": [0.0, 0.0, 1.0],
+        "triangle": 11112,
+        "distance": 0.019999980926513672
+      }
+    }
+  ],
+  "forwardCantileverClearance": [
+    {
+      "native": [-7.5, 3.45, -1.825],
+      "clearanceAtLeastM": 0.12,
+      "unexpectedSupport": null
+    },
+    {
+      "native": [-4.5, 3.45, -1.825],
+      "clearanceAtLeastM": 0.12,
+      "unexpectedSupport": null
+    },
+    {
+      "native": [-1.5, 3.45, -1.825],
+      "clearanceAtLeastM": 0.12,
+      "unexpectedSupport": null
+    },
+    {
+      "native": [2.5, 3.45, -1.825],
+      "clearanceAtLeastM": 0.12,
+      "unexpectedSupport": null
+    }
+  ],
+  "failures": [],
+  "passed": true,
+  "companionSphereChecks": [
+    {
+      "id": "perch:study:0",
+      "point": [-9.95, 1.13, 3.9],
+      "radius": 0.3,
+      "clearance": 0.8923254609107971,
+      "mesh": "study_placeholder_study-aeron"
+    },
+    {
+      "id": "perch:study:1",
+      "point": [-9.9, 1.13, 3.8],
+      "radius": 0.3,
+      "clearance": 0.8523711562156677,
+      "mesh": "library_placeholder_study-whiskey-lounge"
+    },
+    {
+      "id": "perch:kitchen:0",
+      "point": [-3.5, 0.72, 6.0],
+      "radius": 0.3,
+      "clearance": 0.458761602640152,
+      "mesh": "kitchen__pale oak"
+    },
+    {
+      "id": "perch:kitchen:1",
+      "point": [-3.5, 0.72, 6.2],
+      "radius": 0.3,
+      "clearance": 0.49302244186401367,
+      "mesh": "kitchen__honed travertine"
+    },
+    {
+      "id": "perch:gym:0",
+      "point": [7.2, 0.72, 5.7],
+      "radius": 0.3,
+      "clearance": 0.4604438245296478,
+      "mesh": "gym__yellow bumper rubber"
+    },
+    {
+      "id": "perch:gym:1",
+      "point": [8.0, 0.72, 5.7],
+      "radius": 0.3,
+      "clearance": 0.6960000395774841,
+      "mesh": "gym__gym rubber"
+    },
+    {
+      "id": "perch:onsen:0",
+      "point": [2.13, 3.3200000000000003, 9.98],
+      "radius": 0.3,
+      "clearance": 0.49029457569122314,
+      "mesh": "onsen_privacy__cedar wood"
+    },
+    {
+      "id": "perch:onsen:1",
+      "point": [2.07, 3.3200000000000003, 10.02],
+      "radius": 0.3,
+      "clearance": 0.4709286093711853,
+      "mesh": "core_reno_screens"
+    },
+    {
+      "id": "perch:sleep:0",
+      "point": [-6.8, 2.2199999999999998, 4.6],
+      "radius": 0.3,
+      "clearance": 0.7200000286102295,
+      "mesh": "core_finish_bedchamber_floor__pale oak"
+    },
+    {
+      "id": "perch:sleep:1",
+      "point": [-6.6, 2.2199999999999998, 4.6],
+      "radius": 0.3,
+      "clearance": 0.6897899508476257,
+      "mesh": "sleep__olive leaf"
+    },
+    {
+      "id": "perch:lounge:0",
+      "point": [3.3, 0.72, 4.35],
+      "radius": 0.3,
+      "clearance": 0.6400229930877686,
+      "mesh": "lounge_placeholder_living-eames-lounge"
+    },
+    {
+      "id": "perch:lounge:1",
+      "point": [2.3, 0.72, 5.1],
+      "radius": 0.3,
+      "clearance": 0.7175000309944153,
+      "mesh": "core_reno_floorboards_lower"
+    },
+    {
+      "id": "perch:library:0",
+      "point": [-10.55, 0.72, 3.6],
+      "radius": 0.3,
+      "clearance": 0.5246559977531433,
+      "mesh": "study__milky veined marble"
+    },
+    {
+      "id": "perch:library:1",
+      "point": [-10.55, 0.72, 3.9],
+      "radius": 0.3,
+      "clearance": 0.5246560573577881,
+      "mesh": "study__milky veined marble"
+    },
+    {
+      "id": "perch:library-upper:0",
+      "point": [0, 3.3200000000000003, 13.3],
+      "radius": 0.3,
+      "clearance": 0.7174999713897705,
+      "mesh": "core_reno_floorboards_upper"
+    },
+    {
+      "id": "perch:library-upper:1",
+      "point": [0.4, 3.3200000000000003, 13.3],
+      "radius": 0.3,
+      "clearance": 0.7174999713897705,
+      "mesh": "core_reno_floorboards_upper"
+    },
+    {
+      "id": "perch:bath-living:0",
+      "point": [-5.4, 0.72, 13.25],
+      "radius": 0.3,
+      "clearance": 0.48549744486808777,
+      "mesh": "bath-living__pale oak"
+    },
+    {
+      "id": "perch:bath-living:1",
+      "point": [-6, 0.72, 12.5],
+      "radius": 0.3,
+      "clearance": 0.7200000286102295,
+      "mesh": "bath-living__bathroom honed travertine sand"
+    },
+    {
+      "id": "perch:bath-bedroom:0",
+      "point": [-5.4, 3.3200000000000003, 13.25],
+      "radius": 0.3,
+      "clearance": 0.48549720644950867,
+      "mesh": "bath-bedroom__pale oak"
+    },
+    {
+      "id": "perch:bath-bedroom:1",
+      "point": [-6, 3.3200000000000003, 12.5],
+      "radius": 0.3,
+      "clearance": 0.7200000286102295,
+      "mesh": "bath-bedroom__bathroom honed travertine ivory"
+    },
+    {
+      "id": "curved-stair-air:0:0",
+      "point": [0.19499999284744263, 1.649999976158142, 16.600000381469727],
+      "radius": 0.42,
+      "clearance": 0.586621880531311,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:1",
+      "point": [0.19499999284744263, 1.649999976158142, 16.676191329956055],
+      "radius": 0.42,
+      "clearance": 0.6155346632003784,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:2",
+      "point": [0.19499999284744263, 1.649999976158142, 16.75238037109375],
+      "radius": 0.42,
+      "clearance": 0.6521115303039551,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:3",
+      "point": [0.19499999284744263, 1.649999976158142, 16.828571319580078],
+      "radius": 0.42,
+      "clearance": 0.6951453685760498,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:4",
+      "point": [0.19499999284744263, 1.6500000953674316, 16.904762268066406],
+      "radius": 0.42,
+      "clearance": 0.7435151934623718,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:5",
+      "point": [0.19499999284744263, 1.649999976158142, 16.980953216552734],
+      "radius": 0.42,
+      "clearance": 0.7962492108345032,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:6",
+      "point": [0.19499999284744263, 1.649999976158142, 17.057144165039062],
+      "radius": 0.42,
+      "clearance": 0.8525378108024597,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:7",
+      "point": [0.19499999284744263, 1.649999976158142, 17.13333511352539],
+      "radius": 0.42,
+      "clearance": 0.9117230772972107,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:8",
+      "point": [0.19499999284744263, 1.649999976158142, 17.209524154663086],
+      "radius": 0.42,
+      "clearance": 0.9732749462127686,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:9",
+      "point": [0.19499999284744263, 1.649999976158142, 17.285715103149414],
+      "radius": 0.42,
+      "clearance": 1.03677499294281,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:10",
+      "point": [0.19499999284744263, 1.649999976158142, 17.361906051635742],
+      "radius": 0.42,
+      "clearance": 1.1018849611282349,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:11",
+      "point": [0.19499999284744263, 1.649999976158142, 17.438095092773438],
+      "radius": 0.42,
+      "clearance": 1.1683342456817627,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:12",
+      "point": [0.19499999284744263, 1.649999976158142, 17.514286041259766],
+      "radius": 0.42,
+      "clearance": 1.2359098196029663,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:13",
+      "point": [0.19499999284744263, 1.649999976158142, 17.590476989746094],
+      "radius": 0.42,
+      "clearance": 1.3044352531433105,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:14",
+      "point": [0.19499999284744263, 1.649999976158142, 17.666667938232422],
+      "radius": 0.42,
+      "clearance": 1.3737684488296509,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:15",
+      "point": [0.19499999284744263, 1.649999976158142, 17.74285888671875],
+      "radius": 0.42,
+      "clearance": 1.4437929391860962,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:16",
+      "point": [0.19499999284744263, 1.649999976158142, 17.819047927856445],
+      "radius": 0.42,
+      "clearance": 1.5144113302230835,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:17",
+      "point": [0.19499999284744263, 1.6500000953674316, 17.895238876342773],
+      "radius": 0.42,
+      "clearance": 1.5830734968185425,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:18",
+      "point": [0.19499999284744263, 1.649999976158142, 17.97142791748047],
+      "radius": 0.42,
+      "clearance": 1.599988341331482,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:19",
+      "point": [0.19499999284744263, 1.649999976158142, 18.047618865966797],
+      "radius": 0.42,
+      "clearance": 1.6203129291534424,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:20",
+      "point": [0.19499999284744263, 1.649999976158142, 18.123809814453125],
+      "radius": 0.42,
+      "clearance": 1.6439208984375,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:0:21",
+      "point": [0.19499999284744263, 1.649999976158142, 18.200000762939453],
+      "radius": 0.42,
+      "clearance": 1.649999976158142,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:1:0",
+      "point": [0.19499999284744263, 1.649999976158142, 18.200000762939453],
+      "radius": 0.42,
+      "clearance": 1.649999976158142,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:1:1",
+      "point": [0.20909997820854187, 1.649999976158142, 18.277999877929688],
+      "radius": 0.42,
+      "clearance": 1.649999976158142,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:1:2",
+      "point": [0.2232000082731247, 1.649999976158142, 18.356000900268555],
+      "radius": 0.42,
+      "clearance": 1.649999976158142,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:1:3",
+      "point": [0.23729999363422394, 1.649999976158142, 18.43400001525879],
+      "radius": 0.42,
+      "clearance": 1.649999976158142,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:1:4",
+      "point": [0.2513999938964844, 1.649999976158142, 18.512001037597656],
+      "radius": 0.42,
+      "clearance": 1.649999976158142,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:1:5",
+      "point": [0.265500009059906, 1.649999976158142, 18.590002059936523],
+      "radius": 0.42,
+      "clearance": 1.649999976158142,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:1:6",
+      "point": [0.27959999442100525, 1.649999976158142, 18.668001174926758],
+      "radius": 0.42,
+      "clearance": 1.649999976158142,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:1:7",
+      "point": [0.2936999797821045, 1.649999976158142, 18.746000289916992],
+      "radius": 0.42,
+      "clearance": 1.649999976158142,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:1:8",
+      "point": [0.30779996514320374, 1.649999976158142, 18.82400131225586],
+      "radius": 0.42,
+      "clearance": 1.649999976158142,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:1:9",
+      "point": [0.32190001010894775, 1.649999976158142, 18.902000427246094],
+      "radius": 0.42,
+      "clearance": 1.6334589719772339,
+      "mesh": "core_arrival_hall__brushed brass"
+    },
+    {
+      "id": "curved-stair-air:1:10",
+      "point": [0.3359999656677246, 1.6500000953674316, 18.979999542236328],
+      "radius": 0.42,
+      "clearance": 1.6178100109100342,
+      "mesh": "core_arrival_hall__brushed brass"
+    },
+    {
+      "id": "curved-stair-air:1:11",
+      "point": [0.35009998083114624, 1.649999976158142, 19.058000564575195],
+      "radius": 0.42,
+      "clearance": 1.6023273468017578,
+      "mesh": "core_arrival_hall__brushed brass"
+    },
+    {
+      "id": "curved-stair-air:1:12",
+      "point": [0.36419999599456787, 1.649999976158142, 19.136001586914062],
+      "radius": 0.42,
+      "clearance": 1.5883293151855469,
+      "mesh": "core_arrival_hall__brushed brass"
+    },
+    {
+      "id": "curved-stair-air:1:13",
+      "point": [0.3782999813556671, 1.649999976158142, 19.214000701904297],
+      "radius": 0.42,
+      "clearance": 1.5737017393112183,
+      "mesh": "core_arrival_hall__brushed brass"
+    },
+    {
+      "id": "curved-stair-air:1:14",
+      "point": [0.39239996671676636, 1.6500000953674316, 19.29199981689453],
+      "radius": 0.42,
+      "clearance": 1.5602636337280273,
+      "mesh": "core_arrival_hall__brushed brass"
+    },
+    {
+      "id": "curved-stair-air:1:15",
+      "point": [0.406499981880188, 1.649999976158142, 19.3700008392334],
+      "radius": 0.42,
+      "clearance": 1.543990969657898,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:16",
+      "point": [0.4205999970436096, 1.649999976158142, 19.447999954223633],
+      "radius": 0.42,
+      "clearance": 1.5219812393188477,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:17",
+      "point": [0.43470001220703125, 1.6500000953674316, 19.5260009765625],
+      "radius": 0.42,
+      "clearance": 1.5038321018218994,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:18",
+      "point": [0.4487999975681305, 1.6500000953674316, 19.604000091552734],
+      "radius": 0.42,
+      "clearance": 1.4892336130142212,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:19",
+      "point": [0.46289998292922974, 1.649999976158142, 19.68199920654297],
+      "radius": 0.42,
+      "clearance": 1.4777226448059082,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:20",
+      "point": [0.4769999384880066, 1.649999976158142, 19.760000228881836],
+      "radius": 0.42,
+      "clearance": 1.4704004526138306,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:21",
+      "point": [0.4910999536514282, 1.649999976158142, 19.838001251220703],
+      "radius": 0.42,
+      "clearance": 1.460982322692871,
+      "mesh": "core_arrival_hall__brushed brass"
+    },
+    {
+      "id": "curved-stair-air:1:22",
+      "point": [0.5051999688148499, 1.649999976158142, 19.916000366210938],
+      "radius": 0.42,
+      "clearance": 1.447066068649292,
+      "mesh": "core_arrival_hall__brushed brass"
+    },
+    {
+      "id": "curved-stair-air:1:23",
+      "point": [0.5193000435829163, 1.649999976158142, 19.994001388549805],
+      "radius": 0.42,
+      "clearance": 1.4335808753967285,
+      "mesh": "core_arrival_hall__brushed brass"
+    },
+    {
+      "id": "curved-stair-air:1:24",
+      "point": [0.5333999991416931, 1.649999976158142, 20.07200050354004],
+      "radius": 0.42,
+      "clearance": 1.4159516096115112,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:25",
+      "point": [0.5475000143051147, 1.649999976158142, 20.150001525878906],
+      "radius": 0.42,
+      "clearance": 1.3962265253067017,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:26",
+      "point": [0.5615999698638916, 1.649999976158142, 20.22800064086914],
+      "radius": 0.42,
+      "clearance": 1.377732276916504,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:27",
+      "point": [0.5756999850273132, 1.649999976158142, 20.305999755859375],
+      "radius": 0.42,
+      "clearance": 1.360519289970398,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:28",
+      "point": [0.5898000001907349, 1.649999976158142, 20.384000778198242],
+      "radius": 0.42,
+      "clearance": 1.3446364402770996,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:29",
+      "point": [0.6038999557495117, 1.649999976158142, 20.461999893188477],
+      "radius": 0.42,
+      "clearance": 1.3301315307617188,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:30",
+      "point": [0.6180000305175781, 1.649999976158142, 20.540000915527344],
+      "radius": 0.42,
+      "clearance": 1.3170502185821533,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:31",
+      "point": [0.632099986076355, 1.649999976158142, 20.618000030517578],
+      "radius": 0.42,
+      "clearance": 1.305435061454773,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:32",
+      "point": [0.6462000012397766, 1.6500000953674316, 20.696001052856445],
+      "radius": 0.42,
+      "clearance": 1.295325756072998,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:33",
+      "point": [0.6602999567985535, 1.6499998569488525, 20.77400016784668],
+      "radius": 0.42,
+      "clearance": 1.286757230758667,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:34",
+      "point": [0.6743999719619751, 1.649999976158142, 20.852001190185547],
+      "radius": 0.42,
+      "clearance": 1.2797614336013794,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:35",
+      "point": [0.6884999871253967, 1.649999976158142, 20.93000030517578],
+      "radius": 0.42,
+      "clearance": 1.2743631601333618,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:36",
+      "point": [0.7026000022888184, 1.6500000953674316, 21.007999420166016],
+      "radius": 0.42,
+      "clearance": 1.2705835103988647,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:37",
+      "point": [0.71670001745224, 1.649999976158142, 21.086000442504883],
+      "radius": 0.42,
+      "clearance": 1.2681974172592163,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:38",
+      "point": [0.7307999730110168, 1.649999976158142, 21.163999557495117],
+      "radius": 0.42,
+      "clearance": 1.2672072649002075,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:39",
+      "point": [0.7448999881744385, 1.649999976158142, 21.242000579833984],
+      "radius": 0.42,
+      "clearance": 1.2678619623184204,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:40",
+      "point": [0.7589999437332153, 1.6500000953674316, 21.31999969482422],
+      "radius": 0.42,
+      "clearance": 1.270158052444458,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:41",
+      "point": [0.773099958896637, 1.649999976158142, 21.398000717163086],
+      "radius": 0.42,
+      "clearance": 1.2740864753723145,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:42",
+      "point": [0.7871999740600586, 1.649999976158142, 21.47599983215332],
+      "radius": 0.42,
+      "clearance": 1.279632806777954,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:43",
+      "point": [0.8012999892234802, 1.649999976158142, 21.554000854492188],
+      "radius": 0.42,
+      "clearance": 1.2867764234542847,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:44",
+      "point": [0.8154000043869019, 1.649999976158142, 21.631999969482422],
+      "radius": 0.42,
+      "clearance": 1.2954891920089722,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:1:45",
+      "point": [0.8294999599456787, 1.649999976158142, 21.709999084472656],
+      "radius": 0.42,
+      "clearance": 1.2900009155273438,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:1:46",
+      "point": [0.8436000347137451, 1.649999976158142, 21.788000106811523],
+      "radius": 0.42,
+      "clearance": 1.2119998931884766,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:1:47",
+      "point": [0.8576999306678772, 1.649999976158142, 21.86600112915039],
+      "radius": 0.42,
+      "clearance": 1.1339988708496094,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:1:48",
+      "point": [0.8717999458312988, 1.649999976158142, 21.944000244140625],
+      "radius": 0.42,
+      "clearance": 1.055999755859375,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:1:49",
+      "point": [0.8858999609947205, 1.649999976158142, 22.022001266479492],
+      "radius": 0.42,
+      "clearance": 0.9779987335205078,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:1:50",
+      "point": [0.8999999761581421, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8999996185302734,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:0",
+      "point": [0.8999999761581421, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8999996185302734,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:1",
+      "point": [0.9795454740524292, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8999996185302734,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:2",
+      "point": [1.0590909719467163, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8999996185302734,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:3",
+      "point": [1.1386363506317139, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8999996185302734,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:4",
+      "point": [1.218181848526001, 1.6500000953674316, 22.099998474121094],
+      "radius": 0.42,
+      "clearance": 0.9000015258789062,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:5",
+      "point": [1.297727346420288, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8999996185302734,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:6",
+      "point": [1.3772727251052856, 1.649999976158142, 22.099998474121094],
+      "radius": 0.42,
+      "clearance": 0.9000015258789062,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:7",
+      "point": [1.4568182229995728, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8999996185302734,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:8",
+      "point": [1.5363636016845703, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8999996185302734,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:9",
+      "point": [1.6159090995788574, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8999996185302734,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:10",
+      "point": [1.6954545974731445, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8999996185302734,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:11",
+      "point": [1.7750000953674316, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8999996185302734,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:12",
+      "point": [1.8545454740524292, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8999996185302734,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:13",
+      "point": [1.9340908527374268, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8990304470062256,
+      "mesh": "core_arrival_hall__honey ash"
+    },
+    {
+      "id": "curved-stair-air:2:14",
+      "point": [2.013636350631714, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8999996185302734,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:15",
+      "point": [2.093181848526001, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8999996185302734,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:16",
+      "point": [2.172727346420288, 1.649999976158142, 22.099998474121094],
+      "radius": 0.42,
+      "clearance": 0.9000015258789062,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:17",
+      "point": [2.252272844314575, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8999996185302734,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:18",
+      "point": [2.3318183422088623, 1.6500000953674316, 22.099998474121094],
+      "radius": 0.42,
+      "clearance": 0.9000015258789062,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:19",
+      "point": [2.4113636016845703, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8886363506317139,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:20",
+      "point": [2.4909090995788574, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.8090908527374268,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:21",
+      "point": [2.5704545974731445, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.7295453548431396,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:2:22",
+      "point": [2.6500000953674316, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:3:0",
+      "point": [2.6500000953674316, 1.649999976158142, 22.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:3:1",
+      "point": [2.6500000953674316, 1.6673299074172974, 22.02899932861328],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:3:2",
+      "point": [2.6500000953674316, 1.6846599578857422, 21.95800018310547],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:3:3",
+      "point": [2.6500000953674316, 1.701990008354187, 21.887001037597656],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:3:4",
+      "point": [2.6500000953674316, 1.7193199396133423, 21.81599998474121],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:3:5",
+      "point": [2.6500000953674316, 1.736649990081787, 21.744998931884766],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:3:6",
+      "point": [2.6500000953674316, 1.753980040550232, 21.673999786376953],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:3:7",
+      "point": [2.6500000953674316, 1.7713099718093872, 21.60300064086914],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:3:8",
+      "point": [2.6500000953674316, 1.788640022277832, 21.531999588012695],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:3:9",
+      "point": [2.6500000953674316, 1.8059700727462769, 21.461000442504883],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:3:10",
+      "point": [2.6500000953674316, 1.8233000040054321, 21.389999389648438],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:4:0",
+      "point": [2.6500000953674316, 1.8233000040054321, 21.389999389648438],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:4:1",
+      "point": [2.6500000953674316, 1.8579800128936768, 21.333999633789062],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:4:2",
+      "point": [2.6500000953674316, 1.8926600217819214, 21.277999877929688],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:4:3",
+      "point": [2.6500000953674316, 1.927340030670166, 21.222000122070312],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:4:4",
+      "point": [2.6500000953674316, 1.962019920349121, 21.166000366210938],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:4:5",
+      "point": [2.6500000953674316, 1.9967000484466553, 21.110000610351562],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:5:0",
+      "point": [2.6500000953674316, 1.9967000484466553, 21.110000610351562],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:5:1",
+      "point": [2.6500000953674316, 2.031359910964966, 21.054000854492188],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:5:2",
+      "point": [2.6500000953674316, 2.0660200119018555, 20.998001098632812],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:5:3",
+      "point": [2.6500000953674316, 2.100679874420166, 20.941999435424805],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:5:4",
+      "point": [2.6500000953674316, 2.1353399753570557, 20.88599967956543],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:5:5",
+      "point": [2.6500000953674316, 2.1700000762939453, 20.829999923706055],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:6:0",
+      "point": [2.6500000953674316, 2.1700000762939453, 20.829999923706055],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:6:1",
+      "point": [2.6500000953674316, 2.204659938812256, 20.773998260498047],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:6:2",
+      "point": [2.6500000953674316, 2.2393200397491455, 20.717998504638672],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:6:3",
+      "point": [2.6500000953674316, 2.273980140686035, 20.661998748779297],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:6:4",
+      "point": [2.6500000953674316, 2.3086400032043457, 20.606000900268555],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:6:5",
+      "point": [2.6500000953674316, 2.3433001041412354, 20.549999237060547],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:7:0",
+      "point": [2.6500000953674316, 2.3433001041412354, 20.549999237060547],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:7:1",
+      "point": [2.6500000953674316, 2.3779799938201904, 20.493999481201172],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:7:2",
+      "point": [2.6500000953674316, 2.4126601219177246, 20.437999725341797],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:7:3",
+      "point": [2.6500000953674316, 2.4473400115966797, 20.381999969482422],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:7:4",
+      "point": [2.6500000953674316, 2.4820199012756348, 20.326000213623047],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:7:5",
+      "point": [2.6500000953674316, 2.516700029373169, 20.270000457763672],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:8:0",
+      "point": [2.6500000953674316, 2.516700029373169, 20.270000457763672],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:8:1",
+      "point": [2.6500000953674316, 2.5513601303100586, 20.214000701904297],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:8:2",
+      "point": [2.6500000953674316, 2.586019992828369, 20.158000946044922],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:8:3",
+      "point": [2.6500000953674316, 2.6206798553466797, 20.102001190185547],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:8:4",
+      "point": [2.6500000953674316, 2.6553401947021484, 20.04599952697754],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:8:5",
+      "point": [2.6500000953674316, 2.690000057220459, 19.989999771118164],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:9:0",
+      "point": [2.6500000953674316, 2.690000057220459, 19.989999771118164],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:9:1",
+      "point": [2.6500000953674316, 2.7246601581573486, 19.93400001525879],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:9:2",
+      "point": [2.6500000953674316, 2.759320020675659, 19.878000259399414],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:9:3",
+      "point": [2.6500000953674316, 2.793980121612549, 19.821998596191406],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:9:4",
+      "point": [2.6500000953674316, 2.8286399841308594, 19.76599884033203],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:9:5",
+      "point": [2.6500000953674316, 2.863300085067749, 19.709999084472656],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:10:0",
+      "point": [2.6500000953674316, 2.863300085067749, 19.709999084472656],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:10:1",
+      "point": [2.6500000953674316, 2.897980213165283, 19.65399932861328],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:10:2",
+      "point": [2.6500000953674316, 2.9326601028442383, 19.597999572753906],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:10:3",
+      "point": [2.6500000953674316, 2.9673399925231934, 19.54199981689453],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:10:4",
+      "point": [2.6500000953674316, 3.0020201206207275, 19.486000061035156],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:10:5",
+      "point": [2.6500000953674316, 3.0367000102996826, 19.43000030517578],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:11:0",
+      "point": [2.6500000953674316, 3.0367000102996826, 19.43000030517578],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:11:1",
+      "point": [2.6500000953674316, 3.0713601112365723, 19.374000549316406],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:11:2",
+      "point": [2.6500000953674316, 3.106019973754883, 19.31800079345703],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:11:3",
+      "point": [2.6500000953674316, 3.1406800746917725, 19.261999130249023],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:11:4",
+      "point": [2.6500000953674316, 3.175340175628662, 19.20599937438965],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:11:5",
+      "point": [2.6500000953674316, 3.2100000381469727, 19.149999618530273],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:12:0",
+      "point": [2.6500000953674316, 3.2100000381469727, 19.149999618530273],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:12:1",
+      "point": [2.6500000953674316, 3.2446601390838623, 19.0939998626709],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:12:2",
+      "point": [2.6500000953674316, 3.279320240020752, 19.038000106811523],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:12:3",
+      "point": [2.6500000953674316, 3.3139801025390625, 18.98200035095215],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:12:4",
+      "point": [2.6500000953674316, 3.348639965057373, 18.926000595092773],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:12:5",
+      "point": [2.6500000953674316, 3.3833000659942627, 18.8700008392334],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:13:0",
+      "point": [2.6500000953674316, 3.3833000659942627, 18.8700008392334],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:13:1",
+      "point": [2.6500000953674316, 3.4179799556732178, 18.814001083374023],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:13:2",
+      "point": [2.6500000953674316, 3.452660083770752, 18.757999420166016],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:13:3",
+      "point": [2.6500000953674316, 3.487339973449707, 18.70199966430664],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:13:4",
+      "point": [2.6500000953674316, 3.522020101547241, 18.645999908447266],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:13:5",
+      "point": [2.6500000953674316, 3.5566999912261963, 18.59000015258789],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:14:0",
+      "point": [2.6500000953674316, 3.5566999912261963, 18.59000015258789],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:14:1",
+      "point": [2.6500000953674316, 3.591360092163086, 18.534000396728516],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:14:2",
+      "point": [2.6500000953674316, 3.6260199546813965, 18.47800064086914],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:14:3",
+      "point": [2.6500000953674316, 3.660680055618286, 18.421998977661133],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:14:4",
+      "point": [2.6500000953674316, 3.6953399181365967, 18.365999221801758],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:14:5",
+      "point": [2.6500000953674316, 3.7300000190734863, 18.309999465942383],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:15:0",
+      "point": [2.6500000953674316, 3.7300000190734863, 18.309999465942383],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:15:1",
+      "point": [2.6500000953674316, 3.764659881591797, 18.253999710083008],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:15:2",
+      "point": [2.6500000953674316, 3.7993202209472656, 18.197999954223633],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:15:3",
+      "point": [2.6500000953674316, 3.833980083465576, 18.142000198364258],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:15:4",
+      "point": [2.6500000953674316, 3.8686399459838867, 18.086000442504883],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:15:5",
+      "point": [2.6500000953674316, 3.9033000469207764, 18.030000686645508],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:16:0",
+      "point": [2.6500000953674316, 3.9033000469207764, 18.030000686645508],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:16:1",
+      "point": [2.6500000953674316, 3.9379801750183105, 17.974000930786133],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:16:2",
+      "point": [2.6500000953674316, 3.9726600646972656, 17.917999267578125],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:16:3",
+      "point": [2.6500000953674316, 4.007339954376221, 17.86199951171875],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:16:4",
+      "point": [2.6500000953674316, 4.042020320892334, 17.805999755859375],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:16:5",
+      "point": [2.6500000953674316, 4.076700210571289, 17.75],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:17:0",
+      "point": [2.6500000953674316, 4.076700210571289, 17.75],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:17:1",
+      "point": [2.6500000953674316, 4.101457118988037, 17.685714721679688],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:17:2",
+      "point": [2.6500000953674316, 4.126214504241943, 17.621429443359375],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:17:3",
+      "point": [2.6500000953674316, 4.150971412658691, 17.55714225769043],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:17:4",
+      "point": [2.6500000953674316, 4.175728797912598, 17.492856979370117],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:17:5",
+      "point": [2.6500000953674316, 4.200485706329346, 17.428569793701172],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:17:6",
+      "point": [2.6500000953674316, 4.225242614746094, 17.36428451538086],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:17:7",
+      "point": [2.6500000953674316, 4.25, 17.299999237060547],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:18:0",
+      "point": [2.6500000953674316, 4.25, 17.299999237060547],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:18:1",
+      "point": [2.6500000953674316, 4.25, 17.219999313354492],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:18:2",
+      "point": [2.6500000953674316, 4.25, 17.139999389648438],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:18:3",
+      "point": [2.6500000953674316, 4.25, 17.059999465942383],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:18:4",
+      "point": [2.6500000953674316, 4.25, 16.979999542236328],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:18:5",
+      "point": [2.6500000953674316, 4.25, 16.899999618530273],
+      "radius": 0.42,
+      "clearance": 0.6499998569488525,
+      "mesh": "core_arrival_hall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:18:6",
+      "point": [2.6500000953674316, 4.25, 16.81999969482422],
+      "radius": 0.42,
+      "clearance": 0.6466066241264343,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:18:7",
+      "point": [2.6500000953674316, 4.25, 16.739999771118164],
+      "radius": 0.42,
+      "clearance": 0.5990827679634094,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:18:8",
+      "point": [2.6500000953674316, 4.25, 16.65999984741211],
+      "radius": 0.42,
+      "clearance": 0.5590171813964844,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:18:9",
+      "point": [2.6500000953674316, 4.25, 16.579999923706055],
+      "radius": 0.42,
+      "clearance": 0.5281100869178772,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:18:10",
+      "point": [2.6500000953674316, 4.25, 16.5],
+      "radius": 0.42,
+      "clearance": 0.5080357193946838,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:18:11",
+      "point": [2.6500000953674316, 4.25, 16.420000076293945],
+      "radius": 0.42,
+      "clearance": 0.5001002550125122,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:18:12",
+      "point": [2.6500000953674316, 4.25, 16.34000015258789],
+      "radius": 0.42,
+      "clearance": 0.5000002384185791,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:18:13",
+      "point": [2.6500000953674316, 4.25, 16.260000228881836],
+      "radius": 0.42,
+      "clearance": 0.5000002384185791,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:18:14",
+      "point": [2.6500000953674316, 4.25, 16.18000030517578],
+      "radius": 0.42,
+      "clearance": 0.5000002384185791,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:18:15",
+      "point": [2.6500000953674316, 4.25, 16.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.5000002384185791,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:19:0",
+      "point": [2.6500000953674316, 4.25, 16.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.5000002384185791,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:19:1",
+      "point": [2.6500000953674316, 4.25, 16.027273178100586],
+      "radius": 0.42,
+      "clearance": 0.5000002384185791,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:19:2",
+      "point": [2.6500000953674316, 4.25, 15.954545974731445],
+      "radius": 0.42,
+      "clearance": 0.5000002384185791,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:19:3",
+      "point": [2.6500000953674316, 4.25, 15.881818771362305],
+      "radius": 0.42,
+      "clearance": 0.5000002384185791,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:19:4",
+      "point": [2.6500000953674316, 4.25, 15.809091567993164],
+      "radius": 0.42,
+      "clearance": 0.5000002384185791,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:19:5",
+      "point": [2.6500000953674316, 4.25, 15.736363410949707],
+      "radius": 0.42,
+      "clearance": 0.5000002384185791,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:19:6",
+      "point": [2.6500000953674316, 4.25, 15.663637161254883],
+      "radius": 0.42,
+      "clearance": 0.5013207793235779,
+      "mesh": "core_arrival_hall__warm cut stone"
+    },
+    {
+      "id": "curved-stair-air:19:7",
+      "point": [2.6500000953674316, 4.25, 15.590909004211426],
+      "radius": 0.42,
+      "clearance": 0.510828971862793,
+      "mesh": "core_arrival_wall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:19:8",
+      "point": [2.6500000953674316, 4.25, 15.518182754516602],
+      "radius": 0.42,
+      "clearance": 0.520064115524292,
+      "mesh": "core_arrival_wall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:19:9",
+      "point": [2.6500000953674316, 4.25, 15.445454597473145],
+      "radius": 0.42,
+      "clearance": 0.5390417575836182,
+      "mesh": "core_arrival_wall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:19:10",
+      "point": [2.6500000953674316, 4.25, 15.37272834777832],
+      "radius": 0.42,
+      "clearance": 0.5667831897735596,
+      "mesh": "core_arrival_wall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:19:11",
+      "point": [2.6500000953674316, 4.25, 15.300000190734863],
+      "radius": 0.42,
+      "clearance": 0.6020795702934265,
+      "mesh": "core_arrival_wall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:20:0",
+      "point": [2.6500000953674316, 4.25, 15.300000190734863],
+      "radius": 0.42,
+      "clearance": 0.6020795702934265,
+      "mesh": "core_arrival_wall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:20:1",
+      "point": [2.6500000953674316, 4.25, 15.220000267028809],
+      "radius": 0.42,
+      "clearance": 0.6481509804725647,
+      "mesh": "core_arrival_wall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:20:2",
+      "point": [2.6500000953674316, 4.25, 15.140000343322754],
+      "radius": 0.42,
+      "clearance": 0.7003567218780518,
+      "mesh": "core_arrival_wall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:20:3",
+      "point": [2.6500000953674316, 4.25, 15.0600004196167],
+      "radius": 0.42,
+      "clearance": 0.7574294209480286,
+      "mesh": "core_arrival_wall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:20:4",
+      "point": [2.6500000953674316, 4.25, 14.980000495910645],
+      "radius": 0.42,
+      "clearance": 0.8183515071868896,
+      "mesh": "core_arrival_wall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:20:5",
+      "point": [2.6500000953674316, 4.25, 14.90000057220459],
+      "radius": 0.42,
+      "clearance": 0.8823258876800537,
+      "mesh": "core_arrival_wall__golden coastal sandstone"
+    },
+    {
+      "id": "curved-stair-air:20:6",
+      "point": [2.6500000953674316, 4.25, 14.819999694824219],
+      "radius": 0.42,
+      "clearance": 0.9180915355682373,
+      "mesh": "core_arrival_living__honey ash"
+    },
+    {
+      "id": "curved-stair-air:20:7",
+      "point": [2.6500000953674316, 4.25, 14.739999771118164],
+      "radius": 0.42,
+      "clearance": 0.9180915355682373,
+      "mesh": "core_arrival_living__honey ash"
+    },
+    {
+      "id": "curved-stair-air:20:8",
+      "point": [2.6500000953674316, 4.25, 14.65999984741211],
+      "radius": 0.42,
+      "clearance": 0.9180915355682373,
+      "mesh": "core_arrival_living__honey ash"
+    },
+    {
+      "id": "curved-stair-air:20:9",
+      "point": [2.6500000953674316, 4.25, 14.580000877380371],
+      "radius": 0.42,
+      "clearance": 0.9180915355682373,
+      "mesh": "core_arrival_living__honey ash"
+    },
+    {
+      "id": "curved-stair-air:20:10",
+      "point": [2.6500000953674316, 4.25, 14.5],
+      "radius": 0.42,
+      "clearance": 0.9180915355682373,
+      "mesh": "core_arrival_living__honey ash"
+    },
+    {
+      "id": "curved-stair-air:20:11",
+      "point": [2.6500000953674316, 4.25, 14.420000076293945],
+      "radius": 0.42,
+      "clearance": 0.9215704202651978,
+      "mesh": "core_arrival_living__honey ash"
+    },
+    {
+      "id": "curved-stair-air:20:12",
+      "point": [2.6500000953674316, 4.25, 14.34000015258789],
+      "radius": 0.42,
+      "clearance": 0.9319291710853577,
+      "mesh": "core_arrival_living__honey ash"
+    },
+    {
+      "id": "curved-stair-air:20:13",
+      "point": [2.6500000953674316, 4.25, 14.260000228881836],
+      "radius": 0.42,
+      "clearance": 0.9489425420761108,
+      "mesh": "core_arrival_living__honey ash"
+    },
+    {
+      "id": "curved-stair-air:20:14",
+      "point": [2.6500000953674316, 4.25, 14.180000305175781],
+      "radius": 0.42,
+      "clearance": 0.9633137583732605,
+      "mesh": "core_reno_screens"
+    },
+    {
+      "id": "curved-stair-air:20:15",
+      "point": [2.6500000953674316, 4.25, 14.100000381469727],
+      "radius": 0.42,
+      "clearance": 0.9169363379478455,
+      "mesh": "core_reno_screens"
+    }
+  ],
+  "companionScope": "all room perches and main curved stair; full runtime flight audit is separate",
+  "scope": "Actual source rays and 0.5m-wide body-line sweep. Delivered compressed capsule and rendered evidence are separate gates."
+}

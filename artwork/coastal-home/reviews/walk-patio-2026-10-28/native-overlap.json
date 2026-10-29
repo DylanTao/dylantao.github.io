@@ -1,0 +1,40 @@
+{
+  "sourceSha256": "16713ed5e6efcb5f6b2cc9e70da678c4dc729255929f4248ca5b705a2e87b1a0",
+  "exportsSha256": {
+    "coast.glb": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
+    "flora.glb": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2",
+    "home-shell.glb": "b51f302da52907dc1d707c14ea3a3c4578da9f43f9147d7917a6bb0e1f99ce72",
+    "room-bath-bedroom.glb": "23122cb51c7d2f3d580389eb4ffbf41a8f64f0e12f612ccb12a9f94fe37b2b80",
+    "room-bath-living.glb": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72",
+    "room-gym.glb": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
+    "room-kitchen.glb": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e",
+    "room-library-upper.glb": "4ac66445fb4be5165e0cb4368d6f1d58d1e27843a6a1fb7574bc0d204a387f85",
+    "room-library.glb": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9",
+    "room-lounge.glb": "56be7ae08742b1d9c4d30b765466d54c0cb7e8345e13cbe59343ccec299ce7ce",
+    "room-onsen.glb": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
+    "room-sleep.glb": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
+    "room-study.glb": "2a605f9445ec9523f935d9f71042e26027b57b3fd67310e0fe611e1a32467d92"
+  },
+  "native": {
+    "zFightingPairs": 32,
+    "zFightingVisibleAreaM2": 0.7307,
+    "grazingSites": 25,
+    "grazingSeamM": 3.257,
+    "deepSites": 846,
+    "deepSitesOver5cm": 288,
+    "deepSeverity": 33489.3,
+    "maxDeepSeverity": 1327.6
+  },
+  "delivered": {
+    "zFightingPairs": 43,
+    "zFightingVisibleAreaM2": 1.1733,
+    "grazingSites": 24,
+    "grazingSeamM": 3.321,
+    "deepSites": 459,
+    "deepSitesOver5cm": 58,
+    "deepSeverity": 9958.2,
+    "maxDeepSeverity": 1389.7
+  },
+  "ratchetsChanged": false,
+  "canonicalReport": "../house-2026-10-24/overlap-audit.json"
+}
