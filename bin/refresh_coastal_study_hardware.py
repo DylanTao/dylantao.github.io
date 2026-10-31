@@ -39,7 +39,7 @@ EXPECTED = {
     "tower": {"matte black device": (1368, 21), "pc black steel": (672, 7), "pc circuit board": (96, 1),
               "pc rgb glow": (1016, 15), "pc tempered glass": (96, 1), "rtx graphite shroud": (96, 1)},
 }
-TARGET_INCHES = {"primary": 43., "secondary": 34., "laptop": 17.}
+TARGET_INCHES = {"primary": 43., "secondary": 31.5, "laptop": 17.}
 INPUT_SIGNATURES = {
     "primary": "616f5891beb79a069e428d72ddd678c40a00a0534d8e08f390f89fe21fe0f807",
     "secondary": "4495b2765c912ef094708fcaaa2bbf531c83a5f2aebf525b1f90e1c166bc257a",

@@ -10,7 +10,7 @@ import bpy
 from mathutils import Vector
 
 from coastal_landscape import web
-from coastal_office import Parts, box, cylinder, rooted_leaf, _mat
+from coastal_office import Parts, box, cylinder, _mat
 
 PREFIXES = ("lounge_refined_", "library_refined_", "bath-living_refined_", "bath-bedroom_refined_")
 HEARTH = (-12.3, 5.1, 0.0)
@@ -97,6 +97,59 @@ def _fern(p, m, base, scale=1):
         _blade(stem, leaf, foot, start, tip, .043*scale, .075*scale)
 
 
+def pothos_lamina(root, original_tip, width, index):
+    """A cupped trailing blade oriented toward the seaward window.
+
+    Only Epipremnum uses this form. The petiole root remains fixed and the
+    retained blade length/width sets its size. The lamina hangs downward with
+    a varied inclination; its normal follows the physical +Y window and the
+    sky above, independently of any camera. Four broad cross-sections keep
+    the little plant inexpensive while giving its silhouette a real fold.
+    """
+    root, original_tip = Vector(root), Vector(original_tip)
+    old_axis = original_tip-root
+    length = old_axis.length
+    side = 1 if old_axis.x >= 0 else -1
+    phase = index*2.399963229728653
+    axis = Vector((side*(.55+.08*math.sin(phase)),
+                   .29+.055*math.cos(phase*.71),
+                   -.79+.045*math.sin(phase*.83))).normalized()
+    light = Vector((.16*math.sin(phase), 1, .65))
+    normal = (light-axis*light.dot(axis)).normalized()
+    lateral = normal.cross(axis).normalized()
+    # Small alternating twist and unequal lobes avoid thirty repeated cards.
+    twist = .12*math.sin(phase*1.3)
+    transverse = lateral*math.cos(twist)+normal*math.sin(twist)
+    bend_normal = axis.cross(transverse).normalized()
+    if bend_normal.dot(normal) < 0:
+        bend_normal.negate()
+    vertices = [root]
+    rings = []
+    for t, profile in ((.14, .78), (.36, 1.), (.62, .75), (.84, .34)):
+        center = root+axis*(length*t)+bend_normal*(.007*math.sin(math.pi*t))
+        ring = []
+        for s in (-1, 0, 1):
+            breadth = width*profile*(.94 if s < 0 else 1.)
+            # A shallow raised midrib and recurved edges catch actual light;
+            # they are geometry, not a face-the-viewer normal override.
+            ridge = (.0014 if s == 0 else -.0030)*math.sin(math.pi*t)
+            ring.append(len(vertices))
+            vertices.append(center+transverse*(s*breadth)+bend_normal*ridge)
+        rings.append(ring)
+    tip = len(vertices)
+    vertices.append(root+axis*length)
+    faces = [(0, rings[0][0], rings[0][1]), (0, rings[0][1], rings[0][2])]
+    for a, b in zip(rings, rings[1:]):
+        faces.extend(((a[0], b[0], b[1], a[1]), (a[1], b[1], b[2], a[2])))
+    faces.extend(((rings[-1][0], tip, rings[-1][1]), (rings[-1][1], tip, rings[-1][2])))
+    # Keep every triangle wound toward the physical window. The cross-section
+    # indexing above is deliberately independent of alternating stem sides.
+    a, b, c = (vertices[i] for i in faces[0])
+    if (b-a).cross(c-a).dot(normal) < 0:
+        faces = [tuple(reversed(face)) for face in faces]
+    return vertices, faces
+
+
 def _pothos(p, m, base):
     stem, leaf = p.bm(m["stem"]), p.bm(m["vine"])
     for strand in range(3):
@@ -109,7 +162,11 @@ def _pothos(p, m, base):
             side = -1 if k%2 else 1
             root = point+Vector((side*.018, .012, -.004))
             tip = root+Vector((side*.068, .045, -.018))
-            rooted_leaf(stem, leaf, point, root, tip, .036)
+            cylinder(stem, point, root, .0025, 3)
+            vertices, faces = pothos_lamina(root, tip, .036, strand*10+k)
+            added = [leaf.verts.new(v) for v in vertices]
+            for face in faces:
+                leaf.faces.new([added[i] for i in face])
             previous = point
 
 
