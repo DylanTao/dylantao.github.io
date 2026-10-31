@@ -1,0 +1,104 @@
+{
+  "sourceCommit": "5fe02b1e78a63d9b9f90e40fa37f51be903d9880",
+  "sourceBindings": [
+    {
+      "path": "bin/refresh_coastal_study_hardware.py",
+      "gitBlobSha256": "5016b1ca500ce239221bc1622ed5c0a7aa306d6ab3e1695d92afa0a6ce94a2dc",
+      "bytes": 14557,
+      "workingBytesSha256": "5016b1ca500ce239221bc1622ed5c0a7aa306d6ab3e1695d92afa0a6ce94a2dc",
+      "workingEqualsGitAfterLineEndingNormalization": true
+    },
+    {
+      "path": "bin/refresh_coastal_pothos_blades.py",
+      "gitBlobSha256": "05c81d3a06458ea29fe77522b3cf6c3f3de8fc9fb7a8f65468cfb6e13009b97d",
+      "bytes": 7158,
+      "workingBytesSha256": "05c81d3a06458ea29fe77522b3cf6c3f3de8fc9fb7a8f65468cfb6e13009b97d",
+      "workingEqualsGitAfterLineEndingNormalization": true
+    },
+    {
+      "path": "bin/coastal_interior_refinement.py",
+      "gitBlobSha256": "884c5c4b84c3b91fc8187c03171cd230b579b3a22e50e1767c1229ed44f8ce7e",
+      "bytes": 12673,
+      "workingBytesSha256": "cb4ad6833bcddb35dc51517f1d6296e893b9ce6a5c78e666a59c6a70a106807a",
+      "workingEqualsGitAfterLineEndingNormalization": true
+    },
+    {
+      "path": "bin/coastal_office.py",
+      "gitBlobSha256": "2eac1215ea981ad9f099fa5a231853f9413c38c792b745272694a3661d5da9cb",
+      "bytes": 29425,
+      "workingBytesSha256": "f7ce9aeccea8db9cead6a0eb9c61af9931ad06349fafca63c115f2b2f0d97b54",
+      "workingEqualsGitAfterLineEndingNormalization": true
+    },
+    {
+      "path": "bin/coastal_landscape.py",
+      "gitBlobSha256": "876cbe7f1d36fdff339ffdabd697d743cf1343340de735b04dcc3ac92280fe65",
+      "bytes": 5222,
+      "workingBytesSha256": "9e9956c354b726d0a5a4fe4c3c2c8842894af4c63bdefbae5efd1f62626807ea",
+      "workingEqualsGitAfterLineEndingNormalization": true
+    },
+    {
+      "path": "bin/optimize_coastal_exports.py",
+      "gitBlobSha256": "175905df1edbd161473700e8a753ac4ca64e9a48ab6336a4f01fbcb5b19f4171",
+      "bytes": 7303,
+      "workingBytesSha256": "d3c86ff53259e6f3743efeaeacbb69eb0fd0b47a6e5c203e66887338d3bd8352",
+      "workingEqualsGitAfterLineEndingNormalization": true
+    },
+    {
+      "path": "artwork/coastal-home/coastal-home.blend",
+      "gitBlobSha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad",
+      "bytes": 28997902,
+      "workingBytesSha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad",
+      "workingEqualsGitAfterLineEndingNormalization": true
+    },
+    {
+      "path": "assets/models/home/room-library.glb",
+      "gitBlobSha256": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9",
+      "bytes": 185640,
+      "workingBytesSha256": "aa84fef782e90c484d0b466528b9a53027e638927e2d8017f320c64785e6d9d9",
+      "workingEqualsGitAfterLineEndingNormalization": true
+    },
+    {
+      "path": "assets/models/home/room-study.glb",
+      "gitBlobSha256": "2a605f9445ec9523f935d9f71042e26027b57b3fd67310e0fe611e1a32467d92",
+      "bytes": 112436,
+      "workingBytesSha256": "2a605f9445ec9523f935d9f71042e26027b57b3fd67310e0fe611e1a32467d92",
+      "workingEqualsGitAfterLineEndingNormalization": true
+    }
+  ],
+  "coordinatorRouteAndHarnessBindings": [
+    {
+      "path": "test/visual/estate-redesign.spec.js",
+      "sourceCommit": "70ee4eac5",
+      "gitBlobSha256": "2ad8f0b587dca1d7da4e84c0a634ff2ea0905e0572fd75edeed516b731b8d5c8",
+      "bytes": 38659
+    },
+    {
+      "path": "test/visual/helpers.js",
+      "sourceCommit": "70ee4eac5",
+      "gitBlobSha256": "64f1acf2b692b5b4d5b6375c567a0b9f5427e7dfbe5b6a8e35f6eb1b5edda942",
+      "bytes": 13070
+    },
+    {
+      "path": "test/visual/scene-clock.js",
+      "sourceCommit": "70ee4eac5",
+      "gitBlobSha256": "0db58578b093c50519c28fb495dd6f5d7b647d1d22c3624444c2f6c7053e1fbc",
+      "bytes": 2918
+    },
+    {
+      "path": "test/visual/public.config.js",
+      "sourceCommit": "70ee4eac5",
+      "gitBlobSha256": "9276bb8254a5efc54e7ed8931da03dc5368dd379d4744ff009bf05fbc8b4a30a",
+      "bytes": 3356
+    },
+    {
+      "path": "bin/visual_scene_environment.cjs",
+      "sourceCommit": "70ee4eac5",
+      "gitBlobSha256": "ed77b9917ec640c0de31665f028bbc015ab7ba5f4a35fd1b6df8e26861957e65",
+      "bytes": 6028
+    }
+  ],
+  "canonicalNativeSha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad",
+  "privateCombinedNativeSha256": "096724fbe0a5beb36a98804b0092d170f3a255446623a64bbb66742a90dffb2f",
+  "scope": "Geometry/controls private qualification; no canonicalmodel/output/cache writes or publication; final AO/staticlight rebuild required.",
+  "completeCompiledSource": "70ee4eac5 production111.568sbuild supplied by coordinator; all1360file hashes bound in compiled-baseline. Two wholeGLBs differ."
+}
