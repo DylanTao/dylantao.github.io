@@ -1,0 +1,696 @@
+{
+  "schema": 1,
+  "scope": "Measured rabbit contact repair; eastern roof/cutaway habitat remains open. Source and private evidence only.",
+  "files": [
+    {
+      "path": "ANALYSIS.json",
+      "bytes": 10430,
+      "sha256": "43dbea282959dceac1f3ba5425cb4af9fa8aa002b2eae45c655eb619205ada58"
+    },
+    {
+      "path": "attempts/v2/native-candidate.json.gz",
+      "bytes": 175792,
+      "sha256": "188c6a94f6e94859b0354bcf12e173b00128daf8a559a83c92b57b063964c3d5"
+    },
+    {
+      "path": "attempts/v2/wildlife-rabbit-contact.mjs.gz",
+      "bytes": 2744,
+      "sha256": "28bc60c0ac8c8335d5f98dc33a8c66fd93443abe567b77bf2a14e979c79a7d4f"
+    },
+    {
+      "path": "attempts/v3/native-candidate.json.gz",
+      "bytes": 179073,
+      "sha256": "c1345a6305260a5af3093e7cd1ff1a40f62e9a52097d11544c77f9ac76a50583"
+    },
+    {
+      "path": "attempts/v3/wildlife-rabbit-contact.mjs.gz",
+      "bytes": 3622,
+      "sha256": "89696ebfca35c6c5bebb5fcc5b786753dffe38784dd0f33cf8926aaf547f2dd7"
+    },
+    {
+      "path": "attempts/v3-chromium-frames.json.gz",
+      "bytes": 6554882,
+      "sha256": "0ee0250f6a2a3328149aa5f2cdc6672ede061a9ad2235b621079d4871e63f2e0"
+    },
+    {
+      "path": "controls/served-4158/assets/js/home-scene/controller.mjs.gz",
+      "bytes": 35598,
+      "sha256": "84f0bdc41fabfb2e6a47803eaf9fa2edf3a974be891d7576c37335d35757063d"
+    },
+    {
+      "path": "controls/served-4158/assets/js/home-scene/materials.mjs.gz",
+      "bytes": 2296,
+      "sha256": "0f641f144bd16eaff388598bd768a9ea1b6d99102d34933fd31a5e9ed690934e"
+    },
+    {
+      "path": "controls/served-4158/assets/js/home-scene/model-loader.mjs.gz",
+      "bytes": 701,
+      "sha256": "c8761ef99b3e2a0e133f88f8d7862feb34de1b9b0e014ea8dcb89a03fd83f996"
+    },
+    {
+      "path": "controls/served-4158/assets/js/home-scene/realism.mjs.gz",
+      "bytes": 9190,
+      "sha256": "886a3ce254df2c0c6b78dd14cf446ecdd35caafc7c448a6651c606d4249d2c5b"
+    },
+    {
+      "path": "controls/served-4158/assets/js/home-scene/shore.mjs.gz",
+      "bytes": 592,
+      "sha256": "23d9facecb708781e352939ba476a227f431e026405399035fed58731953c2e1"
+    },
+    {
+      "path": "controls/served-4158/assets/js/home-scene/wildlife-ground-contact.mjs.gz",
+      "bytes": 1982,
+      "sha256": "a80f0eed8b45ed92610f5c68fa080db473abe8c50fcf6a2b4bc4629bd3f3d359"
+    },
+    {
+      "path": "controls/served-4158/assets/js/home-scene/wildlife-motion.mjs.gz",
+      "bytes": 5237,
+      "sha256": "352b89fa5429dee845b0d436e2107ac0d97517b0d2e365067f293bdf59269058"
+    },
+    {
+      "path": "controls/served-4158/assets/js/home-scene/wildlife-neighbor-motion.mjs.gz",
+      "bytes": 8146,
+      "sha256": "47b8c1d733c4f26b78dfe9696e1b285a2a5249f4badfcc135bc7ebbcef8270ac"
+    },
+    {
+      "path": "controls/served-4158/assets/js/home-scene/wildlife-perch-contact.mjs.gz",
+      "bytes": 1575,
+      "sha256": "f8c9064bae0a81b1549d4bb86d25aa455622e3ce375f53ce034e6bd2d3818d70"
+    },
+    {
+      "path": "controls/served-4158/assets/js/home-scene/wildlife-seabird-motion.mjs.gz",
+      "bytes": 3781,
+      "sha256": "594cb29a4e61ef4a7139545b89dbcf8905070c7c76fe25bcd520474d5a71e4d0"
+    },
+    {
+      "path": "controls/served-4158/assets/js/home-scene/wildlife.mjs.gz",
+      "bytes": 9599,
+      "sha256": "b602547d5b0ef2420f1428e6d53d097bd141643ac365b63a280787731f992c11"
+    },
+    {
+      "path": "controls/served-4158/assets/js/three.module.min.js.gz",
+      "bytes": 166615,
+      "sha256": "01adbcced4507cd38339b149e63e2dd879aa2855adc314a4c2de70ac9cab77b8"
+    },
+    {
+      "path": "controls/served-4158/assets/models/home/BrandtsCormorant.glb.gz",
+      "bytes": 25970,
+      "sha256": "301fc208424d1210eebb3e94f81498f2fbd50486bda23a7fe9934992da039c91"
+    },
+    {
+      "path": "controls/served-4158/assets/models/home/BrownPelican.glb.gz",
+      "bytes": 28868,
+      "sha256": "bf2018d1a2dade05f18003be79b8b57cc3cb64ff76ac01262068a5200da8f8d9"
+    },
+    {
+      "path": "controls/served-4158/assets/models/home/BrushRabbit.glb.gz",
+      "bytes": 45137,
+      "sha256": "ed46b5a52e715041e36c94143110e34e9e2368d264ec637cb616b2c8f095f832"
+    },
+    {
+      "path": "controls/served-4158/assets/models/home/CaliforniaSeaLion.glb.gz",
+      "bytes": 29650,
+      "sha256": "bb694b6629ac90104541d06cb92ac2339a29ab1bd3a4abc25babc4577686e1a1"
+    },
+    {
+      "path": "controls/served-4158/assets/models/home/coast.glb.gz",
+      "bytes": 194268,
+      "sha256": "1345f34bdf16c2c5487ba7ab4da55bae533e567849b4c6a53843cee6106fe939"
+    },
+    {
+      "path": "controls/served-4158/assets/models/home/HarborSeal.glb.gz",
+      "bytes": 30403,
+      "sha256": "fcdf07da42082c389cf9591797321d82e7ad119590eb0b610446837e2f8af54d"
+    },
+    {
+      "path": "controls/served-4158/assets/models/home/hinterland.glb.gz",
+      "bytes": 1274187,
+      "sha256": "f6dcf16fcdcbe8bb715b1a9d7bad613485164e1ec1a36aecd9c8d101a21e3f05"
+    },
+    {
+      "path": "controls/served-4158/assets/models/home/home-shell.glb.gz",
+      "bytes": 615214,
+      "sha256": "db43ef436eeb7522898249cfdd3aa7f717c97aeebc86472243a4087024e44049"
+    },
+    {
+      "path": "controls/served-4158/assets/models/home/manifest.json.gz",
+      "bytes": 66545,
+      "sha256": "13af6e50eae7551cf462000741c35b7430dbee360533e9239ad29f003da90e89"
+    },
+    {
+      "path": "controls/served-4158/assets/models/home/Raccoon.glb.gz",
+      "bytes": 42679,
+      "sha256": "4da88624158b0adb0fd792983828dc858e4320289983f4f5d63f4b9dfbfc5d83"
+    },
+    {
+      "path": "controls/served-4158/assets/models/home/Sandpiper.glb.gz",
+      "bytes": 16311,
+      "sha256": "2124620c302c93deae9f441227d4620058a7b5d8577054de5d9b31a743ec004b"
+    },
+    {
+      "path": "controls/served-4158/assets/models/home/static-light-field.json.gz",
+      "bytes": 272380,
+      "sha256": "afa35f3850f78633c1b64c872bdf904d580f88aad859a504d51270dccf0c7729"
+    },
+    {
+      "path": "controls/served-4158/assets/models/home/WesternGull.glb.gz",
+      "bytes": 18129,
+      "sha256": "958c92e5b34a882bf296fb8804975af5efe78e8578635f33da6a335dc93be66a"
+    },
+    {
+      "path": "controls/served-4158/assets/models/home/wildlife-perch-support.json.gz",
+      "bytes": 7282,
+      "sha256": "214ffc08851060734a962a256b18fedb61a808bf7db9d08a1162e7d756b9da6f"
+    },
+    {
+      "path": "data/actual-gpu-skin.json.gz",
+      "bytes": 29620,
+      "sha256": "9d1151424006a547a18c23aae391b1eec50a3002801ad2dc01daa7e1a77fcee2"
+    },
+    {
+      "path": "data/cutaway-rabbits.json.gz",
+      "bytes": 55442,
+      "sha256": "958e6315c027a3ecb43febc7b4154c128ec239a4a318bef8e7316d1e6969b441"
+    },
+    {
+      "path": "data/final-chromium-frames.json.gz",
+      "bytes": 4922491,
+      "sha256": "a19a8c5217fc28b402be5918c3cbf166a962158f7577c93bbb02015c9a7a35f1"
+    },
+    {
+      "path": "data/final-webkit-frames.json.gz",
+      "bytes": 2176709,
+      "sha256": "a294bdf9bc69b8da390926f02b16a32261c58654196a3cc76b2bbf2eb6f6e66b"
+    },
+    {
+      "path": "data/initial-walkthrough-frames.json.gz",
+      "bytes": 1232927,
+      "sha256": "5ac8f523d2a5ab62e8b4eaccde098402b831bea79f73f5ff74e991a41b58b14d"
+    },
+    {
+      "path": "data/inventory.json.gz",
+      "bytes": 27241,
+      "sha256": "ba18885d012f7a4eaa7f6e9daae45cd03c5e09c455ed4877dad961c4b0067f50"
+    },
+    {
+      "path": "data/native-baseline.json.gz",
+      "bytes": 91310,
+      "sha256": "3cf3ffe62ff937a53f60790168c7d2d3fc03e6591b007e6e5b5e55d154fffa9e"
+    },
+    {
+      "path": "data/native-candidate.json.gz",
+      "bytes": 178510,
+      "sha256": "ce935b18206913a9b4de129cbaaf0118b6d585ceb1f9985963e45306e01662e8"
+    },
+    {
+      "path": "data/other-species-witnesses.json.gz",
+      "bytes": 1134,
+      "sha256": "2579e88e98770682cbf7d6072f5deb83c9ec8631b4f09216f12cfeeb650ec47a"
+    },
+    {
+      "path": "data/rabbit-contact-probe.json.gz",
+      "bytes": 1999,
+      "sha256": "cf67f01e005f9f3d56522f857eaddf7524e3bbcb1a2e482ae4a93a039a0ab630"
+    },
+    {
+      "path": "data/rabbit-route-owners.json.gz",
+      "bytes": 5904,
+      "sha256": "5ecdb8f35e04659ba3aa9e2739ca98d72e9f1f74324ffc64df510bad509d3c44"
+    },
+    {
+      "path": "data/rig.json.gz",
+      "bytes": 800,
+      "sha256": "150a64750be1ac134fe7d5e7a9b24d5d5609d7006c8e4f416f2ceece004cf5c4"
+    },
+    {
+      "path": "INPUT_BINDINGS.json",
+      "bytes": 4750,
+      "sha256": "1b51cb3498969e2704ccbf5e66fa1f23be336aadddfae1cd7071c65d86997ec2"
+    },
+    {
+      "path": "logs/candidate-registered-support.log.gz",
+      "bytes": 744,
+      "sha256": "151ba09633d67e73891616e0206fe09371421dcc24d83f2d6dc9ad4e1b0476f2"
+    },
+    {
+      "path": "logs/contact-after-v3.log.gz",
+      "bytes": 372,
+      "sha256": "676e0cb2f81f3c025c9925dd18c64e52516e99272f6582fdc51a180c0860c15b"
+    },
+    {
+      "path": "logs/contact-probe.log.gz",
+      "bytes": 404,
+      "sha256": "b7a6e7c0f5d0f0bc9f4ec4727d988c38f425e8d481b33022bcefb08301d39cee"
+    },
+    {
+      "path": "logs/cutaway-probe-corrected-v2.log.gz",
+      "bytes": 427,
+      "sha256": "8f903d896f23b277018382788bfeee82474426991407da8ff20a2dca78339de9"
+    },
+    {
+      "path": "logs/cutaway-probe-corrected.log.gz",
+      "bytes": 741,
+      "sha256": "083716ff40588c4fb6730ca01c8b9583bda116641f02f808ba71eb0115355eab"
+    },
+    {
+      "path": "logs/cutaway-probe.log.gz",
+      "bytes": 721,
+      "sha256": "4b86a4b3a34aff82f365a8147aa2bc500aa772191822c3b1d27ad41b742dd308"
+    },
+    {
+      "path": "logs/debug-candidate.log.gz",
+      "bytes": 4065,
+      "sha256": "b13635a148b1af9a10de35f9b0f5bc50ef9321b41bf0d50fb02f02804181c209"
+    },
+    {
+      "path": "logs/final-registered.log.gz",
+      "bytes": 848,
+      "sha256": "9952e943a0aa53f2bdf32e816b5f6984e83dc38b09c957a251a6a70f9f10601b"
+    },
+    {
+      "path": "logs/focused-wildlife-final.log.gz",
+      "bytes": 2004,
+      "sha256": "709cb4bb303b2c97c4698154d5dc9adf2004bf8a397cd34a07caaa522e39a841"
+    },
+    {
+      "path": "logs/focused-wildlife.log.gz",
+      "bytes": 2001,
+      "sha256": "146be02f2462ffe490adf0bce6b5106414680d75b520df9952ab9743c92dd090"
+    },
+    {
+      "path": "logs/gpu-skin.log.gz",
+      "bytes": 111,
+      "sha256": "8d335287e81d4780a5a5f908c46c9fd4dbfabbed4c41993a493a567a83d7b666"
+    },
+    {
+      "path": "logs/inventory.log.gz",
+      "bytes": 651,
+      "sha256": "4c4a4950f666f94254aace8a085651ca309c06566e00504592172b27ac2ee3ea"
+    },
+    {
+      "path": "logs/live-chromium-final.log.gz",
+      "bytes": 151,
+      "sha256": "f118c471694abc2a389843c4ec302d6c6ccad808e5a8e6cafa970f13baf132ca"
+    },
+    {
+      "path": "logs/live-chromium.log.gz",
+      "bytes": 158,
+      "sha256": "9785d82fef39b73398a314c62a84934c342d29554a00a3289393c85e30b5c466"
+    },
+    {
+      "path": "logs/live-webkit-final.log.gz",
+      "bytes": 145,
+      "sha256": "f367da2d25fa4a0752679a92bd36447232f1032d0d2ccbfb347f90b51fff6c40"
+    },
+    {
+      "path": "logs/native-baseline-final.log.gz",
+      "bytes": 677,
+      "sha256": "8e040dc351d8acfa872120900edafa6e4d61ba7387ecee18f6b77fac0b451e0e"
+    },
+    {
+      "path": "logs/native-baseline-retry.log.gz",
+      "bytes": 1082,
+      "sha256": "6a7738ca9543e5158164e0c2731d0acc762d1025021560d59cfbbfbcac3f3a72"
+    },
+    {
+      "path": "logs/native-baseline.log.gz",
+      "bytes": 792,
+      "sha256": "e8c0105a6288757aefe21f17279f804d51bda75ef17508a69944efccc94f23a4"
+    },
+    {
+      "path": "logs/native-candidate-final.log.gz",
+      "bytes": 727,
+      "sha256": "399759b1aaa009300623f38c83e27f3efc476f13fee113946a29cc5afdd79b6f"
+    },
+    {
+      "path": "logs/native-candidate-retry.log.gz",
+      "bytes": 1391,
+      "sha256": "9ec1e2d3ef15ff5eb00b10f9fdfbbaf772071206b409d241aeeb844971a15abc"
+    },
+    {
+      "path": "logs/native-candidate-v3.log.gz",
+      "bytes": 522,
+      "sha256": "42652117721f0c39c4e1a59c36599536ff03a93a10a2b8b5de2ac5178eeaac9b"
+    },
+    {
+      "path": "logs/native-candidate-v4.log.gz",
+      "bytes": 714,
+      "sha256": "b7103512169a9783990292d24160c09894bd95b7a3ba52efe5817e97f002ecbe"
+    },
+    {
+      "path": "logs/native-candidate.log.gz",
+      "bytes": 792,
+      "sha256": "e8c0105a6288757aefe21f17279f804d51bda75ef17508a69944efccc94f23a4"
+    },
+    {
+      "path": "logs/rabbit-fit-final-unit.log.gz",
+      "bytes": 870,
+      "sha256": "53b1aab85268d345b18101d18d63824d67e2baa7e9720a6c397669084b6ce91f"
+    },
+    {
+      "path": "logs/rabbit-fit-v1-unit.log.gz",
+      "bytes": 1115,
+      "sha256": "87785d625afb08d34a1238b8bb64ab1b1ea2066280d24932b9dbd95f9cab8b46"
+    },
+    {
+      "path": "logs/rabbit-fit-v2-unit.log.gz",
+      "bytes": 747,
+      "sha256": "4e6a8507f348a379e0cc2bbd57301c9546bb5c6885c56addce8def3eac1ae2d1"
+    },
+    {
+      "path": "logs/rabbit-fit-v3-full-unit.log.gz",
+      "bytes": 866,
+      "sha256": "1f175e3f1d74c5b9a935ce855b995793f07a46b90814d24266ff2d42a47f2878"
+    },
+    {
+      "path": "logs/rabbit-fit-v3-unit.log.gz",
+      "bytes": 749,
+      "sha256": "051378547eeac516a1f675f26deb0c1e0ab10872569231f6d1f78232d7d489e8"
+    },
+    {
+      "path": "logs/rabbit-fit-v4-unit.log.gz",
+      "bytes": 863,
+      "sha256": "22ed580dd02e4c293a8107f01834ab98dbeea3e3c3ce5b6f038bc7fb665a500c"
+    },
+    {
+      "path": "logs/registered-support.log.gz",
+      "bytes": 627,
+      "sha256": "e368ccd263709363c89f95d59e550843117c4abb5da2eab72b02a3d472a5fb1c"
+    },
+    {
+      "path": "logs/style-contract.log.gz",
+      "bytes": 124,
+      "sha256": "0aa531b48d21de0b1363860267c65bb72e03fedee0f64e9997030b469ec37fba"
+    },
+    {
+      "path": "logs/walkthrough.log.gz",
+      "bytes": 1071,
+      "sha256": "3e9a9242266b388a360eece57fa6afd1971b4c6bdfbf857f1731ce4b55ea49ab"
+    },
+    {
+      "path": "producers/baseline-wildlife.mjs.gz",
+      "bytes": 9671,
+      "sha256": "7f4377aae3512b89d6e0e3b68c2fd5a4bfc6da9eb9150878c9904f93103bfd59"
+    },
+    {
+      "path": "producers/capture-inputs.cjs.gz",
+      "bytes": 992,
+      "sha256": "a6d15630d180fe016ca866faea867c0dfc86e77bea9037aa917e52b4df6d8b65"
+    },
+    {
+      "path": "producers/classify-witnesses.mjs.gz",
+      "bytes": 916,
+      "sha256": "e5db3a6c40f6355013ca32b3db7bc28186ae48f8f8082de2ad33d288e07fd3a7"
+    },
+    {
+      "path": "producers/contact-after-v3.cjs.gz",
+      "bytes": 2162,
+      "sha256": "e5efe1f3a9d05f5d0644060c63625a3c01c1d6e7dcf746a11c4636a9ba3d835a"
+    },
+    {
+      "path": "producers/contact-probe.cjs.gz",
+      "bytes": 2154,
+      "sha256": "79ee8385cd69af2806307ba8c4c8884b7e98cd6aca95ec1c00b6e05a294a4e7a"
+    },
+    {
+      "path": "producers/cutaway-probe-corrected.cjs.gz",
+      "bytes": 2090,
+      "sha256": "cbe64db3880ed7d4a8cfb64ee23249459d2c9b788f3eeee1648d44ad23509fdb"
+    },
+    {
+      "path": "producers/cutaway-probe.cjs.gz",
+      "bytes": 2087,
+      "sha256": "e234af0e2d3cf537339f01640cf589b13fa5ded9f8bcd96bd5ccc332c61cfce7"
+    },
+    {
+      "path": "producers/debug.mjs.gz",
+      "bytes": 2154,
+      "sha256": "406fc5ea69c7bfda53d5e2340381a92827f2894e28894327a45fa6f3b60f02a5"
+    },
+    {
+      "path": "producers/finalize-rabbit.py.gz",
+      "bytes": 918,
+      "sha256": "02340989b18af1073d731c7d8243d78c2e5a0f4f47649da841c4b7af296181c6"
+    },
+    {
+      "path": "producers/gpu-skin.cjs.gz",
+      "bytes": 2477,
+      "sha256": "b43883ab560c16622feb231531793b0df21af1366f69c872748ab0b650a2d5cb"
+    },
+    {
+      "path": "producers/inspect-rig.mjs.gz",
+      "bytes": 570,
+      "sha256": "7857e18265f093ef5aaee33060d3f58e0ebb24e54b9139e9f1e320d83a373ae0"
+    },
+    {
+      "path": "producers/inventory.cjs.gz",
+      "bytes": 1137,
+      "sha256": "f4c416288296811fca0bc12773e1cbb5d07f6c703cb52207838668f86bba1dc3"
+    },
+    {
+      "path": "producers/live-review-final.cjs.gz",
+      "bytes": 1941,
+      "sha256": "5f8bbb0736b8f76e01c1e2e3570c40d55e0c0fe5d7b4f1d4276cfc88d85c0e01"
+    },
+    {
+      "path": "producers/live-review.cjs.gz",
+      "bytes": 1938,
+      "sha256": "5a677c4a7d2b4762eeba8cfa53dbff593a1a4b0c4f51097b9c9479e6a01c6e3a"
+    },
+    {
+      "path": "producers/native-proof.mjs.gz",
+      "bytes": 2817,
+      "sha256": "546e1fb620671d52396c7175b96712b594ff75d176a6d199d64440efa90c5ba5"
+    },
+    {
+      "path": "producers/prepare-candidate-view.py.gz",
+      "bytes": 190,
+      "sha256": "cbc3b39715370be05d3f5df3204bf12067df1cfcaed52ceb25a87f5ea57d295c"
+    },
+    {
+      "path": "producers/prepare-cutaway-retry.py.gz",
+      "bytes": 207,
+      "sha256": "9756b2c5856cae16956de383d85a497b91e0ae8bb958771679b3cf9cf8c269d0"
+    },
+    {
+      "path": "producers/prepare-debug.py.gz",
+      "bytes": 939,
+      "sha256": "e66e8652fd7a74573931eaf3e0ad097a7657042bc91537815464efc4a7db49d8"
+    },
+    {
+      "path": "producers/prepare-final-review.py.gz",
+      "bytes": 180,
+      "sha256": "06ef435089cf01694350b6dc4b14af2dfb612cb99006f030be2cbb38d850ba08"
+    },
+    {
+      "path": "producers/prepare-native-proof.py.gz",
+      "bytes": 1613,
+      "sha256": "55d1bffdb56add7e20f958fa2429b3c275dc763f6058b93fed5bc6caa3482b5a"
+    },
+    {
+      "path": "producers/proxy.py.gz",
+      "bytes": 755,
+      "sha256": "5bb39081053c11afaf6f079895cbde0ca1f7285e7e02555ba51780dace649e02"
+    },
+    {
+      "path": "producers/route-owners.mjs.gz",
+      "bytes": 1111,
+      "sha256": "7412f7a07d61f0beedabf65ec1c28682dc23e9637742191de2b364afdb4d3edb"
+    },
+    {
+      "path": "producers/seal-rabbit.py.gz",
+      "bytes": 5552,
+      "sha256": "610a8499e238d5c66da593cc6276e159070ff46abfda59d262c276c62e330cb8"
+    },
+    {
+      "path": "producers/walkthrough.cjs.gz",
+      "bytes": 3026,
+      "sha256": "361f294ba9058050354d3e66c8d6bf752874ff00d3dffd61910f5a47267122f9"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6641,
+      "sha256": "47d89111fe3e2be8c74cd70a31895d53e4cda06916cbe82c6df9ae894eb288ae"
+    },
+    {
+      "path": "registered/.last-run.json.gz",
+      "bytes": 60,
+      "sha256": "ab2773fce076cedf886e7b45072ea49d0dfc6bdbbca2d9e3779ab76473918f40"
+    },
+    {
+      "path": "registered/desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-desktop-1440/raccoon-public-arrival.json.gz",
+      "bytes": 26579,
+      "sha256": "0f951c15d8ee31e3bf52f2b18d583c1321b2f950e741b2345f6b25dd7032c312"
+    },
+    {
+      "path": "registered/desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-desktop-1440/wildlife-delivered-contact.json.gz",
+      "bytes": 372,
+      "sha256": "f7d2778ae1ffc5d451df8245b9a4e2f942328dd33185e72e3f93852575f2d869"
+    },
+    {
+      "path": "registered/desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-desktop-1440/wildlife-support-witness.json.gz",
+      "bytes": 349,
+      "sha256": "5197b04343dae892d46d4d37f4888ac89ccba6fc0bf13b1f969685751fcca9e8"
+    },
+    {
+      "path": "registered/desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-laptop-1280/raccoon-public-arrival.json.gz",
+      "bytes": 26678,
+      "sha256": "63ccb0cba7d4432417d34ff0f27de918cc281d64f0a6942480e2233b9c5afbfb"
+    },
+    {
+      "path": "registered/desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-laptop-1280/wildlife-delivered-contact.json.gz",
+      "bytes": 372,
+      "sha256": "11e89f41a9adaf94834b7c56a9b8231095d75a6b631a3f28a967f55514802307"
+    },
+    {
+      "path": "registered/desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-laptop-1280/wildlife-support-witness.json.gz",
+      "bytes": 350,
+      "sha256": "77c162fde9a431d7df94bdc1bfb761c7ff80e73ebb5eba221b99d648203ca5be"
+    },
+    {
+      "path": "registered/desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-mobile-390/raccoon-public-arrival.json.gz",
+      "bytes": 26891,
+      "sha256": "22042423a42a598dc329b308488874fe6f2b57e2a11dc582bf4271cb2b65dc9d"
+    },
+    {
+      "path": "registered/desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-mobile-390/wildlife-delivered-contact.json.gz",
+      "bytes": 372,
+      "sha256": "11e89f41a9adaf94834b7c56a9b8231095d75a6b631a3f28a967f55514802307"
+    },
+    {
+      "path": "registered/desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-mobile-390/wildlife-support-witness.json.gz",
+      "bytes": 350,
+      "sha256": "77c162fde9a431d7df94bdc1bfb761c7ff80e73ebb5eba221b99d648203ca5be"
+    },
+    {
+      "path": "registered/desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-tablet-768/raccoon-public-arrival.json.gz",
+      "bytes": 27308,
+      "sha256": "4d4ea71284fa02b9b5bb38afd09cdab463a4dddffc4e87a5655f917689bdb200"
+    },
+    {
+      "path": "registered/desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-tablet-768/wildlife-delivered-contact.json.gz",
+      "bytes": 372,
+      "sha256": "11e89f41a9adaf94834b7c56a9b8231095d75a6b631a3f28a967f55514802307"
+    },
+    {
+      "path": "registered/desk-scene-coastal-neighbo-6d505--contact-and-bounded-motion-tablet-768/wildlife-support-witness.json.gz",
+      "bytes": 350,
+      "sha256": "77c162fde9a431d7df94bdc1bfb761c7ff80e73ebb5eba221b99d648203ca5be"
+    },
+    {
+      "path": "source/assets/js/home-scene/wildlife-rabbit-contact.mjs.gz",
+      "bytes": 3711,
+      "sha256": "1c6f380aec7bdcbd9cd218c98b2e5d6af1e15077bb46e81f7ae1bf022e9a386f"
+    },
+    {
+      "path": "source/assets/js/home-scene/wildlife.mjs.gz",
+      "bytes": 14920,
+      "sha256": "958947e63235adcdafc203e9033ddc148fe71a832a3e7e0a1a31156cde141419"
+    },
+    {
+      "path": "source/test/wildlife-rabbit-contact.test.mjs.gz",
+      "bytes": 3690,
+      "sha256": "aa59b9740bfc51c1f358a8d4ac875672bde47897d80a54fb71de5c43ea92d660"
+    },
+    {
+      "path": "SOURCE_BINDINGS.json",
+      "bytes": 3036,
+      "sha256": "87eaf9b449249a801ab5d3eec7de30186b13f582ac553b539cb8903dfcb19386"
+    },
+    {
+      "path": "views/cutaway-rabbit-0.png",
+      "bytes": 485895,
+      "sha256": "350e21a69cd46e4125a3655b499fafd28c6f4ce90855e7d95ba261c78cd4be29"
+    },
+    {
+      "path": "views/cutaway-rabbit-1.png",
+      "bytes": 730929,
+      "sha256": "4fa4ae07bdbf032999decd756ec62b4a52311f64457171784b4ee7b0d0e891e7"
+    },
+    {
+      "path": "views/live-review-final/chromium-baseline-0.png",
+      "bytes": 1152241,
+      "sha256": "93ae78745b224b66dadc2d087d289394f567691ca6fa3ac5de797f02362ec480"
+    },
+    {
+      "path": "views/live-review-final/chromium-baseline-24.png",
+      "bytes": 1958278,
+      "sha256": "3e84848365b0daea53a7c5b4e6391c5c45415463533628add6765dcd78ffa2e3"
+    },
+    {
+      "path": "views/live-review-final/chromium-baseline-48.png",
+      "bytes": 1953104,
+      "sha256": "837d30734c450ee3aa024f73a61ed199b25c854a7ee7d17db0f2bf08ba756f9c"
+    },
+    {
+      "path": "views/live-review-final/chromium-baseline-72.png",
+      "bytes": 1958498,
+      "sha256": "f28bcf33d41eb6c603d403939d561d0838be7eb26d201c2e7cb2b0e31d0c670d"
+    },
+    {
+      "path": "views/live-review-final/chromium-candidate-0.png",
+      "bytes": 1166685,
+      "sha256": "41dd2f9c877fbab0f1e76859be245a577445c692c04180c2738afc268ccc9465"
+    },
+    {
+      "path": "views/live-review-final/chromium-candidate-24.png",
+      "bytes": 1954714,
+      "sha256": "51d5e81b0638fb66f4d85a49abfbf6d08d3cbc38f7cb68522e9fe22d4b3e35f9"
+    },
+    {
+      "path": "views/live-review-final/chromium-candidate-48.png",
+      "bytes": 1941288,
+      "sha256": "77ec7c84f3e74d6cb3cbf01bab834698a204c1dff3910b307037689859c95e06"
+    },
+    {
+      "path": "views/live-review-final/chromium-candidate-72.png",
+      "bytes": 1801605,
+      "sha256": "117c355f94c2e9b25d0cf972c188064ea7c69ee11744a0b75bb4a08150fec09a"
+    },
+    {
+      "path": "views/live-review-final/webkit-baseline-0.png",
+      "bytes": 176505,
+      "sha256": "b308c19d6b45d3691d609c89d4fd88b481f8b62223cbbccf2a7ad3e2aa3a5431"
+    },
+    {
+      "path": "views/live-review-final/webkit-baseline-20.png",
+      "bytes": 162105,
+      "sha256": "0f5e8d14c18daab885710150e28c1a54cd526e87e9382dfd0a83b7abf6884068"
+    },
+    {
+      "path": "views/live-review-final/webkit-candidate-0.png",
+      "bytes": 151532,
+      "sha256": "ec39e8ee635df3f05429c3cbbb90a33e62e4da58ec6a7df0c6a964668ae1ac78"
+    },
+    {
+      "path": "views/live-review-final/webkit-candidate-20.png",
+      "bytes": 162394,
+      "sha256": "19e18b90bcc0946ee232757706e36d281a535762f5bfff1073f5b432d6715318"
+    },
+    {
+      "path": "views/rabbit-probe-0.png",
+      "bytes": 1327024,
+      "sha256": "e979f6596a434a8fd132846c18f1cfac40883629d1c37b49973d3e23925fde10"
+    },
+    {
+      "path": "views/walkthrough/noon-raccoon-0-0.png",
+      "bytes": 814983,
+      "sha256": "746e62654f12d7e4dd5c1562698e9cc7bcef4e4cd944eef561e4702a97c83637"
+    },
+    {
+      "path": "views/walkthrough/noon-seal-0-0.png",
+      "bytes": 1299339,
+      "sha256": "f6c7de523f07bc52a5cc0b389b50c516dfcb4dd32fa975d6e598e8daadf88935"
+    },
+    {
+      "path": "views/walkthrough/noon-seaLion-0-0.png",
+      "bytes": 1655355,
+      "sha256": "c33c88e5ae31efc19ce18217126a83bae350151437915028e4943be9ac407652"
+    },
+    {
+      "path": "views/walkthrough/underdeck-beach-0.png",
+      "bytes": 2043172,
+      "sha256": "9f6cd8eed0ebd341a4954473eb0f16f0c8e6096c958b7eb120a1a3dc785a9c67"
+    }
+  ]
+}

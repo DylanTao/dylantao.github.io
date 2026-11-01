@@ -1,0 +1,71 @@
+{
+  "sourceCommit": "31412345bc78b1e508311b55d4fc0ec4f997cf31",
+  "sourceBindings": [
+    {
+      "path": "assets/js/home-scene/wildlife.mjs",
+      "bytes": 52214,
+      "gitBlobSha256": "c195dfdb949ee55f15b7ad18a8b63bb824eb7958e31aa2804361129b994f9626"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-rabbit-contact.mjs",
+      "bytes": 11364,
+      "gitBlobSha256": "e43595372beaa5c66c6f936cb00b9db408eb7a1167859b5c64a3ecac9d944815"
+    },
+    {
+      "path": "test/wildlife-rabbit-contact.test.mjs",
+      "bytes": 10720,
+      "gitBlobSha256": "881643ae3a4cd3df6c0316963dba5c30836e8217806d135af7b47564c76b6b50"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-acting.mjs",
+      "bytes": 7524,
+      "gitBlobSha256": "e41c900d307308912fb70799a0d6e7841606a2fc448094ebed95b42d591c4d11"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-ground-contact.mjs",
+      "bytes": 7801,
+      "gitBlobSha256": "9fabbbc4b1e457236088843e5698f180699759ff372fa164a651197838d061bf"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-motion.mjs",
+      "bytes": 23429,
+      "gitBlobSha256": "301981fc85bf43b4c3faf0ca2d79d43872bf6d397d3e7bd6032865f3a3405a40"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-neighbor-motion.mjs",
+      "bytes": 40355,
+      "gitBlobSha256": "8cd97aa53ebacb42bb53890596bf4922184e6fbf35c1a826dd73fad1cc7bf387"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-perch-contact.mjs",
+      "bytes": 6738,
+      "gitBlobSha256": "628d3f68f57ecd69ff484e99d692e5977d5a188a0abccbc5028fb41f09247dfe"
+    },
+    {
+      "path": "assets/js/home-scene/model-loader.mjs",
+      "bytes": 2989,
+      "gitBlobSha256": "782e53d6c676e6efbbece8d6c09380214ac3b82c8a0766bca5d1fbf5c067960f"
+    },
+    {
+      "path": "assets/js/three.module.min.js",
+      "bytes": 674422,
+      "gitBlobSha256": "6c2bfdf07626404916f34aef8cf57992926d849526bc6eb4556da96a3ba4e78c"
+    }
+  ],
+  "compiledScope": "Read-through proxy 4162 substitutes exactly wildlife.mjs and wildlife-rabbit-contact.mjs onto the complete frozen coordinator public503 product at 4158. No native model, manifest or cache is changed. The 26 retained served inputs bind actual baseline bytes; canonical native attribution 75af is coordinator-provided.",
+  "publication": "None. Coordinator must integrate, regenerate final F6 habitats/support, repeat visible-ground checks, run the official combined cache, full gates, CI and live verification.",
+  "candidateServedBindings": [
+    {
+      "path": "assets/js/home-scene/wildlife.mjs",
+      "bytes": 52214,
+      "sha256": "c195dfdb949ee55f15b7ad18a8b63bb824eb7958e31aa2804361129b994f9626",
+      "differenceFromGitBlob": "Only Windows CRLF checkout line endings; no code difference."
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-rabbit-contact.mjs",
+      "bytes": 11364,
+      "sha256": "e43595372beaa5c66c6f936cb00b9db408eb7a1167859b5c64a3ecac9d944815",
+      "differenceFromGitBlob": "Only Windows CRLF checkout line endings; no code difference."
+    }
+  ]
+}

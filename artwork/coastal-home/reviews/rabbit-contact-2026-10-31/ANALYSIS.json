@@ -1,0 +1,343 @@
+{
+  "pairedRows": 742,
+  "sampleTimes": 371,
+  "minimumCandidateSkinGapM": -5.329070518200751e-15,
+  "minimumBaselineToeGapM": -0.029575424448164966,
+  "centralFlightExactWorldVertexHashes": [
+    {
+      "time": 0.36206843963358726,
+      "index": 0,
+      "sha256": "1d3de490f17a4c2793e0a86c3d7a5671a4a2b67dd10c82b41b0c4c593a709952"
+    },
+    {
+      "time": 0.4566070500295627,
+      "index": 0,
+      "sha256": "c4806dc3810e6bf88ed878c2ed4ec0268e3ba2b02d253948718379278573a72c"
+    },
+    {
+      "time": 27.79030261188932,
+      "index": 1,
+      "sha256": "c5f6efe246bc109004fa0942990304c438d1006a512c03cb583109fea65a7233"
+    },
+    {
+      "time": 27.8854179935623,
+      "index": 1,
+      "sha256": "7708903d07c992f152ae59a3923b0f566d52edff4abf6f6322b0f2563baf5346"
+    },
+    {
+      "time": 28.424405156375844,
+      "index": 1,
+      "sha256": "2b64283982d095e771146d119b239ae68c14ac199c58e7cad9ffd8f16109414b"
+    },
+    {
+      "time": 28.519520538048823,
+      "index": 1,
+      "sha256": "54475b52d63a4cefd79aa38ba0699bcddb2b855756d94d8e8acef47a3a506118"
+    },
+    {
+      "time": 31.59326302287914,
+      "index": 0,
+      "sha256": "b1ff83cd25d15721a4cf40561ac4a2f00aef980738cf3775c2479eb673fe55f3"
+    },
+    {
+      "time": 31.69282487420365,
+      "index": 0,
+      "sha256": "2a5444e413ce87b4e82af1051be21001c55998e1ab273fd342a644952966d7ab"
+    },
+    {
+      "time": 32.25700869837589,
+      "index": 0,
+      "sha256": "d861322fab1526ed837091e460d24aac7904ba922bb402c449bc284065c9126a"
+    },
+    {
+      "time": 32.35657054970041,
+      "index": 0,
+      "sha256": "905421cbbafa89fc1873d5bafdc9b3d2678586dfa0f971da0d5c273d3d928e37"
+    },
+    {
+      "time": 40.56164561598236,
+      "index": 1,
+      "sha256": "a3bb2387198db2d15bc4237b6f1f1d98e9de0912eada71067eb16e45e69f813e"
+    },
+    {
+      "time": 40.614957889760845,
+      "index": 1,
+      "sha256": "b455641d3262145fb13a466371d4a1afa2ee86094588917506f6407ad10529d6"
+    },
+    {
+      "time": 40.68604092146549,
+      "index": 1,
+      "sha256": "4ffed1640bc79290ee909ff560c2745e84b19a46f9cfeb731be02ae36ccbadce"
+    },
+    {
+      "time": 40.9170607745056,
+      "index": 1,
+      "sha256": "641bfc0dc4593cf9c1d23daef374a4a17a1212d55aceece0c75abf41b3a74fb7"
+    },
+    {
+      "time": 40.97037304828409,
+      "index": 1,
+      "sha256": "f25c23a541df5dbe6a0a069483b5fb833d1f247e5ac0111ab85159e6913698ca"
+    },
+    {
+      "time": 41.041456079988734,
+      "index": 1,
+      "sha256": "042ce22e88121924cff7d33d01ecc06a13f2f760746ed4fdc0239d2f561c7ec8"
+    },
+    {
+      "time": 41.27247593302884,
+      "index": 1,
+      "sha256": "a2f96a8a707caf6c8687fc813e68ae02eb5c26af33719c548d154fd7b396f00a"
+    },
+    {
+      "time": 41.32578820680733,
+      "index": 1,
+      "sha256": "40807ad42bf0a6e1da0a91772530dfb865347d02c4c6d979635f6c07d165bd07"
+    },
+    {
+      "time": 41.39687123851198,
+      "index": 1,
+      "sha256": "276506f06b416058daeff3776395f1f1356ee9cd0f0644028507669a6b1f9540"
+    },
+    {
+      "time": 41.62789109155209,
+      "index": 1,
+      "sha256": "2f6c0d37a609f3342a8e325b455c3b59c0a374cde7a43528b14f2ef28e6d3e7a"
+    },
+    {
+      "time": 41.681203365330575,
+      "index": 1,
+      "sha256": "bd9fa854f9f01451971800a535a99296447e76b9ad251f7787dc8b1a33108ac1"
+    },
+    {
+      "time": 41.75228639703522,
+      "index": 1,
+      "sha256": "9c8979f49d755e443ac0d6010c0c4fb82ae887ea1c55c7c61f4e971a0d8bcc07"
+    },
+    {
+      "time": 41.98330625007533,
+      "index": 1,
+      "sha256": "d3bf455691c548fa44463d3ce6d7b2425a6e87420cd65900b02f0d1dd35250a8"
+    },
+    {
+      "time": 42.03661852385382,
+      "index": 1,
+      "sha256": "4ae3ce89fbf15302a8572a0f6a7d3ec5b4feb78c3c0cf2f6701ea9d4e4a9585f"
+    },
+    {
+      "time": 42.107701555558464,
+      "index": 1,
+      "sha256": "edc2e343794869ca95999af3d8e45a75efa79fe7ec29c937929d73cd1a2ff1fe"
+    },
+    {
+      "time": 47.17359375255927,
+      "index": 0,
+      "sha256": "4f88b2a0312e97a9e93adbf769185e27ace60c88243ffa6181da61d89bbd559f"
+    },
+    {
+      "time": 47.27315560388379,
+      "index": 0,
+      "sha256": "6d3cb73adaf70d6748361d5cb03003af2eccb51e19ddbec20e7f81724e1cf695"
+    },
+    {
+      "time": 47.837339428056026,
+      "index": 0,
+      "sha256": "6acb251712c9b9f567f51f172892cdcbdf38c1f9388200bfa8116d17121dd4b9"
+    },
+    {
+      "time": 47.93690127938054,
+      "index": 0,
+      "sha256": "59e8e5734e09153ca10b79949367ec22f0e97da1676a070dac18b1229acf702f"
+    },
+    {
+      "time": 48,
+      "index": 0,
+      "sha256": "98d6a19b49ebcca16defccb277493caa5ca8ee5ca9f82b644be1e36bd1b1b04c"
+    },
+    {
+      "time": 73.37433702123816,
+      "index": 1,
+      "sha256": "3df6b056ae67d5529661b0e517af1fa43a8dba0973a53fdce05c229f792ee7d1"
+    },
+    {
+      "time": 73.46981453378685,
+      "index": 1,
+      "sha256": "179103a38370a3c11b68bafdb7b44a46f7e98119c7a898c2c1649569857c08e1"
+    },
+    {
+      "time": 74.01085377156268,
+      "index": 1,
+      "sha256": "17af35f8e58959222d952034cd28fc7e0b00a936d8f70f8ab334a24c7d3166b1"
+    },
+    {
+      "time": 74.10633128411136,
+      "index": 1,
+      "sha256": "294dfb3ed4b8d451a5b52816469de6ba5fad39d733ada5b1d880424440c02e5d"
+    },
+    {
+      "time": 74.6473705218872,
+      "index": 1,
+      "sha256": "ef4811312edd55ea1594e27de9cdffa06716eb2c3309bfd2d051807f597593f7"
+    },
+    {
+      "time": 74.74284803443588,
+      "index": 1,
+      "sha256": "c3dc38ff4331cc6196ccfe7ed7f8dee16f5eecd51813cbb652194eb4a5f75c2a"
+    },
+    {
+      "time": 77.4319902439639,
+      "index": 0,
+      "sha256": "a88bf4b4981997a377c9695bf33d865f274cfe1b1daf74e7582818a4a5aaf8fb"
+    },
+    {
+      "time": 77.52660372869111,
+      "index": 0,
+      "sha256": "847535bb58cd3b0296376d2cf6864b88c9b9272f02207ac895302ff868c3e0d8"
+    },
+    {
+      "time": 78.06274680881202,
+      "index": 0,
+      "sha256": "55879d61537083fc7b515560ae00d8dfbec208270139fbff190e7985c94d52b0"
+    },
+    {
+      "time": 78.15736029353924,
+      "index": 0,
+      "sha256": "45d72fb5ddaf67e8c1ca0b8faf218869dff6af04a56beb4c120fc5d173815d6b"
+    },
+    {
+      "time": 78.69350337366015,
+      "index": 0,
+      "sha256": "82c0e9dd57155436d3b38304ed927911904fab20b2ba2cad8cd717495082a315"
+    },
+    {
+      "time": 78.78811685838737,
+      "index": 0,
+      "sha256": "caf4e498a33e53c27823db4d88b1292afe7a941f07b05b304c63b02e263f0218"
+    },
+    {
+      "time": 88.06641484296414,
+      "index": 1,
+      "sha256": "c073195c8dec6498ed7b64dcddaf7b7287dbdc982aa9dde1901f47455d75e21a"
+    },
+    {
+      "time": 88.16189235551282,
+      "index": 1,
+      "sha256": "a5b1b2693d73e7e44b32ff652b7cec61a815e79b5b03245ccc9a1a8018d41f13"
+    },
+    {
+      "time": 88.70293159328865,
+      "index": 1,
+      "sha256": "69cbc6e9b2331053b9a1e840075085ac04a0f6c1dbdfaa603d9e1e94d6c5c279"
+    },
+    {
+      "time": 88.79840910583734,
+      "index": 1,
+      "sha256": "95762a7d871ed68b425a3ed75439360b606260308bc6fc45b1d407491a09727c"
+    },
+    {
+      "time": 88.82386444355525,
+      "index": 1,
+      "sha256": "6d9796a8b4b78ca30edb52bd982ced302829260105ac93dcd39e502dd2ed31c7"
+    },
+    {
+      "time": 88.82387444355525,
+      "index": 1,
+      "sha256": "f5f582a1eee1aa10a1fbf2847a35217e78d8655fab04eaa75d010c88cbb22a8c"
+    },
+    {
+      "time": 88.82388444355526,
+      "index": 1,
+      "sha256": "84a597ae90d1299ec3254333db598474bccd3db8798668146e0916245e37f586"
+    },
+    {
+      "time": 88.85541227179766,
+      "index": 1,
+      "sha256": "92a51b5af8e14b926046e1b87148e4eb4364ba2507c96029ae2f88c74d2363c8"
+    },
+    {
+      "time": 88.88695010004007,
+      "index": 1,
+      "sha256": "b6433f506a39e866316c27711cd912d2b988b57dab5ba048e02f9acae786d29c"
+    },
+    {
+      "time": 89.02118996845091,
+      "index": 0,
+      "sha256": "be4833aa48b547da9257ec56e49e1d5cb149124b73c0e7a26db21ea9bc30eb03"
+    },
+    {
+      "time": 89.0446392412521,
+      "index": 0,
+      "sha256": "ad371a9d402d88b480393b6f38ad013211f400ed32b9801ed4c93e3262ab2364"
+    },
+    {
+      "time": 89.08484164348337,
+      "index": 0,
+      "sha256": "b5a60085938d298e9116494bd6b3bbc3361ef5ffa527fb1a241012e5f620576a"
+    },
+    {
+      "time": 89.11665748099959,
+      "index": 0,
+      "sha256": "31b4db19b9f140e3f131a80655bec6eec66866e2e788e59812b70f40bb6c1707"
+    },
+    {
+      "time": 89.1166674809996,
+      "index": 0,
+      "sha256": "876273ad6ebbdd9e9c70b220f00acfecaade0035dbdb0228ebe6f6cf3d0f03f9"
+    },
+    {
+      "time": 89.1166774809996,
+      "index": 0,
+      "sha256": "b7054ca8fbddfe23de55d54ea96a8608623915aab0da0075c5919e51241f9a45"
+    },
+    {
+      "time": 89.13925272597932,
+      "index": 0,
+      "sha256": "c030bf0398e58296c2a0534e876dce9e01b2a4eeb3b4b1030b9d15fc6ce87002"
+    },
+    {
+      "time": 89.67539580610023,
+      "index": 0,
+      "sha256": "9e87a447b4e2583024ca95a7555b75467ebb8c889a16e5b84039342d9e5e9225"
+    },
+    {
+      "time": 89.77000929082745,
+      "index": 0,
+      "sha256": "b9b874de56c18b28e01dd4f3590897475e9f609c17b61d19bb6ad12381aa1210"
+    },
+    {
+      "time": 90.30615237094835,
+      "index": 0,
+      "sha256": "b0abfc7d0b4f4e41b1d8cea40ed919358620d82d5fc293333ef040b0e58cb5a4"
+    },
+    {
+      "time": 90.40076585567557,
+      "index": 0,
+      "sha256": "e4ae037f1033fc0ce6f9d6110aeb3fa0b4f2bfd9fbb5fcf228a1c980657ee770"
+    }
+  ],
+  "otherSpeciesDigestRowsExact": 371,
+  "chromiumNativeRAFRecords": 180,
+  "webkitNativeRAFRecords": 80,
+  "includedOriginalImages": [
+    "rabbit-probe-0.png",
+    "cutaway-rabbit-0.png",
+    "cutaway-rabbit-1.png",
+    "walkthrough/underdeck-beach-0.png",
+    "walkthrough/noon-seaLion-0-0.png",
+    "walkthrough/noon-seal-0-0.png",
+    "walkthrough/noon-raccoon-0-0.png",
+    "live-review-final/chromium-baseline-0.png",
+    "live-review-final/chromium-baseline-24.png",
+    "live-review-final/chromium-baseline-48.png",
+    "live-review-final/chromium-baseline-72.png",
+    "live-review-final/webkit-baseline-0.png",
+    "live-review-final/webkit-baseline-20.png",
+    "live-review-final/chromium-candidate-0.png",
+    "live-review-final/chromium-candidate-24.png",
+    "live-review-final/chromium-candidate-48.png",
+    "live-review-final/chromium-candidate-72.png",
+    "live-review-final/webkit-candidate-0.png",
+    "live-review-final/webkit-candidate-20.png"
+  ],
+  "openGate": "Every rabbitEast route index 0-47 is supported by a liftaway roof; visible cutaway toe gaps 2.254-2.260 m are NOT fixed in this checkpoint."
+}
