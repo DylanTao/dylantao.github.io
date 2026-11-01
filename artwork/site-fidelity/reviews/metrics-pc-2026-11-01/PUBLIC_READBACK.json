@@ -1,0 +1,46 @@
+{
+  "at": "2026-11-01T14:32:38.513810+00:00",
+  "siteRefreshCommit": "e0548a2f605e22991e3a149e52c509103f025ea8",
+  "profileHead": "1d4feab02b300d9e75bce828f6d3e54e62eab55b",
+  "coverage": {
+    "starts_on": "2017-08-31",
+    "complete_through": "2026-10-31",
+    "status": "complete"
+  },
+  "dailyPoints": 3349,
+  "lastPoint": {
+    "date": "2026-10-31",
+    "personal": {
+      "commits": 716,
+      "authored_commits": 687
+    }
+  },
+  "siteDataSha256": "52866bea2e1d673202a508ca1352aff285f8606146a1b6a34ff89be2fa8189c4",
+  "publicProfileReadback": [
+    {
+      "repository": "DylanTao/DylanTao",
+      "path": "assets/github-metrics.svg",
+      "bytes": 32788,
+      "sha256": "3806cfa40257ce46f0ecab65abd97104dbcf8060d8dd049837bb285c0bb63379",
+      "matchesPinnedPublicHeadAndLocalCheckout": true
+    },
+    {
+      "repository": "DylanTao/DylanTao",
+      "path": "assets/github-metrics-dark.svg",
+      "bytes": 32797,
+      "sha256": "63bee4e56727d80faaea66107469cba0d5945ec8b75f7b50d38671f9d752182f",
+      "matchesPinnedPublicHeadAndLocalCheckout": true
+    },
+    {
+      "repository": "DylanTao/DylanTao",
+      "path": "docs/github-activity.json",
+      "bytes": 211607,
+      "sha256": "bc9d526ffca0ca2ae0de29c909cd5033e27384f3f136363f685f2c3c18edd8e7",
+      "matchesPinnedPublicHeadAndLocalCheckout": true
+    }
+  ],
+  "scope": "Public artifacts and previously published aggregate data only. Private repository inventory, author identities, credentials and scan cache are excluded.",
+  "allSourceRecordedCommits": 50107,
+  "personalRecordedCommits": 48429,
+  "otherReportedSourceCommits": 1678
+}

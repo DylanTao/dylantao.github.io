@@ -1,0 +1,44 @@
+{
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "1440.png",
+      "bytes": 105743,
+      "sha256": "66100ff2402e9f030a9b8124ad4cd5edd5b8b289bfbc185dcc60be331d4cbd21"
+    },
+    {
+      "path": "390.png",
+      "bytes": 93746,
+      "sha256": "cd951bb9cf907d0e68424ae72c8f28fa84d99b4b80a8cb847e1b3878df4f7bf6"
+    },
+    {
+      "path": "browser-receipt.json.gz",
+      "bytes": 279,
+      "sha256": "20b51efe02f726399ba68ed4f17cd9e66a4910033d7eac9079164452690618be"
+    },
+    {
+      "path": "PROFILE_IMAGE_READBACK.json",
+      "bytes": 1373,
+      "sha256": "6c9f1949e5f0cfac512771f3128c4e37df3f5175caac1a86ab85786d51045b44"
+    },
+    {
+      "path": "PUBLIC_READBACK.json",
+      "bytes": 1613,
+      "sha256": "03306a8ccbab40881db9dff7d7a946233f20fff16d872ce407a16ac696de76d7"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1940,
+      "sha256": "916aeee65cf559645f87d05c93c5f6b54b71e017da459c86b5317226bad36232"
+    },
+    {
+      "path": "TASK_READBACK.json",
+      "bytes": 216,
+      "sha256": "84169c3dd0cd29a9242045956ae0c3f96741343be28ee7d3872315abf672fdb9"
+    }
+  ]
+}

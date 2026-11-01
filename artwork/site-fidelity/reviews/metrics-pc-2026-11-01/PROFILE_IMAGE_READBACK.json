@@ -1,0 +1,31 @@
+{
+  "at": "2026-11-01T14:54:18.989020+00:00",
+  "url": "https://github.com/DylanTao",
+  "profileMetricsImages": [
+    {
+      "src": "https://github.com/DylanTao/DylanTao/raw/main/assets/github-metrics-dark.svg",
+      "finalUrl": "https://raw.githubusercontent.com/DylanTao/DylanTao/main/assets/github-metrics-dark.svg",
+      "bytes": 32797,
+      "sha256": "63bee4e56727d80faaea66107469cba0d5945ec8b75f7b50d38671f9d752182f",
+      "matchesCurrentLight": false,
+      "matchesCurrentDark": true
+    },
+    {
+      "src": "https://github.com/DylanTao/DylanTao/raw/main/assets/github-metrics.svg",
+      "finalUrl": "https://raw.githubusercontent.com/DylanTao/DylanTao/main/assets/github-metrics.svg",
+      "bytes": 32788,
+      "sha256": "3806cfa40257ce46f0ecab65abd97104dbcf8060d8dd049837bb285c0bb63379",
+      "matchesCurrentLight": true,
+      "matchesCurrentDark": false
+    },
+    {
+      "src": "https://github.com/DylanTao/DylanTao/raw/main/assets/github-metrics.svg",
+      "finalUrl": "https://raw.githubusercontent.com/DylanTao/DylanTao/main/assets/github-metrics.svg",
+      "bytes": 32788,
+      "sha256": "3806cfa40257ce46f0ecab65abd97104dbcf8060d8dd049837bb285c0bb63379",
+      "matchesCurrentLight": true,
+      "matchesCurrentDark": false
+    }
+  ],
+  "scope": "Actual image URLs in the public rendered GitHub profile, fetched without account cookies."
+}
