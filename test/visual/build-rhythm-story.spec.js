@@ -365,7 +365,10 @@ test("Daily and Weekly replace one fixed detail slot without moving the history"
   await inspector.focus();
   await page.keyboard.press("End");
   await expect(page.locator("[data-rhythm-readout]")).toContainText(`${sum(latestWeekPoints).toLocaleString("en-US")} recorded commits`);
-  await expect(page.locator("[data-rhythm-readout]")).toContainText(`${latestWeekPoints.length} of 7 dates verified`);
+  // Partial weeks disclose their coverage. A complete week needs no qualifier.
+  if (latestWeekPoints.length < 7)
+    await expect(page.locator("[data-rhythm-readout]")).toContainText(`${latestWeekPoints.length} of 7 dates verified`);
+  else await expect(page.locator("[data-rhythm-readout]")).not.toContainText("dates verified");
   await view(page, "daily");
   expect(await documentBox(stage)).toEqual(before);
   await expect(page.locator("[data-rhythm-slot]")).toHaveCount(365);
