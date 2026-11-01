@@ -1,0 +1,19 @@
+{
+  "run_id": "20261101T193105Z-rain-ocean-impact-5bf6b01a",
+  "status": "guarded-failure",
+  "failures": ["ResearchError: Model process timed out or failed; no automatic retry"],
+  "refsUnchanged": true,
+  "productChanges": [],
+  "generatedFileCount": 10,
+  "process": {
+    "launcher_pid": 41892,
+    "supervisor": "isolated stdin-gated Python launcher",
+    "returncode": 1,
+    "timed_out": true,
+    "tree_stop_confirmed": true,
+    "wall_seconds": 300.01187149999896
+  },
+  "usageAsReported": [],
+  "usageLimit": "No completed-turn usage was emitted; missing usage is unknown, not zero.",
+  "operatorDecision": "Retain failed attempt and its private evidence; no source/refs violation; next bounded trial needs an explicit remaining-time prompt and a partial handoff before deadline."
+}

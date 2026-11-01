@@ -1,0 +1,20 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "bin/coastal_research.py",
+    "review",
+    "--id",
+    "rain-ocean-impact",
+    "--max-seconds",
+    "300",
+    "--max-iterations",
+    "1",
+    "--codex",
+    "C:/Users/dylan/.vscode/extensions/openai.chatgpt-26.1021.22027-win32-x64/bin/windows-x86_64/codex.exe"
+  ],
+  "source": "7e30e179de881735c128694f6d908ae3b0889456",
+  "model": "configured local CLI choice; no override",
+  "purpose": "Actual authenticated bounded literature review, exact note only; no renderer edits or admission",
+  "priorProducerError": "First wrapper stopped at clean-status assertion due changed packet Git attributes/stat cache; no model process started."
+}

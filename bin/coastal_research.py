@@ -211,6 +211,9 @@ def source_review_item(item):
     reviewed["allowed_paths"] = [f"artwork/coastal-home/research/notes/{reviewed['id']}.md"]
     reviewed["rationale"] = ("SOURCE REVIEW ONLY. Read the complete primary methods and retained attempts. "
         "Write one concise, source-backed method/scene-fit note in the exact leased note path. "
+        "Do not render, profile or run implementation gates in this phase. Use targeted owning-doc/source sections "
+        "and retained result summaries rather than rereading the entire historical handoff. If retrieval fails, "
+        "record the actual limit and return a partial note with unreviewed gates, without endless retries. "
         "Do not modify runtime, tests, queue state, review labels or renderer assets. "
         "Keep abstract-only and unavailable methods explicit. Do not claim implementation or renderer qualification. "
         "Retain actual retrieval URLs, dates, hashes and method-section pointers in generated evidence. "
@@ -284,6 +287,15 @@ Use continue only for a specific bounded next iteration; unknown failures requir
     if previous:
         brief += "\nPrevious structured handback (not an admission):\n" + json.dumps(previous, ensure_ascii=False, indent=2)
     return brief
+
+
+def iteration_prompt(item, evidence_dir, previous, seconds_left):
+    seconds = max(1, int(seconds_left))
+    return context_brief(item, evidence_dir, previous) + (
+        f"\nMODEL WALL BUDGET: at most {seconds} seconds remain for this process. "
+        "Reserve the final fifth for the exact leased note/patch, evidence and schema-valid final handback. "
+        "If a method or gate is still unavailable, return the partial finding with not-run/failure limits "
+        "and a concrete next hypothesis before the deadline. This is not a hard token cap.\n")
 
 
 def private_env():
@@ -634,7 +646,7 @@ def run_experiment(repo, item, queue_bytes, schema_bytes, executable, state_dir,
                 if left <= 0:
                     raise ResearchError("Total model-process wall deadline exhausted")
                 stem = f"iteration-{iteration:02d}"
-                prompt = context_brief(item, evidence_dir, previous)
+                prompt = iteration_prompt(item, evidence_dir, previous, left)
                 (directory / f"{stem}-prompt.txt").write_text(prompt, encoding="utf-8")
                 final = directory / f"{stem}-result.json"
                 command = command_for(executable, worktree, directory / "result.schema.json", final, model)

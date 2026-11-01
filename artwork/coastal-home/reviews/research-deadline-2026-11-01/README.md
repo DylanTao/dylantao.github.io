@@ -1,0 +1,7 @@
+# A bounded model attempt must know its deadline, November 1
+
+The first real locally authenticated source-review trial ran for 300.012 seconds, then correctly stopped its process tree and retained a guarded-failure receipt. It produced retrieval evidence but no note or structured handback. Protected refs are unchanged and no product files changed. No completed-turn usage was emitted; missing usage is unknown, not zero. Raw model events and fetched paper text remain in the private run directory, outside Git.
+
+The process prompt now includes the actual remaining wall budget and reserves its final fifth for a partial artifact and schema-valid handback. The source-review instructions also prohibit rendering and implementation gates in this phase and ask for targeted source/retained-result sections. Failed retrieval must become an explicit limit instead of consuming the entire attempt. A synthetic process regression checks the actual emitted prompt, separate from real model execution.
+
+The operator reviewed the exact retained timeout, bounded generated paths, unchanged refs and absent product changes before acknowledging its failure marker. Any next model trial is an explicit new bounded invocation. This patch does not claim the first research trial succeeded or that any rendering method was qualified. The full short-checkout Python suite passes all377 tests after the source exporter and research changes. Its earlier unsealed-packet invocation remains a failure, not a second green run.

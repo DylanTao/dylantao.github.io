@@ -168,6 +168,14 @@ class CoastalResearchTests(unittest.TestCase):
         kwargs.update(overrides)
         return RESEARCH.run_experiment(self.repo, self.item, json.dumps(self.queue).encode(), SCHEMA_BYTES, [sys.executable, str(self.fake), mode], self.state, self.worktrees, **kwargs)
 
+    def test_actual_model_prompt_records_remaining_wall_budget_and_partial_exit(self):
+        directory, receipt = self.run_fixture("no-change", max_seconds=10)
+        prompt = (directory / "iteration-01-prompt.txt").read_text("utf8")
+        self.assertIn("MODEL WALL BUDGET: at most", prompt)
+        self.assertIn("Reserve the final fifth", prompt)
+        self.assertIn("partial finding", prompt)
+        self.assertEqual(receipt["status"], "no-change")
+
     def test_source_review_narrows_lease_without_promoting_original(self):
         self.item["state"] = "proposed"
         self.item["primary_sources"][0]["review"] = "metadata-discovered"
