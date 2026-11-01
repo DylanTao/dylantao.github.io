@@ -1,0 +1,95 @@
+{
+  "schema": "sirui-review-payloads-v1",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "0-trace.network.gz",
+      "bytes": 27793,
+      "sha256": "72318853e9793f837218e2ebe3f92726554852e43e04952cecc8f317c441041e"
+    },
+    {
+      "path": "0-trace.trace.gz",
+      "bytes": 2412339,
+      "sha256": "8b858107cc27947685b2a0715bf36b376012198ee51916ea10be86b78ad9e8ec"
+    },
+    {
+      "path": "actions.json.gz",
+      "bytes": 913,
+      "sha256": "811a7e6ab0ab8a4bd81495b56dd135fff6df898fcd3c18ffa707bff0eab06d6a"
+    },
+    {
+      "path": "BINDING.json",
+      "bytes": 347,
+      "sha256": "b7c253f77feb312e3b24652d0a9c1f36eca2d53c62e6706142b01e15beec9081"
+    },
+    {
+      "path": "docker-qualified.log.gz",
+      "bytes": 430,
+      "sha256": "696e2cdc770d0a12cde50bc078c592f2a66dbe877ee95438e513c6edb73b3bed"
+    },
+    {
+      "path": "gym-desktop.log.gz",
+      "bytes": 51249,
+      "sha256": "f8f31264f6fef4a59bccef38396afa80ae38f9ad36905435420ddfc8ddbb64da"
+    },
+    {
+      "path": "gym-laptop.log.gz",
+      "bytes": 52012,
+      "sha256": "36d6c983485cc15c8c552f840d3d5f10ae8e1b11e65728d4e8c8f930b52b59b0"
+    },
+    {
+      "path": "gym-tablet.log.gz",
+      "bytes": 51918,
+      "sha256": "581e026ba26fd3ebad7b4b79c78142d75ad1fce134a271a299670f6086bc9a8e"
+    },
+    {
+      "path": "qualified-backend-qualification.json.gz",
+      "bytes": 288,
+      "sha256": "6aa72f71ce9ad947ea88870bf7b6e46046225718de4904ceb38e2a7857217683"
+    },
+    {
+      "path": "qualified-results--.last-run.json.gz",
+      "bytes": 60,
+      "sha256": "ab2773fce076cedf886e7b45072ea49d0dfc6bdbbca2d9e3779ab76473918f40"
+    },
+    {
+      "path": "qualified-results--desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440--training-pad-progress.json.gz",
+      "bytes": 757,
+      "sha256": "e578a0f29d7ef2796e66e2dc481d2c2c565890717a813f3e0ed923641ba06b9d"
+    },
+    {
+      "path": "qualified-results--desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440--training-walk-input.json.gz",
+      "bytes": 1109,
+      "sha256": "ec07fe1f8f20d925c1ab2389667632c3b616778ff0f392a1e792a6704a1a6b20"
+    },
+    {
+      "path": "qualified-xvfb.log.gz",
+      "bytes": 309,
+      "sha256": "e764c5477d8fe7fd6d2fb66e4656ddbba00d724e97a7b8afb320728f835ddc17"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1568,
+      "sha256": "af62f87eb97694718b414629f5edd8e2e6400405d1592f97ddd00cf497b8a6d4"
+    },
+    {
+      "path": "run-qualified.cjs",
+      "bytes": 1158,
+      "sha256": "55894f19349b4a657b01d51ad90b6739a3b15142539d6c9bd0318a2b873f7d78"
+    },
+    {
+      "path": "test.trace.gz",
+      "bytes": 15751,
+      "sha256": "e7f604955bf281e46ab0e7aa3ffd226bb2974cd675b1623d7910dd91221d93fd"
+    },
+    {
+      "path": "walk-states.json.gz",
+      "bytes": 1024,
+      "sha256": "7ebb3840e966767a539f2f5fc3a19d5c0ac225747ca0f0ddea5e2a1db90f6f3e"
+    }
+  ]
+}

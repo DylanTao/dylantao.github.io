@@ -3685,7 +3685,18 @@ test("coastal gym: the training dialog releases held walk input while gravity co
     window.__trainingPad.axes = [0, 0, 0.7, 0];
   });
   const yaw = (await evidence(scene)).walk.yaw;
-  await expect.poll(async () => (await evidence(scene)).walk.yaw).not.toBe(yaw);
+  const padProgress = [];
+  await expect
+    .poll(
+      async () => {
+        const state = await evidence(scene);
+        padProgress.push({ at: Date.now(), frame: state.frames, framePending: state.framePending, walk: state.walk });
+        fs.writeFileSync(testInfo.outputPath("training-pad-progress.json"), JSON.stringify(padProgress, null, 2));
+        return state.walk.yaw;
+      },
+      { timeout: SCENE_READY_TIMEOUT }
+    )
+    .not.toBe(yaw);
   await page.evaluate(() => {
     window.__trainingPad.connected = false;
   });
