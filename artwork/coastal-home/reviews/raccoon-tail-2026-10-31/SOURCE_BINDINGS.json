@@ -1,0 +1,61 @@
+{
+  "sourceCommit": "98474dd24fc8980e6886a7b74633e7494d5f0bc9",
+  "sourceBindings": [
+    {
+      "path": "assets/js/home-scene/wildlife.mjs",
+      "bytes": 52683,
+      "gitBlobSha256": "bcab53363ffc5196152c835ddabaf1fb56242f7a1ecc3b6242c4c7bca500d9de"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-resting-contact.mjs",
+      "bytes": 4099,
+      "gitBlobSha256": "3ebe1f90b57aca508685eea2508d3f257e5e8daf50c0740c2b3d21bcfa61f8a4"
+    },
+    {
+      "path": "test/wildlife-resting-contact.test.mjs",
+      "bytes": 7467,
+      "gitBlobSha256": "874a48d0606068f8270bdd6024136754f2ddc7ea3788dc32ecacd5b8325e9179"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-ground-contact.mjs",
+      "bytes": 7801,
+      "gitBlobSha256": "9fabbbc4b1e457236088843e5698f180699759ff372fa164a651197838d061bf"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-neighbor-motion.mjs",
+      "bytes": 40355,
+      "gitBlobSha256": "8cd97aa53ebacb42bb53890596bf4922184e6fbf35c1a826dd73fad1cc7bf387"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-rabbit-contact.mjs",
+      "bytes": 11364,
+      "gitBlobSha256": "e43595372beaa5c66c6f936cb00b9db408eb7a1167859b5c64a3ecac9d944815"
+    },
+    {
+      "path": "assets/js/three.module.min.js",
+      "bytes": 674422,
+      "gitBlobSha256": "6c2bfdf07626404916f34aef8cf57992926d849526bc6eb4556da96a3ba4e78c"
+    }
+  ],
+  "actualServedModuleBindings": [
+    {
+      "path": "assets/js/home-scene/wildlife.mjs",
+      "bytes": 52683,
+      "sha256": "bcab53363ffc5196152c835ddabaf1fb56242f7a1ecc3b6242c4c7bca500d9de"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-rabbit-contact.mjs",
+      "bytes": 11364,
+      "sha256": "e43595372beaa5c66c6f936cb00b9db408eb7a1167859b5c64a3ecac9d944815"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-resting-contact.mjs",
+      "bytes": 4099,
+      "sha256": "3ebe1f90b57aca508685eea2508d3f257e5e8daf50c0740c2b3d21bcfa61f8a4"
+    }
+  ],
+  "baselineSourceCommit": "31412345bc78b1e508311b55d4fc0ec4f997cf31",
+  "baselineInputEvidenceCommit": "da646f8400083c6406d801707e20cfa92cb0c1ae",
+  "scope": "Read-through resting proxy4163 over the complete frozen503 preview4158; exactly three animal modules served from this worker. No native/model/manifest/cache changes. Baseline served controls and complete native animal inputs are retained in the preceding rabbit-contact packet.",
+  "publication": "None. Coordinator integrates source, repeats F6 support checks, runs official final cache/full gates/CI/live verification."
+}
