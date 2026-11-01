@@ -1,0 +1,75 @@
+{
+  "sourceCommit": "9abe4425a90668ef4601b89c2226b119f0846d9c",
+  "sourceBindings": [
+    {
+      "path": "bin/coastal_private_reading.py",
+      "gitBlobSha256": "7ae27870ce28cf9948876c43ba420b1ec405063cff03b53bc8e97f9b69d51d81",
+      "bytes": 6025
+    },
+    {
+      "path": "bin/refresh_coastal_private_reading.py",
+      "gitBlobSha256": "469358039178f37bf9cff71111cee6532a61d4bfc674d69ebd0213309ca5321b",
+      "bytes": 3275
+    },
+    {
+      "path": "bin/coastal_retreat.py",
+      "gitBlobSha256": "1a125afc071c4b7fa8b79d3545854eb0c290d3cd0aed40859a73a56bf7181cc6",
+      "bytes": 61941
+    },
+    {
+      "path": "assets/js/home-scene/light-installations.mjs",
+      "gitBlobSha256": "5063a271b3d9523db086a6411c865c23baf145c79c89969f02b261fa4acb9e41",
+      "bytes": 40644
+    },
+    {
+      "path": "test/light-installations.test.mjs",
+      "gitBlobSha256": "9f0be77c5cf492553b954a65aa51da8ebfd14c35087fa4d336fc86efdfdc2831",
+      "bytes": 23766
+    },
+    {
+      "path": "test/test_private_reading.py",
+      "gitBlobSha256": "34b202aae48ce71b2afad85ccfb30f8c702e46480fb6e6ecc953388cb17827ef",
+      "bytes": 2681
+    },
+    {
+      "path": "bin/coastal_office.py",
+      "gitBlobSha256": "2eac1215ea981ad9f099fa5a231853f9413c38c792b745272694a3661d5da9cb",
+      "bytes": 29425
+    },
+    {
+      "path": "bin/optimize_coastal_exports.py",
+      "gitBlobSha256": "175905df1edbd161473700e8a753ac4ca64e9a48ab6336a4f01fbcb5b19f4171",
+      "bytes": 7303
+    },
+    {
+      "path": "bin/refresh_coastal_study_hardware.py",
+      "gitBlobSha256": "5016b1ca500ce239221bc1622ed5c0a7aa306d6ab3e1695d92afa0a6ce94a2dc",
+      "bytes": 14557
+    },
+    {
+      "path": "bin/bake_coastal_static_light.cjs",
+      "gitBlobSha256": "9deb3854df6ef9ab27dc28cf65b809903fc1ec43f1cc61d986965bff20f12966",
+      "bytes": 5856
+    },
+    {
+      "path": "bin/coastal_static_light_inputs.cjs",
+      "gitBlobSha256": "98c654f5a6dcff2505083ae32a0e170ffcb6e4056d923f589b513104d5abb5b0",
+      "bytes": 2822
+    },
+    {
+      "path": "assets/js/home-scene/static-light-field.mjs",
+      "gitBlobSha256": "a92b6ac5c4ff6d868dfe0941483690ba7191b1a0b02a6f013cd98d4c2c27a9a9",
+      "bytes": 37292
+    },
+    {
+      "path": "artwork/coastal-home/coastal-home.blend",
+      "gitBlobSha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad",
+      "bytes": 28997902
+    }
+  ],
+  "compiledScope": "Complete 1364-file private product based on compiled 70ee4eac5 plus accepted hardware/foliage and gym fixes. Only the new upper-room GLB, direct-light schedule, fixture metadata and official cache are substituted for this review. This is not the final combined root build.",
+  "canonicalNativeMasterSha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad",
+  "inputNativeSha256": "096724fbe0a5beb36a98804b0092d170f3a255446623a64bbb66742a90dffb2f",
+  "candidateNativeSha256": "56cc9aa324c3328f4692ac69fd38151616db595dd040f888c3010689767bcce0",
+  "publication": "None. Coordinator replays the recipe, runs combined AO/export/support/sketch/official-cache gates, actual public Rooms checks, full suite, CI and live verification."
+}
