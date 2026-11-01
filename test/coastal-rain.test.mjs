@@ -8,7 +8,8 @@ test("rain holds at the same active time independent of frame cadence", () => {
   const expected = at(40);
   for (let time = 0; time < 40; time += 0.017) at(time);
   assert.deepEqual(at(40), expected);
-  assert.deepEqual(at(40), at(47));
+  assert.equal(at(40)[1], at(47)[1], "only the vertical sample cycle repeats after seven seconds");
+  assert.notEqual(at(40)[0], at(47)[0], "the wind keeps carrying the column through world space");
   assert.notDeepEqual(at(40), at(40.1));
 });
 
@@ -55,6 +56,29 @@ test("the field is world-stable: moving its box keeps drops in place except thos
   }
   // Moving the box 0.6 m and 0.4 m wraps about (0.6 + 0.4) / 30 of the drops; the rest stay put.
   assert.ok(kept / RAIN_FIELD.maximum > 0.94, `${kept} of ${RAIN_FIELD.maximum} drops kept their place`);
+});
+
+test("camera height changes preserve world positions instead of re-aging the rain's wind drift", () => {
+  let kept = 0;
+  for (let index = 0; index < RAIN_FIELD.maximum; index++) {
+    const a = [...rainSegment(index, 12.3, [4, 9, -6], [1.1, 0, -0.6], -100)];
+    const b = [...rainSegment(index, 12.3, [4, 9.4, -6], [1.1, 0, -0.6], -100)];
+    if (a.every((value, k) => Math.abs(value - b[k]) < 1e-4)) kept++;
+  }
+  assert.ok(kept > 1000, `${kept} world-space drops preserved; only the vertical box boundary can recycle`);
+});
+
+test("paused rain does not change its advection when the camera samples a different local wind", () => {
+  const scene = new THREE.Scene(),
+    camera = new THREE.PerspectiveCamera(),
+    rain = createCoastalRain({ scene });
+  rain.update({ rain: 1, seconds: 3, camera, wind: [1, 0, 0.2] });
+  const before = [...rain.object.geometry.attributes.position.array];
+  rain.update({ rain: 1, seconds: 3, camera, wind: [2, 0, -0.8] });
+  assert.deepEqual([...rain.object.geometry.attributes.position.array], before);
+  assert.equal(rain.evidence().advection[0], 3);
+  assert.ok(Math.abs(rain.evidence().advection[2] - 0.6) < 1e-12);
+  rain.dispose();
 });
 
 test("drops concentrate in the box ahead of the camera and never streak from its lens", () => {

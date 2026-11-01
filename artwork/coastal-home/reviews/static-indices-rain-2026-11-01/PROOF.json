@@ -1,0 +1,64 @@
+{
+  "scope": "Exact complete-attribute duplicate endpoint indices only; current pinned site shader family. Private183+arrival geometry is a control, not admitted native source. Concurrent rendering is not a speed benchmark.",
+  "sources": {
+    "assets/js/home-scene/static-triangle-index.mjs": "7713ccb84b1b23fd99a95e352e563dd2a4febd448c33fd279c71293ecbfe8c1a",
+    "assets/js/home-scene/coastal-rain.mjs": "7606b87437059e6ea74c29f959eb4ce6666e6fb01492b231431b59c67e4f077e",
+    "assets/js/home-scene/controller.mjs": "085e7be1640ff270f0d2b98c1907905ab58800565cef5367d0a80411d4eea591",
+    "assets/js/home.js": "fe192cf374bbe674ed539e74cf6e44f67d86a8f20edc88e8576703c45d4c97de",
+    "bin/coastal_static_light_inputs.cjs": "1a3a8e21c005324c0d6fb0048e1fad1eba0d75f36806beb4ca69260e6fc657f1",
+    "test/static-triangle-index.test.mjs": "37634caa8f36513783377575d148128ed3a35ea8f1817fb969280789d60b53ec",
+    "test/coastal-rain.test.mjs": "56de6aacf13ad9515e6ff217b22f470169a013b67724cf75ebbb734416a85f66"
+  },
+  "pixelControl": {
+    "changedChannels": 0,
+    "maxChannelDifference": 0,
+    "repeatChangedChannels": 0,
+    "originalPixelsSha256": "975c872a50679bf2626d54adfa6045735cc37d9e75dd94e26af66ae5c00cd6bd",
+    "filteredPixelsSha256": "975c872a50679bf2626d54adfa6045735cc37d9e75dd94e26af66ae5c00cd6bd"
+  },
+  "linkedShaderAudit": {
+    "meshes": 45,
+    "uniqueLinkedShaders": 48,
+    "helperSha256": "7713ccb84b1b23fd99a95e352e563dd2a4febd448c33fd279c71293ecbfe8c1a"
+  },
+  "cache": {
+    "same": { "version": true, "configuration": true, "probes": true, "transport": true, "moments": true },
+    "nativeMasterSha256": "de217984242f77903145dd6d16f277923b57fd5e3eb2469c906c2507b494ad87",
+    "cacheSha256": "58576819425e232d248f9ce0ffb2ca2a4ee8676d43863b59a0f00041f2674ac4",
+    "signature": "03977e7ac3cab28e1f41c069e709975f0d0edca9fbc6cf383d13128cc371e027",
+    "dependencies": 104,
+    "statisticsBefore": {
+      "ready": true,
+      "triangles": 620347,
+      "meshes": 439,
+      "skippedMeshes": 174,
+      "skippedTriangles": 116123,
+      "geometryMs": 2959.5,
+      "acceleratorMs": 4642,
+      "transportMs": 2952,
+      "bakeMs": 10553.59999999404,
+      "maxTaskMs": 42.900000005960464,
+      "relocatedProbes": 2,
+      "rejectedProbes": 4,
+      "acceleratorBytes": 52109568,
+      "trace": { "rays": 90110, "triangleTests": 3799810, "boxTests": 24643378 }
+    },
+    "statisticsAfter": {
+      "ready": true,
+      "triangles": 615510,
+      "meshes": 439,
+      "skippedMeshes": 174,
+      "skippedTriangles": 116103,
+      "geometryMs": 3147.5,
+      "acceleratorMs": 3925.7999999970198,
+      "transportMs": 2681.2000000029802,
+      "bakeMs": 9754.89999999106,
+      "maxTaskMs": 222.1000000089407,
+      "relocatedProbes": 2,
+      "rejectedProbes": 4,
+      "acceleratorBytes": 51703200,
+      "trace": { "rays": 90110, "triangleTests": 3634291, "boxTests": 24465757 }
+    },
+    "manifestOutsideDescriptorExact": true
+  }
+}

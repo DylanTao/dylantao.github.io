@@ -849,7 +849,7 @@
       if (controller) return Promise.resolve(controller);
       if (!loading) {
         const ticket = generation;
-        loading = import(new URL("home-scene/controller.mjs?v=exterior-waterline-20261101", homeScriptBase).href)
+        loading = import(new URL("home-scene/controller.mjs?v=static-indices-rain-20261101", homeScriptBase).href)
           .then((module) => {
             // Module fetches cannot be aborted. A 2D escape or disposal must
             // not let their late completion create another inhabited world.

@@ -83,7 +83,8 @@ import { createInfinityPool } from "./infinity-pool.mjs";
 import { createInteriorReflections } from "./interior-reflections.mjs";
 import { createWalkPresence } from "./walk-presence.mjs?v=gym-close-20261101";
 import { createEstateDoors, nearDoor } from "./estate-doors.mjs";
-import { createCoastalRain } from "./coastal-rain.mjs";
+import { createCoastalRain } from "./coastal-rain.mjs?v=world-rain-20261101";
+import { configureStaticModelIndices } from "./static-triangle-index.mjs";
 import { createRainRoofField } from "./rain-roof-field.mjs";
 import { createLibraryLadder } from "./library-ladder.mjs";
 
@@ -961,6 +962,7 @@ export function createCoastalHome(container, records, artifacts) {
     art.apply(root, style);
     coastalWind?.bind(root);
     bindReceiver(root, group || (outdoor ? "exterior" : "architecture"), { outdoor });
+    configureStaticModelIndices(root, style);
     pacific?.invalidateReflection?.();
     return root;
   }
@@ -2476,6 +2478,7 @@ export function createCoastalHome(container, records, artifacts) {
       if (o.userData.renderStyle) o.visible = o.userData.renderStyle === style;
     });
     art.apply(world, style);
+    configureStaticModelIndices(world, style);
     interiorReflections?.bind(lightInstallations?.evidence().levels);
     pacific?.setStyle(style);
     updateLight();

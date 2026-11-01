@@ -32,6 +32,7 @@ async function coastalLightInputs(root) {
     "assets/js/home-scene/planted-feet.mjs",
     "assets/js/home-scene/seat-surface.mjs",
     "assets/js/home-scene/materials.mjs",
+    "assets/js/home-scene/static-triangle-index.mjs",
     "assets/js/home-scene/realism.mjs",
     "assets/js/home-scene/warm-practicals.mjs",
     "assets/js/home-scene/light-installations.mjs",
