@@ -92,6 +92,47 @@ test("installations switch at different times of day", () => {
   assert.equal(SCHEDULES.libraryHearth({ dark: darkness(0.95), visit: "study" }), 0.55);
 });
 
+test("a gym visit uses the existing workout pendants and leaves unrelated spaces and idle hours unchanged", () => {
+  const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
+  const lights = createLightInstallations(manifest);
+  const floor = v(8.8, 0.003, 7.5),
+    board = v(7.25, 1.55, 8.965);
+  const fixtures = lights.lines
+    .filter((source) => source.id === "gym")
+    .map((source) => ({
+      a: source.a.toArray(),
+      b: source.b.toArray(),
+      intensity: source.intensity,
+    }));
+  try {
+    lights.update({ minute: 720, daylight: 0.95, activity: "reading", visit: "study" });
+    assert.equal(lights.levels.gym, 0);
+    assert.equal(lights.irradianceAt(floor, v(0, 1, 0), "gym").r, 0);
+    lights.update({ minute: 720, daylight: 0.95, activity: "reading", visit: "gym" });
+    assert.equal(lights.levels.gym, 0.65);
+    assert.ok(lights.irradianceAt(floor, v(0, 1, 0), "gym").r > 0);
+    assert.ok(lights.irradianceAt(board, v(0, 0, -1), "gym").r > 0);
+    assert.equal(lights.irradianceAt(v(0, 1, 8), v(0, 1, 0), "gym").r, 0, "gym light stays within its receiver");
+    assert.deepEqual(
+      lights.lines
+        .filter((source) => source.id === "gym")
+        .map((source) => ({ a: source.a.toArray(), b: source.b.toArray(), intensity: source.intensity })),
+      fixtures
+    );
+    for (const daylight of [0, 0.3, 0.95]) {
+      const dark = darkness(daylight);
+      assert.equal(SCHEDULES.gym({ dark, activity: "workout" }), Math.max(0.65, dark.inside));
+      assert.equal(SCHEDULES.gym({ dark, activity: "reading", visit: "gym" }), SCHEDULES.gym({ dark, activity: "workout" }));
+      assert.equal(SCHEDULES.gym({ dark, activity: "reading", visit: "study" }), 0.18 * dark.inside);
+    }
+    lights.update({ minute: 720, daylight: 0.95, activity: "reading", visit: "outside" });
+    assert.equal(lights.levels.gym, 0);
+    assert.ok(lights.root.children.every((object) => !object.isLight));
+  } finally {
+    lights.dispose();
+  }
+});
+
 test("entrance fixtures light only their authored foyer without adding native lights", () => {
   const lights = createLightInstallations({
     interiorLights: {

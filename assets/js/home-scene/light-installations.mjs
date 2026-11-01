@@ -154,7 +154,7 @@ export const SCHEDULES = {
     Math.max(sheltered ? 0.18 : 0, dark.inside * Math.max(windowLevel(minute, 17 * 60 + 30, 23 * 60 + 30, 25), activity === "coding" ? 0.35 : 0)),
   steps: ({ dark }) => 0.45 * dark.outside,
   pool: ({ minute, dark, activity }) => (activity === "soak" ? 1 : 0.4 * dark.outside * windowLevel(minute, 19 * 60, 23 * 60, 20)),
-  gym: ({ dark, activity }) => (activity === "workout" ? Math.max(0.65, dark.inside) : 0.18 * dark.inside),
+  gym: ({ dark, activity, visit }) => (activity === "workout" || visit === "gym" ? Math.max(0.65, dark.inside) : 0.18 * dark.inside),
   // The dining table is under the gallery, so daylight outside does not replace its task light.
   pendant: ({ minute, dark, activity, sheltered }) =>
     MEALS.includes(activity)
@@ -619,7 +619,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     if (!material?.isMeshStandardMaterial) return material;
     const existing = bindings.get(material);
     if (existing && (group === null || group === existing.group)) return material;
-    const pack = packFor(group || defaultGroup);
+    const pack = packFor(group || material.userData.installationGroup || defaultGroup);
     const sourceMaterial = existing?.origin || origin || material;
     let groups = variants.get(sourceMaterial);
     if (!groups) variants.set(sourceMaterial, (groups = new Map()));

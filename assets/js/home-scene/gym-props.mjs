@@ -25,7 +25,10 @@ const smooth = (t) => {
   return t * t * (3 - 2 * t);
 };
 
-export function createGymProps({ room, world, gym, training, material }) {
+export function createGymProps({ room, world, gym, training, material: makeMaterial }) {
+  // These runtime replacements belong to the same physical receiver as the
+  // native gym. Declare that before the shared factory binds its lighting.
+  const material = (color, extra = {}) => makeMaterial(color, { ...extra, userData: { ...extra.userData, installationGroup: "gym" } });
   const disposables = [];
   const keep = (thing) => (disposables.push(thing), thing);
   const steel = material(0x9aa19f, { metalness: 0.86, roughness: 0.3 });

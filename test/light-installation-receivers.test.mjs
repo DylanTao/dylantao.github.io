@@ -85,6 +85,33 @@ test("receiver selection preserves the global irradiance reference at day, night
   lights.dispose();
 });
 
+test("runtime material declarations choose their physical receiver while explicit and existing bindings retain precedence", () => {
+  const lights = createLightInstallations(fixtureWorld());
+  const declared = new THREE.MeshStandardMaterial({ userData: { installationGroup: "east" } });
+  const unmarked = new THREE.MeshStandardMaterial();
+  try {
+    lights.update({ minute: 1260, daylight: 0, activity: "reading" });
+    assert.equal(lights.bindMaterial(declared), declared);
+    assert.equal(declared.userData.installationReceiverGroup, "east");
+    const eastShader = shader();
+    declared.onBeforeCompile(eastShader, {});
+    assert.equal(eastShader.uniforms.installLineA.value[0], 11, "the declaration binds the actual east emitter pack");
+    assert.equal(lights.bindMaterial(unmarked), unmarked);
+    assert.equal(unmarked.userData.installationReceiverGroup, "west", "unmarked factory materials retain the default");
+    const explicit = lights.bindMaterial(declared, "west");
+    assert.notEqual(explicit, declared);
+    assert.equal(explicit.userData.installationReceiverGroup, "west");
+    assert.equal(lights.bindMaterial(explicit), explicit, "a later generic bind preserves the explicit model override");
+    const westShader = shader();
+    explicit.onBeforeCompile(westShader, {});
+    assert.ok(westShader.uniforms.installLineA.value.some((value, index) => index % 3 === 0 && value === -1));
+  } finally {
+    declared.dispose();
+    unmarked.dispose();
+    lights.dispose();
+  }
+});
+
 test("sharing a material across receiver groups creates one owned variant and preserves its shader callbacks", () => {
   const lights = createLightInstallations(fixtureWorld());
   const source = new THREE.MeshStandardMaterial();
