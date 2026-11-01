@@ -1,6 +1,6 @@
 import * as THREE from "../three.module.min.js";
-import { groundFootQuaternion } from "./wildlife-ground-contact.mjs?v=contact-cpu-20261101";
-import { pinnipedBlendWeight, pinnipedFlipperActivation } from "./wildlife-motion.mjs?v=contact-cpu-20261101";
+import { groundFootQuaternion } from "./wildlife-ground-contact.mjs?v=contact-regions-20261101";
+import { pinnipedBlendWeight, pinnipedFlipperActivation } from "./wildlife-motion.mjs?v=contact-regions-20261101";
 
 // Only the delivered ringed-tail skin belongs to this contact problem. Its
 // trunk and planted paws already have their own independent support solution.

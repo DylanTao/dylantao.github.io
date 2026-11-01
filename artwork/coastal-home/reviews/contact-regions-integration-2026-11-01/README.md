@@ -1,0 +1,11 @@
+# Integrated exact contact regions, November 1
+
+This integrates source `dbb7cd848` and the sealed contact-regions worker review onto the deployed gym/navigation product `02ec57bb3`. All 135 worker payloads retain their recorded bytes. The complete returning-browser contact import chain, including the rabbit consumer, is versioned together; the gym import versions remain intact. The official producer regenerates the cache. The accepted native master remains `de217984242f77903145dd6d16f277923b57fd5e3eb2469c906c2507b494ad87`.
+
+One paired PC comparison in the worker packet measures six-pinniped fit median/P95 at 15.4/20.6 to 13.2/17.0 ms, and raccoon fit at 3.1/4.8 to 2.7/4.2 ms. Whole-frame timing is unchanged. Poses, bone uploads, finite faces, clearance and capture coverage are retained. The packet explicitly corrects its predecessor's MSAA wording: both old variants actually rendered with 2 samples; 4 was the cap. This is neither a general FPS result nor physical-phone evidence.
+
+Both complete production builds pass, before and after the official cache bake. The original full Node invocation ran before that bake and records its one stale-cache rejection, 961 other passes and 7 skips. The same cache-binding case passes after regeneration. It is not relabeled as an originally green invocation. Ordinary Python discovery passes all 328 cases on this shorter checkout. Style, formatting, whitespace and the exact 148-case registry pass.
+
+All eight registered wildlife cases pass at the four Chromium widths; both cases pass modern mobile WebKit. Twelve served response bodies match the complete compiled production files, including the changed contact chain, gym module, receipt, manifest and signed cache. The full returned captures and JSON receipts are retained, with short portable filenames mapped to original names and hashes. A representative raccoon capture was directly inspected.
+
+No native geometry, visual detail, animal, update or clearance gate is removed. The cache retains 620347 accepted triangles, 116123 skipped triangles and 736470 before ROI. Publication needs its own CI/live receipt. The private cliff and straight entrance remain separate and require a fresh combined terrain/contact/circulation gate.

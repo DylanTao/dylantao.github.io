@@ -13,6 +13,8 @@ class RestingReviewCustody(unittest.TestCase):
         packets = {
             "resting-wildlife-ci-2026-11-01": "MANIFEST.json",
             "contact-cpu-2026-11-01": "MANIFEST.json",
+            "contact-regions-2026-11-01": "MANIFEST.json",
+            "contact-regions-integration-2026-11-01": "MANIFEST.json",
             "contact-cpu-integration-2026-11-01": "MANIFEST.json",
             "contact-input-ci-2026-11-01": "MANIFEST.json",
             "gym-dashboard-2026-11-01": "MANIFEST.json",

@@ -1,6 +1,6 @@
 import * as THREE from "../three.module.min.js";
 import { smooth } from "./wildlife-acting.mjs";
-import { footSole, fitFootSole, groundFootQuaternion } from "./wildlife-ground-contact.mjs";
+import { footSole, fitFootSole, groundFootQuaternion } from "./wildlife-ground-contact.mjs?v=contact-regions-20261101";
 
 export const RABBIT_PAWS = ["FrontPawL", "FrontPawR", "HindPawL", "HindPawR"];
 

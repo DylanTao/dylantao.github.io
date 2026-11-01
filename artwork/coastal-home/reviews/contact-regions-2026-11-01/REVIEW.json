@@ -1,0 +1,48 @@
+{
+  "sourceCommit": "dbb7cd848e6b9d69332fda1d2d2fcee8aa46b0d3",
+  "baselineCommit": "321a8ebc946d20334bc6c49189640a6002fb8582",
+  "sourcePaths": ["assets/js/home-scene/wildlife-ground-contact.mjs", "test/wildlife-ground-bounds.test.mjs"],
+  "scope": "Private worker checkpoint; coordinator owns returning-browser versions, integration and final-terrain/release gates.",
+  "seed": {
+    "files": 1363,
+    "modules": 180,
+    "moduleReceiptSha256": "663a4f75c2aa0a42248e936ed34c3cfb18f27b79ba939cd6260ba7438b415e93",
+    "staticCacheSignature": "f4d91be561003835bcf5c7c0eb819d2511131728d12cfe4bc451d86a856d38c5"
+  },
+  "verification": {
+    "wildlifeUnitCases": 73,
+    "pythonCases": 328,
+    "densePinnipedPoses": 2166,
+    "denseRaccoonPoses": 893,
+    "denseVertexRecords": 16530608,
+    "pinnipedEvents": 1007,
+    "pinnipedEventPoses": 15105,
+    "raccoonEventPoses": 463,
+    "raccoonTrajectoryPoses": 2436,
+    "actualGPUAnimalDraws": 7,
+    "maximumUploadedBoneError": 0
+  },
+  "timingQualification": "One paired native comparison per family on RTX3080Ti/D3D11, actual2560x1440 viewport and GL buffer, actual2-MSAA, pinned high, every-frame6/1 fits. Exact physical output. Stable measured cameras have explicit near-zero coefficient differences bounded at0.00000233px real-linear projection, not bit-identical raster/GPU-camera uniforms.",
+  "result": {
+    "sixPinnipedFitMsMedianP95": {
+      "baseline": [15.4, 20.6],
+      "candidate": [13.2, 17]
+    },
+    "raccoonFitMsMedianP95": {
+      "baseline": [3.1, 4.8],
+      "candidate": [2.7, 4.2]
+    },
+    "frameTimingUnchanged": true
+  },
+  "projectedCoverage": {
+    "rowsWithMisses": 700,
+    "pinnipedRows": 2166,
+    "projectedMisses": 1783,
+    "maximumPerPose": 7,
+    "notFullSkinCoverage": true
+  },
+  "V1Correction": "Actual V1 MSAA was2 in both variants; maxSamples4 was its cap. The predecessor packet is not rewritten.",
+  "immutableRawPolicy": "Generated text/numeric payloads are gzip original bytes. Human metadata is formatted before sealing. Full trace archives remain local and hash-bound; complete event/network streams are included without duplicate embedded resources.",
+  "noWorkerPush": true,
+  "canonicalAssetsUnchanged": true
+}

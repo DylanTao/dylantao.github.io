@@ -1,5 +1,5 @@
 import * as THREE from "../three.module.min.js";
-import { createSkinContactSampler } from "./wildlife-resting-contact.mjs?v=contact-cpu-20261101";
+import { createSkinContactSampler } from "./wildlife-resting-contact.mjs?v=contact-regions-20261101";
 
 // A tucked forearm folds out beside the curled chest before settling upward.
 // Interpolate within the hip/foot circle, so no segment length or paw changes.

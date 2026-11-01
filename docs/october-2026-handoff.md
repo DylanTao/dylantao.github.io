@@ -132,6 +132,8 @@ The accepted native house remains `de217984242f77903145dd6d16f277923b57fd5e3eb24
 
 The [PC metrics publication](../artwork/site-fidelity/reviews/metrics-pc-2026-11-01/README.md) closes the refresh portion of the hygiene queue. The exact October 22 archive tags remain deferred to the laptop at Sirui's instruction. No tag target is invented.
 
+**November 1 region checkpoint.** The [combined contact-region review](../artwork/coastal-home/reviews/contact-regions-integration-2026-11-01/README.md) preserves exact wildlife outputs while reducing measured fit cost in one paired PC run. Whole-frame timing is unchanged. All four-width native cases and modern WebKit pass on the complete gym product, with a new official light cache; the native cliff/entrance and overall performance targets remain open. CI and deployed proof follow this checkpoint.
+
 ## Opus continuation checklist (started 2026-10-24)
 
 October29 PC orbit checkpoint: native 4K inspection found continuous exterior yaw already working, but a fixed per-pixel mouse gain made a 900px drag turn more than once; the coast also stopped vertically at0.12/1.2radians. Fine-pointer gain now follows canvas size, and the outside pitch is−0.35..1.35with terrain clearance and the original safe pole margin. Trusted five-quarter-turn and low/high/reverse mouse checks pass on Windows Chromium and pinned Linux/Mesa. Touch gain stays unchanged. This is a measured control correction, not proof that every reported PC sticking angle is resolved. The native tower/screens, straight arrival and larger appearance audit remain separate open tasks. The CI terrain tests now declare NumPy in shared `requirements-test.txt`; a clean Linux3.13.17full suite passes after installing Git and those dependencies.

@@ -7,7 +7,7 @@ import {
   pinnipedFlipperActivation,
   sealShuffleOffset,
   swimmerActing,
-} from "./wildlife-motion.mjs?v=contact-cpu-20261101";
+} from "./wildlife-motion.mjs?v=contact-regions-20261101";
 import {
   createHabitatRoute,
   plantedFoot,
@@ -16,13 +16,13 @@ import {
   shorebirdMotion,
   gullMotion,
   balconyGullActing,
-} from "./wildlife-neighbor-motion.mjs?v=contact-cpu-20261101";
+} from "./wildlife-neighbor-motion.mjs?v=contact-regions-20261101";
 import { pelicanMotion, cormorantMotion, seaSurface } from "./wildlife-seabird-motion.mjs";
 import { solvePerchLanding, samplePerchActing, perchSurface, perchContactWeight } from "./wildlife-perch-contact.mjs";
-import { createGroundPatch, footSole, fitFootSole, groundFootQuaternion } from "./wildlife-ground-contact.mjs?v=contact-cpu-20261101";
-import { rabbitSoles, createRabbitContactFit } from "./wildlife-rabbit-contact.mjs";
-import { createRestingTailFit, createPinnipedContactFit } from "./wildlife-resting-contact.mjs?v=contact-cpu-20261101";
-import { createRaccoonBodyContact, raccoonCurledLegPole } from "./wildlife-raccoon-contact.mjs?v=contact-cpu-20261101";
+import { createGroundPatch, footSole, fitFootSole, groundFootQuaternion } from "./wildlife-ground-contact.mjs?v=contact-regions-20261101";
+import { rabbitSoles, createRabbitContactFit } from "./wildlife-rabbit-contact.mjs?v=contact-regions-20261101";
+import { createRestingTailFit, createPinnipedContactFit } from "./wildlife-resting-contact.mjs?v=contact-regions-20261101";
+import { createRaccoonBodyContact, raccoonCurledLegPole } from "./wildlife-raccoon-contact.mjs?v=contact-regions-20261101";
 import { OCEAN_WAVES, oceanWindState } from "./ocean-spectrum.mjs";
 import { coastWind } from "./wind-field.mjs";
 

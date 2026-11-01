@@ -39,6 +39,7 @@ export function createGroundPatch(path, margin = 0.65, cellSize = CELL) {
     firstZ = Math.floor(bounds.minZ / cellSize),
     lastZ = Math.floor(bounds.maxZ / cellSize),
     rows = lastZ - firstZ + 1,
+    cellCount = (lastX - firstX + 1) * rows,
     numericCells = [firstX, lastX, firstZ, lastZ].every(Number.isSafeInteger) && Number.isSafeInteger((lastX - firstX + 1) * rows);
   // Every captured cell lies in this fixed rectangle. A bounded linear key
   // preserves those cells and their triangle order without allocating strings
@@ -46,6 +47,17 @@ export function createGroundPatch(path, margin = 0.65, cellSize = CELL) {
   const cellKey = numericCells
     ? (x, z) => (x < firstX || x > lastX || z < firstZ || z > lastZ ? null : (x - firstX) * rows + (z - firstZ))
     : (x, z) => `${x},${z}`;
+  const numericRegions = numericCells && cellCount > 0 && Number.isSafeInteger(cellCount * cellCount);
+  function regionKey(x0, x1, z0, z1) {
+    if (numericRegions) {
+      const first = cellKey(x0, z0),
+        last = cellKey(x1, z1);
+      // Both corners belong to the captured rectangle. The two cell indices
+      // form an exact, collision-free pair only while their square is safe.
+      if (Number.isSafeInteger(first) && Number.isSafeInteger(last)) return first * cellCount + last;
+    }
+    return `${x0},${x1},${z0},${z1}`;
+  }
   const triangles = [],
     cells = new Map(),
     sources = new Set(),
@@ -227,8 +239,8 @@ export function createGroundPatch(path, margin = 0.65, cellSize = CELL) {
       x1 = Math.floor(maxX / cellSize),
       z0 = Math.floor(minZ / cellSize),
       z1 = Math.floor(maxZ / cellSize),
-      regionKey = `${x0},${x1},${z0},${z1}`;
-    let region = regions.get(regionKey);
+      key = regionKey(x0, x1, z0, z1);
+    let region = regions.get(key);
     if (!region) {
       const candidates = new Set(),
         boundaries = new Set(),
@@ -261,18 +273,17 @@ export function createGroundPatch(path, margin = 0.65, cellSize = CELL) {
         const x = t.normal.x / t.normal.y,
           z = t.normal.z / t.normal.y,
           offset = t.cy + x * t.cx + z * t.cz;
-        planes.set(`${x},${z},${offset}`, { x, z, offset });
+        planes.set(`${x},${z},${offset}`, { x, z, offset, tolerance: 1e-8 * (1 + Math.abs(x) + Math.abs(z)) });
       }
       region = { height, triangles: candidates.size, boundaries: [...boundaries], owners: [...owners], planes: [...planes.values()] };
-      regions.set(regionKey, region);
+      regions.set(key, region);
     }
     if (!region.triangles) return null;
     let gap = -Infinity;
     if (query.corners) {
       gap = Infinity;
       for (const plane of region.planes)
-        for (const p of query.corners)
-          gap = Math.min(gap, p.y + plane.x * p.x + plane.z * p.z - plane.offset - 1e-8 * (1 + Math.abs(plane.x) + Math.abs(plane.z)));
+        for (const p of query.corners) gap = Math.min(gap, p.y + plane.x * p.x + plane.z * p.z - plane.offset - plane.tolerance);
     }
     if (!certify) return { height: region.height + 1e-8, gap };
     let visible = true;
@@ -370,7 +381,7 @@ export function createGroundPatch(path, margin = 0.65, cellSize = CELL) {
         x1 = Math.floor(maxX / cellSize),
         z0 = Math.floor(minZ / cellSize),
         z1 = Math.floor(maxZ / cellSize),
-        key = `${x0},${x1},${z0},${z1}`;
+        key = regionKey(x0, x1, z0, z1);
       let terrain = surfaceRegions.get(key);
       if (!terrain) {
         const set = new Set();

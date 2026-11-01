@@ -107,6 +107,73 @@ test("new captures and distinct patches invalidate a reused point's geometric re
   assert.equal(independent.sample(0, 0, 0.5, cache).height, 0);
 });
 
+test("four-cell region reuse matches unsafe-range fallback for exact bounds and finite-face queries", () => {
+  const floor = plane(0.2, -0.15),
+    upper = plane(-0.1, 0.08, 1.2);
+  floor.position.set(-7, 0.3, -10.5);
+  upper.position.set(-6.8, 0.6, -10.6);
+  const ordinary = createGroundPatch([[-7, 0.3, -10.5]], 3),
+    unsafePair = createGroundPatch([[-7, 0.3, -10.5]], 2000),
+    unsafeCells = createGroundPatch([
+      [-1e9, 0, -1e9],
+      [1e9, 0, 1e9],
+    ]);
+  for (const ground of [ordinary, unsafePair, unsafeCells]) ground.capture([floor, upper]);
+  for (const visible of [true, false]) {
+    upper.visible = visible;
+    for (const x of [-1.4, -0.4, 0.25])
+      for (const z of [-1.3, -0.35, 0.3])
+        for (const width of [0.01, 0.4, 0.95]) {
+          const corners = Array.from(
+              { length: 8 },
+              (_, i) => new THREE.Vector3(-7 + x + (i & 1 ? width : 0), 0.75 + (i & 2 ? 0.2 : 0), -10.5 + z + (i & 4 ? width : 0))
+            ),
+            box = new THREE.Box3().setFromPoints(corners),
+            query = { minX: box.min.x, maxX: box.max.x, minZ: box.min.z, maxZ: box.max.z, corners },
+            face = { mesh: "exact projected region", triangle: 7, points: [corners[0], corners[1], corners[4]] };
+          for (const fallback of [unsafePair, unsafeCells]) {
+            assert.deepEqual(ordinary.maximumHeightInBounds(query, false), fallback.maximumHeightInBounds(query, false));
+            assert.deepEqual(ordinary.maximumHeightInBounds(query), fallback.maximumHeightInBounds(query));
+            assert.deepEqual(ordinary.minimumSurfaceGap([face]), fallback.minimumSurfaceGap([face]));
+          }
+        }
+  }
+  const raised = plane();
+  raised.position.set(-7, 1, -10.5);
+  for (const ground of [ordinary, unsafePair, unsafeCells]) ground.capture([raised]);
+  const query = { minX: -7.2, maxX: -6.8, minZ: -10.7, maxZ: -10.3 };
+  for (const fallback of [unsafePair, unsafeCells]) assert.deepEqual(ordinary.maximumHeightInBounds(query), fallback.maximumHeightInBounds(query));
+});
+
+test("surface-region reuse cannot alias an outside row or column onto a captured cell", () => {
+  const ground = patch([plane()], 0.4);
+  for (const [x, z] of [
+    [0, 0],
+    [-0.35, 0.35],
+    [0.35, -0.35],
+  ]) {
+    const query = { minX: x, maxX: x + 0.01, minZ: z, maxZ: z + 0.01 };
+    assert.ok(ground.maximumHeightInBounds(query));
+    for (const [dx, dz] of [
+      [2.1, 0],
+      [-2.1, 0],
+      [0, 2.1],
+      [0, -2.1],
+    ]) {
+      const outside = { minX: x + dx, maxX: x + dx + 0.01, minZ: z + dz, maxZ: z + dz + 0.01 },
+        points = [
+          [outside.minX, -0.01, outside.minZ],
+          [outside.maxX, -0.01, outside.minZ],
+          [outside.minX, -0.01, outside.maxZ],
+        ].map((p) => new THREE.Vector3(...p));
+      assert.equal(ground.maximumHeightInBounds(outside), null);
+      const surface = ground.minimumSurfaceGap([{ mesh: "outside", triangle: 0, points }]);
+      assert.equal(surface.minimum, null);
+      assert.equal(surface.candidatePairs, 0);
+    }
+  }
+});
+
 test("a bounds query conservatively encloses every supported height on crossed grades", () => {
   for (const [gx, gz] of [
     [0, 0],
