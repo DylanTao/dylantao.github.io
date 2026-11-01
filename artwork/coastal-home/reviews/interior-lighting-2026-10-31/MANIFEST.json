@@ -1,0 +1,366 @@
+{
+  "schema": 1,
+  "scope": "Boundedgymreceiver/visit repair and explicitly rejected privatecage experiments; finalcoordinatorintegration/cachegates remain",
+  "files": [
+    {
+      "path": "compiled/controller.mjs.gz",
+      "bytes": 34363,
+      "sha256": "05cf7fd1457030aad756f6362775944d43f931d66da842eeecd13e821c085fba"
+    },
+    {
+      "path": "compiled/gym-props.mjs.gz",
+      "bytes": 6351,
+      "sha256": "a869656eab09e4900b53e66eab0df76efc0194e2ab5df9555a8851150ed19a16"
+    },
+    {
+      "path": "compiled/light-installations.mjs.gz",
+      "bytes": 12096,
+      "sha256": "d54742a3d6e771f87d6afcf50543158ed77cb440cf3d7797283235fef3f3b45b"
+    },
+    {
+      "path": "controls/baseline-gym-props.mjs.gz",
+      "bytes": 4206,
+      "sha256": "ecbfab60a100e7b97e87325f04e0b1d096d969a0498dcf9dd9c70e1e59d56f61"
+    },
+    {
+      "path": "controls/baseline-light-installations.mjs.gz",
+      "bytes": 7270,
+      "sha256": "1459214009b137d3f8fbf0364df5091893d793d6a24ba07e9e40137cfbbf9259"
+    },
+    {
+      "path": "controls/baseline-manifest.json.gz",
+      "bytes": 66384,
+      "sha256": "ef3adfa4ae5e9065e58177f7a5dc51be18ea9c716d7198dffec4081b4578eb05"
+    },
+    {
+      "path": "controls/baseline-static-light-field.json.gz",
+      "bytes": 272181,
+      "sha256": "8c90646a3b463d287878be887261dc8598ccc40c5da8c02e4870046d11afaa49"
+    },
+    {
+      "path": "data/cage-trial-precondition.json.gz",
+      "bytes": 303,
+      "sha256": "5fcc1cc268159657848b550c5e27690b5239d5f4863e12c92fda4fd47139fdf9"
+    },
+    {
+      "path": "data/cage-v2-precondition.json.gz",
+      "bytes": 230,
+      "sha256": "15fad8acfeff28e66f82542eb8c5c4b06760a5869d312d2a84f882fa0735794c"
+    },
+    {
+      "path": "data/compiled-baseline.json.gz",
+      "bytes": 70792,
+      "sha256": "e7950a27f4304a03e8c849708831cc8b376f341d3a79382a5a7ac6c5804e5fe4"
+    },
+    {
+      "path": "data/gym-captures.json.gz",
+      "bytes": 306956,
+      "sha256": "628e345cfd7d2589829a787fecea8c519af176b8b2b70895d123b9aac763c91f"
+    },
+    {
+      "path": "data/official-bake-input-custody.json.gz",
+      "bytes": 576,
+      "sha256": "8be531af0cb51c2685e37749c0bfde43f00098ce9b89c15df9dd51666f97e134"
+    },
+    {
+      "path": "data/private-field-baseline.json.gz",
+      "bytes": 1310,
+      "sha256": "c11e75d836a28730a8272f1eebeff99e91cc29115431bd02b9b15d3334d1cc8f"
+    },
+    {
+      "path": "data/private-field-v1.json.gz",
+      "bytes": 1226,
+      "sha256": "e87a8cf8b778a52c67b7a42abc2f1b7dfa4e6f45be52c8a001ccaf3780777b3f"
+    },
+    {
+      "path": "data/private-field-v2.json.gz",
+      "bytes": 1224,
+      "sha256": "6b606a1bf9341ca879090d065871dd665700662ed36dafdb56ea353a893d0b11"
+    },
+    {
+      "path": "data/private-native.json.gz",
+      "bytes": 499,
+      "sha256": "cfe246694f468af30db412959fbd1dd6498a94fbb8083db6fca02389aa03aa75"
+    },
+    {
+      "path": "data/rejected-cage-v1-captures.json.gz",
+      "bytes": 546944,
+      "sha256": "ce823de6376945f5f9123353989531f744497c67a645e65e965b886324062460"
+    },
+    {
+      "path": "data/rejected-cage-v2-captures.json.gz",
+      "bytes": 548105,
+      "sha256": "441b1255cbb1c09dc10fb0d0b7477a2a63371acac4c947277765c439d7a41b67"
+    },
+    {
+      "path": "data/restored-preview.json.gz",
+      "bytes": 348,
+      "sha256": "458a45a7eea8f5bfadc91b5ec958cca24cb6130918681c4a75f3b6b4419a0ba1"
+    },
+    {
+      "path": "data/view-comparisons.json.gz",
+      "bytes": 1093,
+      "sha256": "5f196e42cfbac62903cdfe8af4646ecfc8bceb7e8ae08b645cba3f89da4326e5"
+    },
+    {
+      "path": "logs/bake-baseline.log.gz",
+      "bytes": 491,
+      "sha256": "9f776556564d7d22096eca00c9478a9ada076a5068f10b6c4cf6051e34cce3c1"
+    },
+    {
+      "path": "logs/bake-cage-trial.log.gz",
+      "bytes": 501,
+      "sha256": "a3366b7bd516125854f6c0169fb506363823e65d3d72e1d72644d32ffc208129"
+    },
+    {
+      "path": "logs/bake-cage-v2.log.gz",
+      "bytes": 488,
+      "sha256": "22beec10d4c2360d75b64df241346a8617cff5e5af26c9d902c1e6e7e0adecbf"
+    },
+    {
+      "path": "logs/capture-cage-v2.log.gz",
+      "bytes": 407,
+      "sha256": "42837912f2e6d0d2ced673eb10ea7c8869305335a77289f7ee8380dea73fb289"
+    },
+    {
+      "path": "logs/capture-cage.log.gz",
+      "bytes": 400,
+      "sha256": "72dfc781bd39a4e2d799a3811fc1be2d376973738f6baa03c78a582669500f2e"
+    },
+    {
+      "path": "logs/capture-receivers.log.gz",
+      "bytes": 299,
+      "sha256": "284fbb7cea3f60d92be7b949628f3c04ac8747ef4da5552453dbc3ea9e92f432"
+    },
+    {
+      "path": "logs/node-all-with-deps.log.gz",
+      "bytes": 50920,
+      "sha256": "689d9a94ce2a9a81f09a1f2c8353f7d82bd12929003d223e2543f0ff48c27758"
+    },
+    {
+      "path": "logs/node-all.log.gz",
+      "bytes": 51441,
+      "sha256": "7f17bb5e465210c2febb4b8549bf100c972197ad299a6a893cf3859ef4f69e60"
+    },
+    {
+      "path": "logs/npm-ci.log.gz",
+      "bytes": 160,
+      "sha256": "dcd3f7254e89e6b8a446e1d1080d2e55eff811a87260c32900fa995d156015a2"
+    },
+    {
+      "path": "logs/public-chromium.log.gz",
+      "bytes": 598,
+      "sha256": "3fd213ecbac92ae2bb6584dec2b0d7e9783cbca8ace0006f6a79e906410f5ebd"
+    },
+    {
+      "path": "logs/public-webkit.log.gz",
+      "bytes": 815,
+      "sha256": "200f9f584116c850f96d401b09eccfbf9c5a8d035e210559f7fe07a332a0f27f"
+    },
+    {
+      "path": "logs/style-contract.log.gz",
+      "bytes": 124,
+      "sha256": "0aa531b48d21de0b1363860267c65bb72e03fedee0f64e9997030b469ec37fba"
+    },
+    {
+      "path": "logs/unit-receivers-fixed.log.gz",
+      "bytes": 2224,
+      "sha256": "071af5381914b9d5a12ac834769be0fc490c3e6d867201c3d38eff76e45b7ea0"
+    },
+    {
+      "path": "logs/unit-receivers.log.gz",
+      "bytes": 2646,
+      "sha256": "ad03ce42a8b24a9c4a2259d04c77c305d574f41430b6e4281a0c47a65e921cf9"
+    },
+    {
+      "path": "logs/unit-tests.log.gz",
+      "bytes": 2072,
+      "sha256": "5f4c999dc476ef8b9c820b3699a2a526f72b86317ec2c20dc6c7f95800a5a5a3"
+    },
+    {
+      "path": "producers/capture-cage-v2.cjs.gz",
+      "bytes": 3061,
+      "sha256": "e0417432796f3607c2d807a5482246a4a054ab5b56a539955dc52c3b1565772b"
+    },
+    {
+      "path": "producers/capture-cage.cjs.gz",
+      "bytes": 3048,
+      "sha256": "7c45e08bfbfeb0fd9a267108bfc9b061794ca2c948285de373e19d61b84f1d89"
+    },
+    {
+      "path": "producers/capture-public.cjs.gz",
+      "bytes": 1825,
+      "sha256": "19ec583a1ec50df9508c34bc42bb2f31a9b796bd74ad79ee64e92051c0dff7f8"
+    },
+    {
+      "path": "producers/capture.cjs.gz",
+      "bytes": 2948,
+      "sha256": "183f0f487f1754f392cbdec5220e7b80e8176ad73546622e828204dcc1248b89"
+    },
+    {
+      "path": "producers/compare-views.py.gz",
+      "bytes": 820,
+      "sha256": "f6137e602d9345d397d97285b19f623a805daccb804c64ee6594c13e28f54120"
+    },
+    {
+      "path": "producers/install-candidate.py.gz",
+      "bytes": 583,
+      "sha256": "8294681918256203a1fa235aad1fe8c294e7840738d9f23d788229a2ae54dc9f"
+    },
+    {
+      "path": "producers/install-receivers.py.gz",
+      "bytes": 672,
+      "sha256": "ccfe05d174299478be89282fc505c81cec87585501ba2825105015e6d3026503"
+    },
+    {
+      "path": "producers/pack.py.gz",
+      "bytes": 1715,
+      "sha256": "2b240a626def8c277d0c008c8f6a6fb2ee3aa8dfed60a50f36f720637a5b66db"
+    },
+    {
+      "path": "producers/prepare-bake.py.gz",
+      "bytes": 757,
+      "sha256": "d8d02c4559da5121124d090329e9010943d6fc2b562a29b8a79d5ebf05f9ab55"
+    },
+    {
+      "path": "producers/prepare-cage-capture.py.gz",
+      "bytes": 1091,
+      "sha256": "9b63488b9c996564d7bd35431690d131b4f0f8b07722fb8a772ef9bba2d18ffc"
+    },
+    {
+      "path": "producers/prepare-cage-trial.py.gz",
+      "bytes": 843,
+      "sha256": "d08865367f72f31193db1cea944264d4a4184dcc03ef1fc8d99c5e3ff61ac872"
+    },
+    {
+      "path": "producers/prepare-cage-v2.py.gz",
+      "bytes": 596,
+      "sha256": "a75cd91263c25a9d9b428f3d301f023363968bc39b1fc855b89fff61255a4a2e"
+    },
+    {
+      "path": "producers/prepare-preview.py.gz",
+      "bytes": 523,
+      "sha256": "b67c39868b7ec9fae07b1bdd2ac936be69d96af43b6d4d6d8f60460a6a303e03"
+    },
+    {
+      "path": "producers/private-native.py.gz",
+      "bytes": 732,
+      "sha256": "7f25e4a1cf6138e2874c6634dffaebdbe88c1bb61e1c318c2b530fcabbff57d7"
+    },
+    {
+      "path": "producers/restore-accepted-preview.py.gz",
+      "bytes": 514,
+      "sha256": "b02526c4425804423cfe567f3734b43d9f64ec7f72243740891eb098e8a06daa"
+    },
+    {
+      "path": "producers/sample-cache.cjs.gz",
+      "bytes": 906,
+      "sha256": "a877624c8f0b55b578cea9e67d6bc59398bc4421b511f891ec76ef01062f9cdc"
+    },
+    {
+      "path": "producers/serve.py.gz",
+      "bytes": 273,
+      "sha256": "679848e151182972903cb1d5a132704774b41f73bb54a5850ab5a8695b21fff1"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4826,
+      "sha256": "35f2d0944dfdc336704c110e5cd1267ca727c6f6120c6c05c187d5ab662f5903"
+    },
+    {
+      "path": "rejected/v1-manifest.json.gz",
+      "bytes": 70704,
+      "sha256": "d44c58b911e84c195990633d7fd949fd03add1c6a36a26a34ac7b8b54670d96d"
+    },
+    {
+      "path": "rejected/v1-static-light-field.json.gz",
+      "bytes": 268136,
+      "sha256": "87965607c6676bb99b13b58fc29a8554604d78c70d24e6001d25335732e3ee6d"
+    },
+    {
+      "path": "rejected/v2-manifest.json.gz",
+      "bytes": 70710,
+      "sha256": "d56dbc2d69740214eeb650644a27fcbb6aa276044f88aad38f2aad0fb37335da"
+    },
+    {
+      "path": "rejected/v2-static-light-field.json.gz",
+      "bytes": 272835,
+      "sha256": "d8a63a585a7b8e6da4e1d9acf6e19fd8f9b1932a6109e381ce05e51d8708ff0e"
+    },
+    {
+      "path": "SOURCE_BINDINGS.json",
+      "bytes": 2056,
+      "sha256": "aebe9391d70fa7c413e40cc4de3a993958c0577e29460a85df579b28b724919e"
+    },
+    {
+      "path": "views/gym/baseline-evening.png",
+      "bytes": 603258,
+      "sha256": "b4ea53975a0b5b9c40f72daf5ccd7686f3ba76a2bf2899c9e7d1b84d98a1b2a2"
+    },
+    {
+      "path": "views/gym/baseline-noon-body.png",
+      "bytes": 836476,
+      "sha256": "7060c055fb618be2d1a0bffb27750ac8cf69d0b85bf7b76c6cc25fc19146ca86"
+    },
+    {
+      "path": "views/gym/baseline-noon.png",
+      "bytes": 949551,
+      "sha256": "e4ec896dae121676decaab3548ec9d786694d8cc22710cd8e3c175744d4df632"
+    },
+    {
+      "path": "views/gym/candidate-evening.png",
+      "bytes": 734051,
+      "sha256": "f8e70073a7b7755c82a90ffbf18b6b162cfc1a0b9930d02799a0c7b3b24bf3bd"
+    },
+    {
+      "path": "views/gym/candidate-noon-body.png",
+      "bytes": 928744,
+      "sha256": "5e2002b1576941aa1408e4d2bc7aeeeadacbbae1c86bb46350f97b08b83e1d2e"
+    },
+    {
+      "path": "views/gym/candidate-noon.png",
+      "bytes": 1032398,
+      "sha256": "f52b2aaf6b4f7cbf818299010b49920785edcd83a1393769c6596cf959ce4fec"
+    },
+    {
+      "path": "views/private-v2/baseline-evening.png",
+      "bytes": 1138586,
+      "sha256": "74112892b716c6999758c58f6b6cdd278cc128aa04ceb8b591437bde03514a3b"
+    },
+    {
+      "path": "views/private-v2/baseline-noon-body.png",
+      "bytes": 1504961,
+      "sha256": "0c62ff81e905581d942fdc13cc83f32342989b8173c5b496e178730ef25b3eac"
+    },
+    {
+      "path": "views/private-v2/baseline-noon.png",
+      "bytes": 1974461,
+      "sha256": "c2bbee0cd7b37c82eeaff640caeb190a2630532a0f33d46088317dfa7050a5a6"
+    },
+    {
+      "path": "views/private-v2/candidate-evening.png",
+      "bytes": 1154688,
+      "sha256": "64da3b45a705139fe3f08d661b7facda07108b0c39bcf26d9856d27dd4f8432b"
+    },
+    {
+      "path": "views/private-v2/candidate-noon-body.png",
+      "bytes": 1496367,
+      "sha256": "b9260f23b68c31fccc9cfeac939275dbeb9b3b7e3fb64840e371aa9569b9c476"
+    },
+    {
+      "path": "views/private-v2/candidate-noon.png",
+      "bytes": 1945936,
+      "sha256": "004ec19c8abc3082612a48084ae2ce112fc02ff9695b522f08c8adf38b81f797"
+    },
+    {
+      "path": "views/rejected-private-v1/evening.png",
+      "bytes": 1134855,
+      "sha256": "7261f5a16701256bda31535f4de0a79d70c51b3bbf78e7827d1b3a9eea0ab608"
+    },
+    {
+      "path": "views/rejected-private-v1/noon.png",
+      "bytes": 1944543,
+      "sha256": "06abaf1cb9f45100b4117d80b9f9c6d68c6a4e0f569a1c7c86c65d760a24b5b8"
+    }
+  ]
+}

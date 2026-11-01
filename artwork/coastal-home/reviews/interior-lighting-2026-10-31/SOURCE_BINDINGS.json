@@ -1,0 +1,53 @@
+{
+  "sourceCommit": "b636e67c6",
+  "sourceBindings": [
+    {
+      "path": "assets/js/home-scene/light-installations.mjs",
+      "gitBlobSha256": "c3b6d2a67c519fcf51ae70d936622a2146329e5457751f4eed92cd7c265f75a4",
+      "bytes": 40525
+    },
+    {
+      "path": "assets/js/home-scene/gym-props.mjs",
+      "gitBlobSha256": "620bcb3dd15bd1704b6794128d106951fad577147c813cdfd920c18b682ae13c",
+      "bytes": 17239
+    },
+    {
+      "path": "test/light-installations.test.mjs",
+      "gitBlobSha256": "5d88c425f3a937b04d6b8cdfe653145ac625a706c052541c5f5d0cf2cb477057",
+      "bytes": 23281
+    },
+    {
+      "path": "test/light-installation-receivers.test.mjs",
+      "gitBlobSha256": "c6f6e22283bd8e512b7bc5479d2363768fb47c2919ed1836a2ce6696afa0c8db",
+      "bytes": 15754
+    },
+    {
+      "path": "test/gym-props-materials.test.mjs",
+      "gitBlobSha256": "15bcb29f9ae38ed355d95a5363afa58fb1d70d659608ff7c6eb9bd932d5d28e6",
+      "bytes": 2308
+    },
+    {
+      "path": "bin/bake_coastal_static_light.cjs",
+      "gitBlobSha256": "9deb3854df6ef9ab27dc28cf65b809903fc1ec43f1cc61d986965bff20f12966",
+      "bytes": 5856
+    },
+    {
+      "path": "bin/coastal_static_light_inputs.cjs",
+      "gitBlobSha256": "98c654f5a6dcff2505083ae32a0e170ffcb6e4056d923f589b513104d5abb5b0",
+      "bytes": 2822
+    },
+    {
+      "path": "assets/js/home-scene/static-light-field.mjs",
+      "gitBlobSha256": "a92b6ac5c4ff6d868dfe0941483690ba7191b1a0b02a6f013cd98d4c2c27a9a9",
+      "bytes": 37292
+    },
+    {
+      "path": "artwork/coastal-home/coastal-home.blend",
+      "gitBlobSha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad",
+      "bytes": 28997902
+    }
+  ],
+  "compiledScope": "Complete1360-file70ee4eac5site and two accepted hardware/leafGLBs; only owninggym modules change. Officialcache/manifest controls isolated and rejectedcages restored.",
+  "nativeMasterSha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad",
+  "publication": "None. Current-root fullsuite and officialcombinedcache remain required."
+}
