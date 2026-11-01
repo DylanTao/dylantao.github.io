@@ -1,0 +1,206 @@
+{
+  "schema": "sirui-immutable-review-v1",
+  "sourceCheckpoint": "2a6c655d710c2e2d9e0eb154f3459a1f8cbe4ca3",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "compiled/main.css.gz",
+      "bytes": 91410,
+      "sha256": "ce18eb71694123e608fe426b33e9dc701ba518776725af1f990de8c3c8a314c4",
+      "originalSha256": "aef24178032c9f45510cef92a0d2729d268e294f620bb109edd4534242a63062"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2888,
+      "sha256": "d85b460004e269286b98b294c467a771967994b4ab71601b9b82dcb6258b3d83"
+    },
+    {
+      "path": "receipts/build-navigation.log.gz",
+      "bytes": 10239,
+      "sha256": "76e1ee1ce69ac66a611d0d3d826ea0b0485c1a35abe08fc689853390d7ae4234",
+      "originalSha256": "33db400032c89df0ad5430dfd2983fd31119c167c7a8b4d679fee32e63f1553b"
+    },
+    {
+      "path": "receipts/nav-audit.cjs.gz",
+      "bytes": 1127,
+      "sha256": "1fc7b912d358b6ed0c6343996f4c70d4c6e86b8996a2524a059ccbecc4972758",
+      "originalSha256": "a4ad255cd1ba870782f71d1571edaf1c287ae3f8ac192e4576d0000630c5422e"
+    },
+    {
+      "path": "receipts/nav-baseline.json.gz",
+      "bytes": 759,
+      "sha256": "63f1e61b8eaf33f4e76d92eece4421432df7665a3c0692df29243031ccc434ba",
+      "originalSha256": "5c79614a2e83adc19349c98cc92cde909ce069878834b9d14cf92f7f4889d835"
+    },
+    {
+      "path": "receipts/nav-candidate.log.gz",
+      "bytes": 670,
+      "sha256": "0e01cec1c57fbf54d4a3b8f10229d608201931467ed95da71014360ec5dd78c5",
+      "originalSha256": "a3339efe0f6b983167ce086a7f310ff42dcee3548fa239bbf8e26d8ff696b5a1"
+    },
+    {
+      "path": "receipts/nav-middle.log.gz",
+      "bytes": 1542,
+      "sha256": "9999e35435d4b7e13d59b865f7776d84b84d2c3dc261d012e3ad7d48fa4ab1ab",
+      "originalSha256": "43e3fd1d7277da7f95d7d82f8f79d2d76c4b620ec068ad10efe6b60fb06d2ad5"
+    },
+    {
+      "path": "receipts/nav-tablet-replacement.log.gz",
+      "bytes": 623,
+      "sha256": "9a3f896d6a4fe2513dafb6683e3fda1bfd3abc5fc034120a0c70cc606669f422",
+      "originalSha256": "9a7dff0b55536afad4d53576e89aeb807b526b018c1831219686a74bfa9795a0"
+    },
+    {
+      "path": "receipts/nav-webkit.cjs.gz",
+      "bytes": 1526,
+      "sha256": "c5dd3d5dd3b6b9ce5f0e8f328d03d0bf0881958d11731ab29b8a1950deef7754",
+      "originalSha256": "019fd274c115405cfecd20d87444ced8c17cddac010a5d1465ede84adc8ea3cd"
+    },
+    {
+      "path": "receipts/nav-webkit.json.gz",
+      "bytes": 1455,
+      "sha256": "b840648147e3ccf5941fe9085f86719c24ff4f2e5c1f853de0d9579e7910bb97",
+      "originalSha256": "8198252838edbc77f34fc9f5ea14651e227ff1ebb1fd084fe2c7ca356e78a5ca"
+    },
+    {
+      "path": "receipts/nav-webkit.log.gz",
+      "bytes": 64,
+      "sha256": "d6ba22d246f2732adcdf09f0cde74c3f22710da0c0ff4bfecf73fc7f2061886c",
+      "originalSha256": "a134f289938dbea3368af1aaba25fa0dcbbf6702749ec27ed103051f246e22e8"
+    },
+    {
+      "path": "receipts/navigation-product.json.gz",
+      "bytes": 303,
+      "sha256": "d585ae99eb57963a31044b346c5fce516a957b385cc33d593adb537899668f40",
+      "originalSha256": "66a48df9f77095687415b137a0a89e4a92f2ec8ed77e78674fc9fd7662ec37af"
+    },
+    {
+      "path": "receipts/navigation-python.log.gz",
+      "bytes": 388,
+      "sha256": "7b8912fd5d0f959f2a5442b2f4b4b7c18e574dc685d3038e7cbea4ad7ef56712",
+      "originalSha256": "04b481d7f8c01e35866e7e3726adfbaaaf0068196ed9be3704fb5d424911d59b"
+    },
+    {
+      "path": "receipts/serve.py.gz",
+      "bytes": 526,
+      "sha256": "1f8cb49f0c1c86e49fcf0c016df1859c9853295db2118f2765aa223c2caa60d1",
+      "originalSha256": "f189eb1e0c52992816c1eb10c66aaccb0a0787f9237cbc12c857faa473cded19"
+    },
+    {
+      "path": "runs/nav-middle-results/.last-run.json.gz",
+      "bytes": 104,
+      "sha256": "d65595c7832b8ba3c5d19040e4e95930387585d4ece9d0ed9a933edd9a5570eb",
+      "originalSha256": "4045cc547aa6060dac558762cbf606d1287475ebed4056387f1d43db7f163fe2"
+    },
+    {
+      "path": "runs/nav-middle-results/desk-scene-coastal-home-ev-47696-put-above-following-content-laptop-1280/rooms-pointer-embed.png",
+      "bytes": 303480,
+      "sha256": "f8953fc8ad5b980aced18d9445f369b346eb81952eaf10182ad6af818a36b3b6"
+    },
+    {
+      "path": "runs/nav-middle-results/desk-scene-coastal-home-ev-47696-put-above-following-content-laptop-1280/rooms-pointer-fullscreen.png",
+      "bytes": 332540,
+      "sha256": "cfc8499fad0d2d3009b4b84e4cf7cc52e7dfdd361005cc76a2c23b0e068f83d2"
+    },
+    {
+      "path": "runs/nav-middle-results/desk-scene-coastal-home-ev-47696-put-above-following-content-tablet-768/error-context.md.gz",
+      "bytes": 8108,
+      "sha256": "b71b200bc463d048baf832f2928e9b5198eb7005fbe0ee34a7a6b89c4cab8c74",
+      "originalSha256": "a622ec40f6955b0254b74d05fc68293ee362e58880187262ffdd9207a6715914"
+    },
+    {
+      "path": "runs/nav-middle-results/desk-scene-coastal-home-ev-47696-put-above-following-content-tablet-768/test-failed-1.png",
+      "bytes": 323383,
+      "sha256": "99841d68dbf8c7ee30c7bda8fa6870d32a063896a64210d11d251e84c7350850"
+    },
+    {
+      "path": "runs/nav-middle-results/desk-scene-coastal-home-ev-47696-put-above-following-content-tablet-768/trace.zip",
+      "bytes": 2433691,
+      "sha256": "a2537111d36d2241d6ec378f2696fa7ac9977d13be92cc28532e64c94b1e05d4"
+    },
+    {
+      "path": "runs/nav-results/.last-run.json.gz",
+      "bytes": 60,
+      "sha256": "ab2773fce076cedf886e7b45072ea49d0dfc6bdbbca2d9e3779ab76473918f40",
+      "originalSha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "runs/nav-results/desk-scene-coastal-home-ev-47696-put-above-following-content-desktop-1440/rooms-pointer-embed.png",
+      "bytes": 861665,
+      "sha256": "151c8e032d4768d42c68f65eb99fc3b3037924153b2976489b14fb2a6ad2f562"
+    },
+    {
+      "path": "runs/nav-results/desk-scene-coastal-home-ev-47696-put-above-following-content-desktop-1440/rooms-pointer-fullscreen.png",
+      "bytes": 1024211,
+      "sha256": "901110d01a67dca5ab7eb03a065f1fbcbd01e7dc5ea16b874d4cda4d8e8c57fa"
+    },
+    {
+      "path": "runs/nav-results/desk-scene-coastal-home-ev-47696-put-above-following-content-mobile-390/rooms-pointer-embed.png",
+      "bytes": 142173,
+      "sha256": "43b6debe97d5ae1a94e51d30165117bb63eee010335e485951974e07a4a2a198"
+    },
+    {
+      "path": "runs/nav-results/desk-scene-coastal-home-ev-47696-put-above-following-content-mobile-390/rooms-pointer-fullscreen.png",
+      "bytes": 115161,
+      "sha256": "51f73b91019f255c15bca9f4cb77a4dbbc90dd10ff5c37d564c4fbb1b585eae6"
+    },
+    {
+      "path": "runs/nav-tablet-replacement-results/.last-run.json.gz",
+      "bytes": 60,
+      "sha256": "ab2773fce076cedf886e7b45072ea49d0dfc6bdbbca2d9e3779ab76473918f40",
+      "originalSha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "runs/nav-tablet-replacement-results/desk-scene-coastal-home-ev-47696-put-above-following-content-tablet-768/rooms-pointer-embed.png",
+      "bytes": 332150,
+      "sha256": "7d9c9912fabaee34273c8e994fee2f90fb8952a8adcb95a7e8f352f604de52d6"
+    },
+    {
+      "path": "runs/nav-tablet-replacement-results/desk-scene-coastal-home-ev-47696-put-above-following-content-tablet-768/rooms-pointer-fullscreen.png",
+      "bytes": 248603,
+      "sha256": "42c4058c6c86717ebadbef772bb12c5df65dff96ecc8ddfa13b5962d566245ad"
+    },
+    {
+      "path": "source/_sass/_home.scss.gz",
+      "bytes": 15333,
+      "sha256": "ee6bd33f51117e8eacdc48cc6e014ae85ea220f2f20314c6fc6d1d1ffb2ddb98",
+      "originalSha256": "a4543d6556f9dde0eb0f8487e5cfc621b872e69dcb92ee2ba4325d1405ccde74"
+    },
+    {
+      "path": "source/test/visual/desk-scene.spec.js.gz",
+      "bytes": 52894,
+      "sha256": "466d760a44c9e67afa2a7d2b4737c817d8b128c2ab9b9f4aede3ef2d51b4da24",
+      "originalSha256": "04384541b0151befc1e00ff92a121134ce7195625b996fc839902bc189580472"
+    },
+    {
+      "path": "source/test/visual/scene-groups.json.gz",
+      "bytes": 5151,
+      "sha256": "c75fbdf86b07835296941630305ef3e2e5b4509efe553f53095c003b1b819d39",
+      "originalSha256": "87d9aaad9fd9b530d3167c788341fdeda5eac77e8c93d21cd0504ae37969d603"
+    },
+    {
+      "path": "views/nav-baseline-2560.png",
+      "bytes": 859439,
+      "sha256": "1e8b277e18d075145e2cc03c8d85999b1ce59b6fba7e49989c9853292d377ec2"
+    },
+    {
+      "path": "views/nav-baseline-390.png",
+      "bytes": 182869,
+      "sha256": "f98c4d75ff036104dfe83bbed8fadeda08f4d1017de483745183582b3de1e6f1"
+    },
+    {
+      "path": "views/nav-webkit-embed.png",
+      "bytes": 91343,
+      "sha256": "a7ade237412db0038abac4556be553bc805dcfcbfbd770d58a1d68d8d1bd45c5"
+    },
+    {
+      "path": "views/nav-webkit-fullscreen.png",
+      "bytes": 111490,
+      "sha256": "7c95042539471885ab6798f615e0b5c685dafd14914aff6f3f1915527d2ec5f5"
+    }
+  ]
+}

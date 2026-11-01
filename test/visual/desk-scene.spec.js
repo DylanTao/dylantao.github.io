@@ -2264,6 +2264,61 @@ test("coastal home: full screen fills the screen, keeps its controls and returns
   expect(errors).toEqual([]);
 });
 
+test("coastal home: every Rooms destination receives pointer input above following content", async ({ page }, testInfo) => {
+  test.setTimeout(600000);
+  if (testInfo.project.name === "desktop-1440") await page.setViewportSize({ width: 2560, height: 1440 });
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const touch = Boolean(testInfo.project.use.isMobile),
+    activate = (locator) => (touch ? locator.tap() : locator.click());
+  await activate(page.locator('[data-home-desk-mode="3d"]'));
+  const scene = page.locator("[data-home-desk-scene]"),
+    stage = page.locator("[data-home-artifact-stage]"),
+    ui = page.locator("[data-home-world-controls]");
+  await scene.scrollIntoViewIfNeeded();
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
+  const places = ui.locator("[data-world-places]"),
+    summary = places.locator("summary"),
+    rows = [];
+  const destinations = ["overview", "outside", "entrance", ...homeManifest().rooms.map((room) => room.id)];
+  for (const mode of ["embed", "fullscreen"]) {
+    if (mode === "fullscreen") {
+      await activate(ui.locator("[data-world-fullscreen]"));
+      await expect(stage).toHaveClass(/is-world-immersive/);
+    }
+    for (const id of destinations) {
+      await activate(summary);
+      const button = places.locator(`[data-world-destination="${id}"]`);
+      await button.scrollIntoViewIfNeeded();
+      const hit = await button.evaluate((element) => {
+        const r = element.getBoundingClientRect(),
+          top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+        return {
+          id: element.dataset.worldDestination,
+          top: top?.outerHTML.slice(0, 200),
+          receives: element === top || element.contains(top),
+          rect: r.toJSON(),
+        };
+      });
+      expect(hit.receives, `${mode}/${id}: ${hit.top}`).toBe(true);
+      await activate(button);
+      await expect(places).not.toHaveAttribute("open");
+      await expect(scene).toHaveAttribute("data-room", id === "entrance" ? "outside" : id);
+      rows.push({ mode, ...hit });
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    }
+    await activate(summary);
+    await capture(testInfo, `rooms-pointer-${mode}`, await page.screenshot());
+    await summary.press("Escape");
+  }
+  await page.locator("[data-world-exit]").click();
+  await expect(stage).not.toHaveClass(/is-world-immersive/);
+  expect(errors).toEqual([]);
+  await testInfo.attach("rooms-pointer-hits", { body: JSON.stringify({ rows, errors }, null, 2), contentType: "application/json" });
+});
+
 test("coastal home: public room navigation works in the embed and starts a safe walk from the chosen room", async ({ page }, testInfo) => {
   test.setTimeout(600000);
   const errors = collectRuntimeErrors(page);

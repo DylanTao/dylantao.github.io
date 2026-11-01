@@ -343,6 +343,14 @@ html[data-theme="dark"] .home-story-rail ol {
   grid-area: copy;
 }
 
+// The reveal transform and isolated media each create a stacking context. While
+// Rooms is open, lift its hero above later sections, within the page's existing
+// chrome layer. Raising only the inner flyout cannot escape those contexts.
+.home-hero:has([data-world-places][open]) {
+  position: relative;
+  z-index: 1;
+}
+
 .home-kicker {
   margin: 0 0 0.85rem;
   color: var(--home-accent-strong);
