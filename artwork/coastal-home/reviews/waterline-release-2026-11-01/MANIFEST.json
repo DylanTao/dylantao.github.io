@@ -1,0 +1,45 @@
+{
+  "schema": "sirui-review-payloads-v1",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "CI.json",
+      "bytes": 5710,
+      "sha256": "8ed0cbc743a5785dd47146276118c498a3e5bcd656fad0179dec5a415d2c0962"
+    },
+    {
+      "path": "live-waterline-2k.png",
+      "bytes": 1685209,
+      "sha256": "904a4e573bf202fed404d7d5e72ca716b702df59134e40ff726a9e171942885c"
+    },
+    {
+      "path": "live-waterline-bodies.json.gz",
+      "bytes": 813,
+      "sha256": "0d02045186d8f60b51c499f9c46b772c5c9115d3929e4f494d8361ced0c5e47f"
+    },
+    {
+      "path": "live-waterline.cjs.gz",
+      "bytes": 1255,
+      "sha256": "c8c87ef075db8f711f5ecdac62a07d0224df110f80bd3ac7d5e865c5d46eef38"
+    },
+    {
+      "path": "live-waterline.json.gz",
+      "bytes": 65024,
+      "sha256": "57781aa20a83ab50bc32643534e0480fd9f78576a460277a59872ad072d1ed52"
+    },
+    {
+      "path": "live-waterline.log.gz",
+      "bytes": 681,
+      "sha256": "8507f19b26b54ac788acffcff02c14820eef0d22c24283ba2855bdbf99981872"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1333,
+      "sha256": "a988fb101ae05d58f2041f299790a0f20fb92c7609b674452954f4c58b4ae2aa"
+    }
+  ]
+}

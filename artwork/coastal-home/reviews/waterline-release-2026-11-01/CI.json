@@ -1,0 +1,217 @@
+{
+  "run": 41341590674,
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 124952575694,
+      "name": "Visual checkpoints (desktop-1440, scene-core-2)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952575823,
+      "name": "Visual checkpoints (laptop-1280, scene-core-2)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952575837,
+      "name": "Visual checkpoints (desktop-1440, scene-live)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952575863,
+      "name": "Visual checkpoints (mobile-390, scene-exploration)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952575867,
+      "name": "Visual checkpoints (desktop-1440, scene-held-stairs)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952575878,
+      "name": "Visual checkpoints (laptop-1280, scene-held-stairs)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952575890,
+      "name": "Visual checkpoints (laptop-1280, scene-exploration)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952575901,
+      "name": "Visual checkpoints (tablet-768, scene-gym)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952575906,
+      "name": "Visual checkpoints (desktop-1440, scene-exploration)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952575912,
+      "name": "Visual checkpoints (mobile-390, scene-gym)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952575931,
+      "name": "Visual checkpoints (desktop-1440, legacy)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952575937,
+      "name": "Visual checkpoints (laptop-1280, scene-gym)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952575976,
+      "name": "Visual checkpoints (tablet-768, scene-core-1)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952575990,
+      "name": "Visual checkpoints (tablet-768, scene-live)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952575994,
+      "name": "Visual checkpoints (mobile-390, scene-core-2)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576001,
+      "name": "Visual checkpoints (desktop-1440, scene-choreography)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576003,
+      "name": "Visual checkpoints (desktop-1440, scene-core-1)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576004,
+      "name": "Visual checkpoints (laptop-1280, scene-core-1)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576007,
+      "name": "Visual checkpoints (laptop-1280, scene-choreography)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576010,
+      "name": "Visual checkpoints (laptop-1280, scene-footer-light)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576014,
+      "name": "Visual checkpoints (mobile-390, scene-choreography)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576015,
+      "name": "Visual checkpoints (desktop-1440, scene-journey)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576031,
+      "name": "Visual checkpoints (laptop-1280, scene-live)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576033,
+      "name": "Visual checkpoints (tablet-768, scene-choreography)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576036,
+      "name": "Visual checkpoints (desktop-1440, scene-circulation)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576039,
+      "name": "Visual checkpoints (desktop-1440, scene-gym)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576043,
+      "name": "Visual checkpoints (mobile-390, scene-held-stairs)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576050,
+      "name": "Visual checkpoints (mobile-390, scene-journey)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576058,
+      "name": "Visual checkpoints (tablet-768, scene-footer-light)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576106,
+      "name": "Visual checkpoints (desktop-1440, scene-footer-light)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576107,
+      "name": "Visual checkpoints (tablet-768, site)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576115,
+      "name": "Visual checkpoints (laptop-1280, site)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576120,
+      "name": "Visual checkpoints (tablet-768, scene-held-stairs)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576129,
+      "name": "Visual checkpoints (mobile-390, scene-live)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576135,
+      "name": "Visual checkpoints (mobile-390, scene-footer-light)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576148,
+      "name": "Visual checkpoints (mobile-390, scene-core-1)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576168,
+      "name": "Visual checkpoints (laptop-1280, scene-journey)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576170,
+      "name": "Visual checkpoints (tablet-768, scene-journey)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576172,
+      "name": "Visual checkpoints (tablet-768, scene-core-2)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576226,
+      "name": "Visual checkpoints (mobile-390, site)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576247,
+      "name": "Visual checkpoints (desktop-1440, site)",
+      "conclusion": "success"
+    },
+    {
+      "id": 124952576288,
+      "name": "Visual checkpoints (tablet-768, scene-exploration)",
+      "conclusion": "success"
+    }
+  ]
+}
