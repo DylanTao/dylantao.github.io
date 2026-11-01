@@ -1,0 +1,16 @@
+{
+  "reference": {
+    "url": "https://www.linkedin.com/posts/jakobnielsenphd_ux-designportfolio-careeradvice-share-7521466299072462848-Dt2u/",
+    "retrievedAt": "2026-11-01",
+    "privateCaptureSha256": "e11cbdf5254fcb0c3d64d9c607140956ae9ff3d7ba46ec419d6e565da92e7728",
+    "privateCaptureBytes": 205280,
+    "studyStatisticsAdmitted": false
+  },
+  "sourceFiles": {
+    "WEBSITE_DESIGN_HEURISTICS.md": "76c8094e6efc124d253950c76cd4094fb00327486b38a799e8c2be0eafb56464",
+    "_projects/designweaver.md": "fb32c3d237ccb8c84dd1a3531792cff27b32d9e7758f0d892ce1353a0a0d17fa"
+  },
+  "renderedStates": 8,
+  "checkpointViewports": 4,
+  "pythonTests": 378
+}

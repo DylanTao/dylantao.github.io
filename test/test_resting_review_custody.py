@@ -37,6 +37,7 @@ class RestingReviewCustody(unittest.TestCase):
         }
         packets = {REVIEWS / folder: index for folder, index in packets.items()}
         packets[ROOT / "artwork/site-fidelity/reviews/metrics-pc-2026-11-01"] = "MANIFEST.json"
+        packets[ROOT / "artwork/site-fidelity/reviews/nielsen-portfolio-2026-11-01"] = "MANIFEST.json"
         for base, index in packets.items():
             folder = base.name
             records = json.loads((base / index).read_text(encoding="utf8"))["files"]
