@@ -1,0 +1,917 @@
+{
+  "source": "45aa836ebff28d8d90eb77d3a0b7f4c5b827aab6",
+  "ghPages": "6871ed050bbc6832dd110ccd38ca84ea2ca254dc",
+  "manifestSemanticExact": true,
+  "rows": [
+    {
+      "path": "assets/js/blog-layout.mjs",
+      "bytes": 8790,
+      "sha256": "652abab3547fa27a18859f581aeb22518ca93f8eccfa3eb41a86e71e4c4b828b"
+    },
+    {
+      "path": "assets/js/build-diary.mjs",
+      "bytes": 2459,
+      "sha256": "17d7be0bbc6669d2d0f4d24aef518eedc5d53025db1ab00dd80c92fa393aed21"
+    },
+    {
+      "path": "assets/js/build-rhythm-calendar.mjs",
+      "bytes": 5377,
+      "sha256": "068b6f3f3bf0876b2966f510f1512af3f489f5c41a88fe1ee9b3801f1bcd4e29"
+    },
+    {
+      "path": "assets/js/build-rhythm-geometry.mjs",
+      "bytes": 2854,
+      "sha256": "beabdb154b4acfb550356c42a8e1216e8313f8191e045081fde717ef6bcd7801"
+    },
+    {
+      "path": "assets/js/build-rhythm-overview.mjs",
+      "bytes": 14480,
+      "sha256": "021ca10508a946554f05e2a7e4b8a769581e4132291684fcfb8460598129cc67"
+    },
+    {
+      "path": "assets/js/card-ink.mjs",
+      "bytes": 3144,
+      "sha256": "e2aeef613e9176ef475f6246661c9c1e9586c993d8c485c47f1281138785d736"
+    },
+    {
+      "path": "assets/js/companion/attention.mjs",
+      "bytes": 923,
+      "sha256": "90c5b35bd097674cece1baeb9b7b84f5c8a08ef7706e07406fbd188d9e75b658"
+    },
+    {
+      "path": "assets/js/companion/behaviour.mjs",
+      "bytes": 2051,
+      "sha256": "c82d0df42c03e5cb305338b31ffe7bad19a150edb9b845a39ddb45e41efcb140"
+    },
+    {
+      "path": "assets/js/companion/bridge.mjs",
+      "bytes": 546,
+      "sha256": "8ef72c9010d484b34a870d9c3d377808a4802c3c99004b5a212b83c0a70050da"
+    },
+    {
+      "path": "assets/js/companion/clearance.mjs",
+      "bytes": 1028,
+      "sha256": "900ee6bd944a1677b9168de294b90d837746047c3eb45a342439a38ba4c322b2"
+    },
+    {
+      "path": "assets/js/companion/duh-body.mjs",
+      "bytes": 1571,
+      "sha256": "e93a8c4475b1b0fa5c65b77064314ca1667e83ef6ba82dd7efed3849ec699776"
+    },
+    {
+      "path": "assets/js/companion/duh-motion.mjs",
+      "bytes": 4812,
+      "sha256": "df62c38a81ccf99ae259a1e8ab9e6dbea9572374feabd5b8328f88e6bdb16561"
+    },
+    {
+      "path": "assets/js/companion/duh-page.mjs",
+      "bytes": 22111,
+      "sha256": "db1a51688ff2dcd65c03d6ba20823edfac8c48bf4cf08b91a067772f776ea306"
+    },
+    {
+      "path": "assets/js/companion/duh-portrait.mjs",
+      "bytes": 7490,
+      "sha256": "d301aba5985d0f3dea6eb8e892c7008fe814bda34cb2fe21f0a8f75f63d92d6f"
+    },
+    {
+      "path": "assets/js/companion/duh-viewport.mjs",
+      "bytes": 782,
+      "sha256": "6b6d636a89811be522802a68b42e086bf541e0a90d3253c63cec8ceb4e68ff27"
+    },
+    {
+      "path": "assets/js/companion/motion.mjs",
+      "bytes": 3719,
+      "sha256": "d701031509986986b74776771245bddbecf4872748ced8fa8082d419afbbfdc9"
+    },
+    {
+      "path": "assets/js/companion/page.mjs",
+      "bytes": 18540,
+      "sha256": "5d6a579c0e71523f7530db8294411b169bbc1a9ac9c0b856836ba724739cdec5"
+    },
+    {
+      "path": "assets/js/companion/performance.mjs",
+      "bytes": 2719,
+      "sha256": "ebde195d098516fe8e5dd9357a616013c447101dfb1c4f6e9bd3285ec1c1c2e4"
+    },
+    {
+      "path": "assets/js/companion/portrait.mjs",
+      "bytes": 8001,
+      "sha256": "4c1f307ebab93f12b52c1444ffbefa9adbc4426872a0cbc5f8deaabba0d07569"
+    },
+    {
+      "path": "assets/js/companion/studio.mjs",
+      "bytes": 3610,
+      "sha256": "84b20303a64bb74c1268d889e14bab9c52bb029889d062e4b0ca40333cd9bdcd"
+    },
+    {
+      "path": "assets/js/companion/travel.mjs",
+      "bytes": 3680,
+      "sha256": "2597daec47a59b194325febd859da20a17c081e33aa4805a809ab99b202158a1"
+    },
+    {
+      "path": "assets/js/designweaver-scaffold.mjs",
+      "bytes": 1933,
+      "sha256": "c4ecd1ade68f8624f883bb1cc4c43663bfb3b084fcf6b54978ae68f37a58dcb2"
+    },
+    {
+      "path": "assets/js/footer-coast/assets.mjs",
+      "bytes": 1270,
+      "sha256": "cb89408c65f7c1326f11deaa611b9fb12014357aebf15bdf50963fb6f57d96fa"
+    },
+    {
+      "path": "assets/js/footer-coast/atmosphere.mjs",
+      "bytes": 7846,
+      "sha256": "b4296f5137c54c8c080761e1019de2c9e81f3efe4f86b255775827657059090f"
+    },
+    {
+      "path": "assets/js/footer-coast/bed-relief.mjs",
+      "bytes": 2151,
+      "sha256": "61bd374f7de40da62ba9b2c724bda31acbb8500dc428d4ccd22e213a41b2c823"
+    },
+    {
+      "path": "assets/js/footer-coast/entry.mjs",
+      "bytes": 1645,
+      "sha256": "c8736954aee2d47d4355e1a0254f42f6ae7628e5ed4615f8ceb655578d291786"
+    },
+    {
+      "path": "assets/js/footer-coast/marine-layer.mjs",
+      "bytes": 4704,
+      "sha256": "543ccd14632fa331f188aad7ce6f7a25d23e0abccb0e2adf9254b8c0dd541637"
+    },
+    {
+      "path": "assets/js/footer-coast/people-pose.mjs",
+      "bytes": 28320,
+      "sha256": "2d9a595e6b8c630ff70baee4850168ff27fd77415f00193ab8a5225c3cac5227"
+    },
+    {
+      "path": "assets/js/footer-coast/people.mjs",
+      "bytes": 6433,
+      "sha256": "0323daea0e4f53e25a1063818913f40b5a142e949487a38fdc11e27ace4b13c6"
+    },
+    {
+      "path": "assets/js/footer-coast/scene.mjs",
+      "bytes": 21376,
+      "sha256": "08e37762aa9bd41fd21aa5f489334ad6771a2fcfce1269197928f431adb292a6"
+    },
+    {
+      "path": "assets/js/footer-coast/sky-look.mjs",
+      "bytes": 6299,
+      "sha256": "48cee06f1c98d0c49d3a8c92690c3a46576c572060d784892655611719541cd7"
+    },
+    {
+      "path": "assets/js/footer-coast/sky.mjs",
+      "bytes": 28765,
+      "sha256": "e3d81a3ade02fa81b4b2e9c9d7d9cbb46fe3e1cc14e3a78fc07d5b3094f05150"
+    },
+    {
+      "path": "assets/js/footer-coast/skyline-data.mjs",
+      "bytes": 35896,
+      "sha256": "d78d4703b64544678f5b8fc2a77b7952fa5364598e5b05b06dd0bf83c0c62e1d"
+    },
+    {
+      "path": "assets/js/footer-coast/skyline.mjs",
+      "bytes": 2192,
+      "sha256": "1c24490515666f943c105552742ab137b0df804188f74d48023b2ba2bb80ba01"
+    },
+    {
+      "path": "assets/js/footer-coast/surfer-motion.mjs",
+      "bytes": 2051,
+      "sha256": "ff127b47610edd92d6beb2ce70dd16e6cc94902689b503933fccf5bcb88430ed"
+    },
+    {
+      "path": "assets/js/footer-coast/view-tilt.mjs",
+      "bytes": 3826,
+      "sha256": "4b4250988fed2ce1c90f47c2228c60d7806bfcddb644008b4132e94f449a3620"
+    },
+    {
+      "path": "assets/js/footer-coast/water-optics.mjs",
+      "bytes": 3082,
+      "sha256": "2a459ebd322e2e7eaa2c9fe025dd67ef751d03cd4fab742267f855186d8abce0"
+    },
+    {
+      "path": "assets/js/footer-coast/water.mjs",
+      "bytes": 30333,
+      "sha256": "e6631f0129afbd3c26deece89ec4d133bd4dc600cba08dff38b38adfa2d4e5b4"
+    },
+    {
+      "path": "assets/js/footer-coast/wave-motion.mjs",
+      "bytes": 218,
+      "sha256": "2e820e23b6636cdd7cc4f6f8b06f486c0eba3327f27dbc1fe1eb54f013cefec1"
+    },
+    {
+      "path": "assets/js/glass-motion.mjs",
+      "bytes": 4655,
+      "sha256": "27f6616ecd00dd71d78426a62f67298a22610db06f235bee40e52ce5bd1a99ea"
+    },
+    {
+      "path": "assets/js/home-scene/activities.mjs",
+      "bytes": 3667,
+      "sha256": "c77e9b023bdb17c28655d74ec5ccd401e29f2c1b12b0df6c37aaa23c72eadf57"
+    },
+    {
+      "path": "assets/js/home-scene/atmosphere-model.mjs",
+      "bytes": 10796,
+      "sha256": "2370b372cabfbf04ad30aca00a13151f24de06d899e89ae1dad6a8d0b820dffb"
+    },
+    {
+      "path": "assets/js/home-scene/atmosphere.mjs",
+      "bytes": 30073,
+      "sha256": "5a40f5b45cb73346d17f5b293eca96953cbc8253b8f503f294f8a40af030b12a"
+    },
+    {
+      "path": "assets/js/home-scene/bathymetry.mjs",
+      "bytes": 6862,
+      "sha256": "bf0f5f7810bd904b4758dc68d507ced6276c84a82da8cff285c09c8443744069"
+    },
+    {
+      "path": "assets/js/home-scene/bedding-breath.mjs",
+      "bytes": 2482,
+      "sha256": "67cb4b6c86aa4ca788cc41b431a5498f3e5474500bffe74c512f099d2db70bb5"
+    },
+    {
+      "path": "assets/js/home-scene/camera-field-worker.mjs",
+      "bytes": 579,
+      "sha256": "46a76bff8deb2be38205fcf16e3d2cf6b78e17defffe023a3be69dcf34e7eeb5"
+    },
+    {
+      "path": "assets/js/home-scene/camera-field.mjs",
+      "bytes": 4390,
+      "sha256": "ebec2228f6eb1358d1d53f268a3815c0c9977865dc6bf169f835db2d4ed6fbe2"
+    },
+    {
+      "path": "assets/js/home-scene/camera-motion.mjs",
+      "bytes": 1295,
+      "sha256": "0f8e07c229986768488090f3b3125bee867d6bd8de9a53f2d65cd6bea9bc6142"
+    },
+    {
+      "path": "assets/js/home-scene/camera.mjs",
+      "bytes": 13802,
+      "sha256": "7caf12e7ec2433eae56a7686bd17d1f693620e4ada816c84da76656a6743d063"
+    },
+    {
+      "path": "assets/js/home-scene/character-contacts.mjs",
+      "bytes": 513,
+      "sha256": "922dbb521557d46a9b075822ecfad38d682b22bc7c1734e713459122fce21110"
+    },
+    {
+      "path": "assets/js/home-scene/character-performance.mjs",
+      "bytes": 4764,
+      "sha256": "26494294d1abb116724a131dcfe6d25b2b749c715bc5c34881dd16b9f8884f94"
+    },
+    {
+      "path": "assets/js/home-scene/cloth-solver.mjs",
+      "bytes": 22099,
+      "sha256": "5b8eb7b934b53a5962a5b4272662b743a5ba64bc4dae921c97a5aa244d56011f"
+    },
+    {
+      "path": "assets/js/home-scene/coastal-rain.mjs",
+      "bytes": 2943,
+      "sha256": "de17c66d88941bd6195e554cf9eacc3bb33e196135a97d00b0110e9884323eda"
+    },
+    {
+      "path": "assets/js/home-scene/coastal-weather.mjs",
+      "bytes": 4305,
+      "sha256": "bc5817f20cf60f67cc8515338d77e097b54ed576dfe2779f15d224c8997ff69e"
+    },
+    {
+      "path": "assets/js/home-scene/coastal-wind.mjs",
+      "bytes": 3783,
+      "sha256": "fc75c385300245fed7a7d76cc9d392d3e4ebb4584e01b1bc3c8b920a2ccb9ceb"
+    },
+    {
+      "path": "assets/js/home-scene/colliders.mjs",
+      "bytes": 12639,
+      "sha256": "9281cfc5effd5d6c00c45877d83e89d66d5b0994bb2824302dc6638952c2399b"
+    },
+    {
+      "path": "assets/js/home-scene/companion.mjs",
+      "bytes": 10284,
+      "sha256": "72ad4043ea04230f3510a3fd80ed991547397ab8955f4e27477ad7e0e8d691f0"
+    },
+    {
+      "path": "assets/js/home-scene/contact-lab.mjs",
+      "bytes": 3354,
+      "sha256": "71f91fdda5005bce1e124a67963aa8aaa6b3eb0c8bd52974ac81b1a97c5a6489"
+    },
+    {
+      "path": "assets/js/home-scene/contact-occlusion.mjs",
+      "bytes": 6603,
+      "sha256": "a2c05aa4311b8f48e6ec7a1fff8e9ee94ed17ea755bdc414f8c2ab0b6a104ec9"
+    },
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "bytes": 100450,
+      "sha256": "cab838bc4801b52f221ea932bec4fa0097f960c5f46d47166b255425f03a9145"
+    },
+    {
+      "path": "assets/js/home-scene/curtain-cloth.mjs",
+      "bytes": 17691,
+      "sha256": "2c299384829ecfeaf4e5667336ee572cdf2ea116b6863ede84e6f8bdfb82036a"
+    },
+    {
+      "path": "assets/js/home-scene/curtain-rig.mjs",
+      "bytes": 7821,
+      "sha256": "9b9153258ace9b8d60cdc81090108b9db7198aa51a2817119a7c0d6f13da743e"
+    },
+    {
+      "path": "assets/js/home-scene/daylight.mjs",
+      "bytes": 1256,
+      "sha256": "dda276ab9fca11b6abd7ac6f865a15e7b11dbc6d39e944e5abe8291d3bdbec10"
+    },
+    {
+      "path": "assets/js/home-scene/detail-levels.mjs",
+      "bytes": 1602,
+      "sha256": "ed688ca952f0b30a447fb43cb2950c24d9ad189ad09162d011aec565aa084f66"
+    },
+    {
+      "path": "assets/js/home-scene/dining-menu.mjs",
+      "bytes": 4426,
+      "sha256": "4771256f0228ed4f3a6905369dea9cd3a802099cadce3844251f2bfe4c651b38"
+    },
+    {
+      "path": "assets/js/home-scene/dining-motion.mjs",
+      "bytes": 21089,
+      "sha256": "800f386dc5c645074b0d4065d3276e3ec695b338701f7b7d02229296c1fe5aec"
+    },
+    {
+      "path": "assets/js/home-scene/dining.mjs",
+      "bytes": 36214,
+      "sha256": "52e386205a8df09a774b8278958c09068c1d7fda19be05d506a94f8ea7b52032"
+    },
+    {
+      "path": "assets/js/home-scene/draw-order.mjs",
+      "bytes": 402,
+      "sha256": "60682595fd4c32ff9ea687cc0be386b9e5e7d91863eca8cff7653efe39ffeda0"
+    },
+    {
+      "path": "assets/js/home-scene/duvet-solver.mjs",
+      "bytes": 2662,
+      "sha256": "c07960b895d065c11a6d2dce0b3b0e174fdb7fea89b363ecf96538902ee7f7e6"
+    },
+    {
+      "path": "assets/js/home-scene/environment.mjs",
+      "bytes": 28850,
+      "sha256": "24cf37b55b23dd812c1a551c464427b28df192030b8f3a285d6edc9b7a2d21a0"
+    },
+    {
+      "path": "assets/js/home-scene/estate-doors.mjs",
+      "bytes": 2719,
+      "sha256": "ba94e9be9b6795303ea50bdafa94fed9a4097ea861eee05db7adda0d793882d8"
+    },
+    {
+      "path": "assets/js/home-scene/far-field.mjs",
+      "bytes": 15624,
+      "sha256": "86a83d897305338d7482e1b7547ac8f0aad42d171481f518a5d13148ea57c67c"
+    },
+    {
+      "path": "assets/js/home-scene/fft-ocean.mjs",
+      "bytes": 3682,
+      "sha256": "10b8dece0e5dc28429a9cee425c88a6cc25a23de2d536d9a2749fa73fcf51cb4"
+    },
+    {
+      "path": "assets/js/home-scene/furniture-fire.mjs",
+      "bytes": 1842,
+      "sha256": "aee81595e7247068c3b5c0273e36dba4409f7464c6c1b418842cb6eed44e4d34"
+    },
+    {
+      "path": "assets/js/home-scene/furniture.mjs",
+      "bytes": 12236,
+      "sha256": "a6bbb06c0cd8f710e5f147f1f84c6c985f88448c7dd735089e1d2e830cd02e2d"
+    },
+    {
+      "path": "assets/js/home-scene/gamepad.mjs",
+      "bytes": 1194,
+      "sha256": "a9fe751622ddef264ba8d5624ca9613d45ab2bb61b832f876044b2eb9fac9899"
+    },
+    {
+      "path": "assets/js/home-scene/glazing.mjs",
+      "bytes": 1101,
+      "sha256": "7d3b65b590b95e6573afa709f7caedba06f10c380d3783125a10db55c63e063d"
+    },
+    {
+      "path": "assets/js/home-scene/gliders.mjs",
+      "bytes": 2717,
+      "sha256": "9f191cbebd7018e7bfbfaeb3cbaeb7d00595a44f6d9e066abccd16619b61ab11"
+    },
+    {
+      "path": "assets/js/home-scene/gpu-timer.mjs",
+      "bytes": 1036,
+      "sha256": "0b467c9a26b81e41632131605a249b566e698ea3f69578303683a149b8bf2f50"
+    },
+    {
+      "path": "assets/js/home-scene/grip-targets.mjs",
+      "bytes": 224,
+      "sha256": "010912bdd2fcc4d426998262e1f34f3cb0d700a93eec71e71263d99c9efa39db"
+    },
+    {
+      "path": "assets/js/home-scene/gym-props.mjs",
+      "bytes": 9406,
+      "sha256": "8e16daad643b0c18d1f5ffc147387ebf9e738777f90697cddc54c9d23d7129ec"
+    },
+    {
+      "path": "assets/js/home-scene/gym-session.mjs",
+      "bytes": 17158,
+      "sha256": "ed51fc11627fb34392e134ea8a88bde5d00555533468024f297a64a05acfaa5d"
+    },
+    {
+      "path": "assets/js/home-scene/haze.mjs",
+      "bytes": 12231,
+      "sha256": "50b97c6b758b2681f940166dfa6bd67e5cf601cb1e8a4c25eeb93984e1a1ef83"
+    },
+    {
+      "path": "assets/js/home-scene/heightfield-water.mjs",
+      "bytes": 7909,
+      "sha256": "b35af7b5d462fc6047e70f8723ad3ab79de45d280d942ee5478874c989c1c4f1"
+    },
+    {
+      "path": "assets/js/home-scene/hinterland.mjs",
+      "bytes": 1982,
+      "sha256": "accb6534acb11d53e39750705ca0cfb82da7363f2395b7525b71dd28cce7908e"
+    },
+    {
+      "path": "assets/js/home-scene/infinity-pool.mjs",
+      "bytes": 4393,
+      "sha256": "858470944b6eb8dad71da722bd696937ab81813f65c2e33faa7dd7378bc9dbd1"
+    },
+    {
+      "path": "assets/js/home-scene/ink-study.mjs",
+      "bytes": 1803,
+      "sha256": "efe4290a6129822495b341c4522e36f690e93fa78dbee2161a3a9c551334b26c"
+    },
+    {
+      "path": "assets/js/home-scene/interior-reflections.mjs",
+      "bytes": 9899,
+      "sha256": "10b201a7af6423192ccc6da90d5cca407dbcba6f94a96951927460f4e0bde786"
+    },
+    {
+      "path": "assets/js/home-scene/laundry-frame.mjs",
+      "bytes": 2253,
+      "sha256": "32887b8d87c31132ddc573dee90c228480cf6675bee1aff5ad8012266a3e038e"
+    },
+    {
+      "path": "assets/js/home-scene/laundry-line.mjs",
+      "bytes": 8346,
+      "sha256": "9e37750c9014e3746c6e477f66b7f6418e40c7b6895a851e38573dd0fe581c11"
+    },
+    {
+      "path": "assets/js/home-scene/laundry-rig.mjs",
+      "bytes": 8410,
+      "sha256": "162d282185493a2a0c8decc3bbbcc38a5f46ca0e2f8947757579b8edd36dbe0c"
+    },
+    {
+      "path": "assets/js/home-scene/library-ladder.mjs",
+      "bytes": 4233,
+      "sha256": "192d790b17b4a1ef3c592040103f971c4f4d94e57d18f221a9110223cd39e694"
+    },
+    {
+      "path": "assets/js/home-scene/lift-rig.mjs",
+      "bytes": 16332,
+      "sha256": "6654c120b1541078fcf6cdd04b03f025516af7d72a1b8475cbce748098d352f0"
+    },
+    {
+      "path": "assets/js/home-scene/light-installations.mjs",
+      "bytes": 22497,
+      "sha256": "7bb895ea7919158b89b43d34e84ec9842b5aa42ca45231297f9692effc0a5d89"
+    },
+    {
+      "path": "assets/js/home-scene/light-trace-core.mjs",
+      "bytes": 5529,
+      "sha256": "8f2370a2bc09cf71e6188c5affd2d4b33350eef0518034d019d6addd6460bbe3"
+    },
+    {
+      "path": "assets/js/home-scene/light-well.mjs",
+      "bytes": 11052,
+      "sha256": "4218a805c1e80718dda68bdae99d7a0ca5d8f9d9f372fbed987c443d2168281b"
+    },
+    {
+      "path": "assets/js/home-scene/loading-sketch-core.mjs",
+      "bytes": 9066,
+      "sha256": "8f38d2f0c07fe2db1bfa7d20505c7dec8cfe11e668c169cd81da3ca59f34328f"
+    },
+    {
+      "path": "assets/js/home-scene/loading-sketch-worker.mjs",
+      "bytes": 1558,
+      "sha256": "d2bf81e94a7fffcb71653e9dce64bfe389f40387aea51d3e762fd3a39e0f682e"
+    },
+    {
+      "path": "assets/js/home-scene/loading-sketch.mjs",
+      "bytes": 4754,
+      "sha256": "71ebc7c83f84418530d1e661cfc5971baa85b3ae440866aea02ad0df47809f29"
+    },
+    {
+      "path": "assets/js/home-scene/local-scene-frame.mjs",
+      "bytes": 376,
+      "sha256": "d55104651bd8a178018d027e75f91eb0b15a80ff692517f8102227ac19ac7902"
+    },
+    {
+      "path": "assets/js/home-scene/locomotion.mjs",
+      "bytes": 1540,
+      "sha256": "67f06f1d0407a6f98600f549a52a2a2aa526de94ead62fca775bf7dcc1042401"
+    },
+    {
+      "path": "assets/js/home-scene/look.mjs",
+      "bytes": 642,
+      "sha256": "4ab0b9d58c0d61ca3a9cbd87d19df11f996983faee08530c03095eaabec83480"
+    },
+    {
+      "path": "assets/js/home-scene/materials.mjs",
+      "bytes": 5306,
+      "sha256": "42b5abd197b7b27905df6e80b86a94a7e36a961a296383820157488cf11cace6"
+    },
+    {
+      "path": "assets/js/home-scene/model-loader.mjs",
+      "bytes": 1349,
+      "sha256": "6d463c135243f233423cf2487572fa48c231a12e462e31112d414994e163a59a"
+    },
+    {
+      "path": "assets/js/home-scene/navigation.mjs",
+      "bytes": 3446,
+      "sha256": "5f0b14d832c9cfc22a90d95137ba2b958963b5993c9ff898159d1d250c785fd2"
+    },
+    {
+      "path": "assets/js/home-scene/occlusion-region.mjs",
+      "bytes": 1701,
+      "sha256": "e66ae82897a665c4006f47d93ac7f4b9cc2c21a09f50164780f6dc4fc2dc4600"
+    },
+    {
+      "path": "assets/js/home-scene/ocean-spectrum.mjs",
+      "bytes": 9329,
+      "sha256": "a165cf2a5b5c9f51c6562122d87af733c1372c2daa52648f27f6de834539ed3d"
+    },
+    {
+      "path": "assets/js/home-scene/onsen-water.mjs",
+      "bytes": 15711,
+      "sha256": "d23664c9c90f777759707f3668cf08dd5822567c1c1d305c70555490a7dfaf20"
+    },
+    {
+      "path": "assets/js/home-scene/perf-overlay.mjs",
+      "bytes": 2743,
+      "sha256": "c7e137bc48e3af361ac2860069852cf45c637ff332ef7e988a7ca27a005fdf77"
+    },
+    {
+      "path": "assets/js/home-scene/planets.mjs",
+      "bytes": 3221,
+      "sha256": "81a03c608f772c46992188e8fa4cf91a97761ba3aabef6ec1245e425c4802a18"
+    },
+    {
+      "path": "assets/js/home-scene/plant-motion.mjs",
+      "bytes": 11298,
+      "sha256": "931b8ce2de1eb6c85beb049d8a3375917c7f6520848e9f92dd159a7f2b019656"
+    },
+    {
+      "path": "assets/js/home-scene/planted-feet.mjs",
+      "bytes": 2538,
+      "sha256": "d09f46ab43b5da746947177d7eb0d959642f5356d2f6206c6b38b48ce2823afb"
+    },
+    {
+      "path": "assets/js/home-scene/pool-activity.mjs",
+      "bytes": 2317,
+      "sha256": "2427b7c6aa5f51e175606ab728e04c3915efe6337589c21af3ba2a4ac094b6e6"
+    },
+    {
+      "path": "assets/js/home-scene/pool-geometry.mjs",
+      "bytes": 978,
+      "sha256": "c00b146c28811850a9ae8f014fda3cd4a9114a2d2e0ddf0d7881057862eafcb5"
+    },
+    {
+      "path": "assets/js/home-scene/pool-impact.mjs",
+      "bytes": 3807,
+      "sha256": "634f1d487a79874f20fa971de0cf2872b6d717da0ed637185fbfbe80b949f3c3"
+    },
+    {
+      "path": "assets/js/home-scene/pool-splash.mjs",
+      "bytes": 5347,
+      "sha256": "98ae0594d0a90f8f66fbc81a45200234094086df9fbbcb2dc1fcfb87ace9d0b5"
+    },
+    {
+      "path": "assets/js/home-scene/pool-stroke.mjs",
+      "bytes": 3302,
+      "sha256": "aa89ff964ce1626bfd0dcefce055ee636869a86b2c0bb7ec5d217ba9c71a236e"
+    },
+    {
+      "path": "assets/js/home-scene/program-lifetime.mjs",
+      "bytes": 1190,
+      "sha256": "9bb021e248d08d582af88ca99787d25589f44138e7786ae0d2c33d8b89bec19e"
+    },
+    {
+      "path": "assets/js/home-scene/program-warmup.mjs",
+      "bytes": 5300,
+      "sha256": "9697e2a80adfe9fda930ed7966e26a0c3339a97cc16687ce4544388b7b842497"
+    },
+    {
+      "path": "assets/js/home-scene/quality.mjs",
+      "bytes": 3921,
+      "sha256": "b860cc79b51e9bbc163243536972a555736942e04f77c98d43503aab32d17706"
+    },
+    {
+      "path": "assets/js/home-scene/rain-roof-field.mjs",
+      "bytes": 2352,
+      "sha256": "e099f20eda9e6f029fa1947dd48d38117dfdb1520f5d047db21c31dc98283176"
+    },
+    {
+      "path": "assets/js/home-scene/realism.mjs",
+      "bytes": 28288,
+      "sha256": "62f7937a316e89349b25b1bfae71b5100f0f0cfb63c5d89c1c9049bf4ec0cee1"
+    },
+    {
+      "path": "assets/js/home-scene/record-motion.mjs",
+      "bytes": 1602,
+      "sha256": "9c4ef3d22ebf14e004a734b3aa49822066eda1efe50e22796f96f59e52930d5b"
+    },
+    {
+      "path": "assets/js/home-scene/reflection.mjs",
+      "bytes": 4870,
+      "sha256": "bd16a900e033474f5c63ddccea94113075e275e1682e722a72d797309deeb9c8"
+    },
+    {
+      "path": "assets/js/home-scene/resolution.mjs",
+      "bytes": 4238,
+      "sha256": "8018f5686d736fee2214dc4bec22a59fd86fbd1506bd57c28757023ca34b5061"
+    },
+    {
+      "path": "assets/js/home-scene/room-journey.mjs",
+      "bytes": 3375,
+      "sha256": "fb644b080e45b61d72932065ff87c030b4926abb5745baad90cbcdb7aea36a6e"
+    },
+    {
+      "path": "assets/js/home-scene/routine.mjs",
+      "bytes": 2392,
+      "sha256": "b3e91a9d53153bf88a4e9367e46ce7191c63f9585ff847b868967b79dc744fa0"
+    },
+    {
+      "path": "assets/js/home-scene/sea-optics.mjs",
+      "bytes": 10982,
+      "sha256": "3966857c674468f0a10b28ab77306d53ab1a18f24c4b13a3d13db1bcb40c1df8"
+    },
+    {
+      "path": "assets/js/home-scene/seat-surface.mjs",
+      "bytes": 1015,
+      "sha256": "f398c04569a0708991a92e16121b016759a9fa7cfc3750cdd24de55e81793134"
+    },
+    {
+      "path": "assets/js/home-scene/shadow-cache.mjs",
+      "bytes": 4757,
+      "sha256": "7e0009f1bdc8e9a096992f4395e2d8ddcd57d395f08cc7799b707098204b3790"
+    },
+    {
+      "path": "assets/js/home-scene/shadow-fit.mjs",
+      "bytes": 436,
+      "sha256": "6ac5aba3e3fa3810a8120120c5a56c8f58d59b6b7bab13fb449a59cbb9bcb6ee"
+    },
+    {
+      "path": "assets/js/home-scene/sheer-fabric.mjs",
+      "bytes": 18639,
+      "sha256": "7d76d94c1fbfdda27db04e6de4d71baae9885cd809580aefd12e07a508599663"
+    },
+    {
+      "path": "assets/js/home-scene/shore.mjs",
+      "bytes": 1210,
+      "sha256": "a1444a3ccb209498f364ceebc67b1ecc6d80785d2b51e859316b748f4f7f0613"
+    },
+    {
+      "path": "assets/js/home-scene/skin-diffusion-profile.mjs",
+      "bytes": 4323,
+      "sha256": "d425d8361f453c2173eee892a120c9e838154b5493d9f8b2da74cac768918c29"
+    },
+    {
+      "path": "assets/js/home-scene/skin-diffusion.mjs",
+      "bytes": 5470,
+      "sha256": "22e6ed04a1b4883e8ba6745f81530aec5449f4aaa68f83fd99f3046ea7cff6cf"
+    },
+    {
+      "path": "assets/js/home-scene/star-catalogue.mjs",
+      "bytes": 35615,
+      "sha256": "c0c1a28de7cf746c28fe8c4fc47b2046e6d02fdd7b3bcf1f93872998e7eec481"
+    },
+    {
+      "path": "assets/js/home-scene/stars.mjs",
+      "bytes": 12991,
+      "sha256": "1b2f394e3b7c7fa9da75de79f3e92ca37966fda946797f19826fef47e0f1e592"
+    },
+    {
+      "path": "assets/js/home-scene/static-light-field.mjs",
+      "bytes": 22430,
+      "sha256": "09e9d64dd0f3e683bef38a6011b8174747bcc38c87b1f2647553f626ce236d32"
+    },
+    {
+      "path": "assets/js/home-scene/steam-density.mjs",
+      "bytes": 7552,
+      "sha256": "8c89be68e15223ce2c34afb822f281d891d85725df51522327df61c393b66b00"
+    },
+    {
+      "path": "assets/js/home-scene/steam-volume.mjs",
+      "bytes": 8895,
+      "sha256": "0d975f7fc25dda08685e67f2f5f209ea5f6ee4bdb7690b81dacb7a207a7f8e98"
+    },
+    {
+      "path": "assets/js/home-scene/still-photo.mjs",
+      "bytes": 2159,
+      "sha256": "dc3b1d3c24c4523449e85e5c922e94fb3285f5f6b29746f63d48098f62f34c87"
+    },
+    {
+      "path": "assets/js/home-scene/temporal-aa.mjs",
+      "bytes": 14966,
+      "sha256": "74261ad814bd465fba76f8209234333ad3a80a1b1e94cdf8d7c4f04c8547c680"
+    },
+    {
+      "path": "assets/js/home-scene/training.mjs",
+      "bytes": 6807,
+      "sha256": "8c039b67bab4410c3c850cb24da2c8ebd1c23c7f7abdf0ac8d8f2052a1b9e304"
+    },
+    {
+      "path": "assets/js/home-scene/virtual-joysticks.mjs",
+      "bytes": 2240,
+      "sha256": "1e2652ae849a9e18b4fef6cea4d4bf9be232b782de8a55a230002121c28defe4"
+    },
+    {
+      "path": "assets/js/home-scene/volume-depth.mjs",
+      "bytes": 1922,
+      "sha256": "76328ff5c288ea9111083a23f023c38053da111135f335150e17cfc7a31b6eed"
+    },
+    {
+      "path": "assets/js/home-scene/walk-collar-liner.mjs",
+      "bytes": 6792,
+      "sha256": "f20dde45ff44637ab9336ee416c222f3b318b54f810408dd21357cbf680d1486"
+    },
+    {
+      "path": "assets/js/home-scene/walk-controls.mjs",
+      "bytes": 18123,
+      "sha256": "c9d2a500df1b402c84687881264b49d20812bc6a586fd1b46100c15422e14543"
+    },
+    {
+      "path": "assets/js/home-scene/walk-field-worker.mjs",
+      "bytes": 330,
+      "sha256": "e633b3ecac3274e15e661fa48dd8352a84cbe9523434715d8229abf0e259fe5b"
+    },
+    {
+      "path": "assets/js/home-scene/walk-flight.mjs",
+      "bytes": 1209,
+      "sha256": "4a881c4dba9189a2be934e9e214eae7a333e4492dbc3bccabdb2bdfc2db79df1"
+    },
+    {
+      "path": "assets/js/home-scene/walk-presence.mjs",
+      "bytes": 9028,
+      "sha256": "619b0b17484d72690edd89909f56b62d57daf8d9bb9c9011e5c02af338efc5bc"
+    },
+    {
+      "path": "assets/js/home-scene/warm-practicals.mjs",
+      "bytes": 3844,
+      "sha256": "cc05eaeb4659b048c39c68db5bde2e98c70276e0a50e0c7c9da1a1ab314c43d1"
+    },
+    {
+      "path": "assets/js/home-scene/water-garden.mjs",
+      "bytes": 4211,
+      "sha256": "a3a63bc5668eaf1ecd4609be67f7d3d73ac12af01c41e3a074953c1b77459fdd"
+    },
+    {
+      "path": "assets/js/home-scene/weather-data.mjs",
+      "bytes": 12901,
+      "sha256": "48919c4802672331686721bca95c71939c8feb3a6cb2376046a0e9dd8d845f9f"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-acting.mjs",
+      "bytes": 3285,
+      "sha256": "869875cf17dead5b3373dd98e55b41beb60d316cc9d234eabbe16f025c2f3ee3"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-ground-contact.mjs",
+      "bytes": 4425,
+      "sha256": "e4f82bbe10444accb4056092b8eb7a793b451e65b27ef4d66a44c042e095a1b0"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-motion.mjs",
+      "bytes": 12160,
+      "sha256": "235b57e8535c41408c52e7a4974707a3d2ceed195d74663c4c2d129e967df1e0"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-neighbor-motion.mjs",
+      "bytes": 19733,
+      "sha256": "904f49739629a9e0a479e7423e8426115d12981f54e97b7705935e9e14900227"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-perch-contact.mjs",
+      "bytes": 3573,
+      "sha256": "8cdd5e534f51f27df72f1288dcf33ef4e615be2062fd232311dfe7ad440c732e"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-rabbit-contact.mjs",
+      "bytes": 6092,
+      "sha256": "5ec949c0f94be33e85c906ed96b8d657e961365f18f027bf1ff295aed07e3fd8"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-resting-contact.mjs",
+      "bytes": 2072,
+      "sha256": "3177633ca1ac93534aa3b6d519fb8fec65d3b84dd0c94fe14cfcb958e16fbb63"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-seabird-motion.mjs",
+      "bytes": 8262,
+      "sha256": "70c683375a04892865164255f7db087f233a7e72e7d47da53c40c5fd70e7b43a"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife.mjs",
+      "bytes": 27299,
+      "sha256": "c3e1587e6737f0649916147dc31f74ddb96adecb4039580fcb62515b3b4306a1"
+    },
+    {
+      "path": "assets/js/home-scene/wind-field.mjs",
+      "bytes": 11048,
+      "sha256": "a1e7ad9f3930becd168e0be492c4dba61f2f6faf00ee9ea597ae3cb773dfcf13"
+    },
+    {
+      "path": "assets/js/home-scene/wind-particles.mjs",
+      "bytes": 3361,
+      "sha256": "7129472e87c0903674ffe35cb6abb5f9f4a977cbe55e62ba807e11d2d5b74c63"
+    },
+    {
+      "path": "assets/js/home-scene/world-fullscreen.mjs",
+      "bytes": 4538,
+      "sha256": "c1d4d7de0fd58f63d4fccdeae37d8165c8ba859e640da5dd2424a799d4388bba"
+    },
+    {
+      "path": "assets/js/la-jolla-sun.mjs",
+      "bytes": 3415,
+      "sha256": "628b658af1965f509de2f6ed7556a8d4cc79dba85ce7f27121ec0aaa1adb50a8"
+    },
+    {
+      "path": "assets/js/light-lab/chart.mjs",
+      "bytes": 4567,
+      "sha256": "8872ef5b7a4dd47dfe9ffacfdb8cd4345153c913d936d0dd10ece762d13a1fb1"
+    },
+    {
+      "path": "assets/js/light-lab/core.mjs",
+      "bytes": 29941,
+      "sha256": "29b51dd3480685edfb28635d4593a93ff86acff883dd6bdc87d2ba4b641b8288"
+    },
+    {
+      "path": "assets/js/light-lab/page.mjs",
+      "bytes": 7199,
+      "sha256": "a12791ee62c7ee9999aa3367a3bed7fd9fc06e2ab80165188bc1cb94745570d7"
+    },
+    {
+      "path": "assets/js/light-lab/worker.mjs",
+      "bytes": 2256,
+      "sha256": "69d5f889fcd3df250d8666fc5cc554a237fffdafd5e112d532de1224e1d7cf5b"
+    },
+    {
+      "path": "assets/js/liquid-drop.mjs",
+      "bytes": 4728,
+      "sha256": "a7a6d6ceab913a3c76949a2656eb9f856b16374a181a9c608edfc90814fdfc24"
+    },
+    {
+      "path": "assets/js/page-entry.mjs",
+      "bytes": 2312,
+      "sha256": "655c066abd9c867781333cc4e2d093ecba08350769c52f7abb24c937946b3593"
+    },
+    {
+      "path": "assets/js/preview-motion.mjs",
+      "bytes": 2262,
+      "sha256": "11a7aefe8fd1ec1d136b78cab0dc662381900d019e41811b4b35fe545e627813"
+    },
+    {
+      "path": "assets/js/project-decks.mjs",
+      "bytes": 16943,
+      "sha256": "8baf64b858e1364141a0efa8cbfacd11dca96cfd85b08bdf91031f442cc4b806"
+    },
+    {
+      "path": "assets/js/reading-effects.mjs",
+      "bytes": 3323,
+      "sha256": "9c155ef838237d0fbfbe63802fee82315db025c16ab2406af8aec07c22f292ba"
+    },
+    {
+      "path": "assets/js/sidenotes.mjs",
+      "bytes": 1215,
+      "sha256": "4ab4c3cbf8013b11e71e6f77e0125904a5ea3eb5cf82109c734d907aa1dec71c"
+    },
+    {
+      "path": "assets/js/site-motion.mjs",
+      "bytes": 5676,
+      "sha256": "e3343b22d766fbe1046d6a742875098114ac1332c382497835e9f880f2cf9f61"
+    },
+    {
+      "path": "assets/js/sun-arc-math.mjs",
+      "bytes": 2730,
+      "sha256": "de0bd139756d6dd0c518fb4054073bb2c73f327b12fa5c37e49261c1e2d9eaf8"
+    },
+    {
+      "path": "assets/js/sun-arc.mjs",
+      "bytes": 4425,
+      "sha256": "347f25e4acf6724cdd1336300f8e611618cf6cd1b7114397b548185a8e662794"
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "bytes": 711629,
+      "sha256": "d51674ee56b60a611087030a173b32fbd26b5f619d9dbfd64537e4b9a7ee249f"
+    },
+    {
+      "path": "assets/models/home/home-shell.glb",
+      "bytes": 898704,
+      "sha256": "b51f302da52907dc1d707c14ea3a3c4578da9f43f9147d7917a6bb0e1f99ce72"
+    },
+    {
+      "path": "assets/models/home/coast.glb",
+      "bytes": 241576,
+      "sha256": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "source": "45aa836ebff28d8d90eb77d3a0b7f4c5b827aab6",
+  "files": [
+    {
+      "file": ".gitattributes",
+      "bytes": 27,
+      "sha256": "c089985639038cc07dc37c07a8d0d543df7ddf9b1873a948000494a6e230530d"
+    },
+    {
+      "file": "checks.json",
+      "bytes": 14325,
+      "sha256": "f8c738da2b8e7a8dff3a2bd07f579a5ae9b050afd0e2ad9185aebfab13c617e4"
+    },
+    {
+      "file": "live-byte-readback.json",
+      "bytes": 31265,
+      "sha256": "b9298cc4cfd93ee99f1f1b512f4e02cf9d932b605b91751e8cc91db01464d2b7"
+    },
+    {
+      "file": "live-footer-noon.png",
+      "bytes": 425511,
+      "sha256": "d4353fdb465c84b8072ed8ccc6b8baf0ab24aaddf6cafc5019a7881b5491ab40"
+    },
+    {
+      "file": "live-house-lounge.png",
+      "bytes": 952596,
+      "sha256": "700d1012e312196e18f47340c1eefaee2782e21a67f266fe8037dc04b693ebb5"
+    },
+    {
+      "file": "live-house-study.png",
+      "bytes": 907679,
+      "sha256": "b053e2392899cd34d2c50d500fdd0259bd98da30a39729a7fc4a72a10f60bf38"
+    },
+    {
+      "file": "live-miniature-noon.png",
+      "bytes": 128932,
+      "sha256": "b5cfd25e33d476e367ba29a0224fdb1929e706fe82050d0ef3ba964be4b545d9"
+    },
+    {
+      "file": "live-receipt.json",
+      "bytes": 423541,
+      "sha256": "7f895d5ca034638bbdca195ce258fade3999314edcc19f0b23ebee9ee978ce3a"
+    },
+    {
+      "file": "README.md",
+      "bytes": 1208,
+      "sha256": "9f0555f334d648a550786234c19f940b123711a8947ca57d73810cb761ad673c"
+    }
+  ]
+}
