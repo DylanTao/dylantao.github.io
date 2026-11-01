@@ -23,6 +23,7 @@ class RestingReviewCustody(unittest.TestCase):
             "gym-pad-timing-2026-11-01": "MANIFEST.json",
             "startup-inspection-2026-11-01": "MANIFEST.json",
             "research-runner-2026-11-01": "MANIFEST.json",
+            "exporter-holes-2026-11-01": "MANIFEST.json",
             "exterior-waterline-2026-11-01": "MANIFEST.json",
             "rooms-menu-stacking-2026-11-01": "MANIFEST.json",
             "pinniped-contact-2026-11-01": "MANIFEST.json",

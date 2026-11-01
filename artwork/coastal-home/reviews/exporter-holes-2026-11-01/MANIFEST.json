@@ -1,0 +1,110 @@
+{
+  "schema": "sirui-review-payloads-v1",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "audit_coastal_architecture_finish.py.gz",
+      "bytes": 4053,
+      "sha256": "e662849004e8a5a4eedf5be6208ebbe229bb04906ca225406faaa2910fb34eff"
+    },
+    {
+      "path": "audit_coastal_export_geometry.py.gz",
+      "bytes": 3744,
+      "sha256": "4f1f004d19b4bccd8d7487992b9cb2b3d87970dfcc21e3fb5a854c316df669cd"
+    },
+    {
+      "path": "baseline-front-4k.png",
+      "bytes": 6669220,
+      "sha256": "dc71111cd1e7b5a95df1bc9c77cc77ade935ec8ab3d11c4b024a4cffb4f7fd60"
+    },
+    {
+      "path": "baseline-render-camera-errors.json.gz",
+      "bytes": 152656,
+      "sha256": "9fd663541c00e26aafde163162994180fa3dc2adb57a27a458a10e1c1028b9a5"
+    },
+    {
+      "path": "baseline-threeQuarter-4k.png",
+      "bytes": 6681486,
+      "sha256": "e6ee321bd8be8cfc54b91e0761155eb0ff94b53e614a253ebc5d86f6102991ff"
+    },
+    {
+      "path": "CAPTURES.json",
+      "bytes": 3898,
+      "sha256": "b5ab8d61663c6778c6c6cea4df59f51e7958a8a15f98a52b3f8fb5254eb57e6b"
+    },
+    {
+      "path": "coastal-export-false-cap.json.gz",
+      "bytes": 3063,
+      "sha256": "b752676c095fa4d90ba06cad9cdc6bb61a3d20ee85ec023ff6d8855b213af605"
+    },
+    {
+      "path": "decoded-hole-audit.json.gz",
+      "bytes": 71729,
+      "sha256": "43bf83d27c3e7ff1f6062a128876f75ef070d96cef97de604b37255cf2be6fab"
+    },
+    {
+      "path": "fixed-front-4k.png",
+      "bytes": 6669223,
+      "sha256": "bc16ac3e9d0a15611ef3f053ef839ab863f962ced80df2cc96450bf5adef9952"
+    },
+    {
+      "path": "fixed-render-camera-errors.json.gz",
+      "bytes": 152640,
+      "sha256": "6d8ba4e3a8ebb1f90b34562f2b145a412ed974066ef1b2438c0db07f7988ed7b"
+    },
+    {
+      "path": "fixed-threeQuarter-4k.png",
+      "bytes": 6681458,
+      "sha256": "11148d1d3a16db98f510418da68786b141ffd4270cc86f108c7c4d46b59a85be"
+    },
+    {
+      "path": "kernel-calibration.json.gz",
+      "bytes": 6322,
+      "sha256": "1e1e63d570dd62de466e2fdd5b2badf41c2596702a9facf995bc13425fab5d18"
+    },
+    {
+      "path": "manifest.json.gz",
+      "bytes": 2089,
+      "sha256": "2ebdb93b959a08bc2df76c8d4f30f577b7481aeba2c92064a755b0204fc01469"
+    },
+    {
+      "path": "native-all-five-audit.json.gz",
+      "bytes": 8667,
+      "sha256": "271cc2455aecea40b47a2e8959d0b2a74f46b3514a05263756bdae32097a86de"
+    },
+    {
+      "path": "native_triangle_fields-v1.py.gz",
+      "bytes": 1380,
+      "sha256": "98b3f11002a9f6788505fa15049c84d3f4b8d29e8efb6502854da4caa8f95200"
+    },
+    {
+      "path": "old-rejected-cap-audit.json.gz",
+      "bytes": 1931,
+      "sha256": "ded6aebc49da42faaf664a6bbc169c7cf7986baa94d1695ae5f7acfe78e2cb86"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1916,
+      "sha256": "8e955d8e6318f53a1f67cd784a07eae2c152630599c6229831946b866527ff86"
+    },
+    {
+      "path": "README.md.gz",
+      "bytes": 1226,
+      "sha256": "e5455e057becb8b8032c9a66bc2713725d53caab58132b89217bcf023ed0f2cf"
+    },
+    {
+      "path": "run_decoded_audit.mjs.gz",
+      "bytes": 3480,
+      "sha256": "3fa1956f9384504096cf386ccf796d4008b11cad357cf993ead68954092f4194"
+    },
+    {
+      "path": "run_native_audit.py.gz",
+      "bytes": 2282,
+      "sha256": "7657e61bf96e72740e2f1e88c4b3290301ee33a173a5cd83315f47f181119e02"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+# Preserve real openings in planar exports, November 1
+
+The export-only planar compactor could triangulate across a hole or pinched boundary. The retained original decoded witness has a false rock cap where the source has an opening. The corrected implementation retains original face corridors and compacts only verified disk components, then rebuilds explicit per-face edge charts so coincident source edges are not silently merged.
+
+Nine meaningful regressions include the actual 192-triangle source-hole fixture, concavity, winding, accumulated plane drift and a retained hole corridor. The private all-five final prepared-mesh audit passes bidirectional position/normal/color gates and actual mesh closure. Its maximum positional discrepancy is 2.702 micrometres, with the original 3-micrometre bound retained. The fresh decoded witness changes from contact with the old false cap to 112.212 mm of clearance. Matched front and quarter 4K controls use exact camera/target values and have empty page-error arrays; live wildlife prevents an identical-image claim.
+
+This source correction does not install the private F6 native candidate or replace current public GLBs. The corrected private export costs 598 more triangles than the invalid old export. The coordinator's combined actual-runtime control collects 750352 triangles and correctly exceeds the unchanged 750000 gate. That failed control is retained locally and cannot qualify the cliff or entrance. Final geometry, lighting/cache, appearance, Walk and full-scene budgets remain required.
+
+Compressed files retain original worker bytes and its read-only pinned-input replay instructions. The native private candidate is deliberately not published here; the ordinary source regression fixture is self-contained. CAPTURES.json records each exact body. No native source, model, cache, viewport or acceptance tolerance changes in this source-only checkpoint.
