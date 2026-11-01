@@ -32,7 +32,7 @@ from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 from uuid import uuid4
 
-VERSION = "1.0"
+VERSION = "1.1"
 ROOT = Path(__file__).resolve().parents[1]
 QUEUE = "artwork/coastal-home/research/queue.json"
 SCHEMA = "bin/coastal_research_result.schema.json"
@@ -201,6 +201,25 @@ def choose(queue, ident=None):
     if found is None:
         raise ResearchError("No matching ready/proposed experiment")
     return found
+
+
+def source_review_item(item):
+    """Narrow a literature lead to one note; never promote its source review level."""
+    reviewed = json.loads(json.dumps(item))
+    if not re.fullmatch(r"[a-z][a-z0-9-]{0,47}", reviewed["id"]):
+        raise ResearchError("Source-review ID must be a validated exact slug")
+    reviewed["allowed_paths"] = [f"artwork/coastal-home/research/notes/{reviewed['id']}.md"]
+    reviewed["rationale"] = ("SOURCE REVIEW ONLY. Read the complete primary methods and retained attempts. "
+        "Write one concise, source-backed method/scene-fit note in the exact leased note path. "
+        "Do not modify runtime, tests, queue state, review labels or renderer assets. "
+        "Keep abstract-only and unavailable methods explicit. Do not claim implementation or renderer qualification. "
+        "Retain actual retrieval URLs, dates, hashes and method-section pointers in generated evidence. "
+        "Any experiment proposal remains for coordinator review. " + reviewed["rationale"])
+    reviewed["gates"] = [{**gate, "command": [],
+        "expectation": "Source-review prerequisite only; implementation is not run in this phase: " + gate["expectation"]}
+        for gate in reviewed["gates"]]
+    reviewed["next_step"] = "Return the literature/fit note and a bounded next hypothesis. Do not implement or change the queue."
+    return reviewed
 
 
 def validate_schema(value, schema, at="result"):
@@ -557,8 +576,10 @@ def seal(directory, receipt):
     write_json(directory / "MANIFEST.json", {"version": 1, "files": files})
 
 
-def run_experiment(repo, item, queue_bytes, schema_bytes, executable, state_dir, worktree_root, max_seconds=300, max_iterations=1, model=None):
-    if item["state"] != "ready":
+def run_experiment(repo, item, queue_bytes, schema_bytes, executable, state_dir, worktree_root, max_seconds=300, max_iterations=1, model=None, source_review=False):
+    if source_review:
+        item = source_review_item(item)
+    elif item["state"] != "ready":
         raise ResearchError("Model execution requires a reviewed ready experiment; discovery/proposal is not admission")
     validate_bounds(max_seconds, max_iterations)
     if git(repo, "status", "--porcelain"):
@@ -584,6 +605,7 @@ def run_experiment(repo, item, queue_bytes, schema_bytes, executable, state_dir,
     receipt = {
         "version": VERSION, "run_id": run_id, "started": now(), "status": "starting",
         "admission": "review-only; never renderer-qualified", "source_sha": baseline,
+        "phase": "source-review" if source_review else "experiment", "allowed_paths": item["allowed_paths"],
         "harness_sha": git(repo, "rev-parse", "HEAD"),
         "harness_file_sha256": digest(Path(__file__).read_bytes()),
         "queue_sha256": digest(queue_bytes), "schema_sha256": digest(schema_bytes),
@@ -781,7 +803,7 @@ def discover(repo, queue, state_dir, fetch=fetch_source, queue_bytes=None):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("command", choices=["doctor", "next", "context", "dry-run", "discover", "run"])
+    parser.add_argument("command", choices=["doctor", "next", "context", "dry-run", "discover", "run", "review"])
     parser.add_argument("--repo", type=Path, default=ROOT)
     parser.add_argument("--queue", type=Path)
     parser.add_argument("--id")
@@ -790,6 +812,7 @@ def main(argv=None):
     parser.add_argument("--worktree-root", type=Path)
     parser.add_argument("--max-seconds", type=int, default=300, help="Total model-process wall deadline, 1..3600 seconds")
     parser.add_argument("--max-iterations", type=int, default=1, help="1..3 iterations; continue only after an explicit structured continue result")
+    parser.add_argument("--review-only", action="store_true", help="Narrow context/dry-run/run to one source-review note; review command implies this")
     parser.add_argument("--model", help="Explicit user-selected model; omitted preserves the configured choice")
     args = parser.parse_args(argv)
     try:
@@ -799,8 +822,10 @@ def main(argv=None):
         queue = load_queue(queue_path)
         state_dir = external_dir(args.state_dir or default_state(repo))
         worktree_root = external_dir(args.worktree_root or repo.parent / "coastal-research-worktrees")
+        source_review = args.command == "review" or args.review_only
         if args.command in {"next", "context"}:
-            print(context_brief(choose(queue, args.id)))
+            item = choose(queue, args.id)
+            print(context_brief(source_review_item(item) if source_review else item))
             return 0
         if args.command == "discover":
             directory, receipt = discover(repo, queue, state_dir, queue_bytes=queue_bytes)
@@ -819,9 +844,9 @@ def main(argv=None):
         if args.command == "dry-run":
             validate_bounds(args.max_seconds, args.max_iterations)
             command = command_for([executable], worktree_root / f"DRY-RUN-{item['id']}", state_dir / "DRY-RUN/result.schema.json", state_dir / "DRY-RUN/result.json", args.model)
-            print(json.dumps({"model_jobs": 0, "would_execute": False, "ready": item["state"] == "ready", "command": command, "bounds": {"wall_seconds": args.max_seconds, "max_iterations": args.max_iterations, "hard_token_cap": None}, "prompt": context_brief(item)}, indent=2, ensure_ascii=False))
+            print(json.dumps({"model_jobs": 0, "would_execute": False, "ready": item["state"] == "ready", "command": command, "bounds": {"wall_seconds": args.max_seconds, "max_iterations": args.max_iterations, "hard_token_cap": None}, "phase": "source-review" if source_review else "experiment", "prompt": context_brief(source_review_item(item) if source_review else item)}, indent=2, ensure_ascii=False))
             return 0
-        directory, receipt = run_experiment(repo, item, queue_bytes, schema_bytes, [executable], state_dir, worktree_root, args.max_seconds, args.max_iterations, args.model)
+        directory, receipt = run_experiment(repo, item, queue_bytes, schema_bytes, [executable], state_dir, worktree_root, args.max_seconds, args.max_iterations, args.model, source_review=source_review)
         print(json.dumps({"receipt": str(directory / "receipt.json"), "status": receipt["status"], "worktree_retained": receipt["worktree"], "promotion": "none"}))
         return 1 if receipt["status"] in {"guarded-failure", "failed", "blocked", "iteration-limit"} else 0
     except (ResearchError, OSError, ValueError, subprocess.SubprocessError) as exc:

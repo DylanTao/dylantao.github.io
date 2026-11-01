@@ -1,0 +1,34 @@
+{
+  "sourceWorkerCommit": "a916607c43403d510295ac1a9215b13a0a3b1a88",
+  "rootOverlay": "1.1 source-review-only phase and discovery task",
+  "files": [
+    {
+      "path": "bin/coastal_research.py",
+      "sha256": "40cae8a4f3275446a8b6e62b9bc207433ca0a18137605742c96495afbb286a04"
+    },
+    {
+      "path": "bin/coastal_research_result.schema.json",
+      "sha256": "b34e44e6bb00d73949f8b7be43828dbccd513d4063e7c88093593ea0d6dd8b77"
+    },
+    {
+      "path": "bin/install_coastal_research_task.ps1",
+      "sha256": "941647ba23715ca69c6a5adfce13b9143322c12e0be1268945666e51552ecc23"
+    },
+    {
+      "path": "test/test_coastal_research.py",
+      "sha256": "09b208bc0204cd4ba89150c851d30e2f44c6e0e8a1e0920fd6a92800f3f67a7b"
+    },
+    {
+      "path": "artwork/coastal-home/research/queue.json",
+      "sha256": "1ab22835d6db54a3572ab9b0c7d68b48e6c182980cb440c70bfd0ca52f057890"
+    },
+    {
+      "path": ".codex/skills/homepage-desk-scene/SKILL.md",
+      "sha256": "51699af99d57a8e22c11752622479d3a3d2e817e9528273424c9c868374f6a86"
+    },
+    {
+      "path": "docs/design-experiment-backlog.md",
+      "sha256": "1ac0b410693ace5aecec59ac11ac889d5454342d358c0ec060e92aa9242db72b"
+    }
+  ]
+}

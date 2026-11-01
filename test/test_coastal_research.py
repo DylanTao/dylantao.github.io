@@ -168,6 +168,46 @@ class CoastalResearchTests(unittest.TestCase):
         kwargs.update(overrides)
         return RESEARCH.run_experiment(self.repo, self.item, json.dumps(self.queue).encode(), SCHEMA_BYTES, [sys.executable, str(self.fake), mode], self.state, self.worktrees, **kwargs)
 
+    def test_source_review_narrows_lease_without_promoting_original(self):
+        self.item["state"] = "proposed"
+        self.item["primary_sources"][0]["review"] = "metadata-discovered"
+        original = copy.deepcopy(self.item)
+        item = RESEARCH.source_review_item(self.item)
+        self.assertEqual(self.item, original)
+        self.assertEqual(item["state"], "proposed")
+        self.assertEqual(item["primary_sources"], original["primary_sources"])
+        self.assertEqual(item["allowed_paths"], ["artwork/coastal-home/research/notes/fixture.md"])
+        self.assertTrue(all(not g["command"] for g in item["gates"]))
+        self.assertIn("SOURCE REVIEW ONLY", RESEARCH.context_brief(item))
+
+    def test_proposed_implementation_still_rejected_before_cli(self):
+        self.item["state"] = "proposed"
+        with self.assertRaises(RESEARCH.ResearchError):
+            self.run_fixture("no-change")
+        self.assertFalse(self.state.exists())
+
+    def test_proposed_source_review_can_return_without_runtime_change(self):
+        self.item["state"] = "proposed"
+        self.item["primary_sources"][0]["review"] = "metadata-discovered"
+        _, receipt = self.run_fixture("no-change", source_review=True)
+        self.assertEqual(receipt["status"], "no-change")
+        self.assertEqual(receipt["phase"], "source-review")
+        self.assertEqual(receipt["allowed_paths"], ["artwork/coastal-home/research/notes/fixture.md"])
+        self.assertEqual(self.item["primary_sources"][0]["review"], "metadata-discovered")
+
+    def test_source_review_rejects_actual_runtime_write(self):
+        self.item["state"] = "proposed"
+        _, receipt = self.run_fixture("success", source_review=True)
+        self.assertEqual(receipt["status"], "guarded-failure")
+        self.assertTrue(any("Outside exact path lease" in failure for failure in receipt["failures"]))
+        self.assertTrue((self.repo / ".git/coastal-research-BLOCKED.json").exists())
+
+    def test_source_review_slug_cannot_escape_note_directory(self):
+        for ident in ("../../escape", "a/b", "A", "a" * 49):
+            self.item["id"] = ident
+            with self.subTest(ident=ident), self.assertRaises(RESEARCH.ResearchError):
+                RESEARCH.source_review_item(self.item)
+
     def test_shipped_queue_has_no_admitted_or_ready_experiments(self):
         queue = RESEARCH.load_queue(ROOT / RESEARCH.QUEUE)
         self.assertGreaterEqual(len(queue["experiments"]), 3)

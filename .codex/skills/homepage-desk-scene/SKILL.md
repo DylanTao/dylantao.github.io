@@ -40,6 +40,7 @@ Start with `Current Priority Order`, `Known Inspection Targets`, `Non-Goals`, an
 - Keep the public handoff prompt in `docs/homepage-desk-scene-brief.md`; update it only when the actual next-task contract changes.
 - For room, garden or pool expansion, read `Architectural Continuity` in the brief before assigning geometry lanes. Establish screen-to-native orientation, connect whole journeys, and preserve each module's support metadata when combining native sources.
 - For first-person embodiment or reflection work, read `Walking Presence And Mirrors` in the brief. Native rig measurements and actual reflected pixels govern acceptance; a bone name or successful shader compilation alone does not prove an eye origin or a prepared beauty variant.
+- For rendering research, rain/water experiments or future-model continuation, read `Reproducible rendering research (November 2026)` in `docs/design-experiment-backlog.md`. Use the bounded runner, retain failed attempts, and keep source review separate from code and renderer admission.
 
 ## Verification
 

@@ -552,6 +552,41 @@ Suggested sequence:
 3. **Research artifacts:** DesignWeaver, What Happened and Why, HotSpot, Physion, GraphHSCN, and Context-Aware Encoding. Lead with the research question and connect to canonical publication evidence where it exists.
 4. **Standalone world:** Not A Good Driver. Retell only when surviving visual evidence can support more than the current role-and-sightline account.
 
+## Reproducible rendering research (November 2026)
+
+Sirui asked for a research loop that later models can continue with more time and tokens. The queue is [artwork/coastal-home/research/queue.json](../artwork/coastal-home/research/queue.json); the runner is [bin/coastal_research.py](../bin/coastal_research.py). Read the retained [representation review](graphics-representation-review-2026-10.md), [physics notes](../assets/js/home-scene/PHYSICS.md), [performance notes](performance-notes.md) and each owning review before proposing a replacement.
+
+### Evidence and admission
+
+Metadata discovery, abstract review, complete-method review, a code candidate and renderer qualification are separate states. A title, course abstract, successful compilation or a model's handback never advances the queue automatically. The initial leads are the [2026 Advances course](https://advances.realtimerendering.com/s2026/index.html), [dispersive shallow-water waves](https://research.nvidia.com/labs/prl/shallow-water-simulation/) and the [Neural Visibility Cache entry](https://jcgt.org/published/0014/02/01/). Their scene fit remains proposed. Do not describe the site as state of the art based on those leads.
+
+`review` accepts a proposed lead but leases only its single research note. It preserves the input review labels, queue and implementation files. Record full-method section pointers, assumptions, license, retrieval/hash evidence, scene fit, rejected alternatives, limitations and one next experiment. `run` requires a reviewed ready entry with executable gates and exact file ownership. Neither mode commits, pushes, signs a cache, changes main or admits its result. The coordinator must inspect the actual patch and independently run the relevant gates; reported gate results alone are not qualification.
+
+### Run and continue
+
+Use the installed, locally authenticated Codex CLI. No API key is read, printed or added to Git. `doctor`, `next`, `context` and `dry-run` spend no model tokens. `discover` fetches only the exact queued primary URLs, retaining metadata and body hashes. It refreshes known leads; it is not an exhaustive literature search or new-paper discovery.
+
+```powershell
+python bin/coastal_research.py doctor --codex C:/path/to/codex.exe
+python bin/coastal_research.py discover
+python bin/coastal_research.py dry-run --id rain-ocean-impact --review-only --codex C:/path/to/codex.exe
+python bin/coastal_research.py review --id rain-ocean-impact --max-seconds 300 --max-iterations 1 --codex C:/path/to/codex.exe
+# After reviewing the note and recording a ready entry:
+python bin/coastal_research.py run --id rain-ocean-impact --max-seconds 900 --max-iterations 2 --codex C:/path/to/codex.exe
+```
+
+An explicit `--model` selects a model later; omitting it preserves the local CLI choice. The wall deadline is 1?3600 seconds and iteration count is 1?3. Only an explicit structured `continue` triggers the next bounded iteration. These limits are not hard token caps. Keep usage exactly as emitted by the CLI, including failed turns; do not infer missing token totals or model identity.
+
+Default raw state is outside Git under LocalAppData/coastal-research; each job retains its isolated named worktree, pinned baseline blobs, schema, prompts, JSONL, errors, patch, structured handback and hashed inventory. Keep concise decisions and observations rather than hidden chain of thought. A common-repository lock prevents concurrent runner jobs across worktrees. Do not move main or gh-pages, fetch, publish or refresh metrics during a model job. A guard failure creates an operator-review marker; inspect the retained failure before removing it. The Windows Job is assigned before the model command starts, so its child processes inherit containment. This is bounded nonadversarial orchestration, not a security boundary against malicious code.
+
+### Automation and quality gates
+
+`bin/install_coastal_research_task.ps1` registers a limited-user hidden daily task for **discovery only**. It starts no model jobs. The wrapper, raw receipts and task logs stay outside Git. Model research is an explicit bounded invocation using the commands above, with more iterations/time or an explicit later model when desired.
+
+For every rendering experiment, preserve the complete house, clock, pose, shader inputs, actual viewport/drawing buffer/MSAA/backend and model/cache bindings. Retain failed controls and test rain-to-surface contact, shore/pool boundaries, lighting across angles and later room visits. A performance claim needs a quiet matched native GPU pair; Linux/Mesa proves function and a physical iPhone proves its own cost. Re-bake through the official producer when inputs change. No ray tracing, neural cache, FFT or WebGPU rewrite is accepted merely because it is newer.
+
+The [November startup inspection](../artwork/coastal-home/reviews/startup-inspection-2026-11-01/README.md) rejects two low-value CPU hypotheses: repeated readiness lookups total about 1.5 ms and the measured shadow warmup has no identical duplicate caster submissions. Its concurrent ready times are diagnostic, not a speed comparison. The next startup hypothesis is the driver's critical asynchronous compile path under a same-avatar quiet pair; do not repeat the already-rejected mirror-skip shortcut.
+
 ## Completed Experiments
 
 Move an entry here only after recording evidence and Sirui's decision. Keep removed experiments too: knowing why an idea failed is part of the site's professional vision.
