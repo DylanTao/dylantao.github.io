@@ -2,6 +2,11 @@
   "schema": "sealed-review-v1",
   "payloads": [
     {
+      "path": ".gitattributes",
+      "bytes": 39,
+      "sha256": "0801ea6d908aa970045ba67d62506bce4ca89f95fc0c6054df27ee54085c8c33"
+    },
+    {
       "path": "attempts/invalidated-shared-port.json.gz",
       "bytes": 842,
       "sha256": "d182b77e191419f6cb5d3c062ba26d9693dd9195e0670b76bb562eee99517331"
@@ -38,8 +43,8 @@
     },
     {
       "path": "producers/seal-review.py.gz",
-      "bytes": 1921,
-      "sha256": "920518243e57e78cb6c8731c0b000848b7d8642967512b531f8b98acb07dd0fb"
+      "bytes": 1919,
+      "sha256": "c67e747935791e693ad333b16dd99a3b8f7548c65ea907dd9d99c3b4ce45a594"
     },
     {
       "path": "producers/serve-exclusive.py.gz",
@@ -103,8 +108,8 @@
     },
     {
       "path": "proof/manifest-delta.json",
-      "bytes": 604,
-      "sha256": "62688b58c2bb6f2134e7efdf7470024e5bbe9919323ffc0eb84cb26cb1df7fac"
+      "bytes": 589,
+      "sha256": "a0e7bd28672036f3482bb125dfa4adb680d49fcc1c329513c6c51e0e70475a55"
     },
     {
       "path": "proof/mesa-final.log.gz",
@@ -213,8 +218,8 @@
     },
     {
       "path": "SOURCE_BINDINGS.json",
-      "bytes": 4301,
-      "sha256": "2fbf57ad594f5d674511d182bbb4de9c3b77bc1d31cda92f84828ff22843ebe0"
+      "bytes": 4181,
+      "sha256": "ae0f2ad4c16c53ef65bbc18b8034c4f4ea5e82fe4a66b71509981d8cc08f8ed5"
     },
     {
       "path": "verify.py",
