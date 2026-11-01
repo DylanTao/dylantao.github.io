@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "files": [
+    { "path": "README.md", "bytes": 1142, "sha256": "9afa1c93cca457919c0f18e3ceb53524f4e8337a8cd565208d98d2c8a5e619a6" },
+    {
+      "path": "cv-before-qualified-1440-afternoon.png",
+      "bytes": 351130,
+      "sha256": "a7b4e2564a5428b216fa08ceb2be8f56a79daec91f42235ea9abe13f3a14bd10"
+    },
+    { "path": "cv-before-qualified-1440-evening.png", "bytes": 385844, "sha256": "737c77b2c51edd73cbbcb8f325cacf3674e9f5de4aea2f2ff37c9f3ad59a1d7b" },
+    { "path": "cv-checkpoint.log.gz", "bytes": 706, "sha256": "a21ad290db9950d0de894753cba8663897554fcc5a39e970e546b1c269297121" },
+    { "path": "cv-iterate-rejected.log.gz", "bytes": 629, "sha256": "3ee4f791ff9ff0e73137bde118c929b062adb295d23245b12cbf0a8a04662b87" },
+    { "path": "cv-production-1440-afternoon.png", "bytes": 346521, "sha256": "2861fc294df5217274f910afa3c43021f156d654171fb213e275c3d61d3d5f7d" },
+    { "path": "cv-production-1440-evening.png", "bytes": 396353, "sha256": "5f6e7526e007b555db671a290e51b546548a44578d1117d01be870b74128285e" },
+    { "path": "cv-production-2560-afternoon.png", "bytes": 469602, "sha256": "274f8f91c5849fc276864d5bf1bb63c796ca958f8ee65237a63932ef6a2678bd" },
+    { "path": "cv-production-2560-evening.png", "bytes": 535214, "sha256": "9aa56a5c3afb245c64127b129f7fa3522189ccfa315722688a5bd003be9db5d0" },
+    { "path": "cv-production-390-afternoon.png", "bytes": 170248, "sha256": "16c3d4403b4b99764fd8f3067df45c9b16cb4f187c22557be84c00a164e0ed2b" },
+    { "path": "cv-production-390-evening.png", "bytes": 189769, "sha256": "b7c38972a7a020bda2b9ed1c8bc5722755bc5701e81e7bceab645605291a40b7" },
+    { "path": "cv-production.cjs.gz", "bytes": 1382, "sha256": "8effe3051293498c0d7d926d1099abd5dcdf90eaee00b28ec1c45d03db28e080" },
+    { "path": "cv-production.json.gz", "bytes": 706, "sha256": "21f5b15d38d1182193adae693d6b3fff4f933830cb4521b6fb90a29937b2dfd3" },
+    { "path": "cv-production.log.gz", "bytes": 68, "sha256": "1e54109430e31089ff72b1c02e694d59f041ffa63e9847dde8cc0a23e4ef7990" },
+    { "path": "cv-semantics.log.gz", "bytes": 682, "sha256": "3c3e777eafb79a6f5a10cff1a3b91c0005bba2d414c692c18c1f7c36f81fe45a" },
+    { "path": "override-audit.log.gz", "bytes": 1301, "sha256": "5955e7c642d33a82a01a6029bfd5d0d027845ecb1f3bf9e40fbdb3768e5357a0" }
+  ]
+}

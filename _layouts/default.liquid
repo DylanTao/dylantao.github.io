@@ -40,7 +40,7 @@
     <div id="main" class="{{ main_container_class }} {{ main_container_spacing_class }}" role="main">
       {% if page.toc and page.toc.sidebar %}
         {% if page.toc.sidebar == 'right' %}
-          <div class="row toc-layout toc-layout-right">
+          <div class="row toc-layout toc-layout-right{% if page.layout == 'cv' %} toc-layout-cv{% endif %}">
             <!-- main content area -->
             <div class="{{ toc_main_class }} toc-main-column">{{ content }}</div>
             <!-- sidebar, which will move to the top on a small screen -->
@@ -55,7 +55,7 @@
             </div>
           </div>
         {% else %}
-          <div class="row toc-layout toc-layout-left">
+          <div class="row toc-layout toc-layout-left{% if page.layout == 'cv' %} toc-layout-cv{% endif %}">
             <!-- sidebar, which will move to the top on a small screen -->
             <div class="{{ toc_sidebar_class }} toc-sidebar-column">
               <nav id="toc-sidebar" class="sticky-top" aria-label="On this page navigation">
