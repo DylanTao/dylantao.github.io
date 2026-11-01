@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "scope": "Read-only current accepted-terrain rabbitEast route qualification; final F6 geometry remains a separate gate.",
+  "files": [
+    {
+      "path": "controls/d309-route-fixture/coast.glb.gz",
+      "bytes": 194268,
+      "sha256": "1345f34bdf16c2c5487ba7ab4da55bae533e567849b4c6a53843cee6106fe939"
+    },
+    {
+      "path": "controls/d309-route-fixture/home-shell.glb.gz",
+      "bytes": 615214,
+      "sha256": "db43ef436eeb7522898249cfdd3aa7f717c97aeebc86472243a4087024e44049"
+    },
+    {
+      "path": "controls/d309-route-fixture/manifest.json.gz",
+      "bytes": 71275,
+      "sha256": "b41bc61e6ef684630f0b507dc1004f184695701a3f8686a7bb06f57f0be3c454"
+    },
+    {
+      "path": "data/baseline-d309-manifest.json.gz",
+      "bytes": 66471,
+      "sha256": "2525ccb54d912926a8c54e9bbed841b18d56ed34afffe5d74d71ec5374c8f571"
+    },
+    {
+      "path": "data/cutaway-rabbits.json.gz",
+      "bytes": 55889,
+      "sha256": "a8027b864201a38a4537e3d44f2d35cba57b02e66b60ad362cd4d6a55a5c1f2b"
+    },
+    {
+      "path": "data/cutaway-retry.log.gz",
+      "bytes": 363,
+      "sha256": "a934662b469bdcad36c40e397199537825911e99208b2a0acacbbb3126bbe870"
+    },
+    {
+      "path": "data/cutaway.log.gz",
+      "bytes": 1203,
+      "sha256": "5134540cb6aceea24fb6db6632ab8bae113731c6c6d746a5fc5b353e3899a3b0"
+    },
+    {
+      "path": "data/native-candidate.json.gz",
+      "bytes": 178756,
+      "sha256": "b02f6a98306bbd5d5d20766ffe20ceaedac911fde1fb8ae533a4111cfb3a052e"
+    },
+    {
+      "path": "data/native-proof.log.gz",
+      "bytes": 667,
+      "sha256": "b2f5686ae73fb20ff94dab37580e96fefc94c60a62fe8b6a5879c68e7a1f5602"
+    },
+    {
+      "path": "data/route-proposal.json.gz",
+      "bytes": 1049,
+      "sha256": "59f9c9fd68748e2610f6c99ce8c6b9910a2b1a033bfba25f88d1ea284336d68e"
+    },
+    {
+      "path": "data/TERRAIN_INPUTS.json.gz",
+      "bytes": 517,
+      "sha256": "e97e32136ca8d71e450bfba26427d1c3256547371e7c1f0033815373193a45e4"
+    },
+    {
+      "path": "data/view-manifest.json.gz",
+      "bytes": 71183,
+      "sha256": "8913c8e4919ccf4f1c1195b2c1c7c39aa6b2f0997ab298aa614512cbefc0dbe0"
+    },
+    {
+      "path": "producers/prepare-rabbit-fixed-review.py.gz",
+      "bytes": 1749,
+      "sha256": "3fe583f7e2ef48bb6c5f8270efc702a35282c3ac8aebcaf1822983c618db32a1"
+    },
+    {
+      "path": "producers/prepare-rabbit-fixed-view-retry.py.gz",
+      "bytes": 571,
+      "sha256": "f911fbaef4b17d8c6035e7d9d177df4c20e38fca126d6d52ea8ffa9e7df7fee5"
+    },
+    {
+      "path": "producers/proxy-rabbit-fixed-view.py.gz",
+      "bytes": 895,
+      "sha256": "da91d4b7ae5e540dd679d8455eab3d5b9eeb7c19a085fd703caaa15ba89edf83"
+    },
+    {
+      "path": "producers/proxy-rabbit-fixed.py.gz",
+      "bytes": 878,
+      "sha256": "3df4fed0e4456b26afe06afc3b494784a43772194805c46721b9c840c89947c2"
+    },
+    {
+      "path": "producers/rabbit-fixed-cutaway-retry.cjs.gz",
+      "bytes": 2284,
+      "sha256": "f6764848a9d786f0e9ca8297dd1b8dd9495b9c751cf8995d031b17a06d8c20a1"
+    },
+    {
+      "path": "producers/rabbit-fixed-cutaway.cjs.gz",
+      "bytes": 2248,
+      "sha256": "3d29508814e13b9498b53a9cedcda63d8c6f4998ea1aedbc94c2371ccb73c28f"
+    },
+    {
+      "path": "producers/rabbit-fixed-native-proof.mjs.gz",
+      "bytes": 2836,
+      "sha256": "0d82aae36a5f28f80d667e7fb5fe9336d72e843eb61986e7ff59f00e46fa5cbb"
+    },
+    {
+      "path": "producers/seal-fixed-route.py.gz",
+      "bytes": 2853,
+      "sha256": "b12d05d493495884ca977869da98a06c9247a3cd90df85e98d8ae4d9bc2dfcda"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2734,
+      "sha256": "4f34e4317b65a67f0840b0ad146056d99f631f8ae6bf81538921f51ac889f375"
+    },
+    {
+      "path": "SOURCE_BINDINGS.json",
+      "bytes": 1058,
+      "sha256": "f218cab312b06217114e141fba79d6893ef9cd1ea68defe8878819b621ae1b05"
+    },
+    {
+      "path": "views/cutaway-rabbit-0.png",
+      "bytes": 485895,
+      "sha256": "350e21a69cd46e4125a3655b499fafd28c6f4ce90855e7d95ba261c78cd4be29"
+    },
+    {
+      "path": "views/cutaway-rabbit-1.png",
+      "bytes": 615260,
+      "sha256": "4b89a3fd77dc6f3a35cc8e94e90a8daa572b381d7c4357d6e9ca598f1a886a55"
+    }
+  ]
+}
