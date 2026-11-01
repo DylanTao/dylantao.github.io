@@ -1,0 +1,126 @@
+{
+  "baseline": "02ec57bb3aa807b0f1c14c288f99b80f0c8c69b1",
+  "scope": "Concurrent inspection only; no product source change or speedup claim",
+  "files": [
+    {
+      "path": "INITIAL-PROFILE-SUMMARY.json.gz",
+      "bytes": 1587,
+      "sha256": "9b615b7e2489dd98caa2b3b70713a683b5aed575b1d2ef69a40457ee0e2ab334"
+    },
+    {
+      "path": "initial-startup-ready.png",
+      "bytes": 131190,
+      "sha256": "2a3fddd2ea09ba11ae01145e93e374643112d4706479a6a851c3bb014e499197"
+    },
+    {
+      "path": "initial-startup.cpuprofile.gz",
+      "bytes": 91185,
+      "sha256": "9faeede673f4ac20522afd3da4e726661f1f4fa4a9d188a6248b72af7ed114ce"
+    },
+    {
+      "path": "initial-startup.json.gz",
+      "bytes": 63938,
+      "sha256": "febbfcb3a20b4b9c469fb47bbbd5283b413f113f6bd39db6d5b87d28beb3810c"
+    },
+    {
+      "path": "initial-startup.log.gz",
+      "bytes": 262,
+      "sha256": "8b7f6de2aaff1c2713edf3c1db1946f233efc3740c15809c048bfa203f573f47"
+    },
+    {
+      "path": "inspect-queues.cjs.gz",
+      "bytes": 2961,
+      "sha256": "d67e9e58d49ec94d91d438173367b8c551e3a075be5bae69e08e51867a3b4d9a"
+    },
+    {
+      "path": "inspect-shadow.cjs.gz",
+      "bytes": 2950,
+      "sha256": "b5e7252c8d5c656f63957015f420bd1f29a0ae26ceca906a44aa77e5dac365fe"
+    },
+    {
+      "path": "inspect-startup.cjs.gz",
+      "bytes": 2817,
+      "sha256": "83c8a19cff0cf134560f512e67b8ed6d682cda0d34cf77d22de41f0ee3fd7cb4"
+    },
+    {
+      "path": "instrumented-program-warmup.mjs.gz",
+      "bytes": 5241,
+      "sha256": "d552386e3e689503354cc7bbc0e26c7efd69bde0a24d27b176227231f3286da2"
+    },
+    {
+      "path": "instrumented-shadow.mjs.gz",
+      "bytes": 5372,
+      "sha256": "4e81fd84663e4c9dee2cdbcb301bf1bc3e7b8c260e541186bb0717e705f478f9"
+    },
+    {
+      "path": "OWNED-PROFILE-ATTRIBUTION.json.gz",
+      "bytes": 1391,
+      "sha256": "4d0d04e506b90a8f0efc6bb9252e00876275acc80cd7fb927821545873e46d07"
+    },
+    {
+      "path": "PARENT-FILES.json.gz",
+      "bytes": 70644,
+      "sha256": "b651136447d3928edea42f1cf5eba91272fe941f942384907cb91922f06c22bd"
+    },
+    {
+      "path": "PARENT-FROZEN.json.gz",
+      "bytes": 717,
+      "sha256": "b965f55fd3b9566d1345721703cb4c762cc45a8af5bf8a15ec08b59161b7baf4"
+    },
+    {
+      "path": "queue-startup-ready.png",
+      "bytes": 131228,
+      "sha256": "99a71d79ab0d7891feb7426bbbaa42e2be1b2072f8faa6a196cd3909474c5b59"
+    },
+    {
+      "path": "queue-startup.cpuprofile.gz",
+      "bytes": 100191,
+      "sha256": "1c88aa0f48c7c701dde5dd5ee526600c3dcbb4b0f12e3b6de18cedd28620abf5"
+    },
+    {
+      "path": "queue-startup.json.gz",
+      "bytes": 94050,
+      "sha256": "2d4651e6667985180697382a86ca5717763844fd410cd4401eeb2c790dd49759"
+    },
+    {
+      "path": "queue-startup.log.gz",
+      "bytes": 396,
+      "sha256": "3b773171269287d9b55935d9b6a628a3f50c80b1b41b831e472a2485958d436d"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3373,
+      "sha256": "4a32b3d4bea01dc0fbdeaa4272db5fd3e1c4278f5ac54365aeb3cea5d318a4ad"
+    },
+    {
+      "path": "SEED-COVERAGE.json.gz",
+      "bytes": 64195,
+      "sha256": "0e6359f86891753dd14e3ef29f6ccfc6bb65d50e363416df03f7b5a4169f9a8b"
+    },
+    {
+      "path": "SHADOW-BATCH-SUMMARY.json.gz",
+      "bytes": 214,
+      "sha256": "516806165f2ce8e7f20549d3ed1fdac29afce3d67b0eccd49208ea6d2f552f8f"
+    },
+    {
+      "path": "shadow-startup-ready.png",
+      "bytes": 131177,
+      "sha256": "fc8999bd3beaf336401ede2295e2bb7a4657f7c9795a7132243569c1cd09b61b"
+    },
+    {
+      "path": "shadow-startup.cpuprofile.gz",
+      "bytes": 84967,
+      "sha256": "ef8a26ad3b5f9fc5045768fb23bb5c499c174ebcae7735710556084a6e10e2cb"
+    },
+    {
+      "path": "shadow-startup.json.gz",
+      "bytes": 98107,
+      "sha256": "b66c3065cb781b9f027b437ce718cc1e7d6183d80d04eefbca4afc1d063a9284"
+    },
+    {
+      "path": "shadow-startup.log.gz",
+      "bytes": 375,
+      "sha256": "3cc5e8e13e0d26bd9a149e4c35b5cbc8d83b804384365be4e1d56190c0293837"
+    }
+  ]
+}
