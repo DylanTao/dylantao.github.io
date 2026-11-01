@@ -168,6 +168,17 @@ class CoastalResearchTests(unittest.TestCase):
         kwargs.update(overrides)
         return RESEARCH.run_experiment(self.repo, self.item, json.dumps(self.queue).encode(), SCHEMA_BYTES, [sys.executable, str(self.fake), mode], self.state, self.worktrees, **kwargs)
 
+    def test_actual_process_schema_uses_exact_lease_and_preserves_source_schema(self):
+        directory, receipt = self.run_fixture("no-change")
+        actual = (directory / "result.schema.json").read_bytes()
+        schema = json.loads(actual)
+        self.assertEqual(schema["properties"]["changes"]["items"]["enum"], self.item["allowed_paths"])
+        self.assertEqual(receipt["schema_sha256"], RESEARCH.digest(actual))
+        self.assertEqual(receipt["source_schema_sha256"], RESEARCH.digest(SCHEMA_BYTES))
+        self.assertNotIn("enum", json.loads(SCHEMA_BYTES)["properties"]["changes"]["items"])
+        with self.assertRaises(RESEARCH.ResearchError):
+            RESEARCH.validate_schema("Added assets/js/home-scene/example.mjs.", schema["properties"]["changes"]["items"])
+
     def test_actual_model_prompt_records_remaining_wall_budget_and_partial_exit(self):
         directory, receipt = self.run_fixture("no-change", max_seconds=10)
         prompt = (directory / "iteration-01-prompt.txt").read_text("utf8")

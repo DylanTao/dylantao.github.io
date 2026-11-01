@@ -247,6 +247,21 @@ def validate_schema(value, schema, at="result"):
             validate_schema(member, schema["items"], f"{at}[{index}]")
 
 
+def result_schema_for(item, source_schema):
+    """Constrain changed paths to the actual lease before model generation."""
+    schema = json.loads(json.dumps(source_schema))
+    schema["properties"]["changes"]["description"] = (
+        "Exact repository-relative product paths actually changed. No prose, Added prefixes, punctuation "
+        "or generated QA paths. Use an empty list when no leased product file changed.")
+    schema["properties"]["changes"]["items"] = {"type": "string", "enum": list(item["allowed_paths"])}
+    schema["properties"]["evidence"]["description"] = (
+        "Exact actual file paths inside the generated evidence directory. Include every passing gate's "
+        "evidence file here, not only its enclosing manifest.")
+    schema["properties"]["gates"]["items"]["properties"]["evidence"]["description"] = (
+        "For pass: one exact actual QA file also present in result.evidence. For not-run: empty string.")
+    return schema
+
+
 def validate_bounds(seconds, iterations):
     if type(seconds) is not int or type(iterations) is not int or not (1 <= seconds <= 3600 and 1 <= iterations <= 3):
         raise ResearchError("Bounds require 1..3600 seconds total and 1..3 iterations")
@@ -282,6 +297,9 @@ start background services or leave child processes running. Do not access privat
 Do not refresh metrics. Never claim renderer qualification or a hard token cap.
 Return only the requested structured handback. Report every gate, including not-run/failure,
 bind pass evidence to actual generated files, and retain failed controls and next hypothesis.
+The changes array contains ONLY exact changed product paths, never descriptions or QA artifacts.
+Every passing gate evidence filename MUST also appear in the top-level evidence array.
+Use an empty evidence string for a gate that was not run.
 Use continue only for a specific bounded next iteration; unknown failures require blocked.
 """
     if previous:
@@ -596,7 +614,8 @@ def run_experiment(repo, item, queue_bytes, schema_bytes, executable, state_dir,
     validate_bounds(max_seconds, max_iterations)
     if git(repo, "status", "--porcelain"):
         raise ResearchError("Runner source checkout must be clean before a model job")
-    schema = json.loads(schema_bytes)
+    schema = result_schema_for(item, json.loads(schema_bytes))
+    effective_schema_bytes = (json.dumps(schema, indent=2) + "\n").encode("utf8")
     baseline = item["baseline"]["source_sha"]
     if git(repo, "rev-parse", f"{baseline}^{{commit}}") != baseline:
         raise ResearchError("Baseline is not the exact available commit")
@@ -620,7 +639,8 @@ def run_experiment(repo, item, queue_bytes, schema_bytes, executable, state_dir,
         "phase": "source-review" if source_review else "experiment", "allowed_paths": item["allowed_paths"],
         "harness_sha": git(repo, "rev-parse", "HEAD"),
         "harness_file_sha256": digest(Path(__file__).read_bytes()),
-        "queue_sha256": digest(queue_bytes), "schema_sha256": digest(schema_bytes),
+        "queue_sha256": digest(queue_bytes), "schema_sha256": digest(effective_schema_bytes),
+        "source_schema_sha256": digest(schema_bytes),
         "baseline_evidence": baseline_evidence, "cli": cli, "requested_model": model,
         "effective_model": "not inferred; consult CLI events",
         "bounds": {"wall_seconds": max_seconds, "max_iterations": max_iterations, "hard_token_cap": None},
@@ -630,7 +650,7 @@ def run_experiment(repo, item, queue_bytes, schema_bytes, executable, state_dir,
     with Lease(common_dir(repo), run_id) as lease:
         directory.mkdir(parents=True, exist_ok=False)
         (directory / "queue.json").write_bytes(queue_bytes)
-        (directory / "result.schema.json").write_bytes(schema_bytes)
+        (directory / "result.schema.json").write_bytes(effective_schema_bytes)
         write_json(directory / "request.json", {"experiment": item, "receipt": receipt})
         try:
             worktree_root.mkdir(parents=True, exist_ok=True)

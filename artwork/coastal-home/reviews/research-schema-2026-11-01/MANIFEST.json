@@ -1,0 +1,30 @@
+{
+  "schema": "sirui-review-payloads-v1",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "ORIGINAL-RESULT.json",
+      "bytes": 1533,
+      "sha256": "5a3b134027e23318b7a05f918e9f10cf2b3e3bf1b5753a35efe18a0c8dd59880"
+    },
+    {
+      "path": "python-final378.log.gz",
+      "bytes": 116,
+      "sha256": "ce97c58a59215da82c42194e926831d543dccdebdfc26ee8f99017f9285a20d6"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1676,
+      "sha256": "e92f2bbba3b2cbd2dfc5cfc5f3762e13ce53cf4f1db43bb2605c75537b1b2333"
+    },
+    {
+      "path": "schema-path-tests.log.gz",
+      "bytes": 62,
+      "sha256": "b66db5c0bf325e38fea341d88191a215805fc95a85f808a5f8c06e38cf8adc54"
+    }
+  ]
+}

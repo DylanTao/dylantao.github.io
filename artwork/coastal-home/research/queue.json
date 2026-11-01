@@ -13,16 +13,24 @@
         {
           "url": "https://research.nvidia.com/labs/prl/shallow-water-simulation/files/Dispersive_Waves_in_SWE.pdf",
           "title": "Generalizing Shallow Water Simulations with Dispersive Surface Waves, SIGGRAPH 2023",
-          "review": "metadata-discovered",
-          "fit_notes": []
+          "review": "method-reviewed",
+          "fit_notes": [
+            "Model inspected extracted methods/appendices; coordinator checked primary scale, decomposition cost and omitted forces. Direct PDF bytes and figure pixels were unavailable in that run.",
+            "A complete SWE/FFT port is not justified for small rain impacts. Start with a 16-trajectory first-contact/ownership audit; no rendering qualification or browser cost claim."
+          ]
         }
       ],
       "baseline": {
-        "source_sha": "8ac01d3f9db91a64984d31260788b87e44de12f1",
-        "evidence": ["docs/graphics-representation-review-2026-10.md", "assets/js/home-scene/PHYSICS.md", "docs/performance-notes.md"],
+        "source_sha": "0fa757489cf9ee5642b64c1c6520f27a129137c2",
+        "evidence": [
+          "docs/graphics-representation-review-2026-10.md",
+          "assets/js/home-scene/PHYSICS.md",
+          "docs/performance-notes.md",
+          "artwork/coastal-home/research/notes/rain-ocean-impact.md"
+        ],
         "limits": [
-          "No method-fit review or implementation qualification is recorded here.",
-          "Prior trained, neural and FFT attempts remain controls, not new successes."
+          "Method-fit note is reviewed; actual rain contact and implementation remain unqualified.",
+          "Earlier trained/neural/FFT attempts remain controls; complete scene, rendered contact and quality/cost gates are still required."
         ]
       },
       "gates": [
@@ -42,7 +50,7 @@
           "expectation": "Bind source/model/cache, cadence, view, drawing buffer, backend and real clocks; a quiet native GPU pair is needed for a performance claim."
         }
       ],
-      "next_step": "Review the primary method against the retained water attempts, reserve exact owning files and tests, then record a ready experiment with executable gates."
+      "next_step": "Read artwork/coastal-home/research/notes/rain-ocean-impact.md; reserve a source-bound 16-trajectory contact audit with executable correctness gates. State remains proposed."
     },
     {
       "id": "angle-stable-interior-light",

@@ -1,0 +1,35 @@
+{
+  "run_id": "20261101T194944Z-rain-ocean-impact-abf07809",
+  "status": "guarded-failure",
+  "failures": ["ResearchError: Result ID/declared changes do not match the actual experiment diff"],
+  "product_changes": ["artwork/coastal-home/research/notes/rain-ocean-impact.md"],
+  "harness_sha": "201be0fe31be41b93a2e3b19549035c68b5a25db",
+  "harness_file_sha256": "0769604bdf3b11cd3330c9d32d3e07e0236b37ccc72d37c8c0b180c43510afc4",
+  "queue_sha256": "1ab22835d6db54a3572ab9b0c7d68b48e6c182980cb440c70bfd0ca52f057890",
+  "schema_sha256": "b34e44e6bb00d73949f8b7be43828dbccd513d4063e7c88093593ea0d6dd8b77",
+  "refsUnchanged": true,
+  "process": {
+    "launcher_pid": 39696,
+    "supervisor": "isolated stdin-gated Python launcher",
+    "returncode": 0,
+    "timed_out": false,
+    "tree_stop_confirmed": true,
+    "wall_seconds": 783.3040745000035
+  },
+  "usageAsReported": [
+    {
+      "input_tokens": 3362702,
+      "cached_input_tokens": 3190400,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 33015,
+      "reasoning_output_tokens": 13712
+    }
+  ],
+  "generatedFileCount": 17,
+  "originalFinalSha256": "02943ce3d3919537ce070dcbe175a9dcd335e003f5305c6ae2c3566f56b95078",
+  "declaredChanges": [
+    "Added artwork/coastal-home/research/notes/rain-ocean-impact.md.",
+    "Retained retrievals, hashes, method pointers and failed controls in the leased evidence directory."
+  ],
+  "passingGateMissingTopLevelEvidence": [".jekyll-cache/visual-qa/research-20261101T194944Z-rain-ocean-impact-abf07809/review-evidence.json"]
+}
