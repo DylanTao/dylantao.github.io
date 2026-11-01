@@ -676,13 +676,16 @@ test("coastal loading: a delayed module shows status, cancels in 2D and retries 
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.clock.setFixedTime(new Date("2026-10-02T13:20:00-07:00"));
-  let releaseModule;
+  let releaseModule, heldModuleUrl;
+  let heldModuleRequests = 0;
   const gate = new Promise((resolve) => (releaseModule = resolve));
   const modelRequests = [];
   page.on("request", (request) => {
     if (/\/assets\/models\/home\/.*\.glb(?:\?|$)/.test(request.url())) modelRequests.push(request.url());
   });
-  await page.route("**/home-scene/controller.mjs", async (route) => {
+  await page.route(/\/home-scene\/controller\.mjs(?:\?.*)?$/, async (route) => {
+    heldModuleUrl = route.request().url();
+    heldModuleRequests++;
     await gate;
     await route.continue().catch(() => {});
   });
@@ -700,12 +703,14 @@ test("coastal loading: a delayed module shows status, cancels in 2D and retries 
     await page.locator('[data-home-desk-mode="2d"]').click();
     await expect(scene).toHaveAttribute("aria-hidden", "true");
     await expect(scene).not.toHaveAttribute("aria-busy", "true");
+    expect(heldModuleRequests).toBe(1);
+    expect(heldModuleUrl).toBeTruthy();
     releaseModule();
     // Await actual evaluation of the same import, so the canceled activation's
     // completion has run before checking that it constructed no hidden world.
     await page.evaluate(async (url) => {
       await import(url);
-    }, publicRouteUrl("/assets/js/home-scene/controller.mjs"));
+    }, heldModuleUrl);
     await expect(scene.locator("canvas")).toHaveCount(0);
     expect(await scene.evaluate((element) => typeof element.getSceneEvidence)).toBe("undefined");
     expect(modelRequests).toEqual([]);

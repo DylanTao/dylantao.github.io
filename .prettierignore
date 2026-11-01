@@ -35,3 +35,8 @@ assets/models/home/static-light-field.json
 assets/models/home/wildlife-perch-support.json
 # Liquid-templated JSON: front matter and a jsonify filter that Jekyll renders into each design record's endpoint.
 assets/json/design-records/
+
+# Sealed generated browser/producer receipts retain their recorded bytes.
+artwork/coastal-home/reviews/visible-wildlife-release-2026-11-01/*.json
+artwork/coastal-home/reviews/resting-wildlife-integration-2026-11-01/*.json
+artwork/coastal-home/reviews/resting-wildlife-integration-2026-11-01/paws*-results/**

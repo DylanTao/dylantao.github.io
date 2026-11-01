@@ -1,0 +1,15 @@
+{
+  "source": "dd677652f8264ff99072ff0a42a82e3143ee3f72",
+  "originalVisualRun": 41303493625,
+  "originalVisualStatus": {
+    "success": 39,
+    "failure": 3,
+    "cancelled": 0
+  },
+  "correctedDelayedModuleWidths": [1440, 1280, 768, 390],
+  "paperNativeCompleteVisitsPassed": 3,
+  "paperLinuxCompleteVisitsPassed": 3,
+  "trackedCommittedLfFormatFiles": 1805,
+  "pythonTestsPassed": 328,
+  "sourceProductChanged": false
+}
