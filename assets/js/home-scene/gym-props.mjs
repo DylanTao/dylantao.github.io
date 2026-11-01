@@ -1,6 +1,6 @@
 import * as THREE from "../three.module.min.js";
 import { plateLoad } from "./training.mjs";
-import { drawTrainingScreen, trainingSessionKey, trainingDashboardModel } from "./gym-dashboard.mjs?v=gym-dashboard-20261101";
+import { drawTrainingScreen, trainingSessionKey, trainingDashboardModel } from "./gym-dashboard.mjs?v=gym-close-20261101";
 
 // The gym's moving equipment (Sirui, 2026-10-15): three barbells (in the rack, on the bench's
 // uprights, on the platform) loaded with the plates each set calls for, the plate in the hands

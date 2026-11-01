@@ -1,0 +1,69 @@
+{
+  "sourceBase": "4fe8a124f",
+  "at": "2026-11-01T18:02:32.403719+00:00",
+  "bodies": [
+    {
+      "path": "assets/js/home.js",
+      "bytes": 36723,
+      "sha256": "2e3a7b81efb6c11111e599b4b581809bb055b42265717b528463ec5bb53dfe86",
+      "owner": "gym-close-20261101-4201",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "bytes": 103076,
+      "sha256": "0dae7f5288d4453b64da472fcf473fad4e49f5825de182d3b373325ebed7cfbc",
+      "owner": "gym-close-20261101-4201",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "path": "assets/js/home-scene/gym-dashboard.mjs",
+      "bytes": 15497,
+      "sha256": "d9c9afdd9e9d5a58d63123a6f3e0bea1990019bc223c52c1b874deead3abf13f",
+      "owner": "gym-close-20261101-4201",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "path": "assets/js/home-scene/gym-props.mjs",
+      "bytes": 6879,
+      "sha256": "f716afde36e12c9f738af97dec23ba5ee67bfec6be3ce89a75eee46c486fd50d",
+      "owner": "gym-close-20261101-4201",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "path": "assets/js/home-scene/environment.mjs",
+      "bytes": 28857,
+      "sha256": "a73b95dace1ad38c3196bd8ecfa565acf5a6b3d7bf0c1bd3a031d1a226644442",
+      "owner": "gym-close-20261101-4201",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-ground-contact.mjs",
+      "bytes": 11569,
+      "sha256": "3727edca6b5173af61276290bab523db0f31eac0e0dc7aef9610d7ae104b46c1",
+      "owner": "gym-close-20261101-4201",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "path": "assets/js/module-build.json",
+      "bytes": 39780,
+      "sha256": "ca680d0a9ea2418edbefa710a2a5a2e7ff075ef994761d58ab17e26999de78e9",
+      "owner": "gym-close-20261101-4201",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "bytes": 339536,
+      "sha256": "590b12722a92bb14a8067b0b042ec3e83b935360ddac1f0854f2762206ef9e5e",
+      "owner": "gym-close-20261101-4201",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "bytes": 711851,
+      "sha256": "093438aa91134cd6b2f1f5af2836fb6d9bb87c25099a5541b5185c0b07037fc0",
+      "owner": "gym-close-20261101-4201",
+      "exactCompleteProductionBody": true
+    }
+  ]
+}

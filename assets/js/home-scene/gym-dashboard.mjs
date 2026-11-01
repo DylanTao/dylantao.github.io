@@ -153,6 +153,7 @@ export function createGymDashboard({ stage, controls, canvas, training, getInfo,
   let info = null,
     key = "",
     returnFocus = null,
+    modalActive = false,
     disposed = false;
   const button = doc.createElement("button");
   button.type = "button";
@@ -198,12 +199,23 @@ export function createGymDashboard({ stage, controls, canvas, training, getInfo,
     });
     dialog.querySelectorAll("[data-training-unit]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.trainingUnit === model.unit)));
   }
+  function finishClose() {
+    // Native close notifications can wait behind rendering. Release input in
+    // the closing action, and let a later notification finish at most once.
+    if (dialog.open || !modalActive) return;
+    modalActive = false;
+    onOpenChange(false);
+    const origin = returnFocus;
+    returnFocus = null;
+    if (!disposed) (origin?.isConnected && !origin.hidden ? origin : canvas)?.focus({ preventScroll: true });
+  }
   function close() {
-    if (!dialog.open) return;
-    dialog.close();
+    if (dialog.open) dialog.close();
+    finishClose();
   }
   function open(origin = button) {
     if (disposed || dialog.open) return;
+    finishClose();
     returnFocus = origin;
     // Keep the modal outside the hero grid and the popover fallback: WebKit can
     // report correct bounds while painting a nested top-layer dialog elsewhere.
@@ -211,10 +223,13 @@ export function createGymDashboard({ stage, controls, canvas, training, getInfo,
     const nativeFullscreen = doc.fullscreenElement ?? doc.webkitFullscreenElement;
     const parent = nativeFullscreen?.contains(stage) ? stage : doc.body;
     if (dialog.parentElement !== parent) parent.append(dialog);
+    modalActive = true;
     onOpenChange(true);
     try {
       dialog.showModal();
     } catch {
+      modalActive = false;
+      returnFocus = null;
       onOpenChange(false);
       return;
     }
@@ -222,10 +237,7 @@ export function createGymDashboard({ stage, controls, canvas, training, getInfo,
     dialog.querySelector(`[data-training-view="${display.view}"]`).focus({ preventScroll: true });
   }
   on(button, "click", () => open(button));
-  on(dialog, "close", () => {
-    onOpenChange(false);
-    (returnFocus?.isConnected && !returnFocus.hidden ? returnFocus : canvas)?.focus({ preventScroll: true });
-  });
+  on(dialog, "close", finishClose);
   on(dialog, "cancel", (event) => {
     event.preventDefault();
     close();

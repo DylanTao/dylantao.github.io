@@ -179,9 +179,7 @@ test("Paper Constellation projects the bibliography, filters accessibly, and kee
   await expect(designWeaver).toHaveAttribute("aria-pressed", "false");
   await expect(designWeaverDetail).toBeHidden();
   await expect(designWeaver).toBeFocused();
-  await expect
-    .poll(() => page.locator("[data-constellation-detail]").evaluate((panel) => panel.parentElement?.hasAttribute("data-constellation-detail-dock")))
-    .toBe(true);
+  await expect(page.locator("[data-constellation-detail-dock] > [data-constellation-detail]")).toHaveCount(1);
 
   await page.mouse.move(0, 0);
   await page.locator('[data-publication-view-button="constellation"]').focus();
@@ -218,9 +216,7 @@ test("Paper Constellation projects the bibliography, filters accessibly, and kee
   await expect(page.locator('[data-constellation-detail-paper="tao2024designweaver"]')).toBeHidden();
   await expect(page.locator("[data-constellation-detail-empty]")).toBeVisible();
   await expect(designWeaver).toBeFocused();
-  await expect
-    .poll(() => page.locator("[data-constellation-detail]").evaluate((panel) => panel.parentElement?.hasAttribute("data-constellation-detail-dock")))
-    .toBe(true);
+  await expect(page.locator("[data-constellation-detail-dock] > [data-constellation-detail]")).toHaveCount(1);
   await expect(page.locator(".paper-constellation-node-active")).toHaveCount(0);
   await expect(designWeaverEntry).not.toHaveClass(/publication-lens-linked/);
   await expect(designWeaverCitationChip).not.toHaveClass(/publication-lens-citation-linked/);

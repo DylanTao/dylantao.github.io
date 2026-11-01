@@ -3609,14 +3609,34 @@ test("coastal gym: the training dialog releases held walk input while gravity co
   const held = await evidence(scene);
   rows.push({ phase: "held-key-open", walk: held.walk });
   expect(held.walk).toMatchObject({ active: true, inputSuspended: true, keys: [], velocity: [0, 0], locked: false });
+  // A busy renderer can defer the native close notification. Keep that
+  // notification queued while the real Escape action and fresh input run.
+  await dialog.evaluate((element) => {
+    element.addEventListener(
+      "close",
+      (event) => {
+        window.__trainingPendingNativeClose = event.isTrusted;
+        event.stopImmediatePropagation();
+      },
+      { capture: true, once: true }
+    );
+  });
   await page.keyboard.press("Escape");
   await expect(stage).toHaveClass(/is-world-immersive/);
+  expect((await evidence(scene)).walk.inputSuspended).toBe(false);
   await canvas.focus();
   await page.keyboard.down("KeyW"); // still held: this is an actual repeat, not a fresh press
   expect((await evidence(scene)).walk.keys).toEqual([]);
   await page.keyboard.up("KeyW");
   await page.keyboard.down("KeyW");
   await expect.poll(async () => (await evidence(scene)).walk.keys).toContain("KeyW");
+  await page.keyboard.up("KeyW");
+  await page.waitForFunction(() => window.__trainingPendingNativeClose === true, null, { timeout: SCENE_READY_TIMEOUT });
+  await canvas.focus();
+  await page.keyboard.down("KeyW");
+  await dialog.evaluate((element) => element.dispatchEvent(new Event("close")));
+  await expect(canvas).toBeFocused();
+  expect((await evidence(scene)).walk.keys).toContain("KeyW");
   await page.keyboard.up("KeyW");
   await page.waitForTimeout(100);
   // Date is pinned, but a real Space jump still follows native RAF gravity under the dialog.

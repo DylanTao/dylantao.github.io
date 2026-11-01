@@ -1,0 +1,520 @@
+{
+  "files": [
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/pre-bake-production-build.log",
+      "stored": "logs/pre-bake-production-build.log.gz",
+      "originalBytes": 77666,
+      "originalSha256": "52354ea44b0649c897799e86bd737579814e32a80ac958c84c586a4842b08b79"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/production-build.log",
+      "stored": "logs/production-build.log.gz",
+      "originalBytes": 77666,
+      "originalSha256": "50af31e30af7d844ad4dbbe1d60e04728aa2267df51a2de6471200454087fd6e"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/official-cache.log",
+      "stored": "logs/official-cache.log.gz",
+      "originalBytes": 681,
+      "originalSha256": "b605ef6e2641ae1c81e91dc812231285297250b89d5378149ddaa675d3632332"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/node-tests.log",
+      "stored": "logs/node-tests.log.gz",
+      "originalBytes": 161388,
+      "originalSha256": "10b53914569b8fed3e14a369e1f22b85f7ab06422f5884b7d0bae33cde27280e"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/registered-native.log",
+      "stored": "logs/registered-native.log.gz",
+      "originalBytes": 2712,
+      "originalSha256": "71900fb2e9f9015c19419ae5afa59a9a57897aaccbdcf296f13ec23fa54dffb2"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/registered-modern-webkit.log",
+      "stored": "logs/registered-modern-webkit.log.gz",
+      "originalBytes": 708,
+      "originalSha256": "b95eab091961859e0d0225d814a339a091784032a4cf0eec176cedd015ed005e"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/docker-qualified.log",
+      "stored": "logs/docker-qualified.log.gz",
+      "originalBytes": 748,
+      "originalSha256": "70bc7fd80465f247b90e7da222d245fec7a1153f2b6958b007b4327e0f63158f"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/original-product-regression.log",
+      "stored": "logs/original-product-regression.log.gz",
+      "originalBytes": 3304,
+      "originalSha256": "3fbab9d5daa4b36015e96f43d95e4dd0423fb967954df663cc03afa7f97d0536"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/.last-run.json",
+      "stored": "native-results/000.json.gz",
+      "originalBytes": 45,
+      "originalSha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440/attachments/training-walk-dialog-560cc9b6f6023edb99a5ba8cf3b628243f47c16e.png",
+      "stored": "native-results/003.png",
+      "originalBytes": 174640,
+      "originalSha256": "846ae3d551ecd090197d82636addaf2034c6af3b27bf01e8607bd4ada0759d72"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440/training-walk-dialog.png",
+      "stored": "native-results/004.png",
+      "originalBytes": 174640,
+      "originalSha256": "846ae3d551ecd090197d82636addaf2034c6af3b27bf01e8607bd4ada0759d72"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440/training-walk-input.json",
+      "stored": "native-results/005.json.gz",
+      "originalBytes": 8861,
+      "originalSha256": "f1c1536dfad7c3607b085ba360c3dc9264be174afc253602af07db1bdd8da1b4"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-laptop-1280/attachments/training-walk-dialog-f8f5422e2cfffe43d2aea6c10e8f0f4c8485066b.png",
+      "stored": "native-results/008.png",
+      "originalBytes": 122131,
+      "originalSha256": "78545dee151c76032e2a44c33e5db9141c3ba6b4284f56505dd20d0d8ce59953"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-laptop-1280/training-walk-dialog.png",
+      "stored": "native-results/009.png",
+      "originalBytes": 122131,
+      "originalSha256": "78545dee151c76032e2a44c33e5db9141c3ba6b4284f56505dd20d0d8ce59953"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-laptop-1280/training-walk-input.json",
+      "stored": "native-results/010.json.gz",
+      "originalBytes": 8852,
+      "originalSha256": "5d6abc9d280d6e094a95397fbd24f6f219afcbb6953104e7c55766b4c590afdd"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-mobile-390/attachments/training-walk-dialog-53af3f85c284853cb518e6144640fff13d175eac.png",
+      "stored": "native-results/013.png",
+      "originalBytes": 77224,
+      "originalSha256": "49106752c68b721f58507e798f78d1fab9149279b6ba679dd8fea29e6a3f37e7"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-mobile-390/training-walk-dialog.png",
+      "stored": "native-results/014.png",
+      "originalBytes": 77224,
+      "originalSha256": "49106752c68b721f58507e798f78d1fab9149279b6ba679dd8fea29e6a3f37e7"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-mobile-390/training-walk-input.json",
+      "stored": "native-results/015.json.gz",
+      "originalBytes": 8115,
+      "originalSha256": "71cbebbd42784077e4a7a9161452ecc14dcf402d885cf71b1594985cb29b688e"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-tablet-768/attachments/training-walk-dialog-bcffbe3ba2cda3e53b0a3e1970f5ace17d150be0.png",
+      "stored": "native-results/018.png",
+      "originalBytes": 106778,
+      "originalSha256": "4a0fac18cc759adcacc85fd47d2c859500e2737d4b3ffc5717dcae98a7ed4c1e"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-tablet-768/training-walk-dialog.png",
+      "stored": "native-results/019.png",
+      "originalBytes": 106778,
+      "originalSha256": "4a0fac18cc759adcacc85fd47d2c859500e2737d4b3ffc5717dcae98a7ed4c1e"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-tablet-768/training-walk-input.json",
+      "stored": "native-results/020.json.gz",
+      "originalBytes": 8397,
+      "originalSha256": "27d362d163cf6d607d3b9166df2b03c73d050bdb529b87dc7bd13c8c20cd98f6"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-desktop-1440/attachments/paper-constellation-dark-desktop-1440-11c6d179bb96c9fdd438bc53f7733a259611b561.png",
+      "stored": "native-results/023.png",
+      "originalBytes": 336793,
+      "originalSha256": "30eb4271e802219e1f2ec71b8d3563e15c320fba43678dd2c6fafe135997ac5d"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-desktop-1440/attachments/paper-constellation-light-desktop-1440-0cf0ee8c633e18fab3e72efcb361b58de8b985e1.png",
+      "stored": "native-results/024.png",
+      "originalBytes": 337728,
+      "originalSha256": "5f87d6970ed7753af55da42aa02db763eca5b1f431c818bace6d2c72c6cf1b93"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-desktop-1440/paper-constellation-dark-desktop-1440.png",
+      "stored": "native-results/025.png",
+      "originalBytes": 336793,
+      "originalSha256": "30eb4271e802219e1f2ec71b8d3563e15c320fba43678dd2c6fafe135997ac5d"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-desktop-1440/paper-constellation-light-desktop-1440.png",
+      "stored": "native-results/026.png",
+      "originalBytes": 337728,
+      "originalSha256": "5f87d6970ed7753af55da42aa02db763eca5b1f431c818bace6d2c72c6cf1b93"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-laptop-1280/attachments/paper-constellation-dark-laptop-1280-515b814e19af132e6dc6ea1f2fade36217f3416e.png",
+      "stored": "native-results/029.png",
+      "originalBytes": 304847,
+      "originalSha256": "d5892b51bf000de417498d4d0ac464e62139296a03defb5a21acd63c88427537"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-laptop-1280/attachments/paper-constellation-light-laptop-1280-6333e1b8318b0fcbb0df49e62c0b1735f9b850e6.png",
+      "stored": "native-results/030.png",
+      "originalBytes": 306277,
+      "originalSha256": "2d59b23a082675ddd54baf1ec918fc071a6e75554e23de48a274d46c227c07b4"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-laptop-1280/paper-constellation-dark-laptop-1280.png",
+      "stored": "native-results/031.png",
+      "originalBytes": 304847,
+      "originalSha256": "d5892b51bf000de417498d4d0ac464e62139296a03defb5a21acd63c88427537"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-laptop-1280/paper-constellation-light-laptop-1280.png",
+      "stored": "native-results/032.png",
+      "originalBytes": 306277,
+      "originalSha256": "2d59b23a082675ddd54baf1ec918fc071a6e75554e23de48a274d46c227c07b4"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-mobile-390/attachments/paper-constellation-dark-mobile-390-9cd57ef86c9e0ba5c7d14dfdb05ab8c57c71425f.png",
+      "stored": "native-results/035.png",
+      "originalBytes": 184201,
+      "originalSha256": "286e89632b59229c7b3848619500a10ad7073d8df5f17416ec4d00f5d78d0f98"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-mobile-390/attachments/paper-constellation-light-mobile-390-8b0dc122919b74697ce700947f771c689b574eb0.png",
+      "stored": "native-results/036.png",
+      "originalBytes": 180581,
+      "originalSha256": "65232766fc4e9fdc165d123fb679fc671187792d1bfc3a950a0094a3f092d4a3"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-mobile-390/paper-constellation-dark-mobile-390.png",
+      "stored": "native-results/037.png",
+      "originalBytes": 184201,
+      "originalSha256": "286e89632b59229c7b3848619500a10ad7073d8df5f17416ec4d00f5d78d0f98"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-mobile-390/paper-constellation-light-mobile-390.png",
+      "stored": "native-results/038.png",
+      "originalBytes": 180581,
+      "originalSha256": "65232766fc4e9fdc165d123fb679fc671187792d1bfc3a950a0094a3f092d4a3"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-tablet-768/attachments/paper-constellation-dark-tablet-768-8902dc999f21762f8f87e765c85fb9ae97b53b6e.png",
+      "stored": "native-results/041.png",
+      "originalBytes": 257666,
+      "originalSha256": "eb772091922b732ae6354fd5fa9a117d40fc271875de2e3101ceafdd81147034"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-tablet-768/attachments/paper-constellation-light-tablet-768-43ebea62ea8e82883037e046b769ff65b45d47f6.png",
+      "stored": "native-results/042.png",
+      "originalBytes": 240811,
+      "originalSha256": "ac698f1e662520b3ce5206fc80cf20217c2f3adcc17b9f252c91a2185b98a85a"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-tablet-768/paper-constellation-dark-tablet-768.png",
+      "stored": "native-results/043.png",
+      "originalBytes": 257666,
+      "originalSha256": "eb772091922b732ae6354fd5fa9a117d40fc271875de2e3101ceafdd81147034"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/native-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-tablet-768/paper-constellation-light-tablet-768.png",
+      "stored": "native-results/044.png",
+      "originalBytes": 240811,
+      "originalSha256": "ac698f1e662520b3ce5206fc80cf20217c2f3adcc17b9f252c91a2185b98a85a"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/.last-run.json",
+      "stored": "modern-webkit-results/000.json.gz",
+      "originalBytes": 45,
+      "originalSha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-mobile-390/attachments/training-walk-dialog-c92c039374ff6bdf60f76304ed5dec7496472b93.png",
+      "stored": "modern-webkit-results/003.png",
+      "originalBytes": 53329,
+      "originalSha256": "4b2b1af041073d09f22ecb63c9d60bd1cd2d703ecc16573e2af023b2d63d1e0f"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-mobile-390/training-walk-dialog.png",
+      "stored": "modern-webkit-results/004.png",
+      "originalBytes": 53329,
+      "originalSha256": "4b2b1af041073d09f22ecb63c9d60bd1cd2d703ecc16573e2af023b2d63d1e0f"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-mobile-390/training-walk-input.json",
+      "stored": "modern-webkit-results/005.json.gz",
+      "originalBytes": 8347,
+      "originalSha256": "d9d8bb6b94db50de40e1c2b25308decc97f6e7e7fab3e8f50cf5c0ed5d89fb78"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/attachments/training-fullscreen-d37feb1acae5b4536c7d9a464cdd616657a6cb2f.png",
+      "stored": "modern-webkit-results/008.png",
+      "originalBytes": 60891,
+      "originalSha256": "0a0a823349986b45de79406ead9bb20567f711ab5d950404c0a642ccaa9da77e"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/attachments/training-program-7a744a6224d677d8bd9175b01727001b5da57a69.png",
+      "stored": "modern-webkit-results/009.png",
+      "originalBytes": 53684,
+      "originalSha256": "a2d02e97bdd665f53cf2d65d09cbd60fd16bfad6fec757f938b0ee533fcc6106"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/attachments/training-progress-aced752123d3742a5ede2a7c5c70760642971ff8.png",
+      "stored": "modern-webkit-results/010.png",
+      "originalBytes": 49465,
+      "originalSha256": "84a703b3c6cc43941b063f7114a2d3dad342abe7b7cf0ccb56185281f3860fff"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/attachments/training-today-72180d0fa79a05d47ca7e3593abea31978dbee0e.png",
+      "stored": "modern-webkit-results/011.png",
+      "originalBytes": 48573,
+      "originalSha256": "016a66a6de20ce17930d9a732e47ade244796cbd14ad5aa7bc1aebd10d6383b3"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/training-fullscreen.png",
+      "stored": "modern-webkit-results/012.png",
+      "originalBytes": 60891,
+      "originalSha256": "0a0a823349986b45de79406ead9bb20567f711ab5d950404c0a642ccaa9da77e"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/training-program.png",
+      "stored": "modern-webkit-results/013.png",
+      "originalBytes": 53684,
+      "originalSha256": "a2d02e97bdd665f53cf2d65d09cbd60fd16bfad6fec757f938b0ee533fcc6106"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/training-progress.png",
+      "stored": "modern-webkit-results/014.png",
+      "originalBytes": 49465,
+      "originalSha256": "84a703b3c6cc43941b063f7114a2d3dad342abe7b7cf0ccb56185281f3860fff"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/training-screen.json",
+      "stored": "modern-webkit-results/015.json.gz",
+      "originalBytes": 1101880,
+      "originalSha256": "03a43c595d52b6bfd13261ef3a3440822f8f0eafc2732062173f5f7a81c2e217"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/training-today.png",
+      "stored": "modern-webkit-results/016.png",
+      "originalBytes": 48573,
+      "originalSha256": "016a66a6de20ce17930d9a732e47ade244796cbd14ad5aa7bc1aebd10d6383b3"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-mobile-390/attachments/paper-constellation-dark-mobile-390-170709eb138746c95e723cea5f8b68ed8335c790.png",
+      "stored": "modern-webkit-results/019.png",
+      "originalBytes": 122868,
+      "originalSha256": "ca252ab1b5c5aecace79efad1e5d01fe38cac89f7bc16223aa614fe12ff36019"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-mobile-390/attachments/paper-constellation-light-mobile-390-a75d4120224079b8f342fc27c71f623876efadba.png",
+      "stored": "modern-webkit-results/020.png",
+      "originalBytes": 120755,
+      "originalSha256": "24bc34b151c72148553680a9645e7709b49f20f0f0383c813568c3145a4a65b6"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-mobile-390/paper-constellation-dark-mobile-390.png",
+      "stored": "modern-webkit-results/021.png",
+      "originalBytes": 122868,
+      "originalSha256": "ca252ab1b5c5aecace79efad1e5d01fe38cac89f7bc16223aa614fe12ff36019"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/modern-webkit-results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-mobile-390/paper-constellation-light-mobile-390.png",
+      "stored": "modern-webkit-results/022.png",
+      "originalBytes": 120755,
+      "originalSha256": "24bc34b151c72148553680a9645e7709b49f20f0f0383c813568c3145a4a65b6"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/docker-qualified/results/.last-run.json",
+      "stored": "docker-qualified/results/000.json.gz",
+      "originalBytes": 45,
+      "originalSha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/docker-qualified/results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440/attachments/training-walk-dialog-258377051fa6e5623d65d633a032966fc1fee431.png",
+      "stored": "docker-qualified/results/003.png",
+      "originalBytes": 229690,
+      "originalSha256": "03afbdc02dad28198190db9ee9b75744986f9aa6beaf34d645a36a8dc6d18853"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/docker-qualified/results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440/training-walk-dialog.png",
+      "stored": "docker-qualified/results/004.png",
+      "originalBytes": 229690,
+      "originalSha256": "03afbdc02dad28198190db9ee9b75744986f9aa6beaf34d645a36a8dc6d18853"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/docker-qualified/results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440/training-walk-input.json",
+      "stored": "docker-qualified/results/005.json.gz",
+      "originalBytes": 8187,
+      "originalSha256": "052bb2d102efb4add4009300f10d3b067a646a5564abcbaf479029bb256a4aa8"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/docker-qualified/results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-desktop-1440/paper-constellation-dark-desktop-1440.png",
+      "stored": "docker-qualified/results/010.png",
+      "originalBytes": 329287,
+      "originalSha256": "abbd329112d000c086727bcac6a43c6cd3aea404b3d9f11ed28c94b64546cec8"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/docker-qualified/results/paper-constellation-Paper--4a71d-keeps-selection-recoverable-desktop-1440/paper-constellation-light-desktop-1440.png",
+      "stored": "docker-qualified/results/011.png",
+      "originalBytes": 335484,
+      "originalSha256": "92e249c11c8d12d15d850f394e96015f977a38a0dde02fceb1343aab4e5a661a"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/original-product-regression/.last-run.json",
+      "stored": "original-product-regression/000.json.gz",
+      "originalBytes": 96,
+      "originalSha256": "c52b92b49235ac358f0a478a762fb3ed4db799eeca8eb02c8fb0bcbf31f96556"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/original-product-regression/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440/error-context.md",
+      "stored": "original-product-regression/002.md.gz",
+      "originalBytes": 33571,
+      "originalSha256": "d7b424c98a018cb7a3900bfaa14288d2d0c3bad454f4b30f4b80fb73ff22c22a"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/original-product-regression/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440/test-failed-1.png",
+      "stored": "original-product-regression/003.png",
+      "originalBytes": 397608,
+      "originalSha256": "f3691f3c61520ee1e05b263918b80870e2f7ce96e2e9f22c87b48b3a3ee62f37"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/original-product-regression/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440/trace.zip#test.trace",
+      "stored": "original-product-regression/004-test.trace.gz",
+      "originalBytes": 176032,
+      "originalSha256": "6bb1dbf8353d7bde95424150ea77b794c6c5a985bde098dce59efb72452fd523"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/original-product-regression/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440/trace.zip#0-trace.trace",
+      "stored": "original-product-regression/004-0-trace.trace.gz",
+      "originalBytes": 2603414,
+      "originalSha256": "cf24ecb0ea155804870b747b92bdea2dbb9b4121a814b9c0a08d23ab1e505e29"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-close-20261101/original-product-regression/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440/trace.zip#0-trace.network",
+      "stored": "original-product-regression/004-0-trace.network.gz",
+      "originalBytes": 577317,
+      "originalSha256": "9f8cf5086d7831dbaf6a60257162302d9c49cb1841ee2c9270589578653c5732"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/ci-02ec-original/gym-desktop.log",
+      "stored": "ci-original/gym-desktop.log.gz",
+      "originalBytes": 248777,
+      "originalSha256": "5d22528d575260ee96037d636245341d224d0c9d1f223bfe6f2a31558e740880"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/ci-02ec-original/gym-laptop.log",
+      "stored": "ci-original/gym-laptop.log.gz",
+      "originalBytes": 255130,
+      "originalSha256": "e20d8520d80d52d02fd50186e14bedc40e2f774d04f321f9106c1d352b1e12b7"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/ci-02ec-original/gym-mobile.log",
+      "stored": "ci-original/gym-mobile.log.gz",
+      "originalBytes": 254990,
+      "originalSha256": "c7058fa3039f578e5dbaf572720f7632f86163310121448647ff40c8c18f4ec1"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/ci-02ec-original/gym-tablet.log",
+      "stored": "ci-original/gym-tablet.log.gz",
+      "originalBytes": 255128,
+      "originalSha256": "8bed6d4d897aa95741d935b5bb8ca0cf60f2922f775b6d39ec9acfaa8f23852d"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/ci-02ec-original/site-desktop.log",
+      "stored": "ci-original/site-desktop.log.gz",
+      "originalBytes": 257758,
+      "originalSha256": "96da55feaf23a2fc49732a8bdc501fecef0e2b5387f058156dd75c9abefa27a8"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/ci-02ec-original/gym-walk-states.json",
+      "stored": "ci-original/gym-walk-states.json.gz",
+      "originalBytes": 7549,
+      "originalSha256": "2f73c914d68bbafe7ab75431abf4290229d19659396b493d8f11ab2fb6b88882"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/ci-02ec-original/gym-actual-actions.json",
+      "stored": "ci-original/gym-actual-actions.json.gz",
+      "originalBytes": 3249,
+      "originalSha256": "032554d6baf626e846442d35c1c75b01443a6b48a260f89dc6099e8c365814f3"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/ci-02ec-original/paper-detail-parents.json",
+      "stored": "ci-original/paper-detail-parents.json.gz",
+      "originalBytes": 39214,
+      "originalSha256": "b052a713785d263fff014d7bb476d7aa5536913686308216f2a8a4771d89be21"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/ci-02ec-original/paper-actual-actions.json",
+      "stored": "ci-original/paper-actual-actions.json.gz",
+      "originalBytes": 3107,
+      "originalSha256": "9d923715f72833e251d1a01389f6db81dd835a0d993d4bad63de9a998bc65a22"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/ci-02ec-original/visual-checkpoint-artifacts-desktop-1440-site/test-results/public-visual-site/paper-constellation-Paper--4a71d-keeps-selection-recoverable-desktop-1440/trace.zip#test.trace",
+      "stored": "ci-original/00-test.trace.gz",
+      "originalBytes": 119001,
+      "originalSha256": "17a01270675b26ba68185b9099f5a53be77ed180d62260bf63b17c0965dd3616"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/ci-02ec-original/visual-checkpoint-artifacts-desktop-1440-site/test-results/public-visual-site/paper-constellation-Paper--4a71d-keeps-selection-recoverable-desktop-1440/trace.zip#0-trace.trace",
+      "stored": "ci-original/00-0-trace.trace.gz",
+      "originalBytes": 1140177,
+      "originalSha256": "d05be51c520f6b7c1c0d604fe9e2b2afda10dca0f0db9cd04b055232e9b8c89e"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/ci-02ec-original/visual-checkpoint-artifacts-desktop-1440-site/test-results/public-visual-site/paper-constellation-Paper--4a71d-keeps-selection-recoverable-desktop-1440/trace.zip#0-trace.network",
+      "stored": "ci-original/00-0-trace.network.gz",
+      "originalBytes": 304721,
+      "originalSha256": "e58db150f53d41d0f08e3a2a158caa219660754d1747193ebee4ee9f73e7488e"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/ci-02ec-original/visual-checkpoint-artifacts-desktop-1440-scene-gym/test-results/public-visual-scene/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440/trace.zip#test.trace",
+      "stored": "ci-original/01-test.trace.gz",
+      "originalBytes": 209683,
+      "originalSha256": "5fe978070e77dfe4128fb6c37116f1ab1c4a227158a3eb13f7ff588273682af8"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/ci-02ec-original/visual-checkpoint-artifacts-desktop-1440-scene-gym/test-results/public-visual-scene/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440/trace.zip#0-trace.trace",
+      "stored": "ci-original/01-0-trace.trace.gz",
+      "originalBytes": 5927164,
+      "originalSha256": "58b9312813a2c234bab9e5e7f2d591b1dd451d32cd55cb6ef29173400c98e424"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/ci-02ec-original/visual-checkpoint-artifacts-desktop-1440-scene-gym/test-results/public-visual-scene/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440/trace.zip#0-trace.network",
+      "stored": "ci-original/01-0-trace.network.gz",
+      "originalBytes": 609086,
+      "originalSha256": "4cc58a261d8bc4233a66754541a85a2dc5d3405e6aa8a56d90db26ac4d49f5f9"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/live-native.log",
+      "stored": "preceding-live/live-native.log.gz",
+      "originalBytes": 539,
+      "originalSha256": "a83ba48f79972d0526cd460e619cf527b63d02bee9fd410ed37470a65f29a3cf"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/live-production-readback.json",
+      "stored": "preceding-live/live-production-readback.json.gz",
+      "originalBytes": 4594,
+      "originalSha256": "ad0cf536b3b8fd9fedccb18bf0822f28f0607f75a3fbf9fd7cd81b9aebc49c80"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/live-release-qualification.json",
+      "stored": "preceding-live/live-release-qualification.json.gz",
+      "originalBytes": 3602,
+      "originalSha256": "a553b3783b584e0ef9dbb1e2542f0aecac208c4afe83e328de4650f70b0529cf"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/live-training-css-rules.json",
+      "stored": "preceding-live/live-training-css-rules.json.gz",
+      "originalBytes": 27507,
+      "originalSha256": "9671bce59f8e0eaf53bdc99daeb35940b5c711c89dd3cfa1aa06c2615847d8e5"
+    },
+    {
+      "source": ".jekyll-cache/visual-qa/gym-integration-20261101/compare-live-training-css.cjs",
+      "stored": "preceding-live/compare-live-training-css.cjs.gz",
+      "originalBytes": 2349,
+      "originalSha256": "fdd9f4c82ac0ea0475e216c325c8a9aa1fb007045daac13ff8bf168280e86ea2"
+    }
+  ]
+}
