@@ -1,0 +1,58 @@
+{
+  "acceptedTailSourceCommit": "98474dd24fc8980e6886a7b74633e7494d5f0bc9",
+  "baselineRabbitSourceCommit": "31412345bc78b1e508311b55d4fc0ec4f997cf31",
+  "supersededClaim": "Earlier fixed-time fixtures were described as Date-only/native RAF/performance. The installed Playwright clock runtime replaces performance and RAF too. Their pixels, actual-draw readbacks and independent Node/Blender geometry remain evidence; cadence and high-resolution native timing claims are withdrawn.",
+  "scope": "New runs have no Playwright clock calls. Public Noon/Evening controls are used and the panel is closed before 3D/fullscreen. Baseline4162 and candidate4163 are exact sealed module snapshots over frozen503. Passive timing wrapper4166 contains the unchanged accepted tail implementation. Forty complete HTTP response bodies were hash-checked after capture. No 4165 result is used.",
+  "profiles": [
+    {
+      "engine": "chromium",
+      "state": "sleep",
+      "samples": 304,
+      "medianMs": 0.7999999970197678,
+      "p95Ms": 1,
+      "backend": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "buffer": [2560, 1440],
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+      }
+    },
+    {
+      "engine": "chromium",
+      "state": "walk",
+      "samples": 186,
+      "medianMs": 0.20000000298023224,
+      "p95Ms": 0.30000000447034836,
+      "backend": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "buffer": [2560, 1440],
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+      }
+    },
+    {
+      "engine": "webkit",
+      "state": "sleep",
+      "samples": 303,
+      "medianMs": 1,
+      "p95Ms": 2,
+      "backend": {
+        "renderer": "Apple GPU",
+        "buffer": [390, 1000],
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Safari/605.1.15"
+      }
+    },
+    {
+      "engine": "webkit",
+      "state": "walk",
+      "samples": 183,
+      "medianMs": 0,
+      "p95Ms": 1,
+      "backend": {
+        "renderer": "Apple GPU",
+        "buffer": [390, 1000],
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Safari/605.1.15"
+      }
+    }
+  ],
+  "clockSourceLicense": "Installed Playwright source excerpts: Copyright Microsoft Corporation, Apache License 2.0. Full license retained in controls/PLAYWRIGHT_LICENSE.txt. Versions, original paths and file hashes in clock-api-evidence.json.",
+  "publication": "No product source/native/model/manifest/cache change or push. This addendum qualifies test conditions and replaces the withdrawn cadence/timing descriptions."
+}
