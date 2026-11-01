@@ -133,6 +133,15 @@ test("a gym visit uses the existing workout pendants and leaves unrelated spaces
   }
 });
 
+test("the private reading light welcomes a visit and rests outside the occupied room", () => {
+  const day = darkness(0.95),
+    night = darkness(0);
+  assert.equal(SCHEDULES.privateReading({ dark: day, visit: "library-upper" }), 0.65);
+  assert.equal(SCHEDULES.privateReading({ dark: night, visit: "library-upper" }), 1);
+  assert.equal(SCHEDULES.privateReading({ dark: day, visit: "study" }), 0);
+  assert.equal(SCHEDULES.privateReading({ dark: night, visit: "study" }), 0.16);
+});
+
 test("entrance fixtures light only their authored foyer without adding native lights", () => {
   const lights = createLightInstallations({
     interiorLights: {

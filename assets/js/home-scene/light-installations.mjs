@@ -155,6 +155,7 @@ export const SCHEDULES = {
   steps: ({ dark }) => 0.45 * dark.outside,
   pool: ({ minute, dark, activity }) => (activity === "soak" ? 1 : 0.4 * dark.outside * windowLevel(minute, 19 * 60, 23 * 60, 20)),
   gym: ({ dark, activity, visit }) => (activity === "workout" || visit === "gym" ? Math.max(0.65, dark.inside) : 0.18 * dark.inside),
+  privateReading: ({ dark, visit }) => (visit === "library-upper" ? Math.max(0.65, dark.inside) : 0.16 * dark.inside),
   // The dining table is under the gallery, so daylight outside does not replace its task light.
   pendant: ({ minute, dark, activity, sheltered }) =>
     MEALS.includes(activity)
