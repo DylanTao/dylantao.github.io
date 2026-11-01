@@ -216,6 +216,15 @@ The October 6 concept A refinement keeps cumulative recorded history visible abo
 - The AI in Design 2026 report frames AI as changing tools, craft, and teams. Borrow the questions, not the corporate tone. A compact influence note can credit Katie Dill and the report, including the line: "AI is sparking a creative renaissance in design."
 - Keep the main page centered on Sirui's work, not on external inspiration.
 
+### Judgment Behind The Deliverable
+
+Sirui's November 1 reference is [Jakob Nielsen's portfolio critique](https://www.linkedin.com/posts/jakobnielsenphd_ux-designportfolio-careeradvice-share-7521466299072462848-Dt2u/): make the decisions behind a result inspectable. Apply that to research and teaching outcomes in this academic portfolio; do not invent commercial impact or repeat the post's study statistics without checking the study.
+
+- Put a consequential choice beside the artifact it changed: the problem, alternatives actually considered, criterion, chosen direction, and tradeoff. Use the project's own evidence and credit the people who made the choice.
+- Distinguish an observed result, a participant report, and an untested hypothesis. A polished screenshot demonstrates appearance; it does not establish learning, usability, adoption, or research impact.
+- Let visitors compare the relevant alternatives or open the supporting evidence without reading a development log. Preserve an effective story instead of adding a repeated process template to every project.
+- Review controls with [Nielsen's usability heuristics](https://www.nngroup.com/articles/ten-usability-heuristics/): visible state, recognizable destinations, clear exits, useful feedback, and recovery. Keep Sirui's atmosphere and playful details while making the next action understandable.
+
 ### Dual-Audience Publishing Intention
 
 - Machine-first content is route-addressable, server-rendered, semantic, source-linked, and human-auditable. JavaScript may improve copying or state feedback; it never gates the research record.
