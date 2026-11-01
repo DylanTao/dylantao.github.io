@@ -14,6 +14,7 @@ import {
 import { pelicanMotion, cormorantMotion, seaSurface } from "./wildlife-seabird-motion.mjs";
 import { solvePerchLanding, samplePerchActing, perchSurface, perchContactWeight } from "./wildlife-perch-contact.mjs";
 import { createGroundPatch, footSole, fitFootSole, groundFootQuaternion } from "./wildlife-ground-contact.mjs";
+import { rabbitSoles, createRabbitContactFit } from "./wildlife-rabbit-contact.mjs";
 import { OCEAN_WAVES, oceanWindState } from "./ocean-spectrum.mjs";
 import { coastWind } from "./wind-field.mjs";
 
@@ -99,6 +100,7 @@ export function createWildlife(parent, config, services = {}) {
   };
   // Inspection order keeps the original seventeen first; the new populations follow.
   const rabbits = [1, 2].map((seed, i) => make("BrushRabbit", `rabbit-${i}`, "Brush rabbit", 1, { seed }));
+  const rabbitGrounds = rabbits.map((rabbit) => createGroundPatch(habitats[rabbit.seed === 1 ? "rabbitWest" : "rabbitEast"].path, 0.9));
   const seaLions = habitats.seaLion.path.map((point, i) =>
     make("CaliforniaSeaLion", `seaLion-${i}`, "California sea lion", 1, { point, index: i, yaw: 0.4 + i * 1.8 })
   );
@@ -245,6 +247,14 @@ export function createWildlife(parent, config, services = {}) {
       animal.soles = Object.fromEntries(
         ["FrontPawL", "FrontPawR", "HindPawL", "HindPawR"].map((name) => [name, footSole(model, animal.bones[name].object)])
       );
+    if (animal.kind === "BrushRabbit")
+      animal.contactFit = createRabbitContactFit({
+        model,
+        group: animal.group,
+        bones: animal.bones,
+        soles: rabbitSoles(model, animal.bones),
+        ground: rabbitGrounds[animal.seed - 1],
+      });
   }
   function retain(master) {
     master.scene.traverse((o) => {
@@ -387,6 +397,7 @@ export function createWildlife(parent, config, services = {}) {
     return point;
   }
   function poseRabbit(animal, t) {
+    animal.contactFit?.reset();
     const pose = rabbitActing(t, animal.seed),
       path = habitats[animal.seed === 1 ? "rabbitWest" : "rabbitEast"].path;
     const p = giveWay(habitatPoint(path, pose.progress), t),
@@ -430,6 +441,7 @@ export function createWildlife(parent, config, services = {}) {
       shift(bones, `HindPaw${label}`, 0, pose.hindLift, pose.hindReach);
       turn(bones, `HindPaw${label}`, pose.hindToe * 0.55 - pose.tuck * 0.25);
     }
+    animal.contacts = animal.contactFit?.update(pose) || [];
   }
 
   // ------------------------------------------------------------ pinnipeds
@@ -1023,6 +1035,7 @@ export function createWildlife(parent, config, services = {}) {
     // Repeating the same capture is harmless; meshes/triangles are retained only once.
     captureGround(roots) {
       raccoonGround.capture(roots);
+      for (const patch of rabbitGrounds) patch.capture(roots);
       if (modelsReady) update(lastTime, lastPalette, { force: true });
     },
     waterMarks: () => waterMarks,
@@ -1103,6 +1116,7 @@ export function createWildlife(parent, config, services = {}) {
         contact: r.pose.contact,
         lift: r.pose.lift,
         progress: r.pose.progress,
+        contacts: r.contacts || [],
       })),
     }),
     dispose() {
