@@ -24,6 +24,16 @@ const lighting = { zenith: [1, 1, 1], horizon: [1, 1, 1], ground: [1, 1, 1], pra
 const immediate = () => Promise.resolve();
 const snapshotSignature = "a".repeat(64);
 
+// Node's independent binary writer supplies the browser DataView reader.
+const packedSnapshot = (snapshot) => {
+  const bytes = (values, width) => {
+    const buffer = Buffer.alloc(values.length * width);
+    values.forEach((value, i) => (width === 8 ? buffer.writeDoubleLE(value, i * width) : buffer.writeFloatLE(value, i * width)));
+    return buffer.toString("base64");
+  };
+  return { ...snapshot, version: 2, transport: bytes(snapshot.transport, 8), moments: bytes(snapshot.moments, 4) };
+};
+
 test("octahedral moments interpolate the first and second moment together with nonnegative variance", () => {
   const side = 4,
     data = new Float32Array(side * side * 4);
@@ -175,6 +185,96 @@ test("precomputed transport preserves sampled sky and practical relighting witho
   }
   original.dispose();
   restored.dispose();
+});
+
+test("packed fields preserve every lighting bit, sample and GPU texture while keeping legacy restoration", async () => {
+  const practicalSources = [{ id: "lamp", position: [0, 1.4, 0], color: [1, 0.7, 0.4] }],
+    options = { regions, practicalSources, raysPerProbe: 16, skyRaysPerHit: 2 },
+    original = createStaticLightField(options);
+  original.addRoot(new THREE.Mesh(new THREE.BoxGeometry(6, 0.1, 6), new THREE.MeshStandardMaterial()));
+  await original.bake({ yieldTask: immediate });
+  const snapshot = original.exportSnapshot({ signature: snapshotSignature });
+  for (const input of [snapshot, packedSnapshot(snapshot)]) {
+    const field = createStaticLightField(options);
+    assert.equal(field.restoreSnapshot(input, { signature: snapshotSignature }), true);
+    const roundtrip = field.exportSnapshot({ signature: snapshotSignature });
+    assert.deepEqual(roundtrip.transport, snapshot.transport);
+    assert.deepEqual(roundtrip.moments, snapshot.moments);
+    assert.deepEqual(roundtrip.probes, snapshot.probes);
+    const material = new THREE.MeshStandardMaterial();
+    original.bindMaterial(material);
+    const originalShader = {
+      uniforms: {},
+      vertexShader: THREE.ShaderLib.physical.vertexShader,
+      fragmentShader: THREE.ShaderLib.physical.fragmentShader,
+    };
+    material.onBeforeCompile(originalShader);
+    const restoredMaterial = new THREE.MeshStandardMaterial();
+    field.bindMaterial(restoredMaterial);
+    const restoredShader = {
+      uniforms: {},
+      vertexShader: THREE.ShaderLib.physical.vertexShader,
+      fragmentShader: THREE.ShaderLib.physical.fragmentShader,
+    };
+    restoredMaterial.onBeforeCompile(restoredShader);
+    for (const power of [0, 0.6, 2]) {
+      const light = { zenith: [0.12, 0.25, 0.4], horizon: [0.6, 0.4, 0.2], ground: [0.1, 0.1, 0.1], practicalPowers: [power] };
+      original.setLighting(light);
+      field.setLighting(light);
+      for (const normal of [
+        [0, 1, 0],
+        [0.7, 0.7, 0],
+        [0, 0, 1],
+      ])
+        assert.deepEqual(field.sample([0.1, 0.6, -0.2], normal), original.sample([0.1, 0.6, -0.2], normal));
+      for (const key of ["slfPositions", "slfMoments", "slfCoefficients"])
+        assert.deepEqual(restoredShader.uniforms[key].value.image.data, originalShader.uniforms[key].value.image.data);
+    }
+    assert.equal(field.evidence().trace.rays ?? 0, 0);
+    field.dispose();
+    material.dispose();
+    restoredMaterial.dispose();
+  }
+  original.dispose();
+});
+
+test("corrupt packed cache bytes reject atomically and preserve live baking", async () => {
+  const options = { regions, raysPerProbe: 16 },
+    original = createStaticLightField(options);
+  await original.bake({ yieldTask: immediate });
+  const packed = packedSnapshot(original.exportSnapshot({ signature: snapshotSignature }));
+  const changes = [
+    (s) => (s.transport = s.transport.slice(4)),
+    (s) => (s.transport = "!" + s.transport.slice(1)),
+    (s) => (s.transport = []),
+    (s) => {
+      const b = Buffer.from(s.transport, "base64");
+      b.writeDoubleLE(NaN, 0);
+      s.transport = b.toString("base64");
+    },
+    (s) => {
+      const b = Buffer.from(s.transport, "base64");
+      b.writeDoubleLE(1e100, 0);
+      s.transport = b.toString("base64");
+    },
+    (s) => {
+      const b = Buffer.from(s.moments, "base64");
+      b.writeFloatLE(Infinity, 0);
+      s.moments = b.toString("base64");
+    },
+    (s) => (s.moments = "=".repeat(s.moments.length)),
+  ];
+  for (const change of changes) {
+    const input = structuredClone(packed),
+      field = createStaticLightField(options);
+    change(input);
+    assert.equal(field.restoreSnapshot(input, { signature: snapshotSignature }), false);
+    assert.equal(field.evidence().ready, false);
+    await field.bake({ yieldTask: immediate });
+    assert.equal(field.evidence().ready, true);
+    field.dispose();
+  }
+  original.dispose();
 });
 
 test("the expanded house retains bounded transport storage without adding analytic fragment lights", () => {

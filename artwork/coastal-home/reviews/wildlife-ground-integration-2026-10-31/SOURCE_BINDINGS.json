@@ -1,0 +1,120 @@
+{
+  "schema": "source-bindings-v1",
+  "files": [
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "sha256": "56632b40be414a2118defdfc78fb1cddc4341ade8b04970f55fadeea5fdd0aed",
+      "normalization": "LF"
+    },
+    {
+      "path": "assets/js/home-scene/environment.mjs",
+      "sha256": "5dc7a6e92d3635ca0ab4cc713ce2894ed89b8b264a264e59727009c92fa803e5",
+      "normalization": "LF"
+    },
+    {
+      "path": "assets/js/home-scene/static-light-field.mjs",
+      "sha256": "6a7d7071ad50e6eb7abbed9c15a61a7a772b88628b2bd59996d3267871d77918",
+      "normalization": "LF"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife.mjs",
+      "sha256": "bcab53363ffc5196152c835ddabaf1fb56242f7a1ecc3b6242c4c7bca500d9de",
+      "normalization": "LF"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-rabbit-contact.mjs",
+      "sha256": "e43595372beaa5c66c6f936cb00b9db408eb7a1167859b5c64a3ecac9d944815",
+      "normalization": "LF"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-resting-contact.mjs",
+      "sha256": "3ebe1f90b57aca508685eea2508d3f257e5e8daf50c0740c2b3d21bcfa61f8a4",
+      "normalization": "LF"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-ground-contact.mjs",
+      "sha256": "9fabbbc4b1e457236088843e5698f180699759ff372fa164a651197838d061bf",
+      "normalization": "LF"
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "sha256": "fceb23a349584e53ab1c887f44bc5ebee5ce8dd0090ec984aa1bdaca06923c31",
+      "normalization": "LF"
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "sha256": "d51674ee56b60a611087030a173b32fbd26b5f619d9dbfd64537e4b9a7ee249f",
+      "normalization": "LF"
+    },
+    {
+      "path": "artwork/coastal-home/coastal-home.blend",
+      "sha256": "de217984242f77903145dd6d16f277923b57fd5e3eb2469c906c2507b494ad87",
+      "normalization": "binary exact"
+    },
+    {
+      "path": "assets/models/home/home-shell.glb",
+      "sha256": "b51f302da52907dc1d707c14ea3a3c4578da9f43f9147d7917a6bb0e1f99ce72",
+      "normalization": "binary exact"
+    },
+    {
+      "path": "assets/models/home/coast.glb",
+      "sha256": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
+      "normalization": "binary exact"
+    },
+    {
+      "path": "bin/bake_coastal_static_light.cjs",
+      "sha256": "01a2e33009ffbecddf3cab0c0183063dec1b8d7f2c608bc4c26a779cac8e98dd",
+      "normalization": "LF"
+    },
+    {
+      "path": "bin/coastal_static_light_inputs.cjs",
+      "sha256": "98c654f5a6dcff2505083ae32a0e170ffcb6e4056d923f589b513104d5abb5b0",
+      "normalization": "LF"
+    },
+    {
+      "path": "bin/rabbit_habitats.py",
+      "sha256": "303daf73b98b195b1f91d1f55ecef921c95a584ac75c3b36c972223af387d381",
+      "normalization": "LF"
+    },
+    {
+      "path": "bin/repair_rabbit_habitats.py",
+      "sha256": "8a53178e5d571c0860ffbada24d0fb177cfe526f10ee22eecaad243ee3ebc12c",
+      "normalization": "LF"
+    },
+    {
+      "path": "bin/coastal_architecture_finish.py",
+      "sha256": "451eafc0af8126d32e2ed184105c9e63f91281725cc948b3c67962aa0af2dfa1",
+      "normalization": "LF"
+    },
+    {
+      "path": "test/loading-sketch.test.mjs",
+      "sha256": "045bd0e9a9889030c9d0f5d8129c6a5a94ec9de2644daf448eba887ea898850d",
+      "normalization": "LF"
+    },
+    {
+      "path": "test/static-light-cache.test.mjs",
+      "sha256": "9f5b3c3dc1ae690eb4897d7ab46dc6b350d246d56b481eb7bf46b59b601afcbe",
+      "normalization": "LF"
+    },
+    {
+      "path": "test/static-light-field.test.mjs",
+      "sha256": "21e3960f7bec82d52aba6f4e726c2c3e45ce0e0c3e93386dd8caae6e8e2175c8",
+      "normalization": "LF"
+    },
+    {
+      "path": "test/visual/desk-scene.spec.js",
+      "sha256": "aa7a7945ed3b1849ae09e02e32a736fbaf5d3783cd04f9f76bd8ee0bc4c24857",
+      "normalization": "LF"
+    },
+    {
+      "path": "test/visual/static-light-field.spec.js",
+      "sha256": "0b2893fd0a229d81a227fa8b0c8e615794e16336a715024bc8393345a7584be6",
+      "normalization": "LF"
+    },
+    {
+      "path": "test/visual/scene-groups.json",
+      "sha256": "a3cd4288a1afe63685029a3570f195fdc41b98ccefccf680e68a13c4452a83cf",
+      "normalization": "LF"
+    }
+  ]
+}

@@ -17,7 +17,7 @@ from mathutils.bvhtree import BVHTree
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'bin'))
 from coastal_camera import create_camera_height
-from rabbit_habitats import RABBIT_HABITAT_LOOPS, sample_loop
+from rabbit_habitats import RABBIT_HABITAT_LOOPS, RABBIT_ROOT_OFFSETS, sample_loop
 
 manifest_path = ROOT / 'assets/models/home/manifest.json'
 source = ROOT / 'artwork/coastal-home/coastal-home.blend'
@@ -68,7 +68,7 @@ report = {'source': str(source), 'sourceSha256': hashlib.sha256(source.read_byte
           'bodyColumn': {'radius': math.sqrt(10)*.1, 'bottom': .02, 'top': .85, 'stencilPoints': len(stencil)},
           'foliageMeshes': [obj.name for obj in plants], 'habitats': {}}
 for key, loop in RABBIT_HABITAT_LOOPS.items():
-    path = sample_loop(loop, height)
+    path = sample_loop(loop, height, root_offset=RABBIT_ROOT_OFFSETS.get(key,.025))
     original = before['terrain']['habitats'][key]['path']
     stats = measure(path)
     assert stats['blockedRays'] == 0, f'{key}: route intersects the planted coast'

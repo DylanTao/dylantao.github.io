@@ -1,0 +1,15 @@
+{
+  "onlyPhysicalMetadataChange": "terrain.habitats.rabbitEast.path",
+  "points": 48,
+  "cacheDescriptor": "Official producer only",
+  "beforeCache": {
+    "url": "static-light-field.json",
+    "signature": "c9b2c73a64ad67c66f4542a946f0f6d20e79618405e68c64f10b404b286e00ce",
+    "sha256": "d5df76fc9c92197f121b9386d8b1078c1c1be9571cd45d2804756905c6276956"
+  },
+  "afterCache": {
+    "url": "static-light-field.json",
+    "signature": "35889ccec4d784bea523b89fedcaec8ab687381c3dd0d44b00c0bd4477906121",
+    "sha256": "d51674ee56b60a611087030a173b32fbd26b5f619d9dbfd64537e4b9a7ee249f"
+  }
+}

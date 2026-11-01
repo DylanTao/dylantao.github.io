@@ -75,6 +75,26 @@ From October 24 to 26, 2026, Claude Opus coordinated this site with up to six pa
 
 ## October29 PC visitor checkpoint
 
+**October 31 follow-up.** Sirui confirmed that the published Rooms/turning repair
+lets both camera axes move freely on his physical PC. This closes that reported
+control defect; it does not establish a frame-rate target. He also explicitly
+approved setting up the existing commit-metrics pipeline on this PC after the
+house checks. The earlier laptop-only exception is superseded for that setup;
+the private scanner/profile checkout stays outside this site repository, and no
+new activity counts are claimed until its parity and privacy gates pass.
+
+The [visible wildlife integration](../artwork/coastal-home/reviews/wildlife-ground-integration-2026-10-31/README.md)
+qualifies the rabbit fit and permanent eastern habitat, the separate curled-tail
+correction, and a lossless typed light-cache format. The preceding `d3099670c`
+visual run completed 41/42 jobs; its failure assumed asynchronous drawing
+completion order. The exact-once/data assertions are corrected, and the original
+run stays failed. Earlier "unclocked"/"Date-only" Playwright descriptions are
+withdrawn; the review retains their limits and replacement no-clock evidence.
+The native house remains `de217984…`. The private straight-arrival v13 now has
+a contour approach, supported roadbed, replacement canopy, retired old pavilion
+and original local planting form studies. Final support, outside fields,
+lighting/export/cache and complete rendered Walk still govern admission.
+
 **October 31 continuation.** Published `70ee4eac5` finished all 42 visual jobs successfully (`40905551137`); integration, deploy, formatting, upgrade and CodeQL also passed. Four later scheduled weather/Scholar commits were fast-forwarded safely to `2ebab9a92`, with the local navigation work preserved in stash `84494418c` before restoration. The separate local Scholar fetch agrees with the October 31 snapshot already on origin, so no duplicate data refresh is needed.
 
 The [public navigation checkpoint](../artwork/coastal-home/reviews/visitor-navigation-2026-10-31/README.md) reproduces the interior PC stop in both axes and adds safe look continuation, a visitor Rooms menu in both layouts, validated room-relative Walk starts and a dry patio start. It retains native four-width, modern WebKit and Linux/Mesa evidence plus the original failed fixtures. Its new cases are registered; CI/live publication needs its own release receipt. It does not close the remaining native house work.

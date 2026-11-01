@@ -1,7 +1,7 @@
 import * as THREE from "../three.module.min.js";
 import { createModelLoader } from "./model-loader.mjs";
 import { createArtDirection } from "./materials.mjs";
-import { createPacific } from "./environment.mjs";
+import { createPacific } from "./environment.mjs?v=contacts-20261031";
 import { createFinish, physicalTime, surfaceLook } from "./realism.mjs";
 import { readLook } from "./look.mjs";
 import { createExplorationState, resolveRoutine, routineRoom, formatMinute, chooseArrivalAvatar, pacificClock } from "./routine.mjs";
@@ -66,7 +66,7 @@ import { createCurtainRig } from "./curtain-rig.mjs";
 import { createWarmPracticals, practicalSourcesFor } from "./warm-practicals.mjs";
 import { createSteamDensity } from "./steam-density.mjs";
 import { createSteamVolume } from "./steam-volume.mjs";
-import { createStaticLightField, staticLightRegions } from "./static-light-field.mjs";
+import { createStaticLightField, staticLightRegions } from "./static-light-field.mjs?v=packed-20261031";
 import { prepareFramePrograms } from "./program-warmup.mjs";
 import { retireCompiledMaterials } from "./program-lifetime.mjs";
 import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";

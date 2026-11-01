@@ -66,6 +66,21 @@ const base = new URL(process.env.COASTAL_CACHE_URL || "http://127.0.0.1:4170/");
       );
     const snapshot = await scene.evaluate((element, signature) => element.labScene.exportStaticLightSnapshot(signature), signature);
     if (snapshot.signature !== signature || errors.length) throw new Error(`Bake failed: ${JSON.stringify(errors)}`);
+    // Keep every transport/moment bit. The runtime supports the legacy decimal
+    // format too; new authoring bakes use explicit little-endian typed bytes.
+    const pack = (values, width) => {
+      const bytes = Buffer.alloc(values.length * width);
+      for (let i = 0; i < values.length; i++) {
+        if (width === 8) bytes.writeDoubleLE(values[i], i * width);
+        else bytes.writeFloatLE(values[i], i * width);
+        const restored = width === 8 ? bytes.readDoubleLE(i * width) : bytes.readFloatLE(i * width);
+        if (!Number.isFinite(values[i]) || !Object.is(restored, values[i])) throw new Error("Cache packing changed a lighting value");
+      }
+      return bytes.toString("base64");
+    };
+    snapshot.transport = pack(snapshot.transport, 8);
+    snapshot.moments = pack(snapshot.moments, 4);
+    snapshot.version = 2;
     snapshot.inputs = inputs;
     const body = JSON.stringify(snapshot) + "\n";
     if (Buffer.byteLength(body) > 800000) throw new Error("Static transport cache exceeds its explicit 800 KB JSON budget");

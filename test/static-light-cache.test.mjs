@@ -18,7 +18,7 @@ test("published indirect-light cache binds to current scene geometry, manifest a
   assert.equal(cacheInputs.digest(body), descriptor.sha256, "cache bytes do not match their manifest digest");
   assert.equal(snapshot.signature, signature);
   assert.deepEqual(snapshot.inputs, inputs);
-  assert.equal(snapshot.version, 1);
+  assert.equal(snapshot.version, 2);
   assert.ok(body.byteLength <= 800000, "cache exceeds its 800 KB JSON budget");
   assert.ok(snapshot.statistics.triangles > 1000, "cache must come from the actual home, not an empty fixture");
 });

@@ -367,6 +367,9 @@ test("a load fetches the index and only the rooms it is told about, each once", 
   assert.deepEqual(requested, ["loading-sketch.json", "loading-sketch/study.json", "loading-sketch/gym.json"]);
   // A missing room file, or a room the index does not know, leaves only that drawing out.
   assert.deepEqual(loader.pending(), []);
+  // Native decompression may settle the smaller room before the coast drawing.
+  // Delivery is keyed by id; completion order is not the request-order contract.
+  delivered.sort((a, b) => a.id.localeCompare(b.id));
   assert.deepEqual(
     delivered.map(({ id }) => id),
     ["outside", "study"]

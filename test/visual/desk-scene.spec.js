@@ -4086,6 +4086,101 @@ test("coastal home: whiskey evenings support feet and set the glass on the side 
   expect(errors).toEqual([]);
 });
 
+test("coastal neighbours: rabbits keep visible fixed-ground support in the house cutaway", async ({ page }, testInfo) => {
+  test.setTimeout(600000);
+  const errors = collectRuntimeErrors(page),
+    view = await openClockedHome(page, { time: "2026-10-01T13:20:00-07:00" });
+  const { scene, canvas, ui } = view;
+  await expect
+    .poll(
+      async () => {
+        await page.clock.runFor(100);
+        return (await evidence(scene)).ecology?.wildlife?.modelsReady;
+      },
+      { timeout: 120000 }
+    )
+    .toBe(true);
+  expect((await evidence(scene)).loading.lightCache?.state).toBe("restored");
+  await explore(ui);
+  const rows = [];
+  for (const destination of ["outside", "overview"]) {
+    await sceneInputFrame(page, view, () => ui.locator(`[data-world-room="${destination}"]`).first().click());
+    const result = await scene.evaluate(async (element) => {
+      const THREE = await import(new URL("assets/js/three.module.min.js", document.baseURI)),
+        { createGroundPatch, isCoastalGround } = await import(new URL("assets/js/home-scene/wildlife-ground-contact.mjs", document.baseURI)),
+        config = await (await fetch(new URL("assets/models/home/manifest.json", document.baseURI))).json(),
+        world = element.labScene.scene,
+        state = element.getSceneEvidence(),
+        visible = [];
+      world.updateMatrixWorld(true);
+      world.traverseVisible((mesh) => {
+        if (isCoastalGround(mesh)) visible.push(mesh);
+      });
+      return [0, 1].map((index) => {
+        // Capture actual visible triangles again. The fitter's retained support
+        // flag predates cutaway changes and cannot establish visible ground.
+        const patch = createGroundPatch(config.terrain.habitats[index ? "rabbitEast" : "rabbitWest"].path, 1);
+        patch.capture(visible);
+        const feet = Object.fromEntries(
+          ["FrontPawL", "FrontPawR", "HindPawL", "HindPawR"].map((n) => [n, { vertices: 0, missing: 0, minimum: Infinity }])
+        );
+        let skinVertices = 0,
+          missingSkin = 0,
+          minimumSkin = Infinity;
+        const owners = new Set(),
+          point = new THREE.Vector3();
+        world.traverse((mesh) => {
+          if (!mesh.isSkinnedMesh || mesh.userData.action?.id !== `rabbit-${index}`) return;
+          mesh.skeleton.update();
+          const skin = mesh.geometry.attributes.skinIndex,
+            weights = mesh.geometry.attributes.skinWeight;
+          for (let i = 0; i < skin.count; i++) {
+            mesh.getVertexPosition(i, point).applyMatrix4(mesh.matrixWorld);
+            const hit = patch.sample(point.x, point.z, point.y + 0.5),
+              gap = hit ? point.y - hit.height : null;
+            skinVertices++;
+            if (!hit) missingSkin++;
+            else {
+              minimumSkin = Math.min(minimumSkin, gap);
+              owners.add(hit.mesh);
+            }
+            for (const [name, foot] of Object.entries(feet)) {
+              let own = 0;
+              for (let k = 0; k < 4; k++) if (mesh.skeleton.bones[skin.getComponent(i, k)].name === name) own += weights.getComponent(i, k);
+              if (own < 0.999) continue;
+              foot.vertices++;
+              if (!hit) foot.missing++;
+              else foot.minimum = Math.min(foot.minimum, gap);
+            }
+          }
+        });
+        return { index, pose: state.ecology.wildlife.rabbitHabitats[index], skinVertices, missingSkin, minimumSkin, owners: [...owners], feet };
+      });
+    });
+    for (const rabbit of result) {
+      expect(rabbit.pose.airborne).toBe(false);
+      expect(rabbit.pose.contact).toBe(true);
+      expect(rabbit.skinVertices).toBeGreaterThan(7000);
+      expect(rabbit.missingSkin).toBe(0);
+      expect(rabbit.minimumSkin).toBeGreaterThanOrEqual(-0.00001);
+      expect(rabbit.minimumSkin).toBeLessThan(0.002);
+      expect(rabbit.owners.length).toBeGreaterThan(0);
+      expect(rabbit.owners.some((name) => /liftaway|roof/i.test(name))).toBe(false);
+      for (const foot of Object.values(rabbit.feet)) {
+        expect(foot.vertices).toBeGreaterThan(100);
+        expect(foot.missing).toBe(0);
+        expect(foot.minimum).toBeGreaterThanOrEqual(-0.00001);
+        expect(foot.minimum).toBeLessThan(0.002);
+      }
+    }
+    rows.push({ destination, result });
+  }
+  await capture(testInfo, "rabbits-visible-cutaway", await canvas.screenshot());
+  fs.writeFileSync(testInfo.outputPath("rabbits-visible-support.json"), JSON.stringify(rows, null, 2));
+  await testInfo.attach("rabbits-visible-support", { body: JSON.stringify(rows, null, 2), contentType: "application/json" });
+  expect(errors).toEqual([]);
+});
+
 test("coastal neighbours: delivered paws and gull wings keep physical contact and bounded motion", async ({ page }, testInfo) => {
   test.setTimeout(900000);
   const errors = collectRuntimeErrors(page),

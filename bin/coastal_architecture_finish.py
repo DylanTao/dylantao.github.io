@@ -773,7 +773,7 @@ def forecourt_corners(scene, config):
 
 def ground_wildlife(scene, config):
     """Re-sample unchanged animal plans on the final real clifftop, not metadata."""
-    from rabbit_habitats import RABBIT_HABITAT_LOOPS, sample_loop
+    from rabbit_habitats import RABBIT_HABITAT_LOOPS, RABBIT_ROOT_OFFSETS, sample_loop
     trees=[(o,BVHTree.FromPolygons([o.matrix_world@v.co for v in o.data.vertices],
               [list(p.vertices) for p in o.data.polygons])) for o in rock_objects(scene)]
     def support(x,y):
@@ -792,7 +792,7 @@ def ground_wildlife(scene, config):
     habitats=[]
     for name,plan in RABBIT_HABITAT_LOOPS.items():
         previous=config["terrain"]["habitats"][name]["path"]
-        path=sample_loop(plan,lambda x,y:support(x,y)[0])
+        path=sample_loop(plan,lambda x,y:support(x,y)[0],root_offset=RABBIT_ROOT_OFFSETS.get(name,.025))
         config["terrain"]["habitats"][name]["path"]=path
         habitats.append({"name":name,"points":len(path),"maximumHeightCorrectionM":max(abs(a[1]-b[1]) for a,b in zip(previous,path))})
     for obj in scene.objects:

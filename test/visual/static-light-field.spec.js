@@ -90,10 +90,32 @@ test("static light field: native linear GPU diffuse matches traced cache without
         const relit = render(),
           relitCPU = field.sample([0, 0, 0], [0, 0, 1]),
           addedRays = (field.evidence().trace.rays || 0) - raysBefore;
+        const signature = "a".repeat(64),
+          snapshot = field.exportSnapshot({ signature });
         field.dispose();
         const ownershipRestored = material.onBeforeCompile === originalCompile && material.customProgramCacheKey === originalCacheKey;
         hemi.intensity = 2;
         const restored = render();
+
+        // Independent browser byte writer exercises the packed reader through
+        // an actual native GL draw, in addition to the complete CPU-array test.
+        const packedArray = (values, width) => {
+          const bytes = new Uint8Array(values.length * width),
+            view = new DataView(bytes.buffer);
+          values.forEach((value, i) => (width === 8 ? view.setFloat64(i * width, value, true) : view.setFloat32(i * width, value, true)));
+          return btoa(Array.from(bytes, (b) => String.fromCharCode(b)).join(""));
+        };
+        const packedField = createStaticLightField({ regions });
+        liveFields.push(packedField);
+        packedField.setLighting(light(nextRadiance));
+        const packedRestored = packedField.restoreSnapshot(
+          { ...snapshot, version: 2, transport: packedArray(snapshot.transport, 8), moments: packedArray(snapshot.moments, 4) },
+          { signature }
+        );
+        packedField.bindMaterial(material);
+        const packed = render(),
+          packedEvidence = packedField.evidence();
+        packedField.dispose();
 
         shellGeometry = new THREE.BoxGeometry(4, 4, 4);
         const index = shellGeometry.index;
@@ -141,6 +163,9 @@ test("static light field: native linear GPU diffuse matches traced cache without
           addedRays,
           restored,
           ownershipRestored,
+          packed,
+          packedRestored,
+          packedEvidence,
           closed,
           closedCPU,
           closedEvidence,
@@ -196,6 +221,10 @@ test("static light field: native linear GPU diffuse matches traced cache without
   );
   expect(result.addedRays).toBe(0);
   expect(result.ownershipRestored).toBe(true);
+  expect(result.packedRestored).toBe(true);
+  expect(result.packedEvidence.cacheHit).toBe(true);
+  expect(result.packedEvidence.trace.rays ?? 0).toBe(0);
+  expect(result.packed).toEqual(result.relit);
   closeRGB(result.restored, result.baseline);
   expect(result.closedEvidence.ready).toBe(true);
   expect(result.closedEvidence.rejectedProbes).toBe(0);
