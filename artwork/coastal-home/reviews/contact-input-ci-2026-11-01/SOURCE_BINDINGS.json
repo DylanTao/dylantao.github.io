@@ -1,0 +1,35 @@
+{
+  "runtimeHead": "321a8ebc9",
+  "runtimeChanges": false,
+  "source": [
+    {
+      "path": "test/visual/coastal-finish.spec.js",
+      "committedLFSha256": "71e3467c6fbecc233af9bf44f3cbaa2c83a030bafef0d34ce2c894898757997f"
+    },
+    {
+      "path": "test/visual/desk-scene.spec.js",
+      "committedLFSha256": "19270c2716b511c6bc797dc13fa67fa321567aee7744168f2eeedd5e813577b6"
+    },
+    {
+      "path": "test/test_resting_review_custody.py",
+      "committedLFSha256": "9a1bd40b2f2eeed840d04b450261e4391f1080018d8e52d3c4c30ac8a928e84c"
+    }
+  ],
+  "cache": {
+    "url": "static-light-field.json",
+    "signature": "f4d91be561003835bcf5c7c0eb819d2511131728d12cfe4bc451d86a856d38c5",
+    "sha256": "09a8e64bb6f57d9ea272a6d2b3eedade76514ae2356f5fc6d690cc7203519b50"
+  },
+  "qualification": {
+    "nativeContextLossCases": 2,
+    "qualifiedMesaContextLossCases": 2,
+    "nativeRoomsCases": 2,
+    "qualifiedMesaRoomsCases": 1,
+    "roomsSelectionsPerCase": 26
+  },
+  "limits": [
+    "Purely functional proof; no throughput claim",
+    "Whitespace/comment-only formatting follows the recorded runs",
+    "Original failed and unqualified runs stay failed/unqualified"
+  ]
+}

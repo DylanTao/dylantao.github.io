@@ -2265,7 +2265,10 @@ test("coastal home: full screen fills the screen, keeps its controls and returns
 });
 
 test("coastal home: every Rooms destination receives pointer input above following content", async ({ page }, testInfo) => {
-  test.setTimeout(600000);
+  // Keep the full 2K desktop and every destination on software WebGL too. The
+  // original 10-minute CI trace completes 22 selections before its total budget
+  // expires; this is functional input proof, not a frame-rate measurement.
+  test.setTimeout(process.env.VISUAL_SCENE_BACKEND === "llvmpipe" ? 1200000 : 600000);
   if (testInfo.project.name === "desktop-1440") await page.setViewportSize({ width: 2560, height: 1440 });
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
@@ -2291,7 +2294,10 @@ test("coastal home: every Rooms destination receives pointer input above followi
     for (const id of destinations) {
       await activate(summary);
       const button = places.locator(`[data-world-destination="${id}"]`);
-      await button.scrollIntoViewIfNeeded();
+      // The trusted click/tap below already waits for a stable target. Scroll
+      // first without a second pair of driver RAF waits per destination, then
+      // retain the independent actual hit test before that real input.
+      await button.evaluate((element) => element.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" }));
       const hit = await button.evaluate((element) => {
         const r = element.getBoundingClientRect(),
           top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);

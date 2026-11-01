@@ -1,0 +1,149 @@
+{
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "original/ci-live-original/error-context.md.gz",
+      "bytes": 8491,
+      "sha256": "23b1b930be35536d25c062686021cc494048cc123189d78c01983de7b6feff61"
+    },
+    {
+      "path": "original/ci-live-original/trace.zip",
+      "bytes": 8508363,
+      "sha256": "0897ae00a515c5d9acea089b70d00b6a65ac0fa5849820d4dae5097e88ca4996"
+    },
+    {
+      "path": "original/ci-rooms-original/error-context.md.gz",
+      "bytes": 8560,
+      "sha256": "58e267a1dc225fb3fa24f49fed92b1cb25a2449a2c97f7cdf5054c57bd35cf53"
+    },
+    {
+      "path": "original/ci-rooms-original/rooms-pointer-embed.png",
+      "bytes": 815619,
+      "sha256": "7737cf4ced7bfbc992d6eac4b14b23bdc155073ee965cdeba3a0ae2d8cdaf370"
+    },
+    {
+      "path": "original/ci-rooms-original/trace.zip",
+      "bytes": 13974581,
+      "sha256": "1b8fda6e9037de2c35043d8f0cdb98ba0790dc25262b3d3f04e4fe709fe9b3e0"
+    },
+    {
+      "path": "original/job-124876090452.log.gz",
+      "bytes": 52493,
+      "sha256": "daf9cde00a1b444a36b2576c5b5509e44a5113b2d1d7d13852df0129632bd9c6"
+    },
+    {
+      "path": "original/job-124876090489.log.gz",
+      "bytes": 51732,
+      "sha256": "6a7f58f67524e43399a38e990ede1b688f70c8bf59f7548480c45c6d883996d9"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1976,
+      "sha256": "abccacff6d10acabfb3560bd59744b829b63308ce0f75a2e11ce33ced98150bb"
+    },
+    {
+      "path": "receipts/docker-command.json.gz",
+      "bytes": 468,
+      "sha256": "a1ad9510a411929a41ad2c23ff62bea7961ef8359c55bd2bd1091a446c26376c"
+    },
+    {
+      "path": "receipts/docker-qualified-backend.json.gz",
+      "bytes": 288,
+      "sha256": "6aa72f71ce9ad947ea88870bf7b6e46046225718de4904ceb38e2a7857217683"
+    },
+    {
+      "path": "receipts/docker-qualified-command.json.gz",
+      "bytes": 324,
+      "sha256": "44e2ebbf2e6f545e65ac9443c2fbe58a28dec1a8284f0099d0cf57e3ae4f5b9b"
+    },
+    {
+      "path": "receipts/docker-qualified.log.gz",
+      "bytes": 463,
+      "sha256": "4cd06f35bd174de08622e593b6687e343a91d63f9eea5f4e051f1e000989f66c"
+    },
+    {
+      "path": "receipts/docker.log.gz",
+      "bytes": 185,
+      "sha256": "52a602941ff659827f646678666a00f73d45216f1a4257aea71a0fa56041a370"
+    },
+    {
+      "path": "receipts/final-checkpoint-build.log.gz",
+      "bytes": 4483,
+      "sha256": "8f2f900e699bf29b2bee013f5c9d356e88d4790b30b684dd792b8fd8765e5889"
+    },
+    {
+      "path": "receipts/final-fixture-groups.log.gz",
+      "bytes": 416,
+      "sha256": "f1243cfb58586dbaa68f3ccd1f19899d476c68a7b95bb908d7bdc38960bd850d"
+    },
+    {
+      "path": "receipts/final-fixture-python.log.gz",
+      "bytes": 116,
+      "sha256": "e474b836e214d27eb140bfe67fd7ae4223bc9b1079da2d389b9232be951cd96b"
+    },
+    {
+      "path": "receipts/final-fixture-style.log.gz",
+      "bytes": 92,
+      "sha256": "e1b758d551892f05af685ef55c869c1d0b2b15549c66671cc7668544c036eb06"
+    },
+    {
+      "path": "receipts/native.log.gz",
+      "bytes": 330,
+      "sha256": "41ce3093b305b98a7087c6ff1bb07ba23ff6c861c09550e13f25329efa1060a6"
+    },
+    {
+      "path": "receipts/rooms-docker-qualified-backend.json.gz",
+      "bytes": 288,
+      "sha256": "6aa72f71ce9ad947ea88870bf7b6e46046225718de4904ceb38e2a7857217683"
+    },
+    {
+      "path": "receipts/rooms-docker-qualified-command.json.gz",
+      "bytes": 323,
+      "sha256": "e09465f990e92541ff61ce71167d0829a3ec07745a73b816457dc5136c9d642d"
+    },
+    {
+      "path": "receipts/rooms-docker-qualified.log.gz",
+      "bytes": 434,
+      "sha256": "fa7f3edef9f04ea90d1aa204af1ec55594c8d1b36ac915128d2c15fefdbba841"
+    },
+    {
+      "path": "receipts/rooms-native.log.gz",
+      "bytes": 328,
+      "sha256": "5142de7dc8c684e3a994bb708b3f47f5c65e936560b79fe8151b8efa097aaa81"
+    },
+    {
+      "path": "receipts/run-qualified.cjs.gz",
+      "bytes": 527,
+      "sha256": "3d9621e19794a9370371ef063c4be08e00011b67d829f6b5fcb5fd236a741f75"
+    },
+    {
+      "path": "receipts/run-rooms-qualified.cjs.gz",
+      "bytes": 526,
+      "sha256": "6429ddeec3508abcfb3b7b2885934efddfcab533fab2245e858df868decfdb54"
+    },
+    {
+      "path": "SOURCE_BINDINGS.json",
+      "bytes": 1173,
+      "sha256": "c6f626c32b80c8aca3526c58dee21eb4ec2b2176b020dcd226693704fe135063"
+    },
+    {
+      "path": "unqualified-docker/coastal-finish-coastal-qua-4641c-tries-a-complete-lower-tier-desktop-1440/trace.zip",
+      "bytes": 8292734,
+      "sha256": "c7467c1d37684c572ab34661d8005cf8fd88d56c6712c91f7a8dc81ee582c062"
+    },
+    {
+      "path": "views/rooms-docker-qualified/desk-scene-coastal-home-ev-47696-put-above-following-content-desktop-1440/rooms-pointer-embed.png",
+      "bytes": 817208,
+      "sha256": "971b802ca3b07b1be66e918ae5474f17a34b8d76fdaf681ed8dffc733dafe4be"
+    },
+    {
+      "path": "views/rooms-docker-qualified/desk-scene-coastal-home-ev-47696-put-above-following-content-desktop-1440/rooms-pointer-fullscreen.png",
+      "bytes": 938324,
+      "sha256": "d966a158530393c7a9af2acbfa74b61053b9f7b2d57637435d6a78b887cd54cd"
+    }
+  ]
+}

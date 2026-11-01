@@ -14,14 +14,17 @@ class RestingReviewCustody(unittest.TestCase):
             "resting-wildlife-ci-2026-11-01": "MANIFEST.json",
             "contact-cpu-2026-11-01": "MANIFEST.json",
             "contact-cpu-integration-2026-11-01": "MANIFEST.json",
+            "contact-input-ci-2026-11-01": "MANIFEST.json",
             "rooms-menu-stacking-2026-11-01": "MANIFEST.json",
             "pinniped-contact-2026-11-01": "MANIFEST.json",
             "raccoon-body-contact-2026-11-01": "MANIFEST.json",
             "resting-wildlife-integration-2026-11-01": "MANIFEST.json",
             "visible-wildlife-release-2026-11-01": "payloads.json",
         }
-        for folder, index in packets.items():
-            base = REVIEWS / folder
+        packets = {REVIEWS / folder: index for folder, index in packets.items()}
+        packets[ROOT / "artwork/site-fidelity/reviews/metrics-pc-2026-11-01"] = "MANIFEST.json"
+        for base, index in packets.items():
+            folder = base.name
             records = json.loads((base / index).read_text(encoding="utf8"))["files"]
             self.assertTrue(records, folder)
             seen = set()

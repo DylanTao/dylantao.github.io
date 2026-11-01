@@ -186,7 +186,11 @@ test("coastal quality: a lost graphics context returns to the desk and retries a
   const before = await sceneEvidence(scene);
   expect(before.currentRecord).toBeGreaterThan(0);
   await page.locator("[data-world-fullscreen]").click();
-  await expect.poll(async () => (await sceneEvidence(scene)).fullscreen).toBeTruthy();
+  // The first full-size allocation can occupy the software renderer longer
+  // than the generic 15-second assertion budget. The retained CI trace reaches native
+  // fullscreen after that deadline. Keep this a bounded readiness precondition
+  // and return only its mode, rather than serializing the entire scene per poll.
+  await expect.poll(() => scene.evaluate((element) => element.getSceneEvidence().fullscreen), { timeout: readyTimeout }).toBeTruthy();
   const allocationFrame = await scene.evaluate((element) => {
     element.setQualityTier("standard");
     const frame = element.getSceneEvidence().frames;
