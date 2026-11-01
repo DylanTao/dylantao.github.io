@@ -29,6 +29,21 @@ class CoastalCacheOutputTests(unittest.TestCase):
     def test_exact_built_bytes_pass(self):
         VALIDATOR.validate_coastal_cache(self.site)
 
+    def test_packed_snapshot_preserves_built_byte_and_signature_contract(self):
+        self.body = b'{"version":2,"signature":"source","transport":"AAAA","moments":"AAAA"}\n'
+        (self.home / "static-light-field.json").write_bytes(self.body)
+        self.descriptor["sha256"] = hashlib.sha256(self.body).hexdigest()
+        self.write_manifest()
+        VALIDATOR.validate_coastal_cache(self.site)
+
+    def test_unknown_snapshot_version_fails_even_with_matching_digest(self):
+        self.body = b'{"version":3,"signature":"source"}\n'
+        (self.home / "static-light-field.json").write_bytes(self.body)
+        self.descriptor["sha256"] = hashlib.sha256(self.body).hexdigest()
+        self.write_manifest()
+        with self.assertRaisesRegex(AssertionError, "unsupported snapshot version"):
+            VALIDATOR.validate_coastal_cache(self.site)
+
     def test_minifier_removing_final_newline_fails(self):
         (self.home / "static-light-field.json").write_bytes(self.body.rstrip())
         with self.assertRaisesRegex(AssertionError, "bytes changed"):

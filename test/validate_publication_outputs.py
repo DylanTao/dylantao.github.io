@@ -555,7 +555,9 @@ def validate_coastal_cache(site_dir: Path) -> None:
     if sha256(body).hexdigest() != descriptor["sha256"]:
         raise AssertionError("Built coastal light cache bytes changed; preserve its minifier exclusion")
     snapshot = json.loads(body)
-    if snapshot.get("version") != 1 or snapshot.get("signature") != descriptor["signature"]:
+    if snapshot.get("version") not in (1, 2):
+        raise AssertionError("Built coastal light cache uses an unsupported snapshot version")
+    if snapshot.get("signature") != descriptor["signature"]:
         raise AssertionError("Built coastal light cache signature does not match the manifest")
 
 
