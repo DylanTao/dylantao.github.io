@@ -4,6 +4,8 @@ import fs from "node:fs";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import * as THREE from "../assets/js/three.module.min.js";
+import { OCEAN_WAVES } from "../assets/js/home-scene/ocean-spectrum.mjs";
+import { SEA_LEVEL } from "../assets/js/home-scene/sea-optics.mjs";
 import { nativeGeometry } from "./helpers/coastal-native-geometry.mjs";
 import {
   envelopeFor,
@@ -52,6 +54,24 @@ test("desktop orbit gestures keep their angular scale across large canvas sizes"
   }
   assert.deepEqual(orbitDrag(100, 50, 390, 844, "touch"), [-0.8, 0.3], "existing touch control is retained");
   assert.deepEqual(orbitDrag(100, 50, 400, 300), [-0.8, 0.3], "small embeds do not become over-sensitive");
+});
+
+test("an offshore exterior floor survives finite terrain-grid edges without lowering retained land", () => {
+  const offshore = [-11.969175690435055, -44.932599014175985],
+    sea = SEA_LEVEL;
+  assert.equal(cameraTerrainHeight(...offshore, c.cameraCollision), -Infinity);
+  assert.equal(cameraTerrainHeight(...offshore, c.cameraCollision, sea), sea);
+  assert.equal(cameraTerrainHeight(...offshore, null, sea), sea);
+  const land = [0, 16],
+    height = cameraTerrainHeight(...land, c.cameraCollision);
+  assert.ok(height > sea);
+  assert.equal(cameraTerrainHeight(...land, c.cameraCollision, sea), height);
+  // Every production wind-sea scale is <=1. The absolute amplitude sum
+  // bounds a crest even when all wave phases happen to align. Include the
+  // whole near-plane diagonal at a very wide 4:1, 90-degree camera.
+  const crest = OCEAN_WAVES.reduce((sum, wave) => sum + wave.amplitude, 0),
+    nearPlaneRadius = 0.05 * Math.sqrt(1 + 1 + 4 ** 2);
+  assert.ok(outsideClearance(c.views.outside.envelope.radius[0]) > crest + nearPlaneRadius);
 });
 
 test("the gym arrival shows the front of steady exercise poses without a clearance correction", () => {

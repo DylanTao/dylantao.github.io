@@ -1,0 +1,557 @@
+{
+  "scope": "Selected complete producers and PNG outputs; product/zip trees remain local",
+  "files": [
+    {
+      "source": "baseline-loader-error.log",
+      "retained": "000-baseline-loader-error.log.gz",
+      "originalBytes": 137,
+      "originalSha256": "85f15c367e847bc80f5d681d2443faf3f4d9dbbbd6fdcd408a5425cc2182debc"
+    },
+    {
+      "source": "baseline.cjs",
+      "retained": "001-baseline.cjs.gz",
+      "originalBytes": 2211,
+      "originalSha256": "31d41b4ed15c4420b0736c048bdb69ec73dc1e272bd36d40bc55f2ea0dfcfeee"
+    },
+    {
+      "source": "baseline.json",
+      "retained": "002-baseline.json.gz",
+      "originalBytes": 1536251,
+      "originalSha256": "1663ab97058e4ac3d2416254bd01a5a93ebbed777bf88bbe2d090f209df150ae"
+    },
+    {
+      "source": "baseline.log",
+      "retained": "003-baseline.log.gz",
+      "originalBytes": 1664,
+      "originalSha256": "e0beac8fe7d293a0941e97b6354f818bbc0cb3486c2dd051a8a18b1d3a5f1b85"
+    },
+    {
+      "source": "bodies.json",
+      "retained": "004-bodies.json.gz",
+      "originalBytes": 3700,
+      "originalSha256": "b42db4ec964f50c4790fec1a114bbc7aafb6c5bcd1d5d687d0603135aad9bee9"
+    },
+    {
+      "source": "candidate/candidate.json",
+      "retained": "005-candidate.json.gz",
+      "originalBytes": 1541694,
+      "originalSha256": "55d19a086ea5ac2691fd96ae4519d1efaa350b076ceabbf55ac3d09cafe962f3"
+    },
+    {
+      "source": "candidate/outside-low-front.png",
+      "retained": "006-outside-low-front.png",
+      "originalBytes": 2108907,
+      "originalSha256": "9b4a7aedda5a4508c17e6a1e504a5e21c7dba8ed31fd1375b8ddaed486679c58"
+    },
+    {
+      "source": "candidate/outside-low-quarter-1.png",
+      "retained": "007-outside-low-quarter-1.png",
+      "originalBytes": 1470443,
+      "originalSha256": "52f2032b44e0eaaa1a82b0ae8fb14b0f3e9056f635197a475c0e36b500bcd0be"
+    },
+    {
+      "source": "candidate/outside-low-quarter-2.png",
+      "retained": "008-outside-low-quarter-2.png",
+      "originalBytes": 535050,
+      "originalSha256": "ee2b1086dca0b052b13a59a3c80d2b8dd0b92d4bae8a8c37e0c0419e3c9fcb3a"
+    },
+    {
+      "source": "candidate/outside-low-quarter-3.png",
+      "retained": "009-outside-low-quarter-3.png",
+      "originalBytes": 790863,
+      "originalSha256": "146bd84fddb7515a762fd454e6b193cd879a84bbeb122ac2b6cdf7afd42503f5"
+    },
+    {
+      "source": "candidate/outside-low-quarter-4.png",
+      "retained": "010-outside-low-quarter-4.png",
+      "originalBytes": 2108238,
+      "originalSha256": "3271fe873ac1c729c840cf674568e52bd10200cf4771973f01bc7a0c5dff2ec1"
+    },
+    {
+      "source": "candidate/outside-start.png",
+      "retained": "011-outside-start.png",
+      "originalBytes": 3408981,
+      "originalSha256": "77d40772c5fe653e251fb499994f1052d533b6db8ade7cbb4574c8673a107e00"
+    },
+    {
+      "source": "candidate.cjs",
+      "retained": "012-candidate.cjs.gz",
+      "originalBytes": 2426,
+      "originalSha256": "8be25b46757929e440a509d9470faf248f17f7ad968aaa6835797b54953afa91"
+    },
+    {
+      "source": "candidate.log",
+      "retained": "013-candidate.log.gz",
+      "originalBytes": 1725,
+      "originalSha256": "634ad00fd2ff0f91aa59b43e051c4669fd932636f91e864fe02e0c3c68749e25"
+    },
+    {
+      "source": "docker-qualified/backend-qualification.json",
+      "retained": "014-backend-qualification.json.gz",
+      "originalBytes": 399,
+      "originalSha256": "fb975b1c3b9051d5c846d218ab297edc510ebbf7da4852fa30506af4892c9b7a"
+    },
+    {
+      "source": "docker-qualified/results/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/attachments/desktop-orbit-below-horizon-883f887bc404f4050403c6f070d52bab2136af9f.png",
+      "retained": "015-desktop-orbit-below-horizon-883f887.png",
+      "originalBytes": 1013231,
+      "originalSha256": "69e7123a185d0a389bd11d0f16b46fdee127995e58f3e440fa79f35836f1c57d"
+    },
+    {
+      "source": "docker-qualified/results/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/attachments/desktop-orbit-high-2bea7cc7eaff6152057711d930b82740bde15bc4.png",
+      "retained": "016-desktop-orbit-high-2bea7cc7eaff6152.png",
+      "originalBytes": 1827241,
+      "originalSha256": "5f7f8e8c797850cfe78c93b6a446a1dd3485cf00b2f40e7ef70f8cde8bcb013a"
+    },
+    {
+      "source": "docker-qualified/results/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/desktop-orbit-below-horizon.png",
+      "retained": "017-desktop-orbit-below-horizon.png",
+      "originalBytes": 1013231,
+      "originalSha256": "69e7123a185d0a389bd11d0f16b46fdee127995e58f3e440fa79f35836f1c57d"
+    },
+    {
+      "source": "docker-qualified/results/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/desktop-orbit-high.png",
+      "retained": "018-desktop-orbit-high.png",
+      "originalBytes": 1827241,
+      "originalSha256": "5f7f8e8c797850cfe78c93b6a446a1dd3485cf00b2f40e7ef70f8cde8bcb013a"
+    },
+    {
+      "source": "docker-qualified/results/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/desktop-orbit-offshore-waterline.png",
+      "retained": "019-desktop-orbit-offshore-waterline.png",
+      "originalBytes": 905960,
+      "originalSha256": "3e85d3d8c21291441dac1221b720319975af831c976424db8a2086c10669d1a4"
+    },
+    {
+      "source": "docker-qualified/results/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/desktop-orbit-sweeps.json",
+      "retained": "020-desktop-orbit-sweeps.json.gz",
+      "originalBytes": 6368,
+      "originalSha256": "717394dfd510a610e9fccd51c5452bee078035f440dbee90f30046cbecb90c1b"
+    },
+    {
+      "source": "docker-qualified/xvfb.log",
+      "retained": "021-xvfb.log.gz",
+      "originalBytes": 3522,
+      "originalSha256": "f55e2a6894d1dfbec3e5fcb281a8d1d729dfe04923cdfe02ca3a4e801739b3f2"
+    },
+    {
+      "source": "docker-qualified.log",
+      "retained": "022-docker-qualified.log.gz",
+      "originalBytes": 568,
+      "originalSha256": "703ffff315f183e1c03580ce61693ffccceffdeeef1665cf756ec3dd06b58147"
+    },
+    {
+      "source": "modern-webkit-fullscreen-only/desk-scene-coastal-home-fu-64213-ols-and-returns-to-the-page-mobile-390/fullscreen-outside.png",
+      "retained": "023-fullscreen-outside.png",
+      "originalBytes": 447050,
+      "originalSha256": "7f7735dd35b9f4b084d644b38262d5502c87dacedd10e16533f0f1d728966a66"
+    },
+    {
+      "source": "modern-webkit-results/desk-scene-coastal-home-fu-64213-ols-and-returns-to-the-page-mobile-390/fullscreen-outside.png",
+      "retained": "024-fullscreen-outside.png",
+      "originalBytes": 446559,
+      "originalSha256": "9409997aeacf76af065a299c3db061c1f93ab9efed25a06bfb6887e8a16e5945"
+    },
+    {
+      "source": "modern-webkit-results/desk-scene-coastal-home-to-9b09c-ojection-and-returns-to-Now-mobile-390/test-failed-1.png",
+      "retained": "025-test-failed-1.png",
+      "originalBytes": 232114,
+      "originalSha256": "9f452c5b4d2107198596aa385e36589dcbb4bc9241b7e404647e8663abcb144d"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-a--edfdb-rbit-axis-reaches-furniture-desktop-1440/attachments/public-free-look-3b0eaddd7286e53c1ece55139ae22d2e3d9b0a3c.png",
+      "retained": "026-public-free-look-3b0eaddd7286e53c1e.png",
+      "originalBytes": 292371,
+      "originalSha256": "6ad9e1657289e42bbbff67f1cc31ea7beac268badc9cb93f86c10ea75d9b87ac"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-a--edfdb-rbit-axis-reaches-furniture-desktop-1440/public-free-look.json",
+      "retained": "027-public-free-look.json.gz",
+      "originalBytes": 1986817,
+      "originalSha256": "22702107f4fd338151065674d77cedb7075323ff3d32782029c9bd8760142c9e"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-a--edfdb-rbit-axis-reaches-furniture-desktop-1440/public-free-look.png",
+      "retained": "028-public-free-look.png",
+      "originalBytes": 292371,
+      "originalSha256": "6ad9e1657289e42bbbff67f1cc31ea7beac268badc9cb93f86c10ea75d9b87ac"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/attachments/desktop-orbit-below-horizon-65e3b62bdb2e981bb2998306b1fbd9ea2b39ce74.png",
+      "retained": "029-desktop-orbit-below-horizon-65e3b62.png",
+      "originalBytes": 997701,
+      "originalSha256": "ea32c9ce387e9d4d5eca5a9a572671c226367b7e4c9cbe423d31fe70a6312686"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/attachments/desktop-orbit-high-851510ee308808f72ab1558cc2165003b19609af.png",
+      "retained": "030-desktop-orbit-high-851510ee308808f7.png",
+      "originalBytes": 1814068,
+      "originalSha256": "c7c725d0cd496dd5e1ce86aff8c7f95524107fa5401f430dd0941e77efa6647a"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/attachments/desktop-orbit-offshore-waterline-a1a20fcb5da09a8dcf8f4f450d1699338e81b4d8.png",
+      "retained": "031-desktop-orbit-offshore-waterline-a1.png",
+      "originalBytes": 845840,
+      "originalSha256": "3cce5733b2dabc84731ba11f0beac7c7c0f3171dfc08b292b8b95c7eda74873b"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/desktop-orbit-below-horizon.png",
+      "retained": "032-desktop-orbit-below-horizon.png",
+      "originalBytes": 997701,
+      "originalSha256": "ea32c9ce387e9d4d5eca5a9a572671c226367b7e4c9cbe423d31fe70a6312686"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/desktop-orbit-high.png",
+      "retained": "033-desktop-orbit-high.png",
+      "originalBytes": 1814068,
+      "originalSha256": "c7c725d0cd496dd5e1ce86aff8c7f95524107fa5401f430dd0941e77efa6647a"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/desktop-orbit-offshore-waterline.png",
+      "retained": "034-desktop-orbit-offshore-waterline.png",
+      "originalBytes": 845840,
+      "originalSha256": "3cce5733b2dabc84731ba11f0beac7c7c0f3171dfc08b292b8b95c7eda74873b"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/desktop-orbit-sweeps.json",
+      "retained": "035-desktop-orbit-sweeps.json.gz",
+      "originalBytes": 6368,
+      "originalSha256": "717394dfd510a610e9fccd51c5452bee078035f440dbee90f30046cbecb90c1b"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/attachments/camera-boundary-bath-bedroom-bea5fc3559bf77b5ec55208c78dbac919db87cd4.png",
+      "retained": "036-camera-boundary-bath-bedroom-bea5fc.png",
+      "originalBytes": 149358,
+      "originalSha256": "8e4cad94937e8c76bafa9404e64e4af752f063615bf52570a7d4a9c7bd5d48c9"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/attachments/camera-boundary-bath-living-d0cfd6e193fd2c1d0ab3fca77cbb5d56a9405bf3.png",
+      "retained": "037-camera-boundary-bath-living-d0cfd6e.png",
+      "originalBytes": 152659,
+      "originalSha256": "ca484de9d493a2549da4368f74129109152e4d535c6bfb72c0b8518182b51fb9"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/attachments/camera-boundary-gym-6715336d3c8862ee5acc28c59c2b48659eebc41b.png",
+      "retained": "038-camera-boundary-gym-6715336d3c8862e.png",
+      "originalBytes": 223812,
+      "originalSha256": "3f07f50eaf9e19e1321abdb73ab4a836dce4850c77672ac7b164edff7d90b56e"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/attachments/camera-boundary-kitchen-18cf5d023b95090bd734517a479452a61e1ca75c.png",
+      "retained": "039-camera-boundary-kitchen-18cf5d023b9.png",
+      "originalBytes": 199631,
+      "originalSha256": "8d6cf3ab62aab22952a18bfd36b0ebb83b65448936a462a43de3eea5756c7098"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/attachments/camera-boundary-library-702803a589a496c29a3cb685f417dfbd5ee209a0.png",
+      "retained": "040-camera-boundary-library-702803a589a.png",
+      "originalBytes": 200026,
+      "originalSha256": "6758aeb78fe6954e5bf16927230feaf3ea2d51dd363b3b7f2ccee9cdda28c1e9"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/attachments/camera-boundary-library-upper-2ec9fdd39839b42f7276d5c02981e5200a0e3fbb.png",
+      "retained": "041-camera-boundary-library-upper-2ec9f.png",
+      "originalBytes": 274250,
+      "originalSha256": "1b52e519f58870800c71b88bebf5d98e47095d0a8e4c6652473d09d1a8c885da"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/attachments/camera-boundary-lounge-74d2a5ba390e1daacebc911b45a897e3fe2167ce.png",
+      "retained": "042-camera-boundary-lounge-74d2a5ba390e.png",
+      "originalBytes": 233700,
+      "originalSha256": "32c45225f3f034277eced8cb4f27f72536a97ab804095d58cf2a74a4c887641f"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/attachments/camera-boundary-onsen-1d626a2befffff180643cf3bef278b1cd9cf3897.png",
+      "retained": "043-camera-boundary-onsen-1d626a2beffff.png",
+      "originalBytes": 143661,
+      "originalSha256": "3671b6ae80d2e035daa09b2850a0bada2181b38fa3872a0b3b1a7bfe99ad1b0e"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/attachments/camera-boundary-outside-5e380f53ef1f18ceb39f9d6fa4505885f5387f24.png",
+      "retained": "044-camera-boundary-outside-5e380f53ef1.png",
+      "originalBytes": 217451,
+      "originalSha256": "0dd911feedd64a122b21eca52e67944752190a1c27486bb475c58eef3660d01a"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/attachments/camera-boundary-overview-2b42ec5956fd1f8dcf82ab63c19ccc271819e29a.png",
+      "retained": "045-camera-boundary-overview-2b42ec5956.png",
+      "originalBytes": 255404,
+      "originalSha256": "cf5166cf697b51543c81333a285d6a178ee8d432ceaa430224a38bc788619a7f"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/attachments/camera-boundary-sleep-db09d06b8fb19d2e387e31686727862b73db7bac.png",
+      "retained": "046-camera-boundary-sleep-db09d06b8fb19.png",
+      "originalBytes": 229129,
+      "originalSha256": "63a9546366be718982e8816c3f451887ce32eb1d450c6279db69e3f7b8e639db"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/attachments/camera-boundary-study-655801d88ad028870b10bdf6386f88a3a3137a1d.png",
+      "retained": "047-camera-boundary-study-655801d88ad02.png",
+      "originalBytes": 276197,
+      "originalSha256": "2676723159b3e8895f63b9f6944f14251f53c15184247db29b4ec2c2a7eecea9"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/camera-boundary-bath-bedroom.png",
+      "retained": "048-camera-boundary-bath-bedroom.png",
+      "originalBytes": 149358,
+      "originalSha256": "8e4cad94937e8c76bafa9404e64e4af752f063615bf52570a7d4a9c7bd5d48c9"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/camera-boundary-bath-living.png",
+      "retained": "049-camera-boundary-bath-living.png",
+      "originalBytes": 152659,
+      "originalSha256": "ca484de9d493a2549da4368f74129109152e4d535c6bfb72c0b8518182b51fb9"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/camera-boundary-gym.png",
+      "retained": "050-camera-boundary-gym.png",
+      "originalBytes": 223812,
+      "originalSha256": "3f07f50eaf9e19e1321abdb73ab4a836dce4850c77672ac7b164edff7d90b56e"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/camera-boundary-kitchen.png",
+      "retained": "051-camera-boundary-kitchen.png",
+      "originalBytes": 199631,
+      "originalSha256": "8d6cf3ab62aab22952a18bfd36b0ebb83b65448936a462a43de3eea5756c7098"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/camera-boundary-library-upper.png",
+      "retained": "052-camera-boundary-library-upper.png",
+      "originalBytes": 274250,
+      "originalSha256": "1b52e519f58870800c71b88bebf5d98e47095d0a8e4c6652473d09d1a8c885da"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/camera-boundary-library.png",
+      "retained": "053-camera-boundary-library.png",
+      "originalBytes": 200026,
+      "originalSha256": "6758aeb78fe6954e5bf16927230feaf3ea2d51dd363b3b7f2ccee9cdda28c1e9"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/camera-boundary-lounge.png",
+      "retained": "054-camera-boundary-lounge.png",
+      "originalBytes": 233700,
+      "originalSha256": "32c45225f3f034277eced8cb4f27f72536a97ab804095d58cf2a74a4c887641f"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/camera-boundary-onsen.png",
+      "retained": "055-camera-boundary-onsen.png",
+      "originalBytes": 143661,
+      "originalSha256": "3671b6ae80d2e035daa09b2850a0bada2181b38fa3872a0b3b1a7bfe99ad1b0e"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/camera-boundary-outside.png",
+      "retained": "056-camera-boundary-outside.png",
+      "originalBytes": 217451,
+      "originalSha256": "0dd911feedd64a122b21eca52e67944752190a1c27486bb475c58eef3660d01a"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/camera-boundary-overview.png",
+      "retained": "057-camera-boundary-overview.png",
+      "originalBytes": 255404,
+      "originalSha256": "cf5166cf697b51543c81333a285d6a178ee8d432ceaa430224a38bc788619a7f"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/camera-boundary-sleep.png",
+      "retained": "058-camera-boundary-sleep.png",
+      "originalBytes": 229129,
+      "originalSha256": "63a9546366be718982e8816c3f451887ce32eb1d450c6279db69e3f7b8e639db"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-fu-abd5c--interior-camera-boundaries-desktop-1440/camera-boundary-study.png",
+      "retained": "059-camera-boundary-study.png",
+      "originalBytes": 276197,
+      "originalSha256": "2676723159b3e8895f63b9f6944f14251f53c15184247db29b4ec2c2a7eecea9"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-na-f3d87--zooms-out-to-the-far-coast-desktop-1440/attachments/far-coast-160m-46e4f6a1b652d7a0a84148c535797cb214f062ff.png",
+      "retained": "060-far-coast-160m-46e4f6a1b652d7a0a841.png",
+      "originalBytes": 316700,
+      "originalSha256": "2c74d41d666d9af420e5b80ada0492e319696c5a6dbde33c3ceb152bddb8b193"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-na-f3d87--zooms-out-to-the-far-coast-desktop-1440/attachments/held-clear-lounge-9d1f8f4acc3f2959e10d493ecd015beeb902a295.png",
+      "retained": "061-held-clear-lounge-9d1f8f4acc3f2959e.png",
+      "originalBytes": 219403,
+      "originalSha256": "158539415782e6987f1aba1acdd3c8774a97fab9e6e0e37823ca0b61862f5034"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-na-f3d87--zooms-out-to-the-far-coast-desktop-1440/attachments/held-clear-overview-152dd361907e41daba9f14df40bf68ea7fa72867.png",
+      "retained": "062-held-clear-overview-152dd361907e41d.png",
+      "originalBytes": 75166,
+      "originalSha256": "b57d357e73e12bd7846322f1487f363d40c3561acfe3fc572f3686499d7bc90e"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-na-f3d87--zooms-out-to-the-far-coast-desktop-1440/attachments/held-clear-study-562337845b400ee6b34823b2bbb06534f883115d.png",
+      "retained": "063-held-clear-study-562337845b400ee6b3.png",
+      "originalBytes": 252581,
+      "originalSha256": "9b0a4f0666a9bde37dc67a4c53b22e7c64ab696fe24d45e00a53dfbc4a9c95f0"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-na-f3d87--zooms-out-to-the-far-coast-desktop-1440/attachments/study-turned-to-the-wall-87f1c7c09355f4af6be23db0d09fc135d56b815b.png",
+      "retained": "064-study-turned-to-the-wall-87f1c7c093.png",
+      "originalBytes": 237687,
+      "originalSha256": "1332f998beca380d4f08539481b3440bc1f813f371fe2655cd07bb63c0ed643c"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-na-f3d87--zooms-out-to-the-far-coast-desktop-1440/far-coast-160m.png",
+      "retained": "065-far-coast-160m.png",
+      "originalBytes": 316700,
+      "originalSha256": "2c74d41d666d9af420e5b80ada0492e319696c5a6dbde33c3ceb152bddb8b193"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-na-f3d87--zooms-out-to-the-far-coast-desktop-1440/held-clear-lounge.png",
+      "retained": "066-held-clear-lounge.png",
+      "originalBytes": 219403,
+      "originalSha256": "158539415782e6987f1aba1acdd3c8774a97fab9e6e0e37823ca0b61862f5034"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-na-f3d87--zooms-out-to-the-far-coast-desktop-1440/held-clear-overview.png",
+      "retained": "067-held-clear-overview.png",
+      "originalBytes": 75166,
+      "originalSha256": "b57d357e73e12bd7846322f1487f363d40c3561acfe3fc572f3686499d7bc90e"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-na-f3d87--zooms-out-to-the-far-coast-desktop-1440/held-clear-study.png",
+      "retained": "068-held-clear-study.png",
+      "originalBytes": 252581,
+      "originalSha256": "9b0a4f0666a9bde37dc67a4c53b22e7c64ab696fe24d45e00a53dfbc4a9c95f0"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-na-f3d87--zooms-out-to-the-far-coast-desktop-1440/navigation.json",
+      "retained": "069-navigation.json.gz",
+      "originalBytes": 221489,
+      "originalSha256": "4055fc9f847359bee22b06f3497a40f210a1a36d71ffbf51eb9e41889b28c213"
+    },
+    {
+      "source": "native-results/desk-scene-coastal-home-na-f3d87--zooms-out-to-the-far-coast-desktop-1440/study-turned-to-the-wall.png",
+      "retained": "070-study-turned-to-the-wall.png",
+      "originalBytes": 237687,
+      "originalSha256": "1332f998beca380d4f08539481b3440bc1f813f371fe2655cd07bb63c0ed643c"
+    },
+    {
+      "source": "node-tests.log",
+      "retained": "071-node-tests.log.gz",
+      "originalBytes": 161513,
+      "originalSha256": "1778ff2054d9855428858b0a8b5e3602d3d8a8d222d232cd44b347655279d834"
+    },
+    {
+      "source": "official-cache.log",
+      "retained": "072-official-cache.log.gz",
+      "originalBytes": 657,
+      "originalSha256": "b6eba17ba98e38a1a1c23996319999e244615f4f5f31db9828464e06c710e4ed"
+    },
+    {
+      "source": "original-product-loader-failure/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/test-failed-1.png",
+      "retained": "073-test-failed-1.png",
+      "originalBytes": 1458068,
+      "originalSha256": "4826d50811c2fbe43470e4c4e88ef6922e6364b2538a8d48ad865ffee8f498ee"
+    },
+    {
+      "source": "original-product-loader-failure.log",
+      "retained": "074-original-product-loader-failure.log.gz",
+      "originalBytes": 3485,
+      "originalSha256": "0801a965d56e601eeef2b9d6c9364e8187dfe3d6ae0308c8ca78735150dd63b8"
+    },
+    {
+      "source": "original-product-regression/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/test-failed-1.png",
+      "retained": "075-test-failed-1.png",
+      "originalBytes": 1458068,
+      "originalSha256": "4826d50811c2fbe43470e4c4e88ef6922e6364b2538a8d48ad865ffee8f498ee"
+    },
+    {
+      "source": "original-product-regression-corrected/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/desktop-orbit-sweeps.json",
+      "retained": "076-desktop-orbit-sweeps.json.gz",
+      "originalBytes": 1139,
+      "originalSha256": "34167f8f0122657b9473043e49616c5e6502428ef77ce12aa52660435884410b"
+    },
+    {
+      "source": "original-product-regression-corrected/desk-scene-coastal-home-de-1a248-oss-the-old-vertical-limits-desktop-1440/test-failed-1.png",
+      "retained": "077-test-failed-1.png",
+      "originalBytes": 830445,
+      "originalSha256": "e7ce421280c59bf1f2219cdfc6eebac36da7a5a503d137026dcbe8aa02f1e178"
+    },
+    {
+      "source": "original-product-regression-corrected.log",
+      "retained": "078-original-product-regression-correct.log.gz",
+      "originalBytes": 3368,
+      "originalSha256": "302ebd10625e9d12f87bf59384be393ede1052a6d3310be9d147b2e3210fde34"
+    },
+    {
+      "source": "original-product-regression.log",
+      "retained": "079-original-product-regression.log.gz",
+      "originalBytes": 3485,
+      "originalSha256": "0801a965d56e601eeef2b9d6c9364e8187dfe3d6ae0308c8ca78735150dd63b8"
+    },
+    {
+      "source": "outside-low-front.png",
+      "retained": "080-outside-low-front.png",
+      "originalBytes": 1996212,
+      "originalSha256": "c59796e9202714c941ec6efbb93945e21fd95a97358075b0fc831b9cd733489c"
+    },
+    {
+      "source": "outside-low-quarter-1.png",
+      "retained": "081-outside-low-quarter-1.png",
+      "originalBytes": 1457875,
+      "originalSha256": "f9218d8ae73a624d085ac3160eab98380dab0617983a20cf0f8533b97d97bab6"
+    },
+    {
+      "source": "outside-low-quarter-2.png",
+      "retained": "082-outside-low-quarter-2.png",
+      "originalBytes": 616028,
+      "originalSha256": "e87e97b4b7bd1a06bda5d22a2156e22539eef1ce87dc6cb1cec5f51e1cef94fa"
+    },
+    {
+      "source": "outside-low-quarter-3.png",
+      "retained": "083-outside-low-quarter-3.png",
+      "originalBytes": 1694261,
+      "originalSha256": "bff06d5077b76a6d0734439c9479c23c295dca84221c47d202f64724bb041e04"
+    },
+    {
+      "source": "outside-low-quarter-4.png",
+      "retained": "084-outside-low-quarter-4.png",
+      "originalBytes": 1962127,
+      "originalSha256": "bebeef02c111e9610fdac4b5c7982aa85c478daa8df0940ac4ac3003a387741c"
+    },
+    {
+      "source": "outside-start.png",
+      "retained": "085-outside-start.png",
+      "originalBytes": 3337452,
+      "originalSha256": "439d2b53c3e099fb26cb8b3cb96d13966076771dfadbbe0cfae8f3bb0c76431c"
+    },
+    {
+      "source": "pre-bake-production-build.log",
+      "retained": "086-pre-bake-production-build.log.gz",
+      "originalBytes": 79928,
+      "originalSha256": "2ceae61afe29f7d0ab9496058b73fecd7320fee589d906ccba3a6930e128ecb3"
+    },
+    {
+      "source": "production-build.log",
+      "retained": "087-production-build.log.gz",
+      "originalBytes": 79928,
+      "originalSha256": "1571e008e3993aeb5d174b0503f34b961bbb5727d6e8ff179b7b8a8dde5fd6c8"
+    },
+    {
+      "source": "registered-modern-webkit-fullscreen-only.log",
+      "retained": "088-registered-modern-webkit-fullscreen.log.gz",
+      "originalBytes": 377,
+      "originalSha256": "3df4802194237449b86d0e8aacf0059d08beb63d584ff6986008a754c9a86ac1"
+    },
+    {
+      "source": "registered-modern-webkit.log",
+      "retained": "089-registered-modern-webkit.log.gz",
+      "originalBytes": 2197,
+      "originalSha256": "3e4a6c060ac4b14548cefdad05f37fb08185116c59250109ed7ffe298ec1f66a"
+    },
+    {
+      "source": "registered-native.log",
+      "retained": "090-registered-native.log.gz",
+      "originalBytes": 1050,
+      "originalSha256": "205f4d9748bc771b3395f9fa3a3e09eb5750f3591e89f98f45e52afb6c817145"
+    },
+    {
+      "source": "run-qualified.cjs",
+      "retained": "091-run-qualified.cjs.gz",
+      "originalBytes": 879,
+      "originalSha256": "4ea78a8f45ae3050248e24e0a13013c6f0f6bcf3438df887496d90753ffde036"
+    }
+  ]
+}

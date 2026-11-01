@@ -2857,11 +2857,23 @@ test("coastal home: desktop orbit sweeps stay proportional and cross the old ver
   await expect.poll(() => controls.evaluate((element) => element.open)).toBe(false);
   const rows = [];
   const record = async (phase) => {
-    const state = await evidence(scene);
-    rows.push({ phase, orbit: state.cameraOrbit, position: state.camera, envelope: state.cameraEnvelope, arm: state.cameraArm });
+    const state = await evidence(scene),
+      surfaceMinimum = await page.evaluate(
+        async ({ sea, camera, radius }) => {
+          const [{ SEA_LEVEL }, { outsideClearance }] = await Promise.all([import(sea), import(camera)]);
+          return SEA_LEVEL + outsideClearance(radius);
+        },
+        {
+          sea: publicRouteUrl("/assets/js/home-scene/sea-optics.mjs"),
+          camera: publicRouteUrl("/assets/js/home-scene/camera.mjs"),
+          radius: state.cameraOrbit.radius,
+        }
+      );
+    rows.push({ phase, orbit: state.cameraOrbit, position: state.camera, surfaceMinimum, envelope: state.cameraEnvelope, arm: state.cameraArm });
     fs.writeFileSync(testInfo.outputPath("desktop-orbit-sweeps.json"), JSON.stringify(rows, null, 2));
     expect(state.camera.every(Number.isFinite)).toBe(true);
     expect((await cameraCell(scene)) & 5).toBe(0);
+    expect(state.camera[1]).toBeGreaterThanOrEqual(surfaceMinimum - 0.001);
     return state;
   };
   const drag = async (from, to) => {
@@ -2874,6 +2886,15 @@ test("coastal home: desktop orbit sweeps stay proportional and cross the old ver
     });
   };
   const before = await record("outside");
+  await drag([0.5, 0.75], [0.5, 0.25]);
+  const offshore = await record("offshore below horizon outside the finite ground grid");
+  expect(offshore.cameraOrbit.pitch).toBeLessThan(-0.3);
+  await capture(testInfo, "desktop-orbit-offshore-waterline", await canvas.screenshot());
+  const visible = await canvas.boundingBox(),
+    pitchGain = Math.min(0.006, Math.PI / visible.height),
+    restore = (before.cameraOrbit.pitch - offshore.cameraOrbit.pitch) / (pitchGain * visible.height);
+  await drag([0.5, 0.25], [0.5, 0.25 + restore]);
+  expect((await record("return from offshore low angle")).cameraOrbit.pitch).toBeCloseTo(before.cameraOrbit.pitch, 3);
   const pixels = await canvas.screenshot();
   for (let i = 0; i < 5; i++) {
     await drag([0.25, 0.5], [0.5, 0.5]);

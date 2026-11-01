@@ -40,17 +40,19 @@ export function constrainOrbit(orbit, envelope) {
   }
   return { yaw, pitch, radius: clamp(orbit.radius, envelope.radius[0], Math.max(envelope.radius[0], maxRadius)) };
 }
-export function cameraTerrainHeight(x, z, collision) {
-  if (!collision) return -Infinity;
+export function cameraTerrainHeight(x, z, collision, surfaceFloor = -Infinity) {
+  if (!collision) return surfaceFloor;
   const u = (x - collision.origin[0]) / collision.step,
     v = (z - collision.origin[1]) / collision.step;
-  if (u < 0 || v < 0 || u >= collision.width - 1 || v >= collision.height - 1) return -Infinity;
+  // Exterior orbits can leave both finite terrain grids over open water. A
+  // supplied physical surface still bounds the camera there.
+  if (u < 0 || v < 0 || u >= collision.width - 1 || v >= collision.height - 1) return surfaceFloor;
   const i = Math.floor(u),
     j = Math.floor(v),
     a = u - i,
     b = v - j;
   const at = (dx, dz) => collision.elevations[(j + dz) * collision.width + i + dx];
-  return (at(0, 0) * (1 - a) + at(1, 0) * a) * (1 - b) + (at(0, 1) * (1 - a) + at(1, 1) * a) * b;
+  return Math.max(surfaceFloor, (at(0, 0) * (1 - a) + at(1, 0) * a) * (1 - b) + (at(0, 1) * (1 - a) + at(1, 1) * a) * b);
 }
 // `walls: false` skips the wall boxes once the voxel collision field (below) keeps the camera clear:
 // the boxes predate it and know nothing of rooms added beyond them.

@@ -31,7 +31,7 @@ import {
   ORBIT_DIRECTION,
   BLOCKING,
   INSIDE,
-} from "./camera.mjs";
+} from "./camera.mjs?v=exterior-waterline-20261101";
 import { createCameraField } from "./camera-field.mjs";
 import { activityPose, createHandContacts } from "./activities.mjs";
 import { createLiftRig } from "./lift-rig.mjs";
@@ -63,6 +63,7 @@ import { createPoolActivity, poolActivityRoom } from "./pool-activity.mjs";
 import { createCoastalWind } from "./coastal-wind.mjs";
 import { coastWind, livePacificMinute, COAST_SHELTER } from "./wind-field.mjs";
 import { syncOceanWind } from "./ocean-spectrum.mjs";
+import { SEA_LEVEL } from "./sea-optics.mjs";
 import { createCurtainRig } from "./curtain-rig.mjs";
 import { createWarmPracticals, practicalSourcesFor } from "./warm-practicals.mjs";
 import { createSteamDensity } from "./steam-density.mjs";
@@ -3268,7 +3269,7 @@ export function createCoastalHome(container, records, artifacts) {
     if (currentRoom === "outside" && !animalFocus && !labFreeCamera) {
       // Over the cliff the camera rides the terrain with more clearance the farther it is, and
       // looks along its orbit rather than down into the sandstone that hides the terrace.
-      const ground = cameraTerrainHeight(camera.position.x, camera.position.z, config.cameraCollision);
+      const ground = cameraTerrainHeight(camera.position.x, camera.position.z, config.cameraCollision, SEA_LEVEL);
       outsideLift = Math.max(0, ground + outsideClearance(radius, config.cameraCollision?.clearance) - camera.position.y);
       camera.position.y += outsideLift;
       aim.y += outsideLift * 0.85;
