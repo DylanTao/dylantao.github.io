@@ -1,0 +1,27 @@
+{
+  "method": "Normalized-LF source hashes; source and model bytes are committed alongside this receipt",
+  "files": {
+    "assets/js/home.js": "7ca082e257d01d13981d9e97ccb30df311f2e3733eec1373d4d497af5cf9a5c5",
+    "assets/js/home-scene/controller.mjs": "ea826d8bceea1b4737763b3d022be202f8d073dda785244844f22b50743e6b6b",
+    "assets/js/home-scene/environment.mjs": "5a6393760e20e0c0fb0671c57fbf7fd09741cbe6934e23ab9ace9b0ba51ae235",
+    "assets/js/home-scene/wildlife.mjs": "36bd9fec5423cb733cada1b8e3652e388fe61d19133367c587461192ba395f03",
+    "assets/js/home-scene/wildlife-ground-contact.mjs": "4ab18f488b234f54854bf2f1c57a5c59e8934f904ff31454c410fc3b111c74b2",
+    "assets/js/home-scene/wildlife-resting-contact.mjs": "6a69f46b34680ce2d00642ba8c8fbb5b68e3a349c255461e82b392a956afa48b",
+    "assets/js/home-scene/wildlife-motion.mjs": "3d803fff5d7f716a030d999a5d389e147613b23894b486e6e003f65da23734a2",
+    "assets/js/home-scene/wildlife-neighbor-motion.mjs": "30918013f4dd92fc37530fda53ee828e7a9bd7cf7a79f30b28c8e7b0fa848fdd",
+    "assets/js/home-scene/wildlife-raccoon-contact.mjs": "4cd985896a017d3f9e289b3733595c4d7ffa4906ff4fd6f2285ef054a0fab605",
+    "assets/models/home/manifest.json": "dd7bbaf3d81e729fdc08ccba4aa88f25ed2891f2801039ce968cf6dc640ded7d",
+    "assets/models/home/static-light-field.json": "748836b685b9d3f2974482da9d79f6a56f95bed8fb829298725990323b3262e5",
+    "bin/coastal_section.py": "45c6e9ce474b200a88455c4cf26231c46a737c4077564fcc667cd46e2dd63ab5",
+    "bin/coastal_wildlife_anchors.py": "785ece9a855b11b4f5488479f201a4e89d0d3c09650566c82480628313cb72af",
+    "bin/refresh_coastal_wildlife_anchors.py": "d32be27fbbdc189aec4d46d6fa70eb70251917ee744182a1a2f5ec94ef011d68",
+    "test/coastal-lazy-loading.test.mjs": "2d534d704ff1163b15f8c3a4234d717ca00b1b5a75651e62460c619c59745f03",
+    "test/wildlife-raccoon-contact.test.mjs": "ae5c2840ba14e0fa5bc15b384c2c6bcc4c6363cbeb9e6b573c25d1fce907a60c",
+    "test/wildlife-resting-contact.test.mjs": "539c259d22010f082ccbdb6b456806b392d42fe82eb8bfca23df6df75684ac55",
+    "test/wildlife-ground-bounds.test.mjs": "e7c434f8bbb838ca70586d18fbd295d5b2d9e63af59831bbcff30fab5df967ce",
+    "test/test_coastal_wildlife_anchors.py": "442df6525160a9f2683ddfc7b75003de7ae6dbc42083e4cff66444eaaf65a143"
+  },
+  "nativeSha256": "de217984242f77903145dd6d16f277923b57fd5e3eb2469c906c2507b494ad87",
+  "cacheSignature": "a2a4d15d2046048810537f526102ebf3ce16cea162f8a5c018472253eb561fcc",
+  "compiledModules": 180
+}

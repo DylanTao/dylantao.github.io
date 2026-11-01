@@ -1,7 +1,7 @@
 import * as THREE from "../three.module.min.js";
 import { beachPoint, habitatPoint } from "./shore.mjs";
 import { createModelLoader } from "./model-loader.mjs";
-import { rabbitActing, pinnipedActing, sealShuffleOffset, swimmerActing } from "./wildlife-motion.mjs";
+import { rabbitActing, pinnipedActing, pinnipedFlipperActivation, sealShuffleOffset, swimmerActing } from "./wildlife-motion.mjs?v=contact-20261101";
 import {
   createHabitatRoute,
   plantedFoot,
@@ -10,12 +10,13 @@ import {
   shorebirdMotion,
   gullMotion,
   balconyGullActing,
-} from "./wildlife-neighbor-motion.mjs";
+} from "./wildlife-neighbor-motion.mjs?v=contact-20261101";
 import { pelicanMotion, cormorantMotion, seaSurface } from "./wildlife-seabird-motion.mjs";
 import { solvePerchLanding, samplePerchActing, perchSurface, perchContactWeight } from "./wildlife-perch-contact.mjs";
-import { createGroundPatch, footSole, fitFootSole, groundFootQuaternion } from "./wildlife-ground-contact.mjs";
+import { createGroundPatch, footSole, fitFootSole, groundFootQuaternion } from "./wildlife-ground-contact.mjs?v=contact-20261101";
 import { rabbitSoles, createRabbitContactFit } from "./wildlife-rabbit-contact.mjs";
-import { createRestingTailFit } from "./wildlife-resting-contact.mjs";
+import { createRestingTailFit, createPinnipedContactFit } from "./wildlife-resting-contact.mjs?v=contact-20261101";
+import { createRaccoonBodyContact, raccoonCurledLegPole } from "./wildlife-raccoon-contact.mjs?v=contact-20261101";
 import { OCEAN_WAVES, oceanWindState } from "./ocean-spectrum.mjs";
 import { coastWind } from "./wind-field.mjs";
 
@@ -112,6 +113,9 @@ export function createWildlife(parent, config, services = {}) {
   const raccoonRoute = createHabitatRoute(habitats.raccoon.path.map(([x, y, z]) => [x, y - 0.025, z]));
   const raccoonGround = createGroundPatch(habitats.raccoon.path);
   const raccoonTailGround = createGroundPatch(habitats.raccoon.path, 1.15);
+  // A finer spatial index avoids re-testing dense rock triangles for each skin
+  // point. It retains every captured triangle and the same exact point query.
+  const pinnipedGrounds = { seaLion: createGroundPatch(habitats.seaLion.path, 1.6, 0.0875), seal: createGroundPatch(habitats.seal.path, 3, 0.0875) };
   const gulls = Array.from({ length: 4 }, (_, i) => make("WesternGull", `gull-${i}`, "Western gull", 1.55, { index: i }));
   const balcony = make("WesternGull", "balcony-gull-0", "Balcony gull", 1.1);
   const shorebirds = Array.from({ length: 3 }, (_, i) => make("Sandpiper", `sandpiper-${i}`, "Sandpiper", 1.35, { index: i }));
@@ -257,8 +261,17 @@ export function createWildlife(parent, config, services = {}) {
         soles: rabbitSoles(model, animal.bones),
         ground: rabbitGrounds[animal.seed - 1],
       });
-    if (animal.kind === "Raccoon")
+    if (animal.kind === "Raccoon") {
       animal.tailFit = createRestingTailFit({ model, group: animal.group, tail: animal.bones.Tail.object, ground: raccoonTailGround });
+      animal.bodyFit = createRaccoonBodyContact({ model, group: animal.group, body: animal.bones.BodyPose.object, ground: raccoonTailGround });
+    }
+    if (animal.kind === "HarborSeal" || (animal.kind === "CaliforniaSeaLion" && animal.point))
+      animal.surfaceFit = createPinnipedContactFit({
+        model,
+        group: animal.group,
+        bones: animal.bones,
+        ground: pinnipedGrounds[animal.kind === "HarborSeal" ? "seal" : "seaLion"],
+      });
   }
   function retain(master) {
     master.scene.traverse((o) => {
@@ -313,7 +326,7 @@ export function createWildlife(parent, config, services = {}) {
   }
   // Two-segment leg (raccoon) or single tarsus (sandpiper) reaching a world foot target from a hip
   // given in the animal's root space; segment lengths stretch at most slightly.
-  function legToFoot(group, upper, lower, paw, worldPoint, fore, hip) {
+  function legToFoot(group, upper, lower, paw, worldPoint, fore, hip, curledForearm = 0) {
     const localFoot = group.worldToLocal(new THREE.Vector3(...worldPoint));
     paw.object.position.copy(localFoot);
     if (!lower) {
@@ -336,6 +349,7 @@ export function createWildlife(parent, config, services = {}) {
     const along = (upperLength * upperLength - lowerLength * lowerLength + reach * reach) / (2 * reach),
       bend = Math.sqrt(Math.max(0, upperLength * upperLength - along * along));
     const pole = new THREE.Vector3(0, 0, fore ? 1 : -1).addScaledVector(direction, -direction.z * (fore ? 1 : -1)).normalize();
+    if (curledForearm > 0) pole.copy(raccoonCurledLegPole(direction, pole, Math.sign(upper.rest.x), curledForearm));
     const knee = hip.clone().addScaledVector(direction, along).addScaledVector(pole, bend);
     upper.object.quaternion.setFromUnitVectors(down, knee.clone().sub(hip).normalize());
     upper.object.scale.set(1, stretch, 1);
@@ -464,7 +478,8 @@ export function createWildlife(parent, config, services = {}) {
       }
     }
     group.position.fromArray(point);
-    group.rotation.y = animal.yaw + (lion ? 0 : pose.shuffle * Math.sin(Math.PI * 2 * pose.humpPhase) * 0.03);
+    const yaw = animal.yaw + (lion ? 0 : pose.shuffle * Math.sin(Math.PI * 2 * pose.humpPhase) * 0.03);
+    group.rotation.set(0, yaw, 0);
     group.userData.state = pose.state;
     animal.pose = pose;
     const bones = animal.bones;
@@ -485,12 +500,13 @@ export function createWildlife(parent, config, services = {}) {
       ["L", -1],
       ["R", 1],
     ]) {
-      const active = label === pose.flipperSide ? 1 : 0.15;
+      const active = pinnipedFlipperActivation(pose, label);
       // Front flippers stay flat as the chest bends; one lifts and waves to fan or while rolled.
       turn(bones, `FrontFlipper${label}`, -pose.chestPitch * (lion ? 0.85 : 0.4), 0, side * pose.flipper * active * (lion ? 1 : 0.8));
       turn(bones, `FrontFlipperTip${label}`, 0, 0, side * pose.flipperTip * active);
       turn(bones, `RearFlipper${label}`, pose.rearFlipper - pose.hipsPitch * 0.5, side * 0.04 * Math.sin(t * 0.8 + side), 0);
     }
+    animal.surfaceContact = animal.surfaceFit?.update(pose, yaw) || null;
   }
 
   function poseSwimmer(animal, t) {
@@ -644,10 +660,20 @@ export function createWildlife(parent, config, services = {}) {
         });
       }
     settleRaccoonBody();
+    raccoon.bodyContact = raccoon.bodyFit?.update(pose) || null;
     for (const gait of raccoon.contacts) {
       const leg = gait.foot.replace("FrontPaw", "Foreleg").replace("HindPaw", "Hindleg"),
         fore = gait.foot.startsWith("Front");
-      legToFoot(raccoon.group, bones[leg], bones[`Lower${leg}`], bones[gait.foot], gait.position, fore, raccoonHip(bones, leg, fore));
+      legToFoot(
+        raccoon.group,
+        bones[leg],
+        bones[`Lower${leg}`],
+        bones[gait.foot],
+        gait.position,
+        fore,
+        raccoonHip(bones, leg, fore),
+        fore ? pose.curl : 0
+      );
       plantedOrientation(raccoon.group, bones[gait.foot].object, gait);
     }
     raccoon.tailContact = raccoon.tailFit?.update() || null;
@@ -1041,6 +1067,7 @@ export function createWildlife(parent, config, services = {}) {
     captureGround(roots) {
       raccoonGround.capture(roots);
       raccoonTailGround.capture(roots);
+      for (const patch of Object.values(pinnipedGrounds)) patch.capture(roots);
       for (const patch of rabbitGrounds) patch.capture(roots);
       if (modelsReady) update(lastTime, lastPalette, { force: true });
     },
@@ -1085,6 +1112,7 @@ export function createWildlife(parent, config, services = {}) {
         position: raccoon.group.position.toArray(),
         state: raccoon.group.userData.state,
         bodyAccommodation: raccoon.group.userData.bodyAccommodation || 0,
+        bodyContact: raccoon.bodyContact || null,
         contacts: raccoon.contacts,
         ground: raccoonGround.evidence(),
         tailContact: raccoon.tailContact || null,
@@ -1112,6 +1140,7 @@ export function createWildlife(parent, config, services = {}) {
         habitat: a.kind === "HarborSeal" ? "seal" : "seaLion",
         position: a.group.position.toArray(),
         state: a.group.userData.state,
+        surfaceContact: a.surfaceContact || null,
       })),
       swimmers: summary(swimmers),
       pelicanStates: summary(pelicans),

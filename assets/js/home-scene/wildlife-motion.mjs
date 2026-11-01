@@ -14,6 +14,7 @@ import {
   pulse,
   segmentAt,
   smooth,
+  springStep,
   sprung,
   window01,
   wrap,
@@ -380,6 +381,19 @@ export function pinnipedSchedule(time, index, lion) {
   };
 }
 
+// These finite epoch plans are small. Retain their complete spring tails:
+// dropping a response at a settle cutoff produces a visible shoulder twitch.
+function pinnipedSpring(keys, t, frequency, damping = 0.7) {
+  if (!keys.length) return 0;
+  let value = keys[0][1],
+    previous = value;
+  for (let i = 1; i < keys.length && keys[i][0] <= t; i++) {
+    value += (keys[i][1] - previous) * springStep(t - keys[i][0], frequency, damping);
+    previous = keys[i][1];
+  }
+  return value;
+}
+
 export function pinnipedActing(time, index, lion) {
   const { t, epoch, plan } = pinnipedState(time, index, lion);
   const { segment } = segmentAt(plan.segments, t);
@@ -393,31 +407,51 @@ export function pinnipedActing(time, index, lion) {
   const shuffle = live("shuffle", 0.5, 0.8);
   const humpPhase = shuffle ? wrap(local / 1.1, 1) : 0;
   const hump = shuffle * Math.sin(Math.PI * humpPhase) ** 2;
-  const yaw = sprung(keys.yaw, t, 2.4, 0.66);
-  const pitch = sprung(keys.pitch, t, 1.8, 0.6);
-  const pitchLag = sprung(keys.pitch, t, 3.5, 0.7) - sprung(keys.pitch, t, 1.2, 0.5);
+  const yaw = pinnipedSpring(keys.yaw, t, 2.4, 0.66);
+  const flipperBalance = pinnipedSpring(keys.side, t, 2, 0.9);
+  const pitch = pinnipedSpring(keys.pitch, t, 1.8, 0.6);
+  const pitchLag = pinnipedSpring(keys.pitch, t, 3.5, 0.7) - pinnipedSpring(keys.pitch, t, 1.2, 0.5);
   return {
     state: segment.kind,
     epoch: epoch.k,
     headYaw: yaw + noise(t * 0.3, plan.seed) * 0.06 + scratching * 0.12 * Math.sin(local * 3),
     headPitch: pitch - bark * 0.22 + noise(t * 0.23, plan.seed + 1) * 0.035,
-    headRoll: sprung(keys.roll, t, 1.6, 0.6) * -0.4 + scratching * 0.3 * Math.sin(local * 4.5),
-    neckPitch: sprung(keys.neck, t, 1.6, 0.6) - bark * 0.14 + pitchLag * 0.3,
+    headRoll: pinnipedSpring(keys.roll, t, 1.6, 0.6) * -0.4 + scratching * 0.3 * Math.sin(local * 4.5),
+    neckPitch: pinnipedSpring(keys.neck, t, 1.6, 0.6) - bark * 0.14 + pitchLag * 0.3,
     neckFollow: yaw * 0.35,
-    chestPitch: sprung(keys.chest, t, 1.4, 0.65) - bark * 0.06 - hump * 0.12,
-    hipsPitch: sprung(keys.hips, t, 1.4, 0.65) + shuffle * Math.sin(TAU * humpPhase) * 0.12,
-    bodyRoll: sprung(keys.roll, t, 1.1, 0.7),
+    chestPitch: pinnipedSpring(keys.chest, t, 1.4, 0.65) - bark * 0.06 - hump * 0.12,
+    hipsPitch: pinnipedSpring(keys.hips, t, 1.4, 0.65) + shuffle * Math.sin(TAU * humpPhase) * 0.12,
+    bodyRoll: pinnipedSpring(keys.roll, t, 1.1, 0.7),
     bodyLift: hump * 0.035,
     jaw: Math.max(bark * 0.58, yawn * 0.62),
     breath: Math.sin(t * TAU * (lion ? 0.27 : 0.22)) * (lion ? 0.012 : 0.01) * (1 + bark),
-    flipper: sprung(keys.flipper, t, 1.6, 0.55) + flipping * 0.22 * Math.sin(local * 1.7),
+    flipper: pinnipedSpring(keys.flipper, t, 1.6, 0.55) + flipping * 0.22 * Math.sin(local * 1.7),
     flipperTip: flipping * 0.3 * Math.sin(local * 1.7 - 0.7) + scratching * 0.3 * Math.sin(local * 9),
-    flipperSide: sprung(keys.side, t, 2, 0.9) < 0 ? "R" : "L",
-    rearFlipper: sprung(keys.rear, t, 1.8, 0.5) + scratching * 0.25 * Math.sin(local * 8) + noise(t * 0.4, plan.seed + 2) * 0.05 + hump * 0.15,
+    flipperSide: flipperBalance < 0 ? "R" : "L",
+    flipperBalance,
+    rearFlipper:
+      pinnipedSpring(keys.rear, t, 1.8, 0.5) + scratching * 0.25 * Math.sin(local * 8) + noise(t * 0.4, plan.seed + 2) * 0.05 + hump * 0.15,
     shuffle,
     humpPhase,
-    blink: Math.max(blinkAt(t, plan.seed, lion ? 6.5 : 5.5), sprung(keys.eyes, t, 2, 0.8) * (0.85 + 0.15 * Math.sin(t * 0.6))),
+    blink: Math.max(blinkAt(t, plan.seed, lion ? 6.5 : 5.5), pinnipedSpring(keys.eyes, t, 2, 0.8) * (0.85 + 0.15 * Math.sin(t * 0.6))),
   };
+}
+
+// Keep the side label for inspection, while the actual shoulder activation
+// passes continuously through the spring's zero crossings and overshoot.
+export function pinnipedBlendWeight(value) {
+  const u = clamp01(value),
+    v = u > 0.5 ? 1 - u : u,
+    f = v * v * v * (10 + v * (-15 + 6 * v));
+  // Evaluating the small tail near one avoids a polynomial result above one,
+  // which would turn a released shoulder's contact weight slightly negative.
+  return clamp01(u > 0.5 ? 1 - f : f);
+}
+
+export function pinnipedFlipperActivation(pose, side) {
+  if (!Number.isFinite(pose.flipperBalance)) return side === pose.flipperSide ? 1 : 0.15;
+  const left = pinnipedBlendWeight((pose.flipperBalance + 0.15) / 0.3);
+  return 0.15 + 0.85 * (side === "L" ? left : 1 - left);
 }
 
 // Harbor seals haul out and shuffle toward the wash and back along their shore-normal line,

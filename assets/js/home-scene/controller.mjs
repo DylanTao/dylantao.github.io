@@ -1,7 +1,7 @@
 import * as THREE from "../three.module.min.js";
 import { createModelLoader } from "./model-loader.mjs";
 import { createArtDirection } from "./materials.mjs";
-import { createPacific } from "./environment.mjs?v=contacts-20261031";
+import { createPacific } from "./environment.mjs?v=pinniped-20261101";
 import { createFinish, physicalTime, surfaceLook } from "./realism.mjs";
 import { readLook } from "./look.mjs";
 import { createExplorationState, resolveRoutine, routineRoom, formatMinute, chooseArrivalAvatar, pacificClock } from "./routine.mjs";

@@ -235,7 +235,6 @@ export function raccoonMotion(time, evening = false, routeLength = 5.25, palette
   const glanceYaw = keys && mode === "forage" ? sprung(keys.yaw, local, 3, 0.7) : 0;
   const glancePitch = keys && mode === "forage" ? sprung(keys.pitch, local, 3, 0.7) : 0;
   const wakeLook = mode === "wake" ? Math.sin(local * 2.1) * pulse((local - 1) / 2.4) * 0.5 : 0;
-  const breathRate = sleep > 0.5 ? 0.25 : 0.42;
   const strideRate = walking * 1.6;
   const stridePhase = distance / raccoonStride(routeLength);
   return {
@@ -258,13 +257,15 @@ export function raccoonMotion(time, evening = false, routeLength = 5.25, palette
     chestPitch: -stand * 1.05 - wash * 0.55 + dig * 0.18 + stretch * 0.32,
     hipsPitch: stand * 0.25 + wash * 0.35 - dig * 0.08 - stretch * 0.28,
     curl: sleep,
-    earAnswer: pulse(wrap(t / 6.3, 1) / 0.08) * 0.15 * (sleep > 0.5 ? 0.6 : 1),
+    earAnswer: pulse(wrap(t / 6.3, 1) / 0.08) * 0.15 * (1 - sleep * 0.4),
     tailYaw: Math.sin(t * 0.45 - 0.35) * (0.035 + walking * 0.055) - walking * Math.sin(stridePhase * TAU - 0.9) * 0.12 + sleep * 0.75,
     tailCurl: sleep * 0.8 + stand * 0.2,
     tailLift: walking * 0.1 + stand * -0.25 - sleep * 0.1,
     shakeRoll: shake * Math.sin(segLocal * 38) * 0.18,
     pawScrub: dig * Math.sin(segLocal * TAU * 2.6) + wash * Math.sin(segLocal * TAU * 3.4),
-    breath: Math.sin(t * TAU * breathRate) * (sleep > 0.5 ? 0.02 : 0.01),
+    // Keep both authored endpoint waves; waking and curling cross-fade them
+    // without changing phase abruptly at half sleep.
+    breath: Math.sin(t * TAU * 0.42) * 0.01 * (1 - sleep) + Math.sin(t * TAU * 0.25) * 0.02 * sleep,
     blink: Math.max(blinkAt(t, 919, 5), sleep * (0.92 + 0.08 * Math.sin(t))),
     wake: Number.isFinite(wake) ? wake : null,
     strideRate,

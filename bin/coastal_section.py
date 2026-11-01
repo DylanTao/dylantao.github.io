@@ -538,7 +538,10 @@ def coast(mats, h):
     # The plant callback may use its analytic inland fallback, but camera
     # collision must include the completed beach, rocks, basins and solids.
     # Sampling before these existed turned offshore BVH misses into high land.
-    camera_manifest(CONFIG, create_camera_height(objects + solids))
+    finished_height = create_camera_height(objects + solids)
+    camera_manifest(CONFIG, finished_height)
+    from coastal_wildlife_anchors import resurvey_sea_lion_rest, resting_ground_height
+    resurvey_sea_lion_rest(CONFIG, resting_ground_height(objects + solids))
     manifest = Path(__file__).resolve().parents[1] / "assets/models/home/manifest.json"
     update_manifest_grips(CONFIG)
     manifest.write_text(json.dumps(CONFIG, indent=2) + "\n", encoding="utf-8")

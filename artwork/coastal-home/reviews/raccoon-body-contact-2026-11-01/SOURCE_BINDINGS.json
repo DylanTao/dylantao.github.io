@@ -1,0 +1,42 @@
+{
+  "source": "d36672bda0b3ee557989853f51665b1893da398a",
+  "baseline": "b6b2946296f23c8d3e78b281d4914552205f1b1b",
+  "files": [
+    {
+      "path": "assets/js/home-scene/wildlife.mjs",
+      "sourceCommit": "d36672bda0b3ee557989853f51665b1893da398a",
+      "gitBlob": "eeab043f44e0065aec373b2a00389490bdd45b31",
+      "gitBlobSha256": "a1d9654287ca0ab8a02637fc250e1af0bd3b96d229e621bd718c3868cdfeb54e",
+      "measuredWorkingBytes": 54187,
+      "measuredWorkingSha256": "a1d9654287ca0ab8a02637fc250e1af0bd3b96d229e621bd718c3868cdfeb54e",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-raccoon-contact.mjs",
+      "sourceCommit": "d36672bda0b3ee557989853f51665b1893da398a",
+      "gitBlob": "b29723787109a11a8a614cbd43fd049f54df495b",
+      "gitBlobSha256": "073ae76a5ae71a14a4c931599b3c8e010a8da43d307e9313044df13b8799e363",
+      "measuredWorkingBytes": 5738,
+      "measuredWorkingSha256": "073ae76a5ae71a14a4c931599b3c8e010a8da43d307e9313044df13b8799e363",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-neighbor-motion.mjs",
+      "sourceCommit": "d36672bda0b3ee557989853f51665b1893da398a",
+      "gitBlob": "0a089b52f94bc7f53a54542d213c8e7485b19748",
+      "gitBlobSha256": "30918013f4dd92fc37530fda53ee828e7a9bd7cf7a79f30b28c8e7b0fa848fdd",
+      "measuredWorkingBytes": 40459,
+      "measuredWorkingSha256": "30918013f4dd92fc37530fda53ee828e7a9bd7cf7a79f30b28c8e7b0fa848fdd",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "path": "test/wildlife-raccoon-contact.test.mjs",
+      "sourceCommit": "d36672bda0b3ee557989853f51665b1893da398a",
+      "gitBlob": "0629bebbfa298ff0f02510e669c825f562283df4",
+      "gitBlobSha256": "ae5c2840ba14e0fa5bc15b384c2c6bcc4c6363cbeb9e6b573c25d1fce907a60c",
+      "measuredWorkingBytes": 8375,
+      "measuredWorkingSha256": "ae5c2840ba14e0fa5bc15b384c2c6bcc4c6363cbeb9e6b573c25d1fce907a60c",
+      "lineEndingNormalizedEqual": true
+    }
+  ]
+}

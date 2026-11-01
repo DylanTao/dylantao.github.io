@@ -1,0 +1,81 @@
+{
+  "files": [
+    {
+      "path": "assets/models/home/home-shell.glb",
+      "bytes": 898704,
+      "sha256": "b51f302da52907dc1d707c14ea3a3c4578da9f43f9147d7917a6bb0e1f99ce72",
+      "b6BlobMatches": true,
+      "gitBlob": "a8b4919fa67a7460f6bf07477740f20d1ccb0ccf"
+    },
+    {
+      "path": "assets/models/home/coast.glb",
+      "bytes": 241576,
+      "sha256": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
+      "b6BlobMatches": true,
+      "gitBlob": "b0e06ed84af5544e6fcf494b3dc3225ced45aefa"
+    },
+    {
+      "path": "assets/models/home/BrushRabbit.glb",
+      "bytes": 51116,
+      "sha256": "9f2c82d3e6d4845f9420395f805bcaaa4ee9ebfba9e1d4bbde21d87433cdd8e4",
+      "b6BlobMatches": true,
+      "gitBlob": "5e7096a9d11e80e084bb6a6f119b20887deba262"
+    },
+    {
+      "path": "assets/models/home/CaliforniaSeaLion.glb",
+      "bytes": 34376,
+      "sha256": "42adf172e236ee3be115efc4112b4e2b05389029c5e4518649324162803ae103",
+      "b6BlobMatches": true,
+      "gitBlob": "8824139f996bdd13bce00ead45b8aaa66605accf"
+    },
+    {
+      "path": "assets/models/home/HarborSeal.glb",
+      "bytes": 35632,
+      "sha256": "6e7b70c892d7b8aaa1351c9b16a7e33ba342348ff93012a4af9da368eb1949b6",
+      "b6BlobMatches": true,
+      "gitBlob": "4b41155c5e9585a3037740fe993a8cd886c48819"
+    },
+    {
+      "path": "assets/models/home/Raccoon.glb",
+      "bytes": 49332,
+      "sha256": "52deb93ddfb227b521472adfe5ab2007cdba9903d28b333c8e290b4c2b8d5808",
+      "b6BlobMatches": true,
+      "gitBlob": "c027086c5cf9bae8bde2216ec0dddac973c5bc42"
+    },
+    {
+      "path": "assets/models/home/WesternGull.glb",
+      "bytes": 22912,
+      "sha256": "af06b16e55042d2fe314868703e5cd4edb64ba057fde2e809a628fce95c71a29",
+      "b6BlobMatches": true,
+      "gitBlob": "ac96737cf054d54524856fd4fd71536354004cfa"
+    },
+    {
+      "path": "assets/models/home/Sandpiper.glb",
+      "bytes": 20696,
+      "sha256": "0b1868fc7b7840cb3d6a8a822bdbdd053f3cdb73cb3ab69e8d07e6d65628d381",
+      "b6BlobMatches": true,
+      "gitBlob": "fba0bb1c35639ac01b1328bb6ecd9509a69f36b8"
+    },
+    {
+      "path": "assets/models/home/BrownPelican.glb",
+      "bytes": 34440,
+      "sha256": "97ef0286ae9e75740bc05a60726d8321a2c0afe6a1ac60ae0ff38e66fe11749c",
+      "b6BlobMatches": true,
+      "gitBlob": "1bb60f381b8105f019677ec82331038eba1ec1f8"
+    },
+    {
+      "path": "assets/models/home/BrandtsCormorant.glb",
+      "bytes": 31040,
+      "sha256": "1bf0f9cd47a413903472c1dacfe5f8dfd554b6dfddbc668ca80d211cef98829a",
+      "b6BlobMatches": true,
+      "gitBlob": "2429f79eed7f6ccf18a297fefb9572f076112bb6"
+    },
+    {
+      "path": "assets/models/home/wildlife-perch-support.json",
+      "bytes": 37637,
+      "sha256": "eabd35378f2e652506c3332b7027d82ac3b720da55c614f89faa9f919064b2c4",
+      "b6BlobMatches": false,
+      "gitBlob": "e2c5776410013b5c33fe168d348cf478102c7ec7"
+    }
+  ]
+}

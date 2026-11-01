@@ -3090,7 +3090,7 @@
       "seaLion": {
         "kind": "rock",
         "path": [
-          [-10, -6.6084, -14.5115],
+          [-9.7, -6.6382, -14.8115],
           [-8.6, -6.6737, -14.2179],
           [11, -6.7453, -13.3577]
         ]
@@ -5903,8 +5903,8 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "35889ccec4d784bea523b89fedcaec8ab687381c3dd0d44b00c0bd4477906121",
-    "sha256": "d51674ee56b60a611087030a173b32fbd26b5f619d9dbfd64537e4b9a7ee249f"
+    "signature": "a2a4d15d2046048810537f526102ebf3ce16cea162f8a5c018472253eb561fcc",
+    "sha256": "748836b685b9d3f2974482da9d79f6a56f95bed8fb829298725990323b3262e5"
   },
   "estateDoors": [
     {

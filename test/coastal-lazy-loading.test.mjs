@@ -7,8 +7,8 @@ const source = fs.readFileSync(new URL("../assets/js/home.js", import.meta.url),
 const start = source.indexOf("  const createDeskCornerSceneController = ");
 const end = source.indexOf("\n  const portrait = ", start);
 assert.ok(start >= 0 && end > start, "exercise the real lazy scene controller");
-const importExpression = 'import(new URL("home-scene/controller.mjs", homeScriptBase).href)';
-assert.equal(source.slice(start, end).split(importExpression).length, 2, "adapt only the platform module loader");
+const importExpression = /import\(new URL\("home-scene\/controller\.mjs(?:\?[^"\s]+)?", homeScriptBase\)\.href\)/g;
+assert.equal([...source.slice(start, end).matchAll(importExpression)].length, 1, "adapt only the platform module loader");
 const factorySource = source.slice(start, end).replace(importExpression, "loadModule()");
 const settle = () => new Promise(setImmediate);
 

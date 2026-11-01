@@ -1,0 +1,2 @@
+# Keep sealed review payload bytes identical across Windows and Linux.
+* -text

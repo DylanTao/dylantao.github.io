@@ -1,0 +1,17 @@
+{
+  "before": [
+    -9.7,
+    -6.6382,
+    -14.8115
+  ],
+  "after": [
+    -9.7,
+    -6.6382,
+    -14.8115
+  ],
+  "nativeGroundHeight": -6.638248443603516,
+  "authoringOffsetM": 1.2265839e-05,
+  "method": "Finished native mesh downward support; preserve the original authoring offset and round metadata to4decimals",
+  "nativeSha256": "de217984242f77903145dd6d16f277923b57fd5e3eb2469c906c2507b494ad87",
+  "applied": true
+}

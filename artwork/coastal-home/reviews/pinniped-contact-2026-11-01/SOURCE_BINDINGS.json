@@ -1,0 +1,40 @@
+{
+  "sourceCommit": "b6b2946296f23c8d3e78b281d4914552205f1b1b",
+  "sourceFiles": [
+    {
+      "path": "assets/js/home-scene/wildlife.mjs",
+      "gitBlobSha256": "daad49c460da5773bdfad4d74ad61efaf1ecf291cf39bf4a6cf1322f6e237588",
+      "workingTreeRawSha256": "daad49c460da5773bdfad4d74ad61efaf1ecf291cf39bf4a6cf1322f6e237588"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-motion.mjs",
+      "gitBlobSha256": "3d803fff5d7f716a030d999a5d389e147613b23894b486e6e003f65da23734a2",
+      "workingTreeRawSha256": "3d803fff5d7f716a030d999a5d389e147613b23894b486e6e003f65da23734a2"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-ground-contact.mjs",
+      "gitBlobSha256": "4ab18f488b234f54854bf2f1c57a5c59e8934f904ff31454c410fc3b111c74b2",
+      "workingTreeRawSha256": "4ab18f488b234f54854bf2f1c57a5c59e8934f904ff31454c410fc3b111c74b2"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-resting-contact.mjs",
+      "gitBlobSha256": "3d31ec9bef36103a4c598b5ca96cf56bcd27385d77ee4d4f6a38bc9ab64f3308",
+      "workingTreeRawSha256": "3d31ec9bef36103a4c598b5ca96cf56bcd27385d77ee4d4f6a38bc9ab64f3308"
+    },
+    {
+      "path": "test/wildlife-resting-contact.test.mjs",
+      "gitBlobSha256": "539c259d22010f082ccbdb6b456806b392d42fe82eb8bfca23df6df75684ac55",
+      "workingTreeRawSha256": "539c259d22010f082ccbdb6b456806b392d42fe82eb8bfca23df6df75684ac55"
+    },
+    {
+      "path": "test/wildlife-ground-bounds.test.mjs",
+      "gitBlobSha256": "e7c434f8bbb838ca70586d18fbd295d5b2d9e63af59831bbcff30fab5df967ce",
+      "workingTreeRawSha256": "e7c434f8bbb838ca70586d18fbd295d5b2d9e63af59831bbcff30fab5df967ce"
+    }
+  ],
+  "actualServedReadback": "data/pinniped-native-served-readback.json.gz",
+  "scope": "Five raw worker module overlays and only the native-surveyed seaLion0 metadata point over the complete frozen503 compiled preview4158, exclusively bound on4173. Source Git blobs and actual served bytes are distinct records. Frozen native geometry and original static cache remain unchanged in this private fixture.",
+  "baselineSource": "98474dd24fc8980e6886a7b74633e7494d5f0bc9",
+  "nativeSurveySourceSha256": "de217984242f77903145dd6d16f277923b57fd5e3eb2469c906c2507b494ad87",
+  "publication": "None by the worker. Coordinator owns native producer/manifest replay, final F6 support checks, official combined cache, full gates, CI and live verification."
+}

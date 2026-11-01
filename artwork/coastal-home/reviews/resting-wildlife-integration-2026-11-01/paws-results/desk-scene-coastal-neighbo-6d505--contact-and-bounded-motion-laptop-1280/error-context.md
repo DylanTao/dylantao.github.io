@@ -1,0 +1,517 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - link "Skip to content":
+    - /url: "#main"
+  - banner:
+    - navigation "Primary navigation" [ref=e2]:
+      - generic [ref=e3]:
+        - generic [ref=e4]:
+          - link "Sirui Tao home" [ref=e5] [cursor=pointer]:
+            - /url: /al-folio/
+            - generic [ref=e6]:
+              - img
+          - button "Let Sirui float away" [ref=e7] [cursor=pointer]:
+            - generic [ref=e8]:
+              - generic [ref=e9]:
+                - generic [ref=e10]: S
+                - generic [ref=e11]: i
+                - generic [ref=e12]: r
+                - generic [ref=e13]: u
+                - generic [ref=e14]: i
+                - generic [ref=e15]: ","
+              - generic [ref=e16]: Tao
+            - generic [ref=e17]:
+              - generic [ref=e18]:
+                - generic [ref=e19]:
+                  - generic [ref=e20]: a
+                  - generic [ref=e21]: "n"
+                - generic [ref=e22]:
+                  - generic [ref=e23]: o
+                  - generic [ref=e24]: r
+                  - generic [ref=e25]: a
+                  - generic [ref=e26]: "n"
+                  - generic [ref=e27]: g
+                  - generic [ref=e28]: e
+              - generic [ref=e29]:
+                - generic [ref=e30]:
+                  - generic [ref=e31]: f
+                  - generic [ref=e32]: l
+                  - generic [ref=e33]: o
+                  - generic [ref=e34]: a
+                  - generic [ref=e35]: t
+                  - generic [ref=e36]: i
+                  - generic [ref=e37]: "n"
+                  - generic [ref=e38]: g
+                - generic [ref=e39]:
+                  - generic [ref=e40]: i
+                  - generic [ref=e41]: "n"
+                - generic [ref=e42]:
+                  - generic [ref=e43]: o
+                  - generic [ref=e44]: c
+                  - generic [ref=e45]: e
+                  - generic [ref=e46]: a
+                  - generic [ref=e47]: "n"
+        - group "Site actions" [ref=e48]:
+          - navigation "Content format" [ref=e49]:
+            - link "Human-readable website" [ref=e50] [cursor=pointer]:
+              - /url: /al-folio/
+              - text: Human
+            - link "AI-readable research profile" [ref=e51] [cursor=pointer]:
+              - /url: /al-folio/ai/
+              - text: AI
+          - button "Search site (Ctrl K)" [ref=e52] [cursor=pointer]:
+            - img [ref=e54]
+          - 'button "Change theme. Current theme: Noon" [ref=e59] [cursor=pointer]':
+            - img [ref=e61]
+            - generic [ref=e64]: Noon theme
+        - list [ref=e66]:
+          - listitem [ref=e67]:
+            - link "about (current)" [ref=e68] [cursor=pointer]:
+              - /url: /al-folio/
+              - text: about
+              - generic [ref=e69]: (current)
+          - listitem [ref=e70]:
+            - link "publications" [ref=e71] [cursor=pointer]:
+              - /url: /al-folio/publications/
+          - listitem [ref=e72]:
+            - link "projects" [ref=e73] [cursor=pointer]:
+              - /url: /al-folio/projects/
+          - listitem [ref=e74]:
+            - link "blog" [ref=e75] [cursor=pointer]:
+              - /url: /al-folio/blog/
+          - listitem [ref=e76]:
+            - link "CV" [ref=e77] [cursor=pointer]:
+              - /url: /al-folio/cv/
+    - progressbar [ref=e78]
+  - main [ref=e79]:
+    - generic [ref=e80]:
+      - region "Making AI tools that sharpen design judgment." [ref=e81]:
+        - generic [ref=e82]:
+          - paragraph [ref=e83]: Design judgment + human-centered AI
+          - heading "Making AI tools that sharpen design judgment." [level=1] [ref=e84]
+          - paragraph [ref=e85]: "I build and study interfaces for an age of generative abundance: tools that help people explore alternatives, notice consequential differences, explain tradeoffs, and build taste over time."
+          - paragraph [ref=e86]:
+            - generic [ref=e87]: Cognitive Science Ph.D. student at UC San Diego
+            - generic [ref=e88]:
+              - text: Advised by Prof.
+              - link "Steven P. Dow" [ref=e89] [cursor=pointer]:
+                - /url: https://spdow.ucsd.edu/
+              - text: in
+              - link "ProtoLab" [ref=e90] [cursor=pointer]:
+                - /url: https://protolab.ucsd.edu/
+              - text: .
+          - generic "Primary actions" [ref=e91]:
+            - link "See publications" [ref=e92] [cursor=pointer]:
+              - /url: /al-folio/publications/
+              - text: See publications
+            - link "View projects" [ref=e94] [cursor=pointer]:
+              - /url: /al-folio/projects/
+            - link "Contact" [ref=e95] [cursor=pointer]:
+              - /url: "#connect"
+        - generic "Portrait and research artifacts" [ref=e96]:
+          - generic [ref=e97]:
+            - paragraph: Welcome to Sirui’s crib.
+            - generic "Desk view mode" [ref=e98]:
+              - button "2D" [pressed] [ref=e99] [cursor=pointer]
+              - generic [ref=e100]: "|"
+              - button "3D" [active] [ref=e101] [cursor=pointer]
+          - generic:
+            - button
+            - button
+            - button
+            - button
+            - link:
+              - /url: /al-folio/projects/designweaver/
+              - img
+            - link:
+              - /url: /al-folio/projects/what-happened-and-why/
+              - img
+          - generic "Sirui Tao portrait meme-record preview. Shake or press D to discover a record card." [ref=e103]:
+            - generic:
+              - generic:
+                - img
+            - figure:
+              - generic:
+                - img "Sirui Tao portrait"
+            - group "Disc controls":
+              - button "Spin Yellow Submarine meme record" [ref=e104] [cursor=pointer]
+              - button "Previous meme record from Yellow Submarine" [ref=e107] [cursor=pointer]
+              - button "Next meme record from Yellow Submarine" [ref=e109] [cursor=pointer]
+            - generic [ref=e111]: Click the disc to start or pause. Left and right change records. Shake or press D to discover a record card.
+          - generic "Featured research artifacts" [ref=e112]:
+            - link "Design loop Vibes -> Variables -> Value" [ref=e113] [cursor=pointer]:
+              - /url: /al-folio/projects/designweaver/
+              - img [ref=e115]
+              - generic [ref=e119]:
+                - generic [ref=e120]: Design loop
+                - strong [ref=e121]: Vibes -> Variables -> Value
+            - link "Research question Make better design decisions visible" [ref=e124] [cursor=pointer]:
+              - /url: /al-folio/projects/what-happened-and-why/
+              - img [ref=e126]
+              - generic [ref=e128]:
+                - generic [ref=e129]: Research question
+                - strong [ref=e130]: Make better design decisions visible
+      - region "Scaffolding taste in an age of generative abundance." [ref=e133]:
+        - generic [ref=e134]:
+          - generic [ref=e135]:
+            - generic [ref=e136]:
+              - paragraph [ref=e137]: Thesis thread
+              - heading "Scaffolding taste in an age of generative abundance." [level=2] [ref=e138]
+            - paragraph [ref=e139]: "Scaffolding for Taste asks a simple question: when AI can make ten plausible options in a minute, how do people learn to notice the difference that matters? I study interfaces that support reflective practice: making a move, seeing what changed, comparing alternatives, and building better reasons for choosing one direction over another."
+          - generic [ref=e140]:
+            - complementary "Sirui's design principle" [ref=e141]:
+              - generic [ref=e142]: Design principle
+              - paragraph [ref=e143]: Design help should not just make more artifacts. It should make the next move easier to see, and the next judgment easier to explain.
+            - paragraph [ref=e144]: "I am testing this frame across creative tools, learning environments, mixed reality, everyday robotics, and community or civic design settings: places where tools can help people notice viable options, weigh tradeoffs, and choose the next move."
+            - generic [ref=e145]:
+              - paragraph [ref=e146]: My work with Steven P. Dow and conversations with Don Norman and many others keep shaping how I think about taste and design judgment.
+              - link "Notes from Don Norman's talk ↗" [ref=e147] [cursor=pointer]:
+                - /url: /al-folio/blog/2026/don-norman-design-lab-talk/
+      - region "Design, Evaluate, Situate." [ref=e148]:
+        - generic [ref=e150]:
+          - paragraph [ref=e151]: Research focus
+          - heading "Design, Evaluate, Situate." [level=2] [ref=e152]
+          - paragraph [ref=e153]: "I keep testing the same loop: how to make alternatives comparable, let evidence sharpen the next question, and fit assistance to the situation where judgment happens."
+        - generic "Research motion modes" [ref=e155]:
+          - button "Design Scaffold design thinking Help people externalize dimensions, vary alternatives, compare structures, and move ideas through staged fidelity." [pressed] [ref=e156]:
+            - generic [ref=e157]: Design
+            - strong [ref=e158]: Scaffold design thinking
+            - generic [ref=e159]: Help people externalize dimensions, vary alternatives, compare structures, and move ideas through staged fidelity.
+          - button "Evaluate Study process, not just output Use prototypes, traces, rationales, and transfer probes to learn how an interface changes design thinking." [ref=e160]:
+            - generic [ref=e161]: Evaluate
+            - strong [ref=e162]: Study process, not just output
+            - generic [ref=e163]: Use prototypes, traces, rationales, and transfer probes to learn how an interface changes design thinking.
+          - button "Situate Fit help to everyday contexts Adapt assistance to the practice, medium, and setting, from studio work to everyday robotics." [ref=e164]:
+            - generic [ref=e165]: Situate
+            - strong [ref=e166]: Fit help to everyday contexts
+            - generic [ref=e167]: Adapt assistance to the practice, medium, and setting, from studio work to everyday robotics.
+        - generic [ref=e169]:
+          - 'button "Change theme. Current theme: Noon" [ref=e172] [cursor=pointer]':
+            - img [ref=e174]
+            - generic [ref=e177]: Noon theme
+          - generic [ref=e178]:
+            - generic [ref=e179]: Design
+            - strong [ref=e180]: Vary the alternatives, compare them, then refine.
+          - paragraph [ref=e181]: Showing the Design motion sketch. Vary the alternatives, compare them, then refine.
+        - article [ref=e183]:
+          - generic [ref=e184]:
+            - generic [ref=e185]: Design lens
+            - heading "Human-AI for design thinking" [level=3] [ref=e186]
+            - paragraph [ref=e187]: "I study interfaces that support design thinking beyond artifact generation: dimensional scaffolds that make the design space visible, variation mechanisms that expose alternatives, structured comparison that helps people reason across options, and staged fidelity that lets ideas mature from rough intent to defensible direction."
+            - link "See DesignWeaver" [ref=e188] [cursor=pointer]:
+              - /url: /al-folio/projects/designweaver/
+              - text: See DesignWeaver
+              - img [ref=e189]
+          - generic [ref=e191]:
+            - generic [ref=e192]: Moves
+            - list [ref=e193]:
+              - listitem [ref=e194]:
+                - generic [ref=e195]: "01"
+                - paragraph [ref=e196]: Externalize useful dimensions so people can see what matters.
+              - listitem [ref=e197]:
+                - generic [ref=e198]: "02"
+                - paragraph [ref=e199]: Use variation and structured comparison to reason across alternatives.
+              - listitem [ref=e200]:
+                - generic [ref=e201]: "03"
+                - paragraph [ref=e202]: Move from coarse ideas to committed artifact choices through staged fidelity.
+        - generic "Adjacent contexts for the same loop" [ref=e203]:
+          - generic [ref=e204]:
+            - generic [ref=e205]: Exploring
+            - heading "Adjacent contexts for the same loop" [level=3] [ref=e206]
+            - paragraph [ref=e207]: These threads are places I test the same concern with judgment, agency, and evidence in context.
+          - generic [ref=e208]:
+            - generic [ref=e209]:
+              - generic [ref=e210]: Situate
+              - strong [ref=e211]: Everyday robotics
+              - emphasis [ref=e212]: Integrating intelligence into robots so they can better assist people in everyday living and working contexts.
+            - generic [ref=e213]:
+              - generic [ref=e214]: Design
+              - strong [ref=e215]: Learner-centered AI
+              - emphasis [ref=e216]: Scalable support that keeps agency and the learning process visible.
+            - generic [ref=e217]:
+              - generic [ref=e218]: Evaluate
+              - strong [ref=e219]: Post-deployment iteration
+              - emphasis [ref=e220]: Using traces from real use to improve benefit and catch harm.
+            - generic [ref=e221]:
+              - generic [ref=e222]: Situate
+              - strong [ref=e223]: Community-centered tools
+              - emphasis [ref=e224]: Coordination and sensemaking for groups with shared ownership.
+        - group [ref=e225]:
+          - generic "Credits" [ref=e226] [cursor=pointer]
+      - region "Papers worth opening first." [ref=e227]:
+        - generic [ref=e228]:
+          - paragraph [ref=e229]: Selected publications
+          - heading "Papers worth opening first." [level=2] [ref=e230]
+        - list [ref=e232]:
+          - listitem [ref=e233]:
+            - article [ref=e234]:
+              - figure [ref=e236]:
+                - 'img "Preview figure for DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design" [ref=e238]'
+              - generic [ref=e239]:
+                - generic "Venue, publication type and role" [ref=e240]:
+                  - generic [ref=e241]: CHI
+                  - generic [ref=e242]: Full paper
+                  - generic [ref=e243]: First author
+                  - generic [ref=e244]: 52 cites
+                - 'link "DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design" [ref=e246] [cursor=pointer]':
+                  - /url: https://dylantao.github.io/projects/designweaver/
+                - generic [ref=e247]:
+                  - emphasis [ref=e248]: Sirui Tao
+                  - text: ", Ivan Liang, Cindy Peng, Zhiqing Wang, Srishti Palani, and Steven P. Dow"
+                - generic [ref=e249]:
+                  - emphasis [ref=e250]: In Proceedings of the 2025 CHI Conference on Human Factors in Computing Systems
+                  - text: ", Apr 2025"
+                - group [ref=e251]:
+                  - 'generic "DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design: When this paper helps. A blank prompt box is asking novices to supply design vocabulary they have not had a chance to learn." [ref=e252] [cursor=pointer]':
+                    - generic [ref=e253]: "DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design:"
+                    - generic [ref=e254]: When this paper helps.
+                    - generic [ref=e255]: A blank prompt box is asking novices to supply design vocabulary they have not had a chance to learn.
+                - generic [ref=e257]:
+                  - button "DOI" [ref=e258] [cursor=pointer]
+                  - button "arXiv" [ref=e259] [cursor=pointer]
+                  - button "Bib" [ref=e260] [cursor=pointer]
+                  - button "PDF" [ref=e261] [cursor=pointer]
+                  - button "Video" [ref=e262] [cursor=pointer]
+                  - button "Code" [ref=e263] [cursor=pointer]
+                - figure [ref=e264]:
+                  - generic [ref=e265]:
+                    - code [ref=e267]: "@inproceedings{tao2024designweaver, title = {DesignWeaver: Dimensional Scaffolding for Text-to-Image Product Design}, author = {Tao, Sirui and Liang, Ivan and Peng, Cindy and Wang, Zhiqing and Palani, Srishti and Dow, Steven P.}, booktitle = {Proceedings of the 2025 CHI Conference on Human Factors in Computing Systems}, series = {CHI '25}, pages = {1--26}, publisher = {ACM}, doi = {10.1145/3706598.3714211}, arxiv = {2502.09867}, month = {apr}, year = {2025} }"
+                    - button [ref=e268]:
+                      - img [ref=e269]
+          - listitem [ref=e272]:
+            - article [ref=e273]:
+              - figure [ref=e275]:
+                - 'img "Preview figure for HotSpot: Signed Distance Function Optimization with an Asymptotically Sufficient Condition" [ref=e277]'
+              - generic [ref=e278]:
+                - generic "Venue, publication type and role" [ref=e279]:
+                  - generic [ref=e280]: CVPR
+                  - generic [ref=e281]: Full paper
+                  - generic [ref=e282]: Coauthor
+                  - generic [ref=e283]: 20 cites
+                - 'link "HotSpot: Signed Distance Function Optimization with an Asymptotically Sufficient Condition" [ref=e285] [cursor=pointer]':
+                  - /url: https://zeamoxwang.github.io/HotSpot-CVPR25/
+                - generic [ref=e286]:
+                  - text: Zimo Wang, Cheng Wang, Taiki Yoshino,
+                  - emphasis [ref=e287]: Sirui Tao
+                  - text: ", Ziyang Fu, and Tzu-Mao Li"
+                - generic [ref=e288]:
+                  - emphasis [ref=e289]: In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+                  - text: ", Jun 2025"
+                - generic [ref=e290]: CVPR 2025 Highlight
+                - group [ref=e291]:
+                  - 'generic "HotSpot: Signed Distance Function Optimization with an Asymptotically Sufficient Condition: When this paper helps. An implicit-surface argument needs more than the usual eikonal condition—especially around convergence, stability, topology, or surface area." [ref=e292] [cursor=pointer]':
+                    - generic [ref=e293]: "HotSpot: Signed Distance Function Optimization with an Asymptotically Sufficient Condition:"
+                    - generic [ref=e294]: When this paper helps.
+                    - generic [ref=e295]: An implicit-surface argument needs more than the usual eikonal condition—especially around convergence, stability, topology, or surface area.
+                - generic [ref=e297]:
+                  - button "DOI" [ref=e298] [cursor=pointer]
+                  - button "arXiv" [ref=e299] [cursor=pointer]
+                  - button "Bib" [ref=e300] [cursor=pointer]
+                  - button "PDF" [ref=e301] [cursor=pointer]
+                  - button "Video" [ref=e302] [cursor=pointer]
+                  - button "Code" [ref=e303] [cursor=pointer]
+                - figure [ref=e304]:
+                  - generic [ref=e305]:
+                    - code [ref=e307]: "@inproceedings{wang2025hotspot, title = {HotSpot: Signed Distance Function Optimization with an Asymptotically Sufficient Condition}, author = {Wang, Zimo and Wang, Cheng and Yoshino, Taiki and Tao, Sirui and Fu, Ziyang and Li, Tzu-Mao}, booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}, pages = {1276--1286}, publisher = {IEEE}, doi = {10.1109/CVPR52734.2025.00127}, arxiv = {2411.14628}, url = {https://openaccess.thecvf.com/content/CVPR2025/html/Wang_HotSpot_Signed_Distance_Function_Optimization_with_an_Asymptotically_Sufficient_Condition_CVPR_2025_paper.html}, note = {Highlight}, month = {jun}, year = {2025} }"
+                    - button [ref=e308]:
+                      - img [ref=e309]
+          - listitem [ref=e312]:
+            - article [ref=e313]:
+              - generic [ref=e315]:
+                - figure [ref=e316]:
+                  - 'img "Preview figure for Physion: Evaluating Physical Prediction from Vision in Humans and Machines" [ref=e318]'
+                - button "Play the animation" [ref=e319] [cursor=pointer]
+              - generic [ref=e320]:
+                - generic "Venue, publication type and role" [ref=e321]:
+                  - generic [ref=e322]: NeurIPS
+                  - generic [ref=e323]: Full paper
+                  - generic [ref=e324]: Coauthor
+                  - generic [ref=e325]: 234 cites
+                - 'link "Physion: Evaluating Physical Prediction from Vision in Humans and Machines" [ref=e327] [cursor=pointer]':
+                  - /url: https://physion-benchmark.github.io/
+                - generic [ref=e328]:
+                  - text: Daniel Bear, Elias Wang, Damian Mrowca, Felix Binder, Hsiao-Yu Tung, Pramod RT, Cameron Holdaway,
+                  - emphasis [ref=e329]: Sirui Tao
+                  - text: ", Kevin Smith, Fan-Yun Sun, Fei-Fei Li, Nancy Kanwisher, Josh Tenenbaum, Dan Yamins, and Judith Fan"
+                - generic [ref=e330]:
+                  - emphasis [ref=e331]: In Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks
+                  - text: ", Dec 2021"
+                - group [ref=e332]:
+                  - 'generic "Physion: Evaluating Physical Prediction from Vision in Humans and Machines: When this paper helps. You need a reproducible benchmark for asking whether a model predicts physical outcomes in human-like ways." [ref=e333] [cursor=pointer]':
+                    - generic [ref=e334]: "Physion: Evaluating Physical Prediction from Vision in Humans and Machines:"
+                    - generic [ref=e335]: When this paper helps.
+                    - generic [ref=e336]: You need a reproducible benchmark for asking whether a model predicts physical outcomes in human-like ways.
+                - generic [ref=e338]:
+                  - button "arXiv" [ref=e339] [cursor=pointer]
+                  - button "Bib" [ref=e340] [cursor=pointer]
+                  - button "PDF" [ref=e341] [cursor=pointer]
+                  - button "Video" [ref=e342] [cursor=pointer]
+                  - button "Code" [ref=e343] [cursor=pointer]
+                - figure [ref=e344]:
+                  - generic [ref=e345]:
+                    - code [ref=e347]: "@inproceedings{bear2021physion, title = {Physion: Evaluating Physical Prediction from Vision in Humans and Machines}, author = {Bear, Daniel and Wang, Elias and Mrowca, Damian and Binder, Felix and Tung, Hsiao-Yu and RT, Pramod and Holdaway, Cameron and Tao, Sirui and Smith, Kevin and Sun, Fan-Yun and Li, Fei-Fei and Kanwisher, Nancy and Tenenbaum, Josh and Yamins, Dan and Fan, Judith}, booktitle = {Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks}, editor = {Vanschoren, J. and Yeung, S.}, volume = {1}, arxiv = {2106.08261}, url = {https://datasets-benchmarks-proceedings.neurips.cc/paper/2021/hash/d09bf41544a3365a46c9077ebb5e35c3-Abstract-round1.html}, month = {dec}, year = {2021} }"
+                    - button [ref=e348]:
+                      - img [ref=e349]
+        - link "Open full publication list" [ref=e352] [cursor=pointer]:
+          - /url: /al-folio/publications/
+      - region "Lately." [ref=e353]:
+        - generic [ref=e354]:
+          - generic [ref=e355]:
+            - paragraph [ref=e356]: Updates
+            - heading "Lately." [level=2] [ref=e357]
+          - link "Full timeline" [ref=e358] [cursor=pointer]:
+            - /url: /al-folio/news/
+        - generic [ref=e359]:
+          - article [ref=e360]:
+            - time [ref=e361]: Oct 16, 2026
+            - paragraph [ref=e362]:
+              - text: Had a really fun time at the Design Lab retreat! Nadir shared
+              - emphasis [ref=e363]: The Last Gift
+              - text: and brought the documentary’s Emmy along, so I
+              - link "got to hold it and take a photo" [ref=e364] [cursor=pointer]:
+                - /url: /blog/2026/design-lab-retreat-emmy/
+              - text: "!"
+              - img ":smile:" [ref=e365]
+          - article [ref=e366]:
+            - time [ref=e367]: Mar 04, 2026
+            - paragraph [ref=e368]:
+              - text: Met the great Don Norman and even got a
+              - link "selfie + a “To Sirui” signed “Yellow Book”" [ref=e369] [cursor=pointer]:
+                - /url: /blog/2026/don-norman-design-lab-talk/
+              - text: "!"
+              - img ":sparkles:" [ref=e370]
+              - img ":camera_flash:" [ref=e371]
+              - img ":smile:" [ref=e372]
+          - article [ref=e373]:
+            - time [ref=e374]: Feb 25, 2026
+            - paragraph [ref=e375]:
+              - text: Our CHI 2026 workshop position paper,
+              - link "What Happened and Why? Trace-Guided Micro-Episodes with Elicited User Explanations for Product Iteration" [ref=e376] [cursor=pointer]:
+                - /url: https://drive.google.com/file/d/181S2OniPDGzrUblFoqR4fJmXiZrf8H9w/view?usp=sharing
+              - text: ", was accepted to"
+              - link "Herding CATs" [ref=e377] [cursor=pointer]:
+                - /url: https://herding-cats-ws.github.io/
+              - text: "- easily one of the best workshop names ever! The whole ProtoLab is going to Spain! Might be a UCSD party!"
+              - img ":beer:" [ref=e378]
+              - img ":cat:" [ref=e379]
+              - img ":wine_glass:" [ref=e380]
+      - region "For students who like messy questions." [ref=e381]:
+        - generic [ref=e382]:
+          - paragraph [ref=e383]: Research opportunities
+          - heading "For students who like messy questions." [level=2] [ref=e384]
+        - generic [ref=e385]:
+          - generic [ref=e386]:
+            - paragraph [ref=e387]: I like working with curious, motivated, and kind undergraduate and master's students, especially people who have a question they cannot stop poking at.
+            - paragraph [ref=e388]: You do not need to show up as a polished researcher. It helps if you like reading carefully, making small prototypes, testing claims, looking honestly at evidence, and writing clearly about what changed.
+            - paragraph [ref=e389]: The best fit is someone with real stake in a domain or problem, plus enough patience to turn that interest into a concrete study.
+            - generic "Research skills students can grow here" [ref=e390]:
+              - generic [ref=e391]: Reading closely
+              - generic [ref=e392]: Prototyping
+              - generic [ref=e393]: Evaluation
+              - generic [ref=e394]: Analysis
+              - generic [ref=e395]: Communication
+          - generic [ref=e396]:
+            - heading "Start here" [level=3] [ref=e397]
+            - list [ref=e398]:
+              - listitem [ref=e399]:
+                - text: Read the
+                - link "research-start post" [ref=e400] [cursor=pointer]:
+                  - /url: /al-folio/blog/2026/how-to-start-doing-research-at-ucsd/
+                - text: .
+              - listitem [ref=e401]:
+                - text: Email
+                - link "s1tao@ucsd.edu" [ref=e402] [cursor=pointer]:
+                  - /url: mailto:s1tao@ucsd.edu?subject=UCSD+Research+Interest
+                - text: with subject "UCSD Research Interest".
+              - listitem [ref=e403]: Include a 1-page CV or resume, an optional portfolio link, and a 3-5 sentence note on the questions or domains you care about.
+            - generic "Student research application actions" [ref=e404]:
+              - link "Read the post" [ref=e405] [cursor=pointer]:
+                - /url: /al-folio/blog/2026/how-to-start-doing-research-at-ucsd/
+              - link "Email interest" [ref=e406] [cursor=pointer]:
+                - /url: mailto:s1tao@ucsd.edu?subject=UCSD+Research+Interest
+      - region "Contact and profiles" [ref=e407]:
+        - generic [ref=e408]:
+          - generic [ref=e409]:
+            - generic [ref=e410]:
+              - paragraph [ref=e411]: Connect
+              - heading "Find me around the web." [level=2] [ref=e412]
+            - generic "Advisor Lineage & Past Collaborations" [ref=e413]:
+              - heading "Advisor Lineage & Past Collaborations" [level=3] [ref=e414]
+              - generic [ref=e415]:
+                - generic [ref=e416]:
+                  - generic [ref=e417]: Ph.D.
+                  - generic [ref=e419]:
+                    - link "Steven P. Dow" [ref=e420] [cursor=pointer]:
+                      - /url: https://spdow.ucsd.edu/
+                    - generic [ref=e421]: HCI
+                - generic [ref=e422]:
+                  - generic [ref=e423]: Master's
+                  - generic [ref=e424]:
+                    - generic [ref=e425]:
+                      - link "Steven P. Dow" [ref=e426] [cursor=pointer]:
+                        - /url: https://spdow.ucsd.edu/
+                      - generic [ref=e427]: HCI
+                    - generic [ref=e428]:
+                      - text: /
+                      - link "Tzu-Mao Li" [ref=e429] [cursor=pointer]:
+                        - /url: https://cseweb.ucsd.edu/~tzli/
+                      - generic [ref=e430]: Graphics
+                - generic [ref=e431]:
+                  - generic [ref=e432]: Undergrad
+                  - generic [ref=e434]:
+                    - link "Judith E. Fan" [ref=e435] [cursor=pointer]:
+                      - /url: https://profiles.stanford.edu/judith-fan
+                    - generic [ref=e436]: Cognition & Intuitive Physics
+            - generic [ref=e437]:
+              - generic [ref=e438]:
+                - link "Bluesky url" [ref=e439] [cursor=pointer]:
+                  - /url: https://siruitao.bsky.social
+                - link "X username" [ref=e441] [cursor=pointer]:
+                  - /url: https://twitter.com/SiruiTao
+                - link "" [ref=e443] [cursor=pointer]:
+                  - /url: /al-folio/assets/pdf/Sirui_Tao_CV_Public.pdf
+                  - generic [ref=e444]: 
+                - link "Email" [ref=e445] [cursor=pointer]:
+                  - /url: mailto:dylantaosirui@gmail.com
+                - link "Github username" [ref=e447] [cursor=pointer]:
+                  - /url: https://github.com/DylanTao
+                - link "Linkedin username" [ref=e449] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/in/siruitao
+                - link "" [ref=e451] [cursor=pointer]:
+                  - /url: https://scholar.google.com/citations?user=W6vF-VcAAAAJ
+                  - generic [ref=e452]: 
+              - paragraph [ref=e453]:
+                - text: I rebuilt this site with AI coding agents.
+                - link "The Website Revamp story" [ref=e454] [cursor=pointer]:
+                  - /url: /al-folio/projects/website-revamp/
+                - text: tells how it went, and
+                - link "Build Rhythm" [ref=e455] [cursor=pointer]:
+                  - /url: /al-folio/github-activity/
+                - text: shows when the work bunched up.
+          - figure "A little La Jolla ↗ Places I keep coming back to. Artistic miniature · map © OpenStreetMap contributors" [ref=e456]:
+            - img "A compressed La Jolla miniature over an OpenStreetMap coastal atlas. Drag gently to orbit; arrow keys turn the model and Home resets the view." [ref=e457]:
+              - generic:
+                - img
+            - generic [ref=e458]:
+              - link "A little La Jolla ↗" [ref=e459] [cursor=pointer]:
+                - /url: /al-folio/projects/la-jolla/
+              - generic [ref=e460]: Places I keep coming back to.
+              - generic [ref=e461]:
+                - text: Artistic miniature · map ©
+                - link "OpenStreetMap contributors" [ref=e462] [cursor=pointer]:
+                  - /url: https://www.openstreetmap.org/copyright
+  - contentinfo [ref=e463]:
+    - 'figure "La Jolla: a coastal vignette that follows the site theme and the sun over the bay. Hills from USGS 3DEP elevation (public domain); house positions from map data © OpenStreetMap contributors (ODbL)." [ref=e464]':
+      - 'img "La Jolla in miniature, seen from the bay: UC San Diego''s Geisel Library and Design and Innovation Building, Salk''s courtyard, Brockton Villa''s porch, La Valencia''s pink tower, and the Children''s Pool seawall with resting seals, alongside a cozy seaside neighborhood, with Mount Soledad''s hillside houses behind." [ref=e465]':
+        - generic:
+          - img
+      - status [ref=e466]
+      - generic [ref=e467]: "La Jolla: a coastal vignette that follows the site theme and the sun over the bay. Hills from USGS 3DEP elevation (public domain); house positions from map data © OpenStreetMap contributors (ODbL)."
+    - generic: © 2026 Sirui Tao.
+  - complementary "duh, a little company":
+    - button "Pet duh" [ref=e468]
+    - generic: Tap to pet or wake. Drag to play. Hold still for a moment to pause. Shift-click or R resets. P pauses, H greets, T tosses, arrow keys move. Double-tap then tap empty space to move without dragging. Alt Shift D recalls duh anywhere.
+    - status: Here, quietly.
+```
