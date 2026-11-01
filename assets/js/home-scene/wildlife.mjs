@@ -15,6 +15,7 @@ import { pelicanMotion, cormorantMotion, seaSurface } from "./wildlife-seabird-m
 import { solvePerchLanding, samplePerchActing, perchSurface, perchContactWeight } from "./wildlife-perch-contact.mjs";
 import { createGroundPatch, footSole, fitFootSole, groundFootQuaternion } from "./wildlife-ground-contact.mjs";
 import { rabbitSoles, createRabbitContactFit } from "./wildlife-rabbit-contact.mjs";
+import { createRestingTailFit } from "./wildlife-resting-contact.mjs";
 import { OCEAN_WAVES, oceanWindState } from "./ocean-spectrum.mjs";
 import { coastWind } from "./wind-field.mjs";
 
@@ -110,6 +111,7 @@ export function createWildlife(parent, config, services = {}) {
   // The articulated master already accounts for its paw thickness.
   const raccoonRoute = createHabitatRoute(habitats.raccoon.path.map(([x, y, z]) => [x, y - 0.025, z]));
   const raccoonGround = createGroundPatch(habitats.raccoon.path);
+  const raccoonTailGround = createGroundPatch(habitats.raccoon.path, 1.15);
   const gulls = Array.from({ length: 4 }, (_, i) => make("WesternGull", `gull-${i}`, "Western gull", 1.55, { index: i }));
   const balcony = make("WesternGull", "balcony-gull-0", "Balcony gull", 1.1);
   const shorebirds = Array.from({ length: 3 }, (_, i) => make("Sandpiper", `sandpiper-${i}`, "Sandpiper", 1.35, { index: i }));
@@ -255,6 +257,8 @@ export function createWildlife(parent, config, services = {}) {
         soles: rabbitSoles(model, animal.bones),
         ground: rabbitGrounds[animal.seed - 1],
       });
+    if (animal.kind === "Raccoon")
+      animal.tailFit = createRestingTailFit({ model, group: animal.group, tail: animal.bones.Tail.object, ground: raccoonTailGround });
   }
   function retain(master) {
     master.scene.traverse((o) => {
@@ -646,6 +650,7 @@ export function createWildlife(parent, config, services = {}) {
       legToFoot(raccoon.group, bones[leg], bones[`Lower${leg}`], bones[gait.foot], gait.position, fore, raccoonHip(bones, leg, fore));
       plantedOrientation(raccoon.group, bones[gait.foot].object, gait);
     }
+    raccoon.tailContact = raccoon.tailFit?.update() || null;
   }
   function settleRaccoonBody() {
     // Accommodate a planted paw at a steep turn with a small body crouch,
@@ -1035,6 +1040,7 @@ export function createWildlife(parent, config, services = {}) {
     // Repeating the same capture is harmless; meshes/triangles are retained only once.
     captureGround(roots) {
       raccoonGround.capture(roots);
+      raccoonTailGround.capture(roots);
       for (const patch of rabbitGrounds) patch.capture(roots);
       if (modelsReady) update(lastTime, lastPalette, { force: true });
     },
@@ -1081,6 +1087,7 @@ export function createWildlife(parent, config, services = {}) {
         bodyAccommodation: raccoon.group.userData.bodyAccommodation || 0,
         contacts: raccoon.contacts,
         ground: raccoonGround.evidence(),
+        tailContact: raccoon.tailContact || null,
       },
       birds: gulls.map((bird) => ({
         position: bird.group.position.toArray(),
