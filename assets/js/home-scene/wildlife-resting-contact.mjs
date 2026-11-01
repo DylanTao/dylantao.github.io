@@ -1,6 +1,6 @@
 import * as THREE from "../three.module.min.js";
-import { groundFootQuaternion } from "./wildlife-ground-contact.mjs?v=contact-20261101";
-import { pinnipedBlendWeight, pinnipedFlipperActivation } from "./wildlife-motion.mjs?v=contact-20261101";
+import { groundFootQuaternion } from "./wildlife-ground-contact.mjs?v=contact-cpu-20261101";
+import { pinnipedBlendWeight, pinnipedFlipperActivation } from "./wildlife-motion.mjs?v=contact-cpu-20261101";
 
 // Only the delivered ringed-tail skin belongs to this contact problem. Its
 // trunk and planted paws already have their own independent support solution.
@@ -340,7 +340,7 @@ export function createPinnipedContactFit({ model, group, bones, ground }) {
       }
       for (const sample of candidate.feature.samples) {
         sampler.position(sample, point);
-        const hit = ground.sample(point.x, point.z, point.y + 0.5);
+        const hit = ground.sample(point.x, point.z, point.y + 0.5, (sample.groundQuery ||= {}));
         if (!hit) {
           missing++;
           continue;
@@ -676,7 +676,7 @@ export function createPinnipedContactFit({ model, group, bones, ground }) {
         const compliance = 0.0006;
         for (const p of localPoints) {
           p.world.copy(sampler.position(p.sample, p.point));
-          const hit = ground.sample(p.world.x, p.world.z, p.world.y + 0.5);
+          const hit = ground.sample(p.world.x, p.world.z, p.world.y + 0.5, (p.sample.groundQuery ||= {}));
           if (!hit) continue;
           const gap = p.world.y - hit.height;
           if (gap < lowest) {

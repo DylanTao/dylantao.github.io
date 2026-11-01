@@ -1,0 +1,749 @@
+{
+  "files": [
+    {
+      "path": "attempts/exact-query-cache/assets/js/home-scene/wildlife-ground-contact.mjs.gz",
+      "uncompressedBytes": 24094,
+      "uncompressedSha256": "c0e69fa1faad158b94e4910d28061bd918ab3ce00b67df31110f3f15bea05f0c"
+    },
+    {
+      "path": "attempts/exact-query-cache/assets/js/home-scene/wildlife-raccoon-contact.mjs.gz",
+      "uncompressedBytes": 5770,
+      "uncompressedSha256": "789270903cd83a928fca73b93f8fee5424e969e9c97e21aeb936d5d502ad72f8"
+    },
+    {
+      "path": "attempts/exact-query-cache/assets/js/home-scene/wildlife-resting-contact.mjs.gz",
+      "uncompressedBytes": 35323,
+      "uncompressedSha256": "df63c37892e865b98218704832cc51ec56f555c05610eafc8ff8dfd01ef13ea9"
+    },
+    {
+      "path": "attempts/exact-query-cache/DENSE-QUALIFICATION.json.gz",
+      "uncompressedBytes": 835,
+      "uncompressedSha256": "550dcc503ab38388a002b0874447ed779b387c88a099c0630a0bd6888011de86"
+    },
+    {
+      "path": "attempts/exact-query-cache/test/wildlife-ground-bounds.test.mjs.gz",
+      "uncompressedBytes": 13056,
+      "uncompressedSha256": "e0ef27e7d64534a05fb4ece8c1237e3668a1672a0cd10f0097802a82c3fb2d70"
+    },
+    {
+      "path": "attempts/numeric-cell-only/assets/js/home-scene/wildlife-ground-contact.mjs.gz",
+      "uncompressedBytes": 23117,
+      "uncompressedSha256": "7dcc6c2ef0a29cf25562d143274b0472f7a5925d73bf3d072a25f76b6a56456b"
+    },
+    {
+      "path": "attempts/numeric-cell-only/QUALIFICATION.json.gz",
+      "uncompressedBytes": 820,
+      "uncompressedSha256": "e1fb90eed2eda33ef5504ef1d641c6455bbbdaf1194af69ede2f144d2ae733af"
+    },
+    {
+      "path": "attempts/numeric-cell-only/test/wildlife-ground-bounds.test.mjs.gz",
+      "uncompressedBytes": 11340,
+      "uncompressedSha256": "06ae6fc698422db77b3b5f17ecacff92f1108611a8191cd208fdd531699a273b"
+    },
+    {
+      "path": "benchmark/BENCHMARK-SOURCE-BINDINGS.json.gz",
+      "uncompressedBytes": 1776,
+      "uncompressedSha256": "900d4a716912c44ceb8a0032b356d9cb607cd220d6001ced614d6dbbd7fb4b57"
+    },
+    {
+      "path": "benchmark/executed/benchmark-baseline-wildlife-raccoon-contact.mjs.gz",
+      "uncompressedBytes": 6282,
+      "uncompressedSha256": "81a10ca6e75f3abf52c42435e70e076c99a1d0354bb2fc3b2d5e3b751d987acb"
+    },
+    {
+      "path": "benchmark/executed/benchmark-baseline-wildlife-resting-contact.mjs.gz",
+      "uncompressedBytes": 35809,
+      "uncompressedSha256": "a4b05fb42a3e3bd2d8ae5766f467bab93f65ef3723947a16c607e392e39052bf"
+    },
+    {
+      "path": "benchmark/executed/benchmark-baseline-wildlife.mjs.gz",
+      "uncompressedBytes": 54940,
+      "uncompressedSha256": "59a263eeb80b232b0979436c56042f541a4985179f1752f0879ad83de76b9aef"
+    },
+    {
+      "path": "benchmark/executed/benchmark-candidate-wildlife-raccoon-contact.mjs.gz",
+      "uncompressedBytes": 6314,
+      "uncompressedSha256": "da7eb74f58f948decaca08a7e9aa6c9ca4de1e9ac5b9bedf9d620eb8d6313f61"
+    },
+    {
+      "path": "benchmark/executed/benchmark-candidate-wildlife-resting-contact.mjs.gz",
+      "uncompressedBytes": 35869,
+      "uncompressedSha256": "3600a2cb8dc12f1def9dac6b60bdffd3ec6a15eb1ffd2e09883c6c66a4ef7be1"
+    },
+    {
+      "path": "benchmark/executed/benchmark-candidate-wildlife.mjs.gz",
+      "uncompressedBytes": 54940,
+      "uncompressedSha256": "59a263eeb80b232b0979436c56042f541a4985179f1752f0879ad83de76b9aef"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_controller.mjs.gz",
+      "uncompressedBytes": 100302,
+      "uncompressedSha256": "e7ba583d2f791d72f73734b379a63f528e64ca9dec4b90ffb48271cd8ac0f5ec"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_materials.mjs.gz",
+      "uncompressedBytes": 5306,
+      "uncompressedSha256": "42b5abd197b7b27905df6e80b86a94a7e36a961a296383820157488cf11cace6"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_model-loader.mjs.gz",
+      "uncompressedBytes": 1349,
+      "uncompressedSha256": "6d463c135243f233423cf2487572fa48c231a12e462e31112d414994e163a59a"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_realism.mjs.gz",
+      "uncompressedBytes": 28288,
+      "uncompressedSha256": "62f7937a316e89349b25b1bfae71b5100f0f0cfb63c5d89c1c9049bf4ec0cee1"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_shore.mjs.gz",
+      "uncompressedBytes": 1210,
+      "uncompressedSha256": "a1444a3ccb209498f364ceebc67b1ecc6d80785d2b51e859316b748f4f7f0613"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-ground-contact.mjs.gz",
+      "uncompressedBytes": 22337,
+      "uncompressedSha256": "4ab18f488b234f54854bf2f1c57a5c59e8934f904ff31454c410fc3b111c74b2"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-motion.mjs.gz",
+      "uncompressedBytes": 24878,
+      "uncompressedSha256": "3d803fff5d7f716a030d999a5d389e147613b23894b486e6e003f65da23734a2"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-neighbor-motion.mjs.gz",
+      "uncompressedBytes": 40459,
+      "uncompressedSha256": "30918013f4dd92fc37530fda53ee828e7a9bd7cf7a79f30b28c8e7b0fa848fdd"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-perch-contact.mjs.gz",
+      "uncompressedBytes": 3573,
+      "uncompressedSha256": "8cdd5e534f51f27df72f1288dcf33ef4e615be2062fd232311dfe7ad440c732e"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-rabbit-contact.mjs.gz",
+      "uncompressedBytes": 11364,
+      "uncompressedSha256": "e43595372beaa5c66c6f936cb00b9db408eb7a1167859b5c64a3ecac9d944815"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-raccoon-contact.mjs.gz",
+      "uncompressedBytes": 5738,
+      "uncompressedSha256": "073ae76a5ae71a14a4c931599b3c8e010a8da43d307e9313044df13b8799e363"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-resting-contact.mjs.gz",
+      "uncompressedBytes": 35263,
+      "uncompressedSha256": "3d31ec9bef36103a4c598b5ca96cf56bcd27385d77ee4d4f6a38bc9ab64f3308"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-seabird-motion.mjs.gz",
+      "uncompressedBytes": 8262,
+      "uncompressedSha256": "70c683375a04892865164255f7db087f233a7e72e7d47da53c40c5fd70e7b43a"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife.mjs.gz",
+      "uncompressedBytes": 54187,
+      "uncompressedSha256": "a1d9654287ca0ab8a02637fc250e1af0bd3b96d229e621bd718c3868cdfeb54e"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_models_home_manifest.json.gz",
+      "uncompressedBytes": 232998,
+      "uncompressedSha256": "3ca1c3095b82be1fbc3e7e29922c6b58e434da53bc22231682155d5910071422"
+    },
+    {
+      "path": "benchmark/pinniped/baseline.json.gz",
+      "uncompressedBytes": 5770745,
+      "uncompressedSha256": "223e9c4c9f029eb326dcbaad298b9ee390b5a20bd06b42b7165b4cd941972eb5"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_controller.mjs.gz",
+      "uncompressedBytes": 100302,
+      "uncompressedSha256": "e7ba583d2f791d72f73734b379a63f528e64ca9dec4b90ffb48271cd8ac0f5ec"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_materials.mjs.gz",
+      "uncompressedBytes": 5306,
+      "uncompressedSha256": "42b5abd197b7b27905df6e80b86a94a7e36a961a296383820157488cf11cace6"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_model-loader.mjs.gz",
+      "uncompressedBytes": 1349,
+      "uncompressedSha256": "6d463c135243f233423cf2487572fa48c231a12e462e31112d414994e163a59a"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_realism.mjs.gz",
+      "uncompressedBytes": 28288,
+      "uncompressedSha256": "62f7937a316e89349b25b1bfae71b5100f0f0cfb63c5d89c1c9049bf4ec0cee1"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_shore.mjs.gz",
+      "uncompressedBytes": 1210,
+      "uncompressedSha256": "a1444a3ccb209498f364ceebc67b1ecc6d80785d2b51e859316b748f4f7f0613"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-ground-contact.mjs.gz",
+      "uncompressedBytes": 24094,
+      "uncompressedSha256": "c0e69fa1faad158b94e4910d28061bd918ab3ce00b67df31110f3f15bea05f0c"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-motion.mjs.gz",
+      "uncompressedBytes": 24878,
+      "uncompressedSha256": "3d803fff5d7f716a030d999a5d389e147613b23894b486e6e003f65da23734a2"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-neighbor-motion.mjs.gz",
+      "uncompressedBytes": 40459,
+      "uncompressedSha256": "30918013f4dd92fc37530fda53ee828e7a9bd7cf7a79f30b28c8e7b0fa848fdd"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-perch-contact.mjs.gz",
+      "uncompressedBytes": 3573,
+      "uncompressedSha256": "8cdd5e534f51f27df72f1288dcf33ef4e615be2062fd232311dfe7ad440c732e"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-rabbit-contact.mjs.gz",
+      "uncompressedBytes": 11364,
+      "uncompressedSha256": "e43595372beaa5c66c6f936cb00b9db408eb7a1167859b5c64a3ecac9d944815"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-raccoon-contact.mjs.gz",
+      "uncompressedBytes": 5770,
+      "uncompressedSha256": "789270903cd83a928fca73b93f8fee5424e969e9c97e21aeb936d5d502ad72f8"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-resting-contact.mjs.gz",
+      "uncompressedBytes": 35323,
+      "uncompressedSha256": "df63c37892e865b98218704832cc51ec56f555c05610eafc8ff8dfd01ef13ea9"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-seabird-motion.mjs.gz",
+      "uncompressedBytes": 8262,
+      "uncompressedSha256": "70c683375a04892865164255f7db087f233a7e72e7d47da53c40c5fd70e7b43a"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife.mjs.gz",
+      "uncompressedBytes": 54187,
+      "uncompressedSha256": "a1d9654287ca0ab8a02637fc250e1af0bd3b96d229e621bd718c3868cdfeb54e"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_models_home_manifest.json.gz",
+      "uncompressedBytes": 232998,
+      "uncompressedSha256": "3ca1c3095b82be1fbc3e7e29922c6b58e434da53bc22231682155d5910071422"
+    },
+    {
+      "path": "benchmark/pinniped/candidate.json.gz",
+      "uncompressedBytes": 5800845,
+      "uncompressedSha256": "f7f1f9eb9c0c6dad279c48cf7a1220e2b624ebd314d7dcbda00ece09ab3e3ba8"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_controller.mjs.gz",
+      "uncompressedBytes": 100302,
+      "uncompressedSha256": "e7ba583d2f791d72f73734b379a63f528e64ca9dec4b90ffb48271cd8ac0f5ec"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_materials.mjs.gz",
+      "uncompressedBytes": 5306,
+      "uncompressedSha256": "42b5abd197b7b27905df6e80b86a94a7e36a961a296383820157488cf11cace6"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_model-loader.mjs.gz",
+      "uncompressedBytes": 1349,
+      "uncompressedSha256": "6d463c135243f233423cf2487572fa48c231a12e462e31112d414994e163a59a"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_realism.mjs.gz",
+      "uncompressedBytes": 28288,
+      "uncompressedSha256": "62f7937a316e89349b25b1bfae71b5100f0f0cfb63c5d89c1c9049bf4ec0cee1"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_shore.mjs.gz",
+      "uncompressedBytes": 1210,
+      "uncompressedSha256": "a1444a3ccb209498f364ceebc67b1ecc6d80785d2b51e859316b748f4f7f0613"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-ground-contact.mjs.gz",
+      "uncompressedBytes": 22337,
+      "uncompressedSha256": "4ab18f488b234f54854bf2f1c57a5c59e8934f904ff31454c410fc3b111c74b2"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-motion.mjs.gz",
+      "uncompressedBytes": 24878,
+      "uncompressedSha256": "3d803fff5d7f716a030d999a5d389e147613b23894b486e6e003f65da23734a2"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-neighbor-motion.mjs.gz",
+      "uncompressedBytes": 40459,
+      "uncompressedSha256": "30918013f4dd92fc37530fda53ee828e7a9bd7cf7a79f30b28c8e7b0fa848fdd"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-perch-contact.mjs.gz",
+      "uncompressedBytes": 3573,
+      "uncompressedSha256": "8cdd5e534f51f27df72f1288dcf33ef4e615be2062fd232311dfe7ad440c732e"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-rabbit-contact.mjs.gz",
+      "uncompressedBytes": 11364,
+      "uncompressedSha256": "e43595372beaa5c66c6f936cb00b9db408eb7a1167859b5c64a3ecac9d944815"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-raccoon-contact.mjs.gz",
+      "uncompressedBytes": 5738,
+      "uncompressedSha256": "073ae76a5ae71a14a4c931599b3c8e010a8da43d307e9313044df13b8799e363"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-resting-contact.mjs.gz",
+      "uncompressedBytes": 35263,
+      "uncompressedSha256": "3d31ec9bef36103a4c598b5ca96cf56bcd27385d77ee4d4f6a38bc9ab64f3308"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-seabird-motion.mjs.gz",
+      "uncompressedBytes": 8262,
+      "uncompressedSha256": "70c683375a04892865164255f7db087f233a7e72e7d47da53c40c5fd70e7b43a"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife.mjs.gz",
+      "uncompressedBytes": 54187,
+      "uncompressedSha256": "a1d9654287ca0ab8a02637fc250e1af0bd3b96d229e621bd718c3868cdfeb54e"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_models_home_manifest.json.gz",
+      "uncompressedBytes": 232998,
+      "uncompressedSha256": "3ca1c3095b82be1fbc3e7e29922c6b58e434da53bc22231682155d5910071422"
+    },
+    {
+      "path": "benchmark/raccoon/baseline.json.gz",
+      "uncompressedBytes": 5911303,
+      "uncompressedSha256": "11ed4e4a6b25d0f781a7d7a52edf0be3e404c163e5d4f87572039e76f192100e"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_controller.mjs.gz",
+      "uncompressedBytes": 100302,
+      "uncompressedSha256": "e7ba583d2f791d72f73734b379a63f528e64ca9dec4b90ffb48271cd8ac0f5ec"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_materials.mjs.gz",
+      "uncompressedBytes": 5306,
+      "uncompressedSha256": "42b5abd197b7b27905df6e80b86a94a7e36a961a296383820157488cf11cace6"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_model-loader.mjs.gz",
+      "uncompressedBytes": 1349,
+      "uncompressedSha256": "6d463c135243f233423cf2487572fa48c231a12e462e31112d414994e163a59a"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_realism.mjs.gz",
+      "uncompressedBytes": 28288,
+      "uncompressedSha256": "62f7937a316e89349b25b1bfae71b5100f0f0cfb63c5d89c1c9049bf4ec0cee1"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_shore.mjs.gz",
+      "uncompressedBytes": 1210,
+      "uncompressedSha256": "a1444a3ccb209498f364ceebc67b1ecc6d80785d2b51e859316b748f4f7f0613"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-ground-contact.mjs.gz",
+      "uncompressedBytes": 24094,
+      "uncompressedSha256": "c0e69fa1faad158b94e4910d28061bd918ab3ce00b67df31110f3f15bea05f0c"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-motion.mjs.gz",
+      "uncompressedBytes": 24878,
+      "uncompressedSha256": "3d803fff5d7f716a030d999a5d389e147613b23894b486e6e003f65da23734a2"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-neighbor-motion.mjs.gz",
+      "uncompressedBytes": 40459,
+      "uncompressedSha256": "30918013f4dd92fc37530fda53ee828e7a9bd7cf7a79f30b28c8e7b0fa848fdd"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-perch-contact.mjs.gz",
+      "uncompressedBytes": 3573,
+      "uncompressedSha256": "8cdd5e534f51f27df72f1288dcf33ef4e615be2062fd232311dfe7ad440c732e"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-rabbit-contact.mjs.gz",
+      "uncompressedBytes": 11364,
+      "uncompressedSha256": "e43595372beaa5c66c6f936cb00b9db408eb7a1167859b5c64a3ecac9d944815"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-raccoon-contact.mjs.gz",
+      "uncompressedBytes": 5770,
+      "uncompressedSha256": "789270903cd83a928fca73b93f8fee5424e969e9c97e21aeb936d5d502ad72f8"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-resting-contact.mjs.gz",
+      "uncompressedBytes": 35323,
+      "uncompressedSha256": "df63c37892e865b98218704832cc51ec56f555c05610eafc8ff8dfd01ef13ea9"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-seabird-motion.mjs.gz",
+      "uncompressedBytes": 8262,
+      "uncompressedSha256": "70c683375a04892865164255f7db087f233a7e72e7d47da53c40c5fd70e7b43a"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife.mjs.gz",
+      "uncompressedBytes": 54187,
+      "uncompressedSha256": "a1d9654287ca0ab8a02637fc250e1af0bd3b96d229e621bd718c3868cdfeb54e"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_models_home_manifest.json.gz",
+      "uncompressedBytes": 232998,
+      "uncompressedSha256": "3ca1c3095b82be1fbc3e7e29922c6b58e434da53bc22231682155d5910071422"
+    },
+    {
+      "path": "benchmark/raccoon/candidate.json.gz",
+      "uncompressedBytes": 5959835,
+      "uncompressedSha256": "a9e18378cfa13a76681957e19504705ca12398e0008b3ff64937cadb73a67acd"
+    },
+    {
+      "path": "data/actual-gpu-pinniped.json.gz",
+      "uncompressedBytes": 320623,
+      "uncompressedSha256": "6fd684535b8c75408f2165b91f4cd9b86af9a434130637d15407a17d1edd7ef9"
+    },
+    {
+      "path": "data/actual-gpu-raccoon.json.gz",
+      "uncompressedBytes": 257926,
+      "uncompressedSha256": "cc4edec81a721e4ba78637d3bf975a4b0cbb56af1bde06079725b82f193582f5"
+    },
+    {
+      "path": "data/BENCHMARK-SERVED-BINDING.json.gz",
+      "uncompressedBytes": 14776,
+      "uncompressedSha256": "cfb36c00b9136e304654d40fc78a302a177fb0dd47ccafc1c06caa681aa76a3f"
+    },
+    {
+      "path": "data/DENSE-EQUALITY.json.gz",
+      "uncompressedBytes": 868,
+      "uncompressedSha256": "dd4ccb280a6853f40dbb2e1dfa1e51b407f3fc20e4745aa02075cda2adb17c28"
+    },
+    {
+      "path": "data/INITIAL-SERVED-BINDING.json.gz",
+      "uncompressedBytes": 14776,
+      "uncompressedSha256": "1731fec97acb757842a8ebf9fb5194b2f0d237852665fe3e764e1b3dd7c5e800"
+    },
+    {
+      "path": "data/NATIVE-COMPARISON-v1.json.gz",
+      "uncompressedBytes": 10180,
+      "uncompressedSha256": "e10bc8afe85027885056b0a1b360eaa02eedac9e49b2a84cfdd60d4087bd1ea7"
+    },
+    {
+      "path": "data/PINNIPED-TEMPORAL-COMPARISON.json.gz",
+      "uncompressedBytes": 343,
+      "uncompressedSha256": "dd990f34d83f2e4c77ad74e0fb4cf37c42af65f63ea2139fbaece8e8663d7177"
+    },
+    {
+      "path": "data/raccoon-dense-candidate.json.gz",
+      "uncompressedBytes": 28863016,
+      "uncompressedSha256": "d5b7cf8437d029cdf483d7d08486de4d045b0502674dcb667c614556ecca7401"
+    },
+    {
+      "path": "data/raccoon-dense-dawn-candidate.json.gz",
+      "uncompressedBytes": 6887159,
+      "uncompressedSha256": "898762bb8cfb6614c3d878b93baacf78966d315c1b28d564b323ef468b2dc669"
+    },
+    {
+      "path": "data/RACCOON-TEMPORAL-COMPARISON.json.gz",
+      "uncompressedBytes": 279,
+      "uncompressedSha256": "5a9f487f41efddcec87911792fe16080b458460df4b80a2c19fa814e00354998"
+    },
+    {
+      "path": "data/REUSED-PAYLOAD-CHECK.json.gz",
+      "uncompressedBytes": 1773,
+      "uncompressedSha256": "6ac5cd31f1406a6ac9d35d4fb4453d49062fce3c6278a20aa385544e03b956db"
+    },
+    {
+      "path": "logs/cache-pinniped-temporal.log.gz",
+      "uncompressedBytes": 2150,
+      "uncompressedSha256": "98a5d873f00fea4e9700f2fbd0b6f995eee9276ab3468c3b3a0b05c42d88bdf3"
+    },
+    {
+      "path": "logs/cache-raccoon-frame-trajectory.log.gz",
+      "uncompressedBytes": 3812,
+      "uncompressedSha256": "000aeb1524a4b18f485a9d9236ac20e943a115dbc4852a31aac0ae5c05877d84"
+    },
+    {
+      "path": "logs/cache-raccoon-temporal.log.gz",
+      "uncompressedBytes": 6652,
+      "uncompressedSha256": "2ed63aafa3bd100bbce80de3b9fe497c99fa1e39687b6c89e275da2c6cc82ec2"
+    },
+    {
+      "path": "logs/gpu-pinniped-v1.log.gz",
+      "uncompressedBytes": 134,
+      "uncompressedSha256": "6b3bdc37b0bb6c381d705d0680df86b4d045f228855e678234dbda67186ddd88"
+    },
+    {
+      "path": "logs/gpu-raccoon-v1.log.gz",
+      "uncompressedBytes": 134,
+      "uncompressedSha256": "1ff65d5ad3be1e5d7fb32128ee6074a813786e9bea27704bce1763f2cc34be1b"
+    },
+    {
+      "path": "logs/native-pinniped-baseline.log.gz",
+      "uncompressedBytes": 1878,
+      "uncompressedSha256": "e9e86e7a87cd610bb314d93ee0f66783217d71b49bf1d914bc472d74652b9284"
+    },
+    {
+      "path": "logs/native-pinniped-candidate.log.gz",
+      "uncompressedBytes": 1924,
+      "uncompressedSha256": "ebbad407513577fef5226307f3b7ed0889d6fc54e7caa4bd616a0b53ad606511"
+    },
+    {
+      "path": "logs/native-raccoon-baseline.log.gz",
+      "uncompressedBytes": 1850,
+      "uncompressedSha256": "b3d23a1613d78baae68e1cb7f2487ee38ec4a52753d09f297235cdc4b1b10f13"
+    },
+    {
+      "path": "logs/native-raccoon-candidate.log.gz",
+      "uncompressedBytes": 1858,
+      "uncompressedSha256": "29806ae83472684b76172e73b24c9678d7c8530bf69f5099407f5887af928286"
+    },
+    {
+      "path": "logs/numeric-cell-bounds-v2.log.gz",
+      "uncompressedBytes": 2470,
+      "uncompressedSha256": "e2985bf1e9f6cbd588a8909cbaa9c46658b8da2a95b7b79be314fde482259459"
+    },
+    {
+      "path": "logs/numeric-cell-focused-v1.log.gz",
+      "uncompressedBytes": 5908,
+      "uncompressedSha256": "8176b240b119338361fa2b18e7f66e935f18b4b930b3c7edb8e70d8663bcd7fc"
+    },
+    {
+      "path": "logs/public-cache-v1-chromium.log.gz",
+      "uncompressedBytes": 1726,
+      "uncompressedSha256": "f759ba54774082098ffa3988fbb4c9ad27666e2027ffa0e1ae5a8a58579325e9"
+    },
+    {
+      "path": "logs/public-cache-v1-webkit.log.gz",
+      "uncompressedBytes": 1692,
+      "uncompressedSha256": "7534a4a92a6e05fad15c1d240a772c1113ddd0fde18f92af8358a9c0e42a6e73"
+    },
+    {
+      "path": "logs/vertical-cache-focused-v1.log.gz",
+      "uncompressedBytes": 3604,
+      "uncompressedSha256": "4e47740f32426c8fb7365a70c8396e22cf425f6cba6559826bbd89a689623e10"
+    },
+    {
+      "path": "logs/vertical-cache-focused-v2.log.gz",
+      "uncompressedBytes": 6644,
+      "uncompressedSha256": "3deaa6452e0f48d2a2bdc440ea062d32c002a8dd1e7579436f348b67a0edf5b9"
+    },
+    {
+      "path": "logs/wildlife-tests-cache-final.log.gz",
+      "uncompressedBytes": 14278,
+      "uncompressedSha256": "4bfba9d9764b6b577f74bdfe188d526199a93239125fc99bbccfae60598349b2"
+    },
+    {
+      "path": "producers/gpu-pinniped.cjs.gz",
+      "uncompressedBytes": 6952,
+      "uncompressedSha256": "4ca935cce78b71553871495e9b81bbaee4dc0446f6b663b4670721f1959ebaaa"
+    },
+    {
+      "path": "producers/gpu-raccoon.cjs.gz",
+      "uncompressedBytes": 6889,
+      "uncompressedSha256": "55c53590d272bdd529bf763a08365aa7f55054d57895d4d4aae377d7d7e7c1e8"
+    },
+    {
+      "path": "producers/native-benchmark.cjs.gz",
+      "uncompressedBytes": 10321,
+      "uncompressedSha256": "b44bbd7612ab76dfc1ddf6395ca5e4348611d95b01e79354a3efd5e6209b56a5"
+    },
+    {
+      "path": "producers/pinniped-dense-proof.mjs.gz",
+      "uncompressedBytes": 7302,
+      "uncompressedSha256": "7f08515bf79b6f8e520837691d011ec52243885374b045155ef5f8245be9dbbf"
+    },
+    {
+      "path": "producers/pinniped-temporal-proof.mjs.gz",
+      "uncompressedBytes": 13960,
+      "uncompressedSha256": "1c068f808770df031d39756a113254d723ae3d143ed35dd39c768f7e422152bc"
+    },
+    {
+      "path": "producers/proxy-contact-cpu.py.gz",
+      "uncompressedBytes": 2140,
+      "uncompressedSha256": "8166c0fa49fba87d3259b767dd323d86d9542db4942d068a176a08c1702ae268"
+    },
+    {
+      "path": "producers/public-cache-v1.cjs.gz",
+      "uncompressedBytes": 6326,
+      "uncompressedSha256": "6167c24295798c7e7c5d421c416f36cdcfaadf7ae32645b68060a92304c8f250"
+    },
+    {
+      "path": "producers/raccoon-dense-proof.mjs.gz",
+      "uncompressedBytes": 8039,
+      "uncompressedSha256": "634e994970226d34c596e6b20dd5e2f866328e5c00a269c90edb6be50c2c427e"
+    },
+    {
+      "path": "producers/raccoon-frame-trajectory.mjs.gz",
+      "uncompressedBytes": 11940,
+      "uncompressedSha256": "13008246f951a48cf4e09ee4fa1d7fd06c648d90e74a9209d3702d7ccc0c63ec"
+    },
+    {
+      "path": "producers/raccoon-temporal.mjs.gz",
+      "uncompressedBytes": 11226,
+      "uncompressedSha256": "a01a62712556da1b78eec69c93a8d49c6f34b080c2dd0bc977ac542f4a6a9622"
+    },
+    {
+      "path": "producers/seal-v1.py.gz",
+      "uncompressedBytes": 4335,
+      "uncompressedSha256": "5d5bc3a8257541b49b64ae7a35b34b775f436bbf67094fd10af667e8a5fac7e1"
+    },
+    {
+      "path": "reference/BASELINE-SOURCE.json.gz",
+      "uncompressedBytes": 3975,
+      "uncompressedSha256": "56b755d28b294680c08006783c7e2311402ecd6d218f851cdfd62c3466116142"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/fft-ocean.mjs.gz",
+      "uncompressedBytes": 6836,
+      "uncompressedSha256": "6b9a706dba28e83accc0770b2afcfabde126f1827165c4b1f5aa24a3fd3d9a0d"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/model-loader.mjs.gz",
+      "uncompressedBytes": 2989,
+      "uncompressedSha256": "782e53d6c676e6efbbece8d6c09380214ac3b82c8a0766bca5d1fbf5c067960f"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/ocean-spectrum.mjs.gz",
+      "uncompressedBytes": 16789,
+      "uncompressedSha256": "6dd70789a11a5109b02e7219e0b3bc8e1e7320aa8178a8cc857259df4c6832d0"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/pool-activity.mjs.gz",
+      "uncompressedBytes": 4223,
+      "uncompressedSha256": "0933a74540d506c9c6890a767b8131a0ef04273a05c76fc40941e8e944552751"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/routine.mjs.gz",
+      "uncompressedBytes": 4498,
+      "uncompressedSha256": "a3842461e51a33110fc9beed38d5cfb409378a4ff3ea7a32c873644cfdedee4a"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/shore.mjs.gz",
+      "uncompressedBytes": 2015,
+      "uncompressedSha256": "b79050a2604f52b38c6c940cfbaca14ecd26d5c4a6ace6ab37b0890e758f19f9"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/training.mjs.gz",
+      "uncompressedBytes": 14096,
+      "uncompressedSha256": "433e045aee912bd3d0dbbba90833e3a5c03223c33e60a798f071f2d421efbd84"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-acting.mjs.gz",
+      "uncompressedBytes": 7524,
+      "uncompressedSha256": "e41c900d307308912fb70799a0d6e7841606a2fc448094ebed95b42d591c4d11"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-ground-contact.mjs.gz",
+      "uncompressedBytes": 22337,
+      "uncompressedSha256": "4ab18f488b234f54854bf2f1c57a5c59e8934f904ff31454c410fc3b111c74b2"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-motion.mjs.gz",
+      "uncompressedBytes": 24878,
+      "uncompressedSha256": "3d803fff5d7f716a030d999a5d389e147613b23894b486e6e003f65da23734a2"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-neighbor-motion.mjs.gz",
+      "uncompressedBytes": 40459,
+      "uncompressedSha256": "30918013f4dd92fc37530fda53ee828e7a9bd7cf7a79f30b28c8e7b0fa848fdd"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-perch-contact.mjs.gz",
+      "uncompressedBytes": 6738,
+      "uncompressedSha256": "628d3f68f57ecd69ff484e99d692e5977d5a188a0abccbc5028fb41f09247dfe"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-rabbit-contact.mjs.gz",
+      "uncompressedBytes": 11364,
+      "uncompressedSha256": "e43595372beaa5c66c6f936cb00b9db408eb7a1167859b5c64a3ecac9d944815"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-raccoon-contact.mjs.gz",
+      "uncompressedBytes": 5738,
+      "uncompressedSha256": "073ae76a5ae71a14a4c931599b3c8e010a8da43d307e9313044df13b8799e363"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-resting-contact.mjs.gz",
+      "uncompressedBytes": 35263,
+      "uncompressedSha256": "3d31ec9bef36103a4c598b5ca96cf56bcd27385d77ee4d4f6a38bc9ab64f3308"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-seabird-motion.mjs.gz",
+      "uncompressedBytes": 16599,
+      "uncompressedSha256": "d9d2f44f0280e24c004b8578c18baa439ef0570162538c6717e9d3e6963a4af3"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife.mjs.gz",
+      "uncompressedBytes": 54187,
+      "uncompressedSha256": "a1d9654287ca0ab8a02637fc250e1af0bd3b96d229e621bd718c3868cdfeb54e"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wind-field.mjs.gz",
+      "uncompressedBytes": 21485,
+      "uncompressedSha256": "87d75a352304b3da214a7b2e9a272dc03575f6bc31e52a42126128a97e723961"
+    },
+    {
+      "path": "reference/d366/assets/js/three.module.min.js.gz",
+      "uncompressedBytes": 674422,
+      "uncompressedSha256": "6c2bfdf07626404916f34aef8cf57992926d849526bc6eb4556da96a3ba4e78c"
+    },
+    {
+      "path": "reference/d366/assets/js/vendor/three-r164/loaders/DRACOLoader.js.gz",
+      "uncompressedBytes": 13651,
+      "uncompressedSha256": "7c54926e14cf506a53b36a051864a673dfd70bc25d01ce1d817419e0fb0c14e2"
+    },
+    {
+      "path": "reference/d366/assets/js/vendor/three-r164/loaders/GLTFLoader.js.gz",
+      "uncompressedBytes": 109805,
+      "uncompressedSha256": "45c7282acb680a1799920810f1da8a2f2bd8ac09827c66600f7315eb94a6c46e"
+    },
+    {
+      "path": "reference/d366/assets/js/vendor/three-r164/utils/BufferGeometryUtils.js.gz",
+      "uncompressedBytes": 31578,
+      "uncompressedSha256": "cb90892109217645ee8524c3c155c1a1f5b52ee33cac7c79579b83d3c1d7150e"
+    },
+    {
+      "path": "served/assets/js/home-scene/wildlife-ground-contact.mjs.gz",
+      "uncompressedBytes": 24094,
+      "uncompressedSha256": "c0e69fa1faad158b94e4910d28061bd918ab3ce00b67df31110f3f15bea05f0c"
+    },
+    {
+      "path": "served/assets/js/home-scene/wildlife-raccoon-contact.mjs.gz",
+      "uncompressedBytes": 5770,
+      "uncompressedSha256": "789270903cd83a928fca73b93f8fee5424e969e9c97e21aeb936d5d502ad72f8"
+    },
+    {
+      "path": "served/assets/js/home-scene/wildlife-resting-contact.mjs.gz",
+      "uncompressedBytes": 35323,
+      "uncompressedSha256": "df63c37892e865b98218704832cc51ec56f555c05610eafc8ff8dfd01ef13ea9"
+    },
+    {
+      "path": "source/assets/js/home-scene/wildlife-ground-contact.mjs.gz",
+      "uncompressedBytes": 24094,
+      "uncompressedSha256": "c0e69fa1faad158b94e4910d28061bd918ab3ce00b67df31110f3f15bea05f0c"
+    },
+    {
+      "path": "source/assets/js/home-scene/wildlife-raccoon-contact.mjs.gz",
+      "uncompressedBytes": 5770,
+      "uncompressedSha256": "789270903cd83a928fca73b93f8fee5424e969e9c97e21aeb936d5d502ad72f8"
+    },
+    {
+      "path": "source/assets/js/home-scene/wildlife-resting-contact.mjs.gz",
+      "uncompressedBytes": 35323,
+      "uncompressedSha256": "df63c37892e865b98218704832cc51ec56f555c05610eafc8ff8dfd01ef13ea9"
+    },
+    {
+      "path": "source/test/wildlife-ground-bounds.test.mjs.gz",
+      "uncompressedBytes": 13056,
+      "uncompressedSha256": "e0ef27e7d64534a05fb4ece8c1237e3668a1672a0cd10f0097802a82c3fb2d70"
+    },
+    {
+      "path": "views/chromium-frames.json.gz",
+      "uncompressedBytes": 1500776,
+      "uncompressedSha256": "4d226a7d4a24bd36998a5f348e4c5319fc1f8ddd5cf498b00748fa7798806a13"
+    },
+    {
+      "path": "views/webkit-frames.json.gz",
+      "uncompressedBytes": 1481529,
+      "uncompressedSha256": "c1eea564681280b1e0db5a89e08e1ca4de75317528a309c8fb3136620f3ba49d"
+    }
+  ]
+}

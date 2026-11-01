@@ -12,6 +12,9 @@ class RestingReviewCustody(unittest.TestCase):
     def test_committed_packets_keep_every_recorded_payload(self):
         packets = {
             "resting-wildlife-ci-2026-11-01": "MANIFEST.json",
+            "contact-cpu-2026-11-01": "MANIFEST.json",
+            "contact-cpu-integration-2026-11-01": "MANIFEST.json",
+            "rooms-menu-stacking-2026-11-01": "MANIFEST.json",
             "pinniped-contact-2026-11-01": "MANIFEST.json",
             "raccoon-body-contact-2026-11-01": "MANIFEST.json",
             "resting-wildlife-integration-2026-11-01": "MANIFEST.json",

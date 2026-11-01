@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "capture": "pinniped-preservation-candidate.json",
+      "retainedPacketPath": "artwork/coastal-home/reviews/raccoon-body-contact-2026-11-01/data/pinniped-preservation-candidate.json.gz",
+      "bytes": 21500867,
+      "sha256": "c649bcf5198dccf69904fc67cce1f29f3be922eb4ed1990ec9ee0de2c681ae9f",
+      "retainedCompressedSha256": "b413ef73847694032bd0cd615c9accf36d025ae82ab3299dc3b5ca8c272fa573",
+      "byteEqual": true
+    },
+    {
+      "capture": "pinniped-temporal-transfer-v2.json",
+      "retainedPacketPath": "artwork/coastal-home/reviews/pinniped-contact-2026-11-01/data/pinniped-temporal-transfer-v2.json.gz",
+      "bytes": 22765000,
+      "sha256": "587bd748728341b001b3e33cc4e774eb8dcec9c5135b914de609b8aced252d72",
+      "retainedCompressedSha256": "240e82727299ee54b3bb7535982cc28001d96867e08b43d2f9e128efcb604b03",
+      "byteEqual": true
+    },
+    {
+      "capture": "raccoon-temporal-candidate.json",
+      "retainedPacketPath": "artwork/coastal-home/reviews/raccoon-body-contact-2026-11-01/data/raccoon-temporal-candidate.json.gz",
+      "bytes": 398765,
+      "sha256": "b9e5d19ec7a29c14dc009bf7ca1b37ccbc1cf69d99ab430d8c3ee85b8e24d49b",
+      "retainedCompressedSha256": "693ab1e20382968cbbe5dd4cf17b607f1ae2c2513209cc9db644e6a12349d123",
+      "byteEqual": true
+    },
+    {
+      "capture": "raccoon-frame-trajectory-candidate.json",
+      "retainedPacketPath": "artwork/coastal-home/reviews/raccoon-body-contact-2026-11-01/data/raccoon-frame-trajectory-candidate.json.gz",
+      "bytes": 1540253,
+      "sha256": "f5c63161ed7c582dc0b6762872c1187f84c6a359e95b95b6e5b27a47050d4e34",
+      "retainedCompressedSha256": "4ecf8c79460b467da10774fb943d335d3e72991a1564960ee3c953a2fc1aac3a",
+      "byteEqual": true
+    }
+  ]
+}

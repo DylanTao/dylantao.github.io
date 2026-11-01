@@ -17,6 +17,96 @@ function patch(roots, margin = 3) {
   return ground;
 }
 
+test("point queries keep border-cell support without aliasing an outside row or column", () => {
+  const ground = patch([plane(0.2, -0.15)], 0.4);
+  // The original captured coarse cells extend beyond the exact patch bounds.
+  // Preserve that support, while a neighboring cell outside the captured grid
+  // must not wrap onto an occupied row or column.
+  for (const x of [-0.69, -0.35, -1e-10, 0, 0.35, 0.69])
+    for (const z of [-0.69, -0.35, -1e-10, 0, 0.35, 0.69]) {
+      const hit = ground.sample(x, z);
+      assert.ok(hit, `${x}/${z}`);
+      assert.ok(Math.abs(hit.height - (0.2 * x - 0.15 * z)) < 2e-8);
+    }
+  for (const [x, z] of [
+    [-0.71, 0],
+    [0.71, 0],
+    [0, -0.71],
+    [0, 0.71],
+    [-0.1, -1.05],
+    [0.1, 1.05],
+    [NaN, 0],
+    [0, Infinity],
+  ])
+    assert.equal(ground.sample(x, z), null, `${x}/${z}`);
+});
+
+test("point indexing handles negative coordinates and unsafe grid dimensions", () => {
+  const mesh = plane(0.2, -0.15);
+  mesh.position.set(-7, 0.3, -10.5);
+  const negative = createGroundPatch([[-7, 0.3, -10.5]], 0.4);
+  negative.capture([mesh]);
+  for (const x of [-0.69, -0.35, 0, 0.35, 0.69])
+    for (const z of [-0.69, -0.35, 0, 0.35, 0.69]) {
+      const hit = negative.sample(x - 7, z - 10.5);
+      assert.ok(hit);
+      assert.ok(Math.abs(hit.height - (0.2 * x - 0.15 * z + 0.3)) < 2e-8);
+    }
+  const roots = [plane(-0.18, 0.12)],
+    ordinary = patch(roots),
+    wide = createGroundPatch([
+      [-1e9, 0, -1e9],
+      [1e9, 0, 1e9],
+    ]);
+  wide.capture(roots);
+  for (const x of [-1, -0.35, 0, 0.35, 1]) for (const z of [-1, -0.35, 0, 0.35, 1]) assert.deepEqual(wide.sample(x, z), ordinary.sample(x, z));
+  assert.equal(wide.sample(3, 3), null);
+});
+
+test("an exact point query cache respects surface thresholds, coordinates and live visibility", () => {
+  const low = plane(0.2, -0.15),
+    high = plane(0.2, -0.15),
+    ground = patch([low]),
+    cache = {};
+  high.position.y = 0.7;
+  // Recapture the translated surface in a fresh patch, rather than changing
+  // geometry behind the static captured representation.
+  const layers = patch([low, high]);
+  const x = 0.1,
+    z = 0.2,
+    upper = layers.sample(x, z).height;
+  for (const maximum of [0.5, 0.6, upper - 1e-12, upper, upper + 1e-12, Infinity, 0.5, -1])
+    assert.deepEqual(layers.sample(x, z, maximum, cache), layers.sample(x, z, maximum));
+  for (const [px, pz] of [
+    [x + 1e-12, z],
+    [x, z + 1e-12],
+    [0, z],
+    [-0, z],
+    [3, 3],
+    [x, z],
+  ])
+    assert.deepEqual(layers.sample(px, pz, Infinity, cache), layers.sample(px, pz));
+  low.visible = false;
+  assert.deepEqual(layers.sample(x, z, 0.5, cache), layers.sample(x, z, 0.5));
+  assert.equal(layers.sample(x, z, 0.5, cache).visible, false);
+  assert.deepEqual(ground.sample(x, z, 0.5, cache), ground.sample(x, z, 0.5));
+});
+
+test("new captures and distinct patches invalidate a reused point's geometric result", () => {
+  const ground = patch([plane()]),
+    cache = {};
+  assert.equal(ground.sample(0, 0, 0.5, cache).height, 0);
+  const raised = plane();
+  raised.position.y = 0.2;
+  ground.capture([raised]);
+  assert.equal(ground.sample(0, 0, 0.5, cache).height, 0.2);
+  const independent = patch([plane()]);
+  assert.equal(independent.sample(0, 0, 0.5, cache).height, 0);
+  assert.equal(independent.sample(3, 3, 0.5, cache), null);
+  independent.capture([]);
+  assert.equal(independent.sample(0, 0, 0.5, cache).height, 0);
+});
+
 test("a bounds query conservatively encloses every supported height on crossed grades", () => {
   for (const [gx, gz] of [
     [0, 0],

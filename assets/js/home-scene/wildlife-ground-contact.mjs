@@ -34,6 +34,18 @@ export function createGroundPatch(path, margin = 0.65, cellSize = CELL) {
     minZ: Math.min(...path.map((p) => p[2])) - margin,
     maxZ: Math.max(...path.map((p) => p[2])) + margin,
   };
+  const firstX = Math.floor(bounds.minX / cellSize),
+    lastX = Math.floor(bounds.maxX / cellSize),
+    firstZ = Math.floor(bounds.minZ / cellSize),
+    lastZ = Math.floor(bounds.maxZ / cellSize),
+    rows = lastZ - firstZ + 1,
+    numericCells = [firstX, lastX, firstZ, lastZ].every(Number.isSafeInteger) && Number.isSafeInteger((lastX - firstX + 1) * rows);
+  // Every captured cell lies in this fixed rectangle. A bounded linear key
+  // preserves those cells and their triangle order without allocating strings
+  // in every skin query. Keep the original keys for an unsafe grid range.
+  const cellKey = numericCells
+    ? (x, z) => (x < firstX || x > lastX || z < firstZ || z > lastZ ? null : (x - firstX) * rows + (z - firstZ))
+    : (x, z) => `${x},${z}`;
   const triangles = [],
     cells = new Map(),
     sources = new Set(),
@@ -47,12 +59,13 @@ export function createGroundPatch(path, margin = 0.65, cellSize = CELL) {
     polygonB = new Float64Array(20);
   let milliseconds = 0;
   let boundariesDirty = true;
+  let sampleRevision = {};
   const a = new THREE.Vector3(),
     b = a.clone(),
     c = a.clone(),
     normal = a.clone(),
     edge = a.clone();
-  const cell = (x, z) => `${Math.floor(x / cellSize)},${Math.floor(z / cellSize)}`;
+  const cell = (x, z) => cellKey(Math.floor(x / cellSize), Math.floor(z / cellSize));
   function registerEdge(ax, az, bx, bz) {
     const a = `${ax},${az}`,
       b = `${bx},${bz}`;
@@ -98,6 +111,7 @@ export function createGroundPatch(path, margin = 0.65, cellSize = CELL) {
   }
   function capture(roots) {
     const start = clock();
+    sampleRevision = {};
     for (const root of roots) {
       root.updateWorldMatrix(true, true);
       root.traverse((mesh) => {
@@ -144,7 +158,7 @@ export function createGroundPatch(path, margin = 0.65, cellSize = CELL) {
           sources.add(mesh.name);
           for (let x = Math.floor(minX / cellSize); x <= Math.floor(maxX / cellSize); x++)
             for (let z = Math.floor(minZ / cellSize); z <= Math.floor(maxZ / cellSize); z++) {
-              const key = `${x},${z}`;
+              const key = cellKey(x, z);
               if (!cells.has(key)) cells.set(key, []);
               cells.get(key).push(triangle);
             }
@@ -157,17 +171,42 @@ export function createGroundPatch(path, margin = 0.65, cellSize = CELL) {
     surfaceRegions.clear();
     milliseconds += clock() - start;
   }
-  function sample(x, z, maximum = Infinity) {
+  function sample(x, z, maximum = Infinity, cache = null) {
+    if (
+      cache?.revision === sampleRevision &&
+      Object.is(cache.x, x) &&
+      Object.is(cache.z, z) &&
+      maximum >= cache.height &&
+      (maximum < cache.ceiling || (maximum === Infinity && cache.ceiling === Infinity))
+    )
+      return supportResult(cache.best, cache.height);
     let best = null,
-      bestHeight = -Infinity;
+      bestHeight = -Infinity,
+      ceiling = Infinity;
     for (const t of cells.get(cell(x, z)) || []) {
       const u = (t.aX * (x - t.cx) + t.aZ * (z - t.cz)) / t.determinant,
         v = (t.bX * (x - t.cx) + t.bZ * (z - t.cz)) / t.determinant;
       if (u < -1e-7 || v < -1e-7 || u + v > 1 + 1e-7) continue;
       const height = u * t.ay + v * t.by + (1 - u - v) * t.cy;
-      if (height > maximum || (best && height <= bestHeight)) continue;
+      if (height > maximum) {
+        if (cache && height < ceiling) ceiling = height;
+        continue;
+      }
+      if (best && height <= bestHeight) continue;
       best = t;
       bestHeight = height;
+    }
+    // Reuse only the exact same projected point in this captured patch. The
+    // interval ends at the first excluded surface: raising the query through
+    // that height, changing coordinates, or recapturing takes the full query.
+    // Visibility stays live even when the geometric result can be reused.
+    if (cache) {
+      cache.revision = sampleRevision;
+      cache.x = x;
+      cache.z = z;
+      cache.height = bestHeight;
+      cache.ceiling = ceiling;
+      cache.best = best;
     }
     return supportResult(best, bestHeight);
   }
@@ -197,7 +236,7 @@ export function createGroundPatch(path, margin = 0.65, cellSize = CELL) {
       let height = -Infinity;
       for (let x = x0; x <= x1; x++)
         for (let z = z0; z <= z1; z++) {
-          const key = `${x},${z}`,
+          const key = cellKey(x, z),
             list = cells.get(key) || [];
           let ceiling = cellCeilings.get(key);
           if (ceiling === undefined) {
@@ -215,7 +254,7 @@ export function createGroundPatch(path, margin = 0.65, cellSize = CELL) {
             candidates.add(t);
             owners.add(t.mesh);
           }
-          for (const e of boundaryCells.get(key) || []) boundaries.add(e);
+          for (const e of boundaryCells.get(`${x},${z}`) || []) boundaries.add(e);
         }
       const planes = new Map();
       for (const t of candidates) {
@@ -335,7 +374,7 @@ export function createGroundPatch(path, margin = 0.65, cellSize = CELL) {
       let terrain = surfaceRegions.get(key);
       if (!terrain) {
         const set = new Set();
-        for (let x = x0; x <= x1; x++) for (let z = z0; z <= z1; z++) for (const t of cells.get(`${x},${z}`) || []) set.add(t);
+        for (let x = x0; x <= x1; x++) for (let z = z0; z <= z1; z++) for (const t of cells.get(cellKey(x, z)) || []) set.add(t);
         terrain = [...set];
         surfaceRegions.set(key, terrain);
       }

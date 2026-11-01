@@ -2,7 +2,7 @@ import * as THREE from "../three.module.min.js";
 import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.js";
 import { surfaceNoise } from "./realism.mjs";
 import { createSeaReflection } from "./reflection.mjs";
-import { createWildlife } from "./wildlife.mjs?v=pinniped-20261101";
+import { createWildlife } from "./wildlife.mjs?v=contact-cpu-20261101";
 import { beachPoint } from "./shore.mjs";
 import {
   OCEAN_WAVES,

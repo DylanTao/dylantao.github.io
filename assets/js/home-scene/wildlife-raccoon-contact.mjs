@@ -1,5 +1,5 @@
 import * as THREE from "../three.module.min.js";
-import { createSkinContactSampler } from "./wildlife-resting-contact.mjs?v=contact-20261101";
+import { createSkinContactSampler } from "./wildlife-resting-contact.mjs?v=contact-cpu-20261101";
 
 // A tucked forearm folds out beside the curled chest before settling upward.
 // Interpolate within the hip/foot circle, so no segment length or paw changes.
@@ -33,7 +33,7 @@ export function createRaccoonBodyContact({ model, group, body, ground }) {
     },
     points = sampler.points
       .filter((p) => p.channels.every((c) => c.weight < 1e-4 || belongs(p.mesh.skeleton.bones[c.index])))
-      .map((sample) => ({ sample, world: new THREE.Vector3() })),
+      .map((sample) => ({ sample, world: new THREE.Vector3(), groundQuery: {} })),
     lookup = new Map(),
     faces = [];
   for (const p of points) {
@@ -62,7 +62,7 @@ export function createRaccoonBodyContact({ model, group, body, ground }) {
       visible = true;
     for (const p of points) {
       sampler.position(p.sample, p.world);
-      const hit = ground.sample(p.world.x, p.world.z, p.world.y + 0.5);
+      const hit = ground.sample(p.world.x, p.world.z, p.world.y + 0.5, p.groundQuery);
       if (!hit) {
         missing++;
         continue;

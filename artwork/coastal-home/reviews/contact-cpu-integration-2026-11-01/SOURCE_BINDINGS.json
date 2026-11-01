@@ -1,0 +1,132 @@
+{
+  "at": "2026-11-01T14:22:17.878335+00:00",
+  "base": "12e92fbde90facf1b532aec48ac4e40ffbd35a40",
+  "workerSources": {
+    "contact": "8ef8696236c0233504f626976783b6dabbb0433d",
+    "contactEvidence": "1df8c5e79ce67af97157e6579b4c30147a8adc19",
+    "rooms": "2a6c655d710c2e2d9e0eb154f3459a1f8cbe4ca3",
+    "roomsEvidence": "007721e19c60397b48b7e6401c6153c377ca4be9"
+  },
+  "nativeSha256": "de217984242f77903145dd6d16f277923b57fd5e3eb2469c906c2507b494ad87",
+  "officialCache": {
+    "url": "static-light-field.json",
+    "signature": "f4d91be561003835bcf5c7c0eb819d2511131728d12cfe4bc451d86a856d38c5",
+    "sha256": "09a8e64bb6f57d9ea272a6d2b3eedade76514ae2356f5fc6d690cc7203519b50"
+  },
+  "tests": {
+    "node": {
+      "tests": 961,
+      "pass": 954,
+      "skip": 7,
+      "fail": 0
+    },
+    "nativeIntegratedCases": 8,
+    "modernWebKitIntegratedCases": 2,
+    "registryCasesPerWidth": 146,
+    "trackedFormatFiles": 1815
+  },
+  "sources": [
+    {
+      "path": "assets/js/home.js",
+      "workingBytes": 79195,
+      "workingSha256": "8e72b854ed28c9d69f6727e34a77dba8055746b37b7dd93497161c406b8e3a3e",
+      "committedLFSha256": "8e72b854ed28c9d69f6727e34a77dba8055746b37b7dd93497161c406b8e3a3e",
+      "compiledBytes": 36725,
+      "compiledSha256": "803a53725e8d8028b9567ee4282c1591271c96a94299035ecbf7113744dc1652"
+    },
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "workingBytes": 208761,
+      "workingSha256": "93f3aecbc10ea6cd6d3687b15a58053d5b439c17929b5c56a61e84eccbfc3005",
+      "committedLFSha256": "93f3aecbc10ea6cd6d3687b15a58053d5b439c17929b5c56a61e84eccbfc3005",
+      "compiledBytes": 100453,
+      "compiledSha256": "ce9f2c8e4942f56200ca6976e37533d8552443e007780975511cd2fc66a7c37c"
+    },
+    {
+      "path": "assets/js/home-scene/environment.mjs",
+      "workingBytes": 46369,
+      "workingSha256": "9370ac1bafa752840d345831c777bc85c5ec1a5700eb39d26effe4c0c35fd8f1",
+      "committedLFSha256": "9370ac1bafa752840d345831c777bc85c5ec1a5700eb39d26effe4c0c35fd8f1",
+      "compiledBytes": 28853,
+      "compiledSha256": "0f5d5b6716272612f27f5f0b7ca2691f7570170960353eae1d36e62fbca4b846"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife.mjs",
+      "workingBytes": 54313,
+      "workingSha256": "63923c106707d561bb6a77935c019051a71cdd0d399fe751ac769762ce82c936",
+      "committedLFSha256": "63923c106707d561bb6a77935c019051a71cdd0d399fe751ac769762ce82c936",
+      "compiledBytes": 28177,
+      "compiledSha256": "098ba32954b7f542230bb2bc35442e64d48dad99368720f4b0061ab5c5c9095b"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-ground-contact.mjs",
+      "workingBytes": 24681,
+      "workingSha256": "6dcb4cccd05501283de8e9d3f78a08f26f0184a2a0bb341b6d4f6c0dbe6ee989",
+      "committedLFSha256": "c0e69fa1faad158b94e4910d28061bd918ab3ce00b67df31110f3f15bea05f0c",
+      "compiledBytes": 11352,
+      "compiledSha256": "34ca0187b04d716a21f8ab40476f93a02af047fd930b4294e173ee893f8c783a"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-resting-contact.mjs",
+      "workingBytes": 35369,
+      "workingSha256": "17e8e2327b55eccfeb2ceea6885342c10dc6a4882e4d000c32ba9a05aed95279",
+      "committedLFSha256": "17e8e2327b55eccfeb2ceea6885342c10dc6a4882e4d000c32ba9a05aed95279",
+      "compiledBytes": 17734,
+      "compiledSha256": "2c4e44fad4b5cabb08e49b0e8d46cda7d2c442a377c32bb58e56bd8ef4328049"
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-raccoon-contact.mjs",
+      "workingBytes": 5793,
+      "workingSha256": "aa358b4874579fea361676b9cfaa3836b4edb946a2e07b1cf3448b9f7df30517",
+      "committedLFSha256": "aa358b4874579fea361676b9cfaa3836b4edb946a2e07b1cf3448b9f7df30517",
+      "compiledBytes": 3061,
+      "compiledSha256": "2220e7cbc0dbeeeddf86b3641ce45d7bb3c6d4d48d27da8e0dc0de4f6cb01b94"
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "workingBytes": 331635,
+      "workingSha256": "e096faea72219abf5d4fff2c24b6b608eeea458157541e991ddd1f098a7e4f62",
+      "committedLFSha256": "e096faea72219abf5d4fff2c24b6b608eeea458157541e991ddd1f098a7e4f62",
+      "compiledBytes": 339536,
+      "compiledSha256": "4241b8c4d4141f700e0885274dfdb5700b2280182ffc769360b23285d82a5561"
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "workingBytes": 711640,
+      "workingSha256": "09a8e64bb6f57d9ea272a6d2b3eedade76514ae2356f5fc6d690cc7203519b50",
+      "committedLFSha256": "09a8e64bb6f57d9ea272a6d2b3eedade76514ae2356f5fc6d690cc7203519b50",
+      "compiledBytes": 711640,
+      "compiledSha256": "09a8e64bb6f57d9ea272a6d2b3eedade76514ae2356f5fc6d690cc7203519b50"
+    },
+    {
+      "path": "_sass/_home.scss",
+      "workingBytes": 91493,
+      "workingSha256": "b7a9200c623596f6a47f5dab82776483ac36622c88e1f25995221b9417aeaca3",
+      "committedLFSha256": "a4543d6556f9dde0eb0f8487e5cfc621b872e69dcb92ee2ba4325d1405ccde74"
+    },
+    {
+      "path": "test/visual/desk-scene.spec.js",
+      "workingBytes": 244460,
+      "workingSha256": "6c7ab1c7d1aadf875e886de9501c9d24bd4e40e466246146c34a875578c73413",
+      "committedLFSha256": "8041a1a042a4a2a74aa237cfc45744bfa6d6ebe10dccc0569536d6038fa395a3"
+    },
+    {
+      "path": "test/visual/scene-groups.json",
+      "workingBytes": 24272,
+      "workingSha256": "a4572ff5c4ee9445f25588d21f2727756dbdbd80da4cbc3914e27a92bd573ae3",
+      "committedLFSha256": "87d9aaad9fd9b530d3167c788341fdeda5eac77e8c93d21cd0504ae37969d603"
+    },
+    {
+      "path": "test/wildlife-ground-bounds.test.mjs",
+      "workingBytes": 13343,
+      "workingSha256": "e6d1645cfa07ae83b45d9696d45c02eb95461f26526b0d0996728f5543c00a18",
+      "committedLFSha256": "e0ef27e7d64534a05fb4ece8c1237e3668a1672a0cd10f0097802a82c3fb2d70"
+    }
+  ],
+  "qualificationLimits": [
+    "The pre-rebake Node run failed its source signature gate and is retained as failed.",
+    "The first WebKit invocation mixed old CLI and new test modules; it never ran tests. The explicit modern CLI runs both cases successfully.",
+    "Contact timing is one paired native PC comparison, not phone or whole-frame throughput evidence.",
+    "Final mountain/arrival native edits are separate and unadmitted."
+  ]
+}

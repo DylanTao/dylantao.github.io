@@ -1,0 +1,42 @@
+{
+  "source": "8ef8696236c0233504f626976783b6dabbb0433d",
+  "baseline": "d36672bda0b3ee557989853f51665b1893da398a",
+  "files": [
+    {
+      "path": "assets/js/home-scene/wildlife-ground-contact.mjs",
+      "sourceCommit": "8ef8696236c0233504f626976783b6dabbb0433d",
+      "gitBlob": "05ae5525e1fc33a5ffb39dfae9da2702db2b4d12",
+      "gitSha256": "c0e69fa1faad158b94e4910d28061bd918ab3ce00b67df31110f3f15bea05f0c",
+      "measuredBytes": 24094,
+      "measuredSha256": "c0e69fa1faad158b94e4910d28061bd918ab3ce00b67df31110f3f15bea05f0c",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-raccoon-contact.mjs",
+      "sourceCommit": "8ef8696236c0233504f626976783b6dabbb0433d",
+      "gitBlob": "3522ccb81f53a7baaf606f02c7e5ece2f7dab532",
+      "gitSha256": "789270903cd83a928fca73b93f8fee5424e969e9c97e21aeb936d5d502ad72f8",
+      "measuredBytes": 5770,
+      "measuredSha256": "789270903cd83a928fca73b93f8fee5424e969e9c97e21aeb936d5d502ad72f8",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "path": "assets/js/home-scene/wildlife-resting-contact.mjs",
+      "sourceCommit": "8ef8696236c0233504f626976783b6dabbb0433d",
+      "gitBlob": "0b2008ad5d10dbcae90ddf3010aa09716b017fdd",
+      "gitSha256": "df63c37892e865b98218704832cc51ec56f555c05610eafc8ff8dfd01ef13ea9",
+      "measuredBytes": 35323,
+      "measuredSha256": "df63c37892e865b98218704832cc51ec56f555c05610eafc8ff8dfd01ef13ea9",
+      "lineEndingNormalizedEqual": true
+    },
+    {
+      "path": "test/wildlife-ground-bounds.test.mjs",
+      "sourceCommit": "8ef8696236c0233504f626976783b6dabbb0433d",
+      "gitBlob": "a43c785b92ab2e04daff57962954ecc098e8513f",
+      "gitSha256": "e0ef27e7d64534a05fb4ece8c1237e3668a1672a0cd10f0097802a82c3fb2d70",
+      "measuredBytes": 13056,
+      "measuredSha256": "e0ef27e7d64534a05fb4ece8c1237e3668a1672a0cd10f0097802a82c3fb2d70",
+      "lineEndingNormalizedEqual": true
+    }
+  ]
+}

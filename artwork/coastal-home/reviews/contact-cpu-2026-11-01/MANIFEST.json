@@ -1,0 +1,857 @@
+{
+  "schema": 1,
+  "source": "8ef8696236c0233504f626976783b6dabbb0433d",
+  "scope": "Exact coastal support-query indexing/reuse. Modest six-pinniped CPU gain; raccoon fit and frame-cadence no-win retained.",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 63,
+      "sha256": "1ee0e0e3b48e28e8b0f2ddb7ee960b16a8c4564987d2cb8bbe23014e30888769"
+    },
+    {
+      "path": "attempts/exact-query-cache/assets/js/home-scene/wildlife-ground-contact.mjs.gz",
+      "bytes": 7354,
+      "sha256": "188b8469e0e32b2615b80b582cdc9330cccd5cc586718006b4299615f4b98cd5"
+    },
+    {
+      "path": "attempts/exact-query-cache/assets/js/home-scene/wildlife-raccoon-contact.mjs.gz",
+      "bytes": 2194,
+      "sha256": "670a2063d713630a58f4b3548992cfea182673c77d9953dc90f2bdb8382ecb0f"
+    },
+    {
+      "path": "attempts/exact-query-cache/assets/js/home-scene/wildlife-resting-contact.mjs.gz",
+      "bytes": 9455,
+      "sha256": "94cf3d3c7faaed64e786db7c95d6ea21da5a7d967f8fc2911c056b269ade6ed3"
+    },
+    {
+      "path": "attempts/exact-query-cache/DENSE-QUALIFICATION.json.gz",
+      "bytes": 383,
+      "sha256": "b9495f47403669e1c77a74b57a8727486e7650f3be460c64526b4b137b7f954e"
+    },
+    {
+      "path": "attempts/exact-query-cache/test/wildlife-ground-bounds.test.mjs.gz",
+      "bytes": 3970,
+      "sha256": "78a19957b53f2b09ad9b4714c0819fe4f45d4e7962bb321bb4b67fabf2520d45"
+    },
+    {
+      "path": "attempts/numeric-cell-only/assets/js/home-scene/wildlife-ground-contact.mjs.gz",
+      "bytes": 7034,
+      "sha256": "2bdd467391548f212a9543c96ecf54a2efd400cd17ff1e9801dcf610fdfbb239"
+    },
+    {
+      "path": "attempts/numeric-cell-only/QUALIFICATION.json.gz",
+      "bytes": 369,
+      "sha256": "5359eb02bfb337349acfee8bb9e8d4fae2fd585128cffcf1c59131be3855b657"
+    },
+    {
+      "path": "attempts/numeric-cell-only/test/wildlife-ground-bounds.test.mjs.gz",
+      "bytes": 3555,
+      "sha256": "9e8faabbd57bdd035f0337aacf082c75307ab64274ee663994e3e8343ee9d526"
+    },
+    {
+      "path": "benchmark/BENCHMARK-SOURCE-BINDINGS.json.gz",
+      "bytes": 684,
+      "sha256": "ba2f2e4e0481fbf890f3bfe39a0fe022b2622c9924c46cbbd18a40464276d078"
+    },
+    {
+      "path": "benchmark/executed/benchmark-baseline-wildlife-raccoon-contact.mjs.gz",
+      "bytes": 2412,
+      "sha256": "c4f6c95a75ef1ac84863108c89628b26337c07de863a0b960584eefb9e7946a9"
+    },
+    {
+      "path": "benchmark/executed/benchmark-baseline-wildlife-resting-contact.mjs.gz",
+      "bytes": 9657,
+      "sha256": "c5d1db490e569635167d8e1a45ea770651a6b97818c198226184bd3c75882ce2"
+    },
+    {
+      "path": "benchmark/executed/benchmark-baseline-wildlife.mjs.gz",
+      "bytes": 15559,
+      "sha256": "7e9130d641ac4b1f8fc89eb07a1a7d0130af38840d4955e33ac2ac0cf1c913a2"
+    },
+    {
+      "path": "benchmark/executed/benchmark-candidate-wildlife-raccoon-contact.mjs.gz",
+      "bytes": 2423,
+      "sha256": "c82d47d297c7c588d6d8d41b13c1148c57de3ec7aa6574faa11a05e602991e53"
+    },
+    {
+      "path": "benchmark/executed/benchmark-candidate-wildlife-resting-contact.mjs.gz",
+      "bytes": 9680,
+      "sha256": "058924219ad46934ab475958e0d9476b1ecd2e30653a52e26c0eb94a867f368b"
+    },
+    {
+      "path": "benchmark/executed/benchmark-candidate-wildlife.mjs.gz",
+      "bytes": 15559,
+      "sha256": "7e9130d641ac4b1f8fc89eb07a1a7d0130af38840d4955e33ac2ac0cf1c913a2"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_controller.mjs.gz",
+      "bytes": 35598,
+      "sha256": "84f0bdc41fabfb2e6a47803eaf9fa2edf3a974be891d7576c37335d35757063d"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_materials.mjs.gz",
+      "bytes": 2296,
+      "sha256": "0f641f144bd16eaff388598bd768a9ea1b6d99102d34933fd31a5e9ed690934e"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_model-loader.mjs.gz",
+      "bytes": 701,
+      "sha256": "c8761ef99b3e2a0e133f88f8d7862feb34de1b9b0e014ea8dcb89a03fd83f996"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_realism.mjs.gz",
+      "bytes": 9190,
+      "sha256": "886a3ce254df2c0c6b78dd14cf446ecdd35caafc7c448a6651c606d4249d2c5b"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_shore.mjs.gz",
+      "bytes": 592,
+      "sha256": "23d9facecb708781e352939ba476a227f431e026405399035fed58731953c2e1"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-ground-contact.mjs.gz",
+      "bytes": 6748,
+      "sha256": "8a31cc8d88364a25881698cd4f86c1624a532d9f198715226239aee40c9e737a"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-motion.mjs.gz",
+      "bytes": 7989,
+      "sha256": "ad6ffc1fcf9be66ab37b904da180d05eadebbcedca8ae5ac4e0ce299924d8ed2"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-neighbor-motion.mjs.gz",
+      "bytes": 12767,
+      "sha256": "fe8414000d390dd50618f511b14e3296953c18a9e5a6489dd8d6e0b21f1c0925"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-perch-contact.mjs.gz",
+      "bytes": 1575,
+      "sha256": "f8c9064bae0a81b1549d4bb86d25aa455622e3ce375f53ce034e6bd2d3818d70"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-rabbit-contact.mjs.gz",
+      "bytes": 3711,
+      "sha256": "1c6f380aec7bdcbd9cd218c98b2e5d6af1e15077bb46e81f7ae1bf022e9a386f"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-raccoon-contact.mjs.gz",
+      "bytes": 2181,
+      "sha256": "d7b621ef6a740ef9ae5b58da33fa0f0a63ea9adc45390a8f0e6078c49ce6ebe1"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-resting-contact.mjs.gz",
+      "bytes": 9433,
+      "sha256": "2d1c0b257e9d24589c1950495bb94c7b64fa83d73e7e3034310bd8bf79f3404c"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife-seabird-motion.mjs.gz",
+      "bytes": 3781,
+      "sha256": "594cb29a4e61ef4a7139545b89dbcf8905070c7c76fe25bcd520474d5a71e4d0"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_js_home-scene_wildlife.mjs.gz",
+      "bytes": 15376,
+      "sha256": "aff125f6039ad184d98cd8a2f6a56e1a87252cf72e4c44aafbc8cf95c7549a1e"
+    },
+    {
+      "path": "benchmark/pinniped/baseline-assets_models_home_manifest.json.gz",
+      "bytes": 60992,
+      "sha256": "cd8549ab5cab11d68cf9ccacaaab0b6072d7343e073ef2169cef4492dc0160f5"
+    },
+    {
+      "path": "benchmark/pinniped/baseline.json.gz",
+      "bytes": 337873,
+      "sha256": "147defb884d7b3be3225090662683bb476d6baad8fa92d91c60eaf28c233f415"
+    },
+    {
+      "path": "benchmark/pinniped/baseline.png",
+      "bytes": 1600372,
+      "sha256": "ded13fd6db2b4c2b2e2860322dd20ec8f8c9cf9e3677ef5d3389ef29cfbcc1f2"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_controller.mjs.gz",
+      "bytes": 35598,
+      "sha256": "84f0bdc41fabfb2e6a47803eaf9fa2edf3a974be891d7576c37335d35757063d"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_materials.mjs.gz",
+      "bytes": 2296,
+      "sha256": "0f641f144bd16eaff388598bd768a9ea1b6d99102d34933fd31a5e9ed690934e"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_model-loader.mjs.gz",
+      "bytes": 701,
+      "sha256": "c8761ef99b3e2a0e133f88f8d7862feb34de1b9b0e014ea8dcb89a03fd83f996"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_realism.mjs.gz",
+      "bytes": 9190,
+      "sha256": "886a3ce254df2c0c6b78dd14cf446ecdd35caafc7c448a6651c606d4249d2c5b"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_shore.mjs.gz",
+      "bytes": 592,
+      "sha256": "23d9facecb708781e352939ba476a227f431e026405399035fed58731953c2e1"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-ground-contact.mjs.gz",
+      "bytes": 7354,
+      "sha256": "188b8469e0e32b2615b80b582cdc9330cccd5cc586718006b4299615f4b98cd5"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-motion.mjs.gz",
+      "bytes": 7989,
+      "sha256": "ad6ffc1fcf9be66ab37b904da180d05eadebbcedca8ae5ac4e0ce299924d8ed2"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-neighbor-motion.mjs.gz",
+      "bytes": 12767,
+      "sha256": "fe8414000d390dd50618f511b14e3296953c18a9e5a6489dd8d6e0b21f1c0925"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-perch-contact.mjs.gz",
+      "bytes": 1575,
+      "sha256": "f8c9064bae0a81b1549d4bb86d25aa455622e3ce375f53ce034e6bd2d3818d70"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-rabbit-contact.mjs.gz",
+      "bytes": 3711,
+      "sha256": "1c6f380aec7bdcbd9cd218c98b2e5d6af1e15077bb46e81f7ae1bf022e9a386f"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-raccoon-contact.mjs.gz",
+      "bytes": 2194,
+      "sha256": "670a2063d713630a58f4b3548992cfea182673c77d9953dc90f2bdb8382ecb0f"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-resting-contact.mjs.gz",
+      "bytes": 9455,
+      "sha256": "94cf3d3c7faaed64e786db7c95d6ea21da5a7d967f8fc2911c056b269ade6ed3"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife-seabird-motion.mjs.gz",
+      "bytes": 3781,
+      "sha256": "594cb29a4e61ef4a7139545b89dbcf8905070c7c76fe25bcd520474d5a71e4d0"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_js_home-scene_wildlife.mjs.gz",
+      "bytes": 15376,
+      "sha256": "aff125f6039ad184d98cd8a2f6a56e1a87252cf72e4c44aafbc8cf95c7549a1e"
+    },
+    {
+      "path": "benchmark/pinniped/candidate-assets_models_home_manifest.json.gz",
+      "bytes": 60992,
+      "sha256": "cd8549ab5cab11d68cf9ccacaaab0b6072d7343e073ef2169cef4492dc0160f5"
+    },
+    {
+      "path": "benchmark/pinniped/candidate.json.gz",
+      "bytes": 337939,
+      "sha256": "973188b727499b3febb8def26f108ab37ee5466cfc9255dc14dab1f410dbd2ae"
+    },
+    {
+      "path": "benchmark/pinniped/candidate.png",
+      "bytes": 1599483,
+      "sha256": "0e9071bcbb6762ad4f24c86a550bf923891160d637fd2564ea9ed491b4c6f611"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_controller.mjs.gz",
+      "bytes": 35598,
+      "sha256": "84f0bdc41fabfb2e6a47803eaf9fa2edf3a974be891d7576c37335d35757063d"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_materials.mjs.gz",
+      "bytes": 2296,
+      "sha256": "0f641f144bd16eaff388598bd768a9ea1b6d99102d34933fd31a5e9ed690934e"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_model-loader.mjs.gz",
+      "bytes": 701,
+      "sha256": "c8761ef99b3e2a0e133f88f8d7862feb34de1b9b0e014ea8dcb89a03fd83f996"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_realism.mjs.gz",
+      "bytes": 9190,
+      "sha256": "886a3ce254df2c0c6b78dd14cf446ecdd35caafc7c448a6651c606d4249d2c5b"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_shore.mjs.gz",
+      "bytes": 592,
+      "sha256": "23d9facecb708781e352939ba476a227f431e026405399035fed58731953c2e1"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-ground-contact.mjs.gz",
+      "bytes": 6748,
+      "sha256": "8a31cc8d88364a25881698cd4f86c1624a532d9f198715226239aee40c9e737a"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-motion.mjs.gz",
+      "bytes": 7989,
+      "sha256": "ad6ffc1fcf9be66ab37b904da180d05eadebbcedca8ae5ac4e0ce299924d8ed2"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-neighbor-motion.mjs.gz",
+      "bytes": 12767,
+      "sha256": "fe8414000d390dd50618f511b14e3296953c18a9e5a6489dd8d6e0b21f1c0925"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-perch-contact.mjs.gz",
+      "bytes": 1575,
+      "sha256": "f8c9064bae0a81b1549d4bb86d25aa455622e3ce375f53ce034e6bd2d3818d70"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-rabbit-contact.mjs.gz",
+      "bytes": 3711,
+      "sha256": "1c6f380aec7bdcbd9cd218c98b2e5d6af1e15077bb46e81f7ae1bf022e9a386f"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-raccoon-contact.mjs.gz",
+      "bytes": 2181,
+      "sha256": "d7b621ef6a740ef9ae5b58da33fa0f0a63ea9adc45390a8f0e6078c49ce6ebe1"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-resting-contact.mjs.gz",
+      "bytes": 9433,
+      "sha256": "2d1c0b257e9d24589c1950495bb94c7b64fa83d73e7e3034310bd8bf79f3404c"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife-seabird-motion.mjs.gz",
+      "bytes": 3781,
+      "sha256": "594cb29a4e61ef4a7139545b89dbcf8905070c7c76fe25bcd520474d5a71e4d0"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_js_home-scene_wildlife.mjs.gz",
+      "bytes": 15376,
+      "sha256": "aff125f6039ad184d98cd8a2f6a56e1a87252cf72e4c44aafbc8cf95c7549a1e"
+    },
+    {
+      "path": "benchmark/raccoon/baseline-assets_models_home_manifest.json.gz",
+      "bytes": 60992,
+      "sha256": "cd8549ab5cab11d68cf9ccacaaab0b6072d7343e073ef2169cef4492dc0160f5"
+    },
+    {
+      "path": "benchmark/raccoon/baseline.json.gz",
+      "bytes": 379792,
+      "sha256": "ff0887470671be3b98cb63267a5c900a0e678acf3937da3f74e9cf2a103fd19c"
+    },
+    {
+      "path": "benchmark/raccoon/baseline.png",
+      "bytes": 581415,
+      "sha256": "b043496bc2348759c25ee7ba4feadc1f5fc6c918f825215c7cafe0305cea128e"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_controller.mjs.gz",
+      "bytes": 35598,
+      "sha256": "84f0bdc41fabfb2e6a47803eaf9fa2edf3a974be891d7576c37335d35757063d"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_materials.mjs.gz",
+      "bytes": 2296,
+      "sha256": "0f641f144bd16eaff388598bd768a9ea1b6d99102d34933fd31a5e9ed690934e"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_model-loader.mjs.gz",
+      "bytes": 701,
+      "sha256": "c8761ef99b3e2a0e133f88f8d7862feb34de1b9b0e014ea8dcb89a03fd83f996"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_realism.mjs.gz",
+      "bytes": 9190,
+      "sha256": "886a3ce254df2c0c6b78dd14cf446ecdd35caafc7c448a6651c606d4249d2c5b"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_shore.mjs.gz",
+      "bytes": 592,
+      "sha256": "23d9facecb708781e352939ba476a227f431e026405399035fed58731953c2e1"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-ground-contact.mjs.gz",
+      "bytes": 7354,
+      "sha256": "188b8469e0e32b2615b80b582cdc9330cccd5cc586718006b4299615f4b98cd5"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-motion.mjs.gz",
+      "bytes": 7989,
+      "sha256": "ad6ffc1fcf9be66ab37b904da180d05eadebbcedca8ae5ac4e0ce299924d8ed2"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-neighbor-motion.mjs.gz",
+      "bytes": 12767,
+      "sha256": "fe8414000d390dd50618f511b14e3296953c18a9e5a6489dd8d6e0b21f1c0925"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-perch-contact.mjs.gz",
+      "bytes": 1575,
+      "sha256": "f8c9064bae0a81b1549d4bb86d25aa455622e3ce375f53ce034e6bd2d3818d70"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-rabbit-contact.mjs.gz",
+      "bytes": 3711,
+      "sha256": "1c6f380aec7bdcbd9cd218c98b2e5d6af1e15077bb46e81f7ae1bf022e9a386f"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-raccoon-contact.mjs.gz",
+      "bytes": 2194,
+      "sha256": "670a2063d713630a58f4b3548992cfea182673c77d9953dc90f2bdb8382ecb0f"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-resting-contact.mjs.gz",
+      "bytes": 9455,
+      "sha256": "94cf3d3c7faaed64e786db7c95d6ea21da5a7d967f8fc2911c056b269ade6ed3"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife-seabird-motion.mjs.gz",
+      "bytes": 3781,
+      "sha256": "594cb29a4e61ef4a7139545b89dbcf8905070c7c76fe25bcd520474d5a71e4d0"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_js_home-scene_wildlife.mjs.gz",
+      "bytes": 15376,
+      "sha256": "aff125f6039ad184d98cd8a2f6a56e1a87252cf72e4c44aafbc8cf95c7549a1e"
+    },
+    {
+      "path": "benchmark/raccoon/candidate-assets_models_home_manifest.json.gz",
+      "bytes": 60992,
+      "sha256": "cd8549ab5cab11d68cf9ccacaaab0b6072d7343e073ef2169cef4492dc0160f5"
+    },
+    {
+      "path": "benchmark/raccoon/candidate.json.gz",
+      "bytes": 383354,
+      "sha256": "3663f9c719fdb6c5fd12b038b9288c22a414c38ef11facec54c46f13aa569408"
+    },
+    {
+      "path": "benchmark/raccoon/candidate.png",
+      "bytes": 581599,
+      "sha256": "b0443949f03fcbdfd274d9811f1ca533ddf900e81bbab1419e7af8524a49a641"
+    },
+    {
+      "path": "data/actual-gpu-pinniped.json.gz",
+      "bytes": 39977,
+      "sha256": "f56c13dacfa9dba03d6679e83613b744a95aedf2c325ea845d61178d05d5a26a"
+    },
+    {
+      "path": "data/actual-gpu-raccoon.json.gz",
+      "bytes": 36569,
+      "sha256": "7eef4a4b4a1502ffa7ee40a7920181c925901fbf1f07735b334af60fffb4d36d"
+    },
+    {
+      "path": "data/BENCHMARK-SERVED-BINDING.json.gz",
+      "bytes": 2194,
+      "sha256": "824ea3e0fb9a4e122237b75561c0a775a9e314fd24556a754be21c084bf39988"
+    },
+    {
+      "path": "data/DENSE-EQUALITY.json.gz",
+      "bytes": 330,
+      "sha256": "ba3c91f382f38d7be477dd415573da26e2efcee083151166efa3dfbb84ac9ffd"
+    },
+    {
+      "path": "data/INITIAL-SERVED-BINDING.json.gz",
+      "bytes": 2067,
+      "sha256": "3df015741cf1f1bfe4773a7734365d900bbe35bb79434ce1e453185e3f6d542b"
+    },
+    {
+      "path": "data/NATIVE-COMPARISON-v1.json.gz",
+      "bytes": 1499,
+      "sha256": "e9bf976c4de007879fb811b5f75002b70438e1da8fbe48d0f0e6e3eaf3351613"
+    },
+    {
+      "path": "data/PINNIPED-TEMPORAL-COMPARISON.json.gz",
+      "bytes": 253,
+      "sha256": "01cd69d65077c207b6b0653a2352b4105f09362e1ba0619158499a1435d4c132"
+    },
+    {
+      "path": "data/raccoon-dense-candidate.json.gz",
+      "bytes": 4624983,
+      "sha256": "200e4e13b123569b2bb7235471308e263ebd0de8fb5228f11f41e0041e19d5f4"
+    },
+    {
+      "path": "data/raccoon-dense-dawn-candidate.json.gz",
+      "bytes": 1136420,
+      "sha256": "52b3cc48c5d196c245a772a94b55f5875a4d360661a60cb14648035550a84c5c"
+    },
+    {
+      "path": "data/RACCOON-TEMPORAL-COMPARISON.json.gz",
+      "bytes": 161,
+      "sha256": "767487623125a912aff3d1ed7821ab9503701f05fb800264ce2c78e59ca3e747"
+    },
+    {
+      "path": "data/REUSED-PAYLOAD-CHECK.json.gz",
+      "bytes": 636,
+      "sha256": "2d58714f1fb7ddc38eb9429d9154b10b5f3880fa2880e0d70871f3578ab748c7"
+    },
+    {
+      "path": "logs/cache-pinniped-temporal.log.gz",
+      "bytes": 480,
+      "sha256": "b3b5b532b66c99b34268a0e897792f1c9164d77f7fe7da3d38c89b5d6c96697f"
+    },
+    {
+      "path": "logs/cache-raccoon-frame-trajectory.log.gz",
+      "bytes": 625,
+      "sha256": "79285fb0692f8330f242361506dbec8ca2f07fd010c3f580c286e5820c834e1a"
+    },
+    {
+      "path": "logs/cache-raccoon-temporal.log.gz",
+      "bytes": 1514,
+      "sha256": "fa68f43559eb07cdd3ac1479ebf6c9597bafbbb3d9ebbd876fba5b56af4cfed4"
+    },
+    {
+      "path": "logs/gpu-pinniped-v1.log.gz",
+      "bytes": 111,
+      "sha256": "288b53c1cc9ed611f5162fb131c835e478e453860a024d3bdf1b08783261d2de"
+    },
+    {
+      "path": "logs/gpu-raccoon-v1.log.gz",
+      "bytes": 111,
+      "sha256": "8d335287e81d4780a5a5f908c46c9fd4dbfabbed4c41993a493a567a83d7b666"
+    },
+    {
+      "path": "logs/native-pinniped-baseline.log.gz",
+      "bytes": 630,
+      "sha256": "c673a7913d2a7c62cd799383ae18079cb67c5e24a2125726e5072df75c49fa75"
+    },
+    {
+      "path": "logs/native-pinniped-candidate.log.gz",
+      "bytes": 647,
+      "sha256": "5fd59cf73deadfe139996454fae2aa92d7072c40c46f8f41ebbf513e863557a2"
+    },
+    {
+      "path": "logs/native-raccoon-baseline.log.gz",
+      "bytes": 633,
+      "sha256": "54fdd44db1b2b3585179cc7f40c2dba2e7912937e351830151e047a21b79f091"
+    },
+    {
+      "path": "logs/native-raccoon-candidate.log.gz",
+      "bytes": 627,
+      "sha256": "074e9fa4c45ee01b72b84fee232b2c3f1baeac7d97ca1ef84c27bb77a811f081"
+    },
+    {
+      "path": "logs/numeric-cell-bounds-v2.log.gz",
+      "bytes": 841,
+      "sha256": "75d7aea371a08ef6d78316f0a68af65b77480cbbc0a08d336acd3ca79e81a498"
+    },
+    {
+      "path": "logs/numeric-cell-focused-v1.log.gz",
+      "bytes": 1693,
+      "sha256": "14dcf5d2a22fd347a56bd084c089b4fd407622093479d6508982962a427280df"
+    },
+    {
+      "path": "logs/public-cache-v1-chromium.log.gz",
+      "bytes": 316,
+      "sha256": "4d568bc3009abdc78950166181dc11acc6d26163b67a9b87a78443ce5c20e9f7"
+    },
+    {
+      "path": "logs/public-cache-v1-webkit.log.gz",
+      "bytes": 302,
+      "sha256": "e06306ec51889806a7cf90d7ca59c188c966d07ab520dbf6879b8c89c2bc1cd1"
+    },
+    {
+      "path": "logs/vertical-cache-focused-v1.log.gz",
+      "bytes": 1153,
+      "sha256": "0557b9ed410dc12bf4629efde3a9d8c6f912416d97ca498d4a73e2e1ed9fd47e"
+    },
+    {
+      "path": "logs/vertical-cache-focused-v2.log.gz",
+      "bytes": 1890,
+      "sha256": "10164867ef882a70cf10cda68ccaa22a0c5d519f0063eaaaaa325185eab2466a"
+    },
+    {
+      "path": "logs/wildlife-tests-cache-final.log.gz",
+      "bytes": 3828,
+      "sha256": "3961665c7f8b27a3ba7fa8443d5923c70f4027d1f6770b65bce2856ee634eb25"
+    },
+    {
+      "path": "PAYLOAD_ORIGINALS.json",
+      "bytes": 32341,
+      "sha256": "9def174b1675fcf8967705e2abfc4d59a3a926144398768147e3f7f41354d3b4"
+    },
+    {
+      "path": "producers/gpu-pinniped.cjs.gz",
+      "bytes": 2755,
+      "sha256": "229a64445ba7fd015e63150a4fb3789e02e32c8a5e79d6715d8461be88bddf03"
+    },
+    {
+      "path": "producers/gpu-raccoon.cjs.gz",
+      "bytes": 2731,
+      "sha256": "429506154530f39108a80aefa24f8ea430b6f7161840ac2bef6ee11facc8c4a6"
+    },
+    {
+      "path": "producers/native-benchmark.cjs.gz",
+      "bytes": 4139,
+      "sha256": "d15a764d42c7045de8c8dba5d7ded24444179baec8ba6ceb69618ace139aa1dd"
+    },
+    {
+      "path": "producers/pinniped-dense-proof.mjs.gz",
+      "bytes": 2945,
+      "sha256": "e87b56b899be184f4c2680623ee39a9e8f5bea4b9a4d19092c0a75fc9a5f8e51"
+    },
+    {
+      "path": "producers/pinniped-temporal-proof.mjs.gz",
+      "bytes": 4951,
+      "sha256": "fa216bac8916d262e7237e984437a1a1bd36cd7a517491779b434ba2b9c9f372"
+    },
+    {
+      "path": "producers/proxy-contact-cpu.py.gz",
+      "bytes": 989,
+      "sha256": "4e4bed22990f6ed554a9569a94e14e308bf879e73655a56563139cf8fc2706a6"
+    },
+    {
+      "path": "producers/public-cache-v1.cjs.gz",
+      "bytes": 2863,
+      "sha256": "4043476c1860d37945dbf88fb942feaf431bab5016ac9a344fd7273d2281f665"
+    },
+    {
+      "path": "producers/raccoon-dense-proof.mjs.gz",
+      "bytes": 3051,
+      "sha256": "bd816e7ce10cee7df0d97e9fb392f1c8a7f31a91c6cda6536665b2e340b45690"
+    },
+    {
+      "path": "producers/raccoon-frame-trajectory.mjs.gz",
+      "bytes": 4446,
+      "sha256": "a5b1a76ecbda4e31f905d44bc3d55324f46ec9a9d99aad0b323896a2122a2734"
+    },
+    {
+      "path": "producers/raccoon-temporal.mjs.gz",
+      "bytes": 4264,
+      "sha256": "5b052d2298facb0779c26a8e7b6e64ce0f9ec31b8117d30ca273c4e157065ba3"
+    },
+    {
+      "path": "producers/seal-v1.py.gz",
+      "bytes": 1738,
+      "sha256": "b40c9caa5843c9124b1d18e1c3ddc79df0daf31d2b1bbef03b06c6fe0d15e0af"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6297,
+      "sha256": "63d14038c6c122893a3d09c3320fa2de7d9485db98c9f89e573b4a1af1a51fd8"
+    },
+    {
+      "path": "reference/BASELINE-SOURCE.json.gz",
+      "bytes": 1391,
+      "sha256": "41087d106c4f9d7ed3c944c6a35a88057cc998b1c4ec7657aafe3a48a55bcfbf"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/fft-ocean.mjs.gz",
+      "bytes": 2279,
+      "sha256": "a28506b1ce2539ce381d36b731c981f2d55fe2c9ede94acfdff0c1dca32fccda"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/model-loader.mjs.gz",
+      "bytes": 1345,
+      "sha256": "67a9491d76575c904a7cb28852215bb791c7f7fc2f0fed04cf6816567542b774"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/ocean-spectrum.mjs.gz",
+      "bytes": 6230,
+      "sha256": "3488eb5aa86c371cc9a06b897d7601dd51799699168653ecfa67ad69d0d1630d"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/pool-activity.mjs.gz",
+      "bytes": 1655,
+      "sha256": "d6818e25dee448ea79e6ecb11e09c341ae2357fff8167c9b87b611a439024cbb"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/routine.mjs.gz",
+      "bytes": 1831,
+      "sha256": "01b72f94696f5d89090692792f8f741c9c45c21f416b4f834a9ac37161dc2f61"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/shore.mjs.gz",
+      "bytes": 847,
+      "sha256": "45cddc013bfd62be6cf27957c05611bae58398d4ee872d58aa4ef6b3c579b698"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/training.mjs.gz",
+      "bytes": 4973,
+      "sha256": "97f22fece8212d4ed3f9530ca5dee89cf13fd49d301bf4d6b4dfc57dc6f8da6f"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-acting.mjs.gz",
+      "bytes": 2997,
+      "sha256": "c30f3ae77f5a7edb6a376c15e530d002f35609865341fb0c1df19da1cb0101b7"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-ground-contact.mjs.gz",
+      "bytes": 6748,
+      "sha256": "8a31cc8d88364a25881698cd4f86c1624a532d9f198715226239aee40c9e737a"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-motion.mjs.gz",
+      "bytes": 7989,
+      "sha256": "ad6ffc1fcf9be66ab37b904da180d05eadebbcedca8ae5ac4e0ce299924d8ed2"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-neighbor-motion.mjs.gz",
+      "bytes": 12767,
+      "sha256": "fe8414000d390dd50618f511b14e3296953c18a9e5a6489dd8d6e0b21f1c0925"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-perch-contact.mjs.gz",
+      "bytes": 2293,
+      "sha256": "a9554948050a01640cf1c180ca9ebc36d8679421fdcc82cbb93bea3fa069872e"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-rabbit-contact.mjs.gz",
+      "bytes": 3711,
+      "sha256": "1c6f380aec7bdcbd9cd218c98b2e5d6af1e15077bb46e81f7ae1bf022e9a386f"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-raccoon-contact.mjs.gz",
+      "bytes": 2181,
+      "sha256": "d7b621ef6a740ef9ae5b58da33fa0f0a63ea9adc45390a8f0e6078c49ce6ebe1"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-resting-contact.mjs.gz",
+      "bytes": 9433,
+      "sha256": "2d1c0b257e9d24589c1950495bb94c7b64fa83d73e7e3034310bd8bf79f3404c"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife-seabird-motion.mjs.gz",
+      "bytes": 5885,
+      "sha256": "db0637d4e98aed34cd0473f06caeb80789a92dafa2ba8df5781be188ef9fa329"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wildlife.mjs.gz",
+      "bytes": 15376,
+      "sha256": "aff125f6039ad184d98cd8a2f6a56e1a87252cf72e4c44aafbc8cf95c7549a1e"
+    },
+    {
+      "path": "reference/d366/assets/js/home-scene/wind-field.mjs.gz",
+      "bytes": 7617,
+      "sha256": "e5baa1c59adc1d9756f701e52fe768be95d9c2e965290f6ff92ee4aa6fb8509f"
+    },
+    {
+      "path": "reference/d366/assets/js/three.module.min.js.gz",
+      "bytes": 166606,
+      "sha256": "c286d69e1028556835a388ddfbe8bd4b0abd076f6a99b3982ad490053be093e1"
+    },
+    {
+      "path": "reference/d366/assets/js/vendor/three-r164/loaders/DRACOLoader.js.gz",
+      "bytes": 4175,
+      "sha256": "a5399e6237ed4c1ec7094fcdeaa7131fd2a9f483b54be0290927b68713649bff"
+    },
+    {
+      "path": "reference/d366/assets/js/vendor/three-r164/loaders/GLTFLoader.js.gz",
+      "bytes": 23479,
+      "sha256": "0d4837b7f9621ee23168c90162e8ab4cba319a89a89ab700964798946f42d043"
+    },
+    {
+      "path": "reference/d366/assets/js/vendor/three-r164/utils/BufferGeometryUtils.js.gz",
+      "bytes": 6851,
+      "sha256": "5bb4d5708a85c9b2b66dd609feabbabc8bfc8c95f4825991475bf11e74eeb9aa"
+    },
+    {
+      "path": "REUSED_PAYLOADS.json",
+      "bytes": 1773,
+      "sha256": "6ac5cd31f1406a6ac9d35d4fb4453d49062fce3c6278a20aa385544e03b956db"
+    },
+    {
+      "path": "served/assets/js/home-scene/wildlife-ground-contact.mjs.gz",
+      "bytes": 7354,
+      "sha256": "188b8469e0e32b2615b80b582cdc9330cccd5cc586718006b4299615f4b98cd5"
+    },
+    {
+      "path": "served/assets/js/home-scene/wildlife-raccoon-contact.mjs.gz",
+      "bytes": 2194,
+      "sha256": "670a2063d713630a58f4b3548992cfea182673c77d9953dc90f2bdb8382ecb0f"
+    },
+    {
+      "path": "served/assets/js/home-scene/wildlife-resting-contact.mjs.gz",
+      "bytes": 9455,
+      "sha256": "94cf3d3c7faaed64e786db7c95d6ea21da5a7d967f8fc2911c056b269ade6ed3"
+    },
+    {
+      "path": "source/assets/js/home-scene/wildlife-ground-contact.mjs.gz",
+      "bytes": 7354,
+      "sha256": "188b8469e0e32b2615b80b582cdc9330cccd5cc586718006b4299615f4b98cd5"
+    },
+    {
+      "path": "source/assets/js/home-scene/wildlife-raccoon-contact.mjs.gz",
+      "bytes": 2194,
+      "sha256": "670a2063d713630a58f4b3548992cfea182673c77d9953dc90f2bdb8382ecb0f"
+    },
+    {
+      "path": "source/assets/js/home-scene/wildlife-resting-contact.mjs.gz",
+      "bytes": 9455,
+      "sha256": "94cf3d3c7faaed64e786db7c95d6ea21da5a7d967f8fc2911c056b269ade6ed3"
+    },
+    {
+      "path": "source/test/wildlife-ground-bounds.test.mjs.gz",
+      "bytes": 3970,
+      "sha256": "78a19957b53f2b09ad9b4714c0819fe4f45d4e7962bb321bb4b67fabf2520d45"
+    },
+    {
+      "path": "SOURCE_BINDINGS.json",
+      "bytes": 1943,
+      "sha256": "0024bb7c9577dfd2a85489ef644e2ce68016acddebd6a2cb5fa6cdef875a60fa"
+    },
+    {
+      "path": "views/chromium-candidate-evening-raccoon-0-0.png",
+      "bytes": 532668,
+      "sha256": "9ad37d3b45e083ae1322d6bef7b162459bb40ecf6f654dcc9e3ac2a4b5e0b62a"
+    },
+    {
+      "path": "views/chromium-candidate-evening-seal-1-0.png",
+      "bytes": 841459,
+      "sha256": "30ace390c0084dc8023b2fd61c74872175925a1ffd27e2eef304210ddf57e6c2"
+    },
+    {
+      "path": "views/chromium-candidate-evening-seaLion-0-0.png",
+      "bytes": 1002485,
+      "sha256": "ac81ae0f12698d0ce66d0f9f8ed6c60fcdd16d9f19d3ea1403e5e61835e3ce62"
+    },
+    {
+      "path": "views/chromium-candidate-noon-raccoon-0-0.png",
+      "bytes": 818254,
+      "sha256": "12365dc4b0e9a1b94d4c3c9d3c3a3995942f1068f74e5f50382dbfe63167fddd"
+    },
+    {
+      "path": "views/chromium-candidate-noon-seal-1-0.png",
+      "bytes": 1658206,
+      "sha256": "80beb57d07bbbed3119238743d4f5331a3bfa837a3e818d7d8d71827bc87bd50"
+    },
+    {
+      "path": "views/chromium-candidate-noon-seaLion-0-0.png",
+      "bytes": 1526941,
+      "sha256": "fb946600147ddafde5cecff051c10f0f11d153306c53a21a9110381f6acda74c"
+    },
+    {
+      "path": "views/chromium-frames.json.gz",
+      "bytes": 203658,
+      "sha256": "d9deb0bdfcec286cd499b6e50d937587b8318e9dcd53de7d3e080c237f517b00"
+    },
+    {
+      "path": "views/webkit-candidate-evening-raccoon-0-0.png",
+      "bytes": 139161,
+      "sha256": "78e5e028811f963ddd23a59bdd93d2c6b504510292c41c14792283502af5ef6b"
+    },
+    {
+      "path": "views/webkit-candidate-evening-seal-1-0.png",
+      "bytes": 170962,
+      "sha256": "84ede6233a14d8d3798accd76c81affea8dec8b6c9e9ad4169cd0785e6dc6b23"
+    },
+    {
+      "path": "views/webkit-candidate-evening-seaLion-0-0.png",
+      "bytes": 139257,
+      "sha256": "ba9beba5a271d0da6999fe991135e0b5c5cc3200ac9a23e9efd72aecbd98963a"
+    },
+    {
+      "path": "views/webkit-candidate-noon-raccoon-0-0.png",
+      "bytes": 161832,
+      "sha256": "2e7e6adcc7a53cd0cd0ac13966bac8e9a5c2a42f40cca6534c62dbe5814ab0de"
+    },
+    {
+      "path": "views/webkit-candidate-noon-seal-1-0.png",
+      "bytes": 270911,
+      "sha256": "224da79f77eecbf48de3fd1e089f05300863748aa753a6cc513d9300ce437a92"
+    },
+    {
+      "path": "views/webkit-candidate-noon-seaLion-0-0.png",
+      "bytes": 191665,
+      "sha256": "fe0ff1596452156570aac70ef1ff86b6ef980c71cb45d67bc57eb4fae87e806b"
+    },
+    {
+      "path": "views/webkit-frames.json.gz",
+      "bytes": 200337,
+      "sha256": "8f1769207d8fbeec69e0b454f7aaf32f91a18bcfe706e3e9ff96587c9481a46f"
+    }
+  ]
+}
