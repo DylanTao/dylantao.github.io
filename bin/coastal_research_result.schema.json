@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Coastal research experiment handback, never an admission",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["experiment_id", "outcome", "summary", "source_review", "changes", "gates", "evidence", "failures", "next_hypothesis"],
+  "properties": {
+    "experiment_id": { "type": "string", "minLength": 1 },
+    "outcome": { "type": "string", "enum": ["candidate", "no-change", "continue", "blocked", "failed"] },
+    "summary": { "type": "string", "minLength": 1 },
+    "source_review": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["url", "review", "fit", "limits"],
+        "properties": {
+          "url": { "type": "string", "minLength": 1 },
+          "review": { "type": "string", "enum": ["metadata-discovered", "abstract-reviewed", "method-reviewed"] },
+          "fit": { "type": "string" },
+          "limits": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "changes": { "type": "array", "items": { "type": "string" } },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status", "evidence", "limits"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "enum": ["pass", "fail", "not-run"] },
+          "evidence": { "type": "string" },
+          "limits": { "type": "string" }
+        }
+      }
+    },
+    "evidence": { "type": "array", "items": { "type": "string" } },
+    "failures": { "type": "array", "items": { "type": "string" } },
+    "next_hypothesis": { "type": "string", "minLength": 1 }
+  }
+}

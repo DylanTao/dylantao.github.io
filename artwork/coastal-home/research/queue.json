@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "primary_hosts": ["advances.realtimerendering.com", "research.nvidia.com", "jcgt.org"],
+  "experiments": [
+    {
+      "id": "rain-ocean-impact",
+      "title": "Rain impacts that belong to the ocean surface",
+      "state": "proposed",
+      "hypothesis": "A bounded surface-wave response may make rain impacts more coherent without reducing the ocean's existing detail or changing the rendering backend.",
+      "rationale": "Compare a method's actual assumptions and cost with this site's shoreline and water scale before writing a shader.",
+      "allowed_paths": ["assets/js/home-scene/coastal-weather.mjs", "assets/js/home-scene/heightfield-water.mjs"],
+      "primary_sources": [
+        {
+          "url": "https://research.nvidia.com/labs/prl/shallow-water-simulation/files/Dispersive_Waves_in_SWE.pdf",
+          "title": "Generalizing Shallow Water Simulations with Dispersive Surface Waves, SIGGRAPH 2023",
+          "review": "metadata-discovered",
+          "fit_notes": []
+        }
+      ],
+      "baseline": {
+        "source_sha": "8ac01d3f9db91a64984d31260788b87e44de12f1",
+        "evidence": ["docs/graphics-representation-review-2026-10.md", "assets/js/home-scene/PHYSICS.md", "docs/performance-notes.md"],
+        "limits": [
+          "No method-fit review or implementation qualification is recorded here.",
+          "Prior trained, neural and FFT attempts remain controls, not new successes."
+        ]
+      },
+      "gates": [
+        {
+          "id": "source-fit",
+          "command": [],
+          "expectation": "Review the complete primary method, assumptions, representation and bounded WebGL fit before implementation."
+        },
+        {
+          "id": "water-contact",
+          "command": [],
+          "expectation": "Retain matched actual rain-to-water contact frames, shore and pool boundaries, and no duplicate or detached impacts."
+        },
+        {
+          "id": "quality-cost",
+          "command": [],
+          "expectation": "Bind source/model/cache, cadence, view, drawing buffer, backend and real clocks; a quiet native GPU pair is needed for a performance claim."
+        }
+      ],
+      "next_step": "Review the primary method against the retained water attempts, reserve exact owning files and tests, then record a ready experiment with executable gates."
+    },
+    {
+      "id": "angle-stable-interior-light",
+      "title": "Angle-stable house lighting without blanket brightening",
+      "state": "proposed",
+      "hypothesis": "A measured separation of view-dependent reflection and diffuse transport may explain the reported overbright angle before a bounded lighting correction is selected.",
+      "rationale": "An abstract about light sampling is a lead to inspect, not evidence that a neural method fits this scene or backend.",
+      "allowed_paths": ["assets/js/home-scene/interior-reflections.mjs"],
+      "primary_sources": [
+        {
+          "url": "https://jcgt.org/published/0014/02/01/",
+          "title": "Neural Visibility Cache for Real-Time Light Sampling, JCGT 14(2), 2025-08-18",
+          "review": "metadata-discovered",
+          "fit_notes": []
+        }
+      ],
+      "baseline": {
+        "source_sha": "8ac01d3f9db91a64984d31260788b87e44de12f1",
+        "evidence": ["docs/graphics-representation-review-2026-10.md", "assets/js/home-scene/PHYSICS.md", "docs/performance-notes.md"],
+        "limits": [
+          "The primary entry was discovered; no WebGL-house fit is claimed.",
+          "First reproduce the specific camera-dependent failure with GPU uniform and source bindings."
+        ]
+      },
+      "gates": [
+        {
+          "id": "same-light-angle-control",
+          "command": [],
+          "expectation": "Match room, clock, fixture schedule and actual shader uniforms across angles; distinguish diffuse, specular and reflection errors."
+        },
+        {
+          "id": "appearance",
+          "command": [],
+          "expectation": "Retain noon/evening/night public camera and Walk frames with no exposure, room-content or shadow reductions."
+        },
+        {
+          "id": "late-room-programs",
+          "command": [],
+          "expectation": "Keep full first-ready assets and inspect later bathroom/Walk visits for missed compilation."
+        }
+      ],
+      "next_step": "Reproduce the reported angle-dependent brightness and review the primary method's fit; let the coordinator reserve any additional owning light paths."
+    },
+    {
+      "id": "rendering-quality-cost-survey",
+      "title": "Current rendering methods compared with this complete scene",
+      "state": "proposed",
+      "hypothesis": "A source-backed comparison of current production methods can identify one testable quality or startup improvement that preserves the complete scene.",
+      "rationale": "Use current primary material to choose a bounded experiment rather than replacing the renderer on a title or benchmark alone.",
+      "allowed_paths": [
+        "assets/js/home-scene/program-warmup.mjs",
+        "assets/js/home-scene/interior-reflections.mjs",
+        "assets/js/home-scene/walk-presence.mjs"
+      ],
+      "primary_sources": [
+        {
+          "url": "https://advances.realtimerendering.com/s2026/index.html",
+          "title": "SIGGRAPH 2026 Advances in Real-Time Rendering in Games",
+          "review": "abstract-reviewed",
+          "fit_notes": ["Course syllabus and abstracts were read; individual methods and this scene's fit remain unreviewed."]
+        }
+      ],
+      "baseline": {
+        "source_sha": "8ac01d3f9db91a64984d31260788b87e44de12f1",
+        "evidence": ["docs/graphics-representation-review-2026-10.md", "assets/js/home-scene/PHYSICS.md", "docs/performance-notes.md"],
+        "limits": [
+          "No renderer qualification follows from a course abstract.",
+          "Concurrent startup profiles and software WebGL are functional evidence, not a native PC GPU speed comparison."
+        ]
+      },
+      "gates": [
+        {
+          "id": "prior-attempts",
+          "command": [],
+          "expectation": "Read retained trained/neural/FFT/startup attempts; state what changes the next hypothesis."
+        },
+        {
+          "id": "complete-product",
+          "command": [],
+          "expectation": "Bind the complete production file inventory and program/asset census; do not omit assets, rooms or first-ready interactions."
+        },
+        {
+          "id": "paired-cost",
+          "command": [],
+          "expectation": "Request an exclusive quiet window for matched native clocks, avatar/pose, actual viewport/buffer/MSAA/backend and source/model/cache before a cost claim."
+        }
+      ],
+      "next_step": "Review one complete method and its available implementation, then propose a single leased experiment with runnable correctness gates."
+    }
+  ]
+}
