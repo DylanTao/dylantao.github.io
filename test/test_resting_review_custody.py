@@ -25,6 +25,7 @@ class RestingReviewCustody(unittest.TestCase):
             "research-runner-2026-11-01": "MANIFEST.json",
             "research-deadline-2026-11-01": "MANIFEST.json",
             "research-schema-2026-11-01": "MANIFEST.json",
+            "research-protocol-2026-11-01": "MANIFEST.json",
             "exporter-holes-2026-11-01": "MANIFEST.json",
             "exterior-waterline-2026-11-01": "MANIFEST.json",
             "waterline-release-2026-11-01": "MANIFEST.json",

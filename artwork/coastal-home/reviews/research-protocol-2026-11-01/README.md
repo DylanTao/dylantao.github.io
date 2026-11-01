@@ -1,0 +1,9 @@
+# Actual research protocol completion, November 1
+
+The final bounded protocol invocation uses the installed, locally authenticated CLI and the current constrained schema. It finishes normally in152.595seconds, returns the single exact leased note path and bound passing evidence, and leaves every protected ref unchanged. The coordinator independently re-executes the command, verifies Node v24.13.0, hashes the actual60-word note and checks its exact output binding. The emitted source/effective schemas, final handback and gate evidence are retained; raw model events remain outside Git.
+
+This proves the installed orchestration, authentication, constrained output, process containment and coordinator handoff. It is deliberately a small procedural check, with no new external retrieval, literature admission, renderer change or performance claim. The earlier real timeout and invalid-prose literature handback remain failed in their own records. Their fit proposal and exact corrective changes are independently documented, rather than relabeled successful.
+
+The daily hidden limited-user task performs known-source discovery only; model execution remains an explicit bounded invocation. The canonical backlog procedure explains how later models can continue the source-backed queue with more time/iterations. Nothing commits, pushes or promotes a model result automatically. The physical house, rain contact and appearance work remain separate.
+
+Usage is exactly as emitted, including cached-input and reasoning-output counts. Those counts are not a hard token cap or a revived public usage ledger. No raw model reasoning, credentials, private analytics or paper text is included. The ordinary CRLF/LF baseline control initially differed as raw checkout bytes; the retained gate records the actual failed control and matching Git-filtered blob identities.

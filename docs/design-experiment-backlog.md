@@ -579,6 +579,8 @@ An explicit `--model` selects a model later; omitting it preserves the local CLI
 
 Default raw state is outside Git under LocalAppData/coastal-research; each job retains its isolated named worktree, pinned baseline blobs, schema, prompts, JSONL, errors, patch, structured handback and hashed inventory. Keep concise decisions and observations rather than hidden chain of thought. A common-repository lock prevents concurrent runner jobs across worktrees. Do not move main or gh-pages, fetch, publish or refresh metrics during a model job. A guard failure creates an operator-review marker; inspect the retained failure before removing it. The Windows Job is assigned before the model command starts, so its child processes inherit containment. This is bounded nonadversarial orchestration, not a security boundary against malicious code.
 
+The [actual protocol completion](../artwork/coastal-home/reviews/research-protocol-2026-11-01/README.md) verifies local authentication, the emitted schema, exact paths, bound evidence and process/ref guards using a real bounded model. Its earlier timeout and invalid semantic handback remain failed. The independently checked [rain fit note](../artwork/coastal-home/research/notes/rain-ocean-impact.md) is the current scientific resume point; actual contact and rendering remain proposed.
+
 ### Automation and quality gates
 
 `bin/install_coastal_research_task.ps1` registers a limited-user hidden daily task for **discovery only**. It starts no model jobs. The wrapper, raw receipts and task logs stay outside Git. Model research is an explicit bounded invocation using the commands above, with more iterations/time or an explicit later model when desired.
