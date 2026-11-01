@@ -55,6 +55,30 @@ const HEAD_CUT_ABOVE_NECK = 0.04;
 // Those primitives draw a body-only index there. Cached per shared geometry, so switching
 // styles never rebuilds or re-uploads it.
 const bodyOnlyIndices = new WeakMap();
+export function headOwnedVertex(skinIndex, skinWeight, slots, vertex) {
+  let weight = 0;
+  for (let k = 0; k < 4; k++) if (slots[skinIndex.getComponent(vertex, k)]) weight += skinWeight.getComponent(vertex, k);
+  return weight >= 0.5;
+}
+
+// CPU selection must see the same fragments as the primary walking view. This
+// never changes geometry or exempts another person, equipment or terrain.
+export function primaryWalkHitHidden(hit, { root, active, plane, headBones, excludeHead = true }) {
+  if (!active || !root || !hit?.object || !hit.point) return false;
+  let ancestor = hit.object;
+  while (ancestor && ancestor !== root) ancestor = ancestor.parent;
+  if (ancestor !== root) return false;
+  if (plane.distanceToPoint(hit.point) < 0) return true;
+  const mesh = hit.object,
+    geometry = mesh.geometry;
+  if (!excludeHead || !mesh.isSkinnedMesh || !hit.face || !geometry.index || geometry.groups.length) return false;
+  const skinIndex = geometry.attributes.skinIndex,
+    skinWeight = geometry.attributes.skinWeight;
+  if (!skinIndex || !skinWeight) return false;
+  const slots = mesh.skeleton.bones.map((bone) => headBones.has(bone));
+  return [hit.face.a, hit.face.b, hit.face.c].every((vertex) => headOwnedVertex(skinIndex, skinWeight, slots, vertex));
+}
+
 export function headFreeIndex(mesh, headBones) {
   const geometry = mesh.geometry;
   if (bodyOnlyIndices.has(geometry)) return bodyOnlyIndices.get(geometry);
@@ -67,9 +91,7 @@ export function headFreeIndex(mesh, headBones) {
     const slots = mesh.skeleton.bones.map((bone) => headBones.has(bone)),
       owned = new Uint8Array(skinIndex.count);
     for (let vertex = 0; vertex < skinIndex.count; vertex++) {
-      let weight = 0;
-      for (let k = 0; k < 4; k++) if (slots[skinIndex.getComponent(vertex, k)]) weight += skinWeight.getComponent(vertex, k);
-      owned[vertex] = weight >= 0.5 ? 1 : 0;
+      owned[vertex] = headOwnedVertex(skinIndex, skinWeight, slots, vertex) ? 1 : 0;
     }
     const source = index.array,
       kept = new source.constructor(source.length);
@@ -123,6 +145,7 @@ export function createWalkPresence({ renderer, excludeHead = true }) {
     primaryView = false,
     headFree = { primitives: 0, triangles: 0 };
   const materials = new Set(),
+    headOwners = new Set(),
     skeletons = new Set(),
     planeBindings = new WeakMap(),
     swapped = new Map();
@@ -146,6 +169,7 @@ export function createWalkPresence({ renderer, excludeHead = true }) {
     for (const skeleton of skeletons) skeleton.dispose();
     skeletons.clear();
     materials.clear();
+    headOwners.clear();
     body?.removeFromParent();
     body = head = mixer = idle = walk = null;
     opticalEyeOffset.set(0, 0, 0);
@@ -249,11 +273,8 @@ export function createWalkPresence({ renderer, excludeHead = true }) {
         // An unsupported future garment must not remove the real walking person.
         collarFailure = error.message;
       }
-      if (excludeHead && head) {
-        const headBones = new Set();
-        head.traverse((part) => part.isBone && headBones.add(part));
-        excludeHeadFromPrimaryView(headBones);
-      }
+      if (head) head.traverse((part) => part.isBone && headOwners.add(part));
+      if (excludeHead && head) excludeHeadFromPrimaryView(headOwners);
       if (active) hideSource();
     }
     object.visible = active && Boolean(body);
@@ -488,6 +509,14 @@ export function createWalkPresence({ renderer, excludeHead = true }) {
     refreshMaterials,
     update,
     withoutHead,
+    hidesPrimaryHit: (hit) =>
+      primaryWalkHitHidden(hit, {
+        root: object,
+        active: active && object.visible && Boolean(body) && !disposed,
+        plane: headClip,
+        headBones: headOwners,
+        excludeHead,
+      }),
     prepare,
     get contentVersion() {
       return version;

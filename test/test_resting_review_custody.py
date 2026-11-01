@@ -15,6 +15,8 @@ class RestingReviewCustody(unittest.TestCase):
             "contact-cpu-2026-11-01": "MANIFEST.json",
             "contact-cpu-integration-2026-11-01": "MANIFEST.json",
             "contact-input-ci-2026-11-01": "MANIFEST.json",
+            "gym-dashboard-2026-11-01": "MANIFEST.json",
+            "gym-integration-2026-11-01": "MANIFEST.json",
             "rooms-menu-stacking-2026-11-01": "MANIFEST.json",
             "pinniped-contact-2026-11-01": "MANIFEST.json",
             "raccoon-body-contact-2026-11-01": "MANIFEST.json",

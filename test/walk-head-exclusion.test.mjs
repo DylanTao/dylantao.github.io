@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { loadNativeAvatar, THREE } from "./helpers/coastal-native-avatar.mjs";
-import { createWalkPresence, headFreeIndex } from "../assets/js/home-scene/walk-presence.mjs";
+import { createWalkPresence, headFreeIndex, primaryWalkHitHidden } from "../assets/js/home-scene/walk-presence.mjs";
 
 const avatars = ["ghibli", "lizard", "south-park", "simpsons", "rick-and-morty"];
 
@@ -36,9 +36,15 @@ for (const id of avatars) {
         assert.ok(w < 1e-6 || w > 1 - 1e-6, `${id} ${mesh.material.name}: head binding is rigid`);
       }
       let expected = 0;
-      for (let i = 0; i < full.length; i += 3) expected += owned(full[i], full[i + 1], full[i + 2]);
+      const expectedKept = [];
+      for (let i = 0; i < full.length; i += 3) {
+        const removed = owned(full[i], full[i + 1], full[i + 2]);
+        expected += removed;
+        if (!removed) expectedKept.push(full[i], full[i + 1], full[i + 2]);
+      }
       if (!expected) return assert.equal(cut, null, `${mesh.material.name} keeps its own index`);
       const kept = cut.index.array;
+      assert.deepEqual(Array.from(kept), expectedKept, "the shared predicate retains every original body index in its exact order");
       assert.equal(cut.headTriangles, expected);
       assert.equal(kept.length, full.length - 3 * expected, `${mesh.material.name}: every body triangle is kept`);
       for (let i = 0; i < kept.length; i += 3) assert.ok(!owned(kept[i], kept[i + 1], kept[i + 2]));
@@ -68,3 +74,46 @@ for (const id of avatars) {
     presence.dispose();
   });
 }
+
+test("primary walk hit visibility preserves visible body, walls, equipment and other people", () => {
+  const root = new THREE.Group(),
+    head = new THREE.Bone(),
+    hip = new THREE.Bone(),
+    headBones = new Set([head]);
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute([0, 0, 0, 1, 0, 0, 0, 1, 0], 3));
+  geometry.setIndex([0, 1, 2]);
+  geometry.setAttribute("skinIndex", new THREE.Uint16BufferAttribute([0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0], 4));
+  geometry.setAttribute("skinWeight", new THREE.Float32BufferAttribute([0.5, 0.5, 0, 0, 0.5, 0.5, 0, 0, 0.5, 0.5, 0, 0], 4));
+  const material = new THREE.MeshStandardMaterial(),
+    mesh = new THREE.SkinnedMesh(geometry, material);
+  mesh.bind(new THREE.Skeleton([head, hip]));
+  root.add(mesh);
+  const options = { root, active: true, plane: new THREE.Plane(new THREE.Vector3(0, -1, 0), 1.4), headBones };
+  const hit = { object: mesh, point: new THREE.Vector3(0, 1.3, 0), face: { a: 0, b: 1, c: 2 } };
+  assert.equal(primaryWalkHitHidden(hit, options), true, "the exact >=0.5 Head ownership boundary matches the primary body-only index");
+  geometry.attributes.skinWeight.setX(2, 0.49);
+  geometry.attributes.skinWeight.setY(2, 0.51);
+  assert.equal(primaryWalkHitHidden(hit, options), false, "a visible mixed/body triangle stays occluding");
+  assert.equal(
+    primaryWalkHitHidden({ ...hit, point: new THREE.Vector3(0, 1.5, 0) }, options),
+    true,
+    "the current world-space neck plane hides upper fragments"
+  );
+  assert.equal(primaryWalkHitHidden(hit, { ...options, active: false }), false);
+  assert.equal(primaryWalkHitHidden(hit, { ...options, excludeHead: false }), false);
+  for (const name of ["wall", "rack", "routine-avatar", "another-walking-avatar"]) {
+    const external = new THREE.Group(),
+      object = new THREE.Mesh(geometry, material);
+    object.name = name;
+    external.add(object);
+    assert.equal(
+      primaryWalkHitHidden({ ...hit, object, point: new THREE.Vector3(0, 2, 0) }, options),
+      false,
+      `${name} is outside the actual walking root`
+    );
+  }
+  geometry.dispose();
+  material.dispose();
+  mesh.skeleton.dispose();
+});

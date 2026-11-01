@@ -1,0 +1,158 @@
+{
+  "at": "2026-11-01T16:39:56.076728+00:00",
+  "base": "09f9edf3ecb55b12524ee54d9c667a8375f40b0c",
+  "workerSource": "a65f9d7da3e7e90b9bfa10f0e578649d1a54c479",
+  "workerEvidence": "68dd7c5cbe8e9c7c84c1ae95e84cf6257ba5e32b",
+  "nativeSha256": "de217984242f77903145dd6d16f277923b57fd5e3eb2469c906c2507b494ad87",
+  "cache": {
+    "url": "static-light-field.json",
+    "signature": "6baa3bd804490ce7d6fd77b72502724ffa744345facbce27b21ccd814faf5874",
+    "sha256": "236ba29ba3d54e877ceeaa116c46c9d6f82e98a69abd95e960047853648109a4"
+  },
+  "preROITriangles": 736470,
+  "allSealedWorkerPayloadsExact": 225,
+  "bodies": [
+    {
+      "file": "assets/js/home.js",
+      "bytes": 36727,
+      "sha256": "61d7d4252e3d37ee915e37afa4d3b47935e7b9f2f44167b1e270f2f5c230fda3",
+      "owner": "gym-integration-20261101-4198",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "file": "assets/js/home-scene/controller.mjs",
+      "bytes": 103088,
+      "sha256": "6e7affdd80450fe0a3873bd984c952d5b6e4fdbc3f6b65994463bbe946d3fca5",
+      "owner": "gym-integration-20261101-4198",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "file": "assets/js/home-scene/gym-dashboard.mjs",
+      "bytes": 15366,
+      "sha256": "591f62583e846ca6da800c5e5c83e06f1dc886b445db99bc43a7a13a99e56a47",
+      "owner": "gym-integration-20261101-4198",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "file": "assets/js/home-scene/gym-props.mjs",
+      "bytes": 6883,
+      "sha256": "2679d12d3575302fe3dda73c6b33ef595e39a83f08570c99db9d86b0ff43d62c",
+      "owner": "gym-integration-20261101-4198",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "file": "assets/js/home-scene/walk-controls.mjs",
+      "bytes": 18937,
+      "sha256": "e3da0aeca6d0d35bc79d8e4865586c2f5cc333d309ea2c026069c5955632d993",
+      "owner": "gym-integration-20261101-4198",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "file": "assets/js/home-scene/walk-presence.mjs",
+      "bytes": 9775,
+      "sha256": "1758fc08ece94fc232aeba2ccb250d620bf210479a0ab4eb9f161d038bbd6cb9",
+      "owner": "gym-integration-20261101-4198",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "file": "assets/js/home-scene/environment.mjs",
+      "bytes": 28853,
+      "sha256": "0f5d5b6716272612f27f5f0b7ca2691f7570170960353eae1d36e62fbca4b846",
+      "owner": "gym-integration-20261101-4198",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "file": "assets/css/main.css",
+      "bytes": 561712,
+      "sha256": "cb7c928a80b36493990a76354a94ef674554e8e1a11ee044da312580d0f00f51",
+      "owner": "gym-integration-20261101-4198",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "file": "assets/js/module-build.json",
+      "bytes": 39780,
+      "sha256": "df96673fa40c5588f7243a7cddff7649c35ad79d97e9d1ac279408dc0fc8f716",
+      "owner": "gym-integration-20261101-4198",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "file": "assets/models/home/manifest.json",
+      "bytes": 339536,
+      "sha256": "856b50cad4fb21ea786c96081ef0b8e5d41c470d0ba18954b3ffdfb0773c8322",
+      "owner": "gym-integration-20261101-4198",
+      "exactCompleteProductionBody": true
+    },
+    {
+      "file": "assets/models/home/static-light-field.json",
+      "bytes": 711853,
+      "sha256": "236ba29ba3d54e877ceeaa116c46c9d6f82e98a69abd95e960047853648109a4",
+      "owner": "gym-integration-20261101-4198",
+      "exactCompleteProductionBody": true
+    }
+  ],
+  "sources": [
+    {
+      "path": "assets/js/home.js",
+      "committedLFBytes": 79197,
+      "committedLFSha256": "9ea0a9ac47773d184ad9dbb530e69f9eda9968a4263a59a9ae5a17f70e2ea59d"
+    },
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "committedLFBytes": 213818,
+      "committedLFSha256": "44a9ce779afa85416603abe2282e868a6d0c015db04768f003288d1fe1178507"
+    },
+    {
+      "path": "assets/js/home-scene/gym-dashboard.mjs",
+      "committedLFBytes": 21952,
+      "committedLFSha256": "ec95f120ae2eb29784026e4bc8ea7c4dc4a5016d5ba086369d8ba1b5766c7ebf"
+    },
+    {
+      "path": "assets/js/home-scene/gym-props.mjs",
+      "committedLFBytes": 12944,
+      "committedLFSha256": "9c7d64c2cd2ab62f784021b4f9f8d4b8480b2f9bcdc50f411531d1c7d164f75e"
+    },
+    {
+      "path": "assets/js/home-scene/walk-controls.mjs",
+      "committedLFBytes": 40903,
+      "committedLFSha256": "44061bc598b1dc4bf95aa83f68702a39a5bb9f5d5079324127197d0e30e3ca58"
+    },
+    {
+      "path": "assets/js/home-scene/walk-presence.mjs",
+      "committedLFBytes": 23338,
+      "committedLFSha256": "c3d777930be88a5a05bcc991655f4aa47f8ddd7946dfe804cdb98e259dcc9bba"
+    },
+    {
+      "path": "bin/coastal_static_light_inputs.cjs",
+      "committedLFBytes": 2910,
+      "committedLFSha256": "f1b9b1ae2ddaccc7c3816c6545d99d73169c5c7b66ea0f6487d87f2eb0c0a5a2"
+    },
+    {
+      "path": "_sass/_home.scss",
+      "committedLFBytes": 96396,
+      "committedLFSha256": "1d5a4c03082a809eb176b3272c472149203a4eca0b7a9db4299ff3fe0835ac81"
+    },
+    {
+      "path": "test/visual/desk-scene.spec.js",
+      "committedLFBytes": 256955,
+      "committedLFSha256": "e5ffc358677b9c98446703189c64468f1eaf03dee4fdbe9a98be23e526a2f6a5"
+    },
+    {
+      "path": "test/visual/scene-groups.json",
+      "committedLFBytes": 23963,
+      "committedLFSha256": "efc1f1fa5994effbba3dbca97b7a6859c6b1b49c1952214490432a3efc234c0d"
+    }
+  ],
+  "checks": {
+    "nodeTests": 967,
+    "nodePass": 960,
+    "nodeSkip": 7,
+    "pythonPass": 328,
+    "registeredCasesPerWidth": 148,
+    "integratedChromiumCases": 8,
+    "correctedKeyboardChromiumCases": 2,
+    "correctedWebKitCases": 2,
+    "integratedRoomsChromiumCases": 2,
+    "integratedRoomsQualifiedLinuxCases": 1,
+    "roomsSelectionsPerCase": 26
+  }
+}

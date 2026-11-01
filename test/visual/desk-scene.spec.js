@@ -2319,10 +2319,12 @@ test("coastal home: every Rooms destination receives pointer input above followi
     await capture(testInfo, `rooms-pointer-${mode}`, await page.screenshot());
     await summary.press("Escape");
   }
-  await page.locator("[data-world-exit]").click();
-  await expect(stage).not.toHaveClass(/is-world-immersive/);
-  expect(errors).toEqual([]);
   await testInfo.attach("rooms-pointer-hits", { body: JSON.stringify({ rows, errors }, null, 2), contentType: "application/json" });
+  await page.locator("[data-world-exit]").click();
+  // Native fullscreen can wait behind a complete software-rendered frame on
+  // exit too. Keep the normal bounded scene-readiness allowance for that step.
+  await expect(stage).not.toHaveClass(/is-world-immersive/, { timeout: SCENE_READY_TIMEOUT });
+  expect(errors).toEqual([]);
 });
 
 test("coastal home: public room navigation works in the embed and starts a safe walk from the chosen room", async ({ page }, testInfo) => {
@@ -3382,6 +3384,319 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
   expect((await evidence(scene)).cameraFov).toBe(38);
   fs.writeFileSync(testInfo.outputPath("gym-framing.json"), JSON.stringify({ rows, errors }, null, 2));
   expect(errors).toEqual([]);
+});
+
+async function openTrainingScreenHome(page, testInfo) {
+  const gym = await gymSession("2026-10-15", 1110, { force: true });
+  const working = gym.info.timeline.segments.find((segment) => segment.kind === "set" && !segment.warmup && segment.set === 2);
+  const pinned = Date.parse("2026-10-15T18:00:00-07:00") + (working.start + 0.5) * 1000;
+  await preparePage(page, "light");
+  // Functional fixture: pin the authored session through Date alone. RAF and
+  // performance.now remain native; this case makes no frame-rate claim.
+  await page.addInitScript((fixed) => {
+    const NativeDate = Date;
+    window.Date = new Proxy(NativeDate, {
+      construct(target, args) {
+        return Reflect.construct(target, args.length ? args : [fixed]);
+      },
+      get(target, key) {
+        return key === "now" ? () => fixed : Reflect.get(target, key);
+      },
+    });
+  }, pinned);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(publicRouteUrl("/") + "?scene-lab=1", { waitUntil: "domcontentloaded" });
+  const touch = Boolean(testInfo.project.use.isMobile),
+    activate = (locator) => (touch ? locator.tap() : locator.click());
+  await activate(page.locator('[data-home-desk-mode="3d"]'));
+  const scene = page.locator("[data-home-desk-scene]"),
+    canvas = scene.locator("canvas"),
+    ui = page.locator("[data-home-world-controls]"),
+    stage = page.locator("[data-home-artifact-stage]");
+  await scene.scrollIntoViewIfNeeded();
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
+  await activate(ui.locator("[data-world-places] summary"));
+  await activate(ui.locator('[data-world-destination="gym"]'));
+  await expect(scene).toHaveAttribute("data-room", "gym");
+  return {
+    gym,
+    scene,
+    canvas,
+    ui,
+    stage,
+    activate,
+    touch,
+    fixture: { dateKey: "2026-10-15", pinnedTimestamp: Math.trunc(pinned), sessionSeconds: working.start + 0.5 },
+  };
+}
+
+async function trainingPanelFits(dialog, page) {
+  const fit = await dialog.evaluate((element) => {
+    const panel = element.querySelector(".home-training-panel"),
+      old = panel.scrollTop;
+    panel.scrollTop = panel.scrollHeight;
+    const last = panel.lastElementChild.getBoundingClientRect(),
+      bounds = panel.getBoundingClientRect();
+    const result = {
+      dialog: element.getBoundingClientRect().toJSON(),
+      panel: bounds.toJSON(),
+      last: last.toJSON(),
+      background: getComputedStyle(element).backgroundColor.match(/\d+/g).slice(0, 3).map(Number),
+    };
+    panel.scrollTop = old;
+    return result;
+  });
+  expect(fit.dialog.y).toBeGreaterThanOrEqual(0);
+  expect(fit.dialog.bottom).toBeLessThanOrEqual(page.viewportSize().height + 1);
+  expect(fit.last.bottom).toBeLessThanOrEqual(fit.panel.bottom + 1);
+  expect(fit.last.bottom).toBeGreaterThan(fit.panel.top);
+  return fit;
+}
+
+function trainingPanelPixelFit(buffer, fit, viewport) {
+  const png = PNG.sync.read(buffer),
+    scale = png.width / viewport.width;
+  const y = Math.round((fit.dialog.y + 4) * scale),
+    left = Math.round((fit.dialog.x + fit.dialog.width * 0.2) * scale),
+    right = Math.round((fit.dialog.x + fit.dialog.width * 0.8) * scale);
+  let matching = 0;
+  for (let x = left; x < right; x++) {
+    const i = (y * png.width + x) * 4;
+    if (fit.background.every((v, c) => Math.abs(png.data[i + c] - v) <= 1)) matching++;
+  }
+  expect(matching / (right - left), "the panel must paint at its measured viewport location").toBeGreaterThan(0.8);
+  return { y, left, right, matching, expected: fit.background };
+}
+
+test("coastal gym: the digital screen separates recorded progress from the house session", async ({ page }, testInfo) => {
+  test.setTimeout(600000);
+  const errors = collectRuntimeErrors(page),
+    { scene, canvas, ui, stage, activate, touch, fixture } = await openTrainingScreenHome(page, testInfo);
+  const beforeClock = await page.evaluate(() => ({ dateNow: Date.now(), performanceNow: performance.now() }));
+  const before = await evidence(scene),
+    target = before.targets.find((p) => p.type === "training-screen"),
+    box = await canvas.boundingBox();
+  expect(before.gym.screen).toMatchObject({ width: 2048, height: 1392, selfLit: true, emissiveOnlyAppearance: true });
+  expect(before.gym.screen.diffuse.every((v) => v < 0.004)).toBe(true);
+  expect(target.x).toBeGreaterThan(0);
+  expect(target.x).toBeLessThan(1);
+  expect(target.y).toBeGreaterThan(0);
+  expect(target.y).toBeLessThan(1);
+  const point = { x: box.x + target.x * box.width, y: box.y + target.y * box.height };
+  if (touch) await page.touchscreen.tap(point.x, point.y);
+  else await page.mouse.click(point.x, point.y);
+  const dialog = page.locator("[data-training-dialog]");
+  await expect(dialog).toBeVisible();
+  const embeddedFit = await trainingPanelFits(dialog, page);
+  await expect(dialog.getByRole("tab", { name: "Today", exact: true })).toBeFocused();
+  await expect(dialog.locator(".home-training-eyebrow").last()).toContainText("House session");
+  await expect(dialog.locator(".home-training-sets [data-done=true]")).toHaveCount(2);
+  await expect(dialog.locator(".home-training-sets [aria-current=step]")).toHaveCount(1);
+  expect(await dialog.locator("h2").evaluate((e) => getComputedStyle(e).color)).toBe("rgb(237, 245, 244)");
+  await capture(testInfo, "training-today", await dialog.screenshot());
+  await activate(dialog.getByRole("tab", { name: "Progress", exact: true }));
+  await activate(dialog.locator('[data-training-lift="bench"]'));
+  await expect(dialog.locator('[data-training-lift="bench"]')).toContainText("235 lb");
+  await activate(dialog.locator('[data-training-unit="kg"]'));
+  await expect(dialog.locator('[data-training-lift="bench"]')).toContainText("106.6 kg");
+  await expect(dialog.locator(".home-training-cycles")).toContainText("85 / 99");
+  await activate(dialog.locator(".home-training-history summary"));
+  await expect(dialog.locator(".home-training-history tbody tr")).toHaveCount(10);
+  await capture(testInfo, "training-progress", await dialog.screenshot());
+  // A large texture remains unchanged while real subsequent animation frames run.
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  const active = await evidence(scene);
+  await expect.poll(async () => (await evidence(scene)).frames, { timeout: 60000 }).toBeGreaterThan(active.frames + 5);
+  const animated = await evidence(scene);
+  expect(animated.gym.screen.uploads).toBe(active.gym.screen.uploads);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  const contactBefore = await evidence(scene),
+    contactBeforeClock = await page.evaluate(() => ({ dateNow: Date.now(), performanceNow: performance.now() }));
+  await dialog.getByRole("tab", { name: "Progress", exact: true }).focus();
+  await page.keyboard.press("ArrowRight");
+  await expect(dialog.getByRole("tab", { name: "Program", exact: true })).toBeFocused();
+  await activate(dialog.locator('[data-training-template="deadlift"]'));
+  await activate(dialog.locator('[data-training-day="3"]'));
+  await expect(dialog.locator('[data-training-day="3"]')).toHaveAttribute("aria-pressed", "true");
+  // Safari touch selection does not automatically focus a button. Independently
+  // activate the focused control with a real key: rerendering must preserve its
+  // keyboard focus as well as the selection already established by the tap.
+  await dialog.locator('[data-training-day="3"]').focus();
+  await dialog.locator('[data-training-day="3"]').press("Space");
+  await expect(dialog.locator('[data-training-day="3"]')).toBeFocused();
+  await capture(testInfo, "training-program", await dialog.screenshot());
+  await page.keyboard.press("Escape");
+  await expect(dialog).not.toBeVisible();
+  await expect(canvas).toBeFocused();
+  const after = await evidence(scene);
+  const afterClock = await page.evaluate(() => ({ dateNow: Date.now(), performanceNow: performance.now() }));
+  expect(beforeClock.dateNow).toBe(fixture.pinnedTimestamp);
+  expect(afterClock.dateNow).toBe(beforeClock.dateNow);
+  expect(after.currentRoom).toBe(before.currentRoom);
+  // Compare UI actions at matched paused physical/session times. The deliberate
+  // live interval above also advances the authored finger clip; retain it separately.
+  const contactDelta = { bars: {}, joints: {} };
+  expect(after.animationSeconds).toBe(contactBefore.animationSeconds);
+  for (const [station, bar] of Object.entries(contactBefore.gym.bars)) {
+    const next = after.gym.bars[station];
+    expect(next.weight).toBe(bar.weight);
+    expect(next.held).toBe(bar.held);
+    contactDelta.bars[station] = Math.hypot(...next.position.map((v, i) => v - bar.position[i]));
+    expect(contactDelta.bars[station]).toBeLessThan(0.000001);
+  }
+  expect(after.gym.incline).toBe(contactBefore.gym.incline);
+  expect(after.actorPosition).toEqual(contactBefore.actorPosition);
+  for (const [joint, position] of Object.entries(contactBefore.joints)) {
+    contactDelta.joints[joint] = Math.hypot(...after.joints[joint].map((v, i) => v - position[i]));
+    expect(contactDelta.joints[joint]).toBeLessThan(0.000001);
+  }
+  // The keyboard/touch alternative works in the same full-screen stage.
+  await activate(ui.locator("[data-world-fullscreen]"));
+  await activate(ui.locator("[data-world-training]"));
+  await expect(dialog).toBeVisible();
+  const fullscreenFit = await trainingPanelFits(dialog, page);
+  const fullscreenPicture = await page.screenshot(),
+    fullscreenPixels = trainingPanelPixelFit(fullscreenPicture, fullscreenFit, page.viewportSize());
+  await capture(testInfo, "training-fullscreen", fullscreenPicture);
+  await page.keyboard.press("Escape");
+  await expect(dialog).not.toBeVisible();
+  await expect(stage).toHaveClass(/is-world-immersive/);
+  await expect(ui.locator("[data-world-training]")).toBeFocused();
+  await page.locator("[data-world-exit]").click();
+  expect(errors).toEqual([]);
+  fs.writeFileSync(
+    testInfo.outputPath("training-screen.json"),
+    JSON.stringify(
+      {
+        fixture,
+        beforeClock,
+        contactBeforeClock,
+        afterClock,
+        before,
+        active,
+        animated,
+        contactBefore,
+        after,
+        contactDelta,
+        embeddedFit,
+        fullscreenFit,
+        fullscreenPixels,
+        errors,
+      },
+      null,
+      2
+    )
+  );
+});
+
+test("coastal gym: the training dialog releases held walk input while gravity continues", async ({ page }, testInfo) => {
+  test.setTimeout(600000);
+  const errors = collectRuntimeErrors(page),
+    { scene, canvas, ui, stage, activate } = await openTrainingScreenHome(page, testInfo);
+  await activate(ui.locator("[data-world-fullscreen]"));
+  await expect.poll(async () => (await evidence(scene)).walk?.ready, { timeout: 90000 }).toBe(true);
+  await activate(page.locator("[data-world-walk]"));
+  await expect.poll(async () => (await evidence(scene)).walk?.active).toBe(true);
+  await expect.poll(async () => (await evidence(scene)).walk?.transition).toBe(false);
+  const dialog = page.locator("[data-training-dialog]"),
+    rows = [];
+  await canvas.focus();
+  await page.keyboard.down("KeyW");
+  await expect.poll(async () => (await evidence(scene)).walk.keys).toContain("KeyW");
+  await activate(ui.locator("[data-world-training]"));
+  await expect(dialog).toBeVisible();
+  const held = await evidence(scene);
+  rows.push({ phase: "held-key-open", walk: held.walk });
+  expect(held.walk).toMatchObject({ active: true, inputSuspended: true, keys: [], velocity: [0, 0], locked: false });
+  await page.keyboard.press("Escape");
+  await expect(stage).toHaveClass(/is-world-immersive/);
+  await canvas.focus();
+  await page.keyboard.down("KeyW"); // still held: this is an actual repeat, not a fresh press
+  expect((await evidence(scene)).walk.keys).toEqual([]);
+  await page.keyboard.up("KeyW");
+  await page.keyboard.down("KeyW");
+  await expect.poll(async () => (await evidence(scene)).walk.keys).toContain("KeyW");
+  await page.keyboard.up("KeyW");
+  await page.waitForTimeout(100);
+  // Date is pinned, but a real Space jump still follows native RAF gravity under the dialog.
+  await canvas.focus();
+  await page.keyboard.press("Space");
+  await expect.poll(async () => (await evidence(scene)).walk.grounded).toBe(false);
+  await page.keyboard.press("t");
+  await expect(dialog).toBeVisible();
+  const airborne = await evidence(scene);
+  rows.push({ phase: "airborne-open", walk: airborne.walk });
+  expect(airborne.walk.inputSuspended).toBe(true);
+  await expect.poll(async () => (await evidence(scene)).walk.grounded, { timeout: 30000 }).toBe(true);
+  const landed = await evidence(scene);
+  rows.push({ phase: "landed-with-dialog", walk: landed.walk });
+  expect(landed.walk.verticalVelocity).toBe(0);
+  expect(landed.walk.inputSuspended).toBe(true);
+  expect(landed.walk.active).toBe(true);
+  await page.keyboard.press("Escape");
+  // Controlled standard-gamepad input uses the real gamepad reader and frame loop.
+  await page.evaluate(() => {
+    window.__trainingPad = {
+      axes: [0, -0.7, 0, 0],
+      buttons: Array.from({ length: 17 }, () => ({ pressed: false, value: 0 })),
+      mapping: "standard",
+      connected: true,
+    };
+    Object.defineProperty(navigator, "getGamepads", { configurable: true, value: () => [window.__trainingPad] });
+  });
+  await canvas.focus();
+  await page.keyboard.press("Home");
+  await expect.poll(async () => (await evidence(scene)).walk.gamepads).toBe(1);
+  await activate(ui.locator("[data-world-training]"));
+  const padOpen = await evidence(scene);
+  rows.push({ phase: "held-pad-open", walk: padOpen.walk });
+  expect(padOpen.walk.inputSuspended).toBe(true);
+  await page.keyboard.press("Escape");
+  await expect.poll(async () => (await evidence(scene)).walk.padNeedsNeutral).toBe(true);
+  const p0 = (await evidence(scene)).walk.position;
+  await page.waitForTimeout(150);
+  expect((await evidence(scene)).walk.position).toEqual(p0);
+  await page.evaluate(() => {
+    window.__trainingPad.axes = [0, 0, 0, 0];
+  });
+  await expect.poll(async () => (await evidence(scene)).walk.padNeedsNeutral).toBe(false);
+  await page.evaluate(() => {
+    window.__trainingPad.axes = [0, 0, 0.7, 0];
+  });
+  const yaw = (await evidence(scene)).walk.yaw;
+  await expect.poll(async () => (await evidence(scene)).walk.yaw).not.toBe(yaw);
+  await page.evaluate(() => {
+    window.__trainingPad.connected = false;
+  });
+  if (testInfo.project.use.isMobile && testInfo.project.use.browserName !== "webkit") {
+    const cdp = await page.context().newCDPSession(page),
+      stick = await page.locator('[data-world-stick="move"]').boundingBox();
+    expect(stick).not.toBeNull();
+    const x = stick.x + stick.width / 2,
+      y = stick.y + stick.height / 2;
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ id: 1, x, y }] });
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ id: 1, x, y: y - 30 }] });
+    await canvas.focus();
+    await page.keyboard.press("t");
+    await expect(dialog).toBeVisible();
+    expect((await evidence(scene)).walk.velocity).toEqual([0, 0]);
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+    await page.keyboard.press("Escape");
+    await expect(page.locator(".home-world-sticks")).toBeVisible();
+    await cdp.detach();
+  }
+  await activate(ui.locator("[data-world-training]"));
+  const walkFit = await trainingPanelFits(dialog, page),
+    walkPicture = await page.screenshot(),
+    walkPixels = trainingPanelPixelFit(walkPicture, walkFit, page.viewportSize());
+  await capture(testInfo, "training-walk-dialog", walkPicture);
+  await page.keyboard.press("Escape");
+  await expect(stage).toHaveClass(/is-world-walking/);
+  await page.locator("[data-world-exit]").click();
+  await expect(stage).not.toHaveClass(/is-world-immersive/);
+  expect(errors).toEqual([]);
+  fs.writeFileSync(testInfo.outputPath("training-walk-input.json"), JSON.stringify({ rows, walkFit, walkPixels, errors }, null, 2));
 });
 
 for (const activity of ["breakfast", "workout"]) {

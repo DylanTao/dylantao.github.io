@@ -22,6 +22,8 @@ async function coastalLightInputs(root) {
     "assets/js/home-scene/static-light-field.mjs",
     "assets/js/home-scene/light-trace-core.mjs",
     "assets/js/home-scene/controller.mjs",
+    "assets/js/home-scene/gym-props.mjs",
+    "assets/js/home-scene/gym-dashboard.mjs",
     "assets/js/home-scene/program-lifetime.mjs",
     "assets/js/home-scene/program-warmup.mjs",
     "assets/js/home-scene/walk-presence.mjs",

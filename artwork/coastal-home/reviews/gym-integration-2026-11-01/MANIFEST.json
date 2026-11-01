@@ -1,0 +1,284 @@
+{
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-desktop-1440/training-walk-dialog.png",
+      "bytes": 171213,
+      "sha256": "02d888c6133ae68e6bca12f2fe1512e97d2bd7ff9d508e3c8ed50b7fc5c3f216"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-laptop-1280/training-walk-dialog.png",
+      "bytes": 120352,
+      "sha256": "6ebdfc5dc10aaf4e6e296c065faf22c1f901f750a13c6ca664cfc7a0add5d1a6"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-mobile-390/training-walk-dialog.png",
+      "bytes": 75935,
+      "sha256": "b024661c1c2a492a60b532c213a699b307c5124adc7821b8b7b43424e72e0fbd"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-tablet-768/training-walk-dialog.png",
+      "bytes": 106712,
+      "sha256": "e10fb88768db7bc8827dfb6e83b5c4794744362499e16e198b050835a4825b88"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-desktop-1440/training-fullscreen.png",
+      "bytes": 192691,
+      "sha256": "31df00c6f3c5a05cc352a1cb53b3854b29dfdcdd6c7e2d48637ec32fe526e238"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-desktop-1440/training-program.png",
+      "bytes": 84197,
+      "sha256": "db43143c38b05328d34f5575e926cbee1afb6866f572481ae68de74c53439bdd"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-desktop-1440/training-progress.png",
+      "bytes": 75975,
+      "sha256": "e31cb3ed6592b2c48bbdc555c17da41c4740124534a7bf476109c20b923c2642"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-desktop-1440/training-today.png",
+      "bytes": 69196,
+      "sha256": "bac4bd535911e3a2a0d4dcf18b8993d15a5962406e562f769a0376708ae1b497"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-laptop-1280/training-fullscreen.png",
+      "bytes": 136223,
+      "sha256": "e4931e0f38773e15d27374d36f88ca6cae757f24d32823c7a1f111df57c22c96"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-laptop-1280/training-program.png",
+      "bytes": 83363,
+      "sha256": "bd2d77e74f4ee7f8c366fbc1ea24b4961b7f3f353661271bb768fd58f259da98"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-laptop-1280/training-progress.png",
+      "bytes": 60570,
+      "sha256": "8e48ce01934c5ea53d259b82242a9d9afbce9ee5b216d7f63d715df29f706c6c"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-laptop-1280/training-today.png",
+      "bytes": 68129,
+      "sha256": "2ed89c7e5f4785f4ab05429d4cdd50f0c2e2db7f4229076a3965f267c7377bd9"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/training-fullscreen.png",
+      "bytes": 84437,
+      "sha256": "e905db1171e1e5b20ff694fd607349bc619c8c42793fc4167e0321d06492c25f"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/training-program.png",
+      "bytes": 77338,
+      "sha256": "f95bb354a4b4224dfce283328a1d2b3cb63c586b6bf7d8a0e3f41fe57e66e67d"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/training-progress.png",
+      "bytes": 71076,
+      "sha256": "489d7f9313ee73795e3150a507f5ff0e1caf73b4a1a52bcf6bed385b0ab8a84d"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/training-today.png",
+      "bytes": 70061,
+      "sha256": "9c1cf98d746fa9c27f92a722c8fed6802e9115d1d9d94cb693181553403bfcf0"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-tablet-768/training-fullscreen.png",
+      "bytes": 103741,
+      "sha256": "d36cf662b8b14886a813c01d76c4866b6117d31eafdd6fae7f5a1732c01d639c"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-tablet-768/training-program.png",
+      "bytes": 90343,
+      "sha256": "562f94ba6cf68711f4034778704ca116a314d90c6ca035d6d741cd148f3da7a8"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-tablet-768/training-progress.png",
+      "bytes": 75215,
+      "sha256": "04996021c19058afbd17d79e2d57ccf1d5215f3bcd21e5b09a6dd312961b7170"
+    },
+    {
+      "path": "integrated-native-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-tablet-768/training-today.png",
+      "bytes": 70838,
+      "sha256": "92a593d92fa4166ccfb3e807e6d04a95cf3a9b6b11ec6423a406b6e7c57c1a65"
+    },
+    {
+      "path": "integrated-webkit-focus-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-mobile-390/training-walk-dialog.png",
+      "bytes": 55341,
+      "sha256": "d40d5b7dc8248844acf9787bdde1be8551d1c321ec1f84f7b32cc39840649d86"
+    },
+    {
+      "path": "integrated-webkit-focus-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/training-fullscreen.png",
+      "bytes": 60835,
+      "sha256": "955496e48ae7f6dd29dcc64532d95e4ecca4facf2520146cda0ba65cef498b78"
+    },
+    {
+      "path": "integrated-webkit-focus-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/training-program.png",
+      "bytes": 53684,
+      "sha256": "a2d02e97bdd665f53cf2d65d09cbd60fd16bfad6fec757f938b0ee533fcc6106"
+    },
+    {
+      "path": "integrated-webkit-focus-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/training-progress.png",
+      "bytes": 49465,
+      "sha256": "84a703b3c6cc43941b063f7114a2d3dad342abe7b7cf0ccb56185281f3860fff"
+    },
+    {
+      "path": "integrated-webkit-focus-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/training-today.png",
+      "bytes": 48573,
+      "sha256": "016a66a6de20ce17930d9a732e47ade244796cbd14ad5aa7bc1aebd10d6383b3"
+    },
+    {
+      "path": "integrated-webkit-results/desk-scene-coastal-gym-the-10a3b-put-while-gravity-continues-mobile-390/training-walk-dialog.png",
+      "bytes": 55950,
+      "sha256": "e3f49ce3a858362166d9757254d7cd26c6650e189867b82bcadb9e10f1fe2361"
+    },
+    {
+      "path": "integrated-webkit-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/error-context.md.gz",
+      "bytes": 4010,
+      "sha256": "9a9b45c8af54fbca6fae209a2748c92d4ce5b3451e19b1c13328f5faca4536cf"
+    },
+    {
+      "path": "integrated-webkit-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/test-failed-1.png",
+      "bytes": 57989,
+      "sha256": "0d3fd778334278d7e6679c03166541bd75e4d9627768713d34e83d25c56140a6"
+    },
+    {
+      "path": "integrated-webkit-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/training-progress.png",
+      "bytes": 49465,
+      "sha256": "84a703b3c6cc43941b063f7114a2d3dad342abe7b7cf0ccb56185281f3860fff"
+    },
+    {
+      "path": "integrated-webkit-results/desk-scene-coastal-gym-the-87e65-ress-from-the-house-session-mobile-390/training-today.png",
+      "bytes": 48573,
+      "sha256": "016a66a6de20ce17930d9a732e47ade244796cbd14ad5aa7bc1aebd10d6383b3"
+    },
+    {
+      "path": "original-09f-rooms/error-context.md.gz",
+      "bytes": 8481,
+      "sha256": "c9d5936824a37eb477f070be6c4c697794345211fa565469c0240ffaa65976f1"
+    },
+    {
+      "path": "original-09f-rooms/rooms-pointer-embed.png",
+      "bytes": 819055,
+      "sha256": "ad24d761c0e14878eb76b41213e77dc969874b6c4dd6c4dcff5372386fcc0710"
+    },
+    {
+      "path": "original-09f-rooms/rooms-pointer-fullscreen.png",
+      "bytes": 948118,
+      "sha256": "2360ead710c75dadb9308cdd5873af3e3396f6f3f7654f378fa2e2b3c3e3f14b"
+    },
+    {
+      "path": "original-09f-rooms/test-failed-1.png",
+      "bytes": 816303,
+      "sha256": "a06ec92fad764957052599be4fad04c2499b958ee2ea99bc7830a807d591e41e"
+    },
+    {
+      "path": "original-09f-rooms/trace.zip",
+      "bytes": 16577652,
+      "sha256": "2df7aa95c36ac5929e826ad4728f7efb23bc03f1f7d94f3e34d80951bed8578f"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2853,
+      "sha256": "c3487bda2abb22cf7cdcfe642be6116783eede49e0001d83f269c447f9285489"
+    },
+    {
+      "path": "receipts/09f-rooms-original.log.gz",
+      "bytes": 52578,
+      "sha256": "e7549407f46932b3b24004d102ddd4d32d1f72bda27b9addb509199a4fec68a7"
+    },
+    {
+      "path": "receipts/integrated-native-focus.log.gz",
+      "bytes": 326,
+      "sha256": "1de405bb47c2dd86570a965c56ae1fba643299c4228fe84905989af7264ce576"
+    },
+    {
+      "path": "receipts/integrated-native.log.gz",
+      "bytes": 471,
+      "sha256": "2b8a3ff40449c68e9527a3575990a1e99e0b3d5b6b82d5d7fa924f7e2a46b5d7"
+    },
+    {
+      "path": "receipts/integrated-rooms-native.log.gz",
+      "bytes": 328,
+      "sha256": "4cd90931fa03d24915b122184d7156fbd3438e4bc9bee8c102c24b36f2b1d323"
+    },
+    {
+      "path": "receipts/integrated-webkit-focus.log.gz",
+      "bytes": 347,
+      "sha256": "2f5c0a8cb3f00fb212c5310dd8133c7a53a99045772ab24afc57ce4c5d47f50c"
+    },
+    {
+      "path": "receipts/integrated-webkit.log.gz",
+      "bytes": 1062,
+      "sha256": "f4f5f7dd7f38f00f6fef4eff6ae0fd4a86ad73f3057d58234f5ab4ffc687c66e"
+    },
+    {
+      "path": "receipts/node-tests.log.gz",
+      "bytes": 43985,
+      "sha256": "1c08d935b78db5944d3818b06252f8899f19a846fcd77ce0895cd792396d3075"
+    },
+    {
+      "path": "receipts/official-cache.log.gz",
+      "bytes": 375,
+      "sha256": "9d929be19e62ed7bfa622384adfd4c2a22c480f2be60ed8d05dce95a275dc05a"
+    },
+    {
+      "path": "receipts/pre-bake-production-build.log.gz",
+      "bytes": 4480,
+      "sha256": "4d63de17d432fce67fe928d374181668458e84c3199bdb96a239bea19e084b3f"
+    },
+    {
+      "path": "receipts/production-body-readback.json.gz",
+      "bytes": 1120,
+      "sha256": "8eac4d1a24a01b2cc6437184750d703ab4fd93d70228a06850e7e979769c6dca"
+    },
+    {
+      "path": "receipts/production-build.log.gz",
+      "bytes": 4481,
+      "sha256": "0c39badac123e6cc3af12169ebbaeb2195a18587a1582ae2e8513ae9f4fabe6c"
+    },
+    {
+      "path": "receipts/python-tests.log.gz",
+      "bytes": 115,
+      "sha256": "8cace688128bc0817b7e21e601d8197c16c9e32f7a73e26fe653f306ae81f2a4"
+    },
+    {
+      "path": "receipts/registry148.log.gz",
+      "bytes": 400,
+      "sha256": "d97eb858f70ffb4e53d27bab22460de60feb7af3c3fd71b44cb9055768f27b33"
+    },
+    {
+      "path": "receipts/rooms-docker-qualified.log.gz",
+      "bytes": 432,
+      "sha256": "d6373b54cb2461b6816a822b6bfeaf202baf633ee64f2e3afb07853ff765734a"
+    },
+    {
+      "path": "receipts/style-contract.log.gz",
+      "bytes": 92,
+      "sha256": "e1b758d551892f05af685ef55c869c1d0b2b15549c66671cc7668544c036eb06"
+    },
+    {
+      "path": "rooms-linux/backend-qualification.json.gz",
+      "bytes": 288,
+      "sha256": "6aa72f71ce9ad947ea88870bf7b6e46046225718de4904ceb38e2a7857217683"
+    },
+    {
+      "path": "rooms-linux/results/desk-scene-coastal-home-ev-47696-put-above-following-content-desktop-1440/rooms-pointer-embed.png",
+      "bytes": 823228,
+      "sha256": "582bdec8c2b501c047257792d0d036420bfec4d4affdd626da57dae5fbfe11d9"
+    },
+    {
+      "path": "rooms-linux/results/desk-scene-coastal-home-ev-47696-put-above-following-content-desktop-1440/rooms-pointer-fullscreen.png",
+      "bytes": 957170,
+      "sha256": "c13a92441c3296e4fdec2b90d8145405319159bd2a8eaa36816458fcbbc3fb05"
+    },
+    {
+      "path": "SOURCE_BINDINGS.json",
+      "bytes": 5749,
+      "sha256": "6d90b1fe530bfb37f257de97b7cbd085c2600972bac7363fd0dc6e087d00b352"
+    }
+  ]
+}

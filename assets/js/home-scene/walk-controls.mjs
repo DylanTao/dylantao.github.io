@@ -284,6 +284,7 @@ export function createWalkMode({
   onEnter = () => {},
   onRoom = () => {},
   onExit = () => {},
+  onSelect = () => false,
 }) {
   const doc = canvas.ownerDocument,
     win = doc.defaultView || globalThis;
@@ -313,7 +314,10 @@ export function createWalkMode({
     lastBlocked = null,
     gamepadPoller = 0,
     distance = 0,
-    jumpQueued = false;
+    jumpQueued = false,
+    inputSuspended = false,
+    padNeedsNeutral = false,
+    lockedTap = null;
   const touches = new Map();
   const listeners = [];
   const coarse = win.matchMedia?.("(pointer: coarse)");
@@ -556,6 +560,10 @@ export function createWalkMode({
     const fallingEyes = !state.grounded && (!state.wet || Math.abs(state.vy) > 0.5);
     dt = Math.min(Math.max(dt, 0), 0.25);
     pad = gamepads.poll();
+    // A modal releases horizontal input, while gravity, water and the active
+    // world clock continue. Held gamepad axes must pass neutral before reuse.
+    if (padNeedsNeutral && !pad.active && !pad.run && !pad.toggled && !pad.jumped) padNeedsNeutral = false;
+    if (inputSuspended || padNeedsNeutral) pad = { ...pad, move: [0, 0], look: [0, 0], run: false, toggled: false, jumped: false, active: false };
     if (pad.toggled) {
       exit();
       return;
@@ -563,7 +571,7 @@ export function createWalkMode({
     feedRoots();
     // Looking: captured or dragged pointer motion since the last frame, turn keys and sticks.
     const keyInput = keyAxes(keys),
-      look = sticks.state.look,
+      look = inputSuspended ? [0, 0] : sticks.state.look,
       lookMagnitude = Math.hypot(...look),
       padLook = pad.look,
       padMagnitude = Math.hypot(...padLook);
@@ -573,7 +581,8 @@ export function createWalkMode({
     state.pitch = clamp(state.pitch + pendingPitch + tilt * dt, -WALK.pitchLimit, WALK.pitchLimit);
     pendingYaw = pendingPitch = 0;
     // Moving.
-    const [strafe, forward] = unitDisc(keyInput.strafe + sticks.state.move[0] + pad.move[0], keyInput.forward + sticks.state.move[1] + pad.move[1]);
+    const moveStick = inputSuspended ? [0, 0] : sticks.state.move;
+    const [strafe, forward] = unitDisc(keyInput.strafe + moveStick[0] + pad.move[0], keyInput.forward + moveStick[1] + pad.move[1]);
     const magnitude = Math.hypot(strafe, forward);
     // A thumb pushed to the stick's rim runs; keys need Shift and controllers their run button.
     const thumbRun = !keyInput.strafe && !keyInput.forward && Math.hypot(...sticks.state.move) >= 0.95;
@@ -651,6 +660,7 @@ export function createWalkMode({
     "keydown",
     (event) => {
       if (event.ctrlKey || event.metaKey || event.altKey || event.isComposing) return;
+      if (inputSuspended) return;
       const code = keyCode(event);
       if (!active) {
         if (!isFullscreen()) return;
@@ -674,6 +684,7 @@ export function createWalkMode({
       if (MOVE_KEYS.has(code)) {
         event.preventDefault();
         event.stopImmediatePropagation();
+        if (event.repeat && !keys.has(code)) return;
         if (code === "Space" && !event.repeat) jumpQueued = true;
         else if (code !== "Space") keys.add(code);
         requestFrame();
@@ -703,6 +714,7 @@ export function createWalkMode({
   // A key released while the window was not listening must not walk on by itself.
   const releaseAll = () => {
     keys.clear();
+    lockedTap = null;
     drag = pinch = null;
     touches.clear();
     pendingYaw = pendingPitch = state.vx = state.vz = 0;
@@ -721,7 +733,7 @@ export function createWalkMode({
     canvas,
     "pointerdown",
     (event) => {
-      if (!active) return;
+      if (!active || inputSuspended) return;
       event.stopImmediatePropagation();
       if (event.pointerType === "touch") {
         if (!touchSeen) {
@@ -736,7 +748,10 @@ export function createWalkMode({
           return;
         }
       }
-      if (locked) return;
+      if (locked) {
+        lockedTap = { id: event.pointerId, travel: 0 };
+        return;
+      }
       drag = {
         id: event.pointerId,
         x: event.clientX,
@@ -758,10 +773,11 @@ export function createWalkMode({
     canvas,
     "pointermove",
     (event) => {
-      if (!active) return;
+      if (!active || inputSuspended) return;
       event.stopImmediatePropagation();
       if (touches.has(event.pointerId)) touches.set(event.pointerId, [event.clientX, event.clientY]);
       if (locked) {
+        if (lockedTap) lockedTap.travel += Math.hypot(event.movementX || 0, event.movementY || 0);
         // The first event after a capture can carry a large jump; one event never turns more than ~40°.
         const [yaw, pitch] = mouseLook(clamp(event.movementX || 0, -280, 280), clamp(event.movementY || 0, -280, 280));
         pendingYaw += yaw;
@@ -793,8 +809,29 @@ export function createWalkMode({
   const endPointer = (event) => {
     if (!active) return;
     event.stopImmediatePropagation();
+    const tap = locked ? lockedTap : drag,
+      wasPinch = Boolean(pinch);
     touches.delete(event.pointerId);
     if (pinch && touches.size < 2) pinch = null;
+    if (
+      !inputSuspended &&
+      event.isTrusted &&
+      event.type === "pointerup" &&
+      (event.button === 0 || event.pointerType === "touch") &&
+      !wasPinch &&
+      !touches.size &&
+      tap?.id === event.pointerId &&
+      tap.travel < 6 &&
+      !keys.size &&
+      !sticks.active &&
+      !pad.active &&
+      Math.hypot(state.vx, state.vz) < 0.0001 &&
+      onSelect(event)
+    ) {
+      drag = lockedTap = null;
+      return;
+    }
+    lockedTap = null;
     if (drag?.id === event.pointerId) {
       // A click (not a drag) with a mouse captures the pointer for mouse look.
       if (event.type === "pointerup" && drag.type === "mouse" && drag.travel < 6) requestLock();
@@ -807,7 +844,7 @@ export function createWalkMode({
     canvas,
     "wheel",
     (event) => {
-      if (!active) return;
+      if (!active || inputSuspended) return;
       event.preventDefault();
       event.stopImmediatePropagation();
       const lines = event.deltaMode === 1 ? 32 : event.deltaMode === 2 ? 320 : 1;
@@ -863,7 +900,7 @@ export function createWalkMode({
   // A controller's Y switches to walking even while the orbit view is idle and draws no frames.
   function pollToggle() {
     // While walking, the frame loop reads the controller (and its Y) itself.
-    if (!isFullscreen() || active) return;
+    if (!isFullscreen() || active || inputSuspended) return;
     const read = gamepads.poll();
     if (read.toggled) enter();
     else if (read.active) requestFrame();
@@ -883,6 +920,17 @@ export function createWalkMode({
     enter,
     exit,
     toggle,
+    suspendInput(value) {
+      if (inputSuspended === Boolean(value)) return;
+      inputSuspended = Boolean(value);
+      releaseAll();
+      padNeedsNeutral = true;
+      if (inputSuspended) {
+        sticks.hide();
+        if (doc.pointerLockElement === canvas) doc.exitPointerLock?.();
+      }
+      requestFrame();
+    },
     chooseDestination(id) {
       if (active) return false;
       const config = getConfig();
@@ -960,6 +1008,8 @@ export function createWalkMode({
     evidence() {
       return {
         active,
+        inputSuspended,
+        padNeedsNeutral,
         ready: Boolean(builder?.ready),
         placed,
         provisional,

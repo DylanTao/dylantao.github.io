@@ -1,0 +1,45 @@
+{
+  "sourceCommit": "a65f9d7da3e7e90b9bfa10f0e578649d1a54c479",
+  "baseline": "dd677652f",
+  "navigationPrerequisite": "2a6c655d710c2e2d9e0eb154f3459a1f8cbe4ca3",
+  "ownedPort": 4195,
+  "serverOwner": "interior-finish/gym4195/20240",
+  "privateCacheSignature": "97de952ee2e23c1715104d6efb5b26cd8eacc5505d4f8bd985d5c8a7de33ac77",
+  "sourcePaths": [
+    "_sass/_home.scss",
+    "assets/js/home-scene/controller.mjs",
+    "assets/js/home-scene/gym-props.mjs",
+    "assets/js/home-scene/gym-dashboard.mjs",
+    "assets/js/home-scene/walk-controls.mjs",
+    "assets/js/home-scene/walk-presence.mjs",
+    "bin/coastal_static_light_inputs.cjs",
+    "test/gym-dashboard.test.mjs",
+    "test/gym-props-materials.test.mjs",
+    "test/walk-head-exclusion.test.mjs",
+    "test/visual/desk-scene.spec.js",
+    "test/visual/scene-groups.json"
+  ],
+  "verification": {
+    "registeredChromiumCases": 8,
+    "chromiumViewports": ["1440x1000", "1280x800", "768x1024", "390x1000"],
+    "publicCaptureEngineViewports": ["Chromium D3D11 2560x1440", "modern WebKit 390x1000"],
+    "publicNoonEveningCapturesPerEngine": 10,
+    "focusedNodeCases": 84,
+    "pythonCases": 327,
+    "registeredSceneCasesPerProject": 148,
+    "registryMissingExtraDuplicate": [0, 0, 0],
+    "screenTexelChannelsPerPhase": 11403264,
+    "GPUbeforeAfterPhases": 2,
+    "GPUbodyAndScreenRows": 4
+  },
+  "canonicalNativeAssetWrites": false,
+  "independentPush": false,
+  "limits": [
+    "PC emulation is not a physical iPhone test or performance proof",
+    "Existing Evening gym darkness is unchanged and separate",
+    "Staged supported Walk selection is not a complete walking route",
+    "Complete production seed plus exact owning Jekyll/Terser/Sass compilation; clean combined full build remains coordinator gate",
+    "High resolution RGBA+mip memory is about 15.2MB versus 3.8MB before; no frame-rate improvement claim"
+  ],
+  "sealing": "Raw generated text and numeric payloads are gzip originals; binary traces/images retain their original bytes. MANIFEST excludes only itself."
+}

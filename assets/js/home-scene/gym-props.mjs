@@ -1,5 +1,6 @@
 import * as THREE from "../three.module.min.js";
-import { plateLoad, LIFT_LABELS } from "./training.mjs";
+import { plateLoad } from "./training.mjs";
+import { drawTrainingScreen, trainingSessionKey, trainingDashboardModel } from "./gym-dashboard.mjs?v=gym-dashboard-20261101";
 
 // The gym's moving equipment (Sirui, 2026-10-15): three barbells (in the rack, on the bench's
 // uprights, on the platform) loaded with the plates each set calls for, the plate in the hands
@@ -25,7 +26,106 @@ const smooth = (t) => {
   return t * t * (3 - 2 * t);
 };
 
-export function createGymProps({ room, world, gym, training, material: makeMaterial }) {
+export function createTrainingScreen({ room, training }) {
+  // Reuse the authored face/UVs as a self-lit digital panel. Equipment remains a
+  // physical gym receiver; a screen's pixels do not depend on a room-light visit.
+  const objects = [];
+  room.traverse((o) => {
+    if (o.userData.activityProp === "whiteboard") objects.push(o);
+  });
+  const originals = objects.map((object) => ({
+    object,
+    material: object.material,
+    action: object.userData.action,
+    fixed: object.userData.fixedMaterial,
+  }));
+  const canvas = document.createElement("canvas");
+  canvas.width = 2048;
+  canvas.height = 1392;
+  const board = new THREE.CanvasTexture(canvas);
+  board.colorSpace = THREE.SRGBColorSpace;
+  // The board's UVs run along +X, which reads right to left from the room: mirror them back.
+  board.flipY = false;
+  board.wrapS = THREE.RepeatWrapping;
+  board.repeat.set(-1, 1);
+  board.offset.set(1, 0);
+  board.anisotropy = 4;
+  const boardMaterial = new THREE.MeshStandardMaterial({
+    color: 0x070a0b,
+    map: board,
+    emissive: 0xffffff,
+    emissiveMap: board,
+    emissiveIntensity: 1,
+    roughness: 0.45,
+    metalness: 0,
+    toneMapped: false,
+  });
+  boardMaterial.name = "Coastal training display";
+  for (const o of objects) {
+    o.material = boardMaterial;
+    o.userData.fixedMaterial = true;
+    o.userData.action = { type: "training-screen" };
+  }
+  let boardKey = "",
+    boardInfo = null,
+    display = {},
+    uploads = 0,
+    disposed = false;
+  function drawBoard(info, force = false) {
+    if (!training) return false;
+    boardInfo = info;
+    const key = trainingSessionKey(info, display);
+    if (!force && key === boardKey) return false;
+    boardKey = key;
+    const model = trainingDashboardModel(training, info, display);
+    drawTrainingScreen(canvas.getContext("2d"), model);
+    board.needsUpdate = true;
+    uploads++;
+    return true;
+  }
+  // Canvas font choice is captured in pixels, so finish loading Inter once before
+  // its final upload. This does not schedule a per-frame redraw.
+  document.fonts?.ready.then(() => {
+    if (!disposed && boardKey) drawBoard(boardInfo, true);
+  });
+
+  return {
+    drawBoard,
+    setDisplay(next) {
+      display = { ...next };
+      return drawBoard(boardInfo);
+    },
+    objects: () => objects,
+    evidence: () => ({
+      board: boardKey,
+      screen: {
+        width: canvas.width,
+        height: canvas.height,
+        uploads,
+        textureVersion: board.version,
+        selfLit: true,
+        display: { ...display },
+        diffuse: boardMaterial.color.toArray(),
+        emissiveOnlyAppearance: true,
+      },
+    }),
+    dispose() {
+      disposed = true;
+      for (const old of originals) {
+        if (old.object.material !== boardMaterial) continue;
+        old.object.material = old.material;
+        if (old.action === undefined) delete old.object.userData.action;
+        else old.object.userData.action = old.action;
+        if (old.fixed === undefined) delete old.object.userData.fixedMaterial;
+        else old.object.userData.fixedMaterial = old.fixed;
+      }
+      board.dispose();
+      boardMaterial.dispose();
+    },
+  };
+}
+
+export function createGymProps({ room, world, gym, training, material: makeMaterial, screen: installedScreen = null }) {
   // These runtime replacements belong to the same physical receiver as the
   // native gym. Declare that before the shared factory binds its lighting.
   const material = (color, extra = {}) => makeMaterial(color, { ...extra, userData: { ...extra.userData, installationGroup: "gym" } });
@@ -132,24 +232,7 @@ export function createGymProps({ room, world, gym, training, material: makeMater
   const inclineAngle = ((gym.bench.inclineDegrees ?? 32) * Math.PI) / 180;
   let incline = 0;
 
-  // The whiteboard: a canvas drawn in marker colours, redrawn only when what it says changes.
-  const canvas = document.createElement("canvas");
-  canvas.width = 1024;
-  canvas.height = 696;
-  const board = keep(new THREE.CanvasTexture(canvas));
-  board.colorSpace = THREE.SRGBColorSpace;
-  // The board's UVs run along +X, which reads right to left from the room: mirror them back.
-  board.flipY = false;
-  board.wrapS = THREE.RepeatWrapping;
-  board.repeat.set(-1, 1);
-  board.offset.set(1, 0);
-  board.anisotropy = 4;
-  const boardMaterial = material(0xffffff, { map: board, roughness: 0.32, metalness: 0 });
-  for (const o of pieces.whiteboard) {
-    o.material = boardMaterial;
-    o.userData.fixedMaterial = true;
-  }
-  let boardKey = "";
+  const screen = installedScreen || createTrainingScreen({ room, training });
 
   const temp = new THREE.Vector3(),
     tempQ = new THREE.Quaternion();
@@ -214,21 +297,12 @@ export function createGymProps({ room, world, gym, training, material: makeMater
         incline,
       };
     },
-    // Redraw the board when today's numbers or the ticks change.
-    drawBoard(info) {
-      const after = info?.plan && !info.state && info.minute >= info.endMinute;
-      const key = info?.plan
-        ? `${info.key}|${info.plan.template}|${info.plan.day}|${after ? "done" : JSON.stringify(info.state?.done || {})}|${info.state?.segment?.kind === "set" ? info.state.index : ""}`
-        : `none|${info?.key || ""}`;
-      if (key === boardKey) return false;
-      boardKey = key;
-      drawTrainingBoard(canvas.getContext("2d"), info, training);
-      board.needsUpdate = true;
-      evidence.board = key;
-      return true;
-    },
-    evidence: () => evidence,
+    drawBoard: screen.drawBoard,
+    setDisplay: screen.setDisplay,
+    screenObjects: screen.objects,
+    evidence: () => ({ ...evidence, ...screen.evidence() }),
     dispose() {
+      if (!installedScreen) screen.dispose();
       for (const bar of Object.values(bars)) bar.group.removeFromParent();
       handPlate.removeFromParent();
       disposables.forEach((d) => d.dispose?.());
@@ -236,164 +310,7 @@ export function createGymProps({ room, world, gym, training, material: makeMater
   };
 }
 
-const INK = "#202528",
-  TERRA = "#a9532f",
-  SAGE = "#4f6f52",
-  BLUE = "#2c5585";
-const HAND = '"Segoe Print", "Bradley Hand", "Comic Sans MS", "Marker Felt", cursive';
-
-// The training board: the program and its maxes, today's two lifts set by set with ticks for the
-// sets done, the supersets, the cycle's progress and the training-max history from Sirui's log.
-export function drawTrainingBoard(g, info, training) {
-  const W = g.canvas.width,
-    H = g.canvas.height;
-  const enamel = g.createLinearGradient(0, 0, W, H);
-  enamel.addColorStop(0, "#f6f7f5");
-  enamel.addColorStop(0.55, "#eef0ee");
-  enamel.addColorStop(1, "#f4f5f3");
-  g.fillStyle = enamel;
-  g.fillRect(0, 0, W, H);
-  // Faint ghosts of last week's erased notes.
-  g.globalAlpha = 0.05;
-  g.fillStyle = INK;
-  g.font = `34px ${HAND}`;
-  g.fillText("315 × 1+  ·  5×5  ·  ✓✓✓", 600, 470);
-  g.globalAlpha = 1;
-  const text = (s, x, y, size, color = INK, weight = "") => {
-    g.font = `${weight} ${size}px ${HAND}`.trim();
-    g.fillStyle = color;
-    g.fillText(s, x, y);
-    return g.measureText(s).width;
-  };
-  const underline = (x, y, w, color) => {
-    g.strokeStyle = color;
-    g.lineWidth = 3;
-    g.beginPath();
-    g.moveTo(x, y);
-    g.bezierCurveTo(x + w * 0.3, y + 3, x + w * 0.7, y - 2, x + w, y + 1);
-    g.stroke();
-  };
-  if (!training) return;
-  const tm = training.trainingMax;
-  text(training.program || "nSuns 5/3/1 LP", 34, 62, 40, INK, "bold");
-  underline(34, 74, 330, TERRA);
-  // Training maxes, top right.
-  text("TM (lb)", 742, 54, 26, SAGE, "bold");
-  [
-    ["Bench", tm.bench],
-    ["OHP", tm.ohp],
-    ["Squat", tm.squat],
-    ["Deadlift", tm.deadlift],
-  ].forEach(([name, v], i) => {
-    text(name, 742, 92 + i * 34, 26, INK);
-    text(String(v), 900, 92 + i * 34, 26, BLUE, "bold");
-  });
-  const plan = info?.plan;
-  if (!plan) {
-    text("Rest day", 34, 150, 44, TERRA, "bold");
-    text("eat · sleep · walk the coast", 34, 200, 28, INK);
-  } else {
-    text(`${plan.templateLabel} · cycle ${plan.cycle} · day ${plan.day + 1} of 6`, 34, 120, 28, TERRA);
-    // Ticks: the sets done so far, or every set once today's session is over.
-    const finished = !info.state && info.minute >= info.endMinute;
-    const done = finished ? Object.fromEntries(plan.lifts.map((l) => [l.lift, l.sets.length])) : info.state?.done || {};
-    const current = info.state?.segment?.kind === "set" && !info.state.segment.warmup ? info.state.segment : null;
-    plan.lifts.forEach((lift, row) => {
-      const y0 = 178 + row * 168;
-      const w = text(`T${lift.tier}  ${LIFT_LABELS[lift.lift] || lift.lift}`, 34, y0, 32, INK, "bold");
-      text(`+ ${LIFT_LABELS[lift.superset] || lift.superset}`, 34 + w + 18, y0, 24, SAGE);
-      const count = done[lift.lift] || 0;
-      let x = 34,
-        y = y0 + 44;
-      lift.sets.forEach((set, i) => {
-        const label = `${set.weight}×${set.reps}${set.amrap ? "+" : ""}`;
-        const isCurrent = current && current.lift === lift.lift && current.set === i;
-        g.font = `${isCurrent ? "bold " : ""}26px ${HAND}`;
-        const advance = g.measureText(label).width + (i < count ? 34 : 0) + 26;
-        if (x + advance > W - 30) {
-          x = 34;
-          y += 52;
-        }
-        const width = text(label, x, y, 26, i < count ? INK : "#5b6266", isCurrent ? "bold" : "");
-        if (i < count) {
-          // A tick, drawn as a marker stroke.
-          g.strokeStyle = SAGE;
-          g.lineWidth = 4;
-          g.beginPath();
-          g.moveTo(x + width + 6, y - 10);
-          g.lineTo(x + width + 13, y - 2);
-          g.lineTo(x + width + 27, y - 22);
-          g.stroke();
-        }
-        if (isCurrent) {
-          g.strokeStyle = TERRA;
-          g.lineWidth = 3;
-          g.beginPath();
-          g.ellipse(x + width / 2, y - 9, width / 2 + 10, 20, -0.04, 0, Math.PI * 2);
-          g.stroke();
-        }
-        x += advance;
-      });
-    });
-    if (plan.finisher) text(`finisher: ${LIFT_LABELS[plan.finisher]} 3 × 10`, 34, 520, 24, SAGE);
-  }
-  // The cycle's progress (from the log, plus today's ticks).
-  const cycle = training.cycles?.[training.cycles.length - 1];
-  if (cycle) {
-    const finished = info?.plan && !info.state && info.minute >= info.endMinute;
-    const today = finished
-      ? info.plan.lifts.reduce((a, l) => a + l.sets.length, 0)
-      : Object.values(info?.state?.done || {}).reduce((a, b) => a + b, 0);
-    const sets = Math.min(cycle.of, cycle.sets + (info?.key === training.anchor?.date ? today : 0));
-    text(`cycle ${sets}/${cycle.of} sets · ${cycle.failed} missed`, 34, 588, 26, INK);
-    g.strokeStyle = "#9aa3a0";
-    g.lineWidth = 2;
-    g.strokeRect(34, 604, 360, 18);
-    g.fillStyle = SAGE;
-    g.fillRect(36, 606, 356 * (sets / cycle.of), 14);
-  }
-  // The record of progress: each lift's training max since the log began, as a sparkline on its
-  // own scale with where it started, where it is and what it gained.
-  const series = training.progress || {};
-  const rows = [
-    ["squat", "Squat", TERRA],
-    ["deadlift", "Deadlift", INK],
-    ["ohp", "OHP", BLUE],
-    ["bench", "Bench", SAGE],
-  ].filter(([k]) => (series[k] || []).length);
-  const x0 = 452,
-    top = 556,
-    rowH = 33;
-  const first = rows.map(([k]) => series[k][0][0]).sort()[0];
-  const since = first ? new Date(`${first}T12:00:00Z`).toLocaleDateString("en-US", { month: "short", timeZone: "UTC" }) : "";
-  text(`Training max since ${since}`, x0, top - 8, 24, SAGE, "bold");
-  const t0 = Math.min(...rows.map(([k]) => Date.parse(series[k][0][0]))),
-    t1 = Math.max(...rows.map(([k]) => Date.parse(series[k].at(-1)[0])));
-  rows.forEach(([k, label, color], i) => {
-    const points = series[k];
-    const y = top + 18 + i * rowH;
-    text(label, x0, y + 8, 22, color, "bold");
-    // A sparkline on the lift's own range, over the shared time span.
-    const values = points.map(([, v]) => v);
-    const lo = Math.min(...values),
-      hi = Math.max(...values);
-    const sx0 = x0 + 104,
-      sw = 196,
-      sh = 22;
-    g.strokeStyle = color;
-    g.lineWidth = 3;
-    g.lineJoin = "round";
-    g.beginPath();
-    points.forEach(([d, v], j) => {
-      const px = sx0 + ((Date.parse(d) - t0) / Math.max(1, t1 - t0)) * sw,
-        py = y + sh / 2 - (hi > lo ? ((v - lo) / (hi - lo) - 0.5) * sh : 0);
-      if (j) g.lineTo(px, py);
-      else g.moveTo(px, py);
-    });
-    g.stroke();
-    const [startValue, now] = [values[0], values.at(-1)];
-    const gain = now - startValue;
-    const span = text(`${startValue} → ${now}`, sx0 + sw + 16, y + 8, 22, INK);
-    text(gain > 0 ? `+${gain}` : "holding", sx0 + sw + 16 + span + 12, y + 8, 22, gain > 0 ? TERRA : "#5b6266", gain > 0 ? "bold" : "");
-  });
+// Retained export for callers that render a board outside the 3D prop factory.
+export function drawTrainingBoard(g, info, training, display = {}) {
+  drawTrainingScreen(g, trainingDashboardModel(training, info, display));
 }

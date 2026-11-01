@@ -351,6 +351,403 @@ html[data-theme="dark"] .home-story-rail ol {
   z-index: 1;
 }
 
+// The gym's digital face and its accessible close-reading surface share a quiet
+// coastal palette. Native dialog keeps this above both embedded and full-screen UI.
+.home-training-dialog {
+  --training-ink: #edf5f4;
+  --training-muted: #b2c7cc;
+  --training-line: #36515a;
+  --training-accent: #f6a574;
+  --global-text-color: var(--training-ink);
+  --global-text-color-light: var(--training-muted);
+  color-scheme: dark;
+  position: fixed;
+  inset: 1rem auto auto 50%;
+  transform: translateX(-50%);
+  width: min(58rem, calc(100vw - 2rem));
+  height: fit-content;
+  min-height: 0;
+  max-width: none;
+  max-height: calc(100dvh - 2rem);
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--training-line);
+  border-radius: var(--md-lite-radius-lg, 1.5rem);
+  background: #14282f;
+  color: var(--training-ink);
+  box-shadow: 0 1.2rem 5rem rgb(0 0 0 / 0.3);
+  font-family: var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  text-align: left;
+
+  &,
+  * {
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  &[open] {
+    display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr);
+    overflow: hidden;
+  }
+  &::backdrop {
+    background: rgb(7 20 26 / 0.68);
+  }
+  h2,
+  h3,
+  h4,
+  p {
+    margin: 0;
+    color: inherit;
+  }
+  h2 {
+    font-size: var(--type-subheading);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  h3 {
+    margin-top: 0.25rem;
+    font-size: var(--type-heading);
+    font-weight: 500;
+  }
+  h4 {
+    font-size: var(--type-reading);
+    font-weight: 600;
+  }
+  button,
+  summary {
+    min-height: 44px;
+    border: 1px solid transparent;
+    border-radius: var(--md-lite-radius-sm);
+    background: transparent;
+    color: var(--training-muted);
+    font: inherit;
+    cursor: pointer;
+  }
+  button:hover,
+  summary:hover {
+    background: #213d46;
+    color: var(--training-ink);
+  }
+  button:focus-visible,
+  summary:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--training-accent);
+    outline-offset: -3px;
+  }
+  button[aria-pressed="true"] {
+    border-color: var(--training-accent);
+    color: var(--training-accent);
+    background: #2c3839;
+  }
+  table {
+    width: 100%;
+    margin-top: 0.7rem;
+    border-collapse: collapse;
+    color: var(--training-muted);
+    font-size: var(--type-compact);
+    line-height: 1.45;
+  }
+  th,
+  td {
+    padding: 0.65rem 0.5rem;
+    border-bottom: 1px solid var(--training-line);
+    text-align: left;
+  }
+  th {
+    color: var(--training-ink);
+    font-weight: 500;
+  }
+  thead th {
+    color: var(--training-muted);
+    font-size: var(--type-compact);
+  }
+}
+.home-training-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.45rem 1.65rem 1rem;
+
+  [data-training-close] {
+    flex: 0 0 44px;
+    margin-top: -0.5rem;
+    margin-right: -0.5rem;
+    color: var(--training-ink);
+    font-size: var(--type-heading);
+  }
+}
+.home-training-dialog .home-training-eyebrow {
+  margin-bottom: 0.35rem;
+  color: var(--training-muted);
+  font-size: var(--type-compact);
+  line-height: 1.5;
+}
+.home-training-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0 1.65rem;
+  border-bottom: 1px solid var(--training-line);
+}
+.home-training-tabs,
+.home-training-units {
+  display: flex;
+  gap: 0.25rem;
+
+  button {
+    padding: 0.4rem 0.8rem;
+    font-size: var(--type-compact);
+  }
+}
+.home-training-tabs button {
+  border-radius: var(--md-lite-radius-sm) var(--md-lite-radius-sm) 0 0;
+  border-bottom: 3px solid transparent;
+
+  &[aria-selected="true"] {
+    color: var(--training-accent);
+    border-bottom-color: var(--training-accent);
+  }
+}
+.home-training-units {
+  align-items: center;
+  padding-bottom: 0.35rem;
+
+  button {
+    min-width: 44px;
+    min-height: 44px;
+    padding-inline: 0.55rem;
+  }
+}
+.home-training-panel {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 1.5rem 1.65rem 1.8rem;
+  scrollbar-color: #5b7881 #14282f;
+}
+.home-training-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  > span {
+    color: var(--training-muted);
+    font-size: var(--type-compact);
+  }
+}
+.home-training-dialog .home-training-context {
+  margin: 0.65rem 0 1.4rem;
+  color: var(--training-muted);
+  font-size: var(--type-compact);
+}
+.home-training-stats,
+.home-training-lift-switch {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin: 1.3rem 0;
+}
+.home-training-stat,
+.home-training-lift-switch button {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.85rem;
+  border: 1px solid var(--training-line);
+  border-radius: var(--md-lite-radius-sm);
+  text-align: left;
+
+  span,
+  small {
+    color: var(--training-muted);
+    font-size: var(--type-compact);
+  }
+  strong {
+    color: var(--training-ink);
+    font-size: var(--type-subheading);
+    font-weight: 500;
+  }
+}
+.home-training-heading .home-training-stat {
+  min-width: 9.5rem;
+  padding: 0.7rem 1rem;
+}
+.home-training-lifts {
+  display: grid;
+  gap: 1.45rem;
+}
+.home-training-lift-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+
+  span {
+    color: var(--training-muted);
+    font-size: var(--type-compact);
+  }
+}
+.home-training-sets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(5.6rem, 1fr));
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.35rem;
+    padding: 0.6rem;
+    border: 1px solid var(--training-line);
+    border-radius: var(--md-lite-radius-sm);
+    background: #192f37;
+    font-size: var(--type-compact);
+  }
+  span,
+  small {
+    color: var(--training-muted);
+    font-size: var(--type-compact);
+  }
+  strong {
+    justify-self: start;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  small {
+    grid-column: 1 / -1;
+  }
+  [data-done="true"] small {
+    color: #92cbd1;
+  }
+  [aria-current] {
+    border-color: var(--training-accent);
+
+    strong,
+    small {
+      color: var(--training-accent);
+    }
+  }
+}
+.home-training-dialog .home-training-note {
+  margin-top: 1.4rem;
+  color: var(--training-muted);
+  font-size: var(--type-compact);
+  line-height: 1.65;
+}
+.home-training-history {
+  padding: 1rem;
+  border: 1px solid var(--training-line);
+  border-radius: var(--md-lite-radius-md);
+
+  summary {
+    display: list-item;
+    align-content: center;
+    padding: 0.55rem;
+    color: var(--training-muted);
+    font-size: var(--type-compact);
+  }
+}
+.home-training-chart {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  overflow: visible;
+  fill: var(--training-accent);
+
+  text {
+    fill: var(--training-muted);
+    font:
+      14px Inter,
+      sans-serif;
+  }
+  .home-training-grid line {
+    stroke: var(--training-line);
+    stroke-width: 1;
+  }
+  .home-training-trend {
+    fill: none;
+    stroke: var(--training-accent);
+    stroke-width: 3;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+}
+.home-training-cycles {
+  margin-top: 1.6rem;
+}
+.home-training-template,
+.home-training-days {
+  display: grid;
+  gap: 0.5rem;
+
+  button {
+    padding: 0.55rem;
+    border-color: var(--training-line);
+    font-size: var(--type-compact);
+  }
+}
+.home-training-template {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 1rem;
+}
+.home-training-days {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin: 0.75rem 0 1.6rem;
+
+  small {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: var(--type-compact);
+  }
+}
+.home-world-controls .home-training-open[hidden] {
+  display: none;
+}
+@media (max-width: 600px) {
+  .home-training-dialog {
+    top: 0.5rem;
+    width: calc(100vw - 1rem);
+    max-height: calc(100dvh - 1rem);
+    border-radius: var(--md-lite-radius-md);
+  }
+  .home-training-header {
+    padding: 1.1rem 1rem 0.75rem;
+  }
+  .home-training-toolbar {
+    padding-inline: 0.65rem;
+    gap: 0;
+  }
+  .home-training-tabs button {
+    padding-inline: 0.6rem;
+    font-size: var(--type-compact);
+  }
+  .home-training-units {
+    gap: 0;
+  }
+  .home-training-panel {
+    padding: 1.15rem 1rem 1.4rem;
+  }
+  .home-training-stats,
+  .home-training-lift-switch {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .home-training-chart text {
+    font-size: calc(var(--type-compact) * 2);
+  }
+  .home-training-dialog th,
+  .home-training-dialog td {
+    padding-inline: 0.25rem;
+  }
+}
+
 .home-kicker {
   margin: 0 0 0.85rem;
   color: var(--home-accent-strong);

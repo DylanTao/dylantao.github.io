@@ -400,6 +400,14 @@
       {
         "file": "desk-scene.spec.js",
         "title": "coastal home: the gym frames the face and full exercise poses, then restores the normal lens"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal gym: the digital screen separates recorded progress from the house session"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal gym: the training dialog releases held walk input while gravity continues"
       }
     ],
     "scene-choreography": [

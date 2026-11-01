@@ -36,7 +36,8 @@ import { createCameraField } from "./camera-field.mjs";
 import { activityPose, createHandContacts } from "./activities.mjs";
 import { createLiftRig } from "./lift-rig.mjs";
 import { createDynamicCover, breathAt } from "./bedding-breath.mjs";
-import { createGymProps } from "./gym-props.mjs?v=interior-20261031";
+import { createGymProps, createTrainingScreen } from "./gym-props.mjs?v=gym-dashboard-20261101";
+import { createGymDashboard } from "./gym-dashboard.mjs?v=gym-dashboard-20261101";
 import { sessionPose } from "./gym-session.mjs";
 import { sessionState, trainingAt } from "./training.mjs";
 import { resolveWristTargets } from "./grip-targets.mjs";
@@ -71,7 +72,7 @@ import { prepareFramePrograms } from "./program-warmup.mjs";
 import { retireCompiledMaterials } from "./program-lifetime.mjs";
 import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
 import { createWorldFullscreen } from "./world-fullscreen.mjs?v=layout-20261031";
-import { createWalkMode } from "./walk-controls.mjs";
+import { createWalkMode } from "./walk-controls.mjs?v=gym-dashboard-20261101";
 import { createLightInstallations, roomLightSources } from "./light-installations.mjs?v=interior-20261031";
 import { createFurniture } from "./furniture.mjs";
 import { createDining } from "./dining.mjs";
@@ -79,7 +80,7 @@ import { createAtmosphere } from "./atmosphere.mjs";
 import { createHaze } from "./haze.mjs";
 import { createInfinityPool } from "./infinity-pool.mjs";
 import { createInteriorReflections } from "./interior-reflections.mjs";
-import { createWalkPresence } from "./walk-presence.mjs";
+import { createWalkPresence } from "./walk-presence.mjs?v=gym-dashboard-20261101";
 import { createEstateDoors, nearDoor } from "./estate-doors.mjs";
 import { createCoastalRain } from "./coastal-rain.mjs";
 import { createRainRoofField } from "./rain-roof-field.mjs";
@@ -258,11 +259,14 @@ export function createCoastalHome(container, records, artifacts) {
     liftRig = null,
     liftActive = false,
     gymProps = null,
+    gymScreen = null,
+    gymDashboard = null,
     sessionClock = { second: -1, minute: 0 },
     labSession = null,
     worldCompanion,
     actorGoal = null;
   let pointer = null,
+    pendingTrainingClick = null,
     followClock = true,
     selectedProp,
     propHand,
@@ -288,6 +292,7 @@ export function createCoastalHome(container, records, artifacts) {
     floorCards = [];
   const resources = new Set(),
     textureCache = new Map(),
+    trainingCollectorFaces = new Map(),
     cleanup = [],
     reducedQuery = matchMedia("(prefers-reduced-motion: reduce)");
   const frameTimings = [];
@@ -1028,6 +1033,14 @@ export function createCoastalHome(container, records, artifacts) {
           root.visible = true;
         }
         rooms.set(id, root);
+        // The opaque face's dark diffuse material must exist before the static
+        // collector starts. Moving equipment retains its later composition timing.
+        if (id === "gym" && config.training && !gymScreen) {
+          gymScreen = createTrainingScreen({ room: root, training: config.training });
+          gymScreen.drawBoard(boardInfo());
+          picks.push(...gymScreen.objects());
+          cleanup.push(() => gymScreen?.dispose());
+        }
         if (id === "sleep") refreshBedSeat();
         cameraField?.addRoot(root);
         requestFrame();
@@ -1657,12 +1670,39 @@ export function createCoastalHome(container, records, artifacts) {
     return trainingAt(config.training, routine.dateKey, routine.minute);
   }
 
+  function refreshTrainingScreen(info = boardInfo()) {
+    if (gymProps?.drawBoard(info)) gymDashboard?.update(info);
+  }
+
+  function trainingPanelChanged(open) {
+    inertia.stop();
+    inertia.clearTrack();
+    pointer = pinch = null;
+    pendingTrainingClick = null;
+    touches.clear();
+    walkMode?.suspendInput(open);
+    if (open) ui.querySelector("[data-world-places]").open = false;
+    requestFrame();
+  }
+
+  function selectTrainingScreen(event) {
+    const canvas = renderer.domElement,
+      bounds = canvas.getBoundingClientRect();
+    const point = document.pointerLockElement === canvas ? { clientX: bounds.x + bounds.width / 2, clientY: bounds.y + bounds.height / 2 } : event;
+    const object = pick(point, true);
+    if (object?.userData.action?.type !== "training-screen") return false;
+    // Complete the native click before showing a modal. A touch compatibility
+    // click otherwise focuses whatever panel appears beneath the released finger.
+    pendingTrainingClick = { time: event.timeStamp };
+    return true;
+  }
+
   function updateRoutine(force = false, composeOnChange = false) {
     if (!config) return;
     const next = resolveRoutine(config, new Date(), explore.preview);
     // Scrubbing the preview clock within a session restarts it from the chosen minute.
     if (routine && next.sequence === "session" && !next.live && routine.minute !== next.minute) sequenceStart = elapsed;
-    if (gymProps && config.training) queueMicrotask(() => gymProps?.drawBoard(boardInfo()));
+    if (gymProps && config.training) queueMicrotask(() => refreshTrainingScreen());
     const changed = !routine || routine.id !== next.id || routine.prop !== next.prop || routine.clip !== next.clip;
     const compose = force || (composeOnChange && changed);
     // A deliberate change of time, activity or motion recomposes the wind, even in a still.
@@ -2414,6 +2454,7 @@ export function createCoastalHome(container, records, artifacts) {
   }
 
   function syncVisitorNavigation() {
+    gymDashboard?.setAvailable(currentRoom === "gym");
     ui.querySelectorAll("[data-world-destination]").forEach((b) =>
       b.setAttribute("aria-pressed", String(b.dataset.worldDestination === currentRoom))
     );
@@ -2460,10 +2501,11 @@ export function createCoastalHome(container, records, artifacts) {
     const animal = currentRoom === "outside" ? pacific?.pick(ray) : null;
     const interactive = [hit, bot, animal].filter(Boolean).sort((a, b) => a.distance - b.distance);
     const first = interactive.find((entry) => entry.object.userData.action?.type !== "window") || interactive[0];
-    if (selecting && (first === animal || first?.object.userData.action?.type === "library-ladder")) {
+    if (selecting && (first === animal || ["library-ladder", "training-screen"].includes(first?.object.userData.action?.type))) {
       // Reject clicks through opaque scenery; hover keeps the cheaper pick path.
       const blocker = ray.intersectObject(world, true).find((entry) => {
         if (entry.distance >= first.distance - 0.015 || entry.object.userData.action) return false;
+        if (first.object.userData.action?.type === "training-screen" && walkPresence?.hidesPrimaryHit(entry)) return false;
         let node = entry.object;
         while (node) {
           if (!node.visible) return false;
@@ -2486,6 +2528,7 @@ export function createCoastalHome(container, records, artifacts) {
     else if (a.type === "window") setRoom("outside");
     else if (a.type === "wildlife") inspectNeighbour(a.id);
     else if (a.type === "library-ladder") rollLibraryLadder();
+    else if (a.type === "training-screen") gymDashboard?.open(renderer.domElement);
     else if (a.type === "source" && records[a.index].source) window.open(records[a.index].source, "_blank", "noopener,noreferrer");
   }
 
@@ -2641,6 +2684,14 @@ export function createCoastalHome(container, records, artifacts) {
     canvas.setAttribute("aria-label", canvasLabel(config.rooms.length));
     // Right-drag moves the viewpoint, so the canvas keeps its own context menu out of the way.
     listen(canvas, "contextmenu", (e) => e.preventDefault());
+    listen(canvas, "click", (event) => {
+      const pending = pendingTrainingClick;
+      pendingTrainingClick = null;
+      if (!pending || !event.isTrusted || event.timeStamp - pending.time > 1000) return;
+      event.preventDefault();
+      event.stopPropagation();
+      gymDashboard?.open(canvas);
+    });
     listen(canvas, "pointerdown", (e) => {
       if (e.button > 2) return;
       // Catching a coasting view holds it where it is.
@@ -2730,7 +2781,8 @@ export function createCoastalHome(container, records, artifacts) {
         if (room) {
           showHint(null);
           setRoom(room);
-        } else activate(pointer.object);
+        } else if (pointer.object?.userData.action?.type === "training-screen") selectTrainingScreen(e);
+        else activate(pointer.object);
       } else if (pointer.moved > 70 && pointer.object?.userData.action.type === "record") dropRecord(pointer.object.userData.action.index);
       pointer = null;
     });
@@ -2767,6 +2819,7 @@ export function createCoastalHome(container, records, artifacts) {
     );
     listen(canvas, "keydown", (e) => {
       if (e.ctrlKey || e.metaKey || e.altKey || e.isComposing) return;
+      if (e.repeat && e.key.toLowerCase() === "t") return;
       // Shift+arrows move the viewpoint; in the whole house, number keys visit rooms in order.
       if (e.shiftKey && e.key.startsWith("Arrow")) {
         e.preventDefault();
@@ -2783,6 +2836,8 @@ export function createCoastalHome(container, records, artifacts) {
       // Arrow keys turn in exact steps (three left and three right return to the same view); they
       // still stop short of a wall instead of passing behind it.
       const keys = {
+        t: () => currentRoom === "gym" && gymDashboard?.open(canvas),
+        T: () => currentRoom === "gym" && gymDashboard?.open(canvas),
         l: rollLibraryLadder,
         L: rollLibraryLadder,
         ArrowLeft: () => orbitBy(0.18, 0, { cushioned: false }),
@@ -2889,6 +2944,7 @@ export function createCoastalHome(container, records, artifacts) {
   const embedDetailOnly = detailFlags.get("fullscreen-detail") === "embed";
   let detail = null;
   function fullscreenChanged(mode) {
+    if (!mode) gymDashboard?.close();
     // A full-screen scene is visible even while an IntersectionObserver still
     // carries the embed's old offscreen entry. Do not cancel its resize draw.
     if (mode) {
@@ -3320,8 +3376,9 @@ export function createCoastalHome(container, records, artifacts) {
     let panFrame = null;
     // The gym's bars, dumbbells and board exist whenever its room is loaded.
     if (!gymProps && config?.equipment?.gym && rooms.get("gym")) {
-      gymProps = createGymProps({ room: rooms.get("gym"), world, gym: config.equipment.gym, training: config.training, material });
-      gymProps.drawBoard(boardInfo());
+      gymProps = createGymProps({ room: rooms.get("gym"), world, gym: config.equipment.gym, training: config.training, material, screen: gymScreen });
+      cleanup.push(() => gymProps?.dispose());
+      refreshTrainingScreen();
     }
     if (actor && !travel && poolVisit && routine?.sequence === "pool") {
       if (moving || reduced || !sequencePose) {
@@ -3368,7 +3425,7 @@ export function createCoastalHome(container, records, artifacts) {
         }
         if (propFor && selectedProp) propFor(null);
         if (compose) gymProps?.update(walking ? null : pose, walking ? null : rig, frameDelta, moving);
-        gymProps?.drawBoard(info);
+        refreshTrainingScreen(info);
         container.dataset.activityPhase = pose.phase;
       }
     } else if (actor && !travel && routine?.sequence && moving) {
@@ -3817,8 +3874,33 @@ export function createCoastalHome(container, records, artifacts) {
         practicalSources: [...warmPracticals.sources, ...roomLightSources(config)],
         acceptMesh(mesh) {
           if (mesh.geometry?.attributes.coastalPlantWeight) return false;
+          const screenFace = gymScreen?.objects().includes(mesh);
           for (let parent = mesh; parent; parent = parent.parent) {
-            if (parent === actor || parent.userData.libraryLadder || parent.userData.activityProp || parent.userData.action) return false;
+            if (
+              parent === actor ||
+              parent.userData.libraryLadder ||
+              ((parent.userData.activityProp || parent.userData.action) && !(parent === mesh && screenFace))
+            )
+              return false;
+          }
+          if (labEnabled && screenFace) {
+            const geometry = mesh.geometry,
+              material = mesh.material;
+            trainingCollectorFaces.set(mesh, {
+              name: mesh.name,
+              material: material.name,
+              opaque: !material.transparent && material.opacity >= 0.999 && !(material.transmission > 0) && !(material.alphaTest > 0),
+              diffuse: material.color.toArray().map((x) => clamp(x * (1 - (material.metalness || 0)), 0, 0.95)),
+              emissive: material.emissive.toArray(),
+              dynamic: Boolean(mesh.userData.dynamic),
+              position: Array.from(geometry.attributes.position.array),
+              index: geometry.index ? Array.from(geometry.index.array) : null,
+              drawRange: { ...geometry.drawRange, count: Number.isFinite(geometry.drawRange.count) ? geometry.drawRange.count : null },
+              matrixWorld: mesh.matrixWorld.toArray(),
+              preRoiTriangles: Math.floor(
+                Math.min(geometry.drawRange.count, (geometry.index?.count ?? geometry.attributes.position.count) - geometry.drawRange.start) / 3
+              ),
+            });
           }
           return true;
         },
@@ -3981,8 +4063,25 @@ export function createCoastalHome(container, records, artifacts) {
         onEnter: enterWalk,
         onRoom: walkRoomChanged,
         onExit: leaveWalk,
+        onSelect: selectTrainingScreen,
       });
       cleanup.push(() => walkMode?.dispose());
+      if (config.training) {
+        gymDashboard = createGymDashboard({
+          stage,
+          controls: ui,
+          canvas: renderer.domElement,
+          training: config.training,
+          getInfo: boardInfo,
+          onOpenChange: trainingPanelChanged,
+          onDisplayChange: (display) => {
+            gymProps?.setDisplay(display);
+            requestFrame();
+          },
+        });
+        cleanup.push(() => gymDashboard?.dispose());
+        gymDashboard.setAvailable(currentRoom === "gym");
+      }
       bindControls();
       const resizeObserver = new ResizeObserver(resize);
       resizeObserver.observe(container);
@@ -4266,7 +4365,14 @@ export function createCoastalHome(container, records, artifacts) {
     cupPosition: coffeeCup?.position.toArray() || null,
     weightPosition: gymProps?.evidence().weightPosition || null,
     gym: gymProps
-      ? { ...gymProps.evidence(), lift: sequencePose?.lift?.name || null, segment: sequencePose?.segment || null, rep: sequencePose?.rep || null }
+      ? {
+          ...gymProps.evidence(),
+          collectorFaces: [...trainingCollectorFaces.values()],
+          dashboard: gymDashboard?.evidence(),
+          lift: sequencePose?.lift?.name || null,
+          segment: sequencePose?.segment || null,
+          rep: sequencePose?.rep || null,
+        }
       : null,
     liftHead: liftRig ? { min: liftRig.dims.head.min.toArray(), max: liftRig.dims.head.max.toArray() } : null,
     // Placement is separate from the animated Root bone (seated clips lower that bone).
@@ -4443,7 +4549,11 @@ export function createCoastalHome(container, records, artifacts) {
     targets: picks
       .filter((o) => o.visible && o.parent)
       .map((o) => {
-        const point = o.getWorldPosition(new THREE.Vector3()).project(camera);
+        const point = (
+          o.userData.action?.type === "training-screen"
+            ? new THREE.Box3().setFromObject(o).getCenter(new THREE.Vector3())
+            : o.getWorldPosition(new THREE.Vector3())
+        ).project(camera);
         return { ...o.userData.action, x: (point.x + 1) / 2, y: (1 - point.y) / 2 };
       }),
     joints: actor
@@ -4465,6 +4575,7 @@ export function createCoastalHome(container, records, artifacts) {
     },
     async setVisible(value) {
       visible = value;
+      if (!value) gymDashboard?.close();
       if (!value) companion.paused = false;
       container.classList.toggle("is-visible", value);
       container.setAttribute("aria-hidden", String(!value));

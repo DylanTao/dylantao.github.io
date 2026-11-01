@@ -5,7 +5,7 @@ import * as THREE from "../assets/js/three.module.min.js";
 import { createGymProps } from "../assets/js/home-scene/gym-props.mjs";
 import { createLightInstallations } from "../assets/js/home-scene/light-installations.mjs";
 
-test("the actual whiteboard replacement and moving gym materials retain their room's emitters", () => {
+test("moving gym equipment retains its emitters while the actual digital face is self-lit", () => {
   const config = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
   const lights = createLightInstallations(config),
     world = new THREE.Group(),
@@ -20,7 +20,10 @@ test("the actual whiteboard replacement and moving gym materials retain their ro
   globalThis.document = {
     createElement(tag) {
       assert.equal(tag, "canvas");
-      return { width: 0, height: 0 };
+      const canvas = { width: 0, height: 0 };
+      const context = new Proxy({ canvas }, { get: (target, key) => (key in target ? target[key] : () => {}) });
+      canvas.getContext = () => context;
+      return canvas;
     },
   };
   let props;
@@ -36,16 +39,32 @@ test("the actual whiteboard replacement and moving gym materials retain their ro
         return lights.bindMaterial(result);
       },
     });
-    assert.ok(created.length > 10, "the real prop constructor exercised the bars, plates and board factories");
+    assert.equal(created.length, 10, "all ten physical equipment materials still pass through the gym receiver factory");
     assert.notEqual(face.material, original);
     assert.equal(face.userData.fixedMaterial, true);
     for (const material of created) {
       assert.equal(material.userData.installationGroup, "gym");
       assert.equal(material.userData.installationReceiverGroup, "gym");
     }
-    assert.equal(face.material.map.image.width, 1024);
-    assert.equal(face.material.map.image.height, 696);
+    assert.equal(face.material.isMeshStandardMaterial, true);
+    assert.equal(face.material.emissiveMap, face.material.map, "a digital screen's pixels emit independently of the room's schedule");
+    assert.ok(
+      face.material.color.toArray().every((x) => x < 0.004),
+      "the static collector sees a dark diffuse surface, not a bright white wall"
+    );
+    assert.equal(face.material.toneMapped, false);
+    assert.equal(face.material.map.image.width, 2048);
+    assert.equal(face.material.map.image.height, 1392);
     assert.equal(face.material.map.repeat.x, -1, "the board keeps its readable authored orientation");
+    assert.equal(face.material.map.flipY, false);
+    assert.deepEqual(props.screenObjects(), [face]);
+    assert.deepEqual(face.userData.action, { type: "training-screen" });
+    props.drawBoard(null);
+    const version = face.material.map.version;
+    for (let i = 0; i < 1000; i++) assert.equal(props.drawBoard(null), false);
+    assert.equal(face.material.map.version, version, "unchanged frames never upload the large texture");
+    props.setDisplay({ view: "progress", unit: "kg", lift: "bench" });
+    assert.equal(face.material.map.version, version + 1, "a real display interaction uploads exactly once");
   } finally {
     if (previousDocument === undefined) delete globalThis.document;
     else globalThis.document = previousDocument;
