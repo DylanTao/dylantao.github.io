@@ -1,6 +1,6 @@
 // Draws the loading sketch off the main thread, so model parsing and the first upload never stall
 // the pen, and fetches and decodes the drawings here too. Messages come from loading-sketch.mjs.
-import { createSketchEngine, loadSketches } from "./loading-sketch-core.mjs";
+import { createSketchEngine, loadSketches } from "./loading-sketch-core.mjs?v=packed-20261031";
 
 let engine = null,
   canvas = null,
@@ -21,7 +21,7 @@ function run(time) {
   scheduled = false;
   if (!engine) return;
   const more = engine.tick(time);
-  if (time - reported > 250) {
+  if (!more || time - reported > 250) {
     reported = time;
     self.postMessage({ type: "state", state: { ...engine.state(), pending: loader?.pending() ?? [] } });
   }

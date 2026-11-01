@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import { createRequire } from "node:module";
-import { gzipSync } from "node:zlib";
+import { deflateSync, gzipSync } from "node:zlib";
 import { resolveRoutine } from "../assets/js/home-scene/routine.mjs";
 import {
   BREATH,
@@ -11,6 +11,7 @@ import {
   breathDepth,
   createSketchEngine,
   decodeDrawing,
+  drawingBytes,
   loadSketches,
   parsePlan,
   stageFills,
@@ -22,7 +23,7 @@ const MODELS = new URL("../assets/models/home/", import.meta.url);
 const sketch = JSON.parse(readFileSync(new URL("loading-sketch.json", MODELS), "utf8"));
 const manifest = JSON.parse(readFileSync(new URL("manifest.json", MODELS), "utf8"));
 // The coast view's strokes sit in the index; each room's sit in the file the index names.
-const strokesOf = (id) => sketch.views[id].strokes ?? JSON.parse(readFileSync(new URL(sketch.views[id].file, MODELS), "utf8")).strokes;
+const payloadOf = (id) => (sketch.views[id].strokes ? sketch.views[id] : JSON.parse(readFileSync(new URL(sketch.views[id].file, MODELS), "utf8")));
 
 function formFixture({ split = null, category = "furniture", flat = false } = {}) {
   const width = 128,
@@ -290,8 +291,8 @@ test("a resting drawing's breath eases in, never exceeds its depth and decays to
   assert.ok(breathDepth(40) > 0, "it never stops entirely");
 });
 
-test("the shipped drawings cover the coast and every room an activity opens in, within budget", () => {
-  assert.equal(sketch.version, 3);
+test("the shipped drawings cover the coast and every room an activity opens in, within budget", async () => {
+  assert.equal(sketch.version, 4);
   // Include the actual daily routine's furniture stations as well as each base activity.
   const rooms = [
     ...new Set(
@@ -319,7 +320,7 @@ test("the shipped drawings cover the coast and every room an activity opens in, 
   assert.ok(index + roomFiles.reduce((sum, size) => sum + size, 0) < 250 * 1024);
   for (const [id, view] of Object.entries(sketch.views)) {
     const plan = parsePlan(sketch.plan[id === "outside" ? "outside" : "room"]),
-      drawing = decodeDrawing(Buffer.from(strokesOf(id), "base64"), sketch.grid, sketch.range);
+      drawing = decodeDrawing(await drawingBytes(payloadOf(id)), sketch.grid, sketch.range);
     assert.equal(drawing.strokes.length, view.count, id);
     assert.ok(drawing.strokes.length > 200, `${id} has ${drawing.strokes.length} strokes`);
     // Pen order follows the plan: layers never go backward.
@@ -348,7 +349,10 @@ test("a load fetches the index and only the rooms it is told about, each once", 
     onIndex: (index) => (focus = index.focus),
     onDrawing: (id, drawing, plan) => delivered.push({ id, strokes: drawing.strokes.length, plan }),
   });
-  const settle = () => new Promise((resolve) => setTimeout(resolve, 20));
+  const settle = async () => {
+    const deadline = performance.now() + 2000;
+    while (loader.pending().length && performance.now() < deadline) await new Promise((resolve) => setTimeout(resolve, 5));
+  };
   // Wanted before the index arrives, and again after: each file is fetched once.
   loader.want("outside");
   loader.want("study");
@@ -372,4 +376,17 @@ test("a load fetches the index and only the rooms it is told about, each once", 
   assert.equal(delivered[1].strokes, sketch.views.study.count);
   assert.equal(delivered[1].plan, sketch.plan.room);
   assert.ok(Number.isFinite(focus.study.u));
+});
+
+test("native decompression restores every packed coordinate and accepts legacy streams", async () => {
+  const original = syntheticDrawing();
+  const legacy = { strokes: Buffer.from(original).toString("base64") };
+  const compressed = { compression: "deflate", strokes: deflateSync(original).toString("base64") };
+  const a = await drawingBytes(legacy),
+    b = await drawingBytes(compressed);
+  assert.deepEqual(a, new Uint8Array(original));
+  assert.deepEqual(b, a);
+  assert.deepEqual(decodeDrawing(b), decodeDrawing(a));
+  await assert.rejects(drawingBytes({ ...compressed, compression: "unknown" }), /Unknown drawing compression/);
+  await assert.rejects(drawingBytes({ compression: "deflate", strokes: "AQID" }));
 });

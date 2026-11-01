@@ -36,7 +36,7 @@ import { createCameraField } from "./camera-field.mjs";
 import { activityPose, createHandContacts } from "./activities.mjs";
 import { createLiftRig } from "./lift-rig.mjs";
 import { createDynamicCover, breathAt } from "./bedding-breath.mjs";
-import { createGymProps } from "./gym-props.mjs";
+import { createGymProps } from "./gym-props.mjs?v=interior-20261031";
 import { sessionPose } from "./gym-session.mjs";
 import { sessionState, trainingAt } from "./training.mjs";
 import { resolveWristTargets } from "./grip-targets.mjs";
@@ -49,7 +49,7 @@ import { companion, pipProjectUrl } from "../companion/bridge.mjs";
 import { createRecordMotion } from "./record-motion.mjs";
 import { createCameraMotion, createInertia } from "./camera-motion.mjs";
 import { coastalDaylight, LA_JOLLA } from "./daylight.mjs";
-import { createLoadingSketch } from "./loading-sketch.mjs";
+import { createLoadingSketch } from "./loading-sketch.mjs?v=packed-20261031";
 import { createLightWell } from "./light-well.mjs";
 import { bindContactLighting, withoutContactLighting } from "./contact-occlusion.mjs";
 import { createCharacterPerformance } from "./character-performance.mjs";
@@ -70,9 +70,9 @@ import { createStaticLightField, staticLightRegions } from "./static-light-field
 import { prepareFramePrograms } from "./program-warmup.mjs";
 import { retireCompiledMaterials } from "./program-lifetime.mjs";
 import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
-import { createWorldFullscreen } from "./world-fullscreen.mjs";
+import { createWorldFullscreen } from "./world-fullscreen.mjs?v=layout-20261031";
 import { createWalkMode } from "./walk-controls.mjs";
-import { createLightInstallations, roomLightSources } from "./light-installations.mjs";
+import { createLightInstallations, roomLightSources } from "./light-installations.mjs?v=interior-20261031";
 import { createFurniture } from "./furniture.mjs";
 import { createDining } from "./dining.mjs";
 import { createAtmosphere } from "./atmosphere.mjs";
@@ -2889,8 +2889,15 @@ export function createCoastalHome(container, records, artifacts) {
   const embedDetailOnly = detailFlags.get("fullscreen-detail") === "embed";
   let detail = null;
   function fullscreenChanged(mode) {
+    // A full-screen scene is visible even while an IntersectionObserver still
+    // carries the embed's old offscreen entry. Do not cancel its resize draw.
+    if (mode) {
+      inViewport = true;
+      lastFrame = 0;
+    }
     const profile = mode && !embedDetailOnly ? "fullscreen" : "embed";
-    if (resolution?.setProfile(profile)) resize();
+    resolution?.setProfile(profile);
+    resize();
     // The walk's collision field is built as full screen opens; leaving full screen ends a walk.
     if (mode) walkMode?.prepare();
     else walkMode?.exit();
@@ -3981,7 +3988,7 @@ export function createCoastalHome(container, records, artifacts) {
       resizeObserver.observe(container);
       cleanup.push(() => resizeObserver.disconnect());
       const viewportObserver = new IntersectionObserver((entries) => {
-        inViewport = entries[0].isIntersecting;
+        inViewport = Boolean(fullscreen.mode) || entries[0].isIntersecting;
         if (inViewport) {
           lastFrame = 0;
           resumeRoutine();

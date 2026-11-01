@@ -1,5 +1,24 @@
 # Coastal home asset provenance
 
+## October 31: retained hardware, foliage and reading light
+
+The [combined interior checkpoint](reviews/interior-integration-2026-10-31/README.md)
+replays the qualified hardware, Epipremnum and paper-lantern recipes on the retained
+native source using Blender 4.5.9. Sirui confirmed 43 inch and 31.5 inch displays,
+a 17 inch laptop and a tower beneath the desk. Whole hardware assemblies retain
+their topology, finish attributes and interaction anchors. Thirty trailing leaf
+blades receive curved, light-facing laminae while every petiole remains rooted.
+The suspended paper lantern has a measured ceiling attachment and at least
+2.1775 m of standing clearance; its one bounded analytic line is direct-only.
+
+The study, library and upper library receive a fresh native contact/bounce bake
+and effort-10 Draco exports. Geometry and effective normals are exact across that
+bake. The official static-light producer, perch contacts and loading drawings
+are regenerated. The drawings use lossless deflate packing; their decoded
+coordinates, line weights and pen order remain byte-exact. No external bitmap or
+new reference artwork is included in these additions. Cliff and entrance trials
+remain private until their independent geometry and visual gates pass.
+
 ## October 24: house retreat and a more open living prospect
 
 This is the current design/source contract. The [dated house review](../../docs/design-reviews/2026-10-24/HOUSE_REVISION.md) records final native/browser evidence, release custody and remaining limits. The dated October 23

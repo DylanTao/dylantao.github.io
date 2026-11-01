@@ -1,0 +1,612 @@
+{
+  "sourceSha256": "75afc57f664101e59150910f86662b21ccf01087c393521ab1fa1886e481c5ad",
+  "candidateSha256": "bdadbc1cd98fccb80c62de6af42383f8bd89c95847655f495812f747912cdd27",
+  "receipts": {
+    "hardware": {
+      "units": "meters; native Z-up",
+      "targetsActiveGlassInches": {
+        "primary": 43.0,
+        "secondary": 31.5,
+        "laptop": 17.0
+      },
+      "inputHardwareSignatures": {
+        "primary": "616f5891beb79a069e428d72ddd678c40a00a0534d8e08f390f89fe21fe0f807",
+        "secondary": "4495b2765c912ef094708fcaaa2bbf531c83a5f2aebf525b1f90e1c166bc257a",
+        "laptop": "5c424dec7e4061dc6e9e67ac8c1e8bc8405a0876f2e0a2c5d3ad8af5837cffa0",
+        "tower": "29608adef9b93198a11458c4998e7fded6cc79a8650c7e131958b9d5204af2ad"
+      },
+      "assemblies": {
+        "primary": {
+          "vertices": 504,
+          "meshes": {
+            "study__matte black device": 320,
+            "study__monitor screen glass": 8,
+            "study__screen code blue light": 32,
+            "study__screen code light": 112,
+            "study__screen code warm light": 32
+          },
+          "boundsBefore": [
+            [-11.84999966621399, -5.3394999504089355, 0.880000114440918],
+            [-11.625749588012695, -4.36050009727478, 1.5469999313354492]
+          ],
+          "boundsAfter": [
+            [-11.727303624153137, -5.326303005218506, 0.880000114440918],
+            [-11.50909948348999, -4.373697280883789, 1.529017448425293]
+          ],
+          "diagonalInchesBefore": 44.19141564880858,
+          "diagonalInchesAfter": 43.00000754209264,
+          "activeGlassSpansBefore": [0.9609999659158244, 0.5799999237060547, 0.001999974251309756],
+          "activeGlassSpansAfter": [0.9350912573434264, 0.5643630027770996, 0.0019459724431432081],
+          "uniformScale": 0.9730396586912531,
+          "nativePivot": [-11.75, -4.849999904632568, 0.8799999952316284],
+          "nativeTranslation": [0.11999999731779099, 0.0, 0.0]
+        },
+        "secondary": {
+          "vertices": 456,
+          "meshes": {
+            "study__matte black device": 320,
+            "study__monitor screen glass": 8,
+            "study__screen code blue light": 24,
+            "study__screen code light": 80,
+            "study__screen code warm light": 24
+          },
+          "boundsBefore": [
+            [-11.826997518539429, -6.164763450622559, 0.880000114440918],
+            [-11.213001787662506, -5.71168327331543, 1.4010000228881836]
+          ],
+          "boundsAfter": [
+            [-11.820236682891846, -6.160558700561523, 0.880000114440918],
+            [-11.22310322523117, -5.719921588897705, 1.3866918087005615]
+          ],
+          "diagonalInchesBefore": 32.389515450003536,
+          "diagonalInchesAfter": 31.499996768009296,
+          "activeGlassSpansBefore": [0.7079998495001937, 0.41900014877319336, 0.002000034227073566],
+          "activeGlassSpansAfter": [0.6885559093449533, 0.40749311447143555, 0.0019450839735260517],
+          "uniformScale": 0.9725369324719725,
+          "nativePivot": [-11.580820083618164, -6.011660099029541, 0.8799999952316284],
+          "nativeTranslation": [0.0, 0.0, 0.0]
+        },
+        "laptop": {
+          "vertices": 280,
+          "meshes": {
+            "study__black magnesium laptop": 192,
+            "study__matte black device": 8,
+            "study__monitor screen glass": 8,
+            "study__screen code blue light": 24,
+            "study__screen code light": 48
+          },
+          "boundsBefore": [
+            [-11.641902923583984, -4.2633960247039795, 0.8799998760223389],
+            [-11.16429579257965, -3.7927515506744385, 1.1150588989257812]
+          ],
+          "boundsAfter": [
+            [-11.656813144683838, -4.274975538253784, 0.8799998760223389],
+            [-11.152015626430511, -3.7775368690490723, 1.1284408569335938]
+          ],
+          "diagonalInchesBefore": 16.084311833620472,
+          "diagonalInchesAfter": 17.000002241708717,
+          "activeGlassSpansBefore": [0.3410001190111569, 0.22500020637159474, 0.001500134918189247],
+          "activeGlassSpansAfter": [0.36041346762339665, 0.2378096329599563, 0.0015855895407478893],
+          "uniformScale": 1.0569305156385675,
+          "nativePivot": [-11.380000114440918, -4.059999942779541, 0.8799999952316284],
+          "nativeTranslation": [0.0, 0.0, 0.0]
+        },
+        "tower": {
+          "vertices": 3344,
+          "meshes": {
+            "study__matte black device": 1368,
+            "study__pc black steel": 672,
+            "study__pc circuit board": 96,
+            "study__pc rgb glow": 1016,
+            "study__pc tempered glass": 96,
+            "study__rtx graphite shroud": 96
+          },
+          "boundsBefore": [
+            [-10.93239974975586, -7.015000343322754, 0.0],
+            [-10.469999313354492, -6.785000801086426, 0.5060000419616699]
+          ],
+          "boundsAfter": [
+            [-10.93239974975586, -6.15500020980835, 0.0],
+            [-10.469999313354492, -5.9250006675720215, 0.5060000419616699]
+          ],
+          "diagonalInchesBefore": null,
+          "diagonalInchesAfter": null,
+          "activeGlassSpansBefore": null,
+          "activeGlassSpansAfter": null,
+          "uniformScale": 1.0,
+          "nativePivot": [0.0, 0.0, 0.0],
+          "nativeTranslation": [0.0, 0.8600000143051147, 0.0]
+        }
+      },
+      "unchangedSceneDigestBefore": "2b7271327a41b0cd020db16174638126b0a80a3f4fa3977f06c445e9c57ce5d7",
+      "unchangedSceneDigestAfter": "2b7271327a41b0cd020db16174638126b0a80a3f4fa3977f06c445e9c57ce5d7",
+      "effectiveNormals": {
+        "study__matte black device": {
+          "unselectedCornerMaximumDelta": 0.0,
+          "selectedCornerMaximumDelta": 0.00026166217867285013,
+          "selectedCornerMaximumDegrees": 0.014992138538921881,
+          "customNormalStorage": "INT16_2D"
+        },
+        "study__monitor screen glass": {
+          "unselectedCornerMaximumDelta": 0.0,
+          "selectedCornerMaximumDelta": 6.0625592595897615e-5,
+          "selectedCornerMaximumDegrees": 0.0034735905867564667,
+          "customNormalStorage": null
+        },
+        "study__screen code blue light": {
+          "unselectedCornerMaximumDelta": 0.0,
+          "selectedCornerMaximumDelta": 0.00021733131143264472,
+          "selectedCornerMaximumDegrees": 0.012452166925640171,
+          "customNormalStorage": "INT16_2D"
+        },
+        "study__screen code light": {
+          "unselectedCornerMaximumDelta": 0.0,
+          "selectedCornerMaximumDelta": 0.0002528092300053686,
+          "selectedCornerMaximumDegrees": 0.014484901939833313,
+          "customNormalStorage": "INT16_2D"
+        },
+        "study__screen code warm light": {
+          "unselectedCornerMaximumDelta": 0.0,
+          "selectedCornerMaximumDelta": 3.504656706354581e-5,
+          "selectedCornerMaximumDegrees": 0.002008020379266139,
+          "customNormalStorage": "INT16_2D"
+        },
+        "study__black magnesium laptop": {
+          "unselectedCornerMaximumDelta": 0.0,
+          "selectedCornerMaximumDelta": 0.0002471994375810027,
+          "selectedCornerMaximumDegrees": 0.014163484507461422,
+          "customNormalStorage": "INT16_2D"
+        },
+        "study__pc black steel": {
+          "unselectedCornerMaximumDelta": 0.0,
+          "selectedCornerMaximumDelta": 0.00029826274840161204,
+          "selectedCornerMaximumDegrees": 0.017089196732729142,
+          "customNormalStorage": "INT16_2D"
+        },
+        "study__pc circuit board": {
+          "unselectedCornerMaximumDelta": 0.0,
+          "selectedCornerMaximumDelta": 0.00023556027736049145,
+          "selectedCornerMaximumDegrees": 0.01349660974489176,
+          "customNormalStorage": "INT16_2D"
+        },
+        "study__pc rgb glow": {
+          "unselectedCornerMaximumDelta": 0.0,
+          "selectedCornerMaximumDelta": 0.0005126648466102779,
+          "selectedCornerMaximumDegrees": 0.029373532337161733,
+          "customNormalStorage": "INT16_2D"
+        },
+        "study__pc tempered glass": {
+          "unselectedCornerMaximumDelta": 0.0,
+          "selectedCornerMaximumDelta": 0.0002528538170736283,
+          "selectedCornerMaximumDegrees": 0.014487456590685871,
+          "customNormalStorage": null
+        },
+        "study__rtx graphite shroud": {
+          "unselectedCornerMaximumDelta": 0.0,
+          "selectedCornerMaximumDelta": 5.208767470321618e-5,
+          "selectedCornerMaximumDegrees": 0.0029844039254820075,
+          "customNormalStorage": "INT16_2D"
+        }
+      },
+      "topologyMaterialAndFinishAttributesExact": true,
+      "next": "Re-bake study vertex contact/bounce, export room-study and regenerate official light/support/loading products before publication"
+    },
+    "pothos": {
+      "owner": "library_refined_botanical__interior Epipremnum leaf",
+      "inputFingerprintSha256": "c71290581d742e6c6e6d86cfb73e2a5356142c5cb8362affa43fdcb8233229ad",
+      "outputFingerprintSha256": "b089e816f22dc3800460f2a01e9c30b19f8bcbfd1d8c23629dded2cf57105a84",
+      "unchangedSceneDigestBefore": "8c2b5e55d96c0cb7a6308798e97727ebe4ec6265728df8fd35ab496aa7ef7e48",
+      "unchangedSceneDigestAfter": "8c2b5e55d96c0cb7a6308798e97727ebe4ec6265728df8fd35ab496aa7ef7e48",
+      "blades": 30,
+      "verticesBefore": 120,
+      "verticesAfter": 420,
+      "trianglesBefore": 60,
+      "trianglesAfter": 480,
+      "maximumRootMovementM": 0.0,
+      "bladeRoots": [
+        {
+          "index": 0,
+          "nativeRoot": [-11.687000274658203, -10.088000297546387, 3.1649999618530273],
+          "nativeTipBefore": [-11.619000434875488, -10.043000221252441, 3.1470000743865967],
+          "nativeTipAfter": [-11.642086029052734, -10.059826850891113, 3.1004867553710938],
+          "rootVertex": 0,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 1,
+          "nativeRoot": [-11.699141502380371, -10.072853088378906, 3.11299991607666],
+          "nativeTipBefore": [-11.767141342163086, -10.027853012084961, 3.0950000286102295],
+          "nativeTipAfter": [-11.749439239501953, -10.049314498901367, 3.050637722015381],
+          "rootVertex": 14,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 2,
+          "nativeRoot": [-11.652087211608887, -10.071632385253906, 3.060999870300293],
+          "nativeTipBefore": [-11.584087371826172, -10.026632308959961, 3.0429999828338623],
+          "nativeTipAfter": [-11.611912727355957, -10.051392555236816, 2.9906482696533203],
+          "rootVertex": 28,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 3,
+          "nativeRoot": [-11.69576644897461, -10.08545970916748, 3.009000062942505],
+          "nativeTipBefore": [-11.763766288757324, -10.040459632873535, 2.991000175476074],
+          "nativeTipAfter": [-11.744192123413086, -10.060879707336426, 2.9455668926239014],
+          "rootVertex": 42,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 4,
+          "nativeRoot": [-11.682061195373535, -10.101622581481934, 2.9570000171661377],
+          "nativeTipBefore": [-11.61406135559082, -10.056622505187988, 2.939000129699707],
+          "nativeTipAfter": [-11.6362943649292, -10.072818756103516, 2.8933703899383545],
+          "rootVertex": 56,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 5,
+          "nativeRoot": [-11.743003845214844, -10.105260848999023, 2.9049999713897705],
+          "nativeTipBefore": [-11.811003684997559, -10.060260772705078, 2.88700008392334],
+          "nativeTipAfter": [-11.785698890686035, -10.08370304107666, 2.836549758911133],
+          "rootVertex": 70,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 6,
+          "nativeRoot": [-11.721213340759277, -10.093029022216797, 2.8529999256134033],
+          "nativeTipBefore": [-11.653213500976562, -10.048028945922852, 2.8350000381469727],
+          "nativeTipAfter": [-11.671775817871094, -10.073196411132812, 2.788691282272339],
+          "rootVertex": 84,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 7,
+          "nativeRoot": [-11.75306224822998, -10.076173782348633, 2.800999879837036],
+          "nativeTipBefore": [-11.821062088012695, -10.031173706054688, 2.7829999923706055],
+          "nativeTipAfter": [-11.795286178588867, -10.046717643737793, 2.7352545261383057],
+          "rootVertex": 98,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 8,
+          "nativeRoot": [-11.696779251098633, -10.070191383361816, 2.748999834060669],
+          "nativeTipBefore": [-11.628779411315918, -10.025191307067871, 2.7309999465942383],
+          "nativeTipAfter": [-11.650250434875488, -10.044678688049316, 2.6845242977142334],
+          "rootVertex": 112,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 9,
+          "nativeRoot": [-11.707247734069824, -10.080581665039062, 2.697000026702881],
+          "nativeTipBefore": [-11.775247573852539, -10.035581588745117, 2.67900013923645],
+          "nativeTipAfter": [-11.753979682922363, -10.061361312866211, 2.630519390106201],
+          "rootVertex": 126,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 10,
+          "nativeRoot": [-11.602548599243164, -10.088000297546387, 3.1649999618530273],
+          "nativeTipBefore": [-11.53454875946045, -10.043000221252441, 3.1470000743865967],
+          "nativeTipAfter": [-11.559747695922852, -10.063175201416016, 3.0977330207824707],
+          "rootVertex": 140,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 11,
+          "nativeRoot": [-11.633560180664062, -10.072853088378906, 3.11299991607666],
+          "nativeTipBefore": [-11.701560020446777, -10.027853012084961, 3.0950000286102295],
+          "nativeTipAfter": [-11.682770729064941, -10.045771598815918, 3.05121111869812],
+          "rootVertex": 154,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 12,
+          "nativeRoot": [-11.611053466796875, -10.071632385253906, 3.060999870300293],
+          "nativeTipBefore": [-11.54305362701416, -10.026632308959961, 3.0429999828338623],
+          "nativeTipAfter": [-11.56922435760498, -10.047965049743652, 2.9927127361297607],
+          "rootVertex": 168,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 13,
+          "nativeRoot": [-11.671786308288574, -10.08545970916748, 3.009000062942505],
+          "nativeTipBefore": [-11.739786148071289, -10.040459632873535, 2.991000175476074],
+          "nativeTipAfter": [-11.718290328979492, -10.064888000488281, 2.9427642822265625],
+          "rootVertex": 182,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 14,
+          "nativeRoot": [-11.658488273620605, -10.101622581481934, 2.9570000171661377],
+          "nativeTipBefore": [-11.59048843383789, -10.056622505187988, 2.939000129699707],
+          "nativeTipAfter": [-11.608803749084473, -10.076925277709961, 2.894594192504883],
+          "rootVertex": 196,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 15,
+          "nativeRoot": [-11.702974319458008, -10.105260848999023, 2.9049999713897705],
+          "nativeTipBefore": [-11.770974159240723, -10.060260772705078, 2.88700008392334],
+          "nativeTipAfter": [-11.741619110107422, -10.077339172363281, 2.8364434242248535],
+          "rootVertex": 210,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 16,
+          "nativeRoot": [-11.656693458557129, -10.093029022216797, 2.8529999256134033],
+          "nativeTipBefore": [-11.588693618774414, -10.048028945922852, 2.8350000381469727],
+          "nativeTipAfter": [-11.607030868530273, -10.071499824523926, 2.789414644241333],
+          "rootVertex": 224,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 17,
+          "nativeRoot": [-11.669160842895508, -10.076173782348633, 2.800999879837036],
+          "nativeTipBefore": [-11.737160682678223, -10.031173706054688, 2.7829999923706055],
+          "nativeTipAfter": [-11.71664047241211, -10.054919242858887, 2.7356786727905273],
+          "rootVertex": 238,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 18,
+          "nativeRoot": [-11.609004974365234, -10.070191383361816, 2.748999834060669],
+          "nativeTipBefore": [-11.54100513458252, -10.025191307067871, 2.7309999465942383],
+          "nativeTipAfter": [-11.568730354309082, -10.043227195739746, 2.6810009479522705],
+          "rootVertex": 252,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 19,
+          "nativeRoot": [-11.633188247680664, -10.080581665039062, 2.697000026702881],
+          "nativeTipBefore": [-11.701188087463379, -10.035581588745117, 2.67900013923645],
+          "nativeTipAfter": [-11.683028221130371, -10.055139541625977, 2.635019540786743],
+          "rootVertex": 266,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 20,
+          "nativeRoot": [-11.545174598693848, -10.088000297546387, 3.1649999618530273],
+          "nativeTipBefore": [-11.477174758911133, -10.043000221252441, 3.1470000743865967],
+          "nativeTipAfter": [-11.501245498657227, -10.066316604614258, 3.0973761081695557],
+          "rootVertex": 280,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 21,
+          "nativeRoot": [-11.599640846252441, -10.072853088378906, 3.11299991607666],
+          "nativeTipBefore": [-11.667640686035156, -10.027853012084961, 3.0950000286102295],
+          "nativeTipAfter": [-11.644838333129883, -10.050973892211914, 3.0462806224823],
+          "rootVertex": 294,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 22,
+          "nativeRoot": [-11.589277267456055, -10.071632385253906, 3.060999870300293],
+          "nativeTipBefore": [-11.52127742767334, -10.026632308959961, 3.0429999828338623],
+          "nativeTipAfter": [-11.542030334472656, -10.044366836547852, 2.9977760314941406],
+          "rootVertex": 308,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 23,
+          "nativeRoot": [-11.64432430267334, -10.08545970916748, 3.009000062942505],
+          "nativeTipBefore": [-11.712324142456055, -10.040459632873535, 2.991000175476074],
+          "nativeTipAfter": [-11.686656951904297, -10.059061050415039, 2.942037343978882],
+          "rootVertex": 322,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 24,
+          "nativeRoot": [-11.610562324523926, -10.101622581481934, 2.9570000171661377],
+          "nativeTipBefore": [-11.542562484741211, -10.056622505187988, 2.939000129699707],
+          "nativeTipAfter": [-11.561440467834473, -10.082979202270508, 2.892096519470215],
+          "rootVertex": 336,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 25,
+          "nativeRoot": [-11.630788803100586, -10.105260848999023, 2.9049999713897705],
+          "nativeTipBefore": [-11.6987886428833, -10.060260772705078, 2.88700008392334],
+          "nativeTipAfter": [-11.674189567565918, -10.080470085144043, 2.838106393814087],
+          "rootVertex": 350,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 26,
+          "nativeRoot": [-11.569470405578613, -10.093029022216797, 2.8529999256134033],
+          "nativeTipBefore": [-11.501470565795898, -10.048028945922852, 2.8350000381469727],
+          "nativeTipAfter": [-11.524964332580566, -10.063539505004883, 2.7887930870056152],
+          "rootVertex": 364,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 27,
+          "nativeRoot": [-11.58419132232666, -10.076173782348633, 2.800999879837036],
+          "nativeTipBefore": [-11.652191162109375, -10.031173706054688, 2.7829999923706055],
+          "nativeTipAfter": [-11.633625984191895, -10.055105209350586, 2.737083911895752],
+          "rootVertex": 378,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 28,
+          "nativeRoot": [-11.542372703552246, -10.070191383361816, 2.748999834060669],
+          "nativeTipBefore": [-11.474372863769531, -10.025191307067871, 2.7309999465942383],
+          "nativeTipAfter": [-11.501909255981445, -10.049375534057617, 2.678982973098755],
+          "rootVertex": 392,
+          "lengthM": 0.08350437803608492
+        },
+        {
+          "index": 29,
+          "nativeRoot": [-11.591134071350098, -10.080581665039062, 2.697000026702881],
+          "nativeTipBefore": [-11.659133911132812, -10.035581588745117, 2.67900013923645],
+          "nativeTipAfter": [-11.639915466308594, -10.053476333618164, 2.6348819732666016],
+          "rootVertex": 406,
+          "lengthM": 0.08350437803608492
+        }
+      ],
+      "orientation": "Native+Y seaward glazing and upper sky; independent of camera",
+      "next": "Bake contact/bounce, export effort10 room-library and refresh official static light before publication"
+    },
+    "reading": {
+      "version": 1,
+      "objects": [
+        "library-upper_reading_lantern__private living washi diffuser",
+        "library-upper_reading_lantern__brushed brass",
+        "library-upper_reading_lantern__charcoal"
+      ],
+      "triangles": 572,
+      "nativeCeilingAttachment": {
+        "point": [0.6499999761581421, -12.649999618530273, 5.968625545501709],
+        "normal": [-0.062247734516859055, 0.0, -0.9980607628822327],
+        "owner": "core_retreat_liftaway_roof",
+        "face": 543
+      },
+      "floorAndClearanceSamples": [
+        {
+          "index": 0,
+          "nativePoint": [0.6499999761581421, -12.649999618530273, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 1005,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 1,
+          "nativePoint": [0.8600000143051147, -12.649999618530273, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 1047,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 2,
+          "nativePoint": [0.8440147042274475, -12.569636344909668, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 1047,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 3,
+          "nativePoint": [0.798492431640625, -12.501507759094238, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 1047,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 4,
+          "nativePoint": [0.7303635478019714, -12.455985069274902, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 1047,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 5,
+          "nativePoint": [0.6499999761581421, -12.4399995803833, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 1005,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 6,
+          "nativePoint": [0.5696364641189575, -12.455985069274902, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 1005,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 7,
+          "nativePoint": [0.501507580280304, -12.501507759094238, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 1005,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 8,
+          "nativePoint": [0.45598530769348145, -12.569636344909668, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 1005,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 9,
+          "nativePoint": [0.4399999976158142, -12.649999618530273, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 1005,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 10,
+          "nativePoint": [0.45598530769348145, -12.730363845825195, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 991,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 11,
+          "nativePoint": [0.501507580280304, -12.798492431640625, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 991,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 12,
+          "nativePoint": [0.5696364641189575, -12.844015121459961, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 991,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 13,
+          "nativePoint": [0.6499999761581421, -12.859999656677246, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 991,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 14,
+          "nativePoint": [0.7303635478019714, -12.844015121459961, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 1047,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 15,
+          "nativePoint": [0.798492431640625, -12.798492431640625, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 1047,
+          "clearHeightM": 2.177500038146973
+        },
+        {
+          "index": 16,
+          "nativePoint": [0.8440147042274475, -12.730363845825195, 2.6024999618530273],
+          "owner": "core_reno_floorboards_upper",
+          "face": 1047,
+          "clearHeightM": 2.177500038146973
+        }
+      ],
+      "shadeNativeBounds": [
+        [0.48, -12.82, 4.78],
+        [0.8200000000000001, -12.48, 5.1]
+      ],
+      "minimumClearHeightM": 2.177500038146973,
+      "method": "Ceiling-supported shade, cord and canopy. One bounded direct-only analytic line; no newtransportchannel or PointLight/shadowmap.",
+      "unchangedSceneDigestBefore": "5655598a74239d97c287db0170c3e2d2d8bf42e22af6b2b070c046534842224f",
+      "unchangedSceneDigestAfter": "5655598a74239d97c287db0170c3e2d2d8bf42e22af6b2b070c046534842224f",
+      "installation": {
+        "id": "private-living-reading-lantern",
+        "schedule": "privateReading",
+        "a": [0.65, 4.855, 12.65],
+        "b": [0.65, 5.015, 12.65],
+        "intensity": 3.25,
+        "color": [1.0, 0.74, 0.5],
+        "transport": false,
+        "glowTag": "private-living-reading-lantern",
+        "region": {
+          "min": [-1.65, 2.55, 10.25],
+          "max": [1.3, 4.7, 14.1]
+        }
+      },
+      "metadataChange": "One newinstallationLines record; original lightcage and every oldsource retained",
+      "next": "Native contact/bounce bake; export complete room-library-upper, update official metadata/cache and review the combined source"
+    }
+  }
+}

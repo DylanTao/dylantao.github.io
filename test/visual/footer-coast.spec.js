@@ -1209,7 +1209,21 @@ test("coastal tilt: denied permission preserves the coast and native scrolling",
     for (let i = 1; i <= 10; i++) await session.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x, y: y + 16 * i, id: 0 }] });
     await session.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
     await session.detach();
-  } else await host.locator(".footer-coast__scene").press("PageUp");
+  } else {
+    // Use a real wheel gesture over exposed coast pixels after the permission
+    // and resize sequence, keeping the native pointer scrolling path observable.
+    const point = await host.locator(".footer-coast__scene").evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      for (const x of [0.8, 0.5, 0.2])
+        for (const y of [0.2, 0.4, 0.6]) {
+          const point = { x: rect.x + rect.width * x, y: rect.y + rect.height * y };
+          if (document.elementFromPoint(point.x, point.y)?.closest(".footer-coast__scene") === element) return point;
+        }
+      throw new Error("No exposed coast surface for the native scroll gesture");
+    });
+    await page.mouse.move(point.x, point.y);
+    await page.mouse.wheel(0, -300);
+  }
   await expect.poll(() => page.evaluate(() => scrollY)).toBeLessThan(before - 100);
   await expect(host).toHaveAttribute("data-state", "ready");
   expect(screenshotMetrics(await host.locator("canvas").screenshot()).uniqueColors).toBeGreaterThan(300);

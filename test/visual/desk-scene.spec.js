@@ -2323,24 +2323,30 @@ test("coastal home: a public desktop turn continues looking safely after either 
   test.skip(testInfo.project.name !== "desktop-1440", "real mouse continuation complements the four-width public navigation case");
   test.setTimeout(600000);
   const errors = collectRuntimeErrors(page);
-  const { stage, scene, canvas, ui } = await openHome(page, { lab: false, nativeStartup: true, time: "2026-10-23T14:45:00-07:00" });
-  await ui.locator("[data-world-fullscreen]").click();
+  const view = await openClockedHome(page, { lab: false, time: "2026-10-23T14:45:00-07:00" });
+  const { stage, scene, canvas, ui } = view;
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click(), { clockStep: 100 });
   const bounds = await canvas.boundingBox(),
     rows = [];
+  // Preserve every real mouse sample while composing once per completed drag.
+  // Native high-resolution evidence separately measures the unclocked gesture;
+  // this functional software case must not render168 redundant full-screen
+  // intermediate frames before reaching its yaw/pitch and clearance assertions.
+  const drag = (x0, y0, x1, y1, steps) =>
+    sceneInputFrame(page, view, async () => {
+      await page.mouse.move(x0, y0);
+      await page.mouse.down();
+      await page.mouse.move(x1, y1, { steps });
+      await page.mouse.up();
+    });
   for (let i = 0; i < 6; i++) {
-    await page.mouse.move(bounds.x + bounds.width * 0.35, bounds.y + bounds.height * 0.45);
-    await page.mouse.down();
-    await page.mouse.move(bounds.x + bounds.width * 0.75, bounds.y + bounds.height * 0.45, { steps: 12 });
-    await page.mouse.up();
+    await drag(bounds.x + bounds.width * 0.35, bounds.y + bounds.height * 0.45, bounds.x + bounds.width * 0.75, bounds.y + bounds.height * 0.45, 12);
     rows.push(await evidence(scene));
   }
   await expect.poll(async () => (await evidence(scene)).freeLook).not.toBeNull();
   const start = (await evidence(scene)).freeLook;
   for (let i = 0; i < 4; i++) {
-    await page.mouse.move(bounds.x + bounds.width * 0.35, bounds.y + bounds.height * 0.45);
-    await page.mouse.down();
-    await page.mouse.move(bounds.x + bounds.width * 0.75, bounds.y + bounds.height * 0.45, { steps: 12 });
-    await page.mouse.up();
+    await drag(bounds.x + bounds.width * 0.35, bounds.y + bounds.height * 0.45, bounds.x + bounds.width * 0.75, bounds.y + bounds.height * 0.45, 12);
   }
   const turn = (await evidence(scene)).freeLook;
   expect(Math.abs(turn.yaw - start.yaw)).toBeGreaterThan(Math.PI * 2);
@@ -2350,10 +2356,7 @@ test("coastal home: a public desktop turn continues looking safely after either 
     [0.85, 0.15],
     [0.85, 0.15],
   ]) {
-    await page.mouse.move(bounds.x + bounds.width * 0.5, bounds.y + bounds.height * from);
-    await page.mouse.down();
-    await page.mouse.move(bounds.x + bounds.width * 0.5, bounds.y + bounds.height * to, { steps: 16 });
-    await page.mouse.up();
+    await drag(bounds.x + bounds.width * 0.5, bounds.y + bounds.height * from, bounds.x + bounds.width * 0.5, bounds.y + bounds.height * to, 16);
     rows.push(await evidence(scene));
   }
   expect(rows.at(-3).freeLook.pitch).toBeLessThan(-1.2);

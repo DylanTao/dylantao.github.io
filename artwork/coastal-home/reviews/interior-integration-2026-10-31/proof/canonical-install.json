@@ -1,0 +1,30 @@
+{
+  "scope": "Qualified hardware/foliage/reading fixture and three AO-baked room exports; F6/arrival remain excluded",
+  "products": [
+    {
+      "path": "artwork/coastal-home/coastal-home.blend",
+      "sha256": "de217984242f77903145dd6d16f277923b57fd5e3eb2469c906c2507b494ad87",
+      "bytes": 29023433
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "sha256": "c7e168147a4c06afb8980df348ea7255f8c8a5440cc54074d37681ca71d78819",
+      "bytes": 331761
+    },
+    {
+      "path": "assets/models/home/room-study.glb",
+      "sha256": "1de86040cb6c173c72e9f00061d6add31a70e3d6907495413cd7ac21586daf8a",
+      "bytes": 113472
+    },
+    {
+      "path": "assets/models/home/room-library.glb",
+      "sha256": "347ee2f9aa3d293acb33c83cba9e434d81297e8f143ec63bf23f7cfb8987923e",
+      "bytes": 187788
+    },
+    {
+      "path": "assets/models/home/room-library-upper.glb",
+      "sha256": "91534441cda1fc3823623a61f979bb5ad9478b222df7de03f26a62202cbdfaaa",
+      "bytes": 28744
+    }
+  ]
+}

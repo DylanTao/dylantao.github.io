@@ -1,0 +1,396 @@
+{
+  "method": "Cycles AO and diffuse indirect color-attribute bake",
+  "samples": 24,
+  "surfaces": [
+    {
+      "mesh": "study__pale oak",
+      "corners": 2688,
+      "min": 0.68,
+      "max": 0.7529384771734476
+    },
+    {
+      "mesh": "study__honey ash",
+      "corners": 2088,
+      "min": 0.68,
+      "max": 0.7288716069484751
+    },
+    {
+      "mesh": "study__polished nickel",
+      "corners": 1152,
+      "min": 0.68,
+      "max": 0.7475
+    },
+    {
+      "mesh": "study__brushed brass",
+      "corners": 144,
+      "min": 0.68,
+      "max": 0.7311652231713136
+    },
+    {
+      "mesh": "study__matte black device",
+      "corners": 8792,
+      "min": 0.68,
+      "max": 0.754409569601218
+    },
+    {
+      "mesh": "study__monitor screen glass",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.7367983674164862
+    },
+    {
+      "mesh": "study__screen code blue light",
+      "corners": 240,
+      "min": 0.6801201290288009,
+      "max": 0.7411035723984242
+    },
+    {
+      "mesh": "study__screen code light",
+      "corners": 720,
+      "min": 0.6800349471723894,
+      "max": 0.7407821981857221
+    },
+    {
+      "mesh": "study__screen code warm light",
+      "corners": 168,
+      "min": 0.6802634645711321,
+      "max": 0.7382273081069192
+    },
+    {
+      "mesh": "study__indigo textile",
+      "corners": 480,
+      "min": 0.68,
+      "max": 0.7401430621743202
+    },
+    {
+      "mesh": "study__oatmeal keycap",
+      "corners": 25344,
+      "min": 0.68,
+      "max": 0.7499511621023218
+    },
+    {
+      "mesh": "study__ochre textile",
+      "corners": 1152,
+      "min": 0.68,
+      "max": 0.7509098530188203
+    },
+    {
+      "mesh": "study__black magnesium laptop",
+      "corners": 768,
+      "min": 0.68,
+      "max": 0.7606969052056471
+    },
+    {
+      "mesh": "study__pc black steel",
+      "corners": 2688,
+      "min": 0.68,
+      "max": 0.7261787945466738
+    },
+    {
+      "mesh": "study__pc circuit board",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.6936917068299105
+    },
+    {
+      "mesh": "study__pc tempered glass",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.6901251965155825
+    },
+    {
+      "mesh": "study__pc rgb glow",
+      "corners": 3624,
+      "min": 0.68,
+      "max": 0.7098132279391091
+    },
+    {
+      "mesh": "study__rtx graphite shroud",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7099400466121734
+    },
+    {
+      "mesh": "study__linen",
+      "corners": 1792,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "study__cork board",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.68
+    },
+    {
+      "mesh": "study__sketch paper",
+      "corners": 144,
+      "min": 0.68,
+      "max": 0.7597353309734415
+    },
+    {
+      "mesh": "study_placeholder_study-aeron",
+      "corners": 840,
+      "min": 0.68,
+      "max": 0.7486310077582797
+    },
+    {
+      "mesh": "library_ladder__pale oak",
+      "corners": 144,
+      "min": 0.68,
+      "max": 0.7045606258139014
+    },
+    {
+      "mesh": "library_ladder__honey ash",
+      "corners": 936,
+      "min": 0.68,
+      "max": 0.6801013153213232
+    },
+    {
+      "mesh": "library_ladder__brushed brass",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.6995423246795933
+    },
+    {
+      "mesh": "library__honey ash",
+      "corners": 10368,
+      "min": 0.68,
+      "max": 0.765076037545999
+    },
+    {
+      "mesh": "library__library warm paper edges",
+      "corners": 21072,
+      "min": 0.68,
+      "max": 0.6802298268528345
+    },
+    {
+      "mesh": "library__library slate cloth",
+      "corners": 16128,
+      "min": 0.68,
+      "max": 0.7270722164524098
+    },
+    {
+      "mesh": "library__library ochre cloth",
+      "corners": 15552,
+      "min": 0.68,
+      "max": 0.7295400115102529
+    },
+    {
+      "mesh": "library__library olive cloth",
+      "corners": 14976,
+      "min": 0.68,
+      "max": 0.7479286847077311
+    },
+    {
+      "mesh": "library__library clay cloth",
+      "corners": 16560,
+      "min": 0.68,
+      "max": 0.7265635405573995
+    },
+    {
+      "mesh": "library-upper__honey ash",
+      "corners": 768,
+      "min": 0.68,
+      "max": 0.7314187352607648
+    },
+    {
+      "mesh": "library-upper__linen",
+      "corners": 1536,
+      "min": 0.68,
+      "max": 0.7521168008198341
+    },
+    {
+      "mesh": "library-upper__honed travertine",
+      "corners": 768,
+      "min": 0.68,
+      "max": 0.7396470395848156
+    },
+    {
+      "mesh": "library-upper__library warm paper edges",
+      "corners": 384,
+      "min": 0.6803833555383608,
+      "max": 0.7498846585924427
+    },
+    {
+      "mesh": "library_refined_botanical__pale oak",
+      "corners": 2304,
+      "min": 0.68,
+      "max": 0.7484241433193287
+    },
+    {
+      "mesh": "library_refined_botanical__interior botanical mineral soil",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6813847284018993
+    },
+    {
+      "mesh": "library_refined_botanical__interior botanical leaf stem",
+      "corners": 1512,
+      "min": 0.68,
+      "max": 0.7250747592172896
+    },
+    {
+      "mesh": "library_refined_botanical__interior Epipremnum leaf",
+      "corners": 1080,
+      "min": 0.68,
+      "max": 0.7368841119032975
+    },
+    {
+      "mesh": "library_refined_hearth__honed travertine",
+      "corners": 1536,
+      "min": 0.68,
+      "max": 0.7964733360459408
+    },
+    {
+      "mesh": "library_refined_hearth__library hearth blackened steel",
+      "corners": 876,
+      "min": 0.68,
+      "max": 0.7145987845460575
+    },
+    {
+      "mesh": "library_refined_hearth__honey ash",
+      "corners": 216,
+      "min": 0.68,
+      "max": 0.7309893355766932
+    },
+    {
+      "mesh": "library_refined_hearth__library hearth ember glow",
+      "corners": 648,
+      "min": 0.68,
+      "max": 0.7285189636424184
+    },
+    {
+      "mesh": "library_refined_hearth__library hearth warm flame",
+      "corners": 25,
+      "min": 0.683362643159926,
+      "max": 0.727994659456114
+    },
+    {
+      "mesh": "library_refined_hearth__brushed brass",
+      "corners": 60,
+      "min": 0.6801790065395956,
+      "max": 0.762637346846362
+    },
+    {
+      "mesh": "library_whiskey_niche__honed travertine",
+      "corners": 120,
+      "min": 0.68,
+      "max": 0.8600000053644181
+    },
+    {
+      "mesh": "library_whiskey_niche__estate warm opal diffuser",
+      "corners": 24,
+      "min": 0.6806607688575362,
+      "max": 0.7226044810811679
+    },
+    {
+      "mesh": "library_placeholder_study-whiskey-lounge",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7526661939670642
+    },
+    {
+      "mesh": "library_placeholder_study-whiskey-ottoman",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7629364862293005
+    },
+    {
+      "mesh": "library_placeholder_study-whiskey-side-table",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7406523350626231
+    },
+    {
+      "mesh": "library_placeholder_study-whiskey-bottles",
+      "corners": 144,
+      "min": 0.68,
+      "max": 0.7598795191571117
+    },
+    {
+      "mesh": "study_wall_record_ledge__honey ash",
+      "corners": 600,
+      "min": 0.68,
+      "max": 0.7494568632667263
+    },
+    {
+      "mesh": "library_patio_book_bay__honey ash",
+      "corners": 3456,
+      "min": 0.68,
+      "max": 0.7873176665355762
+    },
+    {
+      "mesh": "library_patio_book_bay__library warm paper edges",
+      "corners": 528,
+      "min": 0.68,
+      "max": 0.6800442723168817
+    },
+    {
+      "mesh": "library_patio_book_bay__library clay cloth",
+      "corners": 360,
+      "min": 0.68,
+      "max": 0.6918295448180288
+    },
+    {
+      "mesh": "library_patio_book_bay__library olive cloth",
+      "corners": 288,
+      "min": 0.68,
+      "max": 0.6981352757041653
+    },
+    {
+      "mesh": "library_patio_book_bay__library slate cloth",
+      "corners": 432,
+      "min": 0.68,
+      "max": 0.6964958646024267
+    },
+    {
+      "mesh": "library_patio_book_bay__library ochre cloth",
+      "corners": 504,
+      "min": 0.68,
+      "max": 0.6962727438037595
+    },
+    {
+      "mesh": "library_patio_frame__brushed brass",
+      "corners": 1152,
+      "min": 0.68,
+      "max": 0.796918099373579
+    },
+    {
+      "mesh": "library_patio_threshold__honed travertine",
+      "corners": 600,
+      "min": 0.68,
+      "max": 0.8106100020805995
+    },
+    {
+      "mesh": "study__milky veined marble",
+      "corners": 1668,
+      "min": 0.68,
+      "max": 0.78451698658367
+    },
+    {
+      "mesh": "study_wall_record_backrail__honey ash",
+      "corners": 1536,
+      "min": 0.68,
+      "max": 0.7390447684253256
+    },
+    {
+      "mesh": "library-upper_reading_lantern__private living washi diffuser",
+      "corners": 416,
+      "min": 0.6802284093643539,
+      "max": 0.7289556566377481
+    },
+    {
+      "mesh": "library-upper_reading_lantern__brushed brass",
+      "corners": 648,
+      "min": 0.68,
+      "max": 0.7476156885448534
+    },
+    {
+      "mesh": "library-upper_reading_lantern__charcoal",
+      "corners": 36,
+      "min": 0.68,
+      "max": 0.7300000000000001
+    }
+  ]
+}

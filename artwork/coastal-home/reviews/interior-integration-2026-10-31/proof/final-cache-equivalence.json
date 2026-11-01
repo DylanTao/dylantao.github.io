@@ -1,0 +1,8 @@
+{
+  "method": "Unmodified official final bake after versioning decoder/fullscreen/light module URLs; every physical cache field compared with the accepted interior bake",
+  "oldSignature": "c25c446394e989e877948774a35c3fefef1353db9dcf9bd6d5510699b406f826",
+  "newSignature": "c9b2c73a64ad67c66f4542a946f0f6d20e79618405e68c64f10b404b286e00ce",
+  "changedKeys": ["signature", "statistics", "inputs"],
+  "physicalFieldsExact": true,
+  "bytes": 792609
+}

@@ -5,7 +5,7 @@
 // the pen draws only what that finished work allows. The drawings come from loading-sketch.json
 // (an index with the coast view) and one file per room, of which a load fetches only the room it
 // arrives in; bin/build_loading_sketch.cjs traces them from the scene's own views.
-import { createSketchEngine, loadSketches } from "./loading-sketch-core.mjs";
+import { createSketchEngine, loadSketches } from "./loading-sketch-core.mjs?v=packed-20261031";
 
 const SKETCHES = new URL("../../models/home/loading-sketch.json", import.meta.url);
 const STAGES = new Set(["home", "coast", "room", "lighting", "first-frame", "ready"]);
@@ -82,7 +82,7 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
       frame = 0;
       if (disposed || !engine) return;
       const more = engine.tick(time);
-      if (time - reported > 250) {
+      if (!more || time - reported > 250) {
         reported = time;
         report({ ...engine.state(), pending: loader?.pending() ?? [] });
       }
@@ -140,7 +140,7 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
   if ("transferControlToOffscreen" in first && typeof Worker === "function") {
     try {
       let module = false;
-      worker = new Worker(new URL("./loading-sketch-worker.mjs", import.meta.url), {
+      worker = new Worker(new URL("./loading-sketch-worker.mjs?v=packed-20261031", import.meta.url), {
         get type() {
           module = true;
           return "module";

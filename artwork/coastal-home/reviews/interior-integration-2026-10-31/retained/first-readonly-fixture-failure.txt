@@ -1,0 +1,9 @@
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: true
+Received: undefined
+
+Call Log:
+- Timeout 5000ms exceeded while waiting on the predicate
+    at pollMatcher (C:\dev\dylantao.github.io\node_modules\playwright\lib\matchers\expect.js:293:11)
+    at async C:\dev\dylantao.github.io\.jekyll-cache\visual-qa\interior-integration-20261031\public-walkthrough.cjs:58:9

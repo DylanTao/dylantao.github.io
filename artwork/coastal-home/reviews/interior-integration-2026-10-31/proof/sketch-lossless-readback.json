@@ -1,0 +1,45 @@
+{
+  "method": "All8 compressed varint streams inflated and compared byte-for-byte with current-scene uncompressed drawings; no stroke/coordinate/weight/order change",
+  "views": [
+    {
+      "view": "outside",
+      "bytes": 35487,
+      "byteExact": true
+    },
+    {
+      "view": "gym",
+      "bytes": 25231,
+      "byteExact": true
+    },
+    {
+      "view": "kitchen",
+      "bytes": 15772,
+      "byteExact": true
+    },
+    {
+      "view": "library",
+      "bytes": 20728,
+      "byteExact": true
+    },
+    {
+      "view": "lounge",
+      "bytes": 23131,
+      "byteExact": true
+    },
+    {
+      "view": "onsen",
+      "bytes": 30249,
+      "byteExact": true
+    },
+    {
+      "view": "sleep",
+      "bytes": 15364,
+      "byteExact": true
+    },
+    {
+      "view": "study",
+      "bytes": 43745,
+      "byteExact": true
+    }
+  ]
+}

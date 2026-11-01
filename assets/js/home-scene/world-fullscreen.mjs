@@ -46,8 +46,10 @@ export function createWorldFullscreen({ stage, scene, ui, win = globalThis.windo
     const changed = mode !== next;
     mode = next;
     stage.dataset.worldFullscreen = next;
-    if (changed) onChange(next);
-    if (stage.classList.contains("is-world-immersive")) return;
+    if (stage.classList.contains("is-world-immersive")) {
+      if (changed) onChange(next);
+      return;
+    }
     stageAria = { role: stage.getAttribute("role"), modal: stage.getAttribute("aria-modal"), label: stage.getAttribute("aria-label") };
     stage.classList.add("is-world-immersive");
     root.classList.add("is-world-immersive");
@@ -57,6 +59,10 @@ export function createWorldFullscreen({ stage, scene, ui, win = globalThis.windo
     stage.setAttribute("aria-label", LABEL);
     // The scene takes the keyboard at once (arrows look around); Escape or Back leave.
     (scene.querySelector("canvas.home-desk-corner-canvas") ?? exitButton)?.focus({ preventScroll: true });
+    // Consumers resize their drawing buffers here. The immersive layout must
+    // already exist, or a reduced-motion scene can clear its only composed
+    // frame at the old size and then wait for an observer that has not fired.
+    if (changed) onChange(next);
   }
 
   function restoreAttribute(name, value) {

@@ -1,0 +1,41 @@
+{
+  "commit": "5038d95fa01285e2dc436fbfe3ab115f73ebeef2",
+  "url": "https://dylantao.github.io/",
+  "artifacts": [
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "bytes": 100302,
+      "sha256": "e7ba583d2f791d72f73734b379a63f528e64ca9dec4b90ffb48271cd8ac0f5ec",
+      "exactBuiltBytes": true,
+      "semanticMatch": true
+    },
+    {
+      "path": "assets/js/home-scene/walk-controls.mjs",
+      "bytes": 18123,
+      "sha256": "c9d2a500df1b402c84687881264b49d20812bc6a586fd1b46100c15422e14543",
+      "exactBuiltBytes": true,
+      "semanticMatch": true
+    },
+    {
+      "path": "assets/js/home-scene/world-fullscreen.mjs",
+      "bytes": 4527,
+      "sha256": "bdabca21661ed88510ef897f0fe9c667b4d3d42fb076808327287787b9d72b08",
+      "exactBuiltBytes": true,
+      "semanticMatch": true
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "bytes": 792929,
+      "sha256": "ad1fd3234ecb7d1613b107d6bb534e662939cdd0c282f75648f0c57181634219",
+      "exactBuiltBytes": true,
+      "semanticMatch": true
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "bytes": 232997,
+      "sha256": "44f952df8ef1505092b3aed3746480d95eb4f069248fe0a59985adb5f6f85aa3",
+      "exactBuiltBytes": false,
+      "semanticMatch": true
+    }
+  ]
+}

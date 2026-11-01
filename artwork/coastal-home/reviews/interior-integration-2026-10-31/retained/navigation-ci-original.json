@@ -1,0 +1,5508 @@
+{
+  "conclusion": "failure",
+  "jobs": [
+    {
+      "completedAt": "2026-11-01T01:27:46Z",
+      "conclusion": "success",
+      "databaseId": 124711410236,
+      "name": "Visual checkpoints (desktop-1440, scene-core-1)",
+      "startedAt": "2026-11-01T01:12:42Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:44Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:01Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:05Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:09Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:10Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:23Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:23Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:53Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:10Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:13:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:42Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:43Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:27:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:44Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:27:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:44Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:27:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:45Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:27:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:45Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:27:45Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410236"
+    },
+    {
+      "completedAt": "2026-11-01T01:23:48Z",
+      "conclusion": "success",
+      "databaseId": 124711410339,
+      "name": "Visual checkpoints (laptop-1280, scene-footer-light)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:04Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:09Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:17Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:18Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:30Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:30Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:06Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:24Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:23:41Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:23:44Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:23:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:23:45Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:23:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:23:45Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:23:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:23:45Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:23:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:23:45Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:23:45Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410339"
+    },
+    {
+      "completedAt": "2026-11-01T01:17:28Z",
+      "conclusion": "success",
+      "databaseId": 124711410355,
+      "name": "Visual checkpoints (tablet-768, scene-gym)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:00Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:03Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:09Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:09Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:17Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:17Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:49Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:02Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:13:49Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:24Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:25Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:17:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:26Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:17:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:26Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:17:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:26Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:17:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:26Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:17:26Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410355"
+    },
+    {
+      "completedAt": "2026-11-01T01:18:14Z",
+      "conclusion": "success",
+      "databaseId": 124711410360,
+      "name": "Visual checkpoints (laptop-1280, scene-live)",
+      "startedAt": "2026-11-01T01:12:32Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:19Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:23Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:35Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:36Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:46Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:46Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:22Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:37Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:09Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:10Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:18:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:11Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:18:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:11Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:18:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:12Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:18:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:12Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:18:12Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410360"
+    },
+    {
+      "completedAt": "2026-11-01T01:18:57Z",
+      "conclusion": "success",
+      "databaseId": 124711410365,
+      "name": "Visual checkpoints (desktop-1440, scene-live)",
+      "startedAt": "2026-11-01T01:12:32Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:03Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:07Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:19Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:19Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:29Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:29Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:13Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:29Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:52Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:53Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:18:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:54Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:18:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:54Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:18:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:54Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:18:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:54Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:18:54Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410365"
+    },
+    {
+      "completedAt": "2026-11-01T01:19:42Z",
+      "conclusion": "success",
+      "databaseId": 124711410370,
+      "name": "Visual checkpoints (laptop-1280, scene-gym)",
+      "startedAt": "2026-11-01T01:12:32Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:01Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:06Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:13Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:14Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:26Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:26Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:01Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:16Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:37Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:38Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:19:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:39Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:19:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:39Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:19:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:40Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:19:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:40Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:19:40Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410370"
+    },
+    {
+      "completedAt": "2026-11-01T01:31:50Z",
+      "conclusion": "success",
+      "databaseId": 124711410379,
+      "name": "Visual checkpoints (laptop-1280, scene-core-2)",
+      "startedAt": "2026-11-01T01:12:32Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:00Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:04Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:08Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:09Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:22Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:22Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:55Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:12Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:13:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:31:45Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:31:47Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:31:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:31:48Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:31:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:31:48Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:31:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:31:48Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:31:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:31:48Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:31:48Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410379"
+    },
+    {
+      "completedAt": "2026-11-01T01:24:42Z",
+      "conclusion": "success",
+      "databaseId": 124711410389,
+      "name": "Visual checkpoints (tablet-768, scene-choreography)",
+      "startedAt": "2026-11-01T01:12:32Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:01Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:04Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:08Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:09Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:22Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:22Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:58Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:14Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:13:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:24:38Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:24:39Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:24:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:24:40Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:24:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:24:40Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:24:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:24:41Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:24:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:24:41Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:24:41Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410389"
+    },
+    {
+      "completedAt": "2026-11-01T01:38:04Z",
+      "conclusion": "success",
+      "databaseId": 124711410395,
+      "name": "Visual checkpoints (laptop-1280, scene-exploration)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:04Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:08Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:19Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:20Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:30Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:30Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:03Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:17Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:37:47Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:37:50Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:37:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:37:51Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:37:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:37:51Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:37:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:37:52Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:37:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:37:52Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:37:52Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410395"
+    },
+    {
+      "completedAt": "2026-11-01T01:25:48Z",
+      "conclusion": "success",
+      "databaseId": 124711410403,
+      "name": "Visual checkpoints (desktop-1440, legacy)",
+      "startedAt": "2026-11-01T01:12:32Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:01Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:05Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:09Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:10Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:22Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:23Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:56Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:43Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:13:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:45Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:46Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:25:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:46Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:25:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:47Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:25:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:47Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:25:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:47Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:25:47Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410403"
+    },
+    {
+      "completedAt": "2026-11-01T01:37:38Z",
+      "conclusion": "success",
+      "databaseId": 124711410414,
+      "name": "Visual checkpoints (desktop-1440, scene-held-stairs)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:19Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:24Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:32Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:32Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:45Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:45Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:22Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:41Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:37:31Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:37:33Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:37:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:37:35Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:37:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:37:35Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:37:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:37:35Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:37:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:37:35Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:37:35Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410414"
+    },
+    {
+      "completedAt": "2026-11-01T01:20:13Z",
+      "conclusion": "success",
+      "databaseId": 124711410415,
+      "name": "Visual checkpoints (mobile-390, scene-gym)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:40Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:45Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:51Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:51Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:04Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:04Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:14:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:41Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:14:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:59Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:20:06Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:20:08Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:20:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:20:10Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:20:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:20:10Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:20:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:20:10Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:20:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:20:10Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:20:10Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410415"
+    },
+    {
+      "completedAt": "2026-11-01T01:24:58Z",
+      "conclusion": "success",
+      "databaseId": 124711410419,
+      "name": "Visual checkpoints (laptop-1280, scene-held-stairs)",
+      "startedAt": "2026-11-01T01:12:32Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:02Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:06Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:11Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:12Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:24Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:24Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:54Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:12Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:13:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:24:53Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:24:54Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:24:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:24:55Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:24:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:24:56Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:24:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:24:56Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:24:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:24:56Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:24:56Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410419"
+    },
+    {
+      "completedAt": "2026-11-01T01:23:10Z",
+      "conclusion": "success",
+      "databaseId": 124711410421,
+      "name": "Visual checkpoints (tablet-768, scene-core-1)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:07Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:12Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:19Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:20Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:33Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:33Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:08Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:26Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:23:03Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:23:05Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:23:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:23:07Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:23:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:23:07Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:23:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:23:07Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:23:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:23:07Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:23:07Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410421"
+    },
+    {
+      "completedAt": "2026-11-01T01:45:51Z",
+      "conclusion": "failure",
+      "databaseId": 124711410422,
+      "name": "Visual checkpoints (desktop-1440, scene-exploration)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:11Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:15Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:24Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:24Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:37Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:37Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:10Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:29Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:45:42Z",
+          "conclusion": "failure",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:45:47Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:45:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:45:48Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:45:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:45:48Z",
+          "conclusion": "skipped",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:45:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:45:49Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:45:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:45:49Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:45:49Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410422"
+    },
+    {
+      "completedAt": "2026-11-01T01:40:04Z",
+      "conclusion": "success",
+      "databaseId": 124711410426,
+      "name": "Visual checkpoints (desktop-1440, site)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:03Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:07Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:19Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:20Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:30Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:30Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:08Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:24Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:39:53Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:39:59Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:39:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:40:00Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:39:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:40:00Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:40:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:40:01Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:40:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:40:01Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:40:01Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410426"
+    },
+    {
+      "completedAt": "2026-11-01T01:47:18Z",
+      "conclusion": "success",
+      "databaseId": 124711410432,
+      "name": "Visual checkpoints (desktop-1440, scene-circulation)",
+      "startedAt": "2026-11-01T01:12:32Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:04Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:07Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:18Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:19Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:29Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:29Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:02Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:18Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:47:13Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:47:14Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:47:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:47:15Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:47:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:47:15Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:47:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:47:16Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:47:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:47:16Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:47:16Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410432"
+    },
+    {
+      "completedAt": "2026-11-01T01:30:32Z",
+      "conclusion": "success",
+      "databaseId": 124711410434,
+      "name": "Visual checkpoints (desktop-1440, scene-footer-light)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:16Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:21Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:27Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:28Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:40Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:40Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:17Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:38Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:30:23Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:30:27Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:30:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:30:28Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:30:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:30:28Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:30:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:30:29Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:30:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:30:29Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:30:29Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410434"
+    },
+    {
+      "completedAt": "2026-11-01T01:17:11Z",
+      "conclusion": "success",
+      "databaseId": 124711410435,
+      "name": "Visual checkpoints (tablet-768, scene-live)",
+      "startedAt": "2026-11-01T01:12:32Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:05Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:09Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:15Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:16Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:23Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:23Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:55Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:11Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:13:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:06Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:07Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:17:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:09Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:17:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:09Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:17:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:09Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:17:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:09Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:17:09Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410435"
+    },
+    {
+      "completedAt": "2026-11-01T01:15:58Z",
+      "conclusion": "success",
+      "databaseId": 124711410437,
+      "name": "Visual checkpoints (tablet-768, scene-journey)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:01Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:05Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:10Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:11Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:18Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:18Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:55Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:09Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:13:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:53Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:55Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:15:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:56Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:15:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:56Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:15:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:56Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:15:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:56Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:15:56Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410437"
+    },
+    {
+      "completedAt": "2026-11-01T01:21:09Z",
+      "conclusion": "success",
+      "databaseId": 124711410438,
+      "name": "Visual checkpoints (laptop-1280, scene-choreography)",
+      "startedAt": "2026-11-01T01:12:32Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:36Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:12:59Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:02Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:12:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:08Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:08Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:17Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:17Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:39Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:52Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:21:05Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:21:06Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:21:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:21:07Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:21:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:21:07Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:21:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:21:07Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:21:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:21:07Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:21:07Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410438"
+    },
+    {
+      "completedAt": "2026-11-01T01:29:23Z",
+      "conclusion": "failure",
+      "databaseId": 124711410439,
+      "name": "Visual checkpoints (mobile-390, scene-exploration)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:00Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:04Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:09Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:10Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:22Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:22Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:55Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:12Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:13:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:29:18Z",
+          "conclusion": "failure",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:29:21Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:29:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:29:22Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:29:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:29:22Z",
+          "conclusion": "skipped",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:29:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:29:22Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:29:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:29:22Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:29:22Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410439"
+    },
+    {
+      "completedAt": "2026-11-01T01:17:10Z",
+      "conclusion": "success",
+      "databaseId": 124711410446,
+      "name": "Visual checkpoints (mobile-390, scene-journey)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:06Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:11Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:19Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:20Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:32Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:32Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:06Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:26Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:03Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:05Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:17:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:06Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:17:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:06Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:17:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:07Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:17:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:07Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:17:07Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410446"
+    },
+    {
+      "completedAt": "2026-11-01T01:25:51Z",
+      "conclusion": "success",
+      "databaseId": 124711410447,
+      "name": "Visual checkpoints (tablet-768, scene-core-2)",
+      "startedAt": "2026-11-01T01:12:32Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:00Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:04Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:11Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:11Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:18Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:18Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:50Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:04Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:13:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:45Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:47Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:25:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:49Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:25:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:49Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:25:49Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:49Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:25:49Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:49Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:25:49Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410447"
+    },
+    {
+      "completedAt": "2026-11-01T02:00:05Z",
+      "conclusion": "success",
+      "databaseId": 124711410451,
+      "name": "Visual checkpoints (desktop-1440, scene-journey)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:10Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:15Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:21Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:22Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:34Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:34Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:11Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:30Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:59:56Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T02:00:01Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:59:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T02:00:02Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T02:00:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T02:00:02Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T02:00:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T02:00:02Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T02:00:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T02:00:03Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T02:00:02Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410451"
+    },
+    {
+      "completedAt": "2026-11-01T01:36:26Z",
+      "conclusion": "success",
+      "databaseId": 124711410457,
+      "name": "Visual checkpoints (mobile-390, site)",
+      "startedAt": "2026-11-01T01:16:00Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:16:01Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:16:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:16:28Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:16:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:16:31Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:16:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:16:36Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:16:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:16:37Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:16:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:16:50Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:16:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:16:50Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:16:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:24Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:16:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:38Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:17:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:36:19Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:17:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:36:23Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:36:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:36:24Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:36:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:36:24Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:36:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:36:24Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:36:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:36:24Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:36:24Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410457"
+    },
+    {
+      "completedAt": "2026-11-01T01:19:31Z",
+      "conclusion": "success",
+      "databaseId": 124711410458,
+      "name": "Visual checkpoints (desktop-1440, scene-gym)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:02Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:06Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:12Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:12Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:25Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:25Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:01Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:16Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:26Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:27Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:19:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:29Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:19:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:29Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:19:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:29Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:19:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:29Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:19:29Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410458"
+    },
+    {
+      "completedAt": "2026-11-01T01:19:06Z",
+      "conclusion": "success",
+      "databaseId": 124711410460,
+      "name": "Visual checkpoints (mobile-390, scene-live)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:06Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:11Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:17Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:18Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:30Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:30Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:09Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:28Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:01Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:02Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:19:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:03Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:19:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:03Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:19:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:04Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:19:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:04Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:19:04Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410460"
+    },
+    {
+      "completedAt": "2026-11-01T01:22:06Z",
+      "conclusion": "success",
+      "databaseId": 124711410463,
+      "name": "Visual checkpoints (mobile-390, scene-choreography)",
+      "startedAt": "2026-11-01T01:12:32Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:01Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:04Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:09Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:09Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:22Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:22Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:53Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:08Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:13:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:22:02Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:22:04Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:22:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:22:04Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:22:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:22:05Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:22:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:22:05Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:22:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:22:05Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:22:05Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410463"
+    },
+    {
+      "completedAt": "2026-11-01T01:22:22Z",
+      "conclusion": "success",
+      "databaseId": 124711410473,
+      "name": "Visual checkpoints (mobile-390, scene-core-1)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:04Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:09Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:15Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:16Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:26Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:26Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:10Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:26Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:22:15Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:22:17Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:22:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:22:19Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:22:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:22:19Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:22:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:22:19Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:22:19Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:22:19Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:22:19Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410473"
+    },
+    {
+      "completedAt": "2026-11-01T01:27:40Z",
+      "conclusion": "success",
+      "databaseId": 124711410474,
+      "name": "Visual checkpoints (laptop-1280, site)",
+      "startedAt": "2026-11-01T01:12:32Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:02Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:05Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:09Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:10Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:20Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:20Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:53Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:08Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:13:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:35Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:38Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:27:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:38Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:27:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:39Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:27:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:39Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:27:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:39Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:27:39Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410474"
+    },
+    {
+      "completedAt": "2026-11-01T01:32:31Z",
+      "conclusion": "success",
+      "databaseId": 124711410476,
+      "name": "Visual checkpoints (tablet-768, scene-exploration)",
+      "startedAt": "2026-11-01T01:13:58Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:14:00Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:13:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:25Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:14:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:29Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:14:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:34Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:14:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:34Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:14:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:41Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:14:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:42Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:14:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:12Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:14:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:24Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:15:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:32:25Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:15:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:32:27Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:32:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:32:28Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:32:27Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:32:28Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:32:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:32:29Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:32:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:32:29Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:32:29Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410476"
+    },
+    {
+      "completedAt": "2026-11-01T01:39:32Z",
+      "conclusion": "success",
+      "databaseId": 124711410480,
+      "name": "Visual checkpoints (desktop-1440, scene-core-2)",
+      "startedAt": "2026-11-01T01:14:08Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:14:10Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:14:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:43Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:14:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:48Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:14:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:56Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:14:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:57Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:14:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:09Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:14:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:09Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:15:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:52Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:15:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:16:11Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:15:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:39:25Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:16:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:39:28Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:39:25Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:39:29Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:39:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:39:29Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:39:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:39:29Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:39:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:39:29Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:39:29Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410480"
+    },
+    {
+      "completedAt": "2026-11-01T01:27:41Z",
+      "conclusion": "success",
+      "databaseId": 124711410484,
+      "name": "Visual checkpoints (desktop-1440, scene-choreography)",
+      "startedAt": "2026-11-01T01:16:17Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:16:18Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:16:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:16:45Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:16:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:16:49Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:16:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:16:55Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:16:49Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:16:56Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:16:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:08Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:16:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:08Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:17:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:41Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:17:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:58Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:17:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:37Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:17:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:38Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:27:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:39Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:27:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:39Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:27:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:40Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:27:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:27:40Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:27:40Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410484"
+    },
+    {
+      "completedAt": "2026-11-01T01:17:59Z",
+      "conclusion": "failure",
+      "databaseId": 124711410486,
+      "name": "Visual checkpoints (tablet-768, scene-footer-light)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:44Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:12Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:16Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:28Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:28Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:36Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:36Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:09Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:23Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:53Z",
+          "conclusion": "failure",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:55Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:17:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:57Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:17:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:57Z",
+          "conclusion": "skipped",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:17:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:57Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:17:57Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:57Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:17:57Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410486"
+    },
+    {
+      "completedAt": "2026-11-01T01:21:57Z",
+      "conclusion": "success",
+      "databaseId": 124711410489,
+      "name": "Visual checkpoints (laptop-1280, scene-journey)",
+      "startedAt": "2026-11-01T01:17:11Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:17:14Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:17:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:42Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:17:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:46Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:17:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:52Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:17:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:53Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:17:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:06Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:17:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:06Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:18:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:46Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:18:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:19:05Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:18:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:21:41Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:19:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:21:43Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:21:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:21:44Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:21:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:21:44Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:21:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:21:45Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:21:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:21:45Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:21:45Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410489"
+    },
+    {
+      "completedAt": "2026-11-01T01:20:26Z",
+      "conclusion": "success",
+      "databaseId": 124711410497,
+      "name": "Visual checkpoints (laptop-1280, scene-core-1)",
+      "startedAt": "2026-11-01T01:12:32Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:34Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:00Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:03Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:09Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:09Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:17Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:17Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:45Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:58Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:13:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:20:21Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:13:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:20:22Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:20:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:20:23Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:20:22Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:20:24Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:20:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:20:24Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:20:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:20:24Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:20:24Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410497"
+    },
+    {
+      "completedAt": "2026-11-01T01:30:24Z",
+      "conclusion": "success",
+      "databaseId": 124711410503,
+      "name": "Visual checkpoints (mobile-390, scene-core-2)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:26Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:31Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:37Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:38Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:51Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:51Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:30Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:51Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:49Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:30:17Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:49Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:30:20Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:30:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:30:21Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:30:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:30:21Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:30:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:30:22Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:30:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:30:22Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:30:22Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410503"
+    },
+    {
+      "completedAt": "2026-11-01T01:32:53Z",
+      "conclusion": "success",
+      "databaseId": 124711410504,
+      "name": "Visual checkpoints (tablet-768, site)",
+      "startedAt": "2026-11-01T01:12:33Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:12:35Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:12:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:11Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:12:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:16Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:23Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:24Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:37Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:37Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:15Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:32Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:32:44Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:32:48Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:32:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:32:49Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:32:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:32:49Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:32:49Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:32:50Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:32:49Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:32:50Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:32:50Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410504"
+    },
+    {
+      "completedAt": "2026-11-01T01:28:42Z",
+      "conclusion": "success",
+      "databaseId": 124711410515,
+      "name": "Visual checkpoints (mobile-390, scene-footer-light)",
+      "startedAt": "2026-11-01T01:13:10Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:13:12Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:13:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:30Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:13:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:34Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:13:30Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:41Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:13:34Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:41Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:13:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:54Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:13:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:13:54Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:13:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:37Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:13:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:14:52Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:14:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:28:37Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:14:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:28:39Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:28:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:28:40Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:28:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:28:40Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:28:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:28:40Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:28:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:28:40Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:28:40Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410515"
+    },
+    {
+      "completedAt": "2026-11-01T01:28:43Z",
+      "conclusion": "success",
+      "databaseId": 124711410548,
+      "name": "Visual checkpoints (tablet-768, scene-held-stairs)",
+      "startedAt": "2026-11-01T01:15:05Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:15:06Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:15:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:33Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:15:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:37Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:15:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:41Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:15:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:42Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:15:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:54Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:15:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:15:54Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:15:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:16:29Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:15:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:16:48Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:16:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:28:39Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:16:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:28:40Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:28:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:28:41Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:28:40Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:28:41Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:28:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:28:41Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:28:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:28:41Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:28:41Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410548"
+    },
+    {
+      "completedAt": "2026-11-01T01:25:35Z",
+      "conclusion": "success",
+      "databaseId": 124711410625,
+      "name": "Visual checkpoints (mobile-390, scene-held-stairs)",
+      "startedAt": "2026-11-01T01:17:13Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-01T01:17:15Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-01T01:17:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:44Z",
+          "conclusion": "success",
+          "name": "Checkout candidate",
+          "number": 2,
+          "startedAt": "2026-11-01T01:17:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:48Z",
+          "conclusion": "success",
+          "name": "Setup Ruby",
+          "number": 3,
+          "startedAt": "2026-11-01T01:17:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:55Z",
+          "conclusion": "success",
+          "name": "Setup Node",
+          "number": 4,
+          "startedAt": "2026-11-01T01:17:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:17:55Z",
+          "conclusion": "success",
+          "name": "Install JavaScript dependencies",
+          "number": 5,
+          "startedAt": "2026-11-01T01:17:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:02Z",
+          "conclusion": "success",
+          "name": "Verify starter and visual contracts",
+          "number": 6,
+          "startedAt": "2026-11-01T01:17:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:02Z",
+          "conclusion": "success",
+          "name": "Use the official Ubuntu package archive",
+          "number": 7,
+          "startedAt": "2026-11-01T01:18:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:35Z",
+          "conclusion": "success",
+          "name": "Install Jekyll and image runtime dependencies",
+          "number": 8,
+          "startedAt": "2026-11-01T01:18:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:18:47Z",
+          "conclusion": "success",
+          "name": "Install Playwright browsers",
+          "number": 9,
+          "startedAt": "2026-11-01T01:18:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:29Z",
+          "conclusion": "success",
+          "name": "Run public route and desk-scene checkpoints",
+          "number": 10,
+          "startedAt": "2026-11-01T01:18:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:31Z",
+          "conclusion": "success",
+          "name": "Upload Playwright screenshots and traces",
+          "number": 11,
+          "startedAt": "2026-11-01T01:25:29Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:32Z",
+          "conclusion": "success",
+          "name": "Upload Jekyll logs",
+          "number": 12,
+          "startedAt": "2026-11-01T01:25:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:32Z",
+          "conclusion": "success",
+          "name": "Post Setup Node",
+          "number": 23,
+          "startedAt": "2026-11-01T01:25:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:32Z",
+          "conclusion": "success",
+          "name": "Post Checkout candidate",
+          "number": 24,
+          "startedAt": "2026-11-01T01:25:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-01T01:25:32Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-11-01T01:25:32Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41260100289/job/124711410625"
+    }
+  ],
+  "status": "completed"
+}

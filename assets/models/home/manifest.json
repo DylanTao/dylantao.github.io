@@ -5903,8 +5903,8 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "bb31244a211d78d70ba74d69337e7cac1091d7c833678448fbe70efd80ec9bbd",
-    "sha256": "ad1fd3234ecb7d1613b107d6bb534e662939cdd0c282f75648f0c57181634219"
+    "signature": "c9b2c73a64ad67c66f4542a946f0f6d20e79618405e68c64f10b404b286e00ce",
+    "sha256": "d5df76fc9c92197f121b9386d8b1078c1c1be9571cd45d2804756905c6276956"
   },
   "estateDoors": [
     {
@@ -7638,6 +7638,20 @@
       "region": {
         "min": [-5.94, 0.01, 8.6],
         "max": [-4.78, 2.35, 9.8]
+      }
+    },
+    {
+      "id": "private-living-reading-lantern",
+      "schedule": "privateReading",
+      "a": [0.65, 4.855, 12.65],
+      "b": [0.65, 5.015, 12.65],
+      "intensity": 3.25,
+      "color": [1.0, 0.74, 0.5],
+      "transport": false,
+      "glowTag": "private-living-reading-lantern",
+      "region": {
+        "min": [-1.65, 2.55, 10.25],
+        "max": [1.3, 4.7, 14.1]
       }
     }
   ],

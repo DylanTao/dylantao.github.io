@@ -791,13 +791,13 @@ function sketchFiles() {
     report = {};
   for (const view of VIEWS) {
     const result = traceView(view, view === "outside" ? 26000 : 22000),
-      strokes = result.bytes.toString("base64"),
+      strokes = zlib.deflateSync(result.bytes, { level: 9 }).toString("base64"),
       summary = { count: result.count, points: result.points, ink: result.ink };
-    if (view === "outside") views[view] = { strokes, ...summary };
+    if (view === "outside") views[view] = { compression: "deflate", strokes, ...summary };
     else {
       const file = `loading-sketch/${view}.json`;
       views[view] = { file, ...summary };
-      rooms.set(path.join(path.dirname(OUT), file), { view, strokes });
+      rooms.set(path.join(path.dirname(OUT), file), { view, compression: "deflate", strokes });
     }
     report[view] = { aspect: result.aspect, bytes: result.bytes.length, formStrokes: result.formStrokes, layers: result.counts };
     console.log(
@@ -809,7 +809,7 @@ function sketchFiles() {
   const plan = Object.fromEntries(
     Object.entries(PLAN).map(([kind, groups]) => [kind, groups.map(([segment, layers]) => `${segment}:${layers.join(",")}`).join(" ")])
   );
-  const index = { version: 3, generator: "bin/build_loading_sketch.cjs", range: RANGE, grid: GRID, plan, views, focus, report };
+  const index = { version: 4, generator: "bin/build_loading_sketch.cjs", range: RANGE, grid: GRID, plan, views, focus, report };
   // Objects and strings only, indented as Prettier formats JSON, so every file passes the format check.
   const text = (value) => JSON.stringify(value, null, 2) + "\n";
   return new Map([[OUT, text(index)], ...[...rooms].map(([file, room]) => [file, text(room)])]);

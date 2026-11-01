@@ -1,0 +1,11 @@
+{
+  "auditInputSha256": "685aba9d1a372e0be90fb6e5f35e4612f58e205b4f854c3121b88c0959b59dab",
+  "finalSourceSha256": "ba6787cb35d35a7216326256faf9c430bbdfcfddb4eae7cdc37110f91c715628",
+  "physicalMetadataExact": true,
+  "excludedFromPhysicalComparison": ["staticLightFieldCache"],
+  "formattingScope": "Only newly appended reading-lantern arrays; original numeric spelling preserved",
+  "volume-native.json": "685aba9d1a372e0be90fb6e5f35e4612f58e205b4f854c3121b88c0959b59dab",
+  "volume-delivered.json": "685aba9d1a372e0be90fb6e5f35e4612f58e205b4f854c3121b88c0959b59dab",
+  "overlap-native.json": "685aba9d1a372e0be90fb6e5f35e4612f58e205b4f854c3121b88c0959b59dab",
+  "overlap-delivered.json": "685aba9d1a372e0be90fb6e5f35e4612f58e205b4f854c3121b88c0959b59dab"
+}

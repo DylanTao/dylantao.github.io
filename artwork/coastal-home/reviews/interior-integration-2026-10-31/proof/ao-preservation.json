@@ -1,0 +1,670 @@
+{
+  "method": "Remove only owned study/library/upper color attributes in memory, then compare every native mesh/transform/topology/material slot/remaining attribute and effective corner normal",
+  "exactOutsideOwnedColors": true,
+  "rows": [
+    {
+      "source": "candidate-pre-ao.blend",
+      "geometryAndUnownedAttributesSha256": "84f088bde9aa78be30e33069191ebe21830a037e15e86520dd8d9305e05a96b9",
+      "effectiveNormalsSha256": "efb1afcff90f92d3e036de2206119f8d068316fe8c245eca4b86782307ad7796",
+      "ownedColorFields": [
+        {
+          "mesh": "library-upper__honed travertine",
+          "name": "Baked contact and bounce",
+          "corners": 768
+        },
+        {
+          "mesh": "library-upper__honey ash",
+          "name": "Baked contact and bounce",
+          "corners": 768
+        },
+        {
+          "mesh": "library-upper__library warm paper edges",
+          "name": "Baked contact and bounce",
+          "corners": 384
+        },
+        {
+          "mesh": "library-upper__linen",
+          "name": "Baked contact and bounce",
+          "corners": 1536
+        },
+        {
+          "mesh": "library__honey ash",
+          "name": "Baked contact and bounce",
+          "corners": 10368
+        },
+        {
+          "mesh": "library__library clay cloth",
+          "name": "Baked contact and bounce",
+          "corners": 16560
+        },
+        {
+          "mesh": "library__library ochre cloth",
+          "name": "Baked contact and bounce",
+          "corners": 15552
+        },
+        {
+          "mesh": "library__library olive cloth",
+          "name": "Baked contact and bounce",
+          "corners": 14976
+        },
+        {
+          "mesh": "library__library slate cloth",
+          "name": "Baked contact and bounce",
+          "corners": 16128
+        },
+        {
+          "mesh": "library__library warm paper edges",
+          "name": "Baked contact and bounce",
+          "corners": 21072
+        },
+        {
+          "mesh": "library_ladder__brushed brass",
+          "name": "Baked contact and bounce",
+          "corners": 192
+        },
+        {
+          "mesh": "library_ladder__honey ash",
+          "name": "Baked contact and bounce",
+          "corners": 936
+        },
+        {
+          "mesh": "library_ladder__pale oak",
+          "name": "Baked contact and bounce",
+          "corners": 144
+        },
+        {
+          "mesh": "library_patio_book_bay__honey ash",
+          "name": "Baked contact and bounce",
+          "corners": 3456
+        },
+        {
+          "mesh": "library_patio_book_bay__library clay cloth",
+          "name": "Baked contact and bounce",
+          "corners": 360
+        },
+        {
+          "mesh": "library_patio_book_bay__library ochre cloth",
+          "name": "Baked contact and bounce",
+          "corners": 504
+        },
+        {
+          "mesh": "library_patio_book_bay__library olive cloth",
+          "name": "Baked contact and bounce",
+          "corners": 288
+        },
+        {
+          "mesh": "library_patio_book_bay__library slate cloth",
+          "name": "Baked contact and bounce",
+          "corners": 432
+        },
+        {
+          "mesh": "library_patio_book_bay__library warm paper edges",
+          "name": "Baked contact and bounce",
+          "corners": 528
+        },
+        {
+          "mesh": "library_patio_frame__brushed brass",
+          "name": "Baked contact and bounce",
+          "corners": 1152
+        },
+        {
+          "mesh": "library_patio_threshold__honed travertine",
+          "name": "Baked contact and bounce",
+          "corners": 600
+        },
+        {
+          "mesh": "library_placeholder_study-whiskey-bottles",
+          "name": "Baked contact and bounce",
+          "corners": 144
+        },
+        {
+          "mesh": "library_placeholder_study-whiskey-lounge",
+          "name": "Baked contact and bounce",
+          "corners": 48
+        },
+        {
+          "mesh": "library_placeholder_study-whiskey-ottoman",
+          "name": "Baked contact and bounce",
+          "corners": 24
+        },
+        {
+          "mesh": "library_placeholder_study-whiskey-side-table",
+          "name": "Baked contact and bounce",
+          "corners": 48
+        },
+        {
+          "mesh": "library_refined_botanical__interior Epipremnum leaf",
+          "name": "Baked contact and bounce",
+          "corners": 1080
+        },
+        {
+          "mesh": "library_refined_botanical__interior botanical leaf stem",
+          "name": "Baked contact and bounce",
+          "corners": 1512
+        },
+        {
+          "mesh": "library_refined_botanical__interior botanical mineral soil",
+          "name": "Baked contact and bounce",
+          "corners": 24
+        },
+        {
+          "mesh": "library_refined_botanical__pale oak",
+          "name": "Baked contact and bounce",
+          "corners": 2304
+        },
+        {
+          "mesh": "library_refined_hearth__brushed brass",
+          "name": "Baked contact and bounce",
+          "corners": 60
+        },
+        {
+          "mesh": "library_refined_hearth__honed travertine",
+          "name": "Baked contact and bounce",
+          "corners": 1536
+        },
+        {
+          "mesh": "library_refined_hearth__honey ash",
+          "name": "Baked contact and bounce",
+          "corners": 216
+        },
+        {
+          "mesh": "library_refined_hearth__library hearth blackened steel",
+          "name": "Baked contact and bounce",
+          "corners": 876
+        },
+        {
+          "mesh": "library_refined_hearth__library hearth ember glow",
+          "name": "Baked contact and bounce",
+          "corners": 648
+        },
+        {
+          "mesh": "library_refined_hearth__library hearth warm flame",
+          "name": "Baked contact and bounce",
+          "corners": 25
+        },
+        {
+          "mesh": "library_whiskey_niche__estate warm opal diffuser",
+          "name": "Baked contact and bounce",
+          "corners": 24
+        },
+        {
+          "mesh": "library_whiskey_niche__honed travertine",
+          "name": "Baked contact and bounce",
+          "corners": 120
+        },
+        {
+          "mesh": "study__black magnesium laptop",
+          "name": "Baked contact and bounce",
+          "corners": 768
+        },
+        {
+          "mesh": "study__brushed brass",
+          "name": "Baked contact and bounce",
+          "corners": 144
+        },
+        {
+          "mesh": "study__cork board",
+          "name": "Baked contact and bounce",
+          "corners": 384
+        },
+        {
+          "mesh": "study__graphite chair textile",
+          "name": "Baked contact and bounce",
+          "corners": 0
+        },
+        {
+          "mesh": "study__honey ash",
+          "name": "Baked contact and bounce",
+          "corners": 2088
+        },
+        {
+          "mesh": "study__indigo textile",
+          "name": "Baked contact and bounce",
+          "corners": 480
+        },
+        {
+          "mesh": "study__linen",
+          "name": "Baked contact and bounce",
+          "corners": 1792
+        },
+        {
+          "mesh": "study__matte black device",
+          "name": "Baked contact and bounce",
+          "corners": 8792
+        },
+        {
+          "mesh": "study__milky veined marble",
+          "name": "Baked contact and bounce",
+          "corners": 1668
+        },
+        {
+          "mesh": "study__monitor screen glass",
+          "name": "Baked contact and bounce",
+          "corners": 72
+        },
+        {
+          "mesh": "study__oatmeal keycap",
+          "name": "Baked contact and bounce",
+          "corners": 25344
+        },
+        {
+          "mesh": "study__ochre textile",
+          "name": "Baked contact and bounce",
+          "corners": 1152
+        },
+        {
+          "mesh": "study__pale oak",
+          "name": "Baked contact and bounce",
+          "corners": 2688
+        },
+        {
+          "mesh": "study__pc black steel",
+          "name": "Baked contact and bounce",
+          "corners": 2688
+        },
+        {
+          "mesh": "study__pc circuit board",
+          "name": "Baked contact and bounce",
+          "corners": 384
+        },
+        {
+          "mesh": "study__pc rgb glow",
+          "name": "Baked contact and bounce",
+          "corners": 3624
+        },
+        {
+          "mesh": "study__pc tempered glass",
+          "name": "Baked contact and bounce",
+          "corners": 384
+        },
+        {
+          "mesh": "study__polished nickel",
+          "name": "Baked contact and bounce",
+          "corners": 1152
+        },
+        {
+          "mesh": "study__rtx graphite shroud",
+          "name": "Baked contact and bounce",
+          "corners": 384
+        },
+        {
+          "mesh": "study__sage textile",
+          "name": "Baked contact and bounce",
+          "corners": 0
+        },
+        {
+          "mesh": "study__screen code blue light",
+          "name": "Baked contact and bounce",
+          "corners": 240
+        },
+        {
+          "mesh": "study__screen code light",
+          "name": "Baked contact and bounce",
+          "corners": 720
+        },
+        {
+          "mesh": "study__screen code warm light",
+          "name": "Baked contact and bounce",
+          "corners": 168
+        },
+        {
+          "mesh": "study__sketch paper",
+          "name": "Baked contact and bounce",
+          "corners": 144
+        },
+        {
+          "mesh": "study_placeholder_study-aeron",
+          "name": "Baked contact and bounce",
+          "corners": 840
+        },
+        {
+          "mesh": "study_wall_record_ledge__honey ash",
+          "name": "Baked contact and bounce",
+          "corners": 600
+        }
+      ]
+    },
+    {
+      "source": "candidate-ao.blend",
+      "geometryAndUnownedAttributesSha256": "84f088bde9aa78be30e33069191ebe21830a037e15e86520dd8d9305e05a96b9",
+      "effectiveNormalsSha256": "efb1afcff90f92d3e036de2206119f8d068316fe8c245eca4b86782307ad7796",
+      "ownedColorFields": [
+        {
+          "mesh": "library-upper__honed travertine",
+          "name": "Baked contact and bounce",
+          "corners": 768
+        },
+        {
+          "mesh": "library-upper__honey ash",
+          "name": "Baked contact and bounce",
+          "corners": 768
+        },
+        {
+          "mesh": "library-upper__library warm paper edges",
+          "name": "Baked contact and bounce",
+          "corners": 384
+        },
+        {
+          "mesh": "library-upper__linen",
+          "name": "Baked contact and bounce",
+          "corners": 1536
+        },
+        {
+          "mesh": "library-upper_reading_lantern__brushed brass",
+          "name": "Baked contact and bounce",
+          "corners": 648
+        },
+        {
+          "mesh": "library-upper_reading_lantern__charcoal",
+          "name": "Baked contact and bounce",
+          "corners": 36
+        },
+        {
+          "mesh": "library-upper_reading_lantern__private living washi diffuser",
+          "name": "Baked contact and bounce",
+          "corners": 416
+        },
+        {
+          "mesh": "library__honey ash",
+          "name": "Baked contact and bounce",
+          "corners": 10368
+        },
+        {
+          "mesh": "library__library clay cloth",
+          "name": "Baked contact and bounce",
+          "corners": 16560
+        },
+        {
+          "mesh": "library__library ochre cloth",
+          "name": "Baked contact and bounce",
+          "corners": 15552
+        },
+        {
+          "mesh": "library__library olive cloth",
+          "name": "Baked contact and bounce",
+          "corners": 14976
+        },
+        {
+          "mesh": "library__library slate cloth",
+          "name": "Baked contact and bounce",
+          "corners": 16128
+        },
+        {
+          "mesh": "library__library warm paper edges",
+          "name": "Baked contact and bounce",
+          "corners": 21072
+        },
+        {
+          "mesh": "library_ladder__brushed brass",
+          "name": "Baked contact and bounce",
+          "corners": 192
+        },
+        {
+          "mesh": "library_ladder__honey ash",
+          "name": "Baked contact and bounce",
+          "corners": 936
+        },
+        {
+          "mesh": "library_ladder__pale oak",
+          "name": "Baked contact and bounce",
+          "corners": 144
+        },
+        {
+          "mesh": "library_patio_book_bay__honey ash",
+          "name": "Baked contact and bounce",
+          "corners": 3456
+        },
+        {
+          "mesh": "library_patio_book_bay__library clay cloth",
+          "name": "Baked contact and bounce",
+          "corners": 360
+        },
+        {
+          "mesh": "library_patio_book_bay__library ochre cloth",
+          "name": "Baked contact and bounce",
+          "corners": 504
+        },
+        {
+          "mesh": "library_patio_book_bay__library olive cloth",
+          "name": "Baked contact and bounce",
+          "corners": 288
+        },
+        {
+          "mesh": "library_patio_book_bay__library slate cloth",
+          "name": "Baked contact and bounce",
+          "corners": 432
+        },
+        {
+          "mesh": "library_patio_book_bay__library warm paper edges",
+          "name": "Baked contact and bounce",
+          "corners": 528
+        },
+        {
+          "mesh": "library_patio_frame__brushed brass",
+          "name": "Baked contact and bounce",
+          "corners": 1152
+        },
+        {
+          "mesh": "library_patio_threshold__honed travertine",
+          "name": "Baked contact and bounce",
+          "corners": 600
+        },
+        {
+          "mesh": "library_placeholder_study-whiskey-bottles",
+          "name": "Baked contact and bounce",
+          "corners": 144
+        },
+        {
+          "mesh": "library_placeholder_study-whiskey-lounge",
+          "name": "Baked contact and bounce",
+          "corners": 48
+        },
+        {
+          "mesh": "library_placeholder_study-whiskey-ottoman",
+          "name": "Baked contact and bounce",
+          "corners": 24
+        },
+        {
+          "mesh": "library_placeholder_study-whiskey-side-table",
+          "name": "Baked contact and bounce",
+          "corners": 48
+        },
+        {
+          "mesh": "library_refined_botanical__interior Epipremnum leaf",
+          "name": "Baked contact and bounce",
+          "corners": 1080
+        },
+        {
+          "mesh": "library_refined_botanical__interior botanical leaf stem",
+          "name": "Baked contact and bounce",
+          "corners": 1512
+        },
+        {
+          "mesh": "library_refined_botanical__interior botanical mineral soil",
+          "name": "Baked contact and bounce",
+          "corners": 24
+        },
+        {
+          "mesh": "library_refined_botanical__pale oak",
+          "name": "Baked contact and bounce",
+          "corners": 2304
+        },
+        {
+          "mesh": "library_refined_hearth__brushed brass",
+          "name": "Baked contact and bounce",
+          "corners": 60
+        },
+        {
+          "mesh": "library_refined_hearth__honed travertine",
+          "name": "Baked contact and bounce",
+          "corners": 1536
+        },
+        {
+          "mesh": "library_refined_hearth__honey ash",
+          "name": "Baked contact and bounce",
+          "corners": 216
+        },
+        {
+          "mesh": "library_refined_hearth__library hearth blackened steel",
+          "name": "Baked contact and bounce",
+          "corners": 876
+        },
+        {
+          "mesh": "library_refined_hearth__library hearth ember glow",
+          "name": "Baked contact and bounce",
+          "corners": 648
+        },
+        {
+          "mesh": "library_refined_hearth__library hearth warm flame",
+          "name": "Baked contact and bounce",
+          "corners": 25
+        },
+        {
+          "mesh": "library_whiskey_niche__estate warm opal diffuser",
+          "name": "Baked contact and bounce",
+          "corners": 24
+        },
+        {
+          "mesh": "library_whiskey_niche__honed travertine",
+          "name": "Baked contact and bounce",
+          "corners": 120
+        },
+        {
+          "mesh": "study__black magnesium laptop",
+          "name": "Baked contact and bounce",
+          "corners": 768
+        },
+        {
+          "mesh": "study__brushed brass",
+          "name": "Baked contact and bounce",
+          "corners": 144
+        },
+        {
+          "mesh": "study__cork board",
+          "name": "Baked contact and bounce",
+          "corners": 384
+        },
+        {
+          "mesh": "study__graphite chair textile",
+          "name": "Baked contact and bounce",
+          "corners": 0
+        },
+        {
+          "mesh": "study__honey ash",
+          "name": "Baked contact and bounce",
+          "corners": 2088
+        },
+        {
+          "mesh": "study__indigo textile",
+          "name": "Baked contact and bounce",
+          "corners": 480
+        },
+        {
+          "mesh": "study__linen",
+          "name": "Baked contact and bounce",
+          "corners": 1792
+        },
+        {
+          "mesh": "study__matte black device",
+          "name": "Baked contact and bounce",
+          "corners": 8792
+        },
+        {
+          "mesh": "study__milky veined marble",
+          "name": "Baked contact and bounce",
+          "corners": 1668
+        },
+        {
+          "mesh": "study__monitor screen glass",
+          "name": "Baked contact and bounce",
+          "corners": 72
+        },
+        {
+          "mesh": "study__oatmeal keycap",
+          "name": "Baked contact and bounce",
+          "corners": 25344
+        },
+        {
+          "mesh": "study__ochre textile",
+          "name": "Baked contact and bounce",
+          "corners": 1152
+        },
+        {
+          "mesh": "study__pale oak",
+          "name": "Baked contact and bounce",
+          "corners": 2688
+        },
+        {
+          "mesh": "study__pc black steel",
+          "name": "Baked contact and bounce",
+          "corners": 2688
+        },
+        {
+          "mesh": "study__pc circuit board",
+          "name": "Baked contact and bounce",
+          "corners": 384
+        },
+        {
+          "mesh": "study__pc rgb glow",
+          "name": "Baked contact and bounce",
+          "corners": 3624
+        },
+        {
+          "mesh": "study__pc tempered glass",
+          "name": "Baked contact and bounce",
+          "corners": 384
+        },
+        {
+          "mesh": "study__polished nickel",
+          "name": "Baked contact and bounce",
+          "corners": 1152
+        },
+        {
+          "mesh": "study__rtx graphite shroud",
+          "name": "Baked contact and bounce",
+          "corners": 384
+        },
+        {
+          "mesh": "study__sage textile",
+          "name": "Baked contact and bounce",
+          "corners": 0
+        },
+        {
+          "mesh": "study__screen code blue light",
+          "name": "Baked contact and bounce",
+          "corners": 240
+        },
+        {
+          "mesh": "study__screen code light",
+          "name": "Baked contact and bounce",
+          "corners": 720
+        },
+        {
+          "mesh": "study__screen code warm light",
+          "name": "Baked contact and bounce",
+          "corners": 168
+        },
+        {
+          "mesh": "study__sketch paper",
+          "name": "Baked contact and bounce",
+          "corners": 144
+        },
+        {
+          "mesh": "study_placeholder_study-aeron",
+          "name": "Baked contact and bounce",
+          "corners": 840
+        },
+        {
+          "mesh": "study_wall_record_backrail__honey ash",
+          "name": "Baked contact and bounce",
+          "corners": 1536
+        },
+        {
+          "mesh": "study_wall_record_ledge__honey ash",
+          "name": "Baked contact and bounce",
+          "corners": 600
+        }
+      ]
+    }
+  ]
+}

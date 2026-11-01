@@ -1,0 +1,78 @@
+{
+  "passed": true,
+  "closedControls": [
+    {
+      "name": "overlap B",
+      "expectedM3": 1.0,
+      "volumeM3": 0.9999999999999999,
+      "valid": true,
+      "outputTopology": {
+        "vertices": 8,
+        "faces": 6,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "inconsistentEdges": 0,
+        "degenerateFaces": 0,
+        "possibleSelfIntersectionExamples": [],
+        "componentCount": 1,
+        "invertedComponents": 0,
+        "volumeM3": 0.9999999999999999,
+        "eligible": true
+      }
+    },
+    {
+      "name": "touching C",
+      "expectedM3": 0.0,
+      "volumeM3": 0.0,
+      "valid": true,
+      "outputTopology": {
+        "eligible": true,
+        "volumeM3": 0.0,
+        "faces": 0
+      }
+    },
+    {
+      "name": "disjoint D",
+      "expectedM3": 0.0,
+      "volumeM3": 0.0,
+      "valid": true,
+      "outputTopology": {
+        "eligible": true,
+        "volumeM3": 0.0,
+        "faces": 0
+      }
+    },
+    {
+      "name": "control A",
+      "expectedM3": 8.0,
+      "volumeM3": 8.0,
+      "valid": true,
+      "outputTopology": {
+        "vertices": 8,
+        "faces": 6,
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "inconsistentEdges": 0,
+        "degenerateFaces": 0,
+        "possibleSelfIntersectionExamples": [],
+        "componentCount": 1,
+        "invertedComponents": 0,
+        "volumeM3": 8.0,
+        "eligible": true
+      }
+    }
+  ],
+  "openControl": {
+    "vertices": 8,
+    "faces": 5,
+    "boundaryEdges": 4,
+    "nonmanifoldEdges": 4,
+    "inconsistentEdges": 0,
+    "degenerateFaces": 0,
+    "possibleSelfIntersectionExamples": [],
+    "componentCount": 1,
+    "invertedComponents": 0,
+    "volumeM3": null,
+    "eligible": false
+  }
+}

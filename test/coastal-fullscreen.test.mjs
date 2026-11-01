@@ -150,8 +150,18 @@ function setup({ native = true, refuse = false, popover = true, keyboardLock = f
         unlock: () => calls.push(["keyboardUnlock"]),
       },
     };
-  const modes = [];
-  const fullscreen = createWorldFullscreen({ stage, scene, ui, win, onChange: (mode) => modes.push(mode) });
+  const modes = [],
+    layoutsAtChange = [];
+  const fullscreen = createWorldFullscreen({
+    stage,
+    scene,
+    ui,
+    win,
+    onChange: (mode) => {
+      modes.push(mode);
+      layoutsAtChange.push({ mode, immersive: stage.classList.contains("is-world-immersive"), dialog: stage.getAttribute("role") });
+    },
+  });
   const key = (target, key, extra = {}) => {
     const event = new Event("keydown", { cancelable: true });
     Object.assign(event, { key, ...extra });
@@ -162,8 +172,42 @@ function setup({ native = true, refuse = false, popover = true, keyboardLock = f
     return event;
   };
   const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
-  return { doc, stage, scene, canvas, bar, ui, enterButton, exitButton, calls, win, entries, fullscreen, key, flush, lockPointer, modes };
+  return {
+    doc,
+    stage,
+    scene,
+    canvas,
+    bar,
+    ui,
+    enterButton,
+    exitButton,
+    calls,
+    win,
+    entries,
+    fullscreen,
+    key,
+    flush,
+    lockPointer,
+    modes,
+    layoutsAtChange,
+  };
 }
+
+test("the resize notification observes the immersive layout on native and fallback entry", async () => {
+  for (const options of [{}, { native: false }, { refuse: true }]) {
+    const t = setup(options);
+    t.fullscreen.enter();
+    await t.flush();
+    assert.ok(t.layoutsAtChange.length > 0);
+    for (const layout of t.layoutsAtChange) {
+      assert.equal(layout.immersive, true);
+      assert.equal(layout.dialog, "dialog");
+    }
+    t.fullscreen.exit();
+    await t.flush();
+    assert.deepEqual(t.layoutsAtChange.at(-1), { mode: null, immersive: false, dialog: null });
+  }
+});
 
 test("full screen uses the Fullscreen API, focuses the scene and marks the stage as a dialog", async () => {
   const t = setup();

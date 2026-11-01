@@ -136,6 +136,16 @@ function bytesOf(text) {
   return bytes;
 }
 
+// Deflate packs the same varint stream before base64, without changing a
+// coordinate, line weight or pen order. Inflation also runs in the sketch worker.
+export async function drawingBytes(payload) {
+  const bytes = bytesOf(payload.strokes);
+  if (!payload.compression) return bytes;
+  if (payload.compression !== "deflate") throw new Error("Unknown drawing compression");
+  const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate"));
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+
 // The drawings' files: loading-sketch.json is an index with the plans, the dive points and the coast
 // view's drawing, which every load draws; each room's drawing is its own file beside it, fetched
 // only once that room is wanted, so a load fetches just the room the visitor arrives in. Each
@@ -149,9 +159,9 @@ export function loadSketches(url, { fetch: get = globalThis.fetch, onIndex = () 
     requested = new Set(),
     settled = new Set();
   const read = (target) => get(target).then((response) => (response.ok ? response.json() : null));
-  const deliver = (id, strokes) => {
+  const deliver = async (id, payload) => {
     try {
-      onDrawing(id, decodeDrawing(bytesOf(strokes), index.grid, index.range), index.plan?.[id === "outside" ? "outside" : "room"]);
+      onDrawing(id, decodeDrawing(await drawingBytes(payload), index.grid, index.range), index.plan?.[id === "outside" ? "outside" : "room"]);
     } catch {
       // A drawing that cannot be decoded is left out; the others still arrive.
     }
@@ -162,10 +172,10 @@ export function loadSketches(url, { fetch: get = globalThis.fetch, onIndex = () 
     requested.add(id);
     const view = index.views?.[id];
     if (!view) settled.add(id);
-    else if (view.strokes) deliver(id, view.strokes);
+    else if (view.strokes) deliver(id, view);
     else
       read(new URL(view.file, url))
-        .then((room) => room?.strokes && deliver(id, room.strokes))
+        .then((room) => room?.strokes && deliver(id, room))
         .catch(() => {})
         .finally(() => settled.add(id));
   }
