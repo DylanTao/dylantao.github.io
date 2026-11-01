@@ -327,7 +327,7 @@ test("coastal weather: retained natural rain clears the actual roofs, falls outs
   expect(roof.meshCount).toBeGreaterThan(0);
   expect(roof.witnesses.length).toBeGreaterThan(0);
   expect(roof.failed).toEqual([]);
-  const details = ui.locator("details").first();
+  const details = ui.locator("[data-world-lab]");
   if (!(await details.evaluate((e) => e.open))) await details.locator("summary").first().click();
   const pause = ui.locator("[data-world-pause]");
   await pause.click();

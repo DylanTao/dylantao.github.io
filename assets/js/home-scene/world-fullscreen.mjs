@@ -194,6 +194,12 @@ export function createWorldFullscreen({ stage, scene, ui, win = globalThis.windo
         doc.exitPointerLock?.();
         return;
       }
+      const places = stage.querySelector("[data-world-places][open]");
+      if (places) {
+        places.open = false;
+        places.querySelector("summary")?.focus({ preventScroll: true });
+        return;
+      }
       // The browser freed the mouse with this same key press and passed it on.
       if (now() - pointerReleasedAt < 300) return;
       exit();

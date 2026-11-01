@@ -378,6 +378,14 @@
       {
         "file": "desk-scene.spec.js",
         "title": "coastal home: desktop orbit sweeps stay proportional and cross the old vertical limits"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: public room navigation works in the embed and starts a safe walk from the chosen room"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: a public desktop turn continues looking safely after either orbit axis reaches furniture"
       }
     ],
     "scene-gym": [

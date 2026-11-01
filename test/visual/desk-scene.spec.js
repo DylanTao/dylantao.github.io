@@ -983,14 +983,22 @@ test("coastal loading sketch: the pen draws only what finished work allows, dens
 });
 async function openHome(
   page,
-  { motion = "reduce", theme = "light", time = "2026-09-11T17:45:00-07:00", nativeFrames = false, nativeStartup = false, retainedP = false } = {}
+  {
+    motion = "reduce",
+    theme = "light",
+    time = "2026-09-11T17:45:00-07:00",
+    nativeFrames = false,
+    nativeStartup = false,
+    retainedP = false,
+    lab = true,
+  } = {}
 ) {
   await preparePage(page, theme);
   if (retainedP) await useRetainedPFixture(page);
   await page.emulateMedia({ reducedMotion: motion });
   if (nativeStartup) await page.clock.setFixedTime(new Date(time));
   else await page.clock.install({ time: new Date(time) });
-  await page.goto(publicRouteUrl("/") + "?scene-lab=1", { waitUntil: "domcontentloaded" });
+  await page.goto(publicRouteUrl("/") + (lab ? "?scene-lab=1" : ""), { waitUntil: "domcontentloaded" });
   const stage = page.locator("[data-home-artifact-stage]");
   await expect(stage).toHaveAttribute("data-desk-mode", "2d");
   if (nativeFrames) await useNativeSceneFrames(page);
@@ -1067,7 +1075,7 @@ async function sceneInputFrame(page, { scene, canvas }, input, { clockStep = 200
     .toBeGreaterThan(frames);
 }
 async function explore(ui) {
-  const details = ui.locator("details").first();
+  const details = ui.locator("[data-world-lab]");
   if (!(await details.getAttribute("open"))) {
     if (!(await details.evaluate((e) => e.open))) await details.locator("summary").first().click();
   }
@@ -1700,14 +1708,14 @@ test("coastal home: the lab stays minimal and realistic with obsolete saved styl
   await explore(ui);
   await ui.locator("[data-world-avatar]").selectOption("ghibli");
   await expect(scene).toHaveAttribute("data-avatar", "ghibli");
-  await ui.locator("details").first().locator("summary").first().click();
+  await ui.locator("[data-world-lab]").locator("summary").first().click();
   await expect(scene).toHaveAttribute("data-render-style", "realistic");
   await expect(ui.locator("[data-world-style]")).toHaveCount(0);
   // Look around and Full screen are the only public controls beside the closed lab menu.
   await expect(ui.locator("button:visible")).toHaveCount(2);
   await expect(ui.locator("[data-world-fullscreen]")).toBeVisible();
   await expect(ui.locator("select:visible")).toHaveCount(0);
-  await expect(ui.locator("details").first()).not.toHaveAttribute("open");
+  await expect(ui.locator("[data-world-lab]")).not.toHaveAttribute("open");
   await capture(testInfo, "minimal-realistic-controls", await page.locator(".home-hero-media").screenshot());
   await explore(ui);
   await expect(ui.locator("[data-world-avatar]")).toBeVisible();
@@ -1715,7 +1723,7 @@ test("coastal home: the lab stays minimal and realistic with obsolete saved styl
   await expect(scene).toHaveAttribute("data-room", "overview");
   await ui.locator('[data-world-room="study"]').click();
   await expect(scene).toHaveAttribute("data-room", "study");
-  await ui.locator("details").first().locator("summary").first().click();
+  await ui.locator("[data-world-lab]").locator("summary").first().click();
   await expect(ui.locator("[data-world-avatar]")).toBeHidden();
   expect(errors).toEqual([]);
 });
@@ -2251,6 +2259,115 @@ test("coastal home: full screen fills the screen, keeps its controls and returns
   expect(errors).toEqual([]);
 });
 
+test("coastal home: public room navigation works in the embed and starts a safe walk from the chosen room", async ({ page }, testInfo) => {
+  test.setTimeout(600000);
+  const errors = collectRuntimeErrors(page);
+  const view = await openClockedHome(page, { lab: false, time: "2026-10-23T14:45:00-07:00" });
+  const { stage, scene, canvas, ui } = view;
+  const places = ui.locator("[data-world-places]"),
+    summary = places.locator("summary");
+  await expect(ui.locator("[data-world-lab]")).toBeHidden();
+  await expect(places).not.toHaveAttribute("inert");
+  await summary.click();
+  await expect(places.locator("[data-world-destinations] button")).toHaveCount(homeManifest().rooms.length);
+  await expect.poll(() => places.getAttribute("data-placement")).toMatch(/above|below/);
+  const panel = await places.locator("nav").boundingBox();
+  expect(panel.y).toBeGreaterThanOrEqual(0);
+  expect(panel.y + panel.height).toBeLessThanOrEqual(page.viewportSize().height);
+  const header = await page.locator("#navbar").boundingBox();
+  if (header && header.y <= 1) expect(panel.y).toBeGreaterThanOrEqual(header.y + header.height);
+  for (const button of await places.locator("button").all()) {
+    expect((await button.boundingBox()).height).toBeGreaterThanOrEqual(44);
+  }
+  await capture(testInfo, "public-embed-rooms", await page.screenshot());
+  await sceneInputFrame(page, view, () => places.locator('[data-world-destination="study"]').click());
+  await expect(places).not.toHaveAttribute("open");
+  await expect(canvas).toBeFocused();
+  expect((await evidence(scene)).currentRoom).toBe("study");
+  await summary.click();
+  await summary.press("Escape");
+  await expect(places).not.toHaveAttribute("open");
+  await expect(summary).toBeFocused();
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click());
+  await expect.poll(async () => (await evidence(scene)).walk?.ready, { timeout: 90000 }).toBe(true);
+  const rows = [];
+  for (const room of ["study", "onsen"]) {
+    await summary.click();
+    await sceneInputFrame(page, view, () => places.locator(`[data-world-destination="${room}"]`).click());
+    await sceneInputFrame(page, view, () => page.locator("[data-world-walk]").click());
+    const state = await evidence(scene);
+    rows.push(state.walk);
+    expect(state.walk).toMatchObject({ active: true, ready: true, placed: true, provisional: false, destination: room });
+    expect(state.walk.position[1]).toBeCloseTo(homeManifest().rooms.find((r) => r.id === room).floor, 1);
+    expect(state.walk.position[1]).toBeLessThan(3, "an interior destination does not restart on the clifftop");
+    await expect(canvas).toBeFocused();
+  }
+  await summary.click();
+  await summary.press("Escape");
+  await expect(stage).toHaveClass(/is-world-immersive/);
+  await expect(places).not.toHaveAttribute("open");
+  await summary.click();
+  await sceneInputFrame(page, view, () => places.locator('[data-world-destination="outside"]').click());
+  expect((await evidence(scene)).walk.active).toBe(false);
+  await capture(testInfo, "public-fullscreen-rooms", await stage.screenshot());
+  // Leaving fullscreen restores the page, where this embed can be offscreen and correctly idle.
+  // Assert that transition itself; a hidden scene does not owe a new WebGL frame.
+  await page.locator("[data-world-exit]").click();
+  await expect(stage).not.toHaveClass(/is-world-immersive/);
+  expect((await evidence(scene)).fullscreen).toBeNull();
+  fs.writeFileSync(testInfo.outputPath("public-room-starts.json"), JSON.stringify(rows, null, 2));
+  expect(errors).toEqual([]);
+});
+
+test("coastal home: a public desktop turn continues looking safely after either orbit axis reaches furniture", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "real mouse continuation complements the four-width public navigation case");
+  test.setTimeout(600000);
+  const errors = collectRuntimeErrors(page);
+  const { stage, scene, canvas, ui } = await openHome(page, { lab: false, nativeStartup: true, time: "2026-10-23T14:45:00-07:00" });
+  await ui.locator("[data-world-fullscreen]").click();
+  const bounds = await canvas.boundingBox(),
+    rows = [];
+  for (let i = 0; i < 6; i++) {
+    await page.mouse.move(bounds.x + bounds.width * 0.35, bounds.y + bounds.height * 0.45);
+    await page.mouse.down();
+    await page.mouse.move(bounds.x + bounds.width * 0.75, bounds.y + bounds.height * 0.45, { steps: 12 });
+    await page.mouse.up();
+    rows.push(await evidence(scene));
+  }
+  await expect.poll(async () => (await evidence(scene)).freeLook).not.toBeNull();
+  const start = (await evidence(scene)).freeLook;
+  for (let i = 0; i < 4; i++) {
+    await page.mouse.move(bounds.x + bounds.width * 0.35, bounds.y + bounds.height * 0.45);
+    await page.mouse.down();
+    await page.mouse.move(bounds.x + bounds.width * 0.75, bounds.y + bounds.height * 0.45, { steps: 12 });
+    await page.mouse.up();
+  }
+  const turn = (await evidence(scene)).freeLook;
+  expect(Math.abs(turn.yaw - start.yaw)).toBeGreaterThan(Math.PI * 2);
+  expect(turn.position).toEqual(start.position);
+  for (const [from, to] of [
+    [0.25, 0.85],
+    [0.85, 0.15],
+    [0.85, 0.15],
+  ]) {
+    await page.mouse.move(bounds.x + bounds.width * 0.5, bounds.y + bounds.height * from);
+    await page.mouse.down();
+    await page.mouse.move(bounds.x + bounds.width * 0.5, bounds.y + bounds.height * to, { steps: 16 });
+    await page.mouse.up();
+    rows.push(await evidence(scene));
+  }
+  expect(rows.at(-3).freeLook.pitch).toBeLessThan(-1.2);
+  expect(rows.at(-1).freeLook.pitch).toBeGreaterThan(1.2);
+  expect((await evidence(scene)).freeLook.position).toEqual(start.position);
+  expect((await evidence(scene)).cameraCollision.cameraFlags & 5).toBe(0);
+  await capture(testInfo, "public-free-look", await stage.screenshot());
+  await canvas.press("Home");
+  expect((await evidence(scene)).freeLook).toBeNull();
+  expect((await evidence(scene)).currentRoom).toBe("study");
+  fs.writeFileSync(testInfo.outputPath("public-free-look.json"), JSON.stringify(rows, null, 2));
+  expect(errors).toEqual([]);
+});
+
 test("coastal home: Walk mode walks on the keyboard, stops against the house and returns to orbiting", async ({ page }, testInfo) => {
   if (process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1") test.setTimeout(600000);
   const errors = collectRuntimeErrors(page);
@@ -2665,7 +2782,7 @@ test("coastal home: desktop orbit sweeps stay proportional and cross the old ver
   await explore(ui);
   await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click());
   await sceneInputFrame(page, view, () => ui.locator('[data-world-room="outside"]').first().click());
-  const controls = ui.locator("details").first();
+  const controls = ui.locator("[data-world-lab]");
   await expect.poll(() => controls.evaluate((element) => element.open)).toBe(false);
   const rows = [];
   const record = async (phase) => {

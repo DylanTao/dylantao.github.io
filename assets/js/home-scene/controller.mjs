@@ -415,6 +415,9 @@ export function createCoastalHome(container, records, artifacts) {
     status.textContent = message;
     progressBar?.setAttribute("aria-valuetext", message);
     ui.querySelector("[data-world-view]").disabled = stage !== "ready";
+    const places = ui.querySelector("[data-world-places]");
+    places.inert = stage !== "ready";
+    places.querySelector("summary").setAttribute("aria-disabled", String(stage !== "ready"));
     loadingSketch?.stage(stage, routine?.room);
   }
 
@@ -1669,6 +1672,7 @@ export function createCoastalHome(container, records, artifacts) {
     clockLabel.textContent = `${routine.live ? "" : "Preview · "}${formatMinute(routine.minute)} · La Jolla`;
     ui.querySelector("[data-world-now]").setAttribute("aria-pressed", String(explore.following && followClock));
     if (container.dataset.sceneState === "ready") status.textContent = routine.label;
+    syncVisitorNavigation();
     container.dataset.activity = routine.id;
     container.dataset.clockMode = routine.live ? "now" : "preview";
     ui.querySelector("[data-world-time]").value = routine.minute;
@@ -2021,7 +2025,8 @@ export function createCoastalHome(container, records, artifacts) {
   // the terrain instead (a terrace target hidden by the cliff would otherwise pull it into the
   // terrace). The collision field itself is built by camera-field.mjs as the models load.
   let cameraField = null;
-  const armActive = () => !labFreeCamera && (Boolean(animalFocus) || currentRoom !== "outside") && Boolean(config) && !walkMode?.active;
+  let freeLook = null;
+  const armActive = () => !freeLook && !labFreeCamera && (Boolean(animalFocus) || currentRoom !== "outside") && Boolean(config) && !walkMode?.active;
   const armReady = () => (currentRoom === "overview" ? Boolean(config?.cameraCollision) : Boolean(cameraField?.ready));
   const targetPoint = [0, 0, 0];
   function armFor(at, orbitYaw, orbitPitch, length) {
@@ -2040,10 +2045,36 @@ export function createCoastalHome(container, records, artifacts) {
   }
   const cameraDistance = () => (armShown === null ? radius : Math.min(radius, armShown));
 
+  function startFreeLook() {
+    if (!config || walkMode?.active || animalFocus || ["outside", "overview"].includes(currentRoom)) return false;
+    if (!cameraField?.ready || cameraField.grid.flagAt(camera.position.x, camera.position.y, camera.position.z) & (BLOCKING | INSIDE)) return false;
+    const direction = camera.getWorldDirection(new THREE.Vector3());
+    freeLook = {
+      position: camera.position.clone(),
+      yaw: Math.atan2(direction.x, direction.z),
+      pitch: Math.asin(THREE.MathUtils.clamp(direction.y, -1, 1)),
+    };
+    freeLook.shownYaw = freeLook.yaw;
+    freeLook.shownPitch = freeLook.pitch;
+    stationLook = false;
+    inertia.stop();
+    cameraMotion.stop();
+    syncVisitorNavigation();
+    return true;
+  }
+
+  function turnFreeLook(dYaw, dPitch) {
+    const previous = freeLook.pitch;
+    freeLook.yaw += dYaw;
+    freeLook.pitch = THREE.MathUtils.clamp(freeLook.pitch - dPitch, -1.52, 1.52);
+    return { yaw: dYaw, pitch: previous - freeLook.pitch, stoppedYaw: false, stoppedPitch: previous === freeLook.pitch, blocked: false };
+  }
+
   // Orbit input from drags, keys and coasting. Envelope edges cushion a drag; collision steering
   // keeps the requested view on the visible side of walls, slabs, screens and rock. Returns which
   // axes stopped, so coasting halts against them.
-  function orbitBy(dYaw, dPitch, { cushioned = true } = {}) {
+  function orbitBy(dYaw, dPitch, { cushioned = true, continueLook = false } = {}) {
+    if (freeLook) return turnFreeLook(dYaw, dPitch);
     stationLook = false;
     const envelope = cameraEnvelope();
     const fromYaw = yaw,
@@ -2068,6 +2099,14 @@ export function createCoastalHome(container, records, artifacts) {
       nextYaw = steered.yaw;
       nextPitch = steered.pitch;
       blocked = steered.blocked;
+    }
+    // A public desktop drag can reach a shelf or wall in either axis. Keep its already-safe
+    // camera position and continue turning from there, rather than freezing the pointer or
+    // moving through the obstacle. Touch retains its established orbit; Look freely is available
+    // in Rooms on every device. Home/Reset view restores the authored framing.
+    if (blocked && continueLook && startFreeLook()) {
+      showHint("Looking from here · Home resets the view", 3200);
+      return turnFreeLook(dYaw, dPitch);
     }
     yaw = nextYaw;
     pitch = nextPitch;
@@ -2095,6 +2134,11 @@ export function createCoastalHome(container, records, artifacts) {
     explore.explore();
     followClock = false;
     inertia.stop();
+    if (freeLook) {
+      desiredFov = THREE.MathUtils.clamp(desiredFov * factor, 24, 70);
+      requestFrame();
+      return;
+    }
     if (focused) clearFocus();
     const [near, envelopeFar] = cameraEnvelope()?.radius || [0, Infinity];
     let far = envelopeFar;
@@ -2232,6 +2276,7 @@ export function createCoastalHome(container, records, artifacts) {
     return { ...moved, stopped: stopped || Math.hypot(moved.x, moved.z) < Math.hypot(dx, dz) * 0.5 };
   }
   function panBy(dx, dy) {
+    if (freeLook) setRoom(currentRoom);
     if (!panReach() || !renderer || !config) return { x: 0, z: 0, stopped: true };
     stationLook = false;
     explore.explore();
@@ -2320,6 +2365,7 @@ export function createCoastalHome(container, records, artifacts) {
     if (!config) return;
     // A room visit, Now or the routine taking the camera ends a walk where the visitor stood.
     if (walkMode?.active) walkMode.exit({ restore: false });
+    freeLook = null;
     labFreeCamera = false;
     stationLook = id === "gym";
     inertia.stop();
@@ -2363,7 +2409,22 @@ export function createCoastalHome(container, records, artifacts) {
       radius = desiredRadius;
     }
     ui.querySelectorAll("[data-world-room]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.worldRoom === id)));
+    syncVisitorNavigation();
     requestFrame();
+  }
+
+  function syncVisitorNavigation() {
+    ui.querySelectorAll("[data-world-destination]").forEach((b) =>
+      b.setAttribute("aria-pressed", String(b.dataset.worldDestination === currentRoom))
+    );
+    const look = ui.querySelector("[data-world-look]");
+    look.disabled = Boolean(walkMode?.active || animalFocus || ["outside", "overview"].includes(currentRoom));
+    look.setAttribute("aria-pressed", String(Boolean(freeLook)));
+    look.textContent = freeLook ? "Orbit view" : "Look freely";
+    if (!labEnabled && container.dataset.sceneState === "ready" && !(explore.following && followClock)) {
+      const label = config?.rooms.find((r) => r.id === currentRoom)?.label || (currentRoom === "overview" ? "Whole home" : "Patio & coast");
+      status.textContent = walkMode?.active ? `Walking · ${label}` : label;
+    }
   }
 
   function setStyle() {
@@ -2454,9 +2515,70 @@ export function createCoastalHome(container, records, artifacts) {
       motionButton.querySelector("i").className = `fa-solid fa-${paused ? "play" : "pause"}`;
     }
     syncMotionPreference();
+    const places = ui.querySelector("[data-world-places]");
+    function fitPlaces() {
+      if (!places.open) return;
+      const bounds = ui.getBoundingClientRect();
+      const navbar = !fullscreen.mode && document.getElementById("navbar");
+      const chrome = navbar && navbar.getBoundingClientRect();
+      const fixedChrome = chrome && chrome.top <= 1 && ["fixed", "sticky"].includes(getComputedStyle(navbar).position);
+      const inset = fixedChrome ? Math.max(12, chrome.bottom + 12) : 12;
+      const above = bounds.top - inset,
+        below = window.innerHeight - bounds.bottom - 12;
+      const upward = fullscreen.mode || above >= below;
+      places.dataset.placement = upward ? "above" : "below";
+      places.querySelector("nav").style.maxHeight = `${Math.max(44, Math.min(window.innerHeight * 0.65, upward ? above : below))}px`;
+    }
+    listen(places, "toggle", fitPlaces);
+    listen(window, "resize", fitPlaces);
+    listen(window, "scroll", fitPlaces, { passive: true });
+    listen(ui, "keydown", (event) => {
+      if (event.key !== "Escape" || !places.open) return;
+      event.preventDefault();
+      event.stopPropagation();
+      places.open = false;
+      places.querySelector("summary").focus({ preventScroll: true });
+    });
+    listen(document, "pointerdown", (event) => {
+      if (places.open && !places.contains(event.target)) places.open = false;
+    });
+    function closePlaces() {
+      places.open = false;
+      renderer.domElement.focus({ preventScroll: true });
+    }
     listen(ui, "click", (event) => {
       const b = event.target.closest("button");
       if (!b) return;
+      if (b.dataset.worldDestination) {
+        const destination = b.dataset.worldDestination;
+        setRoom(destination === "entrance" ? "outside" : destination);
+        walkMode?.chooseDestination(destination === "overview" ? null : destination);
+        if (destination === "entrance") {
+          desiredTarget.fromArray(config.walk.start.position).add(new THREE.Vector3(0, 1, 0));
+          desiredRadius = 10;
+          yaw = config.walk.start.yaw + Math.PI;
+          pitch = 0.5;
+        }
+        closePlaces();
+        requestFrame();
+      }
+      if (b.hasAttribute("data-world-recenter")) {
+        setRoom(currentRoom);
+        closePlaces();
+      }
+      if (b.hasAttribute("data-world-follow")) {
+        explore.now();
+        followClock = true;
+        updateRoutine(true);
+        walkMode?.chooseDestination(null);
+        closePlaces();
+      }
+      if (b.hasAttribute("data-world-look")) {
+        if (freeLook) setRoom(currentRoom);
+        else startFreeLook();
+        closePlaces();
+        requestFrame();
+      }
       if (b.dataset.worldRoom) {
         setRoom(b.dataset.worldRoom);
         if (fullscreen.mode) {
@@ -2583,7 +2705,9 @@ export function createCoastalHome(container, records, artifacts) {
           inertia.track(e.timeStamp / 1000, { x: moved.x, z: moved.z });
         } else {
           const rect = canvas.getBoundingClientRect();
-          const moved = orbitBy(...orbitDrag(e.clientX - pointer.lastX, e.clientY - pointer.lastY, rect.width, rect.height, e.pointerType));
+          const moved = orbitBy(...orbitDrag(e.clientX - pointer.lastX, e.clientY - pointer.lastY, rect.width, rect.height, e.pointerType), {
+            continueLook: !labEnabled && e.pointerType !== "touch",
+          });
           inertia.track(e.timeStamp / 1000, { yaw: moved.yaw, pitch: moved.pitch });
         }
       }
@@ -2776,6 +2900,7 @@ export function createCoastalHome(container, records, artifacts) {
   // exploration; the walker's room drives what the orbit's room would (the cutaway, the bath's
   // steam and water, the sun's shadow square, the coast's reflections and planting).
   function enterWalk() {
+    freeLook = null;
     syncBedding();
     explore.explore();
     followClock = false;
@@ -2786,6 +2911,7 @@ export function createCoastalHome(container, records, artifacts) {
     touches.clear();
     if (focused || animalFocus) clearFocus();
     showHint(null);
+    syncVisitorNavigation();
   }
   function walkRoomChanged(id) {
     if (!id || id === currentRoom) return;
@@ -2801,6 +2927,7 @@ export function createCoastalHome(container, records, artifacts) {
     ui.querySelector("[data-world-view]").innerHTML =
       id === "outside" ? 'Back inside <span aria-hidden="true">↙</span>' : 'Look around <span aria-hidden="true">↗</span>';
     ui.querySelectorAll("[data-world-room]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.worldRoom === id)));
+    syncVisitorNavigation();
     requestFrame();
   }
   // The orbit resumes from the walker's own view: its target a little ahead of the eyes and the
@@ -3093,6 +3220,13 @@ export function createCoastalHome(container, records, artifacts) {
       keepCameraClear(camera.position, config, animalFocus?.id === "balcony-gull-0" ? "study" : currentRoom, {
         walls: !(armActive() && cameraField?.ready),
       });
+    if (freeLook && !walkMode?.active) {
+      freeLook.shownYaw = cameraMotion.step("look-yaw", freeLook.shownYaw, freeLook.yaw, frameDelta, stillCamera, 20);
+      freeLook.shownPitch = cameraMotion.step("look-pitch", freeLook.shownPitch, freeLook.pitch, frameDelta, stillCamera, 20);
+      camera.position.copy(freeLook.position);
+      const direction = ORBIT_DIRECTION(freeLook.shownYaw, freeLook.shownPitch);
+      aim.set(camera.position.x + direction[0], camera.position.y + direction[1], camera.position.z + direction[2]);
+    }
     // Walking puts the camera at the visitor's eyes (walk-controls.mjs). The orbit above keeps
     // settling unseen, so leaving the walk resumes from wherever its springs are.
     const walking = Boolean(walkMode?.active);
@@ -3750,7 +3884,9 @@ export function createCoastalHome(container, records, artifacts) {
         stored("sirui-scene-avatar", "")
       );
       const roomSelect = ui.querySelector("[data-world-room-list]");
+      const destinations = ui.querySelector("[data-world-destinations]");
       roomSelect.replaceChildren();
+      destinations.replaceChildren();
       for (const room of config.rooms) {
         const button = document.createElement("button");
         button.type = "button";
@@ -3758,6 +3894,12 @@ export function createCoastalHome(container, records, artifacts) {
         button.textContent = room.label;
         button.setAttribute("aria-pressed", "false");
         roomSelect.append(button);
+        const destination = document.createElement("button");
+        destination.type = "button";
+        destination.dataset.worldDestination = room.id;
+        destination.textContent = room.label;
+        destination.setAttribute("aria-pressed", "false");
+        destinations.append(destination);
       }
       const avatars = ui.querySelector("[data-world-avatar]");
       avatars.replaceChildren();
@@ -4220,6 +4362,7 @@ export function createCoastalHome(container, records, artifacts) {
     backdropImages: 0,
     camera: camera.position.toArray(),
     cameraOrbit: { yaw: cameraYaw, pitch: cameraPitch, radius },
+    freeLook: freeLook ? { position: freeLook.position.toArray(), yaw: freeLook.shownYaw, pitch: freeLook.shownPitch } : null,
     cameraVelocity: cameraMotion.evidence(),
     cameraFov: perspective.fov,
     cameraEnvelope: config ? cameraEnvelope() : null,
@@ -4233,7 +4376,12 @@ export function createCoastalHome(container, records, artifacts) {
       minimum: config && armActive() ? minimumArm() : null,
       lift: outsideLift,
     },
-    cameraCollision: cameraField?.evidence() ?? null,
+    cameraCollision: cameraField
+      ? {
+          ...cameraField.evidence(),
+          cameraFlags: cameraField.ready ? cameraField.grid.flagAt(camera.position.x, camera.position.y, camera.position.z) : null,
+        }
+      : null,
     cameraInertia: inertia.evidence(),
     cameraClip: { near: perspective.near, far: perspective.far, fogNear: scene.fog?.near ?? null, fogFar: scene.fog?.far ?? null },
     panReach: config ? panReach() : null,

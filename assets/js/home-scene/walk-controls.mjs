@@ -136,9 +136,9 @@ export function walkQuaternion(yaw, pitch, out = new THREE.Quaternion()) {
 // floor and facing it (the side the current camera is on, so the visitor keeps their bearings); from
 // the coast, on the terrace facing the house; from the whole house, in Sirui's room. A manifest
 // `walk.start` ({ position, yaw }) overrides every first arrival, for an entrance.
-export function spawnPlan(config, view) {
+export function spawnPlan(config, view, { entrance = true } = {}) {
   const rooms = config?.rooms || [];
-  const start = config?.walk?.start ?? (config?.entrance?.portal ? { position: config.entrance.portal } : null);
+  const start = entrance && (config?.walk?.start ?? (config?.entrance?.portal ? { position: config.entrance.portal } : null));
   if (start?.position) {
     const route = config?.entrance?.route || [];
     const toward = [...route].reverse().find((point) => Math.hypot(point[0] - start.position[0], point[2] - start.position[2]) > 0.2);
@@ -150,7 +150,10 @@ export function spawnPlan(config, view) {
       x = (min[0] + max[0]) / 2,
       z = (min[2] + max[2]) / 2,
       planeZ = config.facade?.planeZ ?? config.cameraCollision?.facade?.planeZ ?? max[2];
-    return { candidates: [[x, z]], searchFrom: max[1], floor: 0, yaw: planeZ > z ? 0 : Math.PI, pitch: 0.05 };
+    const dryRoute = config.retreat?.patioRoute?.slice(3);
+    return dryRoute?.length
+      ? { candidates: dryRoute.map((p) => [p[0], p[2]]), floor: dryRoute[0][1], yaw: 0, pitch: 0.05 }
+      : { candidates: [[x, z]], searchFrom: max[1], floor: 0, yaw: planeZ > z ? 0 : Math.PI, pitch: 0.05 };
   }
   const id = rooms.some((r) => r.id === view.room) ? view.room : view.routineRoom || rooms[0]?.id;
   const room = rooms.find((r) => r.id === id);
@@ -165,8 +168,12 @@ export function spawnPlan(config, view) {
   const length = Math.hypot(...toward) || 1,
     ux = toward[0] / length,
     uz = toward[1] / length;
+  const contact = config?.terrain?.contacts?.[id] || room;
   return {
-    candidates: [1.7, 1.3, 2.2, 0.9, 2.7, 3.2].map((d) => [target[0] + ux * d, target[2] + uz * d]),
+    candidates: [
+      ...[1.7, 1.3, 2.2, 0.9, 2.7, 3.2].map((d) => [target[0] + ux * d, target[2] + uz * d]),
+      ...(contact.exitPath || []).filter((p) => Math.abs(p[1] - (room.floor ?? 0)) < 0.05).map((p) => [p[0], p[2]]),
+    ],
     floor: room.floor ?? 0,
     look: target,
     room: id,
@@ -287,6 +294,8 @@ export function createWalkMode({
     provisional = false,
     plan = null,
     resume = null,
+    destination = null,
+    pendingEntry = false,
     builder = null,
     room = null,
     fov = WALK.fov,
@@ -350,6 +359,10 @@ export function createWalkMode({
       bounds,
       onReady: () => {
         if (active && (!placed || provisional) && plan) place(plan);
+        if (pendingEntry) {
+          pendingEntry = false;
+          enter();
+        }
         requestFrame();
       },
     });
@@ -373,6 +386,8 @@ export function createWalkMode({
         if (Number.isFinite(floor)) found = field.findStand(x, z, floor, { reach: 3.5 });
       }
     }
+    // Deliberately selected rooms never start inside an unverified surface.
+    if (!found && next.strict && field) return false;
     provisional = !found;
     found ??= { x: next.candidates[0][0], z: next.candidates[0][1], foot: next.floor ?? 0 };
     state.x = found.x;
@@ -396,6 +411,7 @@ export function createWalkMode({
     // capsule clear of whatever it overlaps.
     placed = Boolean(field);
     updateRoom(true);
+    return true;
   }
 
   function updateRoom(force = false) {
@@ -445,8 +461,23 @@ export function createWalkMode({
       currentView = view();
     // Orbit is a temporary change of viewpoint. Re-entering Walk resumes the last safe feet/heading;
     // a room teleport or a changed manifest starts at the main entrance again.
-    plan = resume?.config === config && resume.room === currentView.room ? resume.plan : spawnPlan(config, currentView);
+    plan =
+      resume?.config === config && resume.room === currentView.room
+        ? resume.plan
+        : spawnPlan(config, currentView, { entrance: !destination || destination === "entrance" });
     if (!plan) return false;
+    if (destination && destination !== "entrance") {
+      plan.strict = true;
+      if (!builder?.ready) {
+        pendingEntry = true;
+        hint("Preparing the walking paths…", 0);
+        return false;
+      }
+      if (!place(plan)) {
+        hint("There isn’t room to stand here. Choose another room or the entrance.", 5000);
+        return false;
+      }
+    }
     active = true;
     keys.clear();
     jumpQueued = false;
@@ -464,7 +495,7 @@ export function createWalkMode({
       placed = true;
       provisional = false;
       updateRoom(true);
-    } else place(plan);
+    } else if (!plan.strict) place(plan);
     syncChrome();
     showHelp();
     canvas.focus({ preventScroll: true });
@@ -473,6 +504,7 @@ export function createWalkMode({
   }
 
   function exit({ restore = true } = {}) {
+    pendingEntry = false;
     if (!active) return false;
     resume =
       restore && placed && !provisional
@@ -851,6 +883,19 @@ export function createWalkMode({
     enter,
     exit,
     toggle,
+    chooseDestination(id) {
+      if (active) return false;
+      const config = getConfig();
+      if (id && !["entrance", "outside", ...config.rooms.map((r) => r.id)].includes(id)) return false;
+      destination = id;
+      resume = null;
+      pendingEntry = false;
+      if (button) {
+        button.querySelector("span").textContent = id && id !== "entrance" ? "Walk here" : "Walk";
+        button.title = id && id !== "entrance" ? "Walk from this view (V)" : "Walk from the entrance (V)";
+      }
+      return true;
+    },
     frame,
     get active() {
       return active;
@@ -918,6 +963,8 @@ export function createWalkMode({
         ready: Boolean(builder?.ready),
         placed,
         provisional,
+        destination,
+        pendingEntry,
         position: [state.x, state.foot, state.z],
         eye: state.eye,
         yaw: state.yaw,

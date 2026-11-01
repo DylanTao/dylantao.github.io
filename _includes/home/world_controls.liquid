@@ -34,6 +34,24 @@
     <span class="home-world-clock" data-world-clock>San Diego time</span>
   </div>
   <div class="home-world-quiet-actions">
+    <details class="home-world-places" data-world-places>
+      <summary>Rooms <span aria-hidden="true">⌄</span></summary>
+      <nav class="home-world-places-panel" aria-label="Explore the coastal home">
+        <p class="home-world-places-title">Find your way</p>
+        <div class="home-world-places-shortcuts">
+          <button type="button" data-world-destination="overview">Whole home</button>
+          <button type="button" data-world-destination="outside">Patio & coast</button>
+          <button type="button" data-world-destination="entrance">Clifftop entrance</button>
+        </div>
+        <div class="home-world-places-rooms" data-world-destinations></div>
+        <p class="home-world-places-note" data-world-places-note>Choose a view. In full screen, Walk starts there.</p>
+        <div class="home-world-places-tools">
+          <button type="button" data-world-look aria-pressed="false">Look freely</button>
+          <button type="button" data-world-recenter>Reset view</button>
+          <button type="button" data-world-follow>Back to Sirui</button>
+        </div>
+      </nav>
+    </details>
     <button type="button" data-world-view>Look around <span aria-hidden="true">↗</span></button>
     <button type="button" class="home-world-fullscreen" data-world-fullscreen aria-label="Full screen" title="Full screen (F)">
       <i class="fa-solid fa-expand" aria-hidden="true"></i><span class="home-world-fullscreen-label" aria-hidden="true">Full screen</span>

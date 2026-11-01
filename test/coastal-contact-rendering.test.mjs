@@ -101,7 +101,7 @@ test("the first interior-to-exterior reflection never uses main-camera contact u
       (roomCount) => document.querySelector("[data-home-desk-scene]")?.getSceneEvidence?.().roomCount === roomCount,
       expectedRoomCount
     );
-    const details = ui.locator("details").first();
+    const details = ui.locator("[data-world-lab]");
     if (!(await details.evaluate((element) => element.open))) await details.locator("summary").first().click();
     await ui.locator('[data-world-room="study"]').first().click();
     await scene.scrollIntoViewIfNeeded();

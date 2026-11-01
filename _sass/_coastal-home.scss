@@ -311,6 +311,86 @@
   align-items: center;
   flex-shrink: 0;
 }
+.home-world-places {
+  position: static;
+
+  > summary {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 44px;
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--md-lite-radius-sm);
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  &[open] > summary,
+  > summary:hover {
+    color: var(--home-accent-strong);
+    background: var(--home-accent-soft);
+  }
+}
+.home-world-places-panel {
+  position: absolute;
+  z-index: 15;
+  right: 0;
+  left: 0;
+  bottom: calc(100% + 0.55rem);
+  width: auto;
+  max-height: min(65dvh, 29rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 0.85rem;
+  border: 1px solid var(--home-line);
+  border-radius: var(--md-lite-radius-md);
+  background: var(--home-paper);
+  box-shadow: var(--home-shadow);
+  text-align: left;
+}
+.home-world-controls:has([data-world-places][open]) {
+  z-index: 16;
+}
+.home-world-places[data-placement="below"] .home-world-places-panel {
+  top: calc(100% + 0.55rem);
+  bottom: auto;
+}
+.home-world-places-title {
+  margin: 0 0 0.65rem;
+  font-weight: 600;
+}
+.home-world-places-shortcuts,
+.home-world-places-rooms,
+.home-world-places-tools {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.2rem 0.4rem;
+
+  button {
+    min-height: 44px;
+    text-align: left;
+    line-height: 1.25;
+  }
+}
+.home-world-places-shortcuts {
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--home-line);
+}
+.home-world-places-note {
+  margin: 0.7rem 0 0.4rem;
+  color: var(--home-muted);
+  font-size: var(--type-meta);
+  line-height: 1.45;
+}
+.home-world-places-tools {
+  border-top: 1px solid var(--home-line);
+  padding-top: 0.35rem;
+}
 .home-world-explore {
   grid-column: 1 / -1;
 }
@@ -418,6 +498,28 @@
   }
   .home-world-controls {
     padding-inline: 0;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.2rem;
+  }
+  .home-world-status {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.7rem;
+  }
+  .home-world-clock {
+    white-space: nowrap;
+  }
+  .home-world-quiet-actions {
+    justify-content: space-between;
+  }
+  .home-world-places {
+    position: static;
+  }
+  .home-world-places-panel {
+    right: 0;
+    left: 0;
+    width: auto;
   }
   .home-world-shortcuts {
     gap: 0;
@@ -510,6 +612,19 @@ html.is-world-immersive {
 
   .home-world-fullscreen {
     display: none;
+  }
+
+  .home-world-places {
+    position: static;
+  }
+
+  .home-world-places-panel {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 0.5rem);
+    left: 0;
+    width: auto;
+    max-height: min(65dvh, 29rem);
   }
 
   // The lab panel opens upward from the floating bar and scrolls on short screens.

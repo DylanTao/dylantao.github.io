@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { BODY, createWalkField, walkKind, WATER_BLOCK } from "../assets/js/home-scene/colliders.mjs";
 import { nativeGeometry } from "./helpers/coastal-native-geometry.mjs";
+import { spawnPlan } from "../assets/js/home-scene/walk-controls.mjs";
 
 const modelBase = process.env.COASTAL_MODELS_ROOT
   ? pathToFileURL(`${resolve(process.env.COASTAL_MODELS_ROOT)}/`)
@@ -138,6 +139,16 @@ test("the delivered main entrance continuously descends into the living floor an
   assert.ok(Math.abs(inward.state.foot) < 0.08, "inside at the shared living floor");
   assert.ok(Math.abs(outward.state.foot - manifest.entrance.top) < 0.08, "outside on the actual clifftop portal");
   t.diagnostic(JSON.stringify({ inward, outward, field: field.evidence() }));
+});
+
+test("the public patio destination starts on dry delivered paving rather than the pool floor", async () => {
+  const field = await deliveredField();
+  const plan = spawnPlan(manifest, { room: "outside", routineRoom: "study" }, { entrance: false });
+  const stood = plan.candidates.map(([x, z]) => field.findStand(x, z, plan.floor, { reach: 0.45 })).find(Boolean);
+  assert.ok(stood, "a real capsule fits on the patio");
+  assert.ok(Math.abs(stood.foot) < 0.1, `dry paving, not the submerged basin: ${JSON.stringify(stood)}`);
+  const arrival = traverse(field, [[stood.x, stood.foot, stood.z], ...manifest.retreat.patioRoute.slice(0, 3).reverse()]);
+  assert.ok(arrival.travelled > 5, "the dry start connects to the living floor through the real facade opening");
 });
 
 test("the study patio door joins the whole dry promenade and returns without squeezing behind old furniture", async (t) => {

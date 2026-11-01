@@ -439,6 +439,18 @@ test("the authored main entrance starts Walk from every orbit view and faces dow
   }
 });
 
+test("a deliberate room destination starts on its floor without changing the ordinary entrance", () => {
+  const arrival = { ...config, walk: { start: { position: [3.4, 7.52, 18.9], yaw: 3 } } };
+  const view = { room: "study", routineRoom: "onsen", camera: [0.73, 4.98, 0.17] };
+  const room = spawnPlan(arrival, view, { entrance: false });
+  assert.equal(room.room, "study");
+  assert.equal(room.floor, 2.6);
+  assert.deepEqual(room.look, config.rooms[0].target);
+  assert.ok(room.candidates.every((p) => p.every(Number.isFinite)));
+  assert.deepEqual(spawnPlan(arrival, view).candidates, [[3.4, 18.9]]);
+  assert.equal(spawnPlan(arrival, { ...view, room: "outside" }, { entrance: false }).searchFrom, 3.4);
+});
+
 test("a collision worker failure replays native geometry and restores walking in fallback slices", async () => {
   const previousWorker = globalThis.Worker;
   let worker;
