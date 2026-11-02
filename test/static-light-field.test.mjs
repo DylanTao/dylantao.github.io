@@ -24,6 +24,48 @@ const lighting = { zenith: [1, 1, 1], horizon: [1, 1, 1], ground: [1, 1, 1], pra
 const immediate = () => Promise.resolve();
 const snapshotSignature = "a".repeat(64);
 
+test("a surveyed stair cage follows the real inclined floor without adding probes", async () => {
+  const dx = Math.sin((52 * Math.PI) / 180),
+    dz = Math.cos((52 * Math.PI) / 180),
+    slope = 0.52,
+    frame = { origin: [40, 3, 60], along: [dx, dz], slope },
+    region = { id: "inclined", min: [-1.5, 0, 0], max: [1.5, 2.6, 18], frame },
+    world = ([t, h, s]) => [40 + dz * t + dx * s, 3 + h + slope * s, 60 - dx * t + dz * s],
+    floor = new THREE.Mesh(new THREE.BoxGeometry(4, 0.1, 19), new THREE.MeshStandardMaterial({ color: 0x888888 }));
+  floor.matrixAutoUpdate = false;
+  floor.matrix.set(dz, 0, dx, 40, 0, 1, slope, 3, -dx, 0, dz, 60, 0, 0, 0, 1);
+  floor.geometry.translate(0, -0.05, 9);
+  const field = createStaticLightField({ regions: [region] });
+  field.addRoot(floor);
+  field.setLighting(lighting);
+  await field.bake({ yieldTask: immediate });
+  const evidence = field.evidence();
+  assert.equal(evidence.triangles, 12, "the transformed world ROI retains the actual distant floor");
+  assert.equal(evidence.probes.length, 8);
+  assert.equal(evidence.rejectedProbes, 0);
+  evidence.probes.forEach((probe, i) => {
+    const expected = world([(i & 1 ? 1 : -1) * 0.75, 0.65 + ((i >> 1) & 1) * 1.3, 4.5 + (i >> 2) * 9]);
+    expected.forEach((v, a) => close(probe.position[a], v));
+    assert.equal(probe.relocation, 0);
+  });
+  const point = world([0, 0.3, 9]),
+    sample = field.sample(point, [0, 1, 0]);
+  assert.equal(sample.fallback, false);
+  assert.equal(sample.coverage, 1);
+  assert.equal(field.sample([0, 0.3, 9], [0, 1, 0]).fallback, true);
+  const restored = createStaticLightField({ regions: [region] });
+  assert.equal(
+    restored.restoreSnapshot(packedSnapshot(field.exportSnapshot({ signature: snapshotSignature })), { signature: snapshotSignature }),
+    true
+  );
+  restored.setLighting(lighting);
+  assert.deepEqual(restored.sample(point, [0, 1, 0]), sample);
+  assert.equal(restored.evidence().trace.rays ?? 0, 0, "restoration does not trace visitor geometry");
+  field.dispose();
+  restored.dispose();
+  assert.throws(() => createStaticLightField({ regions: [{ ...region, frame: { ...frame, along: [0, 0] } }] }), /invalid surveyed/);
+});
+
 // Node's independent binary writer supplies the browser DataView reader.
 const packedSnapshot = (snapshot) => {
   const bytes = (values, width) => {

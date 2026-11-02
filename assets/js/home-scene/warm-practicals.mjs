@@ -74,8 +74,26 @@ export function practicalSourcesFor(config) {
     )
       throw new RangeError("Invalid final-world sleep practicalSource");
   }
+  const kitchen = config?.rooms?.find((room) => room.id === "kitchen")?.practicalSource;
+  if (kitchen != null) {
+    const { position, emitterRadius } = kitchen;
+    const region = config?.lightTransportRegions?.find((value) => value.id === "breakfast" && value.replaces === "study");
+    const vector = (value) => Array.isArray(value) && value.length === 3 && value.every(Number.isFinite);
+    if (
+      !vector(position) ||
+      !vector(region?.min) ||
+      !vector(region?.max) ||
+      !Number.isFinite(emitterRadius) ||
+      emitterRadius <= 0 ||
+      emitterRadius > 0.25 ||
+      !position.every(
+        (value, axis) => region.min[axis] < region.max[axis] && value - emitterRadius >= region.min[axis] && value + emitterRadius <= region.max[axis]
+      )
+    )
+      throw new RangeError("Invalid final-world kitchen practicalSource");
+  }
   return PRACTICAL_SOURCES.map((source) => {
-    const fixture = source.id === "sleep" ? anchor : null;
+    const fixture = source.id === "sleep" ? anchor : source.id === "kitchen" ? kitchen : null;
     return {
       ...source,
       position: fixture

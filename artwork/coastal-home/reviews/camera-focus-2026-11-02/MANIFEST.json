@@ -1,0 +1,562 @@
+{
+  "schema": "coastal-camera-focus-review-v1",
+  "scope": "Frozen selected source bodies, actual successful process receipts, complete native/PC-WebKit renders and retained failed controls. README is editorial; all generated/program payloads keep original bytes inside gzip.",
+  "files": [
+    {
+      "path": "archive-camera-checkpoint.py.gz",
+      "bytes": 2042,
+      "sha256": "3faadf03a9cb938f108f1aa33de58edc748babb3ea989ba1a60e38916eaea473",
+      "encoding": "gzip",
+      "bodyBytes": 4760,
+      "bodySha256": "2b0c6fea6545e071a9fd9758f8685cec09a7b3237470246b298fbd074023505a"
+    },
+    {
+      "path": "ARRIVAL-FORMAT.json.gz",
+      "bytes": 1121,
+      "sha256": "db7950ff968fcbb16570abb25e3bae4fac88dd6a2ad4d9bddfe926f5d3ee5780",
+      "encoding": "gzip",
+      "bodyBytes": 3628,
+      "bodySha256": "bbf9b88f61c3c6de451b3b667db5307de58e6c972ddf94b2d91e0c0973e596c3"
+    },
+    {
+      "path": "build-v3.json.gz",
+      "bytes": 580,
+      "sha256": "3db9528fc480982b5ef4efdb0e8ee551788667ee1aa7063dccdd2b361c026bd8",
+      "encoding": "gzip",
+      "bodyBytes": 952,
+      "bodySha256": "8fa4755a88642e560f45461615feba4c1242a874cf325bc2d16c05f66d76b924"
+    },
+    {
+      "path": "CAMERA-CACHE-COMPARISON.json.gz",
+      "bytes": 235,
+      "sha256": "80f18df8bc6ed358d2de0c1af449f7db89bca0093f1759b2081c5d7749063b89",
+      "encoding": "gzip",
+      "bodyBytes": 330,
+      "bodySha256": "844667ad5bace1c6e9ee67b0735faa57301d3ed96d2f8d8a4a0650c0d47cf151"
+    },
+    {
+      "path": "capture-camera-checkpoint.cjs.gz",
+      "bytes": 2541,
+      "sha256": "bbf4524ec6186c49ca8dd24bce167d759e209b9c08f121d62554a8b92d64adf6",
+      "encoding": "gzip",
+      "bodyBytes": 5851,
+      "bodySha256": "e06638d029c6f818da31656580c57b99007dd05f2a6e66ea89ba9bc3e4a7d0ec"
+    },
+    {
+      "path": "capture-framing-v1.cjs.gz",
+      "bytes": 2543,
+      "sha256": "17a971bba732c18e6464093d05ab4c720b09d7680ff53cb27f0e4490864e3e86",
+      "encoding": "gzip",
+      "bodyBytes": 5861,
+      "bodySha256": "93ae0b084cddcfd940424f1b6694a015192f9847e768b2c0bbc6952c2e8ca10d"
+    },
+    {
+      "path": "capture-framing-v2.cjs.gz",
+      "bytes": 2549,
+      "sha256": "76e3b4cdf5e6c43f4ea07b9f8c5c2dff85ada080a8cd794bdf3a0524cdbb776f",
+      "encoding": "gzip",
+      "bodyBytes": 5868,
+      "bodySha256": "8804a69ce3d93caabe60c634b1f9f59da6b93aa8c290694cc2d345bd1166e959"
+    },
+    {
+      "path": "check-arrival-format.cjs.gz",
+      "bytes": 663,
+      "sha256": "472d45e6e604435155fda449791d7dfdea4f6d18e8d85c787bcc474350e028d2",
+      "encoding": "gzip",
+      "bodyBytes": 1351,
+      "bodySha256": "bb82404596b54f74cec31cdc205bc2a26394b42b1c9d4a30404f3600df499953"
+    },
+    {
+      "path": "compile-control.rb.gz",
+      "bytes": 161,
+      "sha256": "edcf870a3be386962d8ddc50a6c8ce1b8b5d9ba92842713a572bc42c0bae1fb8",
+      "encoding": "gzip",
+      "bodyBytes": 171,
+      "bodySha256": "8304c01f9cfff87cd10afbdd312703a7c66880a31c91cc55e6bd3098ed324262"
+    },
+    {
+      "path": "CONTROL-SOURCE.json.gz",
+      "bytes": 536,
+      "sha256": "210947f65f263e407079bf418a39d8349d3cc0b2a7f45da9c95e6f4aeb1deaf4",
+      "encoding": "gzip",
+      "bodyBytes": 1109,
+      "bodySha256": "33783b7e11b92e4c5a7e1c4b96aca2fa2a99e6867a3cee056115c1f89ff51b81"
+    },
+    {
+      "path": "controlled-before-controller-compiled.mjs.gz",
+      "bytes": 36943,
+      "sha256": "f3b0afbd8521c38ec5932492d07ceafde84448c082961f74eed2ba2c46486b35",
+      "encoding": "gzip",
+      "bodyBytes": 104044,
+      "bodySha256": "9ddfb452d5b0e61e35b66e8841350603e65f3d4f7ffb014595b2725cde9e4539"
+    },
+    {
+      "path": "controlled-before-controller.mjs.gz",
+      "bytes": 63267,
+      "sha256": "903f0d0e4aa6bce65ebc1ef188becfcb6f1a35fa3d47f16ed6494bb6e70f2442",
+      "encoding": "gzip",
+      "bodyBytes": 215472,
+      "bodySha256": "6942e994a1ca3321d711170f85161e1e4c2ff9aa11ac47da51db5f9812298890"
+    },
+    {
+      "path": "format-v3.json.gz",
+      "bytes": 531,
+      "sha256": "c645042456978f8ca6c94d06a72423c985ea8b0d340bc1dbd2a6c44ceee672a1",
+      "encoding": "gzip",
+      "bodyBytes": 799,
+      "bodySha256": "4a6fb540733df4e88781e7563e54ec5d5e09fef982b814964cb6d14e7950b96e"
+    },
+    {
+      "path": "framing-v1/FAILURE.json.gz",
+      "bytes": 16405,
+      "sha256": "02617bb4cbb4aa0a3356e6f31f8c660f2e6774bec8724da37c59f7fc21c8024b",
+      "encoding": "gzip",
+      "bodyBytes": 91263,
+      "bodySha256": "b047cff87d1d1a46282b16fbfe37e73999bb31ee42fc4810b7e9764782ca5b45"
+    },
+    {
+      "path": "framing-v2/FAILURE.json.gz",
+      "bytes": 16045,
+      "sha256": "2fc418be32b5725806bc8d82c9c18b23cc461e00cab82802432c77b807645ba6",
+      "encoding": "gzip",
+      "bodyBytes": 90199,
+      "bodySha256": "6c4986a68fdd44e234246ea4dbc9cbf94f6d7aeaa51aa45f2fef9651bfe2dc61"
+    },
+    {
+      "path": "framing-v3/after-1280.png",
+      "bytes": 585371,
+      "sha256": "4336138d9403d76ec3cea28e2f9003d0e6da793985396bcff1f3c04aae4675c2"
+    },
+    {
+      "path": "framing-v3/after-1440.png",
+      "bytes": 737018,
+      "sha256": "b3af57f92b9c6256e1574493ec3a4e173c0acbfdc4609d5c8792be75408cb9b1"
+    },
+    {
+      "path": "framing-v3/after-2560.png",
+      "bytes": 1580364,
+      "sha256": "0636c9bbd6c41c452d255e4f3d2e8e4a626bc96db4f15ffe6f938d82e0f57eeb"
+    },
+    {
+      "path": "framing-v3/after-390.png",
+      "bytes": 177782,
+      "sha256": "916bb8ea6543db5d3784cc4e5d4e4d49d5b3136c7f3fe3784e673ec1935e771a"
+    },
+    {
+      "path": "framing-v3/after-768.png",
+      "bytes": 372474,
+      "sha256": "333edae8c96c9b717a6046c4f7d1072729cd4dbbde560c3c4e77851ab41e9904"
+    },
+    {
+      "path": "framing-v3/before-2560.png",
+      "bytes": 723360,
+      "sha256": "5c84ca8038eb6d47249082651d7a57c103770b75189ce015b7ef7e48b70ef086"
+    },
+    {
+      "path": "framing-v3/CAPTURE.json.gz",
+      "bytes": 344011,
+      "sha256": "3eaf21b81be4159f02bd01a2ba024c29a3995bff481f5110f6fd6e9d34d80e1f",
+      "encoding": "gzip",
+      "bodyBytes": 2398088,
+      "bodySha256": "5f7943bbc0609f6f9ed72d57e53dda0f784c0f45274a9adc13263eda769b8a93"
+    },
+    {
+      "path": "framing-v3/webkit-390.png",
+      "bytes": 98866,
+      "sha256": "f866ec16bfe8efbe9aa938f91b3e08a41a98d6cef094924b77122881e0441064"
+    },
+    {
+      "path": "logs/build-v2.log.gz",
+      "bytes": 7744,
+      "sha256": "c5448cb4f8b2384f476c1ed7d6bdb18dff3c15bff65dcd0932414578b100b6be",
+      "encoding": "gzip",
+      "bodyBytes": 343256,
+      "bodySha256": "38365f882b4bc7c5e04a6e1709e5b8c0a8eb5375ab998dd9b39fae9aa84e0b8b"
+    },
+    {
+      "path": "logs/build-v3.log.gz",
+      "bytes": 4512,
+      "sha256": "90b97e700050ac328787b1e35cac21d8616336399b76b1088860a1f4494adcb5",
+      "encoding": "gzip",
+      "bodyBytes": 89983,
+      "bodySha256": "7334f2b31aea13343e0458c4429cbf1134f0bb2932283d178cf0b04484ea89da"
+    },
+    {
+      "path": "logs/build.log.gz",
+      "bytes": 341,
+      "sha256": "f5aff169daea17bbe10bc8203ad61fe354e85a6c5cc30efdf8fc06932615e761",
+      "encoding": "gzip",
+      "bodyBytes": 882,
+      "bodySha256": "d245b2612efb9e21abea31d3fc29cae9b1c52cb2fe40c9771f322e9e69bccd61"
+    },
+    {
+      "path": "logs/compile-control.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "encoding": "gzip",
+      "bodyBytes": 0,
+      "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "logs/format-v3.log.gz",
+      "bytes": 1003,
+      "sha256": "30e83dd195af99f5282046d2425553c9fc8e76ab5424916705f1d9eba7976212",
+      "encoding": "gzip",
+      "bodyBytes": 2896,
+      "bodySha256": "a6a4df484e1aa71492bbaf5d1210baaa689385ba49e7a7ad10a7204687b207f0"
+    },
+    {
+      "path": "logs/native-orbit-v2.log.gz",
+      "bytes": 300,
+      "sha256": "fdfdfba359eb80ac685686a77b3bd8add64d8568144de8519fbbb81fed0603b8",
+      "encoding": "gzip",
+      "bodyBytes": 562,
+      "bodySha256": "c631bdc9156ae69d23cd7af9e031ca63ee49da45ceac4ed8d9dfaf5fe44464b9"
+    },
+    {
+      "path": "logs/native-orbit.log.gz",
+      "bytes": 212,
+      "sha256": "c19ee25d36f2ec9d40d09f0c7cd4ce274c31e97cb6b7835f5e8d92b566ecd0d5",
+      "encoding": "gzip",
+      "bodyBytes": 362,
+      "bodySha256": "295606bea039e87bea160f7ee8f7a4d819887d356e3bf5d3a00d51779135cab7"
+    },
+    {
+      "path": "logs/node-v3.log.gz",
+      "bytes": 45645,
+      "sha256": "3d4fbc8f9428054d9b2f5d0cc45a96929f150c8b7c4f6cbc5b3d8ee9464ec4f7",
+      "encoding": "gzip",
+      "bodyBytes": 168986,
+      "bodySha256": "3533d22a28d9e4d6f87e0cd1645e5a86c3748d4dc5a4efd8fb07324fbc483288"
+    },
+    {
+      "path": "logs/node.log.gz",
+      "bytes": 55970,
+      "sha256": "1fa2fcce37119f37d0c4152587449a96372cc4bb9e2e4023a1663944ced01fa3",
+      "encoding": "gzip",
+      "bodyBytes": 348628,
+      "bodySha256": "bd4799ddec65556e00da19207aaeae17b0bb068fc67495b2c0e10ec91a271b22"
+    },
+    {
+      "path": "logs/npm-ci.log.gz",
+      "bytes": 160,
+      "sha256": "b582f55b434cd3579a219a38e4d320b7347a6c3297447a04a1f4e9e59847cea8",
+      "encoding": "gzip",
+      "bodyBytes": 292,
+      "bodySha256": "189bda9f902f46bfb530836fb978d46f3170a7a8257e0b7876ca78e3ce22b146"
+    },
+    {
+      "path": "logs/python-v3.log.gz",
+      "bytes": 703,
+      "sha256": "891844350cecd55575cce13abd808dfb10fb07ed3664319a4ba73b8fe2ad15d1",
+      "encoding": "gzip",
+      "bodyBytes": 2063,
+      "bodySha256": "8879f18b3f87930bf0e64b9568ba275fc487282a9d927171ef0675c9bb2e5dad"
+    },
+    {
+      "path": "logs/python-v4.log.gz",
+      "bytes": 117,
+      "sha256": "d4046458d6351ae2e7b1eba616f8e6373b3e51968961a2923ade57c3ae37d355",
+      "encoding": "gzip",
+      "bodyBytes": 552,
+      "bodySha256": "cde0de12326feccef81aed9ab097c36af9cde6be0b6d543d9659ecb465a3b272"
+    },
+    {
+      "path": "logs/python.log.gz",
+      "bytes": 1469,
+      "sha256": "1646f2d9541b6cfd1f42c293cbbfef19cf1ebe2237e5b3fddcad56000774faa1",
+      "encoding": "gzip",
+      "bodyBytes": 20024,
+      "bodySha256": "f34f9c750d1e69de6d23a878e1ede0196c2d04c23184ef376f34864bd05e659c"
+    },
+    {
+      "path": "native-orbit/camera-boundary-bath-bedroom.png",
+      "bytes": 144154,
+      "sha256": "f858afa8e6e0a21c025cf17e781f52e70416785142928bf48c8d7ef320ee41d6"
+    },
+    {
+      "path": "native-orbit/camera-boundary-bath-living.png",
+      "bytes": 150651,
+      "sha256": "872d0f6279df74d6eeda138d6f5c76d923b69b1a4de620c80cb4f2f014061eed"
+    },
+    {
+      "path": "native-orbit/camera-boundary-gym.png",
+      "bytes": 223800,
+      "sha256": "d8c4d998af5270312c1ab06a732c72ca85c1c6033103d9ad735a1397a35ecc47"
+    },
+    {
+      "path": "native-orbit/camera-boundary-kitchen.png",
+      "bytes": 199559,
+      "sha256": "92f997fd3aaa13efa58716713856e79fb6e5c57e25bf6ff83e3e783d33ae6a1a"
+    },
+    {
+      "path": "native-orbit/camera-boundary-library-upper.png",
+      "bytes": 270605,
+      "sha256": "f8c6c23ad7dea42e0b42a2a2aabe96069e9d3c2111e75f375ff410641a3d44e9"
+    },
+    {
+      "path": "native-orbit/camera-boundary-library.png",
+      "bytes": 199993,
+      "sha256": "af44ad9f8932b4ad7a18e155aa72d8690ab90c7bbf829d95616c671fc21f41ac"
+    },
+    {
+      "path": "native-orbit/camera-boundary-lounge.png",
+      "bytes": 233807,
+      "sha256": "7c543f1c4d94d27c2ae6f40fd6737e4e0b2dd514a53e7961409ed675503f2d6d"
+    },
+    {
+      "path": "native-orbit/camera-boundary-onsen.png",
+      "bytes": 143657,
+      "sha256": "df28da25c3b619a7bbec8d02ff39493037a7b327934cc1950839f0d6d8d9d0b7"
+    },
+    {
+      "path": "native-orbit/camera-boundary-outside-raised-eye.png",
+      "bytes": 241505,
+      "sha256": "38d8b48acd7df0d5c1dd9255c53d39ba2758c8cecb3f6f829d177e318a577710"
+    },
+    {
+      "path": "native-orbit/camera-boundary-outside.png",
+      "bytes": 217482,
+      "sha256": "7d700eaac63857e85b716fccfa592f10ba27b5c7c81f7dd020c1fd6cbcd628dd"
+    },
+    {
+      "path": "native-orbit/camera-boundary-overview.png",
+      "bytes": 255692,
+      "sha256": "0bf25389b24662ccc3da66052aa89f6490911a27ca8dad89e8c22fc2a7370e80"
+    },
+    {
+      "path": "native-orbit/camera-boundary-sleep.png",
+      "bytes": 243179,
+      "sha256": "6c05f4f49e9679b266b3fc03cf0879344ca65aff0975f99027c21ce7f571abfb"
+    },
+    {
+      "path": "native-orbit/camera-boundary-study.png",
+      "bytes": 273348,
+      "sha256": "7bd79e6f3fafecea841a7964f53c16dde39d60919c74ffbc51099f4c8124e7bd"
+    },
+    {
+      "path": "NATIVE-ORBIT-PROCESS.json.gz",
+      "bytes": 556,
+      "sha256": "277bdfecff706dfd39ea7d48df1cf34b2ceb63c2ec9fba141a45312e034679d6",
+      "encoding": "gzip",
+      "bodyBytes": 1063,
+      "bodySha256": "25b5a202bc0d6ce15951a9f228920c039b2b4fc13a2f9f186c64bda135401243"
+    },
+    {
+      "path": "node-v3.json.gz",
+      "bytes": 1649,
+      "sha256": "a7567b943890b2193d14732954ab91d354dc1f065974c709ba39afd8cc9308b5",
+      "encoding": "gzip",
+      "bodyBytes": 6666,
+      "bodySha256": "973af91c623e1110373c1ffc1d0eb4539e6622d59f90a3386bf47dc810dc7466"
+    },
+    {
+      "path": "prepare-camera-control.py.gz",
+      "bytes": 931,
+      "sha256": "52cb6fe8af7b4a1bcf8a505f7c2ab3792556b2b2460aad81790fb79f3c8d5614",
+      "encoding": "gzip",
+      "bodyBytes": 1858,
+      "bodySha256": "76d4df4bd8de2dba6f3bff9afa3cd962b120584a7c6e8a0be98bd8055abe5751"
+    },
+    {
+      "path": "python-v4.json.gz",
+      "bytes": 523,
+      "sha256": "8ee645281ff38ef8d80380644f60ed98abc1c33e743447d57809f25e188bed4a",
+      "encoding": "gzip",
+      "bodyBytes": 823,
+      "bodySha256": "1a07e8b99e58151718e9ce9a91ef465a4f630845edc771e0def5e8a671fb94d7"
+    },
+    {
+      "path": "QUALIFICATION.json.gz",
+      "bytes": 1016,
+      "sha256": "0baf830ce1e454964ee6d1b93c45da68c93c59b31eca7c7aa8a347da8686d503",
+      "encoding": "gzip",
+      "bodyBytes": 1836,
+      "bodySha256": "53773851711a5c8c438d14a793987e01ddafa81e767284d2ad3f1db8b89b0caf"
+    },
+    {
+      "path": "run-camera-orbit.py.gz",
+      "bytes": 827,
+      "sha256": "3e73da12edfe08fe39f3ccc430f81702d0892a23e92835b36965abde8ba251ea",
+      "encoding": "gzip",
+      "bodyBytes": 1459,
+      "bodySha256": "2eca829c029f2f90805791175230f1790f7b24248c53612aa5587446375e068b"
+    },
+    {
+      "path": "SOURCE.json.gz",
+      "bytes": 1480,
+      "sha256": "f611dd745cd0032b452c56fca0cbec18f96c8ed903e3fc8a49d8aca07acbcc4b",
+      "encoding": "gzip",
+      "bodyBytes": 4333,
+      "bodySha256": "50561a68c494cae87988bf9ec39003618c744cc893fabb48369f6045bcd5bd77"
+    },
+    {
+      "path": "sources/assets/js/home-scene/arrival-rill.mjs.gz",
+      "bytes": 1817,
+      "sha256": "40895333a20cd83495d9c2fc88ef04a1f7142f9a1f896a8a5498218db932520d",
+      "encoding": "gzip",
+      "bodyBytes": 4775,
+      "bodySha256": "fad4fd234610b7973180b800c93294733b0f2fdcecec78e512a72188ec9c4221"
+    },
+    {
+      "path": "sources/assets/js/home-scene/controller.mjs.gz",
+      "bytes": 63262,
+      "sha256": "dbd59bab11f88fe0f5f24159f16df40d8250bb6895dca18e1ba77b4fda36c3f9",
+      "encoding": "gzip",
+      "bodyBytes": 215437,
+      "bodySha256": "6d833f0beea835f3d2e5102e57520d0b177a11a54fe1ca11efc7df8136d52e73"
+    },
+    {
+      "path": "sources/assets/js/home-scene/light-installations.mjs.gz",
+      "bytes": 12230,
+      "sha256": "67a66f4c7e2593946cb7367a495cb90598f1fd3f2f484e2904726e559e2ba838",
+      "encoding": "gzip",
+      "bodyBytes": 41656,
+      "bodySha256": "22401c4dd9aa4361d9314d70b3a63e28889cd8151e39ae9f0ac8e3cf501d6773"
+    },
+    {
+      "path": "sources/assets/js/home-scene/rain-roof-field.mjs.gz",
+      "bytes": 1723,
+      "sha256": "a5065aaf4c52d25429e405412b8d5f6099544a14bb18829fd0a7ed349e04fa60",
+      "encoding": "gzip",
+      "bodyBytes": 4847,
+      "bodySha256": "85188d3d67c57fd982cd800ecdb4aa0ed089a9926f9462dfe4fd70a4a857b6ee"
+    },
+    {
+      "path": "sources/assets/js/home-scene/static-light-field.mjs.gz",
+      "bytes": 13093,
+      "sha256": "6cb24924643cbdfc13f19b3da8b738082671c050481d495083940d4e903a86ff",
+      "encoding": "gzip",
+      "bodyBytes": 43667,
+      "bodySha256": "63f1f12942a9875f4310ecf10f0ebb48cf024906ca93b82c1e35d513d76e4daf"
+    },
+    {
+      "path": "sources/assets/js/home-scene/warm-practicals.mjs.gz",
+      "bytes": 3891,
+      "sha256": "038550511dbb6338956277d06b359e311c1b51f096c6a6c8a3a8ffa8cec874ed",
+      "encoding": "gzip",
+      "bodyBytes": 10858,
+      "bodySha256": "f6969c3692ccaf78c63cd99fb6d84202a68d7b5973f03777a3e3fce020ae0d9e"
+    },
+    {
+      "path": "sources/assets/models/home/manifest.json.gz",
+      "bytes": 66623,
+      "sha256": "7a5dca064da30409619eb8029334d0cb094149d546e21c656081962f88d0ab78",
+      "encoding": "gzip",
+      "bodyBytes": 331879,
+      "bodySha256": "558a97b2a91e6a71c46bd1ad2a271d753a9f631a87f2c454affdbcffb494e593"
+    },
+    {
+      "path": "sources/assets/models/home/static-light-field.json.gz",
+      "bytes": 179986,
+      "sha256": "879ae549d715242300a41cadf1bb855012618f5db5d01f05585e56b9dd6e8015",
+      "encoding": "gzip",
+      "bodyBytes": 712000,
+      "bodySha256": "9f533f8531033005c276c9197524b709be743220677fa66841734a9a713c7815"
+    },
+    {
+      "path": "sources/bin/coastal_static_light_inputs.cjs.gz",
+      "bytes": 1135,
+      "sha256": "839a56d1fd1f9a3947565cfe985272d689a715fd5e2646fa72ef7eb25e067475",
+      "encoding": "gzip",
+      "bodyBytes": 3009,
+      "bodySha256": "d1c9e885800f7e1f6753baca77d481c92955cc25ff0d1ec05442948195ab3f7e"
+    },
+    {
+      "path": "sources/docs/coastal-rendering-research-2026-11.md.gz",
+      "bytes": 4542,
+      "sha256": "01bf35ca59d7809f500d91f69ecde7356a3445ca67031ca1c8510d17517eac76",
+      "encoding": "gzip",
+      "bodyBytes": 12172,
+      "bodySha256": "da49ac251e417c8ce18fdc0e3ad3ff546b0a6ff606ca443e2c57b181227980eb"
+    },
+    {
+      "path": "sources/test/arrival-rill.test.mjs.gz",
+      "bytes": 1039,
+      "sha256": "40c374c13bf67e5b781a1546f9da30687e07535bdd7588ca9172d5b167a07dd8",
+      "encoding": "gzip",
+      "bodyBytes": 2931,
+      "bodySha256": "ac760f2adff25ca8dd4cb0685a6e9ebe17d8f5186f0db256b702781cb26473d7"
+    },
+    {
+      "path": "sources/test/coastal-breakfast-lighting.test.mjs.gz",
+      "bytes": 2449,
+      "sha256": "0f4c683181b6a8efd13753efe47d41abe0e99907e0ff85c46fff5756f52cdaac",
+      "encoding": "gzip",
+      "bodyBytes": 8481,
+      "bodySha256": "2d7936592d42324eb89d27dbdca7168de1bb8e24f51070b823028f26c27cc36d"
+    },
+    {
+      "path": "sources/test/rain-roof-field.test.mjs.gz",
+      "bytes": 1137,
+      "sha256": "6f9a8cd368d9dd60111d3b651c6f7612ac86a35bbd9aeb7817c5ce440f751852",
+      "encoding": "gzip",
+      "bodyBytes": 2979,
+      "bodySha256": "9ad3e45eab2e317355f53826873398b10c268aead42272e025302478d5102d7e"
+    },
+    {
+      "path": "sources/test/static-light-field.test.mjs.gz",
+      "bytes": 7783,
+      "sha256": "8153ee17c4207d2709cbd968544883873d0ddad3d6ec81c681acfc5411108607",
+      "encoding": "gzip",
+      "bodyBytes": 31718,
+      "bodySha256": "6a730f4a5509d676fd006887db33edbaec317d5d6d6eae3484e0166210f230a5"
+    },
+    {
+      "path": "sources/test/visual/desk-scene.spec.js.gz",
+      "bytes": 57604,
+      "sha256": "73919b2dd733c286b38f6cde38ffd217d328fe4cda1c97a44f29ec3abc5d2878",
+      "encoding": "gzip",
+      "bodyBytes": 260237,
+      "bodySha256": "893b228cfeeec5a17309baadf722fc280523d0dd08d2b349d744422815bf89f6"
+    },
+    {
+      "path": "sources/test/visual/static-light-field.spec.js.gz",
+      "bytes": 3833,
+      "sha256": "fd980a89830e0d845530773d06fc5573db394ba957abda1d60c98320bc5bebca",
+      "encoding": "gzip",
+      "bodyBytes": 12560,
+      "bodySha256": "dbbc5f28972c7933c56a5259b008ae54f7b36386d7e88206af6229b95d09bf11"
+    },
+    {
+      "path": "final-gates/python-final.json.gz",
+      "bytes": 523,
+      "sha256": "450513af81a40f668b0db49f5f3abf6b82eec38c8321bdd68618c1e088302190",
+      "encoding": "gzip",
+      "bodyBytes": 823,
+      "bodySha256": "5f7b470ea131b38d3c289ffea2c7b5b7106537dd102365722d59bd32f728240a"
+    },
+    {
+      "path": "final-gates/python-final.log.gz",
+      "bytes": 117,
+      "sha256": "1ce55e23121b5e151e1b6bf9f54f57a22e3a359ee895e5473a0df89f50a1ef17",
+      "encoding": "gzip",
+      "bodyBytes": 552,
+      "bodySha256": "7380bdefc2139747a8b82a9c1a708b494ffce3acbf1df424411e9b8b2409a924"
+    },
+    {
+      "path": "final-gates/build-final.json.gz",
+      "bytes": 580,
+      "sha256": "dc65371d76d104cd4a0953f5c20bd39efd5415b6382d48d579316030eb6feff5",
+      "encoding": "gzip",
+      "bodyBytes": 944,
+      "bodySha256": "90cbd4c3e8613279f31b56e19bdb76c6967e2829c44848ec1a2cc8348288c210"
+    },
+    {
+      "path": "final-gates/build-final.log.gz",
+      "bytes": 4499,
+      "sha256": "fc9cfdc6205e0120a8189cd2243c4c7ef51a094d8a3eb5054092ea04e96c38d5",
+      "encoding": "gzip",
+      "bodyBytes": 91068,
+      "bodySha256": "a009b4730194f1e2dc258adeeca1a5c07c9925d503747eb3050f8b6f26200e1f"
+    },
+    {
+      "path": "FINAL-SOURCE-COMPARISON.json.gz",
+      "bytes": 864,
+      "sha256": "43be608d009f15e45723b350bb9b442a49079968debc7baa945624e482c53434",
+      "encoding": "gzip",
+      "bodyBytes": 1862,
+      "bodySha256": "ef50d79c99cd0317ca464c1a7e33e74b0e485b015d838de08c180116f3c0b5af"
+    }
+  ]
+}

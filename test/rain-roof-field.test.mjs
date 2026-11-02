@@ -48,3 +48,18 @@ test("wind-slanted line endpoints are clipped against their entire swept roof fo
     assert.ok(s[1] >= 8.075 - 1e-5 && s[4] >= 8.075 - 1e-5);
   }
 });
+
+// Weather ownership is separate from the lift-away section-view roof contract.
+test("an explicit arrival canopy blocks only its actual footprint", () => {
+  const root = new THREE.Group(),
+    canopy = new THREE.Group();
+  canopy.userData.rainRoof = true;
+  canopy.position.set(14, 11.56, 28);
+  canopy.rotation.y = 0.4;
+  canopy.add(new THREE.Mesh(new THREE.BoxGeometry(3.76, 0.025, 3.5), new THREE.MeshBasicMaterial()));
+  root.add(canopy);
+  const field = createRainRoofField(root);
+  assert.ok(Math.abs(field.height(14, 28) - 11.5725) < 1e-6);
+  assert.equal(field.height(18, 28), -Infinity);
+  assert.equal(canopy.userData.caveRoof, undefined, "weather does not add a section-view hiding rule");
+});

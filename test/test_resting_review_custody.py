@@ -31,6 +31,7 @@ class RestingReviewCustody(unittest.TestCase):
             "washi-material-2026-11-02": "MANIFEST.json",
             "garden-nook-seams-2026-11-02": "MANIFEST.json",
             "garden-native-2026-11-02": "MANIFEST.json",
+            "camera-focus-2026-11-02": "MANIFEST.json",
             "exporter-holes-2026-11-01": "MANIFEST.json",
             "exterior-waterline-2026-11-01": "MANIFEST.json",
             "waterline-release-2026-11-01": "MANIFEST.json",

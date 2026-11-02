@@ -45,7 +45,31 @@ export function staticLightRegions(config) {
   for (const room of config?.rooms || []) {
     if (room.lightRegion) regions.set(room.id, { ...room.lightRegion, id: room.id });
   }
-  for (const region of config?.lightTransportRegions || []) regions.set(region.id, region);
+  const additions = config?.lightTransportRegions || [];
+  const replacements = additions.filter((region) => region.replaces != null);
+  if (replacements.length > 1) throw new RangeError("Duplicate static-light replacement");
+  for (const region of additions) {
+    if (region.replaces == null) {
+      if (replacements.some((replacement) => replacement.replaces === region.id || replacement.id === region.id))
+        throw new RangeError("Conflicting static-light replacement");
+      regions.set(region.id, region);
+      continue;
+    }
+    const vector = (value) => Array.isArray(value) && value.length === 3 && value.every(Number.isFinite);
+    if (
+      region.id !== "breakfast" ||
+      region.replaces !== "study" ||
+      !regions.has("study") ||
+      regions.has("breakfast") ||
+      !vector(region.min) ||
+      !vector(region.max) ||
+      !region.min.every((value, axis) => value < region.max[axis])
+    )
+      throw new RangeError("Invalid breakfast static-light replacement");
+    // Keep the inherited sampler slot while naming its new physical volume.
+    // The owning producer separately proves the former Study's library coverage.
+    regions.set("study", region);
+  }
   return [...regions.values()];
 }
 
@@ -96,6 +120,29 @@ const makeTexture = (data, width, height) => {
   return texture;
 };
 
+// Optional surveyed stair frame: local X is across, Z is along, and Y is
+// height above its mean inclined floor. Rays, SH directions, visibility and
+// stored probe positions remain world-space. Default cages keep their exact
+// existing configuration and operations.
+function regionLocal(point, region) {
+  const f = region.frame;
+  if (!f) return point;
+  const x = point[0] - f.origin[0],
+    z = point[2] - f.origin[2],
+    inverseNorm = 1 / (f.along[0] * f.along[0] + f.along[1] * f.along[1]),
+    s = (x * f.along[0] + z * f.along[1]) * inverseNorm;
+  return [(x * f.along[1] - z * f.along[0]) * inverseNorm, point[1] - f.origin[1] - f.slope * s, s];
+}
+function regionWorld(point, region) {
+  const f = region.frame;
+  if (!f) return point;
+  return [
+    f.origin[0] + f.along[1] * point[0] + f.along[0] * point[2],
+    f.origin[1] + point[1] + f.slope * point[2],
+    f.origin[2] - f.along[0] * point[0] + f.along[1] * point[2],
+  ];
+}
+
 // Version 2 carries the existing float64 transport and float32 moments as
 // little-endian bytes. HTTP compression can then preserve their bits without
 // paying for decimal strings. Reject malformed data before any live mutation.
@@ -143,7 +190,24 @@ export function createStaticLightField({
   regions = regions.map((r) => {
     if (r.min.length !== 3 || r.max.length !== 3 || !r.min.every((x, i) => Number.isFinite(x) && Number.isFinite(r.max[i]) && x < r.max[i]))
       throw new RangeError("invalid region bounds");
-    return { id: r.id, min: [...r.min], max: [...r.max] };
+    if (
+      r.frame &&
+      (!Array.isArray(r.frame.origin) ||
+        r.frame.origin.length !== 3 ||
+        !r.frame.origin.every(Number.isFinite) ||
+        !Array.isArray(r.frame.along) ||
+        r.frame.along.length !== 2 ||
+        !r.frame.along.every(Number.isFinite) ||
+        Math.abs(Math.hypot(...r.frame.along) - 1) > 1e-6 ||
+        !Number.isFinite(r.frame.slope))
+    )
+      throw new RangeError("invalid surveyed light-region frame");
+    return {
+      id: r.id,
+      min: [...r.min],
+      max: [...r.max],
+      ...(r.frame ? { frame: { origin: [...r.frame.origin], along: [...r.frame.along], slope: r.frame.slope } } : {}),
+    };
   });
   practicalSources = practicalSources.map((s) => {
     if (!s.position?.every(Number.isFinite) || s.position.length !== 3) throw new RangeError("invalid practical position");
@@ -171,7 +235,10 @@ export function createStaticLightField({
     Array.from({ length: 8 }, (_, corner) => ({
       region,
       corner,
-      nominal: r.min.map((x, a) => x + (r.max[a] - x) * (0.25 + ((corner >> a) & 1) * 0.5)),
+      nominal: regionWorld(
+        r.min.map((x, a) => x + (r.max[a] - x) * (0.25 + ((corner >> a) & 1) * 0.5)),
+        r
+      ),
       position: null,
       valid: false,
       relocation: 0,
@@ -196,6 +263,17 @@ export function createStaticLightField({
     slfRegionMax: { value: Float32Array.from(regions.flatMap((r) => r.max)) },
     slfFallback: { value: new Float32Array(12) },
   };
+  const hasFrames = regions.some((r) => r.frame);
+  if (hasFrames) {
+    uniforms.slfRegionFrame = { value: Float32Array.from(regions.flatMap((r) => (r.frame ? [...r.frame.origin, r.frame.slope] : [0, 0, 0, 0]))) };
+    uniforms.slfRegionAxis = {
+      value: Float32Array.from(
+        regions.flatMap((r) =>
+          r.frame ? [...r.frame.along, 1, 1 / (r.frame.along[0] * r.frame.along[0] + r.frame.along[1] * r.frame.along[1])] : [0, 1, 0, 0]
+        )
+      ),
+    };
+  }
   let fallbackCoefficients = new Float64Array(12);
   let transport = null,
     bvh = null,
@@ -236,8 +314,16 @@ export function createStaticLightField({
     maxTraceDistance,
     maxTriangles,
   });
-  const roiMin = [0, 1, 2].map((a) => Math.min(...regions.map((r) => r.min[a])) - maxTraceDistance),
-    roiMax = [0, 1, 2].map((a) => Math.max(...regions.map((r) => r.max[a])) + maxTraceDistance);
+  const regionCorners = regions.flatMap((r) =>
+      Array.from({ length: 8 }, (_, i) =>
+        regionWorld(
+          r.min.map((x, a) => ((i >> a) & 1 ? r.max[a] : x)),
+          r
+        )
+      )
+    ),
+    roiMin = [0, 1, 2].map((a) => Math.min(...regionCorners.map((p) => p[a])) - maxTraceDistance),
+    roiMax = [0, 1, 2].map((a) => Math.max(...regionCorners.map((p) => p[a])) + maxTraceDistance);
 
   function addRoot(root, { id = root.name || `root-${roots.length}`, static: isStatic = true } = {}) {
     if (disposed || baking || uniforms.slfReady.value) throw new Error("add roots before baking a live field");
@@ -369,7 +455,8 @@ export function createStaticLightField({
       const move = inspection.shortest;
       position = position.map((x, a) => x + move.direction[a] * (move.hit.distance + 0.045));
       const region = regions[probe.region];
-      if (position.every((x, a) => x > region.min[a] && x < region.max[a])) inspection = await inspectProbe(position, yieldIfNeeded);
+      if (regionLocal(position, region).every((x, a) => x > region.min[a] && x < region.max[a]))
+        inspection = await inspectProbe(position, yieldIfNeeded);
       else inspection = { valid: false };
     }
     probe.position = position;
@@ -607,6 +694,7 @@ export function createStaticLightField({
     return setLighting({ ...lighting, practicalPowers });
   }
   function regionSupport(point, r) {
+    point = regionLocal(point, r);
     const outside = Math.max(...point.map((x, a) => Math.max(r.min[a] - x, x - r.max[a], 0))),
       t = clamp(outside / 0.25, 0, 1);
     const coverage = 1 - t * t * (3 - 2 * t),
@@ -615,7 +703,7 @@ export function createStaticLightField({
   }
   function sampleRegion(region, point, normal) {
     const bounds = regions[region],
-      f = point.map((x, a) => clamp(((x - bounds.min[a]) / (bounds.max[a] - bounds.min[a])) * 2 - 0.5, 0, 1)),
+      f = regionLocal(point, bounds).map((x, a) => clamp(((x - bounds.min[a]) / (bounds.max[a] - bounds.min[a])) * 2 - 0.5, 0, 1)),
       biased = point.map((x, a) => x + normal[a] * 0.035),
       result = [0, 0, 0];
     let sum = 0;
@@ -682,6 +770,18 @@ export function createStaticLightField({
 uniform float slfReady;
 uniform sampler2D slfCoefficients, slfPositions, slfMoments;
 uniform vec3 slfRegionMin[${regions.length}], slfRegionMax[${regions.length}], slfFallback[4];
+${
+  hasFrames
+    ? `uniform vec4 slfRegionFrame[${regions.length}], slfRegionAxis[${regions.length}];
+vec3 slfLocal(vec3 point, int region) {
+ vec4 frame=slfRegionFrame[region],axis=slfRegionAxis[region];
+ if(axis.z<.5)return point;
+ vec3 d=point-frame.xyz;
+ float s=dot(d.xz,axis.xy)*axis.w;
+ return vec3(dot(d.xz,vec2(axis.y,-axis.x))*axis.w,d.y-frame.w*s,s);
+}`
+    : ""
+}
 varying vec3 slfWorldPosition;
 vec2 slfOct(vec3 v) {
  v /= max(dot(abs(v),vec3(1.0)),1e-8);
@@ -706,7 +806,7 @@ vec2 slfMomentPair(float probe,vec2 oct) {
  return mix(lower,upper,f.y);
 }
 vec3 slfProbeCage(int region, vec3 n) {
- vec3 f=clamp((slfWorldPosition-slfRegionMin[region])/(slfRegionMax[region]-slfRegionMin[region])*2.0-.5,0.0,1.0);
+ vec3 f=clamp((${hasFrames ? "slfLocal(slfWorldPosition,region)" : "slfWorldPosition"}-slfRegionMin[region])/(slfRegionMax[region]-slfRegionMin[region])*2.0-.5,0.0,1.0);
  vec3 result=vec3(0.0);float total=0.0;
  for(int k=0;k<8;k++) {
   vec3 corner=vec3(float(k-k/2*2),float(k/2-k/4*2),float(k/4));
@@ -735,10 +835,11 @@ vec3 slfIrradiance(vec3 n) {
  vec3 result=vec3(0.0);float total=0.0,coverage=0.0;
  for(int r=0;r<${regions.length};r++) {
   vec3 lo=slfRegionMin[r],hi=slfRegionMax[r];
-  vec3 exterior=max(max(lo-slfWorldPosition,slfWorldPosition-hi),vec3(0.0));
+  vec3 point=${hasFrames ? "slfLocal(slfWorldPosition,r)" : "slfWorldPosition"};
+  vec3 exterior=max(max(lo-point,point-hi),vec3(0.0));
   float outside=max(max(exterior.x,exterior.y),exterior.z),support=1.0-smoothstep(0.0,.25,outside);
   if(support>0.0) {
-   vec3 d=(slfWorldPosition-(lo+hi)*.5)/(hi-lo);float score=.25+dot(d,d),w=support/(score*score);
+   vec3 d=(point-(lo+hi)*.5)/(hi-lo);float score=.25+dot(d,d),w=support/(score*score);
    result+=slfProbeCage(r,n)*w;total+=w;coverage=max(coverage,support);
   }
  }

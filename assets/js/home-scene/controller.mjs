@@ -80,6 +80,7 @@ import { createDining } from "./dining.mjs";
 import { createAtmosphere } from "./atmosphere.mjs";
 import { createHaze } from "./haze.mjs";
 import { createInfinityPool } from "./infinity-pool.mjs";
+import { createArrivalRill } from "./arrival-rill.mjs";
 import { createInteriorReflections } from "./interior-reflections.mjs";
 import { createWalkPresence } from "./walk-presence.mjs?v=gym-close-20261101";
 import { createEstateDoors, nearDoor } from "./estate-doors.mjs";
@@ -281,7 +282,8 @@ export function createCoastalHome(container, records, artifacts) {
     water,
     portraitMaterial;
   let poolOccupied = false,
-    infinityPool = null;
+    infinityPool = null,
+    arrivalRill = null;
   let steamReady = false,
     steamSetupMilliseconds = 0;
   const touches = new Map();
@@ -3270,12 +3272,12 @@ export function createCoastalHome(container, records, artifacts) {
     aim.copy(target);
     let groundClearance = Infinity;
     if (currentRoom === "outside" && !animalFocus && !labFreeCamera) {
-      // Over the cliff the camera rides the terrain with more clearance the farther it is, and
-      // looks along its orbit rather than down into the sandstone that hides the terrace.
+      // Keep the eye above the physical coast while retaining the selected
+      // architectural focus. Lifting the aim with the eye sends a low orbit
+      // into empty sky when the hillside raises the camera by many metres.
       const ground = cameraTerrainHeight(camera.position.x, camera.position.z, config.cameraCollision, SEA_LEVEL);
       outsideLift = Math.max(0, ground + outsideClearance(radius, config.cameraCollision?.clearance) - camera.position.y);
       camera.position.y += outsideLift;
-      aim.y += outsideLift * 0.85;
       groundClearance = camera.position.y - ground;
     } else outsideLift = 0;
     // The gallery rail is inside the carved home. A mainland height field
@@ -3959,6 +3961,8 @@ export function createCoastalHome(container, records, artifacts) {
       pacific = createPacific(scene, renderer, config, { atmosphere });
       infinityPool = createInfinityPool(shellRoot, { waterSky: () => pacific?.waterSky(), requestFrame });
       cleanup.push(() => infinityPool?.dispose());
+      arrivalRill = createArrivalRill(shellRoot, config.entrance?.rill, physicalTime);
+      cleanup.push(() => arrivalRill?.dispose());
       pacific.bindLamps(lightInstallations, warmPracticals);
       const coast = await loadModel(new URL(config.coast, manifestUrl).href, "coast");
       if (disposed) {
@@ -4434,6 +4438,7 @@ export function createCoastalHome(container, records, artifacts) {
     ecology: pacific?.evidence(),
     rendering: finish?.evidence,
     simulation: {
+      arrivalRill: arrivalRill?.evidence(),
       rain: { ...coastalRain?.evidence(), ocean: pacific?.rainEvidence() },
       infinityPool: infinityPool
         ? {
@@ -4494,6 +4499,7 @@ export function createCoastalHome(container, records, artifacts) {
     },
     backdropImages: 0,
     camera: camera.position.toArray(),
+    orbitFocusNDC: target.clone().project(camera).toArray(),
     cameraOrbit: { yaw: cameraYaw, pitch: cameraPitch, radius },
     freeLook: freeLook ? { position: freeLook.position.toArray(), yaw: freeLook.shownYaw, pitch: freeLook.shownPitch } : null,
     cameraVelocity: cameraMotion.evidence(),

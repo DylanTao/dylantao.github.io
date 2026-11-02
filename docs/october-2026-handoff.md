@@ -113,6 +113,15 @@ items 9–10 and 23 can close.
 
 ## November 2 rendering research and calendar continuation
 
+The [camera-focus checkpoint](../artwork/coastal-home/reviews/camera-focus-2026-11-02/README.md)
+keeps the exterior target centered when terrain raises the camera. A controlled
+native 2K pair, the four standard viewport widths, phone-size PC WebKit and the
+existing full-orbit/interior case pass on the complete product. It also adds
+strict optional runtime support for the separately qualified arrival/nook
+metadata. The public native master and all GLBs are unchanged; the official
+cache retains its transport exactly. New native exports, coffee contacts and
+the full walkthrough remain open, and CI/live delivery require their own receipt.
+
 The [paper/limewash material checkpoint](../artwork/coastal-home/reviews/washi-material-2026-11-02/README.md)
 corrects an actual substring matcher: washi diffusers and incoming limewash were
 being treated as ash wood. Twelve native views per version verify the two public

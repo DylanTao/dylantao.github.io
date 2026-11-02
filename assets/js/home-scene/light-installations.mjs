@@ -311,7 +311,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   // The stair runs along the landward wall (navigation.stairs); the house reaches a little past it.
   const stairs = config.navigation?.stairs || [];
   const stairZ = stairs.length ? stairs.map((p) => p[2]) : [4.65 + setback];
-  const back = Math.max(5.6 + setback, Math.max(...stairZ) + 0.6);
+  const back = config.interiorLights?.soffitBack ?? Math.max(5.6 + setback, Math.max(...stairZ) + 0.6);
   // Under the gallery's front edge, the full width of the living floor.
   lines.push({
     id: "soffit",
@@ -322,7 +322,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     region: box([-5.25, -0.1, -1.2 + setback], [5.25, 2.34, back]),
   });
   // Beside the stair, a hand's width above the treads, from the foot to the landing.
-  if (stairs.length > 2) {
+  if (stairs.length > 2 && !config.entrance?.straightDescent) {
     const foot = new THREE.Vector3(...stairs[1]),
       top = new THREE.Vector3(...stairs[stairs.length - 3]);
     lines.push({
@@ -365,7 +365,14 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
         region,
       });
     if (interior.pendant)
-      points.push({ id: "pendant", position: new THREE.Vector3(...interior.pendant), intensity: 2.1, color: LANTERN, cone: null, region });
+      points.push({
+        id: "pendant",
+        position: new THREE.Vector3(...interior.pendant),
+        intensity: 2.1,
+        color: LANTERN,
+        cone: null,
+        region: interior.pendantRegion ? sourceRegion(interior.pendantRegion, "breakfast pendant") : region,
+      });
     // Each saucer lights the table beneath its own authored shade; the former single midpoint
     // downlight left the six-seat table's ends in shadow and was off outside the meal schedule.
     for (const at of (interior.dining || []).slice(0, 2))

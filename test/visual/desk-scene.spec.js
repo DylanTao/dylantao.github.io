@@ -2984,6 +2984,26 @@ test("coastal home: full exterior orbit and guided interior camera boundaries", 
     expect(Math.hypot(...state.camera.map((value, i) => value - state.target[i]))).toBeLessThanOrEqual(v.radius + 0.05 + state.cameraArm.lift);
     await canvas.evaluate((e) => e.blur());
     await capture(testInfo, `camera-boundary-${room}`, await canvas.screenshot());
+    if (room === "outside") {
+      await canvas.focus();
+      await canvas.evaluate((node) => {
+        for (let i = 0; i < 18; i++) node.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", repeat: true, bubbles: true }));
+      });
+      await expect
+        .poll(
+          async () => {
+            await page.clock.runFor(200);
+            return (await evidence(scene)).framePending;
+          },
+          { timeout: 60000 }
+        )
+        .toBe(false);
+      const low = await evidence(scene);
+      expect(low.cameraArm.lift).toBeGreaterThan(1);
+      expect(Math.abs(low.orbitFocusNDC[0])).toBeLessThan(0.00001);
+      expect(Math.abs(low.orbitFocusNDC[1])).toBeLessThan(0.00001);
+      await capture(testInfo, "camera-boundary-outside-raised-eye", await canvas.screenshot());
+    }
   }
   expect(errors).toEqual([]);
 });

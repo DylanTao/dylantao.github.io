@@ -140,6 +140,33 @@ test("static light field: native linear GPU diffuse matches traced cache without
         closedField.dispose();
         const closedOwnershipRestored = material.onBeforeCompile === originalCompile && material.customProgramCacheKey === originalCacheKey,
           closedRestored = render();
+        // A rotated, inclined cage far from the origin exercises the actual
+        // GLSL coordinate transform. CPU-only coverage would miss a bad shader.
+        const framedField = createStaticLightField({
+          regions: [{ id: "inclined", min: [-0.8, -0.8, -0.8], max: [0.8, 0.8, 0.8], frame: { origin: [40, 3, 60], along: [0.8, 0.6], slope: 0.5 } }],
+        });
+        liveFields.push(framedField);
+        shell.position.set(40, 3, 60);
+        shell.updateMatrixWorld(true);
+        framedField.addRoot(shell);
+        framedField.setLighting(light(nextRadiance));
+        await framedField.bake({ yieldTask: () => Promise.resolve() });
+        framedField.bindMaterial(material);
+        receiver.position.set(40, 3, 60);
+        camera.position.set(40, 3, 63);
+        camera.lookAt(40, 3, 60);
+        const framed = render(),
+          framedCPU = framedField.sample([40, 3, 60], [0, 0, 1]);
+        receiver.position.y = 8;
+        camera.position.set(40, 8, 63);
+        camera.lookAt(40, 8, 60);
+        const framedOutside = render(),
+          framedOutsideCPU = framedField.sample([40, 8, 60], [0, 0, 1]);
+        framedField.dispose();
+        receiver.position.set(0, 0, 0);
+        camera.position.set(0, 0, 3);
+        camera.lookAt(0, 0, 0);
+
         const gl = renderer.getContext(),
           debug = gl.getExtension("WEBGL_debug_renderer_info");
         return {
@@ -166,6 +193,10 @@ test("static light field: native linear GPU diffuse matches traced cache without
           packed,
           packedRestored,
           packedEvidence,
+          framed,
+          framedCPU,
+          framedOutside,
+          framedOutsideCPU,
           closed,
           closedCPU,
           closedEvidence,
@@ -226,6 +257,14 @@ test("static light field: native linear GPU diffuse matches traced cache without
   expect(result.packedEvidence.trace.rays ?? 0).toBe(0);
   expect(result.packed).toEqual(result.relit);
   closeRGB(result.restored, result.baseline);
+  closeRGB(result.framed, [0, 0, 0]);
+  closeRGB(
+    result.framed,
+    result.albedo.map((rho, c) => (rho * result.framedCPU.irradiance[c]) / Math.PI)
+  );
+  closeRGB(result.framedOutside, result.relit);
+  expect(result.framedCPU.fallback).toBe(false);
+  expect(result.framedOutsideCPU.fallback).toBe(true);
   expect(result.closedEvidence.ready).toBe(true);
   expect(result.closedEvidence.rejectedProbes).toBe(0);
   expect(result.closedCPU.irradiance.every((v) => v < 1e-10)).toBe(true);

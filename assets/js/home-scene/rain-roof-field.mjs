@@ -16,7 +16,7 @@ export function createRainRoofField(root, cellSize = 1) {
       if (!mesh.isMesh || mesh.isSkinnedMesh || mesh.isInstancedMesh) return;
       let roof = /^core_(?:estate|finish)_pavilion/.test(mesh.name);
       for (let owner = mesh; owner && !roof; owner = owner.parent)
-        roof = Boolean(owner.userData.caveRoof || owner.userData.roomCeilingFor || owner.userData.bathroomCeilingFor);
+        roof = Boolean(owner.userData.rainRoof || owner.userData.caveRoof || owner.userData.roomCeilingFor || owner.userData.bathroomCeilingFor);
       if (!roof) return;
       const geometry = mesh.geometry,
         position = geometry?.attributes.position,
