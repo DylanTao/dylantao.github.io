@@ -1,4 +1,5 @@
 """Keep sealed visual evidence byte-exact when source formatting changes."""
+import gzip
 import hashlib
 import json
 import unittest
@@ -28,6 +29,8 @@ class RestingReviewCustody(unittest.TestCase):
             "research-protocol-2026-11-01": "MANIFEST.json",
             "research-census-2026-11-02": "MANIFEST.json",
             "washi-material-2026-11-02": "MANIFEST.json",
+            "garden-nook-seams-2026-11-02": "MANIFEST.json",
+            "garden-native-2026-11-02": "MANIFEST.json",
             "exporter-holes-2026-11-01": "MANIFEST.json",
             "exterior-waterline-2026-11-01": "MANIFEST.json",
             "waterline-release-2026-11-01": "MANIFEST.json",
@@ -49,7 +52,8 @@ class RestingReviewCustody(unittest.TestCase):
         packets[ROOT / "artwork/coastal-home/research/temporal-reuse-2026-11-02"] = "MANIFEST.json"
         for base, index in packets.items():
             folder = base.name
-            records = json.loads((base / index).read_text(encoding="utf8"))["files"]
+            manifest = json.loads((base / index).read_text(encoding="utf8"))
+            records = manifest.get("files", manifest.get("payloads"))
             self.assertTrue(records, folder)
             seen = set()
             for record in records:
@@ -60,8 +64,12 @@ class RestingReviewCustody(unittest.TestCase):
                     self.assertNotIn(relative, seen)
                     seen.add(relative)
                     data = path.read_bytes()
-                    self.assertEqual(len(data), record["bytes"])
-                    self.assertEqual(hashlib.sha256(data).hexdigest(), record["sha256"])
+                    self.assertEqual(len(data), record.get("bytes", record.get("storedBytes")))
+                    self.assertEqual(hashlib.sha256(data).hexdigest(), record.get("sha256", record.get("storedSha256")))
+                    if record.get("encoding") == "gzip":
+                        body = gzip.decompress(data)
+                        self.assertEqual(len(body), record["bodyBytes"])
+                        self.assertEqual(hashlib.sha256(body).hexdigest(), record["bodySha256"])
 
 
 if __name__ == "__main__":

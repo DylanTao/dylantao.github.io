@@ -1,0 +1,1050 @@
+{
+  "version": 1,
+  "scope": "Native-only garden nook field/route checkpoint; no derived AO, export, budget, browser, coffee or publication admission.",
+  "sourceCommit": "18b1d39291a2cf4c99da71b75bc6fc1ef696e202",
+  "candidateSha256": "156b915b4754e6ce644e1a3c8fede8bc04c8ad1c7041c0d624b7c3d76d15260d",
+  "inputNativeSha256": "2219191865a713604630ce37fb1219bb754f6c519921f0769117e8818c2c608c",
+  "sourceBytePolicy": "Working raw and GitLF producer bodies are different where explicitly mapped. Decompressed archives preserve each exactly; their parsed ASTs including source locations were compared equal. No interpreter cache.",
+  "limits": {
+    "positionM": 0.000003,
+    "normal": 0.000001,
+    "linearRGB": 1e-7,
+    "minimumStandingHeadM": 2.1,
+    "actualPortalM": 1.2974853515625,
+    "stairWidthM": 1.28,
+    "globalPreRoiTriangleCap": 750000
+  },
+  "pending": [
+    "additive garden",
+    "selected derived AO/indirect",
+    "final GLB/decoded custody",
+    "actual complete-product cap",
+    "12 decoded arrival routes",
+    "public room/walk and oldStudy light",
+    "desktop/phone/WebKit appearance",
+    "coffee repair and separate ocean-facing breakfast placement"
+  ],
+  "createdUtc": "2026-11-02T11:14:06.681861+00:00",
+  "payloads": [
+    {
+      "path": "payloads/recipe/working/coastal_breakfast_nook.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 17874,
+      "storedSha256": "8e51bc15160f6fbf0b91ca91988b39644d5cadd81cb96fdae9968ecaf18fad1a",
+      "bodyBytes": 59377,
+      "bodySha256": "b00c9dd857a0634273e0312c6f9b8161e666aba066de6ecd9b6439286604edfe",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\bin\\coastal_breakfast_nook.py"
+    },
+    {
+      "path": "payloads/recipe/git-lf/coastal_breakfast_nook.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 17802,
+      "storedSha256": "75c41d0c0140a2b2d0e25269d02ba2839a39289ea5e0d4bfbab5c3dd407ed6b5",
+      "bodyBytes": 58413,
+      "bodySha256": "e76bcf7fab1569c5ee9cc826fde54af893b9020f4f2ef210b84d91dd7fdcb968",
+      "origin": "18b1d39291a2cf4c99da71b75bc6fc1ef696e202:bin/coastal_breakfast_nook.py"
+    },
+    {
+      "path": "payloads/recipe/working/refresh_coastal_breakfast_nook.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 5315,
+      "storedSha256": "bee1471be7735094783d8b8dec167754a91a97f08df39e78741eddc74958bb3c",
+      "bodyBytes": 18185,
+      "bodySha256": "60c5868f1ff81110e8189a50adef91e1c1d81159912eaf4e32e5e99424851d93",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\bin\\refresh_coastal_breakfast_nook.py"
+    },
+    {
+      "path": "payloads/recipe/git-lf/refresh_coastal_breakfast_nook.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 5315,
+      "storedSha256": "bee1471be7735094783d8b8dec167754a91a97f08df39e78741eddc74958bb3c",
+      "bodyBytes": 18185,
+      "bodySha256": "60c5868f1ff81110e8189a50adef91e1c1d81159912eaf4e32e5e99424851d93",
+      "origin": "18b1d39291a2cf4c99da71b75bc6fc1ef696e202:bin/refresh_coastal_breakfast_nook.py"
+    },
+    {
+      "path": "payloads/recipe/working/coastal_kitchen.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 12146,
+      "storedSha256": "a66dcdbea99bdca08a8aab7b705e145fe065e223edba201a412109f0820d847a",
+      "bodyBytes": 39497,
+      "bodySha256": "3c6ded9d3c8a13b2d88f7bad266ff193c0b31eadbfd64d54a70276b34a76b794",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\bin\\coastal_kitchen.py"
+    },
+    {
+      "path": "payloads/recipe/git-lf/coastal_kitchen.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 12146,
+      "storedSha256": "a66dcdbea99bdca08a8aab7b705e145fe065e223edba201a412109f0820d847a",
+      "bodyBytes": 39497,
+      "bodySha256": "3c6ded9d3c8a13b2d88f7bad266ff193c0b31eadbfd64d54a70276b34a76b794",
+      "origin": "18b1d39291a2cf4c99da71b75bc6fc1ef696e202:bin/coastal_kitchen.py"
+    },
+    {
+      "path": "payloads/recipe/original-csg/native_custody.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2274,
+      "storedSha256": "299c6097b2a878f7126c256dec662cac29ce3eb4cbc6bfe91a80be63fb63c27b",
+      "bodyBytes": 7343,
+      "bodySha256": "d54fab858ee90265441e2891e915c7adedfc5eea678d08250fd1d2bc22b33ad5",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\frozen-csg-custody\\native_custody.py"
+    },
+    {
+      "path": "payloads/recipe/original-csg/triangle_fields.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 1380,
+      "storedSha256": "98b3f11002a9f6788505fa15049c84d3f4b8d29e8efb6502854da4caa8f95200",
+      "bodyBytes": 3918,
+      "bodySha256": "50388dddd6a939c075359a6f635ed2b5889add91490288957ed80244550bcb73",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\frozen-csg-custody\\triangle_fields.py"
+    },
+    {
+      "path": "payloads/recipe/original-csg/boundary.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2178,
+      "storedSha256": "55a775276f05e1bfb74ed3f515c0506f6269d809e6a0d591becd51a4c0aaacec",
+      "bodyBytes": 5816,
+      "bodySha256": "ec0c27fc221c963964ceebbca3a08388a1ef60520bba6b7119e7802a76c342b9",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\frozen-csg-custody\\boundary.py"
+    },
+    {
+      "path": "payloads/recipe/original-csg/refit.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 1040,
+      "storedSha256": "0164641db9d1e915688fca2ed66d727542f66a56366e921e9157afe5917adcec",
+      "bodyBytes": 2296,
+      "bodySha256": "93c05e29135c12337be6b3c175b84e81ca35c0abb4138ece40896983f32d2a9f",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\frozen-csg-custody\\refit.py"
+    },
+    {
+      "path": "payloads/recipe/original-csg/refresh_coastal_straight_arrival.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 7624,
+      "storedSha256": "a83f89c72c4d6114f6d7c7531493c056374bc2c188bff8342dbd5c49d208be64",
+      "bodyBytes": 22278,
+      "bodySha256": "901ce0a93ba75a79c2f66a6af2be62b41aeac325436563648ff8d02df1f33c14",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\frozen-csg-custody\\refresh_coastal_straight_arrival.py"
+    },
+    {
+      "path": "payloads/recipe/original-csg/CUSTODY.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 668,
+      "storedSha256": "ffd5be5c1627d28a586370a9ed82203811404527f4f3b1d1ac211c5cb1ba6219",
+      "bodyBytes": 1554,
+      "bodySha256": "af92ad8b1d12f61f054443be4f8690b876101b06be215b578e58fc27157d1b48",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\frozen-csg-custody\\CUSTODY.json"
+    },
+    {
+      "path": "payloads/recipe/closed-field/pinned-closed-field.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2190,
+      "storedSha256": "a034a1f76bf94affdd0f05dde3c88e1ad5b07570448d58ecdffe6a3ca1124b1d",
+      "bodyBytes": 6622,
+      "bodySha256": "f52bbcb90b29b589541c3022c9242d91cb97ef223525c0288bdc9b160e9b1587",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\closed-born-field-control-v1\\pinned-closed-field.py"
+    },
+    {
+      "path": "payloads/recipe/closed-field/independent-calibration.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 4251,
+      "storedSha256": "52ec058c6ac6b6b0f79052ec4d719f0b329f7156b2c97bd1c3db344501d0a3cb",
+      "bodyBytes": 146092,
+      "bodySha256": "3ea1cf8c1ee25709e506f13ef3725da446fada037be23548f412475e9b030975",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\closed-born-field-control-v1\\independent-calibration.json"
+    },
+    {
+      "path": "payloads/final/REPLAY.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 49117,
+      "storedSha256": "5e895c422d2cc1ff796493667093832b4647d9cef72b7f98328eb58a3275fe70",
+      "bodyBytes": 511099,
+      "bodySha256": "40a876a766531c728e8bdbfe6922b1d8470bf71dc75c044d61e30091ee48783e",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\REPLAY.json"
+    },
+    {
+      "path": "payloads/final/manifest.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 81894,
+      "storedSha256": "5c6a75c8e5b2391ccb46932fcdb4b70ce0b303e6b720f9ec7133af648fa5e7da",
+      "bodyBytes": 644036,
+      "bodySha256": "1761204ff8d3bfc289296d252dadc64dab3bea44687065d5a803a950223f324f",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\manifest.json"
+    },
+    {
+      "path": "payloads/final/created-slab-cap-projection.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 459,
+      "storedSha256": "c288dbd2859d20566b83cbdaffef76dd4a8be1881adf97974089b713c4068da9",
+      "bodyBytes": 1137,
+      "bodySha256": "e79ebe859702dbb03f0f79f9693e58f0c9ff4b9f2334a5d9d07088c7c0d4ffb6",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\created-slab-cap-projection.json"
+    },
+    {
+      "path": "payloads/final/membership/exact-r6-tool-membership-coast_shared_golden_coastal_sandstone.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 3013,
+      "storedSha256": "78780b37352f8aedd1641118316f4c1648b008f4582e7acb44e2b01248f53ed4",
+      "bodyBytes": 52090,
+      "bodySha256": "31c818d3f37772d895908bb5f89d084ff697ecddb0f2743c8f4156f21659c930",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\exact-r6-tool-membership-coast_shared_golden_coastal_sandstone.json"
+    },
+    {
+      "path": "payloads/final/membership/exact-r6-tool-membership-core__golden_coastal_sandstone.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 3009,
+      "storedSha256": "f3b117b9eb791c7e7083541353f2534975d1789fff7c97df57347f4be156e296",
+      "bodyBytes": 52083,
+      "bodySha256": "abb5fe717e856f389c301a9b0df7830d9be586d743ce29099192d9212f87c717",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\exact-r6-tool-membership-core__golden_coastal_sandstone.json"
+    },
+    {
+      "path": "payloads/final/membership/exact-r6-tool-membership-core_finish_bedchamber_rock_fin__La_Jolla_bluff_sandstone.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 595,
+      "storedSha256": "1108aa8685aec9d7a280c240268f3e9eb422409b50ebec02254c27e42f7bb41b",
+      "bodyBytes": 2546,
+      "bodySha256": "5f071c2c00fc93ea6bdabd8ef7dd5abb5947c86da79859fdc6f143a64122904b",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\exact-r6-tool-membership-core_finish_bedchamber_rock_fin__La_Jolla_bluff_sandstone.json"
+    },
+    {
+      "path": "payloads/final/membership/exact-r6-tool-membership-core_reno_floorboards_lower.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 579,
+      "storedSha256": "64ee73303c7221f530f095337275616d81e9700d15aef0b084aa14de99a424ff",
+      "bodyBytes": 2622,
+      "bodySha256": "e03707f82d53d0a5129022a1e752449f828398c1e28dee703eee6769844e4fab",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\exact-r6-tool-membership-core_reno_floorboards_lower.json"
+    },
+    {
+      "path": "payloads/final/membership/exact-r6-tool-membership-core_reno_slab_ground.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 574,
+      "storedSha256": "7734c6f4028b80cafe3cc72b63a24dcbb0ad93b85919fac54b75c3e9739198ee",
+      "bodyBytes": 2616,
+      "bodySha256": "4be6180c43ecaac931054e297d08bdd254d9d3dbc27d930ebf7541c8fcb12157",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\exact-r6-tool-membership-core_reno_slab_ground.json"
+    },
+    {
+      "path": "payloads/final/executed-csg/boundary.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 1985,
+      "storedSha256": "a2ef9a3ff5311bfd4cb4f8ea3e4517585f9cae76574b45e96aad425ef47aff29",
+      "bodyBytes": 5443,
+      "bodySha256": "f1ed301906d0808e599a43063c0672c83086bdbd10fb6ddaff2c53e035f9cbcf",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\bound-csg-parts\\boundary.py"
+    },
+    {
+      "path": "payloads/final/executed-csg/CUSTODY.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 1414,
+      "storedSha256": "b446c360ddd7102b98fd47df3c97254eda6e8f655c03819e62787bb6da909d40",
+      "bodyBytes": 2920,
+      "bodySha256": "5ceed5eed2b5f76bf5d6c4847f52eebfababa56d0194584d0a956c7c40a8b433",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\bound-csg-parts\\CUSTODY.json"
+    },
+    {
+      "path": "payloads/final/executed-csg/guarded_manifold_cut.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2984,
+      "storedSha256": "4aa4e38757077b97fdefaf8d21b6c8bae4ff7f32d97ba7f15d7ff4e36442292c",
+      "bodyBytes": 8649,
+      "bodySha256": "a436c8ad3074bad892d5ea1e0151a75d9102ed594a4414e426640e2f5a8c862b",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\bound-csg-parts\\guarded_manifold_cut.py"
+    },
+    {
+      "path": "payloads/final/executed-csg/native_custody.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2287,
+      "storedSha256": "f5ac8a4040edbcf436f19b8b68b83566c24cc5c7db774719ef793defa166c666",
+      "bodyBytes": 7469,
+      "bodySha256": "8b5ec000aafe31d743fe93a000411b388f2baa16d664ce54598f10195acc53c8",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\bound-csg-parts\\native_custody.py"
+    },
+    {
+      "path": "payloads/final/executed-csg/original-boundary.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2191,
+      "storedSha256": "1c135fed07298196e92fc7d4bbc895beec7f486e54a1009ddb29bfffc8ec8768",
+      "bodyBytes": 5905,
+      "bodySha256": "e254d673380ea43d3e9c1e2558622752247f601f53f3b79a3aae1847fa861a7d",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\bound-csg-parts\\original-boundary.py"
+    },
+    {
+      "path": "payloads/final/executed-csg/original-guarded_manifold_cut.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2684,
+      "storedSha256": "ab58d18cdfb30dd6f640e8dec54cbf32b7c4259d8ddf38e7d1c2da9082b95c85",
+      "bodyBytes": 7566,
+      "bodySha256": "9170e54b3b30a82c53d045919a7702b14f67b1ddf8de25428ea7f2ce628c5ad3",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\bound-csg-parts\\original-guarded_manifold_cut.py"
+    },
+    {
+      "path": "payloads/final/executed-csg/original-native_custody.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2282,
+      "storedSha256": "6a2cfbd08b4e49b827979e5267c68e61ea0f8cedcfdcac9dc71411e6c3b74156",
+      "bodyBytes": 7465,
+      "bodySha256": "47ca8b1f329aaa9f9c650f89f0af06390bc73b014aca089de11f0fae4fbb33dd",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\bound-csg-parts\\original-native_custody.py"
+    },
+    {
+      "path": "payloads/final/executed-csg/original-refit.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 1049,
+      "storedSha256": "7f2ec338ba01627413ce4c59aaf074c93ad462ad25cb83a322ad57ff9f55864e",
+      "bodyBytes": 2338,
+      "bodySha256": "7fedc908141b47f3ce192845388f0bffd57a05433338969e1e9a212286e26657",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\bound-csg-parts\\original-refit.py"
+    },
+    {
+      "path": "payloads/final/executed-csg/original-triangle_fields.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 1393,
+      "storedSha256": "e6315bfaa6dc26bf1907d209bcc6266b649b78c5be1cdd7a46217729a1080ce2",
+      "bodyBytes": 4013,
+      "bodySha256": "7dd5dc23ebddb38483ce8ed5639484c9a65822cb9f55ad348fc5742bc9ac677c",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\bound-csg-parts\\original-triangle_fields.py"
+    },
+    {
+      "path": "payloads/final/executed-csg/pre-closed-born-interpolation.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2788,
+      "storedSha256": "01403df33b2a378dba2596b54bdfbb95431cf60d8d616dc3e6b743eba9115aad",
+      "bodyBytes": 7925,
+      "bodySha256": "ccfabdfbdb87993c5a3d515b5a05ad3a9a886e6f496a60a23c72d5493c9192bc",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\bound-csg-parts\\pre-closed-born-interpolation.py"
+    },
+    {
+      "path": "payloads/final/executed-csg/pre-created-slab-cap-projection.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2790,
+      "storedSha256": "c7895c319479ed3c4d499b68ce3e01a7a425a60dc6b5dedf3114c875e20b7a18",
+      "bodyBytes": 7935,
+      "bodySha256": "71af3121cba3fddea0abe464c9f7d932023c05125aad2e11bea7396657c403ab",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\bound-csg-parts\\pre-created-slab-cap-projection.py"
+    },
+    {
+      "path": "payloads/final/executed-csg/pre-exact-r6-membership.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2180,
+      "storedSha256": "4fbb7169efd5b1fa67ba698d27e29a7e163e20c5c237cc0529fa84dc47401873",
+      "bodyBytes": 5826,
+      "bodySha256": "27a7c9c137eb3dea7c797ee0ce8f3b4247f4351aad3debc648432b356e4a834b",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\bound-csg-parts\\pre-exact-r6-membership.py"
+    },
+    {
+      "path": "payloads/final/executed-csg/refit.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 1051,
+      "storedSha256": "e860d4a6c2be6e1994621a0ea5cff51f36e0601bc400013212ed036f21bc8343",
+      "bodyBytes": 2340,
+      "bodySha256": "64f99e5640564fa2abbdec7ede9c7bbe7fc29bd6845f22ec35a0c4eef0806a21",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\bound-csg-parts\\refit.py"
+    },
+    {
+      "path": "payloads/final/executed-csg/triangle_fields.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 1393,
+      "storedSha256": "e6315bfaa6dc26bf1907d209bcc6266b649b78c5be1cdd7a46217729a1080ce2",
+      "bodyBytes": 4013,
+      "bodySha256": "7dd5dc23ebddb38483ce8ed5639484c9a65822cb9f55ad348fc5742bc9ac677c",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\candidate-attempt-1\\bound-csg-parts\\triangle_fields.py"
+    },
+    {
+      "path": "payloads/final/ATTEMPT-1-INVOCATION.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 1363,
+      "storedSha256": "732969b967422410ca08bc13d3b4602c36190583cc0365813a136e0a04169346",
+      "bodyBytes": 3923,
+      "bodySha256": "c8f354f8d96c6fab3738915288e91a3fc9e1bdf156314925ad605457dc346490",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\ATTEMPT-1-INVOCATION.json"
+    },
+    {
+      "path": "payloads/final/attempt-1.log.gz",
+      "encoding": "gzip",
+      "storedBytes": 657,
+      "storedSha256": "44dccf2ede15d544773d798ac575946abe77e068f4c6efb83ded30361ae12118",
+      "bodyBytes": 2545,
+      "bodySha256": "e98fe5eae6623af7971d90f9aa0bd9dafabc5a1453a470914f722afa7dab078f",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\attempt-1.log"
+    },
+    {
+      "path": "payloads/final/STAGED-SOURCE-CUSTODY.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 836,
+      "storedSha256": "160cf1e4673163db1f2cae5da644e3b65572033291439c0e4ea4e37e037a67d6",
+      "bodyBytes": 2560,
+      "bodySha256": "f398406bff3f5a6ea734180db92068b7b036eab05201d1598e8cbcecf512b109",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\STAGED-SOURCE-CUSTODY.json"
+    },
+    {
+      "path": "payloads/final/PINNED-proposal-v513-source-field-preserving-side-planes.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 2395,
+      "storedSha256": "bbe913f988430192b4d8d33bb2e478251fc22aaa83d8a9ae4aa4f2fa42e1edb9",
+      "bodyBytes": 19193,
+      "bodySha256": "ca05f740a2b7fc6485ea6b3382ec0b7ce7b4b0a00029b3d91f267d1210729506",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\PINNED-proposal-v513-source-field-preserving-side-planes.json"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/bearings.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 1489,
+      "storedSha256": "05192dc0ff8ddb851916eaef9e98642a3aaaeff472cfbe960e6368b3533bb970",
+      "bodyBytes": 3576,
+      "bodySha256": "969f84cfce54876ed1099552113f3342e5b2d899bbe2f6b831e602285fd4abdd",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\bearings.py"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/COMPOSED-NATIVE-BODY-SUMMARY.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 158,
+      "storedSha256": "6a9dee32a794601403cc3722fad1815b21d61b511496cd3c4a12af7b46321af8",
+      "bodyBytes": 179,
+      "bodySha256": "60d854f8ab8fedafc0f09a05dc6ac6a89ae1549a2e2660c8385ef079bf6efb2a",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\COMPOSED-NATIVE-BODY-SUMMARY.json"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/COMPOSED-NATIVE-BODY.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 8337,
+      "storedSha256": "327758aa721cd66bd2064237c7aaa0ba8a34d0468d9d42ed063e689aa072d777",
+      "bodyBytes": 280968,
+      "bodySha256": "1c03865164a934eda5bb2f647a8c0e08714e767ca8aa7fdf99b74b6ca60dfb96",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\COMPOSED-NATIVE-BODY.json"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/COMPOSED-NATIVE-PORTAL-WIDTH.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 1295,
+      "storedSha256": "2f328b1f06631c29c333c990348b94bf09d200fef8086a2a7fb52d7ec873494f",
+      "bodyBytes": 13649,
+      "bodySha256": "b621d44b2a20534617dc839fad1b67fe242fad9cae3982e2799fc508030005cf",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\COMPOSED-NATIVE-PORTAL-WIDTH.json"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/native-audit.log.gz",
+      "encoding": "gzip",
+      "storedBytes": 379,
+      "storedSha256": "09b13a8c9022ce4acb13111d07e93d6a2f75caae86d731eb2a870670caa8c026",
+      "bodyBytes": 964,
+      "bodySha256": "dc6fae18d8b3ce172145a70e26877c98759d17777263a96b9a1ccc684b7eec5b",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\native-audit.log"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/native-body.mjs.gz",
+      "encoding": "gzip",
+      "storedBytes": 2785,
+      "storedSha256": "a9881924704ccc63284f121ed3edc4d1b9562e622cace0b9f1880568f7f6d88e",
+      "bodyBytes": 6719,
+      "bodySha256": "d61f173d5bd19ecfce6761de932771f52de1cd9e1b5b89add9ee6f0dee0819e3",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\native-body.mjs"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/native-body.mjs.log.gz",
+      "encoding": "gzip",
+      "storedBytes": 663,
+      "storedSha256": "aa6405566d2d036b164efb50a5a92f63f0179d34378dd21381c894538e30c11c",
+      "bodyBytes": 1091,
+      "bodySha256": "874f5590aee83b5cbfd35d4f8b05ba485088a1d12fcd43ce4bedff02f26d40d1",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\native-body.mjs.log"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/native-census.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 988,
+      "storedSha256": "7c1a0ebea0cddf7618eb1dc68d959ee1bc43952b51c0a124dad31ac3808c58f1",
+      "bodyBytes": 2040,
+      "bodySha256": "17546fb1690098a3ed7d90714561c8db9599d4441174ed5ce780e1274dd625cf",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\native-census.py"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/NATIVE-INVOCATION.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 375,
+      "storedSha256": "b2ea31027c2a00888c30aad8491240b10f2b8a5c7d7ddc823218e600e89fb84b",
+      "bodyBytes": 590,
+      "bodySha256": "2047fe622579fac25c9515d74d8c90fe6dc834856b1374987d7a31df332b3225",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\NATIVE-INVOCATION.json"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/native-portal.mjs.gz",
+      "encoding": "gzip",
+      "storedBytes": 1699,
+      "storedSha256": "b568af8aaf30b7b9453c5d3ee76d4c65b984d6ee8e2c6fff5eda868a2e033209",
+      "bodyBytes": 3873,
+      "bodySha256": "ec19629ed4cc0b609588125a9b34d7df12e951b6f34521fe44b1d86334666247",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\native-portal.mjs"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/native-portal.mjs.log.gz",
+      "encoding": "gzip",
+      "storedBytes": 409,
+      "storedSha256": "58da31c49c8222dd948af47f028ad89c1b30310c8ca943d0b5da6b429db8eecc",
+      "bodyBytes": 580,
+      "bodySha256": "3cd6785b83fd3ee7cb01c5c6ff1f26c0060f89d353d9dc0db803867a79756c8a",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\native-portal.mjs.log"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/NATIVE-REGION-TRIANGLES.json.gz",
+      "encoding": "existing-gzip",
+      "storedBytes": 3595612,
+      "storedSha256": "e74b7d095d06789fba6cdec979b57f21ebf45a0dca611f9b513385273c6b0d0e",
+      "bodyBytes": 3595612,
+      "bodySha256": "e74b7d095d06789fba6cdec979b57f21ebf45a0dca611f9b513385273c6b0d0e",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\NATIVE-REGION-TRIANGLES.json.gz",
+      "decompressedSha256": "344d3631e858052e98d8768ebb877654c70d8c62160712b9846e9799bbbf9263"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/NATIVE-REPLAY-V2-BEARING.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 8929,
+      "storedSha256": "23057914245fd4fa5b8e3455ecd7ed3a8ad3c5466608c3b2cec553ca0289be5e",
+      "bodyBytes": 321949,
+      "bodySha256": "028784b08445e87ff74d96cf1f5a56d3a0369a7e9ac414c70f007a3fe57b9fc2",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\NATIVE-REPLAY-V2-BEARING.json"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/R6-DIRECTED-TOPOLOGY.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 708,
+      "storedSha256": "ea85da8ba06057f68a3a9e5d1ff1e263128d8b1166711ce5223944d4063c7ba0",
+      "bodyBytes": 4347,
+      "bodySha256": "0655f82718013c95dd38493f3eec6ccb89e1420f218b942967c419d490ba610d",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\R6-DIRECTED-TOPOLOGY.json"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/run-native.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 184,
+      "storedSha256": "28622a0972f9f375758d1c431b4653389c8ab8edfd22f47b0016d670f1acd596",
+      "bodyBytes": 224,
+      "bodySha256": "a8fce77040527e463bc42203dcc813c24dbd6becd0450c92caeeb0fc3d147613",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\run-native.py"
+    },
+    {
+      "path": "payloads/final/audit-attempt2/topology.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 1093,
+      "storedSha256": "47d4ebe3a7b051f839bb9a93a897955284a89cf5bef4af07440ae2709add966a",
+      "bodyBytes": 2217,
+      "bodySha256": "4d9ec7008338d57a52f175706f7247d508c3962e9252f685b57239179e3f187c",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-attempt2\\topology.py"
+    },
+    {
+      "path": "payloads/final/audit-native-exact/FLOOR-FOOTING-LOAD-PATH.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 585,
+      "storedSha256": "7fe4280b36c5164653f70b61a9ecf1f03e85da3fc98cf70e7cc0ffa73aef1bbd",
+      "bodyBytes": 2873,
+      "bodySha256": "46524a973a82bbb71018d959b49c6141998df233174fb24960cfae64312f04fa",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-native-exact\\FLOOR-FOOTING-LOAD-PATH.json"
+    },
+    {
+      "path": "payloads/final/audit-native-exact/INVOCATION.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 380,
+      "storedSha256": "b22c1a630a824dacc1b069ee7870f631b082c8b502dacd73515baf3dcfd3012a",
+      "bodyBytes": 597,
+      "bodySha256": "1cef242783d88976b7154a895b9b54b9628f66eda7e56f7b168adffa26a7978b",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-native-exact\\INVOCATION.json"
+    },
+    {
+      "path": "payloads/final/audit-native-exact/rigid-custody.log.gz",
+      "encoding": "gzip",
+      "storedBytes": 397,
+      "storedSha256": "276eebcb272e8207d712ba96b7799c851fb4675f5c98c6791bb2d5624fd5f560",
+      "bodyBytes": 705,
+      "bodySha256": "dd10753498d99681e773596600efcd87ac6b30b7fada5927b98b3f78f95ba8c5",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-native-exact\\rigid-custody.log"
+    },
+    {
+      "path": "payloads/final/audit-native-exact/rigid-custody.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 4154,
+      "storedSha256": "775f3bdb1bf5931b34c15947a8e96406ab6b20103d6d273f1075eae2ac947cd5",
+      "bodyBytes": 11310,
+      "bodySha256": "385b49547a31517a1812bab4039f1d2680c0b691c19771f8f8ef20c368aebd0a",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-native-exact\\rigid-custody.py"
+    },
+    {
+      "path": "payloads/final/audit-native-exact/WHOLE-OLIVE-RESOLVED-NORMALS.json.gz",
+      "encoding": "existing-gzip",
+      "storedBytes": 55717,
+      "storedSha256": "975928c2ccd5ebecbd2bf1636c34c7a924ae57fbcfac3a7e6b44e8a8a856498a",
+      "bodyBytes": 55717,
+      "bodySha256": "975928c2ccd5ebecbd2bf1636c34c7a924ae57fbcfac3a7e6b44e8a8a856498a",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-native-exact\\WHOLE-OLIVE-RESOLVED-NORMALS.json.gz",
+      "decompressedSha256": "ed5f18aa2a325f74d90f4c5c4ac00a78d763825ba1d6693cbb25107957e39340"
+    },
+    {
+      "path": "payloads/final/audit-native-exact/WHOLE-OLIVE-RIGID-EXACT.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 855,
+      "storedSha256": "9337917ea65ded1fc6fabd347956920ba3bbad36ab48d3e1b197f1ef0486ce63",
+      "bodyBytes": 2714,
+      "bodySha256": "351ed090d5261c3d669b5ae585141a88674ca1187e19f0aeea3f6e7a545f1d5e",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\audit-native-exact\\WHOLE-OLIVE-RIGID-EXACT.json"
+    },
+    {
+      "path": "payloads/final/source-checks/CHECKS.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 755,
+      "storedSha256": "cecbefe1805854581fbab8c7b75f780241ec6d396f7cd8bc8753991ff12cc7ba",
+      "bodyBytes": 1719,
+      "bodySha256": "0c780cbf7be109ba4d21e5cf7a983065fd3db36e27dade376bbaa2d5fac7e7ba",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\source-checks\\CHECKS.json"
+    },
+    {
+      "path": "payloads/final/source-checks/exact-membership.log.gz",
+      "encoding": "gzip",
+      "storedBytes": 264,
+      "storedSha256": "9fc95e7dc269386322b1259d3affd80517f549563c9023da450a8d1d86f1aecb",
+      "bodyBytes": 743,
+      "bodySha256": "135853032a5d616697be9ee2b4df09f1885da2df1426d8e25c052e57d0cda7bf",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\source-checks\\exact-membership.log"
+    },
+    {
+      "path": "payloads/final/source-checks/invoke-owning-tests-native-v8.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2054,
+      "storedSha256": "5a9c5060588dd23afd3e836b84ca534f6ff88b008ebd3fafc714076b30a1e737",
+      "bodyBytes": 6111,
+      "bodySha256": "467e4ef7d943e470d7ee568dd6694d6f25c912ac4492f5a8051e6293264ffe23",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\source-checks\\invoke-owning-tests-native-v8.py"
+    },
+    {
+      "path": "payloads/final/source-checks/native-owning.log.gz",
+      "encoding": "gzip",
+      "storedBytes": 291,
+      "storedSha256": "fd35c4a32ebd167eb63729931982bb5cd8dac81484b12be092a4d83acaf56882",
+      "bodyBytes": 847,
+      "bodySha256": "b080b1e41fa7502419190e1030806e3a506bae29b101412e090e115ea9a6b954",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\source-checks\\native-owning.log"
+    },
+    {
+      "path": "payloads/final/source-checks/owning-tests-native-v8.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2024,
+      "storedSha256": "a184260c43867c19ffda609be6a788207511a38f12c7fb0fe975f5ecc1de2b36",
+      "bodyBytes": 6081,
+      "bodySha256": "8918854bcce5b1dae4020ee1cb211183e6f550c9776bd547b67b27fbde7c6053",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\source-checks\\owning-tests-native-v8.py"
+    },
+    {
+      "path": "payloads/final/source-checks/source-syntax.log.gz",
+      "encoding": "gzip",
+      "storedBytes": 20,
+      "storedSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64",
+      "bodyBytes": 0,
+      "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\combined-side-fan-control-v1\\source-checks\\source-syntax.log"
+    },
+    {
+      "path": "payloads/independent/v518-realized-combined-side-fan-tools.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 3021,
+      "storedSha256": "d1cefb8b7d29fbecf355b305d03336e5e7bea1c855ff8f05e2b63897d512b409",
+      "bodyBytes": 48528,
+      "bodySha256": "2184811bda8b86bc3e9e6821965a71bad04716f93b7230d0ae88cd85736c5d4e",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\v518-realized-combined-side-fan-tools.json"
+    },
+    {
+      "path": "payloads/independent/audit-v518-realized-combined-side-fan-tools.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2024,
+      "storedSha256": "b67dfef9d28f66fd24f4b55ae4ebd72d6c1586566e00a999778621fc1aa70b3e",
+      "bodyBytes": 4216,
+      "bodySha256": "1e91ab9e8b2c12741d1d43c0b7f93885e341f9716e9ada71cad4d7ebc36a308b",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\audit-v518-realized-combined-side-fan-tools.py"
+    },
+    {
+      "path": "payloads/independent/v519-combined-side-fan-independent-area-fields.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 7595,
+      "storedSha256": "6889f8ea1f9dd5edcd9c7c6b51313d87ab1d6101d5da5680be887ce6f31c0990",
+      "bodyBytes": 64336,
+      "bodySha256": "0600d63f0f3dfcbb684231a4403556da12815a385830924c4e45e3ff7db13baa",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\v519-combined-side-fan-independent-area-fields.json"
+    },
+    {
+      "path": "payloads/independent/audit-v519-combined-side-fan-area-fields.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 3295,
+      "storedSha256": "e1fdd38a01d2db84fba9ec9bb13ab24346b42a56f3d126da8b8cd6af7ab81dd6",
+      "bodyBytes": 7735,
+      "bodySha256": "1ebbf1a6841f6c43a6406445887f7e0ec7525a0fd25d5016a20d18d742b8bb4d",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\audit-v519-combined-side-fan-area-fields.py"
+    },
+    {
+      "path": "payloads/independent/v520-combined-side-fan-native-zero-port-packet.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 8612,
+      "storedSha256": "217935ca036da86a7451a0d568615450c234ed06c1745bbb800a1364bc52d104",
+      "bodyBytes": 198841,
+      "bodySha256": "c5502472f031054dd2a954f3cab6eea51d1fcf6df8d23688a66b2db1e0486842",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\v520-combined-side-fan-native-zero-port-packet.json"
+    },
+    {
+      "path": "payloads/independent/extract-v520-combined-side-fan-native-zero-ports.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 1881,
+      "storedSha256": "b92a22afa74ffaaa2e38052c493b4dae2cd6a3bb942a0fdda697b1a7af7b9ac1",
+      "bodyBytes": 3852,
+      "bodySha256": "682121b26366beada9a6219970042535a43b82bb8ae460b16b8ab0e245736eaf",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\extract-v520-combined-side-fan-native-zero-ports.py"
+    },
+    {
+      "path": "payloads/independent/v521-combined-side-fan-continuous-zero-port-coverage.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 1613,
+      "storedSha256": "2f43f842ef1fb589f0ee77928accfbae3f05c89880bcbacefb874d9d4fdedd5f",
+      "bodyBytes": 16731,
+      "bodySha256": "bd3e7e4d9823b96f0f0a59b0c3afd154ec6ede0ba1e65e7c77b7dc3e266c95ca",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\v521-combined-side-fan-continuous-zero-port-coverage.json"
+    },
+    {
+      "path": "payloads/independent/audit-v521-continuous-native-zero-ports.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 942,
+      "storedSha256": "3bc40bb8d365ad40e8bf0f7478baacfe97f2f9c28122ec0cc838c63c8ffb995b",
+      "bodyBytes": 1936,
+      "bodySha256": "d2221fb9eb5cdaccbbd5e236329903800085d1c71bdab73dfbc5ab95008e2c99",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\audit-v521-continuous-native-zero-ports.py"
+    },
+    {
+      "path": "payloads/independent/v521-portable-runner-reproduction.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 1726,
+      "storedSha256": "b1cf15ec5a5e00a0eb7d642cf0a36de9b8161149d9f1be4f204d2e55d4d8cc80",
+      "bodyBytes": 16936,
+      "bodySha256": "b5bfd818170eedf92bf12787846c446e4b83644406b88ebe2d67d41661addf0f",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\v521-portable-runner-reproduction.json"
+    },
+    {
+      "path": "payloads/independent/native_zero_port_coverage_v502.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2492,
+      "storedSha256": "8ed9641e902b765a1022dff849241a0a8a58e069c0409a7be640cbebb881e53a",
+      "bodyBytes": 6999,
+      "bodySha256": "ef5c1be828f40dcc5bfd0ee1499103bfe0f3b7b0870988702e05b1a5941dae6e",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\native_zero_port_coverage_v502.py"
+    },
+    {
+      "path": "payloads/independent/v508-continuous-zero-port-calibration.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 529,
+      "storedSha256": "7263a82ee0f2ed6fdad0c66a6f43d724297aadf0df757f7480d80fcb7bd2b1ae",
+      "bodyBytes": 900,
+      "bodySha256": "ad83e17ed47fec043371ec333c6302f4c1b878af47b4c2d76300bfab7bab7d0f",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\v508-continuous-zero-port-calibration.json"
+    },
+    {
+      "path": "payloads/independent/calibrate-v508-continuous-zero-ports.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 1433,
+      "storedSha256": "024dfd6865ee0be9d8567df1e9f178743f052b795300980168776cd7f698dddb",
+      "bodyBytes": 3119,
+      "bodySha256": "d424b206a5688cb2e79bb18fe169b8f7a524d5129e7d78f4a841cf4b8ef9a337",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\calibrate-v508-continuous-zero-ports.py"
+    },
+    {
+      "path": "payloads/independent/native_triangle_fields-v2-closed-field.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2190,
+      "storedSha256": "a034a1f76bf94affdd0f05dde3c88e1ad5b07570448d58ecdffe6a3ca1124b1d",
+      "bodyBytes": 6622,
+      "bodySha256": "f52bbcb90b29b589541c3022c9242d91cb97ef223525c0288bdc9b160e9b1587",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\native_triangle_fields-v2-closed-field.py"
+    },
+    {
+      "path": "payloads/independent/v479-closed-field-oracle-calibration.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 4251,
+      "storedSha256": "52ec058c6ac6b6b0f79052ec4d719f0b329f7156b2c97bd1c3db344501d0a3cb",
+      "bodyBytes": 146092,
+      "bodySha256": "3ea1cf8c1ee25709e506f13ef3725da446fada037be23548f412475e9b030975",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\v479-closed-field-oracle-calibration.json"
+    },
+    {
+      "path": "payloads/independent/exact_scope_clipping_v481.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 1220,
+      "storedSha256": "e2b270a010e70aca67621b5b3051c89e3a3f7d9d0d0c07bcab87abddbcdc3fab",
+      "bodyBytes": 2917,
+      "bodySha256": "f4440406ba06b9dec37b21f3976330deaa64d10f18d1dec2efd9f607f24ea492",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\exact_scope_clipping_v481.py"
+    },
+    {
+      "path": "payloads/independent/audit-v416-full-original-library-union.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 4626,
+      "storedSha256": "638d8563155c03fc6991c3ea2fa5404600772312eaeca76db206582412ca06d1",
+      "bodyBytes": 12617,
+      "bodySha256": "c49d6878f48cdcf2540d1813cc77aa749d2fa28ba1630e1619b72fa3b2db768d",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\audit-v416-full-original-library-union.py"
+    },
+    {
+      "path": "payloads/independent/v474-composed-r6-independent-fields.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 13422,
+      "storedSha256": "e355b0bb5e9df21db43cf3297575a1cacb44577330ed2968217c7546c7c886a3",
+      "bodyBytes": 121331,
+      "bodySha256": "8836e7eeb37b6f696dac5a6c5f53523b015c54fab72ed8c5e2e55958241455ab",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\v474-composed-r6-independent-fields.json"
+    },
+    {
+      "path": "payloads/independent/bin/audit_coastal_f6_native_topology.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 2392,
+      "storedSha256": "01f2221fe6349bae3ed22cf5a52772394a6c1b36d39a0f5c9da02f346c63a5c3",
+      "bodyBytes": 6119,
+      "bodySha256": "3d3a000a6cd7e29cf28f4106e5bbdd34b00ea3cdf040ff7c19d1b35c11a27336",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\bin\\audit_coastal_f6_native_topology.py"
+    },
+    {
+      "path": "payloads/independent/bin/replay_coastal_f6_patch.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 5841,
+      "storedSha256": "56820f597b9ec070a7160c3b750741c00d50d70d1811dc3672f10fed77eaaa81",
+      "bodyBytes": 20184,
+      "bodySha256": "3c246cc32f285d43c8ddb4ff4a17b4cd0c982b93c98270eedc33f2fc5e94fb71",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\bin\\replay_coastal_f6_patch.py"
+    },
+    {
+      "path": "payloads/proposals/proposal-v489-finite-landing-side-tools.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 4788,
+      "storedSha256": "50c80cd67d23635eef56d1e125a6c4219fdc869a22af37d1a7fe610b680012b8",
+      "bodyBytes": 61270,
+      "bodySha256": "246ed99afb41554ec239f0b559ca2b9975b2cb7fca1f2a9586874d6c185a5727",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\proposal-v489-finite-landing-side-tools.json"
+    },
+    {
+      "path": "payloads/proposals/proposal-v492-corrected-two-grounded-front-sill-returns.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 6318,
+      "storedSha256": "8aba2342311b47d9a6397fb4b956a675f4f31dd6a201e1fd71b253233c4f33f8",
+      "bodyBytes": 45255,
+      "bodySha256": "cd3a4104818f15825337aa5aeb560a01125465b839edaf7edae0ee0c6882f7d0",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\proposal-v492-corrected-two-grounded-front-sill-returns.json"
+    },
+    {
+      "path": "payloads/proposals/proposal-v513-source-field-preserving-side-planes.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 2395,
+      "storedSha256": "bbe913f988430192b4d8d33bb2e478251fc22aaa83d8a9ae4aa4f2fa42e1edb9",
+      "bodyBytes": 19193,
+      "bodySha256": "ca05f740a2b7fc6485ea6b3382ec0b7ce7b4b0a00029b3d91f267d1210729506",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\proposal-v513-source-field-preserving-side-planes.json"
+    },
+    {
+      "path": "payloads/controls/landing-unused-slot/ATTEMPT-1-INVOCATION.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 1296,
+      "storedSha256": "1234a561a6f8df9cd0743b9d5d53a0f99af587009f01cf908ad9b8e757ddde00",
+      "bodyBytes": 3795,
+      "bodySha256": "b5842f5ef622343ca21682d09b712e224e98d19a65bd6754f6696c55133a8315",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\landing-side-control-v1\\ATTEMPT-1-INVOCATION.json"
+    },
+    {
+      "path": "payloads/controls/landing-unused-slot/attempt-1.log.gz",
+      "encoding": "gzip",
+      "storedBytes": 1004,
+      "storedSha256": "2e4850472372d770bfc2b70da72a15f06300f197d8493299400e324a75050fad",
+      "bodyBytes": 3750,
+      "bodySha256": "ee9992cb7dd41a9765687105f0f755df45a974984bf45db7ab17f37f8eb4acc6",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\landing-side-control-v1\\attempt-1.log"
+    },
+    {
+      "path": "payloads/controls/landing-unused-slot/ATTEMPT-1-NEW-LANDING-MATERIAL.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 193,
+      "storedSha256": "c1de139baad70184e863e1fb4df427b3b7b880eaf353764da94e76c2a90855df",
+      "bodyBytes": 516,
+      "bodySha256": "5d15dfe9cf1ebeea1f9519ef583ce32e067a4f2b79b23950d7063490b23b0619",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\landing-side-control-v1\\ATTEMPT-1-NEW-LANDING-MATERIAL.json"
+    },
+    {
+      "path": "payloads/controls/ceiling-six-edges/ATTEMPT-1-INVOCATION.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 1301,
+      "storedSha256": "0b5bd41e507ec9f0676fae6f5c90d6c63f21a6e83df3db214ca6c33a9410f2aa",
+      "bodyBytes": 3812,
+      "bodySha256": "cebbf90dd9c26ae9c3f404e4cb475c7368a35d7468d691cae8be2512bafb91b5",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\front-returns-control-v1\\ATTEMPT-1-INVOCATION.json"
+    },
+    {
+      "path": "payloads/controls/ceiling-six-edges/attempt-1.log.gz",
+      "encoding": "gzip",
+      "storedBytes": 880,
+      "storedSha256": "120b14bf3ec5cf3796afda6a87d3b74ee408157f3416f4f4ab751a6ed3afc721",
+      "bodyBytes": 1819,
+      "bodySha256": "ede2114f9c0a7b3046581a91546ac14ec2693a40af0921a0cfafed3144bbb2f1",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\front-returns-control-v1\\attempt-1.log"
+    },
+    {
+      "path": "payloads/controls/ceiling-six-edges/boundary-failure.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 1370,
+      "storedSha256": "37cdc8164a81a4e0eb2e35652895c53b98920b5797b1512bef34fb56f53aff6f",
+      "bodyBytes": 21520,
+      "bodySha256": "60fdf91284d86ebad7f9830ba989ddf51c882b7c2fb497431ae25dae1655a212",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\front-returns-control-v1\\candidate-attempt-1\\boundary-failure.json"
+    },
+    {
+      "path": "payloads/controls/slab-exact-roundtrip-failure/ATTEMPT-1-INVOCATION.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 1323,
+      "storedSha256": "d2af09ff6125075473900906038c033d278c1840bb9a9dd34e89da5f7f2fd9e0",
+      "bodyBytes": 3851,
+      "bodySha256": "4102b890f75600327a9735cbfd7aeb9ed4aac2a1e2167cc5e84a42544aba49d8",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\created-slab-cap-control-v1\\ATTEMPT-1-INVOCATION.json"
+    },
+    {
+      "path": "payloads/controls/slab-exact-roundtrip-failure/attempt-1.log.gz",
+      "encoding": "gzip",
+      "storedBytes": 868,
+      "storedSha256": "fdff83c50e97547c96faf61d12522f033896ed6328b1a97825892db47b46c11a",
+      "bodyBytes": 2085,
+      "bodySha256": "154079f2638f82800d449d7531db2b088bd6493bd66838ba7e32e1c2aee4f027",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\created-slab-cap-control-v1\\attempt-1.log"
+    },
+    {
+      "path": "payloads/controls/slab-exact-roundtrip-failure/SLAB-LOCAL-FRAME-READBACK.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 1336,
+      "storedSha256": "659c2b314bad32cedf7424655b382a44061f46cf8058043042ca66fdafbd4a8e",
+      "bodyBytes": 32132,
+      "bodySha256": "c401077f95ac71e060b6f9dd348906b2d418dba8a999d046cbd67e2e358e35e0",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\created-slab-cap-control-v1\\SLAB-LOCAL-FRAME-READBACK.json"
+    },
+    {
+      "path": "payloads/controls/partial-fan-prototypes/restore-fan-prototype.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 4290,
+      "storedSha256": "ddab7da9f1f092f1ba280074a8f2cd0de9fb5a86a62de7507bd9b6a19d85440a",
+      "bodyBytes": 12575,
+      "bodySha256": "1ab0eb94175bcc00f34441ba8e6df11ef7f14988bbc7fe1b00a9f2c1d2ce58de",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\partial-zero-fan-control-v1\\restore-fan-prototype.py"
+    },
+    {
+      "path": "payloads/controls/partial-fan-prototypes/restore-fan-prototype-v2.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 4424,
+      "storedSha256": "5268f22c136ef4ad5d4db6b1b08fc8bcf6fd7e5c65535d5fa402537e486cb325",
+      "bodyBytes": 12984,
+      "bodySha256": "7f0b7d2d69301d398f1c3c8c738125e5ce5f7245d1c9f060d918573ccbb5c870",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\partial-zero-fan-control-v1\\restore-fan-prototype-v2.py"
+    },
+    {
+      "path": "payloads/controls/partial-fan-prototypes/restore-fan-prototype-v3.py.gz",
+      "encoding": "gzip",
+      "storedBytes": 4503,
+      "storedSha256": "8738d0fc5c14ccee8c9f45e716ecf30d3b3165ca62645698334582a3b0829586",
+      "bodyBytes": 13381,
+      "bodySha256": "fa8dfa9ec487dc7cabbfb8528726858011297593601192206af9993e049dd409",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\partial-zero-fan-control-v1\\restore-fan-prototype-v3.py"
+    },
+    {
+      "path": "payloads/controls/partial-fan-prototypes/FAN-INSERTION-V3.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 1388,
+      "storedSha256": "9b60154c554b8afb3415d31df2ed2b225af4b3ec9588f16c141e73e86a9c058a",
+      "bodyBytes": 5336,
+      "bodySha256": "232609e15e3b352b4e923dd7f987554a43925612a533c2dcac2b8c1e82456887",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\partial-zero-fan-control-v1\\FAN-INSERTION-V3.json"
+    },
+    {
+      "path": "payloads/controls/partial-fan-prototypes/PORT-MAPPING.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 390,
+      "storedSha256": "d2ce912091e00c51674b55d27fa739a2755eefe692f1d7634dd3c369c3693e63",
+      "bodyBytes": 565,
+      "bodySha256": "15696c3eb7910d06dfa03851717b27e872073131b7a071e458a3de0f9dfbf2db",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\partial-zero-fan-control-v1\\PORT-MAPPING.json"
+    },
+    {
+      "path": "payloads/controls/membership-fan-proposal/PARTIAL-ZERO-SOURCE-FAN-INVENTORY.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 1787,
+      "storedSha256": "0c2a99449a94768aa4954116c2ff65637173f405c8627a790dedc01598c761ff",
+      "bodyBytes": 35363,
+      "bodySha256": "dd46265e1ba02c91f1b5eb89967b442b7c9d81e323234385a23e99b2ec5b8ea2",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\exact-tool-membership-control-v1\\PARTIAL-ZERO-SOURCE-FAN-INVENTORY.json"
+    },
+    {
+      "path": "payloads/controls/membership-fan-proposal/PARTIAL-ZERO-FAN-REPAIR-PROPOSAL.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 1245,
+      "storedSha256": "7ab353e6d870f03d2772285adc6eefe3d0961ccb2863a36e44a92e54c7880e33",
+      "bodyBytes": 2470,
+      "bodySha256": "f7c6e89c19e88a3aa66a562e70799d72f83a7229359caee8bdc3b102014d467d",
+      "origin": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\exact-tool-membership-control-v1\\PARTIAL-ZERO-FAN-REPAIR-PROPOSAL.json"
+    },
+    {
+      "path": "payloads/controls/independent/v482-closed-control-independent-area-fields.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 13357,
+      "storedSha256": "7f357864da42f1e2c28d00624ad026bbc4923f7649c22ec145b7015c5e47a64c",
+      "bodyBytes": 108941,
+      "bodySha256": "bb4a4efad6ee80b1d9ba7d337addbd985968f6280b4de859e63ef4e28b2e4f4e",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\v482-closed-control-independent-area-fields.json"
+    },
+    {
+      "path": "payloads/controls/independent/v484-genuine-thin-chart-area-control.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 620,
+      "storedSha256": "80648b46066a875a4e0435ce67882c5ad4f55ec6a1a9e5227f836067c9edde60",
+      "bodyBytes": 1449,
+      "bodySha256": "4a8740ebf62502b66e0c7e95e3a11846cb18c8a5b4f88843313cf74cbae1306e",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\v484-genuine-thin-chart-area-control.json"
+    },
+    {
+      "path": "payloads/controls/independent/v494-landing-side-independent-area-fields.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 10215,
+      "storedSha256": "48ec9a32c23bb82351991eedbd6237a96f2415173b78e5d6feb26d12c178e04e",
+      "bodyBytes": 92278,
+      "bodySha256": "e3a96282b2c132893604113d78816c34567e1d47d68e55143202328322d15104",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\v494-landing-side-independent-area-fields.json"
+    },
+    {
+      "path": "payloads/controls/independent/v501-physical-membership-false-controls.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 1192,
+      "storedSha256": "f0ea2ecd11befba42cbc6c707afca67b4f41d86c6a3bf1394fb774ae7a68e52e",
+      "bodyBytes": 11776,
+      "bodySha256": "71764ecc31ddd5523a60300740706497185778ba43191ef6ed974455b5e73cfc",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\v501-physical-membership-false-controls.json"
+    },
+    {
+      "path": "payloads/controls/independent/v503-created-slab-cap-independent-area-fields.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 10040,
+      "storedSha256": "01a1e230d56af560a1f4ae87543e3eaff3e6c46e16f29ef4879fb8f6f2492d08",
+      "bodyBytes": 65069,
+      "bodySha256": "7fe9cf7ac014124f33765175a2515fb44f39e062b3fbe1f815df8c770f8d10d7",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\v503-created-slab-cap-independent-area-fields.json"
+    },
+    {
+      "path": "payloads/controls/independent/v505-exact-membership-independent-area-fields.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 8311,
+      "storedSha256": "1af30ebe9edd809aea4d7e65fc7d571ab520df0e35504d2fc5ead997f332b158",
+      "bodyBytes": 73761,
+      "bodySha256": "5cc99b2a5979ac6e61a0891b9046a04c3cc2a376a2fdcddc35bf3563b6ce4d51",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\v505-exact-membership-independent-area-fields.json"
+    },
+    {
+      "path": "payloads/controls/independent/v509-exact-membership-continuous-zero-port-coverage.json.gz",
+      "encoding": "gzip",
+      "storedBytes": 1517,
+      "storedSha256": "0a8385a1db76db863ae946c0d845418dba1af02453cac875980a36115f08ba9f",
+      "bodyBytes": 14562,
+      "bodySha256": "847347e77f849ee7a3e201d4f59bd9a4f0c02366b97e5c44c09641068c72ab27",
+      "origin": "C:\\dev\\site-takeover-worktrees\\f6-native-20261029\\.jekyll-cache\\visual-qa\\f6-native-20261029\\v509-exact-membership-continuous-zero-port-coverage.json"
+    }
+  ],
+  "readmeSha256": "bbfd9813ce50f57a027a20f67e720d0495ebeafd9c3108d7622ce9002f8aef17"
+}

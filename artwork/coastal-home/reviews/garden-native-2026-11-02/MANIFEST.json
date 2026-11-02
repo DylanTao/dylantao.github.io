@@ -1,0 +1,368 @@
+{
+  "version": 1,
+  "createdUtc": "2026-11-02T12:57:03.254000+00:00",
+  "scope": "Additive native garden, owning color bake and fresh standing/route qualification; no canonical model/export/public visual admission.",
+  "candidateSha256": "f89c2c2eb438a78ed7c9bb84779248fe9846fe902acd18ae1140ef16765bf295",
+  "files": [
+    {
+      "path": "payloads/executed-source/coastal_breakfast_garden.py.gz",
+      "bytes": 2636,
+      "sha256": "acbac97e609c3dc69b7909a6556b0525ac8d2d69dc1fc2dc66230cd138ef2427",
+      "encoding": "gzip",
+      "bodyBytes": 6552,
+      "bodySha256": "c3d6c07212646f933af9ccea5131193f8f87dd05022194221215041f388442a8"
+    },
+    {
+      "path": "payloads/executed-source/refresh_coastal_breakfast_garden.py.gz",
+      "bytes": 1624,
+      "sha256": "5ed9e3b53e7a265f793ae989f9ac66236f880b21b9eaefd2c32492d80ec4bece",
+      "encoding": "gzip",
+      "bodyBytes": 3655,
+      "bodySha256": "716cd762bb8923046d91e5609497a55af48eb9f445c701a1ca3d005dc577ceee"
+    },
+    {
+      "path": "payloads/bake-owned-nook.py.gz",
+      "bytes": 3066,
+      "sha256": "83fff71f2be60119bfe8d2d42a8d1d3fbc9c5c6c209bf53a7bb1cbdd1407cd5a",
+      "encoding": "gzip",
+      "bodyBytes": 7751,
+      "bodySha256": "bf080abb1dd4164d19dccd077ff4e3ca988aaf713c0c7a7bf7bcc2b13c5f2f8e"
+    },
+    {
+      "path": "payloads/qualify-garden-v5.py.gz",
+      "bytes": 1625,
+      "sha256": "6667dafd48fc51d23b027177f004561a3ae4b3da25381c4f33525653c599744b",
+      "encoding": "gzip",
+      "bodyBytes": 3805,
+      "bodySha256": "06d0135998da3de21368bec2fd408680de9eb6cd368d93f53139b07466c78b28"
+    },
+    {
+      "path": "payloads/check-garden-v5-body.mjs.gz",
+      "bytes": 1069,
+      "sha256": "a5e89c961c95c6209f8b56e23f52c929865cece3a9eae56396b811ec09414038",
+      "encoding": "gzip",
+      "bodyBytes": 2086,
+      "bodySha256": "1a91762c5b29f0355317671408c6ddc8c6a2dbeaf0857dcb9f5f41ae3cb18865"
+    },
+    {
+      "path": "payloads/prepare-current-body.py.gz",
+      "bytes": 1589,
+      "sha256": "8e4318f8d8902d823a3d45e48b5ad223e2720bfb2df5f026238efbd8294b64bb",
+      "encoding": "gzip",
+      "bodyBytes": 4040,
+      "bodySha256": "67e666fbc7ab61745c20caf5ea5dc6d3c6334fb981019082e580a9e401704d10"
+    },
+    {
+      "path": "payloads/LIGHTING-RUNTIME-GATES.json.gz",
+      "bytes": 1097,
+      "sha256": "536fb6629e820f6ed84c3a0836a81355e6a3bbd4d2e2ce9cec15d8bdf1f1d48e",
+      "encoding": "gzip",
+      "bodyBytes": 6650,
+      "bodySha256": "347277dd7e88a9744a979ec273615c2c63f1f84ed4739ac461ee77af10625e20"
+    },
+    {
+      "path": "payloads/ARRIVAL-FORMAT.json.gz",
+      "bytes": 1124,
+      "sha256": "d3553ea17d80f380639cf20e3f8635fff7935ee4bcd05372e693b6fd53584ab4",
+      "encoding": "gzip",
+      "bodyBytes": 3628,
+      "bodySha256": "7e78966d6a4e3b949ccc27acdc2fc02e55ebb7417c080fc247795d5b0d1c8970"
+    },
+    {
+      "path": "payloads/WASHI-DELIVERY.json.gz",
+      "bytes": 1352,
+      "sha256": "791f2cb7e2b5009630e823a43742322c482c621a7915a79038f3c071f8f3fe3a",
+      "encoding": "gzip",
+      "bodyBytes": 7334,
+      "bodySha256": "986ae643d103d7815674fb4c304d85f21b2e9b5278d19566b6e96a498369bdbd"
+    },
+    {
+      "path": "payloads/GARDEN-NATIVE-QUALIFICATION.json.gz",
+      "bytes": 2025,
+      "sha256": "445f3ef5e5fcdb70047d5e9e595c2d3ae01e704e9559f3485544d3dc375225b9",
+      "encoding": "gzip",
+      "bodyBytes": 35713,
+      "bodySha256": "f0267402a2db1f2d1552a4194ed88e3057bfdd9d81b3346d0077857425fdaade"
+    },
+    {
+      "path": "payloads/GARDEN-V4-NATIVE.json.gz",
+      "bytes": 22808,
+      "sha256": "ca6293207d7bba0ecb97eacd351a5f53b8a9c2d2a7f4e4df323c011cfbdff6e3",
+      "encoding": "gzip",
+      "bodyBytes": 398114,
+      "bodySha256": "5b7044d7721842b2b2eb532aa99fccca733e02321693cc3c7a5bd2c9d724748a"
+    },
+    {
+      "path": "payloads/GARDEN-V4-BODY.json.gz",
+      "bytes": 2078,
+      "sha256": "ff3d876c7653710c9b3f40530cb4121837088b7e544bed7521db992f3ff3093b",
+      "encoding": "gzip",
+      "bodyBytes": 27726,
+      "bodySha256": "a032e470eee25ced321e120b2a5114073d5c575eba431f424043d4073e687601"
+    },
+    {
+      "path": "payloads/GARDEN-V5-NATIVE.json.gz",
+      "bytes": 31691,
+      "sha256": "07ab380c112de033c0ec482e7c1f6f1229090d550324844f46945d701627ce6a",
+      "encoding": "gzip",
+      "bodyBytes": 533167,
+      "bodySha256": "3386316ef82a55ff8ff2548bfa09441c08ced9beff6794b18b3fa9ed6a4faf37"
+    },
+    {
+      "path": "payloads/GARDEN-V5-BODY.json.gz",
+      "bytes": 2077,
+      "sha256": "eeaec6f6cd340c228127a35e0f5d51109ea032599d4e5746cf9b8af88c3f2bdb",
+      "encoding": "gzip",
+      "bodyBytes": 27728,
+      "bodySha256": "693d7556f772430073635b3249f0300ad9141ea8a27304bb321649969ad2c26e"
+    },
+    {
+      "path": "payloads/garden-on-v8/GARDEN.json.gz",
+      "bytes": 792,
+      "sha256": "9ad544ec31ca2a8762f01d601f3f5baa70e956acbea916bd644bc8c84c30e77d",
+      "encoding": "gzip",
+      "bodyBytes": 1872,
+      "bodySha256": "6bf971bd84b4e2831de26ed29385a439e3d309cdb453357a67cb266ccceee8df"
+    },
+    {
+      "path": "payloads/owning-ao-v1/OWNED-AO.json.gz",
+      "bytes": 4508,
+      "sha256": "784201df1e742d738532b23edb62ec8d854abd741f5e2e0e12c4b72c84e267a8",
+      "encoding": "gzip",
+      "bodyBytes": 22538,
+      "bodySha256": "1388b0f3349e99e80b90db19419389bf593a578be102bfc72acf0075994f3864"
+    },
+    {
+      "path": "payloads/owning-ao-v1/BAKE.json.gz",
+      "bytes": 748,
+      "sha256": "5d6ce171a173b00fa2bfb4d1c4c08ebaede6344f987d420ea6b1e13737ecf2eb",
+      "encoding": "gzip",
+      "bodyBytes": 3181,
+      "bodySha256": "39b4d249e2241c92f5ba86e2f36aa73baebbb96c0608910a48368d0de0b20ba6"
+    },
+    {
+      "path": "payloads/fresh-composed-source/INPUTS.json.gz",
+      "bytes": 722,
+      "sha256": "582251aeb9a8ae0dbcf90c0493e6aa1ac9db4064f0731ac0bfb8afa4739243ae",
+      "encoding": "gzip",
+      "bodyBytes": 1348,
+      "bodySha256": "6d7360c2214924263f818cade489e8950b3817c1543f571ed2b3c11e251cbdbf"
+    },
+    {
+      "path": "payloads/fresh-composed-source/extract.py.gz",
+      "bytes": 916,
+      "sha256": "f073cfba95736d2e00c0bb316268c932b3a9ed29828d8b466cbc8c3bdffda127",
+      "encoding": "gzip",
+      "bodyBytes": 1701,
+      "bodySha256": "2d2621d0d2ab2b2c42bea24da8722f49981e094f0a80271e28045dd6b5c27c8c"
+    },
+    {
+      "path": "payloads/fresh-composed-source/extract.log.gz",
+      "bytes": 284,
+      "sha256": "5f2b0391e2886373d1ff6ff88ec753062a4bf9cab9bdf5a9c698b6b4455009d5",
+      "encoding": "gzip",
+      "bodyBytes": 468,
+      "bodySha256": "12e0d324cc8ebd0752eadd68ca215a956db6d970c0feb1a72f7ed80835336479"
+    },
+    {
+      "path": "payloads/fresh-composed-source/native-body.mjs.gz",
+      "bytes": 2795,
+      "sha256": "1ea0048dbc495d6c8b838b55255a9b2253d07c89605dbdf632d5dc8c2ab87f42",
+      "encoding": "gzip",
+      "bodyBytes": 6716,
+      "bodySha256": "c866f83027a43027419fdb52002480a828e4d5246dd0d021f576b3b37adb7ed7"
+    },
+    {
+      "path": "payloads/fresh-composed-source/native-portal.mjs.gz",
+      "bytes": 1708,
+      "sha256": "a93363a06792b911f477af3c6c44275653cd76adbe123789078dfb07cfc9308a",
+      "encoding": "gzip",
+      "bodyBytes": 3872,
+      "bodySha256": "a9b8fc9e86d1a71adba385bb6b517964561c38cab6f89209e2f00023d1247783"
+    },
+    {
+      "path": "payloads/fresh-composed-source/COMPOSED-NATIVE-BODY.json.gz",
+      "bytes": 8536,
+      "sha256": "dc76b7d0a189ba30d7b80edb708953d37a533eb392ba8ffa5cb2a312326d9f1c",
+      "encoding": "gzip",
+      "bodyBytes": 282711,
+      "bodySha256": "d91acd1772c63d8089c3abf85e23e6cdef82e2b1a04a194adb11ef12d4d8d329"
+    },
+    {
+      "path": "payloads/fresh-composed-source/COMPOSED-NATIVE-BODY-SUMMARY.json.gz",
+      "bytes": 157,
+      "sha256": "5ddcd1f2a9c2a8c3984a7f49e56b2cba4300e698784e2369e112b7c01193772a",
+      "encoding": "gzip",
+      "bodyBytes": 181,
+      "bodySha256": "1eb5b8885529a9164144f5085ea437f07f463690ced02feb13eab43f7281edb2"
+    },
+    {
+      "path": "payloads/fresh-composed-source/COMPOSED-NATIVE-PORTAL-WIDTH.json.gz",
+      "bytes": 1303,
+      "sha256": "cbccbc0a0aa5708ca2eb9b86b6010123d9c7c813e8ff2c7af828a291b99214d9",
+      "encoding": "gzip",
+      "bodyBytes": 13667,
+      "bodySha256": "85c7796d468ce6c3b736deb728c4661dab39022fcfc0f20ae84ee8053339dc75"
+    },
+    {
+      "path": "payloads/fresh-composed-source/garden-native.py.gz",
+      "bytes": 1666,
+      "sha256": "ec36269a16dd88410b63fcf4dd310fc19700e3295031105694e0878e30781cc7",
+      "encoding": "gzip",
+      "bodyBytes": 3866,
+      "bodySha256": "2e4e2e379b4981719e8262da9aee78232aff5bde33b651916f3b4af1960ed1b4"
+    },
+    {
+      "path": "payloads/fresh-composed-source/garden-native.log.gz",
+      "bytes": 306,
+      "sha256": "f7cef55deb9f23e699483d85aaebed160553070483bec98eeb46a32c2c8600fa",
+      "encoding": "gzip",
+      "bodyBytes": 534,
+      "bodySha256": "a7fb9d371418944099fb1a9fe025bb8397d7202a134a0d9e632c42ea979b4dfb"
+    },
+    {
+      "path": "payloads/fresh-composed-source/GARDEN-NATIVE.json.gz",
+      "bytes": 31648,
+      "sha256": "57843dd2d68ff3e867e687f64f0349feefa8e89fd448266e33e2d39eee26a35e",
+      "encoding": "gzip",
+      "bodyBytes": 533140,
+      "bodySha256": "daa7edc85f06c466fde23482236954df46a2026c2ac946e4669ae65b07836fe7"
+    },
+    {
+      "path": "payloads/fresh-composed-source/garden-body.mjs.gz",
+      "bytes": 981,
+      "sha256": "bf5ffc34e6822eeeabde981d47796e2059631623300f328489bb279e43b0ae11",
+      "encoding": "gzip",
+      "bodyBytes": 1971,
+      "bodySha256": "b992877bd84d406f77bda8e22375d907d0a0ef0e8b6dac1332783cbc1bbaea57"
+    },
+    {
+      "path": "payloads/fresh-composed-source/GARDEN-BODY.json.gz",
+      "bytes": 2030,
+      "sha256": "035b1240173d146490f469d67a7c1269c303779214234332e7a2c49d2c70a338",
+      "encoding": "gzip",
+      "bodyBytes": 27590,
+      "bodySha256": "7eb8075b91ab46d16c9ce2550831bc0afecbc114691c9091bc15f9da33dca52d"
+    },
+    {
+      "path": "payloads/fresh-composed-source/qualify-standing-head.mjs.gz",
+      "bytes": 1787,
+      "sha256": "f559569910033fa7ce7eb0b1348227b9388221db5217f1746338d27fa96f89d0",
+      "encoding": "gzip",
+      "bodyBytes": 4021,
+      "bodySha256": "6cdd0489c7b7448a5d2dd92c53a7f1ba9413b41eeaefed68d8d072de33a8f5e2"
+    },
+    {
+      "path": "payloads/fresh-composed-source/STANDING-HEAD-QUALIFICATION.json.gz",
+      "bytes": 3593,
+      "sha256": "de36d05c2f02bd898840e2f713bad610ce097589c7dec29e0b9fbee6f9216ee1",
+      "encoding": "gzip",
+      "bodyBytes": 120881,
+      "bodySha256": "97801bf7253390d99c8002309cf0a02f0239f78db97b6875db88f9315cc9b352"
+    },
+    {
+      "path": "payloads/design-only/render-garden-design-v5.py.gz",
+      "bytes": 861,
+      "sha256": "2a0b6cc01c64f534a9d2bb8a8297bf7091ae4fe3ca1a5166c2f5a1ee6b0a221d",
+      "encoding": "gzip",
+      "bodyBytes": 1549,
+      "bodySha256": "74fe2af94d1de185ecb667e12d5292fb2df10f5f9e634ce155fbcc6c00cc25ae"
+    },
+    {
+      "path": "payloads/design-only/render-garden-design-v5.log.gz",
+      "bytes": 491,
+      "sha256": "d0b364b933f0fc35817ecf2fd41a9277462b5778588e4fc6127dc5e51fccf662",
+      "encoding": "gzip",
+      "bodyBytes": 1774,
+      "bodySha256": "c24c050df660f1d544e76f94c1d3bde2ee4b550650f3939853a74c3a93047420"
+    },
+    {
+      "path": "payloads/design-only/DESIGN.json.gz",
+      "bytes": 511,
+      "sha256": "5791ec994b96779a4b1d53db61c92a7989d7de0dd406f04a732e83346cc796d3",
+      "encoding": "gzip",
+      "bodyBytes": 1012,
+      "bodySha256": "4a32c5178cec85baddf355bb2660a633d34512e911a0199122641cc8abf285e7"
+    },
+    {
+      "path": "payloads/design-only/garden-seated.png.gz",
+      "bytes": 1102477,
+      "sha256": "477fcd7f9b353f9b65445b374c2ad1ae71a405bd46be0806c60e1d8b0b7b746a",
+      "encoding": "gzip",
+      "bodyBytes": 1102368,
+      "bodySha256": "ec792dff4eb5a9dc913f773cc8f03a306973d3424435a3c1786bdb60fac1bf5d"
+    },
+    {
+      "path": "payloads/design-only/garden-standing.png.gz",
+      "bytes": 1193360,
+      "sha256": "610a40a7edc8ab9fdb9a8784ca8e7aeb83555e5d1cc66ad27f426acbda50df6e",
+      "encoding": "gzip",
+      "bodyBytes": 1193035,
+      "bodySha256": "176380c2b63743fca743e7cd91ed4ac10933833d890bf4ee7f2816c01e6a62ec"
+    },
+    {
+      "path": "payloads/isolated-inclined-light-fixture/.last-run.json.gz",
+      "bytes": 60,
+      "sha256": "ab2773fce076cedf886e7b45072ea49d0dfc6bdbbca2d9e3779ab76473918f40",
+      "encoding": "gzip",
+      "bodyBytes": 45,
+      "bodySha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "payloads/isolated-inclined-light-fixture/actual-native-GPU.json.gz",
+      "bytes": 1972,
+      "sha256": "1c71e87ec41d89803e32136422a54d585fbd6deead3e344a65e1ddbff2432ab0",
+      "encoding": "gzip",
+      "bodyBytes": 11335,
+      "bodySha256": "7bd262668f440d2b472e1776839fe349b7d81622468cd09ace138c0c6e5d3c49"
+    },
+    {
+      "path": "payloads/isolated-inclined-light-fixture/native-GPU.log.gz",
+      "bytes": 621,
+      "sha256": "2fb722105938c21887917f349d079bb608f84dc3430b3642c0029f334d00e337",
+      "encoding": "gzip",
+      "bodyBytes": 1876,
+      "bodySha256": "33bfaecdf32747091d557ecd034b0416c19d1fd0f51bdf8690d426d5b4a3291f"
+    },
+    {
+      "path": "payloads/isolated-inclined-light-fixture/owned-source-binding.json.gz",
+      "bytes": 508,
+      "sha256": "e7dc651a5daa3abe3023593fab15192ccf18dcca7e78063c16d21abd375289e6",
+      "encoding": "gzip",
+      "bodyBytes": 926,
+      "bodySha256": "0db548f776d827a6c126cfa9a6f4c8257c918fd82123d8a3a654844c06f9fd2f"
+    },
+    {
+      "path": "payloads/isolated-inclined-light-fixture/executed/static-light-field.mjs.gz",
+      "bytes": 13093,
+      "sha256": "6cb24924643cbdfc13f19b3da8b738082671c050481d495083940d4e903a86ff",
+      "encoding": "gzip",
+      "bodyBytes": 43667,
+      "bodySha256": "63f1f12942a9875f4310ecf10f0ebb48cf024906ca93b82c1e35d513d76e4daf"
+    },
+    {
+      "path": "payloads/isolated-inclined-light-fixture/executed/light-trace-core.mjs.gz",
+      "bytes": 3548,
+      "sha256": "387819b19bdd6c3f69c3bd663c7e48d315a2278662580f68a3b27c91715d3f87",
+      "encoding": "gzip",
+      "bodyBytes": 11390,
+      "bodySha256": "d5784d99ddf33371f9dda5c642bd035864251c90770bc7032ac0dd58e6a3de8a"
+    },
+    {
+      "path": "payloads/isolated-inclined-light-fixture/executed/light-installations.mjs.gz",
+      "bytes": 12230,
+      "sha256": "67a66f4c7e2593946cb7367a495cb90598f1fd3f2f484e2904726e559e2ba838",
+      "encoding": "gzip",
+      "bodyBytes": 41656,
+      "bodySha256": "22401c4dd9aa4361d9314d70b3a63e28889cd8151e39ae9f0ac8e3cf501d6773"
+    },
+    {
+      "path": "payloads/isolated-inclined-light-fixture/executed/static-light-field.spec.js.gz",
+      "bytes": 3833,
+      "sha256": "fd980a89830e0d845530773d06fc5573db394ba957abda1d60c98320bc5bebca",
+      "encoding": "gzip",
+      "bodyBytes": 12560,
+      "bodySha256": "dbbc5f28972c7933c56a5259b008ae54f7b36386d7e88206af6229b95d09bf11"
+    }
+  ]
+}

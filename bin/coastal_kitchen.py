@@ -647,3 +647,9 @@ def build_kitchen(scene):
     supports = [sunken.support("nook-floor", (NOOK["x"][0], NOOK["x"][1], NOOK["y"][0], NOOK["y"][1]), NOOK_FLOOR)]
     supports += [sunken.support(f"nook-tread-{k + 1}", rect, z) for k, (rect, z) in enumerate(treads)]
     return objects, placeholders, supports, {"removed": removed, "pendants": pendants, "treads": len(treads)}
+
+
+def breakfast_placement_metadata():
+    """Placement for the guarded under-bedroom delta, without rebuilding this room."""
+    from coastal_breakfast_nook import placement
+    return placement()
