@@ -5903,8 +5903,8 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "03977e7ac3cab28e1f41c069e709975f0d0edca9fbc6cf383d13128cc371e027",
-    "sha256": "58576819425e232d248f9ce0ffb2ca2a4ee8676d43863b59a0f00041f2674ac4"
+    "signature": "a96e8197c4357758ecfcca4a36e8733585769b5c958179fccd6d0591b5b441f5",
+    "sha256": "a8f383180f3bd9299b34cdb14194c57f41e1768721e6eb7c96806962e4630e22"
   },
   "estateDoors": [
     {

@@ -118,6 +118,11 @@ export function createInfinityPool(root, { waterSky = () => null, requestFrame =
   }
   return {
     sample,
+    // Bound the existing mean-waterline rain query without replacing sample's triangle test.
+    // This is not the displaced visitor-wave height.
+    maximumRainHeightAt(x, z) {
+      return bounds && x >= bounds.min.x && x <= bounds.max.x && z >= bounds.min.z && z <= bounds.max.z ? bounds.max.y : null;
+    },
     impact(event) {
       if (!sample(event.x, event.z) || !waves) return false;
       if (!waves.impact({ ...event, x: event.x - (bounds.min.x + bounds.max.x) / 2, z: event.z - (bounds.min.z + bounds.max.z) / 2 })) return false;

@@ -1,0 +1,12 @@
+{
+  "scope": "Only diagnostic observer additions plus a parallel frozen pre-broad-phase tracker. Actual shaders/math/geometry retain the current source. Reference events never force the scene. No performance claim from this doubled workload.",
+  "rain": {
+    "sourceSha256": "76f75ca6ce05756b5bd2ca45687787e6fa4eddc855dd964960a6d8c4df4a0afc",
+    "observedSha256": "7fc2e64fbabec3e404c35ffb36e18b11ce2a7b42a6783c91f7e5ac56313c1d1b"
+  },
+  "referenceSha256": "a1993f6983fd91cc438bf08920ded844662acfe3c5273b7831b4a2c9026acbee",
+  "environment": {
+    "sourceSha256": "7cf11ce8611273bb32c22296f8c8d9809de18d7e67ac7d5f2d768c9bfc1e7a54",
+    "observedSha256": "753f28a3804699be6540df4db0e8ef9348259f1e7ebd04d33ec08952dffa1f50"
+  }
+}

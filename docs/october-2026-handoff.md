@@ -73,6 +73,20 @@ From October 24 to 26, 2026, Claude Opus coordinated this site with up to six pa
 
 > Continue Sirui's website from the current `main`. Read `AGENTS.md`, then the Codex continuation brief and the Opus continuation checklist at the top of `docs/october-2026-handoff.md`, then the owning brief for the item you pick. Take an open item whose evidence you can produce. Read its "Best effort so far" note and the retained attempts before trying again. Preserve Sirui's intent, the orange-sun identity, Inter, locked copy, personal voice and accurate credit. Prefer one verified checkpoint to a broad half-change: run the gates, re-bake the light cache when its inputs change, watch CI to green and check the live site. Mark an item done only when it is verified; otherwise leave an honest note with what you tried, the evidence and the next hypothesis.
 
+## November 1 rain-contact checkpoint
+
+The [rain-contact review](../artwork/coastal-home/reviews/rain-contacts-2026-11-02/README.md)
+records local desktop/WebKit verification, actual first-contact equivalence,
+paused on/off water detail, source-bound baking and native 2K/4K cost. The
+implementation keeps the native master and GLBs unchanged. It adds a bounded
+normal response without another draw or pass. Conservative height bounds reduce
+contact queries; the measured full-quality rainy view still has a roughly 50 ms
+frame median, so items 5–7 and whole-scene performance remain open. CI and live
+delivery are separate publication evidence. The F6 exterior, straight arrival,
+bedroom lighting/olive and under-bedroom breakfast composition still require
+their combined native/export/cache/Walk and appearance gates before items 9–10
+and 23 can close.
+
 ## October29 PC visitor checkpoint
 
 **October 31 follow-up.** Sirui confirmed that the published Rooms/turning repair

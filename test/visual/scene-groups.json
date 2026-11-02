@@ -1,5 +1,5 @@
 {
-  "head": "eb1878c70",
+  "head": "6f3be81b8",
   "manifestOrder": [
     "companion.spec.js",
     "duh.spec.js",
@@ -276,6 +276,10 @@
       {
         "file": "coastal-finish.spec.js",
         "title": "coastal reflection: late models are excluded on the first sea mirror draw and remain in the main scene"
+      },
+      {
+        "file": "coastal-finish.spec.js",
+        "title": "coastal rain: first-contact ripples reach exposed sea and retain a paused frame"
       }
     ],
     "scene-exploration": [

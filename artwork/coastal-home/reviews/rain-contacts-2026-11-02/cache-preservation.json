@@ -1,0 +1,48 @@
+{
+  "baseline": "6f3be81b8",
+  "fields": [
+    {
+      "field": "version",
+      "equal": true
+    },
+    {
+      "field": "configuration",
+      "equal": true
+    },
+    {
+      "field": "probes",
+      "equal": true
+    },
+    {
+      "field": "transport",
+      "equal": true
+    },
+    {
+      "field": "moments",
+      "equal": true
+    }
+  ],
+  "bytes": 711969,
+  "signature": "a96e8197c4357758ecfcca4a36e8733585769b5c958179fccd6d0591b5b441f5",
+  "sha256": "a8f383180f3bd9299b34cdb14194c57f41e1768721e6eb7c96806962e4630e22",
+  "statistics": {
+    "ready": true,
+    "triangles": 615510,
+    "meshes": 439,
+    "skippedMeshes": 145,
+    "skippedTriangles": 116103,
+    "geometryMs": 3180.0999999940395,
+    "acceleratorMs": 3784.2999999821186,
+    "transportMs": 2562.4000000059605,
+    "bakeMs": 9526.799999982119,
+    "maxTaskMs": 55.5,
+    "relocatedProbes": 2,
+    "rejectedProbes": 4,
+    "acceleratorBytes": 51703200,
+    "trace": {
+      "rays": 90110,
+      "triangleTests": 3634291,
+      "boxTests": 24465757
+    }
+  }
+}

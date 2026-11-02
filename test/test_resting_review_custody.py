@@ -30,6 +30,7 @@ class RestingReviewCustody(unittest.TestCase):
             "exterior-waterline-2026-11-01": "MANIFEST.json",
             "waterline-release-2026-11-01": "MANIFEST.json",
             "static-indices-rain-2026-11-01": "MANIFEST.json",
+            "rain-contacts-2026-11-02": "MANIFEST.json",
             "rooms-menu-stacking-2026-11-01": "MANIFEST.json",
             "pinniped-contact-2026-11-01": "MANIFEST.json",
             "raccoon-body-contact-2026-11-01": "MANIFEST.json",

@@ -1,3 +1,5 @@
+import { createRenderedWaterSampler } from "./rain-water-sampler.mjs";
+import { createRainSurface, rainSurfaceGLSL } from "./rain-surface.mjs";
 import * as THREE from "../three.module.min.js";
 import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.js";
 import { surfaceNoise } from "./realism.mjs";
@@ -131,6 +133,17 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       seaWakeB: { value: new Float32Array(SEA_WAKES * 4) },
       seaWakeCount: { value: 0 },
     };
+  const rainField = createRainSurface({ compact: typeof matchMedia !== "undefined" && matchMedia("(pointer:coarse)").matches });
+  const rainEye = [0, 0, 0];
+  const rainEventTexture = new THREE.DataTexture(rainField.events, 256, 2, THREE.RGBAFormat, THREE.FloatType);
+  const rainBinTexture = new THREE.DataTexture(rainField.bins, rainField.size, rainField.size, THREE.RGBAFormat, THREE.FloatType);
+  for (const texture of [rainEventTexture, rainBinTexture]) {
+    texture.minFilter = texture.magFilter = THREE.NearestFilter;
+    texture.generateMipmaps = false;
+    texture.needsUpdate = true;
+  }
+  rainField.uniforms.rainEventMap.value = rainEventTexture;
+  rainField.uniforms.rainBins.value = rainBinTexture;
   let sun = null,
     lampSources = null;
   // Lab views of the sea's optics (?sea-debug=depth|seabed|light|leaving|lamps|wake|glints), compiled
@@ -152,10 +165,11 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     shader.uniforms.pacificTime = time;
     // The coast's one wind turns and grows the wind sea, and drives ripples and whitecaps per pixel.
     bindOceanWind(shader, ocean.position);
-    Object.assign(shader.uniforms, bathymetry.uniforms, seaLight, caustics);
+    Object.assign(shader.uniforms, bathymetry.uniforms, seaLight, caustics, rainField.uniforms);
     shader.uniforms.shoreProfile = { value: shoreTexture };
     shader.uniforms.shoreRange = { value: new THREE.Vector2(beach.samples[0][0], beach.samples.at(-1)[0] - beach.samples[0][0]) };
-    shader.vertexShader = `uniform float pacificTime; varying vec2 oceanXZ;\n${oceanFieldGLSL}\n` + shader.vertexShader;
+    shader.vertexShader =
+      `varying vec3 rainSurfaceWorld; uniform float pacificTime; varying vec2 oceanXZ;\n${oceanFieldGLSL}\n` + shader.vertexShader;
     shader.vertexShader = shader.vertexShader.replace(
       "#include <beginnormal_vertex>",
       `
@@ -170,6 +184,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       "#include <begin_vertex>",
       `
       vec3 transformed = position + oceanDisplacement;
+      rainSurfaceWorld=(modelMatrix*vec4(transformed,1.)).xyz;
       oceanXZ = position.xz;
     `
     );
@@ -184,10 +199,10 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       #endif`
     );
     shader.fragmentShader =
-      `uniform float pacificTime; uniform sampler2D shoreProfile; uniform vec2 shoreRange; varying vec2 oceanXZ;
+      `varying vec3 rainSurfaceWorld; uniform float pacificTime; uniform sampler2D shoreProfile; uniform vec2 shoreRange; varying vec2 oceanXZ;
       uniform vec3 seaSunDirection; uniform vec3 seaSunColor; uniform vec3 seaSunTint; uniform mat4 seaShadowMatrix;
       uniform vec3 seaLampPosition[${SEA_LAMPS}]; uniform vec3 seaLampColor[${SEA_LAMPS}]; uniform int seaLampCount;
-      uniform vec4 seaWakeA[${SEA_WAKES}]; uniform vec4 seaWakeB[${SEA_WAKES}]; uniform int seaWakeCount;\n${surfaceNoise}\n${SEA_WAKE_GLSL}\n${oceanFieldGLSL}\n${oceanRipplesGLSL}\n${seaOpticsGLSL(seaIOPs)}\n` +
+      uniform vec4 seaWakeA[${SEA_WAKES}]; uniform vec4 seaWakeB[${SEA_WAKES}]; uniform int seaWakeCount;\n${rainSurfaceGLSL}\n${surfaceNoise}\n${SEA_WAKE_GLSL}\n${oceanFieldGLSL}\n${oceanRipplesGLSL}\n${seaOpticsGLSL(seaIOPs)}\n` +
       shader.fragmentShader;
     shader.fragmentShader = shader.fragmentShader
       .replace("#include <lights_physical_pars_fragment>", `#include <lights_physical_pars_fragment>\n${SEA_SUN_GLSL}`)
@@ -203,6 +218,8 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       // Rings where an animal broke the surface and V wakes behind the swimmers, as slopes and foam.
       float wakeFoam=0.;
       vec2 wake=seaWakeCount>0?seaWakes(oceanXZ+oceanWindOrigin,wakeFoam):vec2(0.);
+      vec3 rainSlope=rainResponse(rainSurfaceWorld,dFdx(rainSurfaceWorld.xz),dFdy(rainSurfaceWorld.xz),pacificTime);
+      fieldTx.y+=rainSlope.x;fieldTz.y+=rainSlope.y;slopeVariance+=rainSlope.z;
       fieldTx.y+=wake.x;
       fieldTz.y+=wake.y;
       fieldTx.y+=ripple.x;
@@ -368,7 +385,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     `
     );
   };
-  physicalWater.customProgramCacheKey = () => `pacific-optics-v6${seaDebug ? `:${seaDebugMode}` : ""}`;
+  physicalWater.customProgramCacheKey = () => `pacific-optics-rain-20261102${seaDebug ? `:${seaDebugMode}` : ""}`;
   const modelWater = new THREE.MeshStandardMaterial({ color: 0x8db9bb, roughness: 0.95 });
   const printWater = new THREE.MeshToonMaterial({ color: 0x287b8a });
   const waterGeometry = new THREE.PlaneGeometry(SEA_PLANE.size, SEA_PLANE.size, 160, 160);
@@ -395,6 +412,8 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
   ocean.userData.noContactOcclusion = true;
   root.add(ocean);
   const reflection = createSeaReflection(renderer, scene, ocean, physicalWater);
+  const rainWater = createRenderedWaterSampler(waterGeometry, ocean.position.toArray(), sampleOcean);
+  const rainWaterBound = OCEAN_WAVES.reduce((s, w) => s + w.amplitude, 0) + 0.001;
   const particleSystems = [];
   function particles(kind, emitters, bounds, warmSeconds, size, maxSize, glow, color, falloff) {
     const started = performance.now(),
@@ -701,6 +720,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
   function update(elapsed, delta = 0) {
     time.value = elapsed;
     syncOceanFFT(elapsed);
+
     // The stars twinkle only while the scene moves: a reduced-motion scene, which never steps this
     // clock, keeps them steady, and a paused one holds them as they were.
     starField.setMotion(delta > 0);
@@ -715,6 +735,8 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     syncWakes();
   }
   function dispose() {
+    rainEventTexture.dispose();
+    rainBinTexture.dispose();
     disposeOceanFFT();
     shoreTexture.dispose();
     bathymetry.dispose();
@@ -744,6 +766,24 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       setPalette(next, light);
     },
     waterSky,
+    rainImpact: (event) => rainField.impact(event),
+    finishRainFrame(elapsed, rain) {
+      if (rainField.update(elapsed, rainEye, rain)) {
+        rainEventTexture.needsUpdate = true;
+        rainBinTexture.needsUpdate = true;
+      }
+    },
+    rainEvidence: () => rainField.evidence(),
+    rainMaximumHeight: SEA_LEVEL + rainWaterBound,
+    rainAt(x, z, seconds, bottom, top) {
+      if (style !== "realistic" || oceanFFTEvidence().enabled || bottom > SEA_LEVEL + rainWaterBound || top < SEA_LEVEL - rainWaterBound) return null;
+      const wind = oceanWindState(coastWind.state.meanSpeed, coastWind.state.yaw, visitorSea);
+      const hit = rainWater.sample(x, z, seconds, wind);
+      if (!hit) return null;
+      const bed = bathymetry.sample(x, z);
+      if (bed && bed.height >= hit.y) return { kind: "solid", id: "captured-seabed", y: bed.height };
+      return { ...hit, kind: "water", id: "pacific" };
+    },
     waterAt(x, z) {
       if (Math.abs(x - ocean.position.x) > SEA_PLANE.size / 2 || Math.abs(z - ocean.position.z) > SEA_PLANE.size / 2) return null;
       const wind = oceanWindState(coastWind.state.meanSpeed, coastWind.state.yaw, visitorSea),
@@ -762,6 +802,9 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     dispose,
     // The dome stays centred on the orbit camera and inside its far plane (camera.mjs farView).
     followCamera(position, radius) {
+      rainEye[0] = position.x;
+      rainEye[1] = position.y;
+      rainEye[2] = position.z;
       sky.position.copy(position);
       sky.scale.setScalar(radius / 120);
       farField.setEye(position.y);

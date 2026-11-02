@@ -2,14 +2,16 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "../assets/js/three.module.min.js";
 import { createCoastalRain, rainSegment, RAIN_FIELD } from "../assets/js/home-scene/coastal-rain.mjs";
+import { rainFall } from "../assets/js/home-scene/rain-trajectories.mjs";
 
 test("rain holds at the same active time independent of frame cadence", () => {
   const at = (time) => [...rainSegment(38, time, [1, 3, -5], [1.2, 0, -0.8])];
   const expected = at(40);
   for (let time = 0; time < 40; time += 0.017) at(time);
   assert.deepEqual(at(40), expected);
-  assert.equal(at(40)[1], at(47)[1], "only the vertical sample cycle repeats after seven seconds");
-  assert.notEqual(at(40)[0], at(47)[0], "the wind keeps carrying the column through world space");
+  const period = (RAIN_FIELD.above + RAIN_FIELD.below) / rainFall(38);
+  assert.equal(at(40)[1], at(40 + period)[1], "the representative drop repeats its own vertical cycle");
+  assert.notEqual(at(40)[0], at(40 + period)[0], "the wind keeps carrying the column through world space");
   assert.notDeepEqual(at(40), at(40.1));
 });
 
@@ -102,4 +104,30 @@ test("drops concentrate in the box ahead of the camera and never streak from its
   assert.ok(ahead / drops > 0.85, "most of the field lies in front of the camera");
   assert.equal(rain.evidence().fieldExtent, RAIN_FIELD.extent);
   rain.dispose();
+});
+
+test("surface bounds preserve all rendered segments and impact events while reducing air queries", () => {
+  const run = (bounded) => {
+    const scene = new THREE.Scene(),
+      camera = new THREE.PerspectiveCamera(),
+      events = [];
+    const rain = createCoastalRain({
+      scene,
+      terrainHeight: () => -8,
+      surfaceAt: () => ({ kind: "water", id: "fixture", y: 0 }),
+      waterMaximumAt: () => (bounded ? 0 : Infinity),
+      onWaterImpact: (e) => events.push(e),
+    });
+    for (let tick = 0; tick <= 32; tick++) rain.update({ seconds: tick / 60, rain: 0.65, camera, wind: [1, 0, 0.2] });
+    const result = { events, evidence: rain.evidence(), positions: rain.object.geometry.attributes.position.array.slice() };
+    rain.dispose();
+    return result;
+  };
+  const before = run(false),
+    after = run(true);
+  assert.ok(after.events.length > 0);
+  assert.deepEqual(after.events, before.events);
+  assert.deepEqual(after.positions, before.positions);
+  assert.ok(after.evidence.contacts.queries < before.evidence.contacts.queries);
+  assert.ok(after.evidence.contacts.aboveSurface > 0);
 });

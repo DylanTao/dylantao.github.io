@@ -309,6 +309,50 @@ the existing complete-scene program warmup. Integrated desktop/mobile images,
 shelter probes and costs remain coordinator acceptance work; these equations
 and source tests alone do not prove visible rainfall or phone performance.
 
+### Rain contact and small-wave detail (November 2026)
+
+Representative drops now have authored diameters of 0.75–2 mm, with near-sea-level
+terminal speeds from [Atlas et al. (1973)](https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/rg011i001p00001),
+also printed in [NASA's 1983 report, equation 1](https://ntrs.nasa.gov/api/citations/19830016998/downloads/19830016998.pdf).
+An authored 18–34 ms exposure determines each streak's length. World-space wind
+continues through vertical recycling; moving the camera does not re-age it.
+
+`rain-contact.mjs` tracks the leading tip and world-copy identity. It emits at the
+first downward crossing and suppresses initialization, wraps, repeated landings,
+pause and frame gaps over 250 ms. The sea query in `rain-water-sampler.mjs` inverts
+choppy displacement, then intersects the actual 160-square rendered-grid model
+at its 1.1 m vertex footprint. This is a CPU floating-point model of that surface,
+not a claim of bit-identical GPU transcendental evaluation. Existing conservative
+terrain/roof heights and the pool's mean-waterline query decide ownership before
+an ocean response is emitted. This is not full swept 3D scene collision; pool
+visitor-wave contact and rain-driven pool response are not modeled here.
+Conservative height bounds reuse the rain segment's solid clip and the maximum
+possible sea height or actual pool AABB. Intervals wholly above those bounds skip
+the narrow query; an absent bound disables that optimization. A parallel frozen
+reference tracker checks actual events and landed states independently.
+
+Small impact packets use gravity-capillary dispersion,
+`omega² = g k + sigma k³ / rho`, with distinct phase and group speeds. The
+[Waterloo surface-wave notes](https://uwaterloo.ca/applied-mathematics/current-undergraduates/continuum-and-fluid-mechanics-students/amath-463/surface-gravity-waves)
+give the relation. Water parameters and energy coupling are authored. Packets
+change normals rather than the sea mesh. A 64 m spatial grid retains at most
+255 desktop or 63 compact events; each cell references at most 12. Two Float32
+textures occupy 73,728 or 24,576 bytes. Overflow is counted, not hidden.
+
+The displayed lines undersample a physical shower. A separate authored forcing
+estimate maps normalized intensity `r` to `6 r^1.5` mm/hour, then uses drop energy
+flux, an 8% coupling and a 150 ms residence time to set six short-wave bands.
+This is an original bounded approximation, not a calibrated rain spectrum or
+an energy-conserving fluid solver. The footprint covariance filters each band;
+unresolved slope variance broadens the existing GGX reflection instead of
+disappearing. The scalar roughness fit is simpler than the anisotropic ocean
+lighting in [Bruneton, Neyret and Holzschuch (2010)](https://morpho.inrialpes.fr/Publications/2010/BNH10/article.pdf).
+There is no rain-induced wind-wave damping, crown spray, wave-wave coupling or
+added water volume. Animal wake slots and the existing large-wave, foam,
+bathymetry, refraction and reflection paths remain independent. No new draw,
+shadow caster or rendering pass is added. Matched renderer cost and physical
+iPhone cost require their own evidence.
+
 ## Curtain cloth
 
 On October 15, 2026, `curtain-cloth.mjs` and `sheer-fabric.mjs` added sheer curtains on rails inside the glass front, and on October 16 they joined the scene in the coast's one wind. On October 18 Sirui found them "a bit weird", and they were rebuilt: the panels now hang in sheer linen from rings on two bronze rods, simulated by `cloth-solver.mjs`, which also moves the laundry on the terrace (see "Laundry on the terrace" below). They are a real-time approximation for a browser scene, not a validated textile, airflow or measured-BSDF model.

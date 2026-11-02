@@ -1,0 +1,96 @@
+{
+  "scope": "4second CDP sampling after timing readback; wall-time sample attribution includes idle/native driver waits, not a clean CPU utilization partition.",
+  "durationUs": 4308054,
+  "top": [
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/three.module.min.js :: ",
+      "ms": 341.455,
+      "fraction": 0.07925968430293585
+    },
+    {
+      "frame": "(browser) :: (program)",
+      "ms": 313.746,
+      "fraction": 0.07282777792478924
+    },
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/home-scene/wildlife-ground-contact.mjs?v=contact-regions-20261101 :: minimumSurfaceGap",
+      "ms": 295.52,
+      "fraction": 0.0685970974365688
+    },
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/home-scene/wildlife-ground-contact.mjs?v=contact-regions-20261101 :: sample",
+      "ms": 261.267,
+      "fraction": 0.06064617574431518
+    },
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/home-scene/wildlife-ground-contact.mjs?v=contact-regions-20261101 :: maximumHeightInBounds",
+      "ms": 162.154,
+      "fraction": 0.03763973246389205
+    },
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/three.module.min.js :: upload",
+      "ms": 152.721,
+      "fraction": 0.035450112742319385
+    },
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/three.module.min.js :: i",
+      "ms": 150.356,
+      "fraction": 0.0349011409791985
+    },
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/home-scene/wildlife-resting-contact.mjs?v=contact-regions-20261101 :: position",
+      "ms": 114.667,
+      "fraction": 0.026616890131832147
+    },
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/three.module.min.js :: Ql.renderBufferDirect",
+      "ms": 113.947,
+      "fraction": 0.02644976130754164
+    },
+    {
+      "frame": "(browser) :: uniform3fv",
+      "ms": 106.05,
+      "fraction": 0.02461668307778872
+    },
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/home-scene/wildlife-resting-contact.mjs?v=contact-regions-20261101 :: refitPaddleTree",
+      "ms": 95.251,
+      "fraction": 0.02210998283679824
+    },
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/home-scene/cloth-solver.mjs :: projectBending",
+      "ms": 87.633,
+      "fraction": 0.020341667026457885
+    },
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/three.module.min.js :: kt",
+      "ms": 81.271,
+      "fraction": 0.018864898165157632
+    },
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/three.module.min.js :: updateMatrixWorld",
+      "ms": 77.305,
+      "fraction": 0.017944296891357445
+    },
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/three.module.min.js :: setValue",
+      "ms": 67.369,
+      "fraction": 0.015637919116148497
+    },
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/three.module.min.js :: multiplyMatrices",
+      "ms": 65.247,
+      "fraction": 0.015145353331225653
+    },
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/home-scene/wildlife-resting-contact.mjs?v=contact-regions-20261101 :: measure",
+      "ms": 62.583,
+      "fraction": 0.01452697668135079
+    },
+    {
+      "frame": "http://127.0.0.1:55012/al-folio/assets/js/home-scene/draw-order.mjs :: ",
+      "ms": 58.237,
+      "fraction": 0.013518168528063947
+    }
+  ]
+}

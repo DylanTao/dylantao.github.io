@@ -361,3 +361,70 @@ test("coastal weather: retained natural rain clears the actual roofs, falls outs
   });
   expect(errors).toEqual([]);
 });
+
+test("coastal rain: first-contact ripples reach exposed sea and retain a paused frame", async ({ page }, testInfo) => {
+  test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name), "Desktop and touch cover both bounded rain histories.");
+  test.setTimeout(900000);
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "noon");
+  await page.clock.setFixedTime(new Date("2026-10-23T13:20:00-07:00"));
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  // This is an explicitly authored shower/contact regression. The separate retained-NWS case
+  // above qualifies natural forecast plumbing; this case does not replace forecast data.
+  await page.goto(publicRouteUrl("/?scene-lab=1&weather=rain"), { waitUntil: "domcontentloaded" });
+  await page.locator('[data-home-desk-mode="3d"]').click();
+  const scene = page.locator("[data-home-desk-scene]"),
+    canvas = scene.locator("canvas"),
+    ui = page.locator("[data-home-world-controls]");
+  await scene.scrollIntoViewIfNeeded();
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: readyTimeout });
+  await pauseSceneClock(page);
+  await useSoftwareSceneCadence(page, { continuousHz: 10, force: true });
+  await ui.locator("[data-world-view]").click();
+  // A declared authoring eye keeps the actual rain box near exposed water. The default high
+  // overview eye has a different vertical box and is not a water-contact witness.
+  await scene.evaluate((element) => element.setLabCamera({ target: [0, -7.35, -32], yaw: 3.2, pitch: 0.17, radius: 24, free: true }));
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.clock.runFor(1200);
+  const wet = await sceneEvidence(scene),
+    rain = wet.simulation.rain;
+  expect(wet.currentRoom).toBe("outside");
+  expect(wet.simulation.lightField.ready).toBeTruthy();
+  expect(rain.contacts.impacts).toBeGreaterThan(0);
+  expect(rain.ocean.total).toBeGreaterThan(0);
+  expect(rain.ocean.active).toBeGreaterThan(0);
+  expect(rain.ocean.active).toBeLessThanOrEqual(rain.ocean.maximum);
+  expect(rain.ocean.binOverflow).toBe(0);
+  expect(rain.ocean.extraPasses).toBe(0);
+  expect(rain.ocean.animalWakeSlotsUsed).toBe(0);
+  expect(rain.ocean.statistical.slopeVariance).toBeGreaterThan(0);
+  expect(rain.ocean.statistical.calibrated).toBe(false);
+  const details = ui.locator("[data-world-lab]");
+  if (!(await details.evaluate((element) => element.open))) await details.locator("summary").first().click();
+  await ui.locator("[data-world-pause]").click();
+  await page.clock.runFor(200);
+  const paused = (await sceneEvidence(scene)).simulation.rain;
+  await page.clock.runFor(600);
+  const held = (await sceneEvidence(scene)).simulation.rain;
+  expect(held.contacts).toEqual(paused.contacts);
+  expect(held.ocean).toEqual(paused.ocean);
+  const pixels = screenshotMetrics(await canvas.screenshot());
+  expect(pixels.uniqueColors).toBeGreaterThan(128);
+  expect(pixels.luminanceVariance).toBeGreaterThan(12);
+  await testInfo.attach("rain-first-contact", {
+    body: JSON.stringify(
+      {
+        scope: "Complete product, authored shower, declared authoring eye,10Hz functional cadence. No native or phone speed claim.",
+        wet,
+        paused,
+        held,
+        pixels,
+        errors,
+      },
+      null,
+      2
+    ),
+    contentType: "application/json",
+  });
+  expect(errors).toEqual([]);
+});

@@ -1,22 +1,13 @@
+import { createRainContactTracker } from "./rain-contact.mjs";
+import { rainDrop, createRainDrop, RAIN_FIELD } from "./rain-trajectories.mjs";
+export { RAIN_FIELD } from "./rain-trajectories.mjs";
 import * as THREE from "../three.module.min.js";
 
-const fract = (value) => value - Math.floor(value);
-const wrap = (value, extent) => ((value % extent) + extent) % extent;
 const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
 const EMPTY_SHELTERS = Object.freeze([]);
 const STILL_WIND = Object.freeze([0, 0, 0]);
-// A bounded authored shower, in metres and seconds. Drops fall through world space at a light-rain
-// drop's terminal speed (about 4 m/s for 1 mm). Only where they wrap follows the camera: a box
-// `extent` wide, centred `ahead` of the camera, from `below` under it to `above` over it. Moving the
-// camera keeps each drop where it is (only drops leaving the box reappear on its far side), and a few
-// hundred drops read as rain in front of the house instead of vanishing into a 64 m square. Wind
-// drift belongs to world space, independently of the camera's height. Vertical samples recycle
-// every (above + below) / fall = 7 seconds; wind carries their columns onward.
-export const RAIN_FIELD = Object.freeze({ extent: 30, ahead: 12, above: 8, below: 20, fall: 4, near: 3.5, maximum: 1024, compactMaximum: 256 });
-const hash = (index, salt) => fract(Math.sin(index * 127.1 + salt * 311.7) * 43758.5453123);
-const seeds = Float64Array.from({ length: RAIN_FIELD.maximum * 4 }, (_, at) => hash(Math.floor(at / 4), (at % 4) + 1));
-const seed = (index, salt) => (index >= 0 && index < RAIN_FIELD.maximum ? seeds[index * 4 + salt - 1] : hash(index, salt));
-
+// World-stable drop columns are bounded by a moving camera box. Sizes and exposure differ per
+// representative drop; wind continues through each vertical recycle and holds at paused active time.
 // This is a visual field, not a fluid solver. Absolute active time makes a slow frame, pause and
 // recovery produce the same field. `center` is the box centre: horizontally ahead of the camera, at
 // the camera's height.
@@ -28,26 +19,20 @@ export function rainSegment(
   ground = -8,
   shelters = EMPTY_SHELTERS,
   out = new Float32Array(6),
-  displacement = null
+  displacement = null,
+  drop = createRainDrop()
 ) {
-  const { extent, above, below, fall } = RAIN_FIELD,
-    span = above + below,
-    lowY = center[1] - below,
-    phase = wrap(seed(index, 1) * span - seconds * fall - lowY, span),
-    top = lowY + phase,
-    lowX = center[0] - extent / 2,
-    lowZ = center[2] - extent / 2,
-    x = lowX + wrap(seed(index, 2) * extent + (displacement?.[0] ?? seconds * wind[0]) - lowX, extent),
-    z = lowZ + wrap(seed(index, 3) * extent + (displacement?.[2] ?? seconds * wind[2]) - lowZ, extent);
-  const length = 0.28 + seed(index, 4) * 0.42;
-  const endX = x + (length / fall) * wind[0],
-    endZ = z + (length / fall) * wind[2];
+  rainDrop(index, seconds, center, wind, displacement, drop);
+  const [x, top, z] = drop.tail,
+    endX = drop.point[0],
+    endZ = drop.point[2];
   const height = typeof ground === "function" ? ground(x, z, endX, endZ) : ground;
   let floor = Number.isFinite(height) ? height : -8;
   for (const shelter of shelters) {
     if (x >= shelter.min[0] && x <= shelter.max[0] && z >= shelter.min[2] && z <= shelter.max[2]) floor = Math.max(floor, shelter.max[1]);
   }
-  const bottom = Math.max(floor + 0.025, top - length);
+  drop.solidUpper = floor;
+  const bottom = Math.max(floor + 0.025, drop.point[1]);
   out[0] = x;
   out[1] = Math.max(bottom, top);
   out[2] = z;
@@ -62,7 +47,16 @@ export function rainSegment(
   return out;
 }
 
-export function createCoastalRain({ scene, compact = false, terrainHeight = () => -8, shelters = EMPTY_SHELTERS, roofEvidence = () => null }) {
+export function createCoastalRain({
+  scene,
+  compact = false,
+  terrainHeight = () => -8,
+  shelters = EMPTY_SHELTERS,
+  roofEvidence = () => null,
+  surfaceAt = null,
+  onWaterImpact = null,
+  waterMaximumAt = () => Infinity,
+}) {
   const maximum = compact ? RAIN_FIELD.compactMaximum : RAIN_FIELD.maximum;
   const positions = new Float32Array(maximum * 6);
   const geometry = new THREE.BufferGeometry();
@@ -83,6 +77,8 @@ export function createCoastalRain({ scene, compact = false, terrainHeight = () =
   const displacement = new Float64Array(3);
   const fieldWind = new Float64Array(3);
   let previousTime = null;
+  const drop = createRainDrop();
+  const contacts = surfaceAt ? createRainContactTracker({ maximum, surfaceAt, impact: onWaterImpact }) : null;
   const nearSquared = RAIN_FIELD.near * RAIN_FIELD.near;
   let intensity = 0;
   let drops = 0;
@@ -97,7 +93,10 @@ export function createCoastalRain({ scene, compact = false, terrainHeight = () =
       object.visible = intensity > 0.005;
       drops = object.visible ? Math.max(24, Math.round(maximum * intensity)) : 0;
       geometry.setDrawRange(0, drops * 2);
-      if (!drops) return;
+      if (!drops) {
+        contacts?.reset();
+        return;
+      }
       const delta = previousTime === null ? Infinity : fieldTime - previousTime;
       if (delta !== 0) {
         for (const axis of [0, 2]) {
@@ -121,7 +120,17 @@ export function createCoastalRain({ scene, compact = false, terrainHeight = () =
       sheltered = 0;
       nearCamera = 0;
       for (let index = 0; index < drops; index++) {
-        rainSegment(index, fieldTime, center, fieldWind, terrainHeight, shelters, scratch, displacement);
+        rainSegment(index, fieldTime, center, fieldWind, terrainHeight, shelters, scratch, displacement, drop);
+        if (contacts) {
+          const waterMaximum = waterMaximumAt(drop.point[0], drop.point[2]);
+          drop.upper = Number.isFinite(waterMaximum) ? Math.max(drop.solidUpper, waterMaximum) : Infinity;
+          contacts.update(index, drop, fieldTime);
+          if (contacts.landed(index)) {
+            scratch[3] = scratch[0];
+            scratch[4] = scratch[1];
+            scratch[5] = scratch[2];
+          }
+        }
         if (scratch[1] === scratch[4]) sheltered++;
         else {
           // A drop this close would streak across the whole view: hold it degenerate instead.
@@ -153,6 +162,9 @@ export function createCoastalRain({ scene, compact = false, terrainHeight = () =
       extraPasses: 0,
       shadowCasters: 0,
       roofClip: roofEvidence(),
+      contacts: contacts?.evidence() ?? null,
+      shutterSeconds: RAIN_FIELD.shutter,
+      representativeDiameterMetres: [0.00075, 0.002],
     }),
     dispose() {
       object.removeFromParent();

@@ -1,7 +1,7 @@
 import * as THREE from "../three.module.min.js";
 import { createModelLoader } from "./model-loader.mjs";
 import { createArtDirection } from "./materials.mjs";
-import { createPacific } from "./environment.mjs?v=contact-regions-20261101";
+import { createPacific } from "./environment.mjs?v=rain-contact-20261102";
 import { createFinish, physicalTime, surfaceLook } from "./realism.mjs";
 import { readLook } from "./look.mjs";
 import { createExplorationState, resolveRoutine, routineRoom, formatMinute, chooseArrivalAvatar, pacificClock } from "./routine.mjs";
@@ -83,7 +83,7 @@ import { createInfinityPool } from "./infinity-pool.mjs";
 import { createInteriorReflections } from "./interior-reflections.mjs";
 import { createWalkPresence } from "./walk-presence.mjs?v=gym-close-20261101";
 import { createEstateDoors, nearDoor } from "./estate-doors.mjs";
-import { createCoastalRain } from "./coastal-rain.mjs?v=world-rain-20261101";
+import { createCoastalRain } from "./coastal-rain.mjs?v=rain-contact-20261102";
 import { configureStaticModelIndices } from "./static-triangle-index.mjs";
 import { createRainRoofField } from "./rain-roof-field.mjs";
 import { createLibraryLadder } from "./library-ladder.mjs";
@@ -3551,6 +3551,7 @@ export function createCoastalHome(container, records, artifacts) {
       wind: coastWind.sample(camera.position.x, camera.position.y, camera.position.z, elapsed, rainWind),
       daylight: daylight?.daylight ?? 0,
     });
+    pacific?.finishRainFrame(elapsed, atmosphere?.state?.weather?.rain ?? 0);
     infinityPool?.update(elapsed, { paused: !moving && !walking, delta: frameDelta });
     if (currentRoom === "outside") fitSunShadow();
     actorDoorPose.active = Boolean(actor?.visible && compositionReady);
@@ -3857,6 +3858,20 @@ export function createCoastalHome(container, records, artifacts) {
             cameraTerrainHeight(endX, endZ, config.cameraCollision),
             rainRoofs.height(x, z, endX, endZ)
           ),
+        surfaceAt: (x, z, t, bottom, top) => {
+          const solid = Math.max(cameraTerrainHeight(x, z, config.cameraCollision), rainRoofs.height(x, z));
+          let water = infinityPool?.sample(x, z);
+          if (water) water = { ...water, kind: "water" };
+          const ocean = pacific?.rainAt(x, z, t, bottom, top);
+          if (ocean && (!water || ocean.y > water.y)) water = ocean;
+          return water && water.y > solid
+            ? water
+            : { kind: "solid", id: "conservative-terrain-roof-mask", y: Number.isFinite(solid) ? solid : -1000 };
+        },
+        onWaterImpact: (event) => {
+          if (event.water === "pacific") pacific?.rainImpact(event);
+        },
+        waterMaximumAt: (x, z) => Math.max(pacific?.rainMaximumHeight ?? Infinity, infinityPool?.maximumRainHeightAt(x, z) ?? -Infinity),
         roofEvidence: () => rainRoofs.evidence(),
       });
       cleanup.push(() => coastalRain?.dispose());
@@ -4418,7 +4433,7 @@ export function createCoastalHome(container, records, artifacts) {
     ecology: pacific?.evidence(),
     rendering: finish?.evidence,
     simulation: {
-      rain: coastalRain?.evidence(),
+      rain: { ...coastalRain?.evidence(), ocean: pacific?.rainEvidence() },
       infinityPool: infinityPool
         ? {
             ...infinityPool.evidence(),

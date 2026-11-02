@@ -25,3 +25,23 @@ test("shared material updates preserve the pool's transmissive shader and no-sha
   water.geometry.dispose();
   water.material.dispose();
 });
+
+test("the rain height bound uses the actual pool AABB and leaves real triangle ownership to sample", () => {
+  const world = new THREE.Group(),
+    geometry = new THREE.PlaneGeometry(2, 4);
+  geometry.rotateX(-Math.PI / 2);
+  const water = new THREE.Mesh(geometry, new THREE.MeshPhysicalMaterial());
+  water.name = "core_infinity_water";
+  water.position.y = -0.09;
+  world.add(water);
+  const pool = createInfinityPool(world),
+    bound = pool.maximumRainHeightAt(0, 0);
+  assert.equal(bound, pool.evidence().fixedWaterline);
+  assert.ok(Math.abs(bound + 0.09) < 1e-7);
+  assert.ok(pool.sample(0, 0));
+  assert.equal(pool.maximumRainHeightAt(2, 0), null);
+  assert.equal(pool.maximumRainHeightAt(0, 3), null);
+  pool.dispose();
+  geometry.dispose();
+  water.material.dispose();
+});
