@@ -2374,6 +2374,24 @@ test("coastal home: public room navigation works in the embed and starts a safe 
   await summary.press("Escape");
   await expect(stage).toHaveClass(/is-world-immersive/);
   await expect(places).not.toHaveAttribute("open");
+  if (homeManifest().entrance?.straightDescent === true) {
+    await summary.click();
+    await sceneInputFrame(page, view, () => places.locator('[data-world-destination="entrance"]').click());
+    const entry = await evidence(scene);
+    const start = homeManifest().walk.start;
+    expect(entry.walk.active).toBe(false);
+    expect(entry.freeLook.position[0]).toBeCloseTo(start.position[0], 5);
+    expect(entry.freeLook.position[1]).toBeCloseTo(start.position[1] + 1.6, 5);
+    expect(entry.freeLook.position[2]).toBeCloseTo(start.position[2], 5);
+    await summary.click();
+    await expect(places.locator('[data-world-destination="entrance"]')).toHaveAttribute("aria-pressed", "true");
+    await expect(places.locator('[data-world-destination="outside"]')).toHaveAttribute("aria-pressed", "false");
+    const coast = places.locator("[data-world-look]");
+    await expect(coast).toBeEnabled();
+    await expect(coast).toHaveText("Coast view");
+    await sceneInputFrame(page, view, () => coast.click());
+    expect((await evidence(scene)).freeLook).toBeNull();
+  }
   await summary.click();
   await sceneInputFrame(page, view, () => places.locator('[data-world-destination="outside"]').click());
   expect((await evidence(scene)).walk.active).toBe(false);

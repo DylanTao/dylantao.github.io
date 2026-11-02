@@ -1,5 +1,15 @@
 # Coastal home asset provenance
 
+## November 2: source-bound entrance planting clearance
+
+The [entrance inspection](reviews/entrance-inspection-2026-11-02/README.md)
+removes eight complete old hillside shrub components intersecting the actual
+new inclined stair opening. Only `hinterland.blend` (`0dc3ee23…`) and its GLB
+(`93f90372…`) change. All 93 other native meshes, 159 other compressed
+primitives and every retained decoded planting position, normal and color are
+exact. The public house master remains `1e10b25d…`; the new straight-arrival
+metadata, garden and fin source require their separate final integration.
+
 ## November 2: integrated bedside light and kitchen olive
 
 The [ambience integration](reviews/ambience-integration-2026-11-02/README.md)

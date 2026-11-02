@@ -6,7 +6,7 @@ The coordinator composes this delta after F6/arrival and requalifies exports.
 """
 import copy
 
-VERSION = 8
+VERSION = 12
 FLOOR = -1.02
 SIDE_NATIVE_Y = (-5.2690815925598145, -3.9715962409973145)
 # Two source-bound grounded returns retained from the ORIGINAL rock, not added
@@ -629,6 +629,40 @@ def build_structure(scene, upper_landing_plane=-2.7699999809265137):
         center = [(lo[k] + hi[k]) / 2 for k in range(3)]
         size = [hi[k] - lo[k] for k in range(3)]
         box(parts.bm(mats[material]), native(center), (size[0], size[2], size[1]), 0)
+    def reclaimed_base(lo, hi):
+        # Retain the old top corners exactly, including their original Float32
+        # construction. Only the NEW bottom corners become20mm haunches, seated
+        #40mm into the measured original rock ledge atZ=-.56. The complete
+        # bottom rectangles have exact continuous support, not just point hits.
+        bm = parts.bm(mats["stone"])
+        previous = set(bm.verts)
+        wbox("stone", lo, hi)
+        created = [v for v in bm.verts if v not in previous]
+        if len(created) != 8:
+            raise RuntimeError("Reclaimed base must remain one closed eight-corner prism")
+        bounds = [(min(v.co[k] for v in created), max(v.co[k] for v in created)) for k in (0, 1)]
+        for vertex in created:
+            if vertex.co.z < -.7:
+                vertex.co.z = -.60
+                for axis in (0, 1):
+                    vertex.co[axis] += .02 if vertex.co[axis] == bounds[axis][0] else -.02
+    def keyed_frame(lo, hi, header=False, north=False):
+        bm = parts.bm(mats["wall"])
+        previous = set(bm.verts)
+        wbox("wall", lo, hi)
+        created = [v for v in bm.verts if v not in previous]
+        if len(created) != 8:
+            raise RuntimeError("Keyed frame must remain one closed eight-corner prism")
+        front = max(v.co.x for v in created)
+        top = max(v.co.z for v in created)
+        inner_return = max(v.co.y for v in created)
+        for vertex in created:
+            if vertex.co.x == front:
+                vertex.co.x += .02
+            if header and vertex.co.z == top:
+                vertex.co.z = 1.36
+            if north and vertex.co.y == inner_return:
+                vertex.co.y += .02
     # Floor bases bear on the actual tool-bottom rock, not a floating finish.
     wbox("stone", [-7.85, -1.18, 3.40], [-5.45, FLOOR, 6.60])
     wbox("stone", [-5.45, -1.18, 3.98], [-4.83, FLOOR, 5.26])
@@ -636,13 +670,13 @@ def build_structure(scene, upper_landing_plane=-2.7699999809265137):
     for k in range(5):
         wbox("stone", [-3.43 - (k + 1) * .28, -1.18, 3.98], [-3.43 - k * .28, -(k + 1) * .17, 5.26])
     # Reclaim only the retired 42cm nook's thin strips beside the new descent.
-    wbox("stone", [-4.97, -.72, 3.62], [-2.79, 0, 3.97])
-    wbox("stone", [-4.97, -.72, 5.27], [-2.79, 0, 5.60])
+    reclaimed_base([-4.97, -.72, 3.62], [-2.79, 0, 3.97])
+    reclaimed_base([-4.97, -.72, 5.27], [-2.79, 0, 5.60])
     # Supported west frame; the original east fin/header is retained, not duplicated.
-    wbox("wall", [-8.05, 1.12, 3.43], [-7.85, 1.34, 6.57])
+    keyed_frame([-8.05, 1.12, 3.43], [-7.85, 1.34, 6.57], header=True)
     for z in (3.60, 6.40):
         wbox("stone", [-8.11, -1.24, z-.16], [-7.79, -1.14, z+.16])
-        wbox("wall", [-8.05, -1.14, z-.10], [-7.85, 1.12, z+.10])
+        keyed_frame([-8.05, -1.14, z-.10], [-7.85, 1.12, z+.10], north=z>6)
     wbox("wall", [-7.85, FLOOR, 3.40], [-7.80, 1.12, 6.60])
     wbox("wall", [-7.80, FLOOR, 6.55], [-5.45, 1.34, 6.60])
     # Exact original cushions reused above this compact grounded plinth.

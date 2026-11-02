@@ -140,6 +140,17 @@ remain explicit bounded follow-ups; their sites and severity are retained.
 This is checker/current-house evidence, not admission of the private fin,
 straight arrival, garden or coffee work.
 
+The [standing-entrance checkpoint](../artwork/coastal-home/reviews/entrance-inspection-2026-11-02/README.md)
+retires eight whole stale hinterland shrubs that intersect the actual new
+inclined stair opening. Every retained native and decoded planting field is
+exact. Its strict optional entrance view uses the real standing entry, with a
+Coast-view return; the complete private arrival passes all four standard
+embedded/fullscreen widths and an actual keyboard descent. The public house
+master remains `1e10b25d…`; new arrival/garden metadata is not enabled here.
+The owning bench recipe now has an open tail channel after the closed bridge
+failed actual seated-turn contacts. Constructor/field evidence is separate
+from the still-open complete coffee motion and final native integration gates.
+
 The [paper/limewash material checkpoint](../artwork/coastal-home/reviews/washi-material-2026-11-02/README.md)
 corrects an actual substring matcher: washi diffusers and incoming limewash were
 being treated as ash wood. Twelve native views per version verify the two public

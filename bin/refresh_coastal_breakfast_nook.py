@@ -230,6 +230,8 @@ def main():
         if landing_plane is None:
             raise RuntimeError("Actual stair tool plane was not recorded")
         report["structure"] = nook.build_structure(bpy.context.scene, landing_plane)
+        from coastal_garden_bench import finish_garden_bench
+        report["gardenBench"] = finish_garden_bench(bpy.context.scene)
         bpy.context.view_layer.update()
         bpy.context.scene["underBedroomBreakfastVersion"] = nook.VERSION
         bpy.context.preferences.filepaths.save_version = 0

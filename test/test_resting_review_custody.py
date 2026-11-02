@@ -61,6 +61,7 @@ class RestingReviewCustody(unittest.TestCase):
             "camera-focus-2026-11-02": "MANIFEST.json",
             "exporter-integration-2026-11-02": "MANIFEST.json",
             "overlap-visibility-2026-11-02": "MANIFEST.json",
+            "entrance-inspection-2026-11-02": "MANIFEST.json",
             "exporter-holes-2026-11-01": "MANIFEST.json",
             "exterior-waterline-2026-11-01": "MANIFEST.json",
             "waterline-release-2026-11-01": "MANIFEST.json",

@@ -73,7 +73,8 @@ import { prepareFramePrograms } from "./program-warmup.mjs";
 import { retireCompiledMaterials } from "./program-lifetime.mjs";
 import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
 import { createWorldFullscreen } from "./world-fullscreen.mjs?v=layout-20261031";
-import { createWalkMode } from "./walk-controls.mjs?v=gym-close-20261101";
+import { createWalkMode, WALK } from "./walk-controls.mjs?v=gym-close-20261101";
+import { arrivalStandingView } from "./arrival-view.mjs";
 import { createLightInstallations, roomLightSources } from "./light-installations.mjs?v=interior-20261031";
 import { createFurniture } from "./furniture.mjs";
 import { createDining } from "./dining.mjs";
@@ -2460,16 +2461,36 @@ export function createCoastalHome(container, records, artifacts) {
 
   function syncVisitorNavigation() {
     gymDashboard?.setAvailable(currentRoom === "gym");
+    const viewedDestination = freeLook?.destination || currentRoom;
     ui.querySelectorAll("[data-world-destination]").forEach((b) =>
-      b.setAttribute("aria-pressed", String(b.dataset.worldDestination === currentRoom))
+      b.setAttribute("aria-pressed", String(b.dataset.worldDestination === viewedDestination))
     );
     const look = ui.querySelector("[data-world-look]");
-    look.disabled = Boolean(walkMode?.active || animalFocus || ["outside", "overview"].includes(currentRoom));
+    look.disabled = Boolean(walkMode?.active || animalFocus || (["outside", "overview"].includes(currentRoom) && !freeLook?.destination));
     look.setAttribute("aria-pressed", String(Boolean(freeLook)));
-    look.textContent = freeLook ? "Orbit view" : "Look freely";
+    look.textContent = freeLook?.destination === "entrance" ? "Coast view" : freeLook ? "Orbit view" : "Look freely";
     if (!labEnabled && container.dataset.sceneState === "ready" && !(explore.following && followClock)) {
-      const label = config?.rooms.find((r) => r.id === currentRoom)?.label || (currentRoom === "overview" ? "Whole home" : "Patio & coast");
+      const label =
+        viewedDestination === "entrance"
+          ? "Main entrance"
+          : config?.rooms.find((r) => r.id === currentRoom)?.label || (currentRoom === "overview" ? "Whole home" : "Patio & coast");
       status.textContent = walkMode?.active ? `Walking · ${label}` : label;
+    }
+  }
+
+  function frameEntrance() {
+    const entry = arrivalStandingView(config, { eyeHeight: WALK.eyeHeight, fov: WALK.fov });
+    if (entry) {
+      freeLook = { ...entry, position: new THREE.Vector3().fromArray(entry.position), shownYaw: entry.yaw, shownPitch: entry.pitch };
+      desiredFov = entry.fov;
+      inertia.stop();
+      cameraMotion.stop();
+      syncVisitorNavigation();
+    } else {
+      desiredTarget.fromArray(config.walk.start.position).add(new THREE.Vector3(0, 1, 0));
+      desiredRadius = 10;
+      yaw = config.walk.start.yaw + Math.PI;
+      pitch = 0.5;
     }
   }
 
@@ -2602,17 +2623,14 @@ export function createCoastalHome(container, records, artifacts) {
         const destination = b.dataset.worldDestination;
         setRoom(destination === "entrance" ? "outside" : destination);
         walkMode?.chooseDestination(destination === "overview" ? null : destination);
-        if (destination === "entrance") {
-          desiredTarget.fromArray(config.walk.start.position).add(new THREE.Vector3(0, 1, 0));
-          desiredRadius = 10;
-          yaw = config.walk.start.yaw + Math.PI;
-          pitch = 0.5;
-        }
+        if (destination === "entrance") frameEntrance();
         closePlaces();
         requestFrame();
       }
       if (b.hasAttribute("data-world-recenter")) {
+        const entrance = freeLook?.destination === "entrance";
         setRoom(currentRoom);
+        if (entrance) frameEntrance();
         closePlaces();
       }
       if (b.hasAttribute("data-world-follow")) {
