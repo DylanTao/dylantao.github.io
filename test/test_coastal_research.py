@@ -227,10 +227,13 @@ class CoastalResearchTests(unittest.TestCase):
             with self.subTest(ident=ident), self.assertRaises(RESEARCH.ResearchError):
                 RESEARCH.source_review_item(self.item)
 
-    def test_shipped_queue_has_no_admitted_or_ready_experiments(self):
+    def test_shipped_queue_separates_published_rain_from_proposed_research(self):
         queue = RESEARCH.load_queue(ROOT / RESEARCH.QUEUE)
         self.assertGreaterEqual(len(queue["experiments"]), 3)
-        self.assertTrue(all(x["state"] == "proposed" for x in queue["experiments"]))
+        published = [x for x in queue["experiments"] if x["state"] == "renderer-qualified"]
+        self.assertEqual([x["id"] for x in published], ["rain-ocean-impact"])
+        self.assertTrue(all(x["state"] in {"proposed", "renderer-qualified"} for x in queue["experiments"]))
+        self.assertTrue(any("rain-contacts-2026-11-02" in p for p in published[0]["baseline"]["evidence"]))
         self.assertTrue(any(s["review"] == "abstract-reviewed" for x in queue["experiments"] for s in x["primary_sources"]))
         for item in queue["experiments"]:
             for name in item["allowed_paths"] + item["baseline"]["evidence"]:

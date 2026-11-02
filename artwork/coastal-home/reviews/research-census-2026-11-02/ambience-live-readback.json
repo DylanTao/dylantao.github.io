@@ -1,0 +1,88 @@
+{
+  "scope": "Live responses versus the pinned successful Pages deployment, not just HTTP200. Local native/WebKit appearance and full42-job CI are separate.",
+  "at": "2026-11-02T08:11:58.889576+00:00",
+  "source": "d9e7cc17283b66f4e5b6466daddc1817fc1114e4",
+  "pages": "fdf947c09cc677638be7b6a079f704b952931203",
+  "rows": [
+    {
+      "path": "assets/js/home.js",
+      "status": 200,
+      "bytes": 36721,
+      "sha256": "02343b005447bc6cb0d211dad3ddd075179835b3561652949253756c270ff309",
+      "expectedSha256": "02343b005447bc6cb0d211dad3ddd075179835b3561652949253756c270ff309",
+      "exact": true
+    },
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "status": 200,
+      "bytes": 103849,
+      "sha256": "be58b2ef194e5d3ce6202f2567fd47ef6db727b2b3facd1e66294a375290552e",
+      "expectedSha256": "be58b2ef194e5d3ce6202f2567fd47ef6db727b2b3facd1e66294a375290552e",
+      "exact": true
+    },
+    {
+      "path": "assets/js/home-scene/warm-practicals.mjs",
+      "status": 200,
+      "bytes": 4967,
+      "sha256": "d97ab95007c907c1ce78b47ca2c7e357b1d152b5a8f1955f22818f582db97c2e",
+      "expectedSha256": "d97ab95007c907c1ce78b47ca2c7e357b1d152b5a8f1955f22818f582db97c2e",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "status": 200,
+      "bytes": 233487,
+      "sha256": "60bc46bebe3b4b1560e406560dff9d7ff1b5ad9913472f77f832927ffd13449a",
+      "expectedSha256": "60bc46bebe3b4b1560e406560dff9d7ff1b5ad9913472f77f832927ffd13449a",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "status": 200,
+      "bytes": 711870,
+      "sha256": "bc5f912cc4da5f6bb41d8d15cecd3efdd91f03a9e67d6d0922781e6d3462e172",
+      "expectedSha256": "bc5f912cc4da5f6bb41d8d15cecd3efdd91f03a9e67d6d0922781e6d3462e172",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/wildlife-perch-support.json",
+      "status": 200,
+      "bytes": 37635,
+      "sha256": "52bfe9c07157faba0d9f351bc070c20552f75c5ca350ab9173f2b71c425c80da",
+      "expectedSha256": "52bfe9c07157faba0d9f351bc070c20552f75c5ca350ab9173f2b71c425c80da",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/room-kitchen.glb",
+      "status": 200,
+      "bytes": 249300,
+      "sha256": "ff670de9f0f4b10d93873d644d9d3f9deedd0bd2c373ece627734f2295762a07",
+      "expectedSha256": "ff670de9f0f4b10d93873d644d9d3f9deedd0bd2c373ece627734f2295762a07",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/room-sleep.glb",
+      "status": 200,
+      "bytes": 294448,
+      "sha256": "3e767a1b93f35736eb54d39da60a2fefc92056d296e22ba6a41c2c31a582aa45",
+      "expectedSha256": "3e767a1b93f35736eb54d39da60a2fefc92056d296e22ba6a41c2c31a582aa45",
+      "exact": true
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 108652,
+      "sha256": "c8acab37a3497fcee3b019be604b4ffe4994954ac27f816ac1290e3cf058911b",
+      "expectedSha256": "c8acab37a3497fcee3b019be604b4ffe4994954ac27f816ac1290e3cf058911b",
+      "exact": true
+    },
+    {
+      "path": "cv/index.html",
+      "status": 200,
+      "bytes": 131168,
+      "sha256": "2d2baccec5cc3fecf4985ed83c2efa138ad5eb43178c582e244a2f9a11eaae7f",
+      "expectedSha256": "2d2baccec5cc3fecf4985ed83c2efa138ad5eb43178c582e244a2f9a11eaae7f",
+      "exact": true
+    }
+  ]
+}

@@ -1,0 +1,1498 @@
+{
+  "scope": "Every observed response body matches the frozen complete production product; no omitted asset/substitute shader/clock. Source declaration is backed by the preceding committed ambience product and these explicit served-body hashes.",
+  "sourceDeclaration": "d9e7cc17283b66f4e5b6466daddc1817fc1114e4",
+  "frozenProductHeader": "house-ambience-20261102-36472",
+  "responses": [
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/preview-motion.mjs?v=aa1dfdba4b7dac41221b91cdfdd62c63",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2262,
+      "sha256": "11a7aefe8fd1ec1d136b78cab0dc662381900d019e41811b4b35fe545e627813"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/footer-coast/entry.mjs?v=39bf1ea81a2e9da6647f7e3d14133284",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1645,
+      "sha256": "c8736954aee2d47d4355e1a0254f42f6ae7628e5ed4615f8ceb655578d291786"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/sun-arc.mjs?v=97d886293666697ffa57852b3ac24dc1",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4425,
+      "sha256": "347f25e4acf6724cdd1336300f8e611618cf6cd1b7114397b548185a8e662794"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/la-jolla-sun.mjs?v=coast-sky-20261019",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3415,
+      "sha256": "628b658af1965f509de2f6ed7556a8d4cc79dba85ce7f27121ec0aaa1adb50a8"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/sun-arc-math.mjs?v=sun-day-20261019",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2730,
+      "sha256": "de0bd139756d6dd0c518fb4054073bb2c73f327b12fa5c37e49261c1e2d9eaf8"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/site-motion.mjs?v=d7e744268007b23cad9f987172b548e2",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 5676,
+      "sha256": "e3343b22d766fbe1046d6a742875098114ac1332c382497835e9f880f2cf9f61"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/page-entry.mjs?v=76a59960c2473da2d28526a2a0015f06",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2312,
+      "sha256": "655c066abd9c867781333cc4e2d093ecba08350769c52f7abb24c937946b3593"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/glass-motion.mjs?v=f3662be85d95beebf2242ce9584e67aa",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4655,
+      "sha256": "27f6616ecd00dd71d78426a62f67298a22610db06f235bee40e52ce5bd1a99ea"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/card-ink.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3144,
+      "sha256": "e2aeef613e9176ef475f6246661c9c1e9586c993d8c485c47f1281138785d736"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/companion/duh-page.mjs?v=4badb773839f71c41263b563626dd98f",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 22111,
+      "sha256": "db1a51688ff2dcd65c03d6ba20823edfac8c48bf4cf08b91a067772f776ea306"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/companion/duh-motion.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4812,
+      "sha256": "df62c38a81ccf99ae259a1e8ab9e6dbea9572374feabd5b8328f88e6bdb16561"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/companion/behaviour.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2051,
+      "sha256": "c82d0df42c03e5cb305338b31ffe7bad19a150edb9b845a39ddb45e41efcb140"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/companion/duh-viewport.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 782,
+      "sha256": "6b6d636a89811be522802a68b42e086bf541e0a90d3253c63cec8ceb4e68ff27"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/companion/bridge.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 546,
+      "sha256": "8ef72c9010d484b34a870d9c3d377808a4802c3c99004b5a212b83c0a70050da"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/companion/duh-portrait.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 7490,
+      "sha256": "d301aba5985d0f3dea6eb8e892c7008fe814bda34cb2fe21f0a8f75f63d92d6f"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/companion/motion.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3719,
+      "sha256": "d701031509986986b74776771245bddbecf4872748ced8fa8082d419afbbfdc9"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/companion/duh-body.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1571,
+      "sha256": "e93a8c4475b1b0fa5c65b77064314ca1667e83ef6ba82dd7efed3849ec699776"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/reading-effects.mjs?v=edfe1c035721ac13a6638b5cc7daed1a",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3323,
+      "sha256": "9c155ef838237d0fbfbe63802fee82315db025c16ab2406af8aec07c22f292ba"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/controller.mjs?v=ambience-20261102",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 103849,
+      "sha256": "be58b2ef194e5d3ce6202f2567fd47ef6db727b2b3facd1e66294a375290552e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/materials.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 5306,
+      "sha256": "42b5abd197b7b27905df6e80b86a94a7e36a961a296383820157488cf11cace6"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/model-loader.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1349,
+      "sha256": "6d463c135243f233423cf2487572fa48c231a12e462e31112d414994e163a59a"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/look.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 642,
+      "sha256": "4ab0b9d58c0d61ca3a9cbd87d19df11f996983faee08530c03095eaabec83480"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/environment.mjs?v=rain-contact-20261102",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 30416,
+      "sha256": "1888f0c32cc152bcd17845435b75cb5187d7e60ff002095a46f75343516e87e4"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/realism.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 28288,
+      "sha256": "62f7937a316e89349b25b1bfae71b5100f0f0cfb63c5d89c1c9049bf4ec0cee1"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/locomotion.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1540,
+      "sha256": "67f06f1d0407a6f98600f549a52a2a2aa526de94ead62fca775bf7dcc1042401"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/routine.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2392,
+      "sha256": "b3e91a9d53153bf88a4e9367e46ce7191c63f9585ff847b868967b79dc744fa0"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/resolution.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4238,
+      "sha256": "8018f5686d736fee2214dc4bec22a59fd86fbd1506bd57c28757023ca34b5061"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/reflection.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4870,
+      "sha256": "bd16a900e033474f5c63ddccea94113075e275e1682e722a72d797309deeb9c8"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/quality.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3921,
+      "sha256": "b860cc79b51e9bbc163243536972a555736942e04f77c98d43503aab32d17706"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/shadow-cache.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4757,
+      "sha256": "7e0009f1bdc8e9a096992f4395e2d8ddcd57d395f08cc7799b707098204b3790"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/shadow-fit.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 436,
+      "sha256": "6ac5aba3e3fa3810a8120120c5a56c8f58d59b6b7bab13fb449a59cbb9bcb6ee"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/camera-field.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4390,
+      "sha256": "ebec2228f6eb1358d1d53f268a3815c0c9977865dc6bf169f835db2d4ed6fbe2"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/activities.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3667,
+      "sha256": "c77e9b023bdb17c28655d74ec5ccd401e29f2c1b12b0df6c37aaa23c72eadf57"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/draw-order.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 402,
+      "sha256": "60682595fd4c32ff9ea687cc0be386b9e5e7d91863eca8cff7653efe39ffeda0"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/camera.mjs?v=exterior-waterline-20261101",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 13813,
+      "sha256": "be9ac77328d19ecdc70758da26a0108798a383a934363a5776025360530115c1"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/lift-rig.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 16332,
+      "sha256": "6654c120b1541078fcf6cdd04b03f025516af7d72a1b8475cbce748098d352f0"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/gym-props.mjs?v=gym-close-20261101",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 6879,
+      "sha256": "f716afde36e12c9f738af97dec23ba5ee67bfec6be3ce89a75eee46c486fd50d"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/bedding-breath.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2482,
+      "sha256": "67cb4b6c86aa4ca788cc41b431a5498f3e5474500bffe74c512f099d2db70bb5"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/grip-targets.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 224,
+      "sha256": "010912bdd2fcc4d426998262e1f34f3cb0d700a93eec71e71263d99c9efa39db"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/training.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 6807,
+      "sha256": "8c039b67bab4410c3c850cb24da2c8ebd1c23c7f7abdf0ac8d8f2052a1b9e304"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/gym-session.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 17158,
+      "sha256": "ed51fc11627fb34392e134ea8a88bde5d00555533468024f297a64a05acfaa5d"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/gym-dashboard.mjs?v=gym-close-20261101",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 15497,
+      "sha256": "d9c9afdd9e9d5a58d63123a6f3e0bea1990019bc223c52c1b874deead3abf13f"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/navigation.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3446,
+      "sha256": "5f0b14d832c9cfc22a90d95137ba2b958963b5993c9ff898159d1d250c785fd2"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/room-journey.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3375,
+      "sha256": "fb644b080e45b61d72932065ff87c030b4926abb5745baad90cbcdb7aea36a6e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/planted-feet.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2538,
+      "sha256": "d09f46ab43b5da746947177d7eb0d959642f5356d2f6206c6b38b48ce2823afb"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/record-motion.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1602,
+      "sha256": "9c4ef3d22ebf14e004a734b3aa49822066eda1efe50e22796f96f59e52930d5b"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/seat-surface.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1015,
+      "sha256": "f398c04569a0708991a92e16121b016759a9fa7cfc3750cdd24de55e81793134"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/companion.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 10284,
+      "sha256": "72ad4043ea04230f3510a3fd80ed991547397ab8955f4e27477ad7e0e8d691f0"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/camera-motion.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1295,
+      "sha256": "0f8e07c229986768488090f3b3125bee867d6bd8de9a53f2d65cd6bea9bc6142"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/daylight.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1256,
+      "sha256": "dda276ab9fca11b6abd7ac6f865a15e7b11dbc6d39e944e5abe8291d3bdbec10"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/contact-occlusion.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 6603,
+      "sha256": "a2c05aa4311b8f48e6ec7a1fff8e9ee94ed17ea755bdc414f8c2ab0b6a104ec9"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/loading-sketch.mjs?v=packed-20261031",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4754,
+      "sha256": "71ebc7c83f84418530d1e661cfc5971baa85b3ae440866aea02ad0df47809f29"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/character-performance.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4764,
+      "sha256": "26494294d1abb116724a131dcfe6d25b2b749c715bc5c34881dd16b9f8884f94"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/light-well.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 11052,
+      "sha256": "4218a805c1e80718dda68bdae99d7a0ca5d8f9d9f372fbed987c443d2168281b"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/occlusion-region.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1701,
+      "sha256": "e66ae82897a665c4006f47d93ac7f4b9cc2c21a09f50164780f6dc4fc2dc4600"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/skin-diffusion.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 5470,
+      "sha256": "22e6ed04a1b4883e8ba6745f81530aec5449f4aaa68f83fd99f3046ea7cff6cf"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/pool-geometry.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 978,
+      "sha256": "c00b146c28811850a9ae8f014fda3cd4a9114a2d2e0ddf0d7881057862eafcb5"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/onsen-water.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 15711,
+      "sha256": "d23664c9c90f777759707f3668cf08dd5822567c1c1d305c70555490a7dfaf20"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/pool-stroke.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3302,
+      "sha256": "aa89ff964ce1626bfd0dcefce055ee636869a86b2c0bb7ec5d217ba9c71a236e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/pool-activity.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2317,
+      "sha256": "2427b7c6aa5f51e175606ab728e04c3915efe6337589c21af3ba2a4ac094b6e6"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/coastal-wind.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3783,
+      "sha256": "fc75c385300245fed7a7d76cc9d392d3e4ebb4584e01b1bc3c8b920a2ccb9ceb"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/wind-field.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 11048,
+      "sha256": "a1e7ad9f3930becd168e0be492c4dba61f2f6faf00ee9ea597ae3cb773dfcf13"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/sea-optics.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 10982,
+      "sha256": "3966857c674468f0a10b28ab77306d53ab1a18f24c4b13a3d13db1bcb40c1df8"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/ocean-spectrum.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 9329,
+      "sha256": "a165cf2a5b5c9f51c6562122d87af733c1372c2daa52648f27f6de834539ed3d"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/curtain-rig.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 7821,
+      "sha256": "9b9153258ace9b8d60cdc81090108b9db7198aa51a2817119a7c0d6f13da743e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/warm-practicals.mjs?v=ambience-20261102",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4967,
+      "sha256": "d97ab95007c907c1ce78b47ca2c7e357b1d152b5a8f1955f22818f582db97c2e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/steam-volume.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 8895,
+      "sha256": "0d975f7fc25dda08685e67f2f5f209ea5f6ee4bdb7690b81dacb7a207a7f8e98"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/program-warmup.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 5300,
+      "sha256": "9697e2a80adfe9fda930ed7966e26a0c3339a97cc16687ce4544388b7b842497"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/steam-density.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 7552,
+      "sha256": "8c89be68e15223ce2c34afb822f281d891d85725df51522327df61c393b66b00"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/static-light-field.mjs?v=packed-20261031",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 22430,
+      "sha256": "09e9d64dd0f3e683bef38a6011b8174747bcc38c87b1f2647553f626ce236d32"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/program-lifetime.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1190,
+      "sha256": "9bb021e248d08d582af88ca99787d25589f44138e7786ae0d2c33d8b89bec19e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/glazing.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1101,
+      "sha256": "7d3b65b590b95e6573afa709f7caedba06f10c380d3783125a10db55c63e063d"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/world-fullscreen.mjs?v=layout-20261031",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4538,
+      "sha256": "c1d4d7de0fd58f63d4fccdeae37d8165c8ba859e640da5dd2424a799d4388bba"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/walk-controls.mjs?v=gym-close-20261101",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 18937,
+      "sha256": "e3da0aeca6d0d35bc79d8e4865586c2f5cc333d309ea2c026069c5955632d993"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/furniture.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 12236,
+      "sha256": "a6bbb06c0cd8f710e5f147f1f84c6c985f88448c7dd735089e1d2e830cd02e2d"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/atmosphere.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 30073,
+      "sha256": "5a40f5b45cb73346d17f5b293eca96953cbc8253b8f503f294f8a40af030b12a"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/light-installations.mjs?v=interior-20261031",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 22497,
+      "sha256": "7bb895ea7919158b89b43d34e84ec9842b5aa42ca45231297f9692effc0a5d89"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/dining.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 36214,
+      "sha256": "52e386205a8df09a774b8278958c09068c1d7fda19be05d506a94f8ea7b52032"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/haze.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 12231,
+      "sha256": "50b97c6b758b2681f940166dfa6bd67e5cf601cb1e8a4c25eeb93984e1a1ef83"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/infinity-pool.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4489,
+      "sha256": "9607f8b48cf3bff559fd222c18296b3f47427cbabb41799d0dcd5abc914ffd4c"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/walk-presence.mjs?v=gym-close-20261101",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 9775,
+      "sha256": "1758fc08ece94fc232aeba2ccb250d620bf210479a0ab4eb9f161d038bbd6cb9"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/interior-reflections.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 9899,
+      "sha256": "10b201a7af6423192ccc6da90d5cca407dbcba6f94a96951927460f4e0bde786"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/static-triangle-index.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2539,
+      "sha256": "e8299d9e5c0971ccac8828f6d9d70c46bf6bc7327aa460148f129a97fb6711ff"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/estate-doors.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2719,
+      "sha256": "ba94e9be9b6795303ea50bdafa94fed9a4097ea861eee05db7adda0d793882d8"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/coastal-rain.mjs?v=rain-contact-20261102",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3165,
+      "sha256": "a25a83a4e686913c6cef91dfb50d5556150edb9db60442ac564129663b37e30a"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/rain-roof-field.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2352,
+      "sha256": "e099f20eda9e6f029fa1947dd48d38117dfdb1520f5d047db21c31dc98283176"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/library-ladder.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4233,
+      "sha256": "192d790b17b4a1ef3c592040103f971c4f4d94e57d18f221a9110223cd39e694"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/rain-water-sampler.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1828,
+      "sha256": "6bcf10deb8ec687c7e0bea9c4aeb86179f43a45d6d246fac463f5e375edbb7b4"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/rain-surface.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 5365,
+      "sha256": "c9b2fe6a0d07617fc259d80fe6b955969e173f13b9901aa4f74844a9821f0b32"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/shore.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1210,
+      "sha256": "a1444a3ccb209498f364ceebc67b1ecc6d80785d2b51e859316b748f4f7f0613"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/wind-particles.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3361,
+      "sha256": "7129472e87c0903674ffe35cb6abb5f9f4a977cbe55e62ba807e11d2d5b74c63"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/wildlife.mjs?v=contact-regions-20261101",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 28224,
+      "sha256": "f93bdb49bdda48544c975bbd9cf6e45cbdb98c3986b3ecc6805c94831fda36a7"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/bathymetry.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 6862,
+      "sha256": "bf0f5f7810bd904b4758dc68d507ced6276c84a82da8cff285c09c8443744069"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/stars.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 12991,
+      "sha256": "1b2f394e3b7c7fa9da75de79f3e92ca37966fda946797f19826fef47e0f1e592"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/far-field.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 15624,
+      "sha256": "86a83d897305338d7482e1b7547ac8f0aad42d171481f518a5d13148ea57c67c"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/gpu-timer.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1036,
+      "sha256": "0b467c9a26b81e41632131605a249b566e698ea3f69578303683a149b8bf2f50"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/character-contacts.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 513,
+      "sha256": "922dbb521557d46a9b075822ecfad38d682b22bc7c1734e713459122fce21110"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/volume-depth.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1922,
+      "sha256": "76328ff5c288ea9111083a23f023c38053da111135f335150e17cfc7a31b6eed"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/duvet-solver.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2662,
+      "sha256": "c07960b895d065c11a6d2dce0b3b0e174fdb7fea89b363ecf96538902ee7f7e6"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/camera.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 13813,
+      "sha256": "be9ac77328d19ecdc70758da26a0108798a383a934363a5776025360530115c1"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/plant-motion.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 11298,
+      "sha256": "931b8ce2de1eb6c85beb049d8a3375917c7f6520848e9f92dd159a7f2b019656"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/companion/performance.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2719,
+      "sha256": "ebde195d098516fe8e5dd9357a616013c447101dfb1c4f6e9bd3285ec1c1c2e4"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/companion/clearance.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1028,
+      "sha256": "900ee6bd944a1677b9168de294b90d837746047c3eb45a342439a38ba4c322b2"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/companion/attention.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 923,
+      "sha256": "90c5b35bd097674cece1baeb9b7b84f5c8a08ef7706e07406fbd188d9e75b658"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/skin-diffusion-profile.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4323,
+      "sha256": "d425d8361f453c2173eee892a120c9e838154b5493d9f8b2da74cac768918c29"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/heightfield-water.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 7909,
+      "sha256": "b35af7b5d462fc6047e70f8723ad3ab79de45d280d942ee5478874c989c1c4f1"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/loading-sketch-core.mjs?v=packed-20261031",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 9066,
+      "sha256": "8f38d2f0c07fe2db1bfa7d20505c7dec8cfe11e668c169cd81da3ca59f34328f"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/fft-ocean.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3682,
+      "sha256": "10b8dece0e5dc28429a9cee425c88a6cc25a23de2d536d9a2749fa73fcf51cb4"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/local-scene-frame.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 376,
+      "sha256": "d55104651bd8a178018d027e75f91eb0b15a80ff692517f8102227ac19ac7902"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/laundry-rig.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 8410,
+      "sha256": "162d282185493a2a0c8decc3bbbcc38a5f46ca0e2f8947757579b8edd36dbe0c"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/sheer-fabric.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 18639,
+      "sha256": "7d76d94c1fbfdda27db04e6de4d71baae9885cd809580aefd12e07a508599663"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/light-trace-core.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 5529,
+      "sha256": "8f2370a2bc09cf71e6188c5affd2d4b33350eef0518034d019d6addd6460bbe3"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/curtain-cloth.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 17691,
+      "sha256": "2c299384829ecfeaf4e5667336ee572cdf2ea116b6863ede84e6f8bdfb82036a"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/furniture-fire.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1842,
+      "sha256": "aee81595e7247068c3b5c0273e36dba4409f7464c6c1b418842cb6eed44e4d34"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/gamepad.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1194,
+      "sha256": "a9fe751622ddef264ba8d5624ca9613d45ab2bb61b832f876044b2eb9fac9899"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/walk-flight.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1209,
+      "sha256": "4a881c4dba9189a2be934e9e214eae7a333e4492dbc3bccabdb2bdfc2db79df1"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/virtual-joysticks.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2240,
+      "sha256": "1e2652ae849a9e18b4fef6cea4d4bf9be232b782de8a55a230002121c28defe4"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/detail-levels.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1602,
+      "sha256": "ed688ca952f0b30a447fb43cb2950c24d9ad189ad09162d011aec565aa084f66"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/colliders.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 12639,
+      "sha256": "9281cfc5effd5d6c00c45877d83e89d66d5b0994bb2824302dc6638952c2399b"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/atmosphere-model.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 10796,
+      "sha256": "2370b372cabfbf04ad30aca00a13151f24de06d899e89ae1dad6a8d0b820dffb"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/coastal-weather.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4305,
+      "sha256": "bc5817f20cf60f67cc8515338d77e097b54ed576dfe2779f15d224c8997ff69e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/pool-impact.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3807,
+      "sha256": "634f1d487a79874f20fa971de0cf2872b6d717da0ed637185fbfbe80b949f3c3"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/dining-menu.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4426,
+      "sha256": "4771256f0228ed4f3a6905369dea9cd3a802099cadce3844251f2bfe4c651b38"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/dining-motion.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 21089,
+      "sha256": "800f386dc5c645074b0d4065d3276e3ec695b338701f7b7d02229296c1fe5aec"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/pool-splash.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 5347,
+      "sha256": "98ae0594d0a90f8f66fbc81a45200234094086df9fbbcb2dc1fcfb87ace9d0b5"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/walk-collar-liner.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 6792,
+      "sha256": "f20dde45ff44637ab9336ee416c222f3b318b54f810408dd21357cbf680d1486"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/rain-trajectories.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1613,
+      "sha256": "410a7aec96fa812974035c1c02841761d6a24851d3830c55c9f065b75d94a6d2"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/rain-surface-spectrum.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4299,
+      "sha256": "e00b27dcefeb8684d81c3d155a54441620d1b5d991801b0cd22840360e6ed771"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/rain-contact.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2225,
+      "sha256": "5bcc4086fde2b0feccfca61537b71ce02fd61b19c9868253ff0ef8e27f6333e8"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/wildlife-motion.mjs?v=contact-regions-20261101",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 12851,
+      "sha256": "da7912fdb60ff66d401b53ab6f056d5d6cc44238b51936b18ea4e72afdd6b954"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/wildlife-perch-contact.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3573,
+      "sha256": "8cdd5e534f51f27df72f1288dcf33ef4e615be2062fd232311dfe7ad440c732e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/wildlife-seabird-motion.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 8262,
+      "sha256": "70c683375a04892865164255f7db087f233a7e72e7d47da53c40c5fd70e7b43a"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/wildlife-rabbit-contact.mjs?v=contact-regions-20261101",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 6119,
+      "sha256": "b897d8128e5dfdb52f97cde56f455a6611f7ad48e09f2957895d51f1c49fab72"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/wildlife-neighbor-motion.mjs?v=contact-regions-20261101",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 19730,
+      "sha256": "3467c096be5308d512021d413f986699a4b5f293fd5e7c805969739b3d2ce4c9"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/wildlife-resting-contact.mjs?v=contact-regions-20261101",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 17742,
+      "sha256": "0499474fa344ee228f40fe0eb3c9ae72d40d94bb9a35782b4014f646c3a41cad"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/wildlife-ground-contact.mjs?v=contact-regions-20261101",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 11569,
+      "sha256": "3727edca6b5173af61276290bab523db0f31eac0e0dc7aef9610d7ae104b46c1"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/wildlife-raccoon-contact.mjs?v=contact-regions-20261101",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3065,
+      "sha256": "9307cb069cb226156c2826896de5b737c029d57612e5f429934d998132ef5d62"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/planets.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3221,
+      "sha256": "81a03c608f772c46992188e8fa4cf91a97761ba3aabef6ec1245e425c4802a18"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/star-catalogue.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 35615,
+      "sha256": "c0c1a28de7cf746c28fe8c4fc47b2046e6d02fdd7b3bcf1f93872998e7eec481"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/laundry-frame.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2253,
+      "sha256": "32887b8d87c31132ddc573dee90c228480cf6675bee1aff5ad8012266a3e038e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/cloth-solver.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 22099,
+      "sha256": "5b8eb7b934b53a5962a5b4272662b743a5ba64bc4dae921c97a5aa244d56011f"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/laundry-line.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 8346,
+      "sha256": "9e37750c9014e3746c6e477f66b7f6418e40c7b6895a851e38573dd0fe581c11"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/weather-data.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 12691,
+      "sha256": "4f76990c0dce6bfd7ac7bbfe0cd3d57463e1a4f2cb4f996e99ceb1870942c485"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/wildlife-acting.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 3285,
+      "sha256": "869875cf17dead5b3373dd98e55b41beb60d316cc9d234eabbe16f025c2f3ee3"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/wildlife-neighbor-motion.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 19730,
+      "sha256": "3467c096be5308d512021d413f986699a4b5f293fd5e7c805969739b3d2ce4c9"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/manifest.json",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 331879,
+      "sha256": "fc01cb3761a228ba2eaaf305b9c32fee579fba2dec9d99b062eb8864be8055f6"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/camera-field-worker.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 579,
+      "sha256": "46a76bff8deb2be38205fcf16e3d2cf6b78e17defffe023a3be69dcf34e7eeb5"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/home-shell.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 898704,
+      "sha256": "b51f302da52907dc1d707c14ea3a3c4578da9f43f9147d7917a6bb0e1f99ce72"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/room-study.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 113472,
+      "sha256": "1de86040cb6c173c72e9f00061d6add31a70e3d6907495413cd7ac21586daf8a"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/coast.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 241576,
+      "sha256": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/room-gym.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 222576,
+      "sha256": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/camera.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 13813,
+      "sha256": "be9ac77328d19ecdc70758da26a0108798a383a934363a5776025360530115c1"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/room-onsen.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 94408,
+      "sha256": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/index.json",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 13377,
+      "sha256": "4087f91a6ba3097f737a15ea91964e4bd1f67af0ef8138200fdb984597ff537b"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/room-kitchen.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 249300,
+      "sha256": "ff670de9f0f4b10d93873d644d9d3f9deedd0bd2c373ece627734f2295762a07"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/room-lounge.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 231436,
+      "sha256": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/room-sleep.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 294448,
+      "sha256": "3e767a1b93f35736eb54d39da60a2fefc92056d296e22ba6a41c2c31a582aa45"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/room-library.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 187788,
+      "sha256": "347ee2f9aa3d293acb33c83cba9e434d81297e8f143ec63bf23f7cfb8987923e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/room-library-upper.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 28744,
+      "sha256": "91534441cda1fc3823623a61f979bb5ad9478b222df7de03f26a62202cbdfaaa"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/room-bath-living.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 104924,
+      "sha256": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/room-bath-bedroom.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 106412,
+      "sha256": "23122cb51c7d2f3d580389eb4ffbf41a8f64f0e12f612ccb12a9f94fe37b2b80"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/static-light-field.json",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 711870,
+      "sha256": "bc5f912cc4da5f6bb41d8d15cecd3efdd91f03a9e67d6d0922781e6d3462e172"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/BrushRabbit.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 51116,
+      "sha256": "9f2c82d3e6d4845f9420395f805bcaaa4ee9ebfba9e1d4bbde21d87433cdd8e4"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/HarborSeal.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 35632,
+      "sha256": "6e7b70c892d7b8aaa1351c9b16a7e33ba342348ff93012a4af9da368eb1949b6"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/CaliforniaSeaLion.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 34376,
+      "sha256": "42adf172e236ee3be115efc4112b4e2b05389029c5e4518649324162803ae103"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/Raccoon.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 49332,
+      "sha256": "52deb93ddfb227b521472adfe5ab2007cdba9903d28b333c8e290b4c2b8d5808"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/WesternGull.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 22912,
+      "sha256": "af06b16e55042d2fe314868703e5cd4edb64ba057fde2e809a628fce95c71a29"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/Sandpiper.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 20696,
+      "sha256": "0b1868fc7b7840cb3d6a8a822bdbdd053f3cdb73cb3ab69e8d07e6d65628d381"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/BrownPelican.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 34440,
+      "sha256": "97ef0286ae9e75740bc05a60726d8321a2c0afe6a1ac60ae0ff38e66fe11749c"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/wildlife-perch-support.json",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 37636,
+      "sha256": "6c535c0a0135e5dab34472814c7600f5ae007448107059d90d70d9cdea004be9"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/BrandtsCormorant.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 31040,
+      "sha256": "1bf0f9cd47a413903472c1dacfe5f8dfd554b6dfddbc668ca80d211cef98829a"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/pip/pip.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 139108,
+      "sha256": "ffdc3263bbcf05731309ba3d8708c234ae076cc2f8839b43478ef92c7f5e1001"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/aeron-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 82404,
+      "sha256": "b8426379cae8f3f065f1c35434e9fbce2c2ee8432b1695ce33b977fb21ca4c54"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/italian-range-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 32936,
+      "sha256": "d0df11d63b14764d755cd73b4b8ecfacc88dc87bd03d88514f048b9af56d776a"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/range-hood-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 7520,
+      "sha256": "3c2c15aeb1d4e666a400d456bfcabeaca3c86c5151c9e694f4429a232f6a4195"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/pot-filler-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 7340,
+      "sha256": "f326aa0fbf62e4c5bc3e24789d2314a29b983099b276d941748e5ce506d1560d"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/glass-fridge-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 33380,
+      "sha256": "d5aa3c3d41fb8fd1dbfa627bbbb59fb72d36eeb79dc32105d6420c80f5e1c52e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/sirui-rick-and-morty.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 661616,
+      "sha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/dining-chair-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 17196,
+      "sha256": "bb79a676b7bdc24c87ff05e99542bb0ca5d5807adec20886a38c6d02bf1b39f6"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/dining-table-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 6880,
+      "sha256": "01c35852cbea182878bdbbe67baa4517090005850d9befaff215be0db9cfd884"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/banquette-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 31432,
+      "sha256": "5ce8f0e210401f8ceff43e18704c0bed407b969a9bf2455a656ca97e09f64708"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/cast-iron-pan-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 9488,
+      "sha256": "ca767c5adec75521ac90cfe9760927a83515016cc83c9dfe91e83b70d7cc0d5d"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/dumbbell-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4676,
+      "sha256": "7dc3be036ca00f584cc87d68fe2ca8db596704215a7439d1b3a6f713f942b92e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/floating-fireplace-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 12588,
+      "sha256": "a2e4b7ccaa0c94c17bd4d36aa53d652f6babca7c1c7de6916c0311c89983be36"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/eames-lounge-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 66616,
+      "sha256": "10028738fd7b5511e8cf7bf78eefd6ee283472a4e3a4f07cd8c426aa7d054ae4"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/cloud-sofa-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 55376,
+      "sha256": "74c1dc6b032f4f8d29d657b6ad129089366deb121008fc3f65d6817c554105b0"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/whiskey-side-table-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 35292,
+      "sha256": "3626132b589e67b5f8a72743497ca3820316fbd3edd6286732118816127eb99e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/whiskey-ottoman-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 7924,
+      "sha256": "aec6d5ce339227c32223e4f835977e4801afc26a69ec69736ef2f41f132b8d6e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/whiskey-loveseat-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 14860,
+      "sha256": "8192e15ecfaa11899f7dff5923c582908f673da9d8a62a7f0bff0128628bff4d"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/whiskey-bottles-lod1.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 31808,
+      "sha256": "55f88df63ac7f7cc1177e7ed87dbd0900563e06b5a86ad66a28a886dc37d09af"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/character-contacts.json",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 47570,
+      "sha256": "9437474859f95be31ffd4929e5ae6d930795568382b12b5affdafda12e13e48b"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/table-setting/index.json",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 28976,
+      "sha256": "d5a1b00ec3815b30d1e969cecda54ce24923ed7bce1fcf6c79cc41dbd0d01abd"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/sirui-ghibli.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 858356,
+      "sha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/character-contacts.json",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 47570,
+      "sha256": "9437474859f95be31ffd4929e5ae6d930795568382b12b5affdafda12e13e48b"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/walk-field-worker.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 330,
+      "sha256": "e633b3ecac3274e15e661fa48dd8352a84cbe9523434715d8229abf0e259fe5b"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/colliders.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 12639,
+      "sha256": "9281cfc5effd5d6c00c45877d83e89d66d5b0994bb2824302dc6638952c2399b"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/aeron-lod0.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 167488,
+      "sha256": "4807a4756f37bbdc20c419e12d97ce5590b04d4d14799687a7e9e3dc23afe833"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/whiskey-loveseat-lod0.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 91396,
+      "sha256": "b6afbf79f015679452a930793ceb81e0c1db2761b80061b5e451b7a610fae8cd"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/whiskey-side-table-lod0.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 52508,
+      "sha256": "ba32afceae5854ba441a22d15157282c218eb16bdc632034d4fdaa5989126b3b"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/cloud-sofa-lod0.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 130840,
+      "sha256": "a6959819fff369b4fea434f149212ab8346e3b1337cff03056464bca1bf83c2e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/eames-lounge-lod0.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 444892,
+      "sha256": "a14817679cc30a7d360006af3c0d7dfd0b07b1d786648a670ad786bf9fb06691"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/cast-iron-pan-lod0.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 45100,
+      "sha256": "9fd7d450a35326af81038e78a8ebaf426357ceef82a4c3e653d0011fd2ffd48c"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/dumbbell-lod0.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 8564,
+      "sha256": "4bc2e416b9296c3c5d58aada192cef9066fcd7c64d1955054326e4c221551ca4"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/cast-iron-pan-lod0.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 45100,
+      "sha256": "9fd7d450a35326af81038e78a8ebaf426357ceef82a4c3e653d0011fd2ffd48c"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/banquette-lod0.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 107644,
+      "sha256": "f19bcd3ec454b652d4f90148e118286cd6a0d0b415a9a5b35de6418aba4f8027"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/furniture/aeron-lod0.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 167488,
+      "sha256": "4807a4756f37bbdc20c419e12d97ce5590b04d4d14799687a7e9e3dc23afe833"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/hinterland.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1982,
+      "sha256": "accb6534acb11d53e39750705ca0cfb82da7363f2395b7525b71dd28cce7908e"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/hinterland.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 1465588,
+      "sha256": "bef9e5588f58d1475eead6ee7e41a90981d7f8d366f6317da0f9d4912aad2922"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/models/home/flora.glb",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2203180,
+      "sha256": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/water-garden.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 4211,
+      "sha256": "a3a63bc5668eaf1ecd4609be67f7d3d73ac12af01c41e3a074953c1b77459fdd"
+    },
+    {
+      "url": "http://127.0.0.1:55608/al-folio/assets/js/home-scene/gliders.mjs",
+      "status": 200,
+      "owner": "house-ambience-20261102-36472",
+      "bytes": 2717,
+      "sha256": "9f191cbebd7018e7bfbfaeb3cbaeb7d00595a44f6d9e066abccd16619b61ab11"
+    }
+  ],
+  "producerBodies": [
+    {
+      "path": "bin/measure_coastal_temporal_reuse.cjs",
+      "sha256": "499bf9d2bd1df92791d4ce16c397f5776eb75e7680f77e0eb24a8ef844a065be"
+    },
+    {
+      "path": "bin/coastal_research_tiles.cjs",
+      "sha256": "6492e88d824ffb4b0a894828437e54924234e62dcefe2f7d0b20d2719cdfa358"
+    },
+    {
+      "path": "test/coastal-research-tiles.test.mjs",
+      "sha256": "6131eb2e4e612be29877a60659688e7df67c09e91d044a37fd5661736c82f810"
+    }
+  ]
+}

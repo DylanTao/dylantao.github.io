@@ -1,14 +1,19 @@
 {
   "version": 1,
-  "primary_hosts": ["advances.realtimerendering.com", "research.nvidia.com", "jcgt.org"],
+  "primary_hosts": ["advances.realtimerendering.com", "research.nvidia.com", "jcgt.org", "graphics.cs.utah.edu"],
   "experiments": [
     {
       "id": "rain-ocean-impact",
       "title": "Rain impacts that belong to the ocean surface",
-      "state": "proposed",
+      "state": "renderer-qualified",
       "hypothesis": "A bounded surface-wave response may make rain impacts more coherent without reducing the ocean's existing detail or changing the rendering backend.",
       "rationale": "Compare a method's actual assumptions and cost with this site's shoreline and water scale before writing a shader.",
-      "allowed_paths": ["assets/js/home-scene/coastal-weather.mjs", "assets/js/home-scene/heightfield-water.mjs"],
+      "allowed_paths": [
+        "assets/js/home-scene/coastal-rain.mjs",
+        "assets/js/home-scene/rain-contact.mjs",
+        "assets/js/home-scene/rain-water-sampler.mjs",
+        "assets/js/home-scene/rain-surface.mjs"
+      ],
       "primary_sources": [
         {
           "url": "https://research.nvidia.com/labs/prl/shallow-water-simulation/files/Dispersive_Waves_in_SWE.pdf",
@@ -21,36 +26,38 @@
         }
       ],
       "baseline": {
-        "source_sha": "0fa757489cf9ee5642b64c1c6520f27a129137c2",
+        "source_sha": "fb6a9c6ff4f14b4aa5f4de91f7cddcc9abccf54d",
         "evidence": [
           "docs/graphics-representation-review-2026-10.md",
           "assets/js/home-scene/PHYSICS.md",
           "docs/performance-notes.md",
-          "artwork/coastal-home/research/notes/rain-ocean-impact.md"
+          "artwork/coastal-home/research/notes/rain-ocean-impact.md",
+          "artwork/coastal-home/reviews/rain-contacts-2026-11-02/README.md",
+          "artwork/coastal-home/reviews/ambience-integration-2026-11-02/prior-rain-publication.json"
         ],
         "limits": [
-          "Method-fit note is reviewed; actual rain contact and implementation remain unqualified.",
-          "Earlier trained/neural/FFT attempts remain controls; complete scene, rendered contact and quality/cost gates are still required."
+          "Bounded first-contact and ocean-normal approximation is published and locally/live verified; this is not a reproduction of the primary shallow-water solver.",
+          "Rainy native full-quality coast still has roughly50ms frame median. Pool rain, crowns, volumetric water and whole-scene performance remain unqualified."
         ]
       },
       "gates": [
         {
-          "id": "source-fit",
-          "command": [],
-          "expectation": "Review the complete primary method, assumptions, representation and bounded WebGL fit before implementation."
+          "id": "contacts",
+          "command": ["node", "--test", "test/rain-contact.test.mjs", "test/rain-surface.test.mjs"],
+          "expectation": "First-contact/ownership and actual displaced-water sampling controls remain exact; current actual652-event comparison is separately retained."
         },
         {
-          "id": "water-contact",
+          "id": "transport-fit",
           "command": [],
-          "expectation": "Retain matched actual rain-to-water contact frames, shore and pool boundaries, and no duplicate or detached impacts."
+          "expectation": "Method and current renderer admission are separate. Preserve the original numerical/physical omissions and public rain quality."
         },
         {
-          "id": "quality-cost",
+          "id": "native-quality-cost",
           "command": [],
-          "expectation": "Bind source/model/cache, cadence, view, drawing buffer, backend and real clocks; a quiet native GPU pair is needed for a performance claim."
+          "expectation": "Native2K/4K paired cost and modernWebKit/live captures are retained; no overall speedup or physical-iPhone claim."
         }
       ],
-      "next_step": "Read artwork/coastal-home/research/notes/rain-ocean-impact.md; reserve a source-bound 16-trajectory contact audit with executable correctness gates. State remains proposed."
+      "next_step": "Read the published rain review and current material-cache research note. Any pool/crown/SWE extension is a new proposed experiment with owning paths, controls and admission; do not rerun or relabel the completed first-contact checkpoint."
     },
     {
       "id": "angle-stable-interior-light",
@@ -139,6 +146,106 @@
         }
       ],
       "next_step": "Review one complete method and its available implementation, then propose a single leased experiment with runnable correctness gates."
+    },
+    {
+      "id": "dependency-aware-surface-reuse",
+      "title": "Reuse static material evaluation while keeping scene dependencies live",
+      "state": "proposed",
+      "hypothesis": "Caching static geometry/material evaluation behind explicit dependency generations may avoid repeated work without freezing final lighting, water, actors or occlusion.",
+      "rationale": "Actual complete-world dirty-tile coverage varies greatly by view and small camera changes; final-color freezing has no correctness certificate.",
+      "allowed_paths": [
+        "bin/coastal_research_tiles.cjs",
+        "bin/measure_coastal_temporal_reuse.cjs",
+        "test/coastal-research-tiles.test.mjs",
+        "artwork/coastal-home/research/notes/dependency-aware-surface-reuse.md"
+      ],
+      "primary_sources": [
+        {
+          "url": "https://graphics.cs.utah.edu/research/projects/hipr/HiPR-SIGGRAPH2026-RTL.pdf",
+          "title": "HiPR: Hierarchical Progressive Rendering for Immediate Feedback, SIGGRAPH2026 Real-Time Live extended abstract",
+          "review": "method-reviewed",
+          "fit_notes": [
+            "Complete three-page text reviewed: object/depth visibility, discovered transport dependencies, priority scheduling and eventual full update; reference uses Vulkan inline rays.",
+            "The proposed raster material cache is an original bounded adaptation, not HiPR. A target-image difference oracle cannot discover dependencies or demonstrate saved rendering work."
+          ]
+        }
+      ],
+      "baseline": {
+        "source_sha": "d9e7cc17283b66f4e5b6466daddc1817fc1114e4",
+        "evidence": [
+          "docs/coastal-rendering-research-2026-11.md",
+          "docs/graphics-representation-review-2026-10.md",
+          "artwork/coastal-home/reviews/wide-view-runtime-2026-10-28/README.md",
+          "artwork/coastal-home/research/temporal-reuse-2026-11-02/README.md"
+        ],
+        "limits": [
+          "Source-bound temporal readback census is not a runtime reuse predictor, cost measurement or SOTA reproduction.",
+          "Prior exact-pixel batching regressed frame pacing; whole-scene nativeGPU/driver attribution is required before another submission rewrite."
+        ]
+      },
+      "gates": [
+        {
+          "id": "oracle-accounting",
+          "command": ["node", "--test", "test/coastal-research-tiles.test.mjs"],
+          "expectation": "Exact border/channel accounting and oracle reconstruction pass; diagnostic thresholds never replace exact masks."
+        },
+        {
+          "id": "dependency-contract",
+          "command": [],
+          "expectation": "Define source/camera/projection, geometry/material/visibility and light/reflection invalidation. Unknown dependencies fall back; no production hook before a reviewed executable correctness gate."
+        },
+        {
+          "id": "quality-cost",
+          "command": [],
+          "expectation": "Full product, held-out views/motion/lighting, quiet native ABBA with driver attribution, startup/memory/p95 and WebKit/iPhone fallback. No draw-count-only or oracle-skipped-work claim."
+        }
+      ],
+      "next_step": "Review the retained census and method note; propose one unused lab cache with explicit invalidation and runnable correctness controls before marking ready. Preserve original renderer as fallback; do not touch the coordinator-owned controller."
+    },
+    {
+      "id": "compact-neural-material",
+      "title": "Learn one owned expensive material with a measured browser decoder",
+      "state": "proposed",
+      "hypothesis": "A small trained surface-appearance model may replace one expensive owned procedural material at a better measured quality/cost point.",
+      "rationale": "Current neural material work separates training reliability and inference hardware; neither its performance nor older failed Gaussian results can be transferred to this browser.",
+      "allowed_paths": ["artwork/coastal-home/research/notes/compact-neural-material.md"],
+      "primary_sources": [
+        {
+          "url": "https://research.nvidia.com/labs/rtr/publication/bitterli2026taming/",
+          "title": "Taming optimization variance in compact neural shading networks, SIGGRAPH2026",
+          "review": "abstract-reviewed",
+          "fit_notes": [
+            "Primary abstract, paper lead and author implementation prerequisites inspected. Full technical reproduction remains open.",
+            "Reference implementation requires Vulkan Cooperative Vector support; current WebGL and physical-iPhone inference have not been qualified."
+          ]
+        }
+      ],
+      "baseline": {
+        "source_sha": "d9e7cc17283b66f4e5b6466daddc1817fc1114e4",
+        "evidence": [
+          "docs/coastal-rendering-research-2026-11.md",
+          "docs/graphics-representation-review-2026-10.md",
+          "artwork/coastal-home/reviews/wide-view-runtime-2026-10-28/README.md",
+          "artwork/coastal-home/research/temporal-reuse-2026-11-02/README.md"
+        ],
+        "limits": [
+          "Source-bound temporal readback census is not a runtime reuse predictor, cost measurement or SOTA reproduction.",
+          "Prior exact-pixel batching regressed frame pacing; whole-scene nativeGPU/driver attribution is required before another submission rewrite."
+        ]
+      },
+      "gates": [
+        {
+          "id": "complete-method",
+          "command": [],
+          "expectation": "Read the complete method and license; choose one owned material, ground truth, architecture, repeated seeds, held-out illumination/view samples and browser decoder before training."
+        },
+        {
+          "id": "quality-bytes-cost",
+          "command": [],
+          "expectation": "Report training time, model/texture bytes, held-out spatial/temporal/specular errors, exact original controls and real browser GPU/whole-frame costs. No untrained-placeholder or source-paper-FPS claim."
+        }
+      ],
+      "next_step": "Finish primary-method/implementation fit review, then propose a bounded training-and-browser experiment. It remains proposed, separate from geometry reconstruction and renderer admission."
     }
   ]
 }

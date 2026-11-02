@@ -1,0 +1,54 @@
+{
+  "method": "Readback-based change census, no reuse predictor or timing claim. Threshold2 is diagnostic only; exact masks remain qualification input. Camera deltas and actual sampling intervals retained.",
+  "sourceDeclaration": "d9e7cc17283b66f4e5b6466daddc1817fc1114e4",
+  "responseBodies": 211,
+  "errors": [],
+  "failures": [],
+  "views": [
+    {
+      "view": "study",
+      "activity": "work",
+      "movingExactTileFractions": [0.5277777777777778, 0.023055555555555555, 0.02361111111111111],
+      "movingDiagnosticTileFractions": [0.06, 0.013333333333333334, 0.01361111111111111],
+      "movingCameraDeltasM": [3.580361673049448e-15, 0.0, 0.0],
+      "movingIntervalsMs": [2417, 2468, 2407],
+      "observedRoomCounts": [10, 10, 10, 10],
+      "pausedExactPixels": 0,
+      "draggedExactPixels": 3684637,
+      "buffer": [2560, 1440],
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "qualities": ["high", "high", "high", "high"],
+      "oracleReconstructionExact": true
+    },
+    {
+      "view": "gym",
+      "activity": "workout",
+      "movingExactTileFractions": [0.9325, 0.9366666666666666, 0.9391666666666667],
+      "movingDiagnosticTileFractions": [0.48083333333333333, 0.5002777777777778, 0.5097222222222222],
+      "movingCameraDeltasM": [2.3728606383980667e-5, 2.9648024456471866e-5, 3.24092026102751e-5],
+      "movingIntervalsMs": [2633, 2497, 2486],
+      "observedRoomCounts": [10, 10, 10, 10],
+      "pausedExactPixels": 0,
+      "draggedExactPixels": 3647630,
+      "buffer": [2560, 1440],
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "qualities": ["high", "high", "high", "high"],
+      "oracleReconstructionExact": true
+    },
+    {
+      "view": "outside",
+      "activity": "work",
+      "movingExactTileFractions": [0.19277777777777777, 0.4066666666666667, 0.33444444444444443],
+      "movingDiagnosticTileFractions": [0.18611111111111112, 0.40166666666666667, 0.3263888888888889],
+      "movingCameraDeltasM": [0.0, 0.0, 0.0],
+      "movingIntervalsMs": [4244, 4164, 4576],
+      "observedRoomCounts": [10, 10, 10, 10],
+      "pausedExactPixels": 0,
+      "draggedExactPixels": 3677732,
+      "buffer": [2560, 1440],
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "qualities": ["high", "high", "high", "high"],
+      "oracleReconstructionExact": true
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "scope": "Local source/tool/research checks and prior-runtime delivery; no new renderer or performance admission.",
+  "localChecks": {
+    "node": {
+      "total": 995,
+      "pass": 988,
+      "intentionalSkip": 7,
+      "fail": 0
+    },
+    "python": {
+      "total": 384,
+      "fail": 0
+    },
+    "productionBuildSeconds": 158.16,
+    "derivedImageReuse": "Unchanged responsive assets/img from frozen complete ambience product55608; no source image omission",
+    "trackedFormatting": true,
+    "targetedNewSourceFormatting": true,
+    "styleContract": true
+  },
+  "pipeline": {
+    "queueSha256": "fbf913c1af6a93279ead3b21ed7e9b4131f556912844c9ee0e5227799c1d0fa8",
+    "experiments": 5,
+    "ready": [],
+    "runnerVersion": "1.1",
+    "cliVersion": "codex-cli 0.164.0-alpha.11.1",
+    "discoveryStatus": "discovered",
+    "modelJobsStarted": 0,
+    "dryRunExecuted": false,
+    "realModelProtocolProof": "artwork/coastal-home/reviews/research-protocol-2026-11-01/README.md"
+  },
+  "priorRuntimeDelivery": {
+    "source": "d9e7cc17283b66f4e5b6466daddc1817fc1114e4",
+    "visualRun": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41402006748",
+    "attempt": 1,
+    "successfulVisualJobs": 42,
+    "pages": "fdf947c09cc677638be7b6a079f704b952931203",
+    "exactLiveResponses": 10
+  },
+  "limits": [
+    "New research entries are proposed, not a ready runtime lease.",
+    "Census is actual2.4\u20134.6s screenshot sampling, not frame-time measurement or runtime saved work.",
+    "House geometry/route/coffee integration is still independently qualified before final source publication."
+  ]
+}

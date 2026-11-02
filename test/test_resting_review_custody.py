@@ -26,6 +26,7 @@ class RestingReviewCustody(unittest.TestCase):
             "research-deadline-2026-11-01": "MANIFEST.json",
             "research-schema-2026-11-01": "MANIFEST.json",
             "research-protocol-2026-11-01": "MANIFEST.json",
+            "research-census-2026-11-02": "MANIFEST.json",
             "exporter-holes-2026-11-01": "MANIFEST.json",
             "exterior-waterline-2026-11-01": "MANIFEST.json",
             "waterline-release-2026-11-01": "MANIFEST.json",
@@ -44,6 +45,7 @@ class RestingReviewCustody(unittest.TestCase):
         packets[ROOT / "artwork/site-fidelity/reviews/metrics-pc-2026-11-01"] = "MANIFEST.json"
         packets[ROOT / "artwork/site-fidelity/reviews/nielsen-portfolio-2026-11-01"] = "MANIFEST.json"
         packets[ROOT / "artwork/site-fidelity/reviews/cv-navigation-2026-11-01"] = "MANIFEST.json"
+        packets[ROOT / "artwork/coastal-home/research/temporal-reuse-2026-11-02"] = "MANIFEST.json"
         for base, index in packets.items():
             folder = base.name
             records = json.loads((base / index).read_text(encoding="utf8"))["files"]

@@ -95,9 +95,11 @@ controls, official cache and full overlap audit. Bedside light now follows its
 actual globe, the occupied upper reading area has a containing light region,
 and the kitchen olive has curved foliage and connected branches. Twelve native
 bedroom/reading views, twelve paired kitchen views and eight phone-size WebKit
-views pass without console or request errors. This local checkpoint does not
-close the whole-house appearance or performance items; CI/live publication is
-the next independent gate.
+views pass without console or request errors. The published `d9e7cc172` then
+passes all 42 visual jobs on attempt 1 and all other triggered checks. Ten live
+responses match the pinned Pages deployment exactly; the [delivery receipt](../artwork/coastal-home/reviews/research-census-2026-11-02/CHECKS.json)
+retains that evidence. This does not close the whole-house appearance or
+performance items.
 
 Sirui selected the under-bedroom space as a calm plant-garden refuge, with
 ocean-facing breakfast seating elsewhere. This supersedes the earlier seated
@@ -108,6 +110,28 @@ Complete the safe route and coffee contacts, then qualify a genuinely open
 existing patio/terrace breakfast position. The F6 exterior, straight arrival,
 garden nook and combined native/export/cache/Walk gates remain open before
 items 9–10 and 23 can close.
+
+## November 2 rendering research and calendar continuation
+
+The [research plan](coastal-rendering-research-2026-11.md) records current primary
+SIGGRAPH/CVPR/NeurIPS leads and the retained failed batching and learned
+representation controls. A complete native [three-view temporal census](../artwork/coastal-home/research/temporal-reuse-2026-11-02/README.md)
+finds strongly view-dependent change coverage, exact paused repeats and actual
+drag invalidation. It measures screenshot-separated output changes, not frame
+time or saved rendering work. The existing bounded runner now discovers and
+validates five entries; future static-surface reuse and compact neural-material
+implementation remain proposed. There is no new renderer, lower-detail shortcut
+or SOTA claim.
+
+The private calendar collector now backfills GitHub's actual daily public
+contribution labels and revalidates all years with one aggregate API query and
+conditional yearly HTTP requests. An actual immediate repeat returns ten304s,
+downloads zero calendar body bytes and reports no changed days. Corrections to
+older dates, including decreases and equal-total redistributions, remain visible.
+The source is integrated into the existing PC pipeline. Its final scan/profile
+publication and site import remain the last step after the house work. The
+profile's contribution measure and Build Rhythm's raw commit measure keep their
+separate labels and validation; they are not silently substituted.
 
 ## October29 PC visitor checkpoint
 

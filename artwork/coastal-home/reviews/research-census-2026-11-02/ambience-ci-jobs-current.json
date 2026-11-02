@@ -1,0 +1,296 @@
+[
+  {
+    "completed_at": "2026-11-02T07:01:35Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (desktop-1440, scene-held-stairs)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:03:28Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (desktop-1440, scene-core-1)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:04:32Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (desktop-1440, scene-footer-light)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:14:13Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (desktop-1440, scene-core-2)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:02:55Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (laptop-1280, scene-core-2)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:17:02Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (tablet-768, scene-exploration)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:29:29Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (desktop-1440, scene-journey)",
+    "started_at": "2026-11-02T06:46:13Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:53:31Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (tablet-768, scene-live)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:51:11Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (laptop-1280, scene-journey)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:53:57Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (tablet-768, scene-gym)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:06:22Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (mobile-390, scene-exploration)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:17:38Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (desktop-1440, site)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:59:32Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (laptop-1280, scene-gym)",
+    "started_at": "2026-11-02T06:48:05Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:56:06Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (mobile-390, scene-choreography)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:57:07Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (desktop-1440, scene-choreography)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:08:36Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (tablet-768, scene-core-2)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:59:29Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (mobile-390, scene-core-2)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:26:44Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (laptop-1280, scene-exploration)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:53:10Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (laptop-1280, scene-live)",
+    "started_at": "2026-11-02T06:47:28Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:57:28Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (mobile-390, scene-footer-light)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:51:01Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (mobile-390, scene-journey)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:00:41Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (mobile-390, scene-held-stairs)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T08:01:12Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (desktop-1440, scene-exploration)",
+    "started_at": "2026-11-02T06:49:02Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:51:57Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (desktop-1440, scene-live)",
+    "started_at": "2026-11-02T06:46:19Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:56:45Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (laptop-1280, scene-choreography)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:59:32Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (laptop-1280, site)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:59:01Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (desktop-1440, scene-gym)",
+    "started_at": "2026-11-02T06:46:14Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:58:20Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (tablet-768, scene-footer-light)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:00:28Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (tablet-768, scene-held-stairs)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:02:50Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (tablet-768, site)",
+    "started_at": "2026-11-02T06:46:13Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:58:52Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (tablet-768, scene-choreography)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:55:18Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (tablet-768, scene-core-1)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:58:31Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (laptop-1280, scene-footer-light)",
+    "started_at": "2026-11-02T06:46:13Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:52:23Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (mobile-390, scene-live)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:54:55Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (mobile-390, scene-core-1)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:58:55Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (laptop-1280, scene-core-1)",
+    "started_at": "2026-11-02T06:51:09Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:01:13Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (desktop-1440, legacy)",
+    "started_at": "2026-11-02T06:49:17Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:52:18Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (mobile-390, scene-gym)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:51:07Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (tablet-768, scene-journey)",
+    "started_at": "2026-11-02T06:46:12Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T06:59:29Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (laptop-1280, scene-held-stairs)",
+    "started_at": "2026-11-02T06:51:27Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:36:07Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (desktop-1440, scene-circulation)",
+    "started_at": "2026-11-02T06:51:08Z",
+    "status": "completed"
+  },
+  {
+    "completed_at": "2026-11-02T07:06:52Z",
+    "conclusion": "success",
+    "name": "Visual checkpoints (mobile-390, site)",
+    "started_at": "2026-11-02T06:51:13Z",
+    "status": "completed"
+  }
+]
