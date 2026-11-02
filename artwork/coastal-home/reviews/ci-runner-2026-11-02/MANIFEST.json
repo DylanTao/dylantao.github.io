@@ -1,0 +1,126 @@
+{
+  "schema": "coastal-ci-runner-v1",
+  "scope": "Actual original Ubuntu26.04 setup failures and semantic-only seven Ruby-runner pins; no application/render/native/data code changes. Official24.04 downloads verified. SubsequentCI/live delivery stillrequired.",
+  "files": [
+    {
+      "path": "failed/integration.log.gz",
+      "bytes": 700,
+      "sha256": "85f0667c187b0c677db415bcccb2d767a618009211b36b4f73fefdd2d5250e67",
+      "encoding": "gzip",
+      "bodyBytes": 2310,
+      "bodySha256": "a64023df0b773f2cb1414963947c6712d9537da34682ccdec50958539ce90917"
+    },
+    {
+      "path": "failed/deploy.log.gz",
+      "bytes": 688,
+      "sha256": "33c8935cb29e3349b577bb6c5026a5b0adf6686ac94662e8fbf511614bee01c9",
+      "encoding": "gzip",
+      "bodyBytes": 1890,
+      "bodySha256": "0be42d94486f2d9de9b6d80e0e216b0b4e2c534ade0c60d8d3d47374dbe529ae"
+    },
+    {
+      "path": "failed/upgrade.log.gz",
+      "bytes": 692,
+      "sha256": "467bec328c6a89356c5d3beb04ba39674472a1817cd0422d2376d9c9b125857b",
+      "encoding": "gzip",
+      "bodyBytes": 2037,
+      "bodySha256": "431083d8724dec577435bdd71f35a12aee11475479838c5ce264fc9c693f674f"
+    },
+    {
+      "path": "failed/visual-run.json.gz",
+      "bytes": 4264,
+      "sha256": "2a5c950f0a55330937a35ba8bee6b7cbead2d1463a2a35847a6fa518dbd56a3e",
+      "encoding": "gzip",
+      "bodyBytes": 110137,
+      "bodySha256": "7f4ab1507ce699a028a1188a41d454987ab69247c463843a2df0eac64294c0c8"
+    },
+    {
+      "path": "FAILURE-SUMMARY.json.gz",
+      "bytes": 244,
+      "sha256": "a3c187470a9b7ed05b837da07e38a38bf73cd3a1fba0fefdd7f94bcd77014b0b",
+      "encoding": "gzip",
+      "bodyBytes": 348,
+      "bodySha256": "9bf02454f666643cc9d20a31df5281d982101e2877000dc4f9d4d3ee93a6ffaf"
+    },
+    {
+      "path": "QUALIFICATION.json.gz",
+      "bytes": 1000,
+      "sha256": "b81627c119b4f30dc4084fad606b8ad0a88541d8ad90b2eb6907005f42b65081",
+      "encoding": "gzip",
+      "bodyBytes": 2942,
+      "bodySha256": "806f154ba1fdb97b3b60b0c2b465d299ed8d7a7102d2aaa04d7687a419d534ca"
+    },
+    {
+      "path": "qualify-ci-runner-pin.py.gz",
+      "bytes": 1109,
+      "sha256": "c9cb7027831093740c011eab697f15695a219455ebacb632f2a474f3d16d1860",
+      "encoding": "gzip",
+      "bodyBytes": 2025,
+      "bodySha256": "3fa865b9c93b19b9df73165e79d991fa3d21008785b1778f37466fc6120bbf2b"
+    },
+    {
+      "path": "archive-ci-runner-pin.py.gz",
+      "bytes": 1259,
+      "sha256": "201b4665ff44966a13449708131450f746f0603b88feb20300b3c0a3d21a3b6e",
+      "encoding": "gzip",
+      "bodyBytes": 2535,
+      "bodySha256": "d0f2d90b90d9c62fd938d9af4981f53636db762066b598fc1d943ced8027bd95"
+    },
+    {
+      "path": "selected-source/.github/workflows/axe.yml.gz",
+      "bytes": 1127,
+      "sha256": "ac3ac35ef6e4b8d03f750102d35c63a8f683f847ab3c1d84480cee05a09d1ab5",
+      "encoding": "gzip",
+      "bodyBytes": 2515,
+      "bodySha256": "2e075ca487d0cca5bf3c8a9ab72eea50adb4223607861648ce30e28725ebeefb"
+    },
+    {
+      "path": "selected-source/.github/workflows/broken-links-site.yml.gz",
+      "bytes": 825,
+      "sha256": "b323aad5fa565c99eb3f42f369db826133874d0f700fd872428d1b055ebc589a",
+      "encoding": "gzip",
+      "bodyBytes": 1663,
+      "bodySha256": "0fa0ca20a6c68d8dec374ed570e6ef1f9b766c42826c0df59713761f1451e892"
+    },
+    {
+      "path": "selected-source/.github/workflows/copilot-setup-steps.yml.gz",
+      "bytes": 843,
+      "sha256": "45ee26f60e812c96bf3b4f1b9da72603ce04e94e7196f5877d86396c3ad7209d",
+      "encoding": "gzip",
+      "bodyBytes": 1901,
+      "bodySha256": "98664205ca68e5e07135c7ab578ca5044ff1695a942ab5cf8748216c4c3d6e39"
+    },
+    {
+      "path": "selected-source/.github/workflows/deploy.yml.gz",
+      "bytes": 1742,
+      "sha256": "c95fddc697cd31ab389dc672714ad41a45bbc9506f73d05ef0e5ef8191a846ad",
+      "encoding": "gzip",
+      "bodyBytes": 4704,
+      "bodySha256": "0bff4a3be33035c500d283d379d9bc1d61f9a2b2081bb6a0e6c9b943e6116542"
+    },
+    {
+      "path": "selected-source/.github/workflows/unit-tests.yml.gz",
+      "bytes": 1415,
+      "sha256": "ad592f3618037ae838f84b87bbafa6cc78267bf18968e61d70aaa028beea4d5f",
+      "encoding": "gzip",
+      "bodyBytes": 4291,
+      "bodySha256": "fc309f069da16787bfc27e30fd69f9fb21426563c64392fe5778d750782d8768"
+    },
+    {
+      "path": "selected-source/.github/workflows/upgrade-check.yml.gz",
+      "bytes": 671,
+      "sha256": "dc992bfe1af0198741f4048b2efcddec76bd9f7e7fc1e69997760fac5096bc5e",
+      "encoding": "gzip",
+      "bodyBytes": 1696,
+      "bodySha256": "0fb3cf3563ec91e54e289a1b9c20a5afb32e16a5062b89dde936997053d640be"
+    },
+    {
+      "path": "selected-source/.github/workflows/visual-regression.yml.gz",
+      "bytes": 3319,
+      "sha256": "1183ddd06386d7ad1b366d86ab9e7893d6e0a91c8428f3c2cc3cc267baf07cd2",
+      "encoding": "gzip",
+      "bodyBytes": 9651,
+      "bodySha256": "f193767564f939fea8a5431b1056b38f6cdbfdc14f0c539de60e039873f58c94"
+    }
+  ]
+}

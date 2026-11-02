@@ -80,7 +80,7 @@ concurrency:
 
 jobs:
   comments-integration-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # Keep the pinned Ruby patch on its supported runner image.
     timeout-minutes: 20
     steps:
       - name: Checkout 🛎️

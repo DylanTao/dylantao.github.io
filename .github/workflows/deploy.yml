@@ -97,7 +97,7 @@ concurrency:
 jobs:
   deploy:
     # available images: https://github.com/actions/runner-images#available-images
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # Keep the pinned Ruby patch on its supported runner image.
     timeout-minutes: 25
     steps:
       - name: Checkout 🛎️
