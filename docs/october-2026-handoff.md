@@ -132,6 +132,14 @@ suite and 1,005 Node tests pass, with seven Node skips. This qualifies the autho
 mechanism, not the final private house. The new exports, global contact audit,
 coffee motion, complete appearance review and actual performance remain open.
 
+The [finite-overlap checkpoint](../artwork/coastal-home/reviews/overlap-visibility-2026-11-02/README.md)
+corrects clipped witness placement, closed pair-owned cover and exact-position
+closure for split corners. Fresh native and decoded audits of the unchanged
+public house pass every existing global limit. Three existing furniture pairs
+remain explicit bounded follow-ups; their sites and severity are retained.
+This is checker/current-house evidence, not admission of the private fin,
+straight arrival, garden or coffee work.
+
 The [paper/limewash material checkpoint](../artwork/coastal-home/reviews/washi-material-2026-11-02/README.md)
 corrects an actual substring matcher: washi diffusers and incoming limewash were
 being treated as ash wood. Twelve native views per version verify the two public

@@ -1,0 +1,350 @@
+{
+  "schema": "coastal-overlap-visibility-v1",
+  "scope": "Actual unmodified canonical native and decoded audits; portableBlendercontrols, optional private-source witness clearly separate, exact selected programs, original test-import failure and corrected discovery, pinned exporter deployment/live receipt. Final gates appended before first publication; README is editorial.",
+  "files": [
+    {
+      "path": "canonical/native/AUDIT.json.gz",
+      "bytes": 1360375,
+      "sha256": "02f3a340aab7bc0c09931dd71f4037cf8240a5e6f950d4763f43c945e0a002a0",
+      "encoding": "gzip",
+      "bodyBytes": 28766166,
+      "bodySha256": "6da25d956a370864247fdd5ece0a1d435679f1430f74eb5cf9bc05667ab636db"
+    },
+    {
+      "path": "canonical/native/PROCESS.json.gz",
+      "bytes": 2223,
+      "sha256": "2d3fe8966a7988b523eaec62d1bb152b023e71788756b32c436a1db80a644f4d",
+      "encoding": "gzip",
+      "bodyBytes": 5649,
+      "bodySha256": "f7f1c8e55efd9a8da7c4b8f07b0d9ecdbc945907193c83850a1c143634432561"
+    },
+    {
+      "path": "canonical/native/INVOCATION.json.gz",
+      "bytes": 2147,
+      "sha256": "642018a5ba69cf63fa195c52194b76473c9ecb4c42d806af699e3370f334ac51",
+      "encoding": "gzip",
+      "bodyBytes": 5509,
+      "bodySha256": "70c07de21fbc6684477594c60b347efe3e30da901ec0e4e577cd9a7238e416e5"
+    },
+    {
+      "path": "canonical/native/AUDIT.log.gz",
+      "bytes": 2761,
+      "sha256": "a2e87219d679c18ac1dca6a0b8b8016e2ac1b72c18964a085dee0eed37daabbd",
+      "encoding": "gzip",
+      "bodyBytes": 23457,
+      "bodySha256": "87e1c1fe1a1a4dc324a833f1a241bf9d6c6bfbbdad305e4682fc7c638cb2e224"
+    },
+    {
+      "path": "canonical/decoded/AUDIT.json.gz",
+      "bytes": 1418786,
+      "sha256": "48e8d0314e245d647eabc92815e091cf3f2d89e6d92bebd54587f87e07f7c264",
+      "encoding": "gzip",
+      "bodyBytes": 30529674,
+      "bodySha256": "61420f61d18c5c2238755ba99259a262049ab72b14282d2bc3166c0057a936c6"
+    },
+    {
+      "path": "canonical/decoded/PROCESS.json.gz",
+      "bytes": 2229,
+      "sha256": "7eccdecf553c571a5a6bd32565433b6eb7e70d9055b31c5ae47bfbe524cd22e7",
+      "encoding": "gzip",
+      "bodyBytes": 5672,
+      "bodySha256": "548b4e9dbd66afc5dfd84eeef2d0693f37155e6abac819f475e377578b117c35"
+    },
+    {
+      "path": "canonical/decoded/INVOCATION.json.gz",
+      "bytes": 2153,
+      "sha256": "b835c13858160d511accdf638f7e6c0ec821bfd70088a3fb45b980fdf2896a94",
+      "encoding": "gzip",
+      "bodyBytes": 5533,
+      "bodySha256": "916343a769ae115cbc9e9ecfedde1381948ba573af8c7a3176629f0678e1ff8f"
+    },
+    {
+      "path": "canonical/decoded/AUDIT.log.gz",
+      "bytes": 11523,
+      "sha256": "410ec7721601ebcaa321c8666adae72325c1be7917530ca6697303d9ba853d67",
+      "encoding": "gzip",
+      "bodyBytes": 128384,
+      "bodySha256": "2f44c842f74e59770e7ff54e2d318ecafa7c20aefdecf32ec43dd7f3b2d73065"
+    },
+    {
+      "path": "gates/prior-overlap-audit.json.gz",
+      "bytes": 10862,
+      "sha256": "7e13c41ebfc325ad7ab5549129ec34a0c19ea546b7983e92a43f83e41308f6b5",
+      "encoding": "gzip",
+      "bodyBytes": 62166,
+      "bodySha256": "a9937196046c4a75fee22de3e1c3e15c0951f2a8b0565a02f0f61f50d8a6a730"
+    },
+    {
+      "path": "gates/prior-overlap-verdicts.json.gz",
+      "bytes": 7232,
+      "sha256": "573a5f00818d65b8899ef083c177592d967d7c84381cf65fabd7fad394624f64",
+      "encoding": "gzip",
+      "bodyBytes": 33997,
+      "bodySha256": "cbc0e440e9be3d28a4143aedde13122590e94a4b7acbe68b3fe1f0c303dc5021"
+    },
+    {
+      "path": "gates/TARGETED.json.gz",
+      "bytes": 442,
+      "sha256": "478789fd1c2eb827c671c5b3a88a168af995272d21b060f5b80d19441a935b47",
+      "encoding": "gzip",
+      "bodyBytes": 951,
+      "bodySha256": "294a3125db9c3c0185acd2b4fb0d06d39f8ba269c1e8c47df0e35ae7b21b895e"
+    },
+    {
+      "path": "gates/targeted-python.log.gz",
+      "bytes": 366,
+      "sha256": "7814ff4ced6292ce9c1acff98bca6936762dac91fb9b734e826c3c2e1fe30a63",
+      "encoding": "gzip",
+      "bodyBytes": 1868,
+      "bodySha256": "74e50097a189d66df418e5a522f730f781fe1a9c199e03e9500c6e37405f4528"
+    },
+    {
+      "path": "gates/TARGETED-DISCOVERY.json.gz",
+      "bytes": 322,
+      "sha256": "9abf9a9c593472a82d06380beea30256d06320b6a9c33864ce5236e3e6f6de15",
+      "encoding": "gzip",
+      "bodyBytes": 493,
+      "bodySha256": "8f3ded4ae56750a9ab6c504fcc570afa0c4d4836edca148b616f0ba7c20a7f20"
+    },
+    {
+      "path": "gates/targeted-discovery.log.gz",
+      "bytes": 60,
+      "sha256": "a065a27df7634f88237fbc21b804ae33d8d0a7a79b8e66f5cd75ebcf9dead4f0",
+      "encoding": "gzip",
+      "bodyBytes": 119,
+      "bodySha256": "9c08936d0c1888d0a70e758c022b35dc7c005214e40a5ea849828fbc9887583b"
+    },
+    {
+      "path": "gates/reviewed-summarize.log.gz",
+      "bytes": 723,
+      "sha256": "95b4d04516f24099f3a6b1a31d52b14e62f51f8762e8dd553a3511822631fb6a",
+      "encoding": "gzip",
+      "bodyBytes": 1856,
+      "bodySha256": "f9743043ccb1db753b901ae39eb3a569005dc5c23d122eb3a7018521247477e2"
+    },
+    {
+      "path": "OVERLAP-PORTABLE-CONTROLS.json.gz",
+      "bytes": 489,
+      "sha256": "5e60a7f042bfb61691e75765c40743a31364c9ccfd147f5345ec5fd0d25bb479",
+      "encoding": "gzip",
+      "bodyBytes": 1429,
+      "bodySha256": "934c598e5ff109a0c21ac583cc13b44c8840d12a12c921e8558248b668e32ef7"
+    },
+    {
+      "path": "OVERLAP-OPTIONAL-NATIVE-CONTROLS.json.gz",
+      "bytes": 701,
+      "sha256": "25af2d56f6268830a84328b524551d592f0a18569d390e7092175e270b93b855",
+      "encoding": "gzip",
+      "bodyBytes": 2074,
+      "bodySha256": "39baf6d42ffbbcf8ba8b874fa52e5b7c8167c4373b8659c15cfa68bcac86643d"
+    },
+    {
+      "path": "overlap-portable-controls.log.gz",
+      "bytes": 188,
+      "sha256": "3b86722f217491d5e49739229c9762c72161bc68f425f834cc87dd208c375008",
+      "encoding": "gzip",
+      "bodyBytes": 290,
+      "bodySha256": "9fbaa60cc416762ed3b8a36d36841f26c754b9e8676c3dc529bb8c9ff9d7ffff"
+    },
+    {
+      "path": "overlap-optional-native-controls.log.gz",
+      "bytes": 316,
+      "sha256": "9e4855e91ea0897fd11282892404ba94b7a06308f6d2dfbcc686d172b4a53d85",
+      "encoding": "gzip",
+      "bodyBytes": 560,
+      "bodySha256": "2dbb97960bf840a97c3538be451206e1ab801bbbf1cabd84c7f5e6406b44b99a"
+    },
+    {
+      "path": "EXPORTER-DELIVERY-INTERIM.json.gz",
+      "bytes": 7478,
+      "sha256": "7c498344f6200476fe181b74bebcc6e6d4cc362282dbc9226c6d537654ce0feb",
+      "encoding": "gzip",
+      "bodyBytes": 197837,
+      "bodySha256": "436fa2fe2a9aa238dcb6003581e3997692a9fa0488f1de0b08ec97bdcbd2a01a"
+    },
+    {
+      "path": "selected-source/bin/audit_coastal_overlaps.py.gz",
+      "bytes": 14989,
+      "sha256": "4809c1f543efac6df5d31ae650628ec72c7846bdbe6a179db515dc5380f7209a",
+      "encoding": "gzip",
+      "bodyBytes": 45153,
+      "bodySha256": "e8841126abc1807734bd79b2f4da25bf89e0b6c58442c292d892780b2293028a"
+    },
+    {
+      "path": "selected-source/bin/test_coastal_overlap_visibility.py.gz",
+      "bytes": 2102,
+      "sha256": "56437588d33d509d6dd28dd13c946896f22a25d1ea3019bcebc2ff8421251cfa",
+      "encoding": "gzip",
+      "bodyBytes": 4773,
+      "bodySha256": "50930e735c22c7a3d7cdaf5690f00888279fe180920aa9291c8eb6b19eb9ea2e"
+    },
+    {
+      "path": "selected-source/test/test_coastal_overlap_closure.py.gz",
+      "bytes": 1198,
+      "sha256": "77e9d395d7a616e19597f52d9d71e95ade94af7958bf921686661774b7379989",
+      "encoding": "gzip",
+      "bodyBytes": 3369,
+      "bodySha256": "7ed6b8b5c3d9857e29b83f422288d2ab3bb2f75f8a6f2559e17d0d9f16b95948"
+    },
+    {
+      "path": "selected-source/test/test_coastal_overlap_witness.py.gz",
+      "bytes": 1116,
+      "sha256": "11210c97529e0159f255755f330181f42026d1f4217472fa4161a4c3ba524ef5",
+      "encoding": "gzip",
+      "bodyBytes": 2749,
+      "bodySha256": "1daddbd59062b46d81848c6412c646e36356261dd8d4f491c8e1e0a77e98b12e"
+    },
+    {
+      "path": "selected-source/test/test_resting_review_custody.py.gz",
+      "bytes": 1552,
+      "sha256": "c54a47a53e7ab82a0b12941c1c85902d682d0ac918f4f29200d29944b30ac7ec",
+      "encoding": "gzip",
+      "bodyBytes": 5893,
+      "bodySha256": "a4927927af78c6b12112520d3d399f918166195320912223b81903024bd22036"
+    },
+    {
+      "path": "selected-source/artwork/coastal-home/reviews/house-2026-10-24/overlap-audit.json.gz",
+      "bytes": 10708,
+      "sha256": "0cd915f33eb4514d2a9fc686467abb15aaafdeb2047da226afb5ed1aa5e7bc6e",
+      "encoding": "gzip",
+      "bodyBytes": 60383,
+      "bodySha256": "1a12847ce94c789d81c6b70bf2c50a9738b55a797e7d733997315df112df1e54"
+    },
+    {
+      "path": "selected-source/artwork/coastal-home/reviews/house-2026-10-24/overlap-verdicts.json.gz",
+      "bytes": 7646,
+      "sha256": "c3274de72194fc396a5624cb57e060ee146f7f4dea39caf4f81e840aa1ecc4c2",
+      "encoding": "gzip",
+      "bodyBytes": 35442,
+      "bodySha256": "ddb265b06638d8ee3faf0a17a07800f82e62b3a181d74798580c6962c43e3c92"
+    },
+    {
+      "path": "selected-source/docs/october-2026-handoff.md.gz",
+      "bytes": 52109,
+      "sha256": "3641688e5858de5a83419c339b94ac23f441d20f085ebea8d305e0c61703f29c",
+      "encoding": "gzip",
+      "bodyBytes": 149326,
+      "bodySha256": "e1c5e55909284cc51854fe7a41ba54d2c6dfad0952958823b64a7523f3a2f68b"
+    },
+    {
+      "path": "producers/launch-final-audit.py.gz",
+      "bytes": 1436,
+      "sha256": "6caa0502f5e8e285f5d11d6b85c08bae5ea3e9009e10313d9cd90ac9a006b2e3",
+      "encoding": "gzip",
+      "bodyBytes": 3042,
+      "bodySha256": "b186e3e3ff1e4542efb0451576c92815fc520d0a95a822728b01394d9a862f9d"
+    },
+    {
+      "path": "producers/prepare-overlap-tool-checkpoint.py.gz",
+      "bytes": 923,
+      "sha256": "4936ca8545af96f3a17ddfdb41dd57a205584200ae9830d12fb94dbb1b9264cf",
+      "encoding": "gzip",
+      "bodyBytes": 2167,
+      "bodySha256": "f9eb1549103e8c081f538e321b3298bc30d96046dce5ba4952c419caf48ad815"
+    },
+    {
+      "path": "producers/review-canonical-overlap-pairs.py.gz",
+      "bytes": 1556,
+      "sha256": "bb716fdfde54103383bf4ff561dedb9b9f77d12b30ac1cb923d004e68a472a82",
+      "encoding": "gzip",
+      "bodyBytes": 3784,
+      "bodySha256": "0ed747c38d1d70fb8a42fe5589c34e31c3ee0ed1e8c249af446cf2352ed3f60c"
+    },
+    {
+      "path": "producers/check-exporter-delivery.py.gz",
+      "bytes": 1262,
+      "sha256": "ea0efb32e3de37d5af8c768f39ea53412406ff81567a977df93df18449521bc8",
+      "encoding": "gzip",
+      "bodyBytes": 2480,
+      "bodySha256": "af969ed8d5258ca67ffc26ca68275c91a75a3b271de93139cc1484d9b832a01f"
+    },
+    {
+      "path": "producers/archive-overlap-checkpoint.py.gz",
+      "bytes": 1495,
+      "sha256": "1cfcabb84360d0d5212af2f85a6c4ec830bfcdc7ee14259d649e2bdbcb45fa18",
+      "encoding": "gzip",
+      "bodyBytes": 3235,
+      "bodySha256": "bda6e959523646031fc341139618df001c60c0912cdb1c3a4810922008f2ef1b"
+    },
+    {
+      "path": "SOURCE.json.gz",
+      "bytes": 727,
+      "sha256": "6f3c9e7add3804348483eb4ceee24305eaba68ab09f9751a80e68c0bb9eb75c5",
+      "encoding": "gzip",
+      "bodyBytes": 1538,
+      "bodySha256": "5a67c8a9f5d46e21f2e1d99a3f78768ca278e6958631fa41020dae2ad6ea5be4"
+    },
+    {
+      "path": "final-gates/python-final.json.gz",
+      "bytes": 377,
+      "sha256": "9783b031e57323a705b80b9a78cfbf55cb0dba092ce516e9ff2530ebbce75c1f",
+      "encoding": "gzip",
+      "bodyBytes": 577,
+      "bodySha256": "c5264a2fb9d0bc6229698576faa401a7518830bf940463519b83f285bcc76376"
+    },
+    {
+      "path": "final-gates/python-final.log.gz",
+      "bytes": 117,
+      "sha256": "9efb676d417d035205194c7c35ba8863d2abcb7e67993e3e16deed51e11997d0",
+      "encoding": "gzip",
+      "bodyBytes": 563,
+      "bodySha256": "2ad303245d3bd0c4d76fe45d8191edfc21a97dacaa5ea77777c301896a50761d"
+    },
+    {
+      "path": "final-gates/build-final.json.gz",
+      "bytes": 427,
+      "sha256": "d93e9870e527ec0f2d713a81fc5c65f23d583d2f750fe413bf63bde476f8e288",
+      "encoding": "gzip",
+      "bodyBytes": 697,
+      "bodySha256": "bd16099301589d5178cbe230b74e7da3cf59b3473561d7aed2ac86b1e12642e9"
+    },
+    {
+      "path": "final-gates/build-final.log.gz",
+      "bytes": 4498,
+      "sha256": "b7fea36b91e6f8f9cac3b185c291162ef29a1f9820bce36f826a2f0041f85149",
+      "encoding": "gzip",
+      "bodyBytes": 91069,
+      "bodySha256": "c6d724989828c6bcb76ebdc66a7a35e5d09c378bebbddd61f9f119d3f83bf4d1"
+    },
+    {
+      "path": "final-gates/EXPORTER-DELIVERY.json.gz",
+      "bytes": 7435,
+      "sha256": "574dccba102935540dbdf96c7f933813682cf48f11d434dd61407b5220d07577",
+      "encoding": "gzip",
+      "bodyBytes": 198159,
+      "bodySha256": "8326d1c1e7feff06617eb5e5bf5034d7d32986dca5d8812c35ea856c3429da03"
+    },
+    {
+      "path": "final-gates/check-exporter-delivery.py.gz",
+      "bytes": 1262,
+      "sha256": "ea0efb32e3de37d5af8c768f39ea53412406ff81567a977df93df18449521bc8",
+      "encoding": "gzip",
+      "bodyBytes": 2480,
+      "bodySha256": "af969ed8d5258ca67ffc26ca68275c91a75a3b271de93139cc1484d9b832a01f"
+    },
+    {
+      "path": "final-gates/run-overlap-checkpoint-gate.py.gz",
+      "bytes": 897,
+      "sha256": "ae5380df687c0922701d8df78168cb1e273d2256d87f41c2814b85120827dc00",
+      "encoding": "gzip",
+      "bodyBytes": 1629,
+      "bodySha256": "df95d66eae25dc9c85d1762031b8392da8ad9ba098a03ce85550ae5821743626"
+    },
+    {
+      "path": "final-gates/finalize-overlap-checkpoint.py.gz",
+      "bytes": 1253,
+      "sha256": "685a87cb1a76be4ee319a55d1113dfca0d6cded29a1ce89d4794fb667609bfd5",
+      "encoding": "gzip",
+      "bodyBytes": 2747,
+      "bodySha256": "3d6aebba8a146b904f8dece07998ff8adf58cc49581d27fe325ffb3dec9ff571"
+    },
+    {
+      "path": "FINAL-PRODUCTION-PARITY.json.gz",
+      "bytes": 10468,
+      "sha256": "efadbb9aefdf97c4933d8e8581aaf7f7eafa28d49b3dcb6ac5e389ea67681885",
+      "encoding": "gzip",
+      "bodyBytes": 32950,
+      "bodySha256": "e640ab8a0ba1abc865587ac2e14f7693cae785c516399e9cf3ae6278f4e3284f"
+    }
+  ]
+}

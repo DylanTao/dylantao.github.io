@@ -169,6 +169,43 @@ def mesh_arrays(obj):
     return co, tri, mi, mats, boundary
 
 
+def exact_geometric_chain(co, tri):
+    """Qualify oriented closure for winding across exact CORNER/UV splits.
+
+    This is a read-only coordinate/edge census, never a weld or mesh repair.
+    Every directed occurrence and parallel chart remains counted. A balanced
+    geometric two-chain can contain several touching/overlapping solids; it
+    does not establish manifold fans, positive volume or source-field custody.
+    Winding queries still decide whether an actual witness is inside.
+    """
+    co = np.asarray(co)
+    tri = np.asarray(tri)
+    if (co.ndim != 2 or co.shape[1] != 3 or not np.isfinite(co).all()
+            or tri.ndim != 2 or tri.shape[1] != 3
+            or not np.issubdtype(tri.dtype, np.integer)
+            or (tri.size and (tri.min() < 0 or tri.max() >= len(co)))):
+        raise ValueError("Exact geometric closure requires finite coordinates and valid triangle indices")
+    _, point = np.unique(co, axis=0, return_inverse=True)
+    indexed = point[tri]
+    directed = np.concatenate([indexed[:, [0, 1]], indexed[:, [1, 2]], indexed[:, [2, 0]]])
+    zero = directed[:, 0] == directed[:, 1]
+    nonzero = directed[~zero]
+    signs = np.where(nonzero[:, 0] < nonzero[:, 1], 1, -1)
+    keys, edge, counts = np.unique(np.sort(nonzero, axis=1), axis=0, return_inverse=True, return_counts=True)
+    balance = np.zeros(len(keys), dtype=np.int64)
+    np.add.at(balance, edge, signs)
+    imbalanced = int(np.count_nonzero(balance))
+    return {
+        "method": "exact-position directed geometric two-chain; no epsilon, mutation or incidence deduplication",
+        "closedForWinding": bool(len(nonzero) and imbalanced == 0),
+        "trianglesCounted": len(tri), "directedOccurrencesCounted": len(directed),
+        "zeroLengthOccurrencesCounted": int(zero.sum()), "coordinateEdges": len(keys),
+        "imbalancedCoordinateEdges": imbalanced,
+        "unmatchedDirectedOccurrences": int(np.abs(balance).sum()),
+        "maxCoordinateEdgeIncidence": int(counts.max()) if len(counts) else 0,
+    }
+
+
 def import_furniture(scene, config):
     """Place every streamed item as furniture.mjs does: anchor position, yaw about +Y (Blender +Z)."""
     index = json.loads((MODELS / "furniture/index.json").read_text(encoding="utf-8"))
@@ -237,6 +274,7 @@ def collect(scene):
         co, tri, mi, mats, boundary = mesh_arrays(obj)
         if not len(tri):
             continue
+        closure = exact_geometric_chain(co, tri) if boundary else None
         p = co[tri]
         cross = np.cross(p[:, 1] - p[:, 0], p[:, 2] - p[:, 0])
         area2 = np.linalg.norm(cross, axis=1)
@@ -253,7 +291,9 @@ def collect(scene):
         meshes.append({
             "part": part, "partLo": plo, "partHi": phi,
             "name": obj.name, "props": props, "category": category(obj.name, props), "room": room_of(obj.name),
-            "co": co, "tri": tri, "P": p, "mat": mi, "mats": mats, "closed": boundary == 0, "boundaryEdges": boundary,
+            "co": co, "tri": tri, "P": p, "mat": mi, "mats": mats,
+            "closed": boundary == 0 or closure["closedForWinding"], "boundaryEdges": boundary,
+            "exactGeometricClosure": closure,
             "normal": normal, "area": area2 / 2, "lo": co.min(0), "hi": co.max(0), "bedding": obj.get("bedding"),
         })
     return meshes, skipped
@@ -262,14 +302,14 @@ def collect(scene):
 # --------------------------------------------------------------------------- z-fighting
 
 
-def _clip_area(a, b):
-    """Overlap area of two coplanar triangles in 2D (Sutherland-Hodgman)."""
+def _clip_polygon(a, b):
+    """Actual finite overlap polygon (Sutherland-Hodgman)."""
     poly = list(a)
     if (b[1][0] - b[0][0]) * (b[2][1] - b[0][1]) - (b[1][1] - b[0][1]) * (b[2][0] - b[0][0]) < 0:
         b = b[::-1]
     for i in range(3):
         if not poly:
-            return 0.0
+            return []
         ax, ay = b[i]
         bx, by = b[(i + 1) % 3]
         ex, ey = bx - ax, by - ay
@@ -286,14 +326,30 @@ def _clip_area(a, b):
                 t = sp / (sp - sq)
                 out.append((px + (qx - px) * t, py + (qy - py) * t))
         poly = out
-    if len(poly) < 3:
-        return 0.0
+    return poly if len(poly) >= 3 else []
+
+
+def _clip_area_centroid(a, b):
+    """Area and a witness inside the actual convex intersection, not outside it."""
+    poly = _clip_polygon(a, b)
+    if not poly:
+        return 0.0, None
     s = 0.0
+    sx = sy = 0.0
     for j in range(len(poly)):
         x0, y0 = poly[j]
         x1, y1 = poly[(j + 1) % len(poly)]
-        s += x0 * y1 - x1 * y0
-    return abs(s) / 2
+        cross = x0 * y1 - x1 * y0
+        s += cross
+        sx += (x0 + x1) * cross
+        sy += (y0 + y1) * cross
+    if abs(s) < 1e-20:
+        return 0.0, None
+    return abs(s) / 2, (sx / (3 * s), sy / (3 * s))
+
+
+def _clip_area(a, b):
+    return _clip_area_centroid(a, b)[0]
 
 
 def coplanar_overlaps(meshes, trees):
@@ -403,14 +459,18 @@ def coplanar_overlaps(meshes, trees):
         v = np.cross(na, u)
         a2 = [((q - pa[0]) @ u, (q - pa[0]) @ v) for q in pa]
         b2 = [((q - pa[0]) @ u, (q - pa[0]) @ v) for q in pb]
-        area = _clip_area(a2, b2)
+        area, overlap_centroid = _clip_area_centroid(a2, b2)
         if area <= 1e-7:
             continue
         ma = a["mats"][a["mat"][ti]]
         mb = b["mats"][b["mat"][tj]]
         facing = "same" if float(b["normal"][tj] @ na) > 0 else "opposite"
         k2 = (oi, ma, oj, mb, facing) if (oi, ma) <= (oj, mb) else (oj, mb, oi, ma, facing)
-        c = (pa.mean(0) + pb.mean(0)) / 2
+        c = pa[0] + u * overlap_centroid[0] + v * overlap_centroid[1]
+        # Midway between the two finite near-coplanar source planes. The XY
+        # witness remains inside their actual projected intersection.
+        nb = b["normal"][tj]
+        c += na * (float(nb @ (pb[0] - c)) / float(nb @ na)) * 0.5
         rec = pairs.setdefault(k2, {"area": 0.0, "triangles": 0, "maxGap": 0.0, "at": None, "largest": 0.0, "lo": c.copy(), "hi": c.copy(), "samples": []})
         rec["samples"].append((area, c, na.copy()))
         rec["area"] += area
@@ -448,10 +508,12 @@ SEALED_GAP = 0.025
 _BOUNDS = {}
 
 
-def buried(meshes, trees, point, skip, normal=None):
+def buried(meshes, trees, point, skip, normal=None, pair_interiors=False):
     """True when no camera can see ``point``: it lies inside a closed solid other than ``skip``,
     or (given the face ``normal``) another surface seals it within SEALED_GAP along that normal,
-    like the bottom of a floor tile a centimetre above its slab."""
+    like the bottom of a floor tile a centimetre above its slab. With
+    ``pair_interiors``, a skipped owner may prove only a closed-solid interior;
+    it never supplies its own short sealing ray."""
     key = id(meshes)
     if key not in _BOUNDS:
         _BOUNDS.clear()
@@ -462,6 +524,14 @@ def buried(meshes, trees, point, skip, normal=None):
     direction = Vector(normal) if normal is not None else None
     for k in near:
         if k in skip:
+            # A material batch can contain several closed pieces. The outward
+            # point of one coincident face can be inside another piece of the
+            # same batch, e.g. a frame behind its wall liner. Keep the pair's
+            # faces out of the short sealing-ray test, but do not discard a
+            # genuine closed-solid interior merely because it shares an owner.
+            m = meshes[k]
+            if pair_interiors and m["closed"] and np.all(point >= m["lo"]) and np.all(point <= m["hi"]) and is_inside(trees[k], point):
+                return True
             continue
         if direction is not None and trees[k].ray_cast(origin, direction, SEALED_GAP)[0] is not None:
             return True
@@ -477,7 +547,7 @@ def exposed_share(meshes, trees, samples, skip, cap=24):
     total = sum(q[0] for q in samples) or 1.0
     open_area = 0.0
     for area, c, n in samples:
-        if not buried(meshes, trees, c + n * BURY_OFFSET, skip, n):
+        if not buried(meshes, trees, c + n * BURY_OFFSET, skip, n, pair_interiors=True):
             open_area += area
     return open_area / total
 
@@ -822,6 +892,9 @@ def main():
         "contactRules": CONTACT_RULES,
         "exclusions": EXCLUSIONS,
         "skipped": skipped,
+        "splitCornerClosure": [{"mesh": m["name"], "rawIndexBoundaryEdges": m["boundaryEdges"],
+                                **m["exactGeometricClosure"]}
+                               for m in meshes if m.get("exactGeometricClosure")],
         "foliageOverlap": {"pairs": foliage["pairs"], "seamM": round(foliage["seamM"], 2)},
         "counts": {"meshes": len(meshes), "triangles": int(sum(len(m["tri"]) for m in meshes)),
                    "closedMeshes": sum(1 for m in meshes if m["closed"]), "pairsTested": checked,

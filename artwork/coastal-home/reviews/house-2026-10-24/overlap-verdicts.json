@@ -448,8 +448,10 @@
     },
     "furniture:kitchen-glass-fridge/glass-fridge.lod0__fridge bottle | furniture:kitchen-glass-fridge/glass-fridge.lod0__fridge label ": {
       "verdict": "follow-up",
-      "reason": "Wine bottle labels coplanar with the bottle bodies inside the glass fridge; offset the labels in build_coastal_furniture.py at the next furniture export.",
-      "maxVisibleAreaM2": 0.1718
+      "reason": "Wine bottle labels coplanar with the bottle bodies inside the glass fridge; offset the labels in build_coastal_furniture.py at the next furniture export. November2 exact-position closure also measures the retained capped label cylinders inside bottle bodies (builder radii51.5mm/50mm). The newly recorded depth/seam limits bound this existing overlap; no furniture repair or blanket label exemption is claimed.",
+      "maxVisibleAreaM2": 0.1718,
+      "maxDepthM": 0.039,
+      "maxSeamM": 7.506
     },
     "gym__gym rubber | gym__powder coated gym steel": {
       "verdict": "designed",
@@ -664,6 +666,18 @@
       "maxSeamM": 0.236,
       "reason": "Both original owners' complete geometry, normals, numeric attributes, material slots and world matrix remain exact from de217 to the lighting/olive source1e10 (the independent native-delta audit). The refreshed seeded audit ranks 4 retained sites here, maximum sampled depth 0.0987m and seam0.236m, worst native point[5.623, -17.954, 7.373]. This is an existing bounded plant/roof or plant/path intersection to inspect with the pending exterior/arrival composition; the lighting/olive checkpoint neither repairs it nor claims whole-plant contact or solid overlap volume. No ratchet or geometric exclusion is changed.",
       "evidence": "artwork/coastal-home/reviews/ambience-integration-2026-11-02/README.md"
+    },
+    "furniture:living-sofa/cloud-sofa.lod0__cloud boucle textile | furniture:living-sofa/cloud-sofa.lod0__honey ash": {
+      "verdict": "follow-up",
+      "reason": "Exact-position closure makes six retained cushion/plinth crossings measurable in the unchanged cloud sofa. The source uses puffy seats over honey-ash plinths, and the worst site is at the low base. This checkpoint records the finite existing overlap for a future owning furniture fit; it does not establish that every crossing is intentional or repaired.",
+      "maxDepthM": 0.101,
+      "maxSeamM": 2.553
+    },
+    "furniture:kitchen-glass-fridge/glass-fridge.lod0::fridge door_ | furniture:kitchen-glass-fridge/glass-fridge.lod0__furniture pol": {
+      "verdict": "follow-up",
+      "reason": "Four existing lower glass-fridge door/frame crossings become measurable with exact-position closure. The unchanged delivered component pair and worst low hinge/threshold site remain in the raw report. Review the owning door/frame fit at the next furniture export; no contact-rule exemption or repair is inferred.",
+      "maxDepthM": 0.04,
+      "maxSeamM": 3.107
     }
   }
 }

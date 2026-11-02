@@ -1,0 +1,13 @@
+# Finite overlap witnesses and split-corner closure
+
+The overlap checker now places its coplanar witness inside the actual clipped intersection. The previous mean of two whole-triangle centroids could fall outside that intersection. A closed solid belonging to the inspected pair may prove that a witness is inside a covered joint; its own short sealing ray cannot supply that proof. Four actual Blender controls keep exposed duplicates, air gaps and open covers visible.
+
+An exact-position directed edge census recognizes closed geometry whose native corners are split for normals or UVs. It preserves every face occurrence and parallel incidence, reports zero-length edges, and retains the raw index-boundary count. It does not weld, quantize or edit geometry, and does not certify a positive solid or manifold topology. Six numerical closure controls and four finite-witness tests cover missing/flipped faces, a real tiny gap, parallel incidences, zero charts and invalid inputs.
+
+The public native master remains `1e10b25d…`; every model and lighting cache is unchanged. Fresh full native and decoded audits pass the existing limits: visible coplanar overlap is 0.7686 and 1.0794 square meters respectively, native grazing seams total 3.257 meters, and the native deep-crossing count is 294 with severity 34,767.9. The 2.2/2.5 square-meter, 5.6-meter, 350-site and 50,250-severity gates are unchanged.
+
+The more complete closure test makes three retained furniture pairs need explicit depth/seam bounds among the ranked results. They remain bounded follow-ups: capped fridge labels inside bottles, cloud-sofa cushion/plinth contacts, and the lower fridge door/frame. No contact-rule exemption, geometry repair or intentional-joint claim removes their measured sites or severity. The raw reports retain their witnesses.
+
+The source-only exporter/Walk checkpoint `badf7449d` passes all 42 visual jobs and every other applicable workflow. Eight live bodies match pinned Pages `1ff9a07d…` exactly; the earlier 41-job interim receipt remains beside the final one. The current checker checkpoint passes all 404 Python tests and a complete production build; every compiled runtime module, the manifest and light cache match the preceding exporter build. The original failed local test import is retained alongside the corrected discovery command. The optional private-source liner witness supplements the portable controls; it does not admit that private house.
+
+This checkpoint qualifies the checker and current public house report. It does not admit the new straight arrival, garden, fin repair, coffee motion or final native assets. Their separately measured deep-contact and appearance gates remain open.

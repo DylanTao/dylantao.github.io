@@ -60,6 +60,7 @@ class RestingReviewCustody(unittest.TestCase):
             "garden-native-2026-11-02": "MANIFEST.json",
             "camera-focus-2026-11-02": "MANIFEST.json",
             "exporter-integration-2026-11-02": "MANIFEST.json",
+            "overlap-visibility-2026-11-02": "MANIFEST.json",
             "exporter-holes-2026-11-01": "MANIFEST.json",
             "exterior-waterline-2026-11-01": "MANIFEST.json",
             "waterline-release-2026-11-01": "MANIFEST.json",
