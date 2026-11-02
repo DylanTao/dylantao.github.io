@@ -1,0 +1,62 @@
+{
+  "sourceCommit": "7953d0e2c4509f53d8dc20c4d9d3885c8a994470",
+  "nativeSourceSha256": "1e10b25d5cf0eec87d7001acbf9d938d65ba33af6076380d5a8e5d45cf3d23e7",
+  "node": {
+    "tests": 997,
+    "passed": 990,
+    "skipped": 7,
+    "failed": 0
+  },
+  "python": {
+    "tests": 384,
+    "passed": 384
+  },
+  "build": {
+    "production": true,
+    "baseurl": "/al-folio",
+    "seconds": 111.142,
+    "unchangedDerivedImagesSeededFrom": "complete55608 ambience build",
+    "builtOutputValidator": true
+  },
+  "format": {
+    "trackedFilesWithCheckoutCRLFNormalizedInMemory": 1941,
+    "failed": 0,
+    "newNodeTestTargetedPrettier": true
+  },
+  "styleContract": true,
+  "diffCheck": true,
+  "sceneRegistry": {
+    "casesPerViewport": 149,
+    "viewports": 4,
+    "missing": 0,
+    "extra": 0,
+    "duplicates": 0
+  },
+  "nativeRendering": {
+    "before": 12,
+    "candidate": 12,
+    "backend": "RTX3080Ti ANGLE D3D11",
+    "matchedCameraPairs": 12,
+    "identicalSharedModelResponses": 50,
+    "nativeClocks": true,
+    "selectedAvatarsDiffer": "simpsons / south-park; no pose or pixel parity claim"
+  },
+  "webkit": {
+    "completedViews": 4,
+    "pageErrors": 0,
+    "requestFailures": 0,
+    "exactSceneResponseObservations": 200,
+    "strictObserverExit": 1,
+    "postCaptureRenderQualification": "WEBKIT-QUALIFICATION.json",
+    "physicalIPhonePerformance": false
+  },
+  "priorResearchDelivery": {
+    "source": "7953d0e2c4509f53d8dc20c4d9d3885c8a994470",
+    "visualRun": 41414444236,
+    "visualJobs": 42,
+    "conclusion": "success",
+    "pages": "ba2e4af2e18b69f47e8a61ca72e8a958be68c006",
+    "exactLiveBodies": 11
+  },
+  "publication": "This local checkpoint still requires its own CI and pinned live delivery receipt."
+}

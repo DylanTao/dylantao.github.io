@@ -113,6 +113,16 @@ items 9–10 and 23 can close.
 
 ## November 2 rendering research and calendar continuation
 
+The [paper/limewash material checkpoint](../artwork/coastal-home/reviews/washi-material-2026-11-02/README.md)
+corrects an actual substring matcher: washi diffusers and incoming limewash were
+being treated as ash wood. Twelve native views per version verify the two public
+paper shaders; four phone-size WebKit renders verify the corrected finish and
+complete scene responses. Its strict media-body observer remains failed, with a
+separate bounded render/asset qualification and exact independent video read.
+The official cache retains every transport value, geometry metadata and model
+byte. The broader ambience, F6/arrival/nook and coffee work remain open; this
+checkpoint requires its own CI and live delivery receipt.
+
 The [research plan](coastal-rendering-research-2026-11.md) records current primary
 SIGGRAPH/CVPR/NeurIPS leads and the retained failed batching and learned
 representation controls. A complete native [three-view temporal census](../artwork/coastal-home/research/temporal-reuse-2026-11-02/README.md)

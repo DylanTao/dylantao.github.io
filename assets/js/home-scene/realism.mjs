@@ -266,7 +266,7 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
     mesh.userData.noContactOcclusion = true;
     return bindContactLighting(m, contactLighting);
   }
-  const wood = /wood|oak|ash|walnut/i.test(name);
+  const wood = /wood|oak|\bash\b|walnut/i.test(name);
   const cloth = /linen|textile|cotton|trousers|woven|boucle/i.test(name);
   // The house's walls are lime plaster (Sirui, 2026-10-16); the renovation's stone family is a
   // milky veined marble, travertine and honed limestone.

@@ -1,0 +1,100 @@
+{
+  "scope": "Matched native cameras, actual2K buffers/high tier, native clocks, public controls, unchanged complete served model family and actual paper shader change. The live clock/actor/wildlife are not pixel-frozen; there is no pixel-parity or performance claim.",
+  "sourceCommit": "7953d0e2c4509f53d8dc20c4d9d3885c8a994470",
+  "identicalSharedModelResponses": 50,
+  "selectedAvatars": {
+    "before": "simpsons",
+    "after": "south-park",
+    "limit": "The ordinary per-visit avatar choice was not pinned. Shared house models are exact; each selected rig matches its current authored body. No avatar/pose/pixel parity is claimed."
+  },
+  "materials": [
+    {
+      "name": "washi lantern paper",
+      "beforeRoughness": [0.48],
+      "afterRoughness": [0.8500000238418579],
+      "beforeObservedDraws": 11,
+      "afterObservedDraws": 11
+    },
+    {
+      "name": "private living washi diffuser",
+      "beforeRoughness": [0.48],
+      "afterRoughness": [0.9100000262260437],
+      "beforeObservedDraws": 6,
+      "afterObservedDraws": 6
+    }
+  ],
+  "rows": [
+    {
+      "id": "noon-lounge-default",
+      "cameraDifferenceMaxM": 0.0,
+      "beforePngSha256": "aabcec5aae968739532f02c366e50c5d72f799de9dfb92a8d1ae3a4b9e625314",
+      "afterPngSha256": "1b172f55613ae5fd48f9fde4c8c694e15e6e31d5674c20a77dd1d37690993183"
+    },
+    {
+      "id": "noon-lounge-left",
+      "cameraDifferenceMaxM": 0.0,
+      "beforePngSha256": "ca25db20e329fa10a692edd1262475de84392596ca1ed723b33fc047045596a5",
+      "afterPngSha256": "3266915351d967eb0a17ebea256408212a10d59eb6abfbcc0b29cd233155fdbb"
+    },
+    {
+      "id": "noon-lounge-right",
+      "cameraDifferenceMaxM": 0.0,
+      "beforePngSha256": "dc050c8df71c96da47de72a1adf41c3189ed2e5e36b02915dafc0105424c687c",
+      "afterPngSha256": "d7118f8c3471fbe3e9176811548d5015131c3d16b8d93b69004b4526595d60ee"
+    },
+    {
+      "id": "noon-library-upper-default",
+      "cameraDifferenceMaxM": 0.0,
+      "beforePngSha256": "391e57f53f7bc73e263335e4a068492d8be34d737629bcec0fbab257053b11e5",
+      "afterPngSha256": "a5edb57b1cfe113fc5aedc07ec3d0a852a46603fa7dc9fed659d449b1450a3b7"
+    },
+    {
+      "id": "noon-library-upper-left",
+      "cameraDifferenceMaxM": 0.0,
+      "beforePngSha256": "adec0aa29bad47cb772c5317f487aadae269d8e50ac275499c02be563e62f6f1",
+      "afterPngSha256": "e4d14eef023897bf2fd0cd7213f72d15599808fcbccfe01035bc57c8248e0957"
+    },
+    {
+      "id": "noon-library-upper-right",
+      "cameraDifferenceMaxM": 0.0,
+      "beforePngSha256": "cff6df114dc5c4ae89cba84a3546abc4261b7029b79816de97381239a63d8117",
+      "afterPngSha256": "b0d86c6f20ff3a7a0eece4249dcf532b9ea4bc23b2465482ba63b4755abd4ac8"
+    },
+    {
+      "id": "evening-lounge-default",
+      "cameraDifferenceMaxM": 0.0,
+      "beforePngSha256": "284c5d39fc17e5b1f17ef0da5fdafcdbd36ff0015197946810b9cf55fcfbf471",
+      "afterPngSha256": "0e8f4c5a0c007bbcce41b3b229d2bec95cc3eeb2289a56a4050bbfac9e1c8391"
+    },
+    {
+      "id": "evening-lounge-left",
+      "cameraDifferenceMaxM": 2.4424906541753444e-15,
+      "beforePngSha256": "261a699c39b0be4000358957fb53905e320a1effb5825b1d0ed08922d8cee272",
+      "afterPngSha256": "4d983a35e305fb96759e728c883c6cbed194a574d23521e24711006936e559c1"
+    },
+    {
+      "id": "evening-lounge-right",
+      "cameraDifferenceMaxM": 0.0,
+      "beforePngSha256": "b38211d2a6f1fa7e81538946005a8b90f5aa81e5bee54556fa1829e324b34558",
+      "afterPngSha256": "da7bba4ae8199c59c826b0ea1abe7d6c12e30dc1a6cc3c862afdf55235bf2dbb"
+    },
+    {
+      "id": "evening-library-upper-default",
+      "cameraDifferenceMaxM": 0.0,
+      "beforePngSha256": "f56748d8c970b7875e7608fee3046eab754daf2f548c58c0b5e65d32f47fbde0",
+      "afterPngSha256": "5dd2b9920052adb6effc92e45cc83233443e5f57afb584372b120438ea8e8e18"
+    },
+    {
+      "id": "evening-library-upper-left",
+      "cameraDifferenceMaxM": 0.0,
+      "beforePngSha256": "3b807452c512bfb0687864066433999f6f1ccdce55a936bb8a8f98b3c0099322",
+      "afterPngSha256": "2f18a47d210831551454db1edaff66cd516b05030d05a2798c3b849d703e144a"
+    },
+    {
+      "id": "evening-library-upper-right",
+      "cameraDifferenceMaxM": 0.0,
+      "beforePngSha256": "63d511fa0265c6453fb912ff1a2cf85e1439fa907ce9b73865270ccf98926922",
+      "afterPngSha256": "f63f9bbd4a595c9b969e38cf1385079613179790f4530018795f4da6dc248547"
+    }
+  ]
+}

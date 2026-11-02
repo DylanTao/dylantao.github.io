@@ -124,7 +124,7 @@ export function createArtDirection({ surfaceInk = false } = {}) {
           m.roughness = style === "realistic" ? Math.min(m.roughness ?? 0.7, 0.7) : 0.86;
           if (mesh.isSkinnedMesh) m.roughness = /hair/i.test(source.name) ? 0.5 : /skin/i.test(source.name) ? 0.74 : 0.86;
           if (style === "realistic" && !source.map && !mesh.isSkinnedMesh) {
-            const grain = /wood|oak|ash/i.test(source.name) ? "wood" : /linen|textile|cotton|trousers/i.test(source.name) ? "fabric" : "stone";
+            const grain = /wood|oak|\bash\b/i.test(source.name) ? "wood" : /linen|textile|cotton|trousers/i.test(source.name) ? "fabric" : "stone";
             m.map = texture(grain);
             m.bumpMap = m.map;
             m.bumpScale = grain === "fabric" ? 0.013 : 0.025;

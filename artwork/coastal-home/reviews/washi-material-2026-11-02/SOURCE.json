@@ -1,0 +1,24 @@
+{
+  "sourceCommit": "7953d0e2c4509f53d8dc20c4d9d3885c8a994470",
+  "nativeSourceSha256": "1e10b25d5cf0eec87d7001acbf9d938d65ba33af6076380d5a8e5d45cf3d23e7",
+  "before": [
+    {
+      "path": "assets/js/home-scene/materials.mjs",
+      "sha256": "154469b4c45733d6179688b43f6d3b7eee0b19799653f5376cb1f9218570bebb"
+    },
+    {
+      "path": "assets/js/home-scene/realism.mjs",
+      "sha256": "c508d9a93cec81de04a4be1acb6d6628501717b5df1d89807e833f778c2849d9"
+    }
+  ],
+  "candidate": [
+    {
+      "path": "assets/js/home-scene/materials.mjs",
+      "sha256": "f822225c14749f0855029ecbcf7486e945b03bc9ec03ec73f93b8f8e1be3a7a0"
+    },
+    {
+      "path": "assets/js/home-scene/realism.mjs",
+      "sha256": "3ae912077e80440f07b2342de46d8d64731b4fb157d04062e8250a8b6d8305e7"
+    }
+  ]
+}

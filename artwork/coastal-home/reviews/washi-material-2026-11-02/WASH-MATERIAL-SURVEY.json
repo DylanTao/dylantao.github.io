@@ -1,0 +1,21 @@
+{
+  "scope": "Actual current public model material labels and primitive bindings. Renderer comparison still required.",
+  "rows": [
+    {
+      "asset": "assets/models/home/room-library-upper.glb",
+      "sourceSha256": "91534441cda1fc3823623a61f979bb5ad9478b222df7de03f26a62202cbdfaaa",
+      "name": "private living washi diffuser",
+      "primitives": 1,
+      "oldWood": true,
+      "newWood": false
+    },
+    {
+      "asset": "assets/models/home/room-lounge.glb",
+      "sourceSha256": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390",
+      "name": "washi lantern paper",
+      "primitives": 1,
+      "oldWood": true,
+      "newWood": false
+    }
+  ]
+}

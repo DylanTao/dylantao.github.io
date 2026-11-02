@@ -1,0 +1,27 @@
+{
+  "scope": "Official producer only; all authored geometry metadata and native source exact. Every cached transport and moment value unchanged; only inputs/signature/statistics differ.",
+  "cacheBytes": 711865,
+  "cacheSha256": "663e2c9adb0cb4b48ee754c11e4c820c9314631ac260ec977ed6ff0bf6242514",
+  "signature": "7f7c7032358f04c1a442c88b5f723b15e1f7a3b5e474e78897ba29a18f383a5a",
+  "changedSnapshotKeys": ["inputs", "signature", "statistics"],
+  "statistics": {
+    "ready": true,
+    "triangles": 615630,
+    "meshes": 441,
+    "skippedMeshes": 145,
+    "skippedTriangles": 116103,
+    "geometryMs": 3622.9000000059605,
+    "acceleratorMs": 4356,
+    "transportMs": 6316.799999982119,
+    "bakeMs": 14295.800000011921,
+    "maxTaskMs": 318,
+    "relocatedProbes": 1,
+    "rejectedProbes": 4,
+    "acceleratorBytes": 51713280,
+    "trace": {
+      "rays": 90241,
+      "triangleTests": 3664198,
+      "boxTests": 24462798
+    }
+  }
+}
