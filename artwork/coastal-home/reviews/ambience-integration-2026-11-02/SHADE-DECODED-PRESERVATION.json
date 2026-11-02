@@ -1,0 +1,204 @@
+{
+  "scope": "Complete unowned compressed primitive byte controls plus exhaustive two-way nearest-position/attribute bounds on the re-quantized mattress. Coincident seam candidates use nearest payload as disclosed; this is not vertex/index byte identity. Native complete geometry/attribute identity is proved separately.",
+  "originalSha256": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
+  "control10Sha256": "de35876e0599ad8ecf8b7c05061dca325791b3467189b96cfd84914f4aab9df1",
+  "newSha256": "3e767a1b93f35736eb54d39da60a2fefc92056d296e22ba6a41c2c31a582aa45",
+  "control10BinExact": true,
+  "unownedPrimitiveControls": [
+    {
+      "owner": "sleep__honey ash",
+      "material": "honey ash",
+      "exact": true
+    },
+    {
+      "owner": "sleep__pale oak",
+      "material": "pale oak",
+      "exact": true
+    },
+    {
+      "owner": "sleep__terracotta",
+      "material": "terracotta",
+      "exact": true
+    },
+    {
+      "owner": "sleep__charcoal",
+      "material": "charcoal",
+      "exact": true
+    },
+    {
+      "owner": "sleep__olive leaf",
+      "material": "olive leaf",
+      "exact": true
+    },
+    {
+      "owner": "sleep_decor pale oak",
+      "material": "pale oak",
+      "exact": true
+    },
+    {
+      "owner": "sleep_decor linen canvas sky",
+      "material": "linen canvas sky",
+      "exact": true
+    },
+    {
+      "owner": "sleep_decor linen canvas sea",
+      "material": "linen canvas sea",
+      "exact": true
+    },
+    {
+      "owner": "sleep_decor linen canvas sand",
+      "material": "linen canvas sand",
+      "exact": true
+    },
+    {
+      "owner": "sleep_decor linen canvas sun",
+      "material": "linen canvas sun",
+      "exact": true
+    },
+    {
+      "owner": "sleep_reno_wardrobe__pale oak",
+      "material": "pale oak",
+      "exact": true
+    },
+    {
+      "owner": "sleep_reno_wardrobe__honey ash",
+      "material": "honey ash",
+      "exact": true
+    },
+    {
+      "owner": "sleep_reno_wardrobe__polished nickel",
+      "material": "polished nickel",
+      "exact": true
+    },
+    {
+      "owner": "sleep_fin_window__brushed brass",
+      "material": "brushed brass",
+      "exact": true
+    },
+    {
+      "owner": "sleep_fin_window__facade low-iron glass",
+      "material": "facade low-iron glass",
+      "exact": true
+    },
+    {
+      "owner": "sleep_pillow_empty",
+      "material": "linen",
+      "exact": true
+    },
+    {
+      "owner": "sleep_duvet_empty",
+      "material": "sage textile",
+      "exact": true
+    },
+    {
+      "owner": "sleep_pillow_lizard",
+      "material": "linen",
+      "exact": true
+    },
+    {
+      "owner": "sleep_duvet_lizard",
+      "material": "sage textile",
+      "exact": true
+    },
+    {
+      "owner": "sleep_pillow_south-park",
+      "material": "linen",
+      "exact": true
+    },
+    {
+      "owner": "sleep_duvet_south-park",
+      "material": "sage textile",
+      "exact": true
+    },
+    {
+      "owner": "sleep_pillow_simpsons",
+      "material": "linen",
+      "exact": true
+    },
+    {
+      "owner": "sleep_duvet_simpsons",
+      "material": "sage textile",
+      "exact": true
+    },
+    {
+      "owner": "sleep_pillow_ghibli",
+      "material": "linen",
+      "exact": true
+    },
+    {
+      "owner": "sleep_duvet_ghibli",
+      "material": "sage textile",
+      "exact": true
+    },
+    {
+      "owner": "sleep_pillow_rick-and-morty",
+      "material": "linen",
+      "exact": true
+    },
+    {
+      "owner": "sleep_duvet_rick-and-morty",
+      "material": "sage textile",
+      "exact": true
+    }
+  ],
+  "mattress": {
+    "oldVertices": 115,
+    "newVertices": 115,
+    "triangles": 188,
+    "vertexPNRGBMultisetExact": true,
+    "trianglePNRGBMultisetExact": true,
+    "forward": {
+      "maxPositionErrorM": 0,
+      "maxNormalComponentError": 0,
+      "maxColorComponentError": 0,
+      "maxUVComponentError": 0.0002136826515197754,
+      "coincidentMatchRows": 36
+    },
+    "reverse": {
+      "maxPositionErrorM": 0,
+      "maxNormalComponentError": 0,
+      "maxColorComponentError": 0,
+      "maxUVComponentError": 0.0002136826515197754,
+      "coincidentMatchRows": 36
+    },
+    "limitM": 0.00025
+  },
+  "globe": {
+    "vertices": 271,
+    "triangles": 440,
+    "forward": {
+      "maxPositionErrorM": 0.00010651812389272035,
+      "maxNormalComponentError": 0,
+      "maxColorComponentError": 0,
+      "maxUVComponentError": 0,
+      "coincidentMatchRows": 62
+    },
+    "reverse": {
+      "maxPositionErrorM": 0.00010651812389272035,
+      "maxNormalComponentError": 0,
+      "maxColorComponentError": 0,
+      "maxUVComponentError": 0,
+      "coincidentMatchRows": 62
+    },
+    "material": {
+      "doubleSided": true,
+      "extras": {
+        "practicalSourceId": "sleep"
+      },
+      "name": "sleep bedside linen diffuser",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [0.8799999952316284, 0.8299999833106995, 0.7099999785423279, 1],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.6499999761581421
+      }
+    }
+  },
+  "totalRoomTriangles": {
+    "before": 96058,
+    "after": 96058
+  },
+  "limits": [
+    "Two-way nearest payload bounds do not prove a unique seam identity; native source preservation and triangle counts are separate.",
+    "Re-quantized mattress primitive bytes change; no promise of original primitive identity there."
+  ]
+}

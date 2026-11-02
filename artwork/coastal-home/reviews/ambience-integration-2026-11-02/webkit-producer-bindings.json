@@ -1,0 +1,24 @@
+{
+  "scope": "Only upstream preview address and evidence captions changed. Complete product, public touch controls and assertions preserved; Linux software appearance/function only.",
+  "server": {
+    "pid": 36472,
+    "port": 55608,
+    "header": "house-ambience-20261102-36472",
+    "url": "http://127.0.0.1:55608/al-folio/",
+    "directory": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\house-ambience-integration-20261102\\site"
+  },
+  "records": [
+    {
+      "input": "reference-capture-shade-webkit-clean.cjs",
+      "output": "capture-integrated-shade-webkit.cjs",
+      "originalSha256": "47600c9c78830ee94f4ef7e35d7093ee4d0e637314842ec15622adb39c57151e",
+      "adaptedSha256": "c56154ae82333bc5d3c76a29d79927e979e511185496d2c1e6491aa9d6b70aac"
+    },
+    {
+      "input": "reference-capture-plant-webkit-qualified.cjs",
+      "output": "capture-integrated-plant-webkit.cjs",
+      "originalSha256": "01a3b99a240a5013e12cc6095deaa1cd716533933257416b7c37273c36e17318",
+      "adaptedSha256": "56a64b2951105f327797bc37d49397a40a910b3de019f538a48fcafc8a678156"
+    }
+  ]
+}

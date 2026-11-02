@@ -1,0 +1,17 @@
+{
+  "scope": "Only server addresses, declared affected-room scope and evidence captions adapted from retained qualified producers. Public UI/actions and assertions remain; observer-only GL readback, no clocks/shader/geometry replacement.",
+  "rows": [
+    {
+      "input": "reference-capture-shade-qualified.cjs",
+      "output": "capture-integrated-shade.cjs",
+      "originalSha256": "4dd16bd523ef46092b073b72b3df4833ada238f2f04d5eefe0f7fe7357937008",
+      "adaptedSha256": "02ff329131710a795d95b54a9d808046008685fe46d300276e639d9406a33761"
+    },
+    {
+      "input": "reference-capture-v4-qualified.cjs",
+      "output": "capture-integrated-plant.cjs",
+      "originalSha256": "992f6e65166588b4bd8ce36e8bf1a92e7974c163950fe58af3a03807e1ee3fcf",
+      "adaptedSha256": "35635822ac08d4155c467fc1028bf75731bdcac34664097d2627e0255122ad8f"
+    }
+  ]
+}

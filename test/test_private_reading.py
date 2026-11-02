@@ -35,7 +35,7 @@ class PrivateReadingMetadataTests(unittest.TestCase):
         self.assertEqual(fixture['glowTag'], fixture['id'])
         self.assertEqual(READING.register(config), fixture)
         self.assertEqual(config, expected)
-        self.assertEqual(next(r for r in config['rooms'] if r['id'] == 'library-upper')['lightRegion'], READING.ORIGINAL_CAGE)
+        self.assertEqual(next(r for r in config['rooms'] if r['id'] == 'library-upper')['lightRegion'], READING.RETAINED_CAGE)
 
     def test_source_frame_or_independent_fixture_changes_fail_closed(self):
         config = self.config()

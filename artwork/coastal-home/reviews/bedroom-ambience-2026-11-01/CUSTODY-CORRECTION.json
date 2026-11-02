@@ -1,0 +1,29 @@
+{
+  "recordedAt": "2026-11-02",
+  "status": "Original working-tree seal was not portable; retained as a failed custody control.",
+  "originalIndex": {
+    "path": "original-working-index.json.gz",
+    "uncompressedSha256": "191cdc0aca2dc0b3603e1e192339df31fb415085943a56c09bddffb96222be56"
+  },
+  "lineEndingRepair": {
+    "path": "replay_lighting.py",
+    "originalWorkingBytes": 12863,
+    "originalWorkingSha256": "a0117411c42c74a0757411f2eeacf4d3b5b996bafc67f363df503d61278084ec",
+    "committedLFBytes": 12647,
+    "committedLFSha256": "a96376c540c3e97493c485eebde1988eebec1189b121848948741c78d6fb05ac",
+    "verifiedReconstruction": "Restoring only CRLF exactly reproduces the original index size/hash; compressed original working helper retained. Current executable helper remains the committed LF source."
+  },
+  "omittedInterpreterCache": [
+    {
+      "path": "__pycache__/replay_lighting.cpython-311.pyc",
+      "bytes": 27806,
+      "sha256": "b38387274f86536bef0abb13976856fe3bfff16635be4853f8c4c1c84138c998"
+    }
+  ],
+  "omissionReason": "Ignored generated interpreter bytecode was listed by a filesystem sweep but was absent from the worker commit. It is not supplied or required as source/evidence; the original missing entry remains in the retained failed index.",
+  "originalReadme": {
+    "path": "original-readme.md.gz",
+    "uncompressedSha256": "833124bd9af8e05eeae624467608b545c9c7bbcfae8ed10a3af003cb6d41d86c"
+  },
+  "unchangedEvidence": "All other original payload bytes are unchanged and checked against the original index. The new manifest binds actual portable payloads and this correction, not the absent cache. Native/render validation remains separate."
+}

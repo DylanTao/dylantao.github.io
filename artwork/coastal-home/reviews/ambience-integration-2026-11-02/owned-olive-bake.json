@@ -1,0 +1,18 @@
+{
+  "method": "Cycles AO and diffuse indirect color-attribute bake",
+  "samples": 24,
+  "surfaces": [
+    {
+      "mesh": "kitchen__olive leaf",
+      "corners": 1440,
+      "min": 0.68,
+      "max": 0.8443046824882429
+    },
+    {
+      "mesh": "kitchen_nook_olive__honey ash",
+      "corners": 216,
+      "min": 0.68,
+      "max": 0.8319565422584614
+    }
+  ]
+}

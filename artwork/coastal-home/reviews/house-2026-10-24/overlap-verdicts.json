@@ -650,6 +650,20 @@
       "reviewState": "coordinator-reviewed v84",
       "reviewedAt": "2026-10-28",
       "reviewedSourceSha256": "4aaa7a66626af86d1c10ff021fda6a52e97e46caed3fad1e39c9e0173617d681"
+    },
+    "core_estate_library_liftaway_roof | core_flora_yucca_skirt": {
+      "verdict": "follow-up",
+      "maxDepthM": 0.233,
+      "maxSeamM": 2.636,
+      "reason": "Both original owners' complete geometry, normals, numeric attributes, material slots and world matrix remain exact from de217 to the lighting/olive source1e10 (the independent native-delta audit). The refreshed seeded audit ranks 2 retained sites here, maximum sampled depth 0.233m and seam2.636m, worst native point[-9.288, 5.675, 9.856]. This is an existing bounded plant/roof or plant/path intersection to inspect with the pending exterior/arrival composition; the lighting/olive checkpoint neither repairs it nor claims whole-plant contact or solid overlap volume. No ratchet or geometric exclusion is changed.",
+      "evidence": "artwork/coastal-home/reviews/ambience-integration-2026-11-02/README.md"
+    },
+    "core_arrival_paths__travertine paving stone | core_estate_garden_flora_grass": {
+      "verdict": "follow-up",
+      "maxDepthM": 0.0987,
+      "maxSeamM": 0.236,
+      "reason": "Both original owners' complete geometry, normals, numeric attributes, material slots and world matrix remain exact from de217 to the lighting/olive source1e10 (the independent native-delta audit). The refreshed seeded audit ranks 4 retained sites here, maximum sampled depth 0.0987m and seam0.236m, worst native point[5.623, -17.954, 7.373]. This is an existing bounded plant/roof or plant/path intersection to inspect with the pending exterior/arrival composition; the lighting/olive checkpoint neither repairs it nor claims whole-plant contact or solid overlap volume. No ratchet or geometric exclusion is changed.",
+      "evidence": "artwork/coastal-home/reviews/ambience-integration-2026-11-02/README.md"
     }
   }
 }

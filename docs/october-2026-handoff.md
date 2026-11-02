@@ -82,10 +82,32 @@ implementation keeps the native master and GLBs unchanged. It adds a bounded
 normal response without another draw or pass. Conservative height bounds reduce
 contact queries; the measured full-quality rainy view still has a roughly 50 ms
 frame median, so items 5–7 and whole-scene performance remain open. CI and live
-delivery are separate publication evidence. The F6 exterior, straight arrival,
-bedroom lighting/olive and under-bedroom breakfast composition still require
-their combined native/export/cache/Walk and appearance gates before items 9–10
-and 23 can close.
+delivery are recorded in the subsequent [ambience integration receipt](../artwork/coastal-home/reviews/ambience-integration-2026-11-02/prior-rain-publication.json):
+`fb6a9c6ff` is live, all 42 visual jobs are green after rerunning the single
+failed card-settling job, and four live rain-contact cases pass. The initial
+failed attempt remains retained; its cause is not established.
+
+## November 2 house-ambience checkpoint
+
+The [integrated light/olive review](../artwork/coastal-home/reviews/ambience-integration-2026-11-02/README.md)
+records the root-native replay, owning contact/indirect bake, decoded export
+controls, official cache and full overlap audit. Bedside light now follows its
+actual globe, the occupied upper reading area has a containing light region,
+and the kitchen olive has curved foliage and connected branches. Twelve native
+bedroom/reading views, twelve paired kitchen views and eight phone-size WebKit
+views pass without console or request errors. This local checkpoint does not
+close the whole-house appearance or performance items; CI/live publication is
+the next independent gate.
+
+Sirui selected the under-bedroom space as a calm plant-garden refuge, with
+ocean-facing breakfast seating elsewhere. This supersedes the earlier seated
+sea-view goal for that nook. Normal seating, counter seating and gaze trials
+show that existing patio and roughly 16 meters of cliff obstruct the view;
+those failed controls are retained rather than justifying a new trench.
+Complete the safe route and coffee contacts, then qualify a genuinely open
+existing patio/terrace breakfast position. The F6 exterior, straight arrival,
+garden nook and combined native/export/cache/Walk gates remain open before
+items 9–10 and 23 can close.
 
 ## October29 PC visitor checkpoint
 

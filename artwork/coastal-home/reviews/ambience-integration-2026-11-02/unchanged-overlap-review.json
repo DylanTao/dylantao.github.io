@@ -1,0 +1,26 @@
+{
+  "scope": "Two newly ranked existing pairs, independently unchanged native fields. Follow-up, not a clearance or repair claim.",
+  "nativeUnownedExact": 459,
+  "pairs": [
+    {
+      "pair": "core_estate_library_liftaway_roof | core_flora_yucca_skirt",
+      "sites": 2,
+      "seamM": 2.636,
+      "maxDepthM": 0.233,
+      "severity": 396.6,
+      "worstSite": [-9.288, 5.675, 9.856],
+      "categories": ["plant", "rock"],
+      "verdict": "follow-up"
+    },
+    {
+      "pair": "core_arrival_paths__travertine paving stone | core_estate_garden_flora_grass",
+      "sites": 4,
+      "seamM": 0.236,
+      "maxDepthM": 0.0987,
+      "severity": 81.3,
+      "worstSite": [5.623, -17.954, 7.373],
+      "categories": ["plant", "shell"],
+      "verdict": "follow-up"
+    }
+  ]
+}

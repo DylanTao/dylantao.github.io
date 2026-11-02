@@ -14,7 +14,9 @@ CENTER = (.65, -12.65)
 SHADE_BOTTOM = 4.78
 SHADE_TOP = 5.10
 SHADE_MATERIAL = 'private living washi diffuser'
-ORIGINAL_CAGE = {'min': [-1.65, 2.55, 10.25], 'max': [1.3, 4.7, 12.55]}
+# The November bedroom-lighting repair expands this containing receiver to
+# preserve both occupied loft envelopes. The reading fixture itself stays put.
+RETAINED_CAGE = {'min': [-4.3, 2.55, 10.0], 'max': [1.3, 4.7, 12.8]}
 
 
 def installation():
@@ -25,7 +27,7 @@ def installation():
 
 def register(config):
     room = next((r for r in config.get('rooms', []) if r['id'] == 'library-upper'), None)
-    if room is None or room.get('floor') != 2.6 or room.get('lightRegion') != ORIGINAL_CAGE:
+    if room is None or room.get('floor') != 2.6 or room.get('lightRegion') != RETAINED_CAGE:
         raise RuntimeError('Retained private-room floor/cage changed; review the physical placement')
     if config.get('retreat', {}).get('setbackMetres') != 8:
         raise RuntimeError('Reading light requires the final8mretreat frame')

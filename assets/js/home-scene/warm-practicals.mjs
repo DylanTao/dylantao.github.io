@@ -55,14 +55,39 @@ export function sleepWindow(schedule) {
 export function practicalSourcesFor(config) {
   const setback = Number(config?.retreat?.setbackMetres) || 0;
   const native = config?.retreat?.workstationNativeTranslation || [0, 0, 0];
-  return PRACTICAL_SOURCES.map((source) => ({
-    ...source,
-    position: source.position.map((value, axis) => {
-      const global = axis === 2 ? setback : 0;
-      const desk = source.id === "study" ? [native[0], native[2], -native[1]][axis] : 0;
-      return value + global + desk;
-    }),
-  }));
+  const sleep = config?.rooms?.find((room) => room.id === "sleep");
+  const anchor = sleep?.practicalSource;
+  if (anchor != null) {
+    const { position, emitterRadius } = anchor;
+    const { min, max } = sleep.lightRegion || {};
+    const vector = (value) => Array.isArray(value) && value.length === 3 && value.every(Number.isFinite);
+    // A final-world bedside fixture is small and lies completely within its
+    // room's authored cage. Missing metadata retains the original house recipe.
+    if (
+      !vector(position) ||
+      !vector(min) ||
+      !vector(max) ||
+      !Number.isFinite(emitterRadius) ||
+      emitterRadius <= 0 ||
+      emitterRadius > 0.25 ||
+      !position.every((value, axis) => min[axis] < max[axis] && value - emitterRadius >= min[axis] && value + emitterRadius <= max[axis])
+    )
+      throw new RangeError("Invalid final-world sleep practicalSource");
+  }
+  return PRACTICAL_SOURCES.map((source) => {
+    const fixture = source.id === "sleep" ? anchor : null;
+    return {
+      ...source,
+      position: fixture
+        ? [...fixture.position]
+        : source.position.map((value, axis) => {
+            const global = axis === 2 ? setback : 0;
+            const desk = source.id === "study" ? [native[0], native[2], -native[1]][axis] : 0;
+            return value + global + desk;
+          }),
+      ...(fixture ? { emitterRadius: fixture.emitterRadius } : {}),
+    };
+  });
 }
 
 export function createWarmPracticals(scene, bind = (m) => m, { sources = PRACTICAL_SOURCES } = {}) {
@@ -82,6 +107,22 @@ export function createWarmPracticals(scene, bind = (m) => m, { sources = PRACTIC
     ),
     housings = [],
     diffusers = [];
+  const nativeDiffusers = new Set();
+  const nativeSleepSource = lights.findIndex((light, index) => sources[index].id === "sleep");
+  const isNativeDiffuser = (m) => m?.name === "sleep bedside linen diffuser" && m.userData?.practicalSourceId === "sleep" && m.emissive;
+  function updateNativeDiffusers() {
+    if (nativeSleepSource < 0) return;
+    const source = sources[nativeSleepSource];
+    // Visible shade radiance is an art-directed raster approximation. It
+    // follows the existing lamp's power; it adds no light or transport source.
+    const intensity = 0.65 * THREE.MathUtils.clamp(lights[nativeSleepSource].intensity / source.night, 0, 1);
+    for (const mesh of nativeDiffusers)
+      for (const m of [mesh.material].flat())
+        if (isNativeDiffuser(m)) {
+          m.emissive.copy(color);
+          m.emissiveIntensity = intensity;
+        }
+  }
   function cylinder(target, radius, height, position) {
     const geometry = new THREE.CylinderGeometry(radius, radius, height, 24);
     geometry.translate(...position);
@@ -128,6 +169,13 @@ export function createWarmPracticals(scene, bind = (m) => m, { sources = PRACTIC
     root,
     lights,
     sources: sources.map((source, i) => ({ ...source, color: color.toArray(), light: lights[i] })),
+    bindModel(model) {
+      model?.traverse((mesh) => {
+        if (mesh.isMesh && [mesh.material].flat().some(isNativeDiffuser)) nativeDiffusers.add(mesh);
+      });
+      updateNativeDiffusers();
+      return nativeDiffusers.size;
+    },
     // routine: { minute, id, schedule }. Without one, every lamp follows daylight alone.
     update(daylight, routine = null) {
       const t = THREE.MathUtils.clamp((0.3 - daylight) / 0.3, 0, 1);
@@ -140,6 +188,7 @@ export function createWarmPracticals(scene, bind = (m) => m, { sources = PRACTIC
         light.intensity = source.day + (source.night - source.day) * level * (source.anyHour ? 1 : nightMix);
       });
       diffuser.emissiveIntensity = THREE.MathUtils.lerp(0.22, 1.1, nightMix);
+      updateNativeDiffusers();
     },
     evidence() {
       return {
@@ -147,6 +196,7 @@ export function createWarmPracticals(scene, bind = (m) => m, { sources = PRACTIC
         pointLights: lights.length,
         newFixtures: 3,
         fixtureDraws: 2,
+        nativeDiffuserMeshes: nativeDiffusers.size,
         levels: { ...levels },
         sources: lights.map((l) => ({ position: l.position.toArray(), intensity: l.intensity })),
       };
@@ -156,6 +206,7 @@ export function createWarmPracticals(scene, bind = (m) => m, { sources = PRACTIC
       brass.dispose();
       diffuser.dispose();
       root.removeFromParent();
+      nativeDiffusers.clear();
     },
   };
 }

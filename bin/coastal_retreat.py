@@ -501,7 +501,8 @@ def finish_metadata(scene,config):
     rooms={r["id"]:r for r in config["rooms"]}
     config["equipment"]["gym"]["choreographyOrigin"]=[0,0,SETBACK]
     rooms["study"].pop("lightRegion",None)
-    rooms["library-upper"]["lightRegion"]={"min":[-1.65,2.55,10.25],"max":[1.3,4.7,12.55]}
+    # The vacated sleeping bay remains occupied gallery floor beside the private living room.
+    rooms["library-upper"]["lightRegion"]={"min":[-4.3,2.55,10.0],"max":[1.3,4.7,12.8]}
     from coastal_private_reading import register as register_private_reading
     register_private_reading(config)
     config["lightTransportRegions"]=[q for q in config["lightTransportRegions"] if q.get("id")!="retreat-library"]

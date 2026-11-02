@@ -49,6 +49,76 @@ def components(bm):
     return result
 
 
+def bedside_practical_metadata(scene, config):
+    """Measure the retained bedside globe; never write its shared linen mesh."""
+    room = next(room for room in config["rooms"] if room["id"] == "sleep")
+    x, floor, z = room["actor"]
+    expected = native([x + 1.03, floor + .83, z - 1.02])
+    obj = scene.objects["sleep__linen"]
+    bm = bmesh.new()
+    try:
+        bm.from_mesh(obj.data)
+        bm.verts.index_update()
+        candidates = []
+        for island in components(bm):
+            points = [obj.matrix_world @ vertex.co for vertex in island]
+            lo, hi = bounds(points)
+            if inside(lo, hi, expected - Vector((.21, .21, .21)), expected + Vector((.21, .21, .21))):
+                if any(vertex.co != obj.data.vertices[vertex.index].co for vertex in island):
+                    raise RuntimeError("The read-only globe query lost native vertex identity")
+                candidates.append((points, lo, hi, [vertex.index for vertex in island]))
+        if len(candidates) != 1:
+            raise RuntimeError(f"Expected one retained bedside globe, found {len(candidates)}")
+        points, lo, hi, indices = candidates[0]
+        center = [(lo[axis] + hi[axis]) / 2 for axis in range(3)]
+        radius = max(math.dist(point, center) for point in points)
+        if not .13 <= radius <= .195:
+            raise RuntimeError(f"The retained bedside globe no longer fits its 20cm emitter: {radius}")
+        room["practicalSource"] = {"position": world(center), "emitterRadius": .20}
+        return {"owner": obj.name, "vertices": len(points), "min": [lo.x, lo.z, -hi.y], "max": [hi.x, hi.z, -lo.y],
+                "position": world(center), "maxRadius": radius, "emitterRadius": .20,
+                "vertexIndices": sorted(indices),
+                "preserved": "Native mesh, linen/mattress material, powers and schedule"}
+    finally:
+        bm.free()
+
+
+def bedside_diffuser_material(scene, config):
+    """Give only the retained globe a runtime glow role; native emission stays zero."""
+    receipt = bedside_practical_metadata(scene, config)
+    obj = scene.objects[receipt["owner"]]
+    vertices = set(receipt["vertexIndices"])
+    faces = [face for face in obj.data.polygons if any(index in vertices for index in face.vertices)]
+    if not faces or any(not all(index in vertices for index in face.vertices) for face in faces):
+        raise RuntimeError("The bedside globe is not one complete isolated surface")
+    slots = {face.material_index for face in faces}
+    if len(slots) != 1:
+        raise RuntimeError("The bedside globe has ambiguous native material ownership")
+    source_index = slots.pop()
+    source = obj.data.materials[source_index]
+    name = "sleep bedside linen diffuser"
+    bsdf = source.node_tree.nodes.get("Principled BSDF") if source.use_nodes else None
+    if bsdf is None or bsdf.inputs["Emission Strength"].default_value != 0:
+        raise RuntimeError("The offline bedside diffuser must retain zero emission")
+    if source.name == name:
+        if source.get("practicalSourceId") != "sleep":
+            raise RuntimeError("The bedside diffuser lost its explicit fixture role")
+        return {**receipt, "nativePolygons": len(faces), "material": name, "alreadyAuthored": True}
+    if source.name != "linen" or bpy.data.materials.get(name):
+        raise RuntimeError("The bedside diffuser no longer has its retained linen source")
+    diffuser = source.copy()
+    diffuser.name = name
+    diffuser["practicalSourceId"] = "sleep"
+    obj.data.materials.append(diffuser)
+    target_index = len(obj.data.materials) - 1
+    # Assign existing polygon slots directly. Rebuilding a BMesh here would
+    # unnecessarily rewrite unowned mattress topology, normals and colour data.
+    for face in faces:
+        face.material_index = target_index
+    return {**receipt, "nativePolygons": len(faces), "nativePolygonIndices": [face.index for face in faces],
+            "material": name, "nativeEmission": 0, "alreadyAuthored": False}
+
+
 def edit_islands(obj, select, transform=None):
     bm = bmesh.new()
     bm.from_mesh(obj.data)
@@ -584,7 +654,8 @@ def bedside_accessories(scene, config):
             moved.append({"mesh": obj.name, "completeIslands": count, "translationNativeM": [2.06, 0, 0]})
     if not moved:
         raise RuntimeError("The old bedside lamp/book assembly was not found; refusing an empty correction")
-    return {"moved": moved, "intent": "The whole table assembly occupies the east side, keeping the stair and real bedside transfer clear"}
+    return {"moved": moved, "practical": bedside_diffuser_material(scene, config),
+            "intent": "The whole table assembly occupies the east side, keeping the stair and real bedside transfer clear"}
 
 
 def bedroom_plant_stems(scene, config):
@@ -1122,6 +1193,9 @@ def adjacent_bedchamber(scene, config):
     config["companion"]["roomExits"]["sleep"] = {"egress": study["egress"], "exitPath": room["exitPath"]}
     config["weatherShelters"].append({"min": [x0, floor, z0], "max": [x1, 5.17, z1]})
     region = {"min": [x0 - .10, floor - .05, z0 - .10], "max": [x1 + .10, 5.25, z1 + .12]}
+    # The public sleep room moved with its complete bed assembly. Its diffuse cage
+    # follows the same final-world envelope as the authored cove receivers.
+    room["lightRegion"] = {"min": list(region["min"]), "max": list(region["max"])}
     config["installationReceivers"]["groups"]["bedchamber"] = region
     config["installationReceivers"]["order"].insert(0, "bedchamber")
     cove=Parts("core_finish_bedchamber_cove")

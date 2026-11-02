@@ -1,0 +1,29 @@
+{
+  "scope": "Four explicit guarded assets. Cache payload/descriptor unchanged here; official baker must regenerate after source integration.",
+  "files": [
+    {
+      "path": "artwork/coastal-home/coastal-home.blend",
+      "beforeSha256": "de217984242f77903145dd6d16f277923b57fd5e3eb2469c906c2507b494ad87",
+      "afterSha256": "1e10b25d5cf0eec87d7001acbf9d938d65ba33af6076380d5a8e5d45cf3d23e7",
+      "bytes": 29047137
+    },
+    {
+      "path": "assets/models/home/room-sleep.glb",
+      "beforeSha256": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
+      "afterSha256": "3e767a1b93f35736eb54d39da60a2fefc92056d296e22ba6a41c2c31a582aa45",
+      "bytes": 294448
+    },
+    {
+      "path": "assets/models/home/room-kitchen.glb",
+      "beforeSha256": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e",
+      "afterSha256": "ff670de9f0f4b10d93873d644d9d3f9deedd0bd2c373ece627734f2295762a07",
+      "bytes": 249300
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "beforeSha256": "11c6a143056da8a7fff424905f443e4b9576e6e4f6cacc5e46cbdc4a91e709ad",
+      "afterSha256": "888e50cb4ac6fcc4fdecb390d53a3e1b9d24e3ed745f73daa4468bb155d2ecdc",
+      "bytes": 609073
+    }
+  ]
+}

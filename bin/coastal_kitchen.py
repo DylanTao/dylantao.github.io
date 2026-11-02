@@ -290,6 +290,82 @@ def _cushion(bm, lo, hi, radius):
     box(bm, center, size, radius, segments=4)
 
 
+def nook_olive_layout(ox=-4.72, oy=4.14, oz=NOOK_FLOOR):
+    """Six short sprays and four crown leaves, without a camera-facing leaf plane."""
+    foot = Vector((ox, oy, oz + 0.36))
+    crown = Vector((ox + 0.04, oy - 0.03, oz + 1.5))
+    branches, leaves = [], []
+    counts = (6, 6, 6, 6, 6, 6)
+    for b, count in enumerate(counts):
+        angle = b * 2.39996 + 0.3
+        base = foot.lerp(crown, 0.40 + b * 0.075)
+        end = base + Vector((0.09 * math.cos(angle), 0.09 * math.sin(angle), 0.15))
+        branches.append((base, end))
+        for j in range(count):
+            at = 0.26 + j * 0.70 / (count - 1)
+            attach = base.lerp(end, at)
+            side = -1 if j % 2 else 1
+            heading = angle + side * (0.9 + 0.12 * math.sin(b + j))
+            direction = Vector((math.cos(heading), math.sin(heading), 0.1 + 0.3 * math.sin(j * 1.7 + b)))
+            direction.normalize()
+            root = attach + direction * 0.014
+            tip = root + direction * (0.085 + 0.018 * math.sin(j * 2.3 + b))
+            leaves.append({"base": attach, "root": root, "tip": tip,
+                           "width": 0.011 + 0.0015 * math.sin(j + b),
+                           "twist": 0.85 * math.sin(b * 2.1 + j * 1.3), "camber": 0.0035,
+                           "branch": b})
+    for k in range(4):
+        angle = 0.6 + k * math.pi / 2
+        attach = foot.lerp(crown, 0.91 + k * 0.018)
+        direction = Vector((math.cos(angle), math.sin(angle), 0.24 + 0.07 * math.sin(k)))
+        direction.normalize()
+        root = attach + direction * 0.014
+        leaves.append({"base": attach, "root": root, "tip": root + direction * (0.073 + 0.005 * math.sin(k)),
+                       "width": 0.010 + 0.001 * math.sin(k), "twist": 0.5 * math.sin(k * 1.7),
+                       "camber": 0.003, "branch": None})
+    return {"foot": foot, "crown": crown, "branches": branches, "leaves": leaves}
+
+
+def nook_olive_leaf_points(leaf):
+    from mathutils import Quaternion
+    root, tip = leaf["root"], leaf["tip"]
+    axis = (tip - root).normalized()
+    side = axis.cross(Vector((0, 0, 1))).normalized()
+    side = Quaternion(axis, leaf["twist"]) @ side
+    normal = side.cross(axis).normalized()
+    points = [root]
+    for t in (0.20, 0.50, 0.80):
+        envelope = math.sin(math.pi * t)
+        centre = root.lerp(tip, t) + normal * leaf["camber"] * 4 * t * (1 - t)
+        half_width = side * leaf["width"] * envelope ** 0.75
+        # A shallow midrib and cupped edges give each blade its own curved normal.
+        edge = centre - normal * 0.0014 * envelope
+        points.extend((edge - half_width, centre, edge + half_width))
+    return (*points, tip)
+
+
+def nook_olive_leaf_triangles():
+    """Twelve consistently wound triangles on an eleven-vertex curved strip."""
+    faces = [(0, 2, 1), (0, 3, 2)]
+    for first, second in ((1, 4), (4, 7)):
+        for column in range(2):
+            a, b = first + column, second + column
+            faces.extend(((a, a + 1, b + 1), (a, b + 1, b)))
+    return (*faces, (7, 8, 10), (8, 9, 10))
+
+
+def build_nook_olive(stem, leaves, ox, oy, oz):
+    layout = nook_olive_layout(ox, oy, oz)
+    cylinder(stem, tuple(layout["foot"]), tuple(layout["crown"]), 0.016, 8)
+    for base, end in layout["branches"]:
+        cylinder(stem, tuple(base), tuple(end), 0.005, 6, radius2=0.0028)
+    for leaf in layout["leaves"]:
+        cylinder(stem, tuple(leaf["base"]), tuple(leaf["root"]), 0.0025, 3)
+        vertices = [leaves.verts.new(point) for point in nook_olive_leaf_points(leaf)]
+        for indices in nook_olive_leaf_triangles():
+            leaves.faces.new([vertices[index] for index in indices])
+
+
 def build_nook(p, m):
     """The sunken corner: lined box, treads, banquette, round table, lantern, picture light, plant."""
     mats = {"stone": m["stone"], "plaster": m["plaster"], "oak": m["oak"], "smoked": m["smoked"]}
@@ -368,15 +444,7 @@ def build_nook(p, m):
     ox, oy, oz = -4.72, 4.14, NOOK_FLOOR
     lathe(p.bm(m["terra"]), [(0.0, 0.0), (0.15, 0.0), (0.19, 0.34), (0.2, 0.38), (0.0, 0.36)], (ox, oy, oz), 32)
     stem, leaves = p.bm(m["smoked"]), p.bm(m["leaf"])
-    foot, crown = Vector((ox, oy, oz + 0.36)), Vector((ox + 0.04, oy - 0.03, oz + 1.5))
-    cylinder(stem, tuple(foot), tuple(crown), 0.016, 8)
-    for k in range(40):
-        z = oz + 0.95 + (k % 13) * 0.04
-        a = k * 2.39996
-        axis_point = foot.lerp(crown, (z - foot.z) / (crown.z - foot.z))
-        root = axis_point + Vector((math.cos(a), math.sin(a), 0.0)) * 0.02
-        tip = root + Vector((0.16 * math.cos(a), 0.16 * math.sin(a), 0.05 + 0.03 * math.sin(k)))
-        rooted_leaf(stem, leaves, axis_point, root, tip, 0.021)
+    build_nook_olive(stem, leaves, ox, oy, oz)
     return treads
 
 

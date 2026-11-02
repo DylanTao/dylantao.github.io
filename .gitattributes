@@ -15,6 +15,14 @@ artwork/coastal-home/reviews/static-indices-rain-2026-11-01/*.md text eol=lf
 artwork/coastal-home/reviews/static-indices-rain-2026-11-01/*.json text eol=lf
 artwork/coastal-home/reviews/rain-contacts-2026-11-02/*.md text eol=lf
 artwork/coastal-home/reviews/rain-contacts-2026-11-02/*.json text eol=lf
+artwork/coastal-home/reviews/bedroom-ambience-2026-11-01/**/*.md text eol=lf
+artwork/coastal-home/reviews/bedroom-ambience-2026-11-01/**/*.json text eol=lf
+artwork/coastal-home/reviews/bedroom-ambience-2026-11-01/**/*.py text eol=lf
+artwork/coastal-home/reviews/nook-olive-2026-11-01/**/*.md text eol=lf
+artwork/coastal-home/reviews/nook-olive-2026-11-01/**/*.json text eol=lf
+artwork/coastal-home/reviews/nook-olive-2026-11-01/**/*.py text eol=lf
+artwork/coastal-home/reviews/ambience-integration-2026-11-02/*.md text eol=lf
+artwork/coastal-home/reviews/ambience-integration-2026-11-02/*.json text eol=lf
 artwork/site-fidelity/reviews/cv-navigation-2026-11-01/*.md text eol=lf
 artwork/site-fidelity/reviews/cv-navigation-2026-11-01/*.json text eol=lf
 artwork/la-jolla/reconstruction/HUNYUAN-LICENSE.txt text eol=lf whitespace=-blank-at-eol

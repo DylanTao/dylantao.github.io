@@ -2,8 +2,8 @@
   "tool": "bin/audit_coastal_overlaps.py",
   "toolSha256": "925eaee2e04132dd7d1dbbd909d144b060af783352bf586452e7e6228350e5fe",
   "source": "artwork/coastal-home/coastal-home.blend",
-  "sourceSha256": "de217984242f77903145dd6d16f277923b57fd5e3eb2469c906c2507b494ad87",
-  "manifestSha256": "685aba9d1a372e0be90fb6e5f35e4612f58e205b4f854c3121b88c0959b59dab",
+  "sourceSha256": "1e10b25d5cf0eec87d7001acbf9d938d65ba33af6076380d5a8e5d45cf3d23e7",
+  "manifestSha256": "fc01cb3761a228ba2eaaf305b9c32fee579fba2dec9d99b062eb8864be8055f6",
   "exportsSha256": {
     "coast.glb": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
     "flora.glb": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2",
@@ -11,12 +11,12 @@
     "room-bath-bedroom.glb": "23122cb51c7d2f3d580389eb4ffbf41a8f64f0e12f612ccb12a9f94fe37b2b80",
     "room-bath-living.glb": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72",
     "room-gym.glb": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
-    "room-kitchen.glb": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e",
+    "room-kitchen.glb": "ff670de9f0f4b10d93873d644d9d3f9deedd0bd2c373ece627734f2295762a07",
     "room-library-upper.glb": "91534441cda1fc3823623a61f979bb5ad9478b222df7de03f26a62202cbdfaaa",
     "room-library.glb": "347ee2f9aa3d293acb33c83cba9e434d81297e8f143ec63bf23f7cfb8987923e",
     "room-lounge.glb": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390",
     "room-onsen.glb": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
-    "room-sleep.glb": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
+    "room-sleep.glb": "3e767a1b93f35736eb54d39da60a2fefc92056d296e22ba6a41c2c31a582aa45",
     "room-study.glb": "1de86040cb6c173c72e9f00061d6add31a70e3d6907495413cd7ac21586daf8a"
   },
   "furniture": [
@@ -238,25 +238,25 @@
     "never-drawn": 1
   },
   "counts": {
-    "meshes": 511,
-    "triangles": 1281103,
-    "closedMeshes": 379,
-    "pairsTested": 4055,
-    "crossingPairs": 900,
-    "sites": 17628,
-    "offenders": 872,
+    "meshes": 512,
+    "triangles": 1281623,
+    "closedMeshes": 380,
+    "pairsTested": 4064,
+    "crossingPairs": 902,
+    "sites": 17630,
+    "offenders": 874,
     "coplanarPairs": 363,
     "zFightingPairs": 32,
     "coplanarTrianglePairsTested": 77537
   },
   "ruleCounts": {
-    "unclassified": 872,
-    "one-sided-embed": 2295,
-    "support-rest": 175,
-    "shallow-seam": 9607,
+    "unclassified": 874,
+    "one-sided-embed": 2294,
+    "support-rest": 174,
+    "shallow-seam": 9610,
     "water-in-basin": 187,
-    "structural-joint": 101,
-    "planting-root": 1887,
+    "structural-joint": 102,
+    "planting-root": 1885,
     "terrain-landform": 2504
   },
   "foliageOverlap": {
@@ -268,9 +268,9 @@
     "zFightingVisibleAreaM2": 0.7307,
     "grazingSites": 25,
     "grazingSeamM": 3.257,
-    "deepSites": 847,
-    "deepSitesOver5cm": 288,
-    "deepSeverity": 33500.0,
+    "deepSites": 849,
+    "deepSitesOver5cm": 289,
+    "deepSeverity": 33965.2,
     "maxDeepSeverity": 1327.6
   },
   "before": {
@@ -287,8 +287,8 @@
     }
   },
   "beforeProvenance": {
-    "file": ".jekyll-cache\\visual-qa\\interior-integration-20261031\\previous-compact-overlap.json",
-    "sha256": "e947f659cee94d58cb3397701e5f5cc1217e74d8515b3ec64db38ca2bc82c47f",
+    "file": ".jekyll-cache\\visual-qa\\house-ambience-integration-20261102\\overlap-before-compact.json",
+    "sha256": "4a7dd0599ac9c110110b30b4e89eaa6b0520b360e1c5134763fa0445b4bc2cfe",
     "kind": "retained-before-record-in-compact-audit"
   },
   "delivered": {
@@ -297,11 +297,11 @@
       "coast.glb": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
       "flora.glb": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2",
       "room-study.glb": "1de86040cb6c173c72e9f00061d6add31a70e3d6907495413cd7ac21586daf8a",
-      "room-kitchen.glb": "9721d079a4de62afc8293ababb302dc869c3abecef2cc0d6368027e8a4dc205e",
+      "room-kitchen.glb": "ff670de9f0f4b10d93873d644d9d3f9deedd0bd2c373ece627734f2295762a07",
       "room-gym.glb": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
       "room-onsen.glb": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
       "room-lounge.glb": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390",
-      "room-sleep.glb": "441ad903969a1c824f816a6647c31883f42e85dfc05f8df78ea51e20ce3dab28",
+      "room-sleep.glb": "3e767a1b93f35736eb54d39da60a2fefc92056d296e22ba6a41c2c31a582aa45",
       "room-library.glb": "347ee2f9aa3d293acb33c83cba9e434d81297e8f143ec63bf23f7cfb8987923e",
       "room-library-upper.glb": "91534441cda1fc3823623a61f979bb5ad9478b222df7de03f26a62202cbdfaaa",
       "room-bath-living.glb": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72",
@@ -309,13 +309,13 @@
     },
     "totals": {
       "zFightingPairs": 43,
-      "zFightingVisibleAreaM2": 1.1733,
+      "zFightingVisibleAreaM2": 1.1732,
       "grazingSites": 24,
       "grazingSeamM": 3.321,
       "deepSites": 459,
       "deepSitesOver5cm": 58,
-      "deepSeverity": 9958.2,
-      "maxDeepSeverity": 1389.7
+      "deepSeverity": 9375.1,
+      "maxDeepSeverity": 804.9
     },
     "zFighting": [
       {
@@ -416,7 +416,7 @@
       },
       {
         "pair": "kitchen__honey ash | kitchen__pale oak",
-        "visibleAreaM2": 0.007054,
+        "visibleAreaM2": 0.007045,
         "at": [-4.041, -10.865, 0.334],
         "normal": [-1.0, 0.0, -0.0]
       },
@@ -536,8 +536,8 @@
       },
       {
         "pair": "kitchen__chalk limestone | kitchen__honey ash",
-        "visibleAreaM2": 0.000336,
-        "at": [-3.172, -3.64, -0.145],
+        "visibleAreaM2": 0.000326,
+        "at": [-3.171, -3.64, -0.145],
         "normal": [-0.0, 1.0, 0.0]
       },
       {
@@ -1170,8 +1170,8 @@
       "pair": "lounge__honey ash | lounge__washi lantern paper",
       "sites": 2,
       "seamM": 10.751,
-      "maxDepthM": 0.154,
-      "severity": 541.3,
+      "maxDepthM": 0.1774,
+      "severity": 617.8,
       "worstSite": [-0.72, -5.82, 0.959],
       "categories": ["room"],
       "verdict": "designed"
@@ -1215,6 +1215,16 @@
       "worstSite": [4.68, -16.441, 7.137],
       "categories": ["rock", "shell"],
       "verdict": "designed"
+    },
+    {
+      "pair": "core_estate_library_liftaway_roof | core_flora_yucca_skirt",
+      "sites": 2,
+      "seamM": 2.636,
+      "maxDepthM": 0.233,
+      "severity": 396.6,
+      "worstSite": [-9.288, 5.675, 9.856],
+      "categories": ["plant", "rock"],
+      "verdict": "follow-up"
     },
     {
       "pair": "onsen__warm cut stone | onsen_decor warm cut stone",
@@ -1587,6 +1597,16 @@
       "verdict": "built-into-rock"
     },
     {
+      "pair": "furniture:living-sofa/cloud-sofa.lod0__cloud boucle textile | lounge__chalk limestone",
+      "sites": 4,
+      "seamM": 7.993,
+      "maxDepthM": 0.0197,
+      "severity": 94.5,
+      "worstSite": [2.771, -8.305, 0.129],
+      "categories": ["furniture", "room"],
+      "verdict": "follow-up"
+    },
+    {
       "pair": "core_flora_dry_grass | core_retreat_clifftop__warm cut stone",
       "sites": 7,
       "seamM": 0.344,
@@ -1595,16 +1615,6 @@
       "worstSite": [6.242, -9.185, 7.059],
       "categories": ["plant", "shell"],
       "verdict": "planting"
-    },
-    {
-      "pair": "furniture:living-sofa/cloud-sofa.lod0__cloud boucle textile | lounge__chalk limestone",
-      "sites": 4,
-      "seamM": 7.993,
-      "maxDepthM": 0.0198,
-      "severity": 91.3,
-      "worstSite": [2.771, -8.305, 0.129],
-      "categories": ["furniture", "room"],
-      "verdict": "follow-up"
     },
     {
       "pair": "core_estate_pool__warm cut stone | core_estate_terrace__warm cut stone",
@@ -1625,6 +1635,16 @@
       "worstSite": [2.811, -7.574, -0.009],
       "categories": ["room", "shell"],
       "verdict": "hidden"
+    },
+    {
+      "pair": "core_arrival_paths__travertine paving stone | core_estate_garden_flora_grass",
+      "sites": 4,
+      "seamM": 0.236,
+      "maxDepthM": 0.0987,
+      "severity": 81.3,
+      "worstSite": [5.623, -17.954, 7.373],
+      "categories": ["plant", "shell"],
+      "verdict": "follow-up"
     },
     {
       "pair": "core_estate_garden__pale oak | core_estate_garden__warm cut stone",
@@ -1664,16 +1684,6 @@
       "severity": 77.7,
       "worstSite": [-1.4, -18.6, 8.24],
       "categories": ["glass", "shell"],
-      "verdict": null
-    },
-    {
-      "pair": "core_arrival_paths__travertine paving stone | core_estate_garden_flora_grass",
-      "sites": 4,
-      "seamM": 0.236,
-      "maxDepthM": 0.0987,
-      "severity": 77.5,
-      "worstSite": [5.623, -17.954, 7.373],
-      "categories": ["plant", "shell"],
       "verdict": null
     },
     {
@@ -1834,16 +1844,6 @@
       "severity": 48.8,
       "worstSite": [-2.79, -17.31, 8.336],
       "categories": ["rock", "shell"],
-      "verdict": null
-    },
-    {
-      "pair": "sleep__linen | sleep_duvet_simpsons",
-      "sites": 1,
-      "seamM": 6.874,
-      "maxDepthM": 0.0175,
-      "severity": 45.9,
-      "worstSite": [-6.264, -6.993, 1.961],
-      "categories": ["room"],
       "verdict": null
     }
   ]

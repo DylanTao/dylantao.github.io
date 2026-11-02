@@ -1,0 +1,23 @@
+{
+  "recordedAt": "2026-11-02",
+  "status": "Original working-tree seal was not portable; retained as a failed custody control.",
+  "originalIndex": {
+    "path": "original-working-index.json.gz",
+    "uncompressedSha256": "1db2f6ea291ca309e8028ed87c5d7ca331583322354f46aa27a0ae9d0dc7c4a6"
+  },
+  "lineEndingRepair": {
+    "path": "replay_nook_olive.py",
+    "originalWorkingBytes": 11010,
+    "originalWorkingSha256": "f530576cf47357eeb9e3d53be6733403688cd4c1b81cfccbdc938999ed0b9012",
+    "committedLFBytes": 10907,
+    "committedLFSha256": "6ef1e6dafd9147ae385a379132529d3808c9780469d6a14666bd331205586116",
+    "verifiedReconstruction": "Restoring only CRLF exactly reproduces the original index size/hash; compressed original working helper retained. Current executable helper remains the committed LF source."
+  },
+  "omittedInterpreterCache": [],
+  "omissionReason": "Ignored generated interpreter bytecode was listed by a filesystem sweep but was absent from the worker commit. It is not supplied or required as source/evidence; the original missing entry remains in the retained failed index.",
+  "originalReadme": {
+    "path": "original-readme.md.gz",
+    "uncompressedSha256": "7ba9a66d22d564eff1e074b0130cfb6c3699c9b9b3ad424f4accefd3f3850624"
+  },
+  "unchangedEvidence": "All other original payload bytes are unchanged and checked against the original index. The new manifest binds actual portable payloads and this correction, not the absent cache. Native/render validation remains separate."
+}

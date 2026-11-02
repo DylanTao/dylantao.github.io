@@ -1,0 +1,9 @@
+{
+  "scope": "Official regeneration on the new canonical source; all patch/sole/ankle/tarsus/delivered geometry and fields exact, only source-file binding changes.",
+  "beforeSource": "de217984242f77903145dd6d16f277923b57fd5e3eb2469c906c2507b494ad87",
+  "afterSource": "1e10b25d5cf0eec87d7001acbf9d938d65ba33af6076380d5a8e5d45cf3d23e7",
+  "beforeSha256": "5980744e70a77b18e861e7ac8dcfb2cd30e7cbc0127db231ed934fbbc814d795",
+  "afterSha256": "6c535c0a0135e5dab34472814c7600f5ae007448107059d90d70d9cdea004be9",
+  "patches": 8,
+  "allOtherFieldsExact": true
+}

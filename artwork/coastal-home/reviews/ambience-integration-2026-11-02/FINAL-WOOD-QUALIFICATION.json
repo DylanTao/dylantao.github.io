@@ -1,0 +1,37 @@
+{
+  "scope": "Native unowned fields exact separately. This is a bounded export quantization proof, not exact delivered POSITION identity. All vertices/faces retained; no tolerance changed in product or existing gates.",
+  "controls": [
+    {
+      "direction": "original-to-candidate",
+      "unownedVertices": 3616,
+      "unownedTriangles": 5260,
+      "maximumErrors": {
+        "position": 0.0003223419189453125,
+        "normal": 0,
+        "color": 0,
+        "color_1": 0
+      },
+      "windingPreservedAfterDisclosedMapping": true,
+      "ownedVertices": 720,
+      "ownedTriangles": 320,
+      "maximumOwnedDecodeErrorM": 0.0004537335805981798,
+      "nearestUnownedToOwnedNativeM": 0.06841855942835069
+    },
+    {
+      "direction": "candidate-to-original",
+      "unownedVertices": 3616,
+      "unownedTriangles": 5260,
+      "maximumErrors": {
+        "position": 0.0003223419189453125,
+        "normal": 0,
+        "color": 0,
+        "color_1": 0
+      },
+      "windingPreservedAfterDisclosedMapping": true,
+      "ownedVertices": 720,
+      "ownedTriangles": 320,
+      "maximumOwnedDecodeErrorM": 0.00044674227996213705,
+      "nearestUnownedToOwnedNativeM": 0.03542980930967394
+    }
+  ]
+}

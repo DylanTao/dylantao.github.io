@@ -1,0 +1,33 @@
+{
+  "scope": "Official24sample AO/indirect bake of exactly the40replacement leaves and6newbranches. All other native mesh fields/materials exact; owned shape/normals/UV/materialslots exact. Original world/render settings restored after the owning baker.",
+  "inputSha256": "4941d4865827378394c5e7b601cf85c60808160818303e801a611446c03645c9",
+  "outputSha256": "1e10b25d5cf0eec87d7001acbf9d938d65ba33af6076380d5a8e5d45cf3d23e7",
+  "blender": "4.5.9 LTS",
+  "owned": ["kitchen__olive leaf", "kitchen_nook_olive__honey ash"],
+  "unownedMeshesExact": 461,
+  "unownedChanges": [],
+  "ownedShapeHashes": {
+    "kitchen__olive leaf": "15f70d0a67478c3bf533ff3d110cf4416c95b50a72226bef553d9fe593ee94dc",
+    "kitchen_nook_olive__honey ash": "77b355df0c6509e38040d41c9ed37770993873c45950bb12f6603b0f21a1afa7"
+  },
+  "bake": {
+    "method": "Cycles AO and diffuse indirect color-attribute bake",
+    "samples": 24,
+    "surfaces": [
+      {
+        "mesh": "kitchen__olive leaf",
+        "corners": 1440,
+        "min": 0.68,
+        "max": 0.8443046824882429
+      },
+      {
+        "mesh": "kitchen_nook_olive__honey ash",
+        "corners": 216,
+        "min": 0.68,
+        "max": 0.8319565422584614
+      }
+    ]
+  },
+  "bakerSha256": "dd778bad3b248a6426d6d92f8aa626cdc810c05b8be16aeedb94c2effae5e96a",
+  "producerSha256": "a6a4bf0d115cab356aedcc8ad8dc5974cb955252b1a99d109363ae775f547792"
+}

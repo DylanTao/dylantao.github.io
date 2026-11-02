@@ -1,0 +1,342 @@
+{
+  "siteCommit": "fb6a9c6ff4f14b4aa5f4de91f7cddcc9abccf54d",
+  "visualRun": 41386634138,
+  "attempt": 2,
+  "currentJobs": [
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-core-1)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103767803"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-live)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103767865"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-core-2)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103768449"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-choreography)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103768563"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-core-1)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103768666"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-exploration)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103768677"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-footer-light)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103768711"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-gym)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103768729"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-journey)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103768835"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-core-2)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103769072"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-footer-light)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103769318"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-journey)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103769389"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-live)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103769443"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, site)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103769499"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-choreography)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103769654"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-core-1)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103769672"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-held-stairs)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103769743"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-exploration)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103769748"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-live)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103769905"
+    },
+    {
+      "name": "Visual checkpoints (laptop-1280, scene-held-stairs)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103769979"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-footer-light)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103770184"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, site)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103770279"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-gym)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103770300"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-core-2)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103770326"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-gym)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103770371"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, scene-journey)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103770425"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-choreography)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103770492"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-held-stairs)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103770636"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-core-1)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103770675"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-journey)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103770750"
+    },
+    {
+      "name": "Visual checkpoints (tablet-768, site)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103770924"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-exploration)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103770933"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-core-2)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103771109"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-live)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103771183"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-circulation)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103771516"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, site)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103771923"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, legacy)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103772082"
+    },
+    {
+      "name": "Visual checkpoints (mobile-390, scene-footer-light)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103772121"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-gym)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103794097"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-held-stairs)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103797532"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-choreography)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103802335"
+    },
+    {
+      "name": "Visual checkpoints (desktop-1440, scene-exploration)",
+      "conclusion": "success",
+      "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41386634138/job/125103804107"
+    }
+  ],
+  "initialAttempt": {
+    "success": 41,
+    "failure": 1,
+    "failedJob": 125088802680,
+    "case": "reading-effects.spec.js:84 card-animation settlement",
+    "cause": "not established",
+    "rerun": "Only failed site job rerun; no runtime workaround"
+  },
+  "liveCases": {
+    "passed": 4,
+    "engines": "native Chromium desktop/touch",
+    "duration": "1.1 minutes"
+  },
+  "liveReadback": {
+    "scope": "Read-only CDN responses versus pinned Pages deployment. Separate actual browser checks establish behavior.",
+    "atUTC": "2026-11-02T04:35:19Z",
+    "pagesCommit": "b75c5205b9c5b859b2709f34373a06e043d3763b",
+    "siteCommit": "fb6a9c6ff4f14b4aa5f4de91f7cddcc9abccf54d",
+    "rows": [
+      {
+        "route": "assets/js/home.js",
+        "status": 200,
+        "bytes": 36725,
+        "sha256": "161300687e7ce5748efbdd463fdfb5ae6c2109cd669db44a6bc56f1a1e0f8e38",
+        "expectedSha256": "161300687e7ce5748efbdd463fdfb5ae6c2109cd669db44a6bc56f1a1e0f8e38",
+        "exact": true
+      },
+      {
+        "route": "assets/js/home-scene/controller.mjs",
+        "status": 200,
+        "bytes": 103799,
+        "sha256": "4c8dabf1ee6dbb3ec1e353274c1085ac81eb5f3640a9f92ca358723115ab1b57",
+        "expectedSha256": "4c8dabf1ee6dbb3ec1e353274c1085ac81eb5f3640a9f92ca358723115ab1b57",
+        "exact": true
+      },
+      {
+        "route": "assets/js/home-scene/environment.mjs",
+        "status": 200,
+        "bytes": 30416,
+        "sha256": "1888f0c32cc152bcd17845435b75cb5187d7e60ff002095a46f75343516e87e4",
+        "expectedSha256": "1888f0c32cc152bcd17845435b75cb5187d7e60ff002095a46f75343516e87e4",
+        "exact": true
+      },
+      {
+        "route": "assets/js/home-scene/coastal-rain.mjs",
+        "status": 200,
+        "bytes": 3165,
+        "sha256": "a25a83a4e686913c6cef91dfb50d5556150edb9db60442ac564129663b37e30a",
+        "expectedSha256": "a25a83a4e686913c6cef91dfb50d5556150edb9db60442ac564129663b37e30a",
+        "exact": true
+      },
+      {
+        "route": "assets/js/home-scene/rain-trajectories.mjs",
+        "status": 200,
+        "bytes": 1613,
+        "sha256": "410a7aec96fa812974035c1c02841761d6a24851d3830c55c9f065b75d94a6d2",
+        "expectedSha256": "410a7aec96fa812974035c1c02841761d6a24851d3830c55c9f065b75d94a6d2",
+        "exact": true
+      },
+      {
+        "route": "assets/js/home-scene/rain-contact.mjs",
+        "status": 200,
+        "bytes": 2225,
+        "sha256": "5bcc4086fde2b0feccfca61537b71ce02fd61b19c9868253ff0ef8e27f6333e8",
+        "expectedSha256": "5bcc4086fde2b0feccfca61537b71ce02fd61b19c9868253ff0ef8e27f6333e8",
+        "exact": true
+      },
+      {
+        "route": "assets/js/home-scene/rain-water-sampler.mjs",
+        "status": 200,
+        "bytes": 1828,
+        "sha256": "6bcf10deb8ec687c7e0bea9c4aeb86179f43a45d6d246fac463f5e375edbb7b4",
+        "expectedSha256": "6bcf10deb8ec687c7e0bea9c4aeb86179f43a45d6d246fac463f5e375edbb7b4",
+        "exact": true
+      },
+      {
+        "route": "assets/js/home-scene/rain-surface.mjs",
+        "status": 200,
+        "bytes": 5365,
+        "sha256": "c9b2fe6a0d07617fc259d80fe6b955969e173f13b9901aa4f74844a9821f0b32",
+        "expectedSha256": "c9b2fe6a0d07617fc259d80fe6b955969e173f13b9901aa4f74844a9821f0b32",
+        "exact": true
+      },
+      {
+        "route": "assets/js/home-scene/rain-surface-spectrum.mjs",
+        "status": 200,
+        "bytes": 4299,
+        "sha256": "e00b27dcefeb8684d81c3d155a54441620d1b5d991801b0cd22840360e6ed771",
+        "expectedSha256": "e00b27dcefeb8684d81c3d155a54441620d1b5d991801b0cd22840360e6ed771",
+        "exact": true
+      },
+      {
+        "route": "assets/js/home-scene/infinity-pool.mjs",
+        "status": 200,
+        "bytes": 4489,
+        "sha256": "9607f8b48cf3bff559fd222c18296b3f47427cbabb41799d0dcd5abc914ffd4c",
+        "expectedSha256": "9607f8b48cf3bff559fd222c18296b3f47427cbabb41799d0dcd5abc914ffd4c",
+        "exact": true
+      },
+      {
+        "route": "assets/models/home/manifest.json",
+        "status": 200,
+        "bytes": 233319,
+        "sha256": "a5f196bb4596f060ead573853a3a453715db28efafbc1532a3f56bff2d51b0a8",
+        "expectedSha256": "a5f196bb4596f060ead573853a3a453715db28efafbc1532a3f56bff2d51b0a8",
+        "exact": true
+      },
+      {
+        "route": "assets/models/home/static-light-field.json",
+        "status": 200,
+        "bytes": 711969,
+        "sha256": "a8f383180f3bd9299b34cdb14194c57f41e1768721e6eb7c96806962e4630e22",
+        "expectedSha256": "a8f383180f3bd9299b34cdb14194c57f41e1768721e6eb7c96806962e4630e22",
+        "exact": true
+      },
+      {
+        "route": "cv/",
+        "status": 200,
+        "bytes": 131168,
+        "sha256": "e43a4ba811628fa9cf45a900e5584738ce86df86a108c0ceaf43b3538aef986d",
+        "expectedSha256": "e43a4ba811628fa9cf45a900e5584738ce86df86a108c0ceaf43b3538aef986d",
+        "exact": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "scope": "Only input/output directory substitutions in the retained original comparison sources; assertions unchanged.",
+  "rows": [
+    {
+      "producer": "compare-shade-delivered.mjs",
+      "originalSourceLF": "de1a907758b5e3586cedfaee6cb0ea962b5f74080f772fd31dd2e0cf5c7a1c9a",
+      "adaptedSourceLF": "4012d88d537069dfd8b7254e89953fb3504f567fe5325ecc7667b652ebd33273",
+      "changes": [
+        {
+          "before": ".jekyll-cache/visual-qa/interior-ambience-20261101",
+          "after": ".jekyll-cache/visual-qa/house-ambience-integration-20261102"
+        },
+        {
+          "before": "served/assets/models/home/room-sleep.glb",
+          "after": "baseline-models/room-sleep.glb"
+        },
+        {
+          "before": "shade-before-level10/room-sleep.glb",
+          "after": "control-sleep/room-sleep.glb"
+        },
+        {
+          "before": "shade-after-level10/room-sleep.glb",
+          "after": "exports-sleep/room-sleep.glb"
+        },
+        {
+          "before": "served/assets/models/home",
+          "after": "baseline-models"
+        },
+        {
+          "before": "shade-after-level10",
+          "after": "exports-sleep"
+        }
+      ]
+    },
+    {
+      "producer": "compare-plant-delivered.mjs",
+      "originalSourceLF": "9b9c2b0f2ca99b2faa3c9955a2a22d5b87f0ec598ccfcd43bcd8d7eaa9442c13",
+      "adaptedSourceLF": "f4f1541bcffde7c87e42a2a69ac719efef32403a8c699b2a953b171692f12e41",
+      "changes": [
+        {
+          "before": ".jekyll-cache/visual-qa/nook-plant-20261101",
+          "after": ".jekyll-cache/visual-qa/house-ambience-integration-20261102"
+        },
+        {
+          "before": "C:/dev/site-takeover-worktrees/interior-ambience-20261101/.jekyll-cache/visual-qa/interior-ambience-20261101/candidate-site/al-folio/assets/models/home",
+          "after": "C:/dev/dylantao.github.io/.jekyll-cache/visual-qa/house-ambience-integration-20261102/baseline-models"
+        },
+        {
+          "before": "candidate-site/al-folio/assets/models/home",
+          "after": "exports-kitchen"
+        }
+      ]
+    }
+  ],
+  "noEditBinsExact": ["sleep", "kitchen"]
+}

@@ -65,7 +65,7 @@ import { coastWind, livePacificMinute, COAST_SHELTER } from "./wind-field.mjs";
 import { syncOceanWind } from "./ocean-spectrum.mjs";
 import { SEA_LEVEL } from "./sea-optics.mjs";
 import { createCurtainRig } from "./curtain-rig.mjs";
-import { createWarmPracticals, practicalSourcesFor } from "./warm-practicals.mjs";
+import { createWarmPracticals, practicalSourcesFor } from "./warm-practicals.mjs?v=ambience-20261102";
 import { createSteamDensity } from "./steam-density.mjs";
 import { createSteamVolume } from "./steam-volume.mjs";
 import { createStaticLightField, staticLightRegions } from "./static-light-field.mjs?v=packed-20261031";
@@ -4143,6 +4143,7 @@ export function createCoastalHome(container, records, artifacts) {
         setAvatar(avatarId, "sirui"),
       ]);
       if (disposed) return;
+      warmPracticals.bindModel(rooms.get("sleep"));
       cameraField?.release();
       progress("room", 1);
       progress("sirui", 1);

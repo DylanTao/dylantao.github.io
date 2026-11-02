@@ -1,0 +1,851 @@
+{
+  "schemaVersion": 1,
+  "scope": "Actual portable payloads after the explicit CUSTODY-CORRECTION; original failed index retained compressed.",
+  "files": [
+    {
+      "path": "CUSTODY-CORRECTION.json",
+      "bytes": 1688,
+      "sha256": "bb7cb3d40730d4305da45563ae90edcedf8f976a43cc45cd2c2f1bb60076d38a"
+    },
+    {
+      "path": "images/cage-qualified-evening-sleep-default.png",
+      "bytes": 1046821,
+      "sha256": "defd8aeb5f3ddf0d0524cf50351b30b9f865eb85afb025e64a1d24007507008e"
+    },
+    {
+      "path": "images/eye-evening-sleep-eye-ocean.png",
+      "bytes": 566388,
+      "sha256": "986c4a9584247012e1820ccf696fec461ac6761759b204c45c9999945843e651"
+    },
+    {
+      "path": "images/nook-ocean-evening-current-nook-head-height-frame.png",
+      "bytes": 899756,
+      "sha256": "15db977b97fd38c9095e799ae77bf49c77a124b50d5b7c812be32980782bd382"
+    },
+    {
+      "path": "images/qualified-evening-sleep-default.png",
+      "bytes": 1147344,
+      "sha256": "549a9fc1584bb3caa2dccb6ae15a5d08984c42967fa592352451daf1bda49eed"
+    },
+    {
+      "path": "images/qualified-noon-sleep-default.png",
+      "bytes": 1443766,
+      "sha256": "7d6518150e1cf7cd184c4c3c7e48d68505fc457c637ffef592cbace477f58e25"
+    },
+    {
+      "path": "images/shade-peak-maximum-source-sleep-left.png",
+      "bytes": 1555397,
+      "sha256": "a513bcec96935bf9e72253f0e50d118222ccb57acc25ad944aa2231ef6cdc758"
+    },
+    {
+      "path": "images/shade-qualified-evening-library-upper-default.png",
+      "bytes": 1060036,
+      "sha256": "dcf28a733937143cede5ff3247e86cfb31747e1fd9c465ceb5c3ea1ae0db38a7"
+    },
+    {
+      "path": "images/shade-qualified-evening-sleep-default.png",
+      "bytes": 1362279,
+      "sha256": "108aecd2ec7355fb9d900ec3e785d4a26a1c578e9086fa0d27cf79eb5eeacec3"
+    },
+    {
+      "path": "images/shade-qualified-noon-sleep-default.png",
+      "bytes": 1405558,
+      "sha256": "ccb2f8fd2c0b710fc29310135f7c4dbfb05fa1481f4ae020ecbecca7445c142d"
+    },
+    {
+      "path": "images/webkit-shade-clean-evening-library-upper-default.png",
+      "bytes": 137074,
+      "sha256": "e336f6a2f58a946b9d2a77d8562b40e76dff38859abe8a6ddc90ed03b8bc0ea7"
+    },
+    {
+      "path": "images/webkit-shade-clean-evening-sleep-default.png",
+      "bytes": 255980,
+      "sha256": "f7f7b6011587dbc0d5f34486199d5ab44b0b665435eccae120566696268557a9"
+    },
+    {
+      "path": "images/webkit-shade-clean-noon-sleep-default.png",
+      "bytes": 250012,
+      "sha256": "e09691e48f198edf88442a30b01fc8fe47ad6d1d9753fd26b82ef9c98154a7eb"
+    },
+    {
+      "path": "original-readme.md.gz",
+      "bytes": 4559,
+      "sha256": "878ecd411dc9d7508295314c9ab45a89a9176f3bfc53965afe0c37c6ab376b5f"
+    },
+    {
+      "path": "original-working-index.json.gz",
+      "bytes": 9385,
+      "sha256": "b35f33460b7082d11fd905bc50851932907f31c02a78f8a2a9e00f8335920dbf"
+    },
+    {
+      "path": "original-working-replay_lighting.py.gz",
+      "bytes": 4341,
+      "sha256": "9191086a94fe4543a110be972c4c50bc8c13b906cb0fdbb146bb56e9173aae9b"
+    },
+    {
+      "path": "raw/build-private-bedside-shade.py.gz",
+      "bytes": 2279,
+      "sha256": "de8143a572eb80906ec3f0633f8e783f3034ce28c1c9e73e855ff41e7bd56ae1"
+    },
+    {
+      "path": "raw/cage-qualified-appearance-rows.json.gz",
+      "bytes": 1456642,
+      "sha256": "effb8b6b4146caea4ea299e9c77ca33d3191bba25056093341f8298692f085dc"
+    },
+    {
+      "path": "raw/cage-qualified-capture-receipt.json.gz",
+      "bytes": 12028,
+      "sha256": "34af6c262de1f05ca189d4ccb0fd43b85eccccee64ce24e66a39fd1b8500b448"
+    },
+    {
+      "path": "raw/cage-qualified-terminal-receipt.json.gz",
+      "bytes": 11778,
+      "sha256": "1c0ff87623b65add66c88565f3f815e336c1f077bde7d14ac76ba18b216b164c"
+    },
+    {
+      "path": "raw/capture-cage-qualified.cjs.gz",
+      "bytes": 3393,
+      "sha256": "7da847ee02e2815bdfc825589badb5f62a4e4c8c1f8816ae733ef364fa067437"
+    },
+    {
+      "path": "raw/capture-current-nook-ocean.cjs.gz",
+      "bytes": 4082,
+      "sha256": "cca639e470216e363ca09af99491f245c197f15b6a82884372bfc809162fcff6"
+    },
+    {
+      "path": "raw/capture-eye-public.cjs.gz",
+      "bytes": 3567,
+      "sha256": "e739e8249ca95c3a37cfa347e5e7a6352119ce86e95905d96db4feeb1f8db69e"
+    },
+    {
+      "path": "raw/capture-loft-qualified.cjs.gz",
+      "bytes": 3540,
+      "sha256": "b6c9cbf5d18c2995514825af3c9dfa87f9e2f9447c620c602e3749b40941549d"
+    },
+    {
+      "path": "raw/capture-practical-qualified.cjs.gz",
+      "bytes": 3578,
+      "sha256": "b927ff0df54afa23b3a6f60898a78e06441896c5206eae0a7635b79e7653c4c4"
+    },
+    {
+      "path": "raw/capture-qualified.cjs.gz",
+      "bytes": 3381,
+      "sha256": "c4a87423ec823f77274c75921479f1e3b2fa7f1bc56aec1f57975a60cf78b600"
+    },
+    {
+      "path": "raw/capture-shade-focus.cjs.gz",
+      "bytes": 4645,
+      "sha256": "1e3cfe058d04c80d37e2d1ebfaada14a28a6524b7f7c73f87d1fdae65fa69132"
+    },
+    {
+      "path": "raw/capture-shade-peak.cjs.gz",
+      "bytes": 4645,
+      "sha256": "32b1a3be06c807171961ad42ee413452b7be287c1a3886bbb89132bae6293342"
+    },
+    {
+      "path": "raw/capture-shade-qualified.cjs.gz",
+      "bytes": 4117,
+      "sha256": "fff9da98f203cb80c81c0f1f9db9e79a90ea072490b479c2ef5e683f092376f4"
+    },
+    {
+      "path": "raw/capture-shade-webkit-clean.cjs.gz",
+      "bytes": 4222,
+      "sha256": "8a0cb773b44728f7c7df85e8e2ac6ceef728abc904436c400cec3f669c1fd286"
+    },
+    {
+      "path": "raw/capture-shade-webkit.cjs.gz",
+      "bytes": 3670,
+      "sha256": "b339adc5c18075ebd413de066e9712180cee4fb1c27038ab14ed0c23188d1d19"
+    },
+    {
+      "path": "raw/compare-shade-delivered.mjs.gz",
+      "bytes": 3017,
+      "sha256": "92f586f848a83cc96b26911a8caeb439e3428ea55e3a087dbe9975eb79199fed"
+    },
+    {
+      "path": "raw/compile-private-shade.rb.gz",
+      "bytes": 707,
+      "sha256": "39473167e22d109f009bb7727ae66e14b19258a59482c405db76c4d4e9ad1ffd"
+    },
+    {
+      "path": "raw/COMPLETE-INPUTS.json.gz",
+      "bytes": 18797,
+      "sha256": "d59307b47ff43441e2cbb36273c4c889ad29acdf5172567b2d3deb598e8f6173"
+    },
+    {
+      "path": "raw/EXACT-GLOBE-GUARD.json.gz",
+      "bytes": 349,
+      "sha256": "9ae7dabbbfc0ba9b50a67d2e8640b6d68653d9bcd1f01f986ea38b4156c3f4ce"
+    },
+    {
+      "path": "raw/eye-appearance-rows.json.gz",
+      "bytes": 206238,
+      "sha256": "b8e569bda525d99ca99941dad1294d0f701cb482408f7fda7e56d81eb4b330b8"
+    },
+    {
+      "path": "raw/eye-capture-receipt.json.gz",
+      "bytes": 11479,
+      "sha256": "153229dc47f127a9a6224215ba9b64fa3fff4fb684c304612f0dfcce4b3b25c7"
+    },
+    {
+      "path": "raw/eye-terminal-receipt.json.gz",
+      "bytes": 11239,
+      "sha256": "aefdd2faf9158750bb4ededc111e4d1d00f9d59d7e5e6fa82b66bb94427b4b62"
+    },
+    {
+      "path": "raw/FINAL-CACHE-INPUTS-GUARD.json.gz",
+      "bytes": 227,
+      "sha256": "6f40c710c67eb32739bed0b331c6461531edfe1263f76f94eba0627c17e7dd69"
+    },
+    {
+      "path": "raw/GUARDED-REPLAY-CONTROLS.json.gz",
+      "bytes": 637,
+      "sha256": "870fe5f51c8ca68081adbb6b0aef5baeb2e676d589c6088886b1cf6acad0c448"
+    },
+    {
+      "path": "raw/guarded-replay-existing-output.log.gz",
+      "bytes": 419,
+      "sha256": "48e59528c81d5ce038f9e6340a5b3bf1dca1e8935c7128030cb8e74e0f3eacd9"
+    },
+    {
+      "path": "raw/GUARDED-REPLAY-FINAL-CONTROLS.json.gz",
+      "bytes": 826,
+      "sha256": "e197dcd4575a91bc8e2902d9030fbe69d31d9d6498bacfa8d482fea3f35b25ca"
+    },
+    {
+      "path": "raw/guarded-replay-final-idempotent-REPLAY.json.gz",
+      "bytes": 80852,
+      "sha256": "6274bd0c668c8d044f9f19f6bc7c73f31471eb567b30d0196a17309f3280a62d"
+    },
+    {
+      "path": "raw/guarded-replay-final-idempotent.log.gz",
+      "bytes": 1646,
+      "sha256": "b90a785bcefe9034bea4235d3548fc8d7278b5ca335a6c1f1eda88ae3be2de54"
+    },
+    {
+      "path": "raw/guarded-replay-final-REPLAY.json.gz",
+      "bytes": 80909,
+      "sha256": "0db689f74f1a4cb5ea105d067c99a5984411f698cfca115524b72e0623a4caa9"
+    },
+    {
+      "path": "raw/guarded-replay-final.log.gz",
+      "bytes": 1720,
+      "sha256": "7ab438119fe120e36f19113f2578cc746e96f2d97233387a53fe17b9de51caae"
+    },
+    {
+      "path": "raw/guarded-replay-idempotent.log.gz",
+      "bytes": 1587,
+      "sha256": "75af787a5c5436d38c2bf280fd07096e1d21bdd64e67b5b945d5ebef260b1c91"
+    },
+    {
+      "path": "raw/guarded-replay-smoke.log.gz",
+      "bytes": 1660,
+      "sha256": "bb8e6195a9059f869d3f6c20b8bb536bc60d780851a035ed0d8cd3b20f3a07b4"
+    },
+    {
+      "path": "raw/guarded-replay-wrong-sha.log.gz",
+      "bytes": 389,
+      "sha256": "3ccbf5b38e2eb87291904ab69534c0b20e121a1eca370589dbe21770b7964de9"
+    },
+    {
+      "path": "raw/LOFT-CAGE-PROPOSAL.json.gz",
+      "bytes": 1748,
+      "sha256": "cf0160684db790ae663fc550ed116a90f280713b930719334eb9298fdb139bfa"
+    },
+    {
+      "path": "raw/loft-qualified-appearance-rows.json.gz",
+      "bytes": 1029993,
+      "sha256": "1f648e26cd9c4f0944e4f8350e49e2a04b1124cd18279c8d68252416cb17dc47"
+    },
+    {
+      "path": "raw/loft-qualified-capture-receipt.json.gz",
+      "bytes": 11408,
+      "sha256": "032933b8344e57e493bd4987e3c30b6c57dbd6918615c43e7352ed8affda2ef8"
+    },
+    {
+      "path": "raw/loft-qualified-terminal-receipt.json.gz",
+      "bytes": 11151,
+      "sha256": "00a5564aedb53055aa392824dd252312c8320a17695b5a250742c93fff066824"
+    },
+    {
+      "path": "raw/measure-light-coverage.mjs.gz",
+      "bytes": 1191,
+      "sha256": "77d86bbdadbf2ef2bcdaae88773adc45cb2587e58e8600c7deaaa7f94b5a12bb"
+    },
+    {
+      "path": "raw/measure-loft-cage-proposal.mjs.gz",
+      "bytes": 2325,
+      "sha256": "78f355e1040ac813d378bf0231246957698fa28dde8d1ad0f5136425cdf585bb"
+    },
+    {
+      "path": "raw/NO-EDIT-EXPORT-JSON-DIFF.json.gz",
+      "bytes": 466,
+      "sha256": "96b59c06154676b2d17ab5b88f0cab0a38661073349d56ece5f5f6fd3c5ded90"
+    },
+    {
+      "path": "raw/nook-ocean-appearance-rows.json.gz",
+      "bytes": 137998,
+      "sha256": "13126a899e69ff193ff0a8eafb09d4c9cd9bfbcddd62f30e710f0cf35c6bc17e"
+    },
+    {
+      "path": "raw/nook-ocean-capture-receipt.json.gz",
+      "bytes": 11160,
+      "sha256": "2c7f1d4f4afe2ab6f3233034f1583a5d0e79b92d69cc8571a8e29f74a9a34fa4"
+    },
+    {
+      "path": "raw/nook-ocean-terminal-receipt.json.gz",
+      "bytes": 10949,
+      "sha256": "657d32fcc3c3447fb7a978d52e362e532ca57d6073cd88293a08bca6b79ef366"
+    },
+    {
+      "path": "raw/OFFICIAL-BAKE-INVOCATION.json.gz",
+      "bytes": 393,
+      "sha256": "214dc6c488eb11d4090da60125db5622b3133d8eeec3aa7efa439604ffa9a4da"
+    },
+    {
+      "path": "raw/OFFICIAL-CAGE-CONTROL.json.gz",
+      "bytes": 1237,
+      "sha256": "b86d0e2d924ea52f9b9d998490c30dffc3d760a29ca80b831ff864566888c3a6"
+    },
+    {
+      "path": "raw/OFFICIAL-LOFT-BAKE-INVOCATION.json.gz",
+      "bytes": 412,
+      "sha256": "9358816a6586bdffaef44f13a35a3ba3bcd05614f4a3e49220a9593c5adbe689"
+    },
+    {
+      "path": "raw/OFFICIAL-LOFT-CONTROL.json.gz",
+      "bytes": 1111,
+      "sha256": "671850e2d1eabe9c6f6c7e06c58d57f57cc801cfb57a1aee515a1a00e893519a"
+    },
+    {
+      "path": "raw/OFFICIAL-PRACTICAL-BAKE-INVOCATION.json.gz",
+      "bytes": 410,
+      "sha256": "5b85581aa313c3db53ff8c4c8df66c79b8a06739e9cde4ff31a50ce9b14897d8"
+    },
+    {
+      "path": "raw/OFFICIAL-PRACTICAL-CONTROL.json.gz",
+      "bytes": 1148,
+      "sha256": "491da07628860a3b1971f7889a9efdb890c328cce21cbfc0bcf6686ca48c5154"
+    },
+    {
+      "path": "raw/official-private-bake.log.gz",
+      "bytes": 377,
+      "sha256": "cdc63e41c35e35863cbb4ddda460410cbf33ebc3e79a9921d7425ac9251880cb"
+    },
+    {
+      "path": "raw/official-private-loft-bake.log.gz",
+      "bytes": 377,
+      "sha256": "1047694ce4d3fe051c81d59b935da2aaa556d5c137b5b3e43f82af76112dd42d"
+    },
+    {
+      "path": "raw/official-private-practical-bake.log.gz",
+      "bytes": 382,
+      "sha256": "66b3c6e4d3287b1cbcd9d2e981c999cc96f502f8a9d631faefbfd58b8b6f9980"
+    },
+    {
+      "path": "raw/official-private-shade-bake.log.gz",
+      "bytes": 382,
+      "sha256": "09db73e0a5c6a008378bb254db55583d6ba0d93e8e09c383472acde6452b50ba"
+    },
+    {
+      "path": "raw/OFFICIAL-SHADE-BAKE-INVOCATION.json.gz",
+      "bytes": 413,
+      "sha256": "1a9eccff30e76b5c2aae4b57f1bdac6da64c5056e6d37692545f98078e8d01ba"
+    },
+    {
+      "path": "raw/OFFICIAL-SHADE-CONTROL.json.gz",
+      "bytes": 1115,
+      "sha256": "6bbf08474c6dab08b38600f24a5cc79d69b143f234d60250107329c402f52548"
+    },
+    {
+      "path": "raw/OLD-CAGE-OCCUPIED-CONTROL.json.gz",
+      "bytes": 2334,
+      "sha256": "b86edb19570f3d516434006d79e8ed55bfdadd1b09455621a1b12e8a3820df32"
+    },
+    {
+      "path": "raw/PRACTICAL-ANCHOR-REPLAY.json.gz",
+      "bytes": 631,
+      "sha256": "f19a728e93b226718ab74bc64f02e0a3e340aced6e87162a52a5df293aa36be4"
+    },
+    {
+      "path": "raw/practical-qualified-appearance-rows.json.gz",
+      "bytes": 1034668,
+      "sha256": "9b45f2263adfaec4a0356b556a448d3d2953eeb2485c98ab5b37c7662ae0ac96"
+    },
+    {
+      "path": "raw/practical-qualified-capture-receipt.json.gz",
+      "bytes": 11462,
+      "sha256": "ed6c5d958a72888a2e4d7d64895d6957eccfb833f2b2b1832bdc1371245e3e0d"
+    },
+    {
+      "path": "raw/practical-qualified-terminal-receipt.json.gz",
+      "bytes": 11175,
+      "sha256": "03d0dd459bf77459adfa53dee9af09e9cc92415351d347503ae2b0820ddd2831"
+    },
+    {
+      "path": "raw/PRIVATE-BASELINE-COMPILED-VENDOR-MISMATCH.json.gz",
+      "bytes": 424,
+      "sha256": "074c38c273f49bb021cc5e4d810a8c29640f11728e385e57b6540ed5dede81da"
+    },
+    {
+      "path": "raw/PUBLIC-SLEEP-IDENTITY.json.gz",
+      "bytes": 1244,
+      "sha256": "a232e8f6d46b8e2e62df889866861d498c5fa829e5fb82a2749b29ca337b4c7f"
+    },
+    {
+      "path": "raw/qualified-appearance-rows.json.gz",
+      "bytes": 1459012,
+      "sha256": "00e21c91c6abc3710b5f2d5ff291a5e7dc6daf33c0b6e932b562797c83ae3d5b"
+    },
+    {
+      "path": "raw/qualified-capture-receipt.json.gz",
+      "bytes": 11895,
+      "sha256": "72aaf987ae5bddbdd51d14cd56eb468c94def8c03c944275c6886fac2935fe8c"
+    },
+    {
+      "path": "raw/qualified-terminal-receipt.json.gz",
+      "bytes": 11651,
+      "sha256": "77aa5040ebdaa82270b4b5ab8673e4ddfa0e602613de8b21d2090e42a471f7c4"
+    },
+    {
+      "path": "raw/qualify-shade-gpu.py.gz",
+      "bytes": 1848,
+      "sha256": "11a52e122531c311bd94a14a368e976e264b3e52ae72022aba985db01a6a5537"
+    },
+    {
+      "path": "raw/rejected-implicit-encoding-loft--FAILURE.json.gz",
+      "bytes": 360,
+      "sha256": "289642efd015fc0946e7d9e0fdc70d2565f97bdfeefc5a1a28e306ecf1c4526e"
+    },
+    {
+      "path": "raw/rejected-implicit-encoding-loft--manifest.json.gz",
+      "bytes": 70870,
+      "sha256": "1b3ae6affb6c4577b94a98235f4bbc1910a365649704fcf21df544b3531932ef"
+    },
+    {
+      "path": "raw/rejected-implicit-encoding-loft--OFFICIAL-LOFT-BAKE-INVOCATION.json.gz",
+      "bytes": 413,
+      "sha256": "d117500330ce2695af9cce5b2e849b961c6f29801819fdaee2b2c09e7c1e9c94"
+    },
+    {
+      "path": "raw/rejected-implicit-encoding-loft--official-private-loft-bake.log.gz",
+      "bytes": 384,
+      "sha256": "b22a761107e08696d1c9fa5437c0846948fa84dcaee51d327684eaaf052a6ead"
+    },
+    {
+      "path": "raw/rejected-implicit-encoding-loft--static-light-field.json.gz",
+      "bytes": 183361,
+      "sha256": "13f6a8689216ba247002ba6f57cba8b6aee8ff4aff0460b7df0987ab9c715fea"
+    },
+    {
+      "path": "raw/rejected-no-listener-webkit-clean--WEBKIT-CLEAN-INVOCATION.json.gz",
+      "bytes": 348,
+      "sha256": "81a4e7572777e385a84ea1d89c94a8fd7793cc8bcc13389498b5deda8e73330a"
+    },
+    {
+      "path": "raw/rejected-no-listener-webkit-clean--webkit-shade-clean-capture-failure.txt.gz",
+      "bytes": 195,
+      "sha256": "22670a51f5913de479745c48a297046cc0270abe71a6673fce87033b1598e083"
+    },
+    {
+      "path": "raw/rejected-no-listener-webkit-clean--webkit-shade-clean-capture.log.gz",
+      "bytes": 196,
+      "sha256": "c537af76d0bf233f00818f2823eb5e6aae18b180c1c6b57c736b1155f394a58b"
+    },
+    {
+      "path": "raw/rejected-no-listener-webkit-clean--webkit-shade-clean-terminal-receipt.json.gz",
+      "bytes": 278,
+      "sha256": "1b13ec4f8e03ebb94a4e27fc34a0a20e6c0220302fa20b34913d5b3599017178"
+    },
+    {
+      "path": "raw/RESUMED-SERVER-READBACK.json.gz",
+      "bytes": 702,
+      "sha256": "79e833a349d8184a94807ac9432d181c36f027a4e308cc2940491ecf2c19d9b8"
+    },
+    {
+      "path": "raw/run-longpath-suite.py.gz",
+      "bytes": 364,
+      "sha256": "233bcdf3434baf94914e5f902949a37a9f14b6686adf26c4cef236fdaa9c960c"
+    },
+    {
+      "path": "raw/SHADE-COMPILED-OVERLAY.json.gz",
+      "bytes": 598,
+      "sha256": "4aa8318f4597feb8f54c29783cb21efc2bf9466dc88bbf7dc81d13a4b706c82b"
+    },
+    {
+      "path": "raw/SHADE-COMPLETE-PRODUCT.json.gz",
+      "bytes": 71451,
+      "sha256": "6aaf09c1e20f8abdf1fd7a2b2e664959b00d419c5a2d832d0ce45f3a35e739e4"
+    },
+    {
+      "path": "raw/SHADE-DECODED-PRESERVATION.json.gz",
+      "bytes": 1289,
+      "sha256": "779d21c88a604a98898071b421c33772855cfc7f3038d2b57da517fde2c12c68"
+    },
+    {
+      "path": "raw/SHADE-EXPORT-INVOCATION.json.gz",
+      "bytes": 445,
+      "sha256": "aa95d36187874aafd5d3947c7fb9b7d3c35c64c7862a2ef4fb9ccb4ba96c8c23"
+    },
+    {
+      "path": "raw/shade-focus-appearance-rows.json.gz",
+      "bytes": 308155,
+      "sha256": "ede538e6e3792c7ed5406d32b53859e922d0d5bccc48d7488f7faf06727bde50"
+    },
+    {
+      "path": "raw/shade-focus-capture-receipt.json.gz",
+      "bytes": 11268,
+      "sha256": "a3f80b3585c6a7ef6653806134c1094e76397ad620170e8e5cd59c2dca43fc32"
+    },
+    {
+      "path": "raw/shade-focus-evening-sleep-default-globe.json.gz",
+      "bytes": 8616,
+      "sha256": "e6ea765f2f8fd1b481240b3b56158024109ae99d5d098fc6392838cc9db7b999"
+    },
+    {
+      "path": "raw/shade-focus-evening-sleep-default-gpu.json.gz",
+      "bytes": 864871,
+      "sha256": "4202023df73661c78ec06b74cf7fda2a977441f6a6f5cbecb6f58bdcb0f7d0ff"
+    },
+    {
+      "path": "raw/shade-focus-evening-sleep-left-globe.json.gz",
+      "bytes": 553,
+      "sha256": "84a18148e9ce9af6023cf705c1170b5fc453ab1a87bf582e90f93805bd455332"
+    },
+    {
+      "path": "raw/shade-focus-evening-sleep-left-gpu.json.gz",
+      "bytes": 1072183,
+      "sha256": "250fa4c78fabbb5aadb57621344c5262558d4a6978c977babc0ca63e67d2547f"
+    },
+    {
+      "path": "raw/shade-focus-evening-sleep-right-globe.json.gz",
+      "bytes": 709,
+      "sha256": "03373354173bcf7522110027b879d3e36e860a196a58c2a2a513cde7018aa976"
+    },
+    {
+      "path": "raw/shade-focus-evening-sleep-right-gpu.json.gz",
+      "bytes": 909070,
+      "sha256": "6932285cced1fd2e045339bbc91794f5cbb87ac215ba36c4f716ac0795073b82"
+    },
+    {
+      "path": "raw/shade-focus-maximum-source-sleep-default-globe.json.gz",
+      "bytes": 22,
+      "sha256": "50c15d921df28492e2d9bf2da5d1cd5c78ee416bdcf478074db63d76d2381cba"
+    },
+    {
+      "path": "raw/shade-focus-maximum-source-sleep-default-gpu.json.gz",
+      "bytes": 22,
+      "sha256": "50c15d921df28492e2d9bf2da5d1cd5c78ee416bdcf478074db63d76d2381cba"
+    },
+    {
+      "path": "raw/shade-focus-maximum-source-sleep-left-globe.json.gz",
+      "bytes": 725,
+      "sha256": "314c3a786b2fa1e79182f8fbb27ca8364612dfcd14fb31492581c00f7394f1db"
+    },
+    {
+      "path": "raw/shade-focus-maximum-source-sleep-left-gpu.json.gz",
+      "bytes": 1067304,
+      "sha256": "9664552bdfb33864d567dafd761173f859debc2ef29a2958cd7b18576424cf79"
+    },
+    {
+      "path": "raw/shade-focus-maximum-source-sleep-right-globe.json.gz",
+      "bytes": 706,
+      "sha256": "3bd55ab5479bc948c388701f7f0560f1574877eecdce7cec74b6bd7192dcc864"
+    },
+    {
+      "path": "raw/shade-focus-maximum-source-sleep-right-gpu.json.gz",
+      "bytes": 814879,
+      "sha256": "7b9a950522a627d0e2af16ae5d30569543bb9c5dabb9423868ece8bc3cfe11e3"
+    },
+    {
+      "path": "raw/shade-focus-native-programs.json.gz",
+      "bytes": 22724,
+      "sha256": "11de7cec0f618b0d3281b7e5e0359e8950edc748b59ec0998667c516ae8bd1c8"
+    },
+    {
+      "path": "raw/shade-focus-noon-sleep-default-globe.json.gz",
+      "bytes": 7918,
+      "sha256": "40518a2c45d821ffd872455fcc32281d4cc3279326468b707bd77ecff693c1f0"
+    },
+    {
+      "path": "raw/shade-focus-noon-sleep-default-gpu.json.gz",
+      "bytes": 1218819,
+      "sha256": "1a1133ed3dbee2f6537b412e11a40cc570f0153665251918d2fa54b9871c09d9"
+    },
+    {
+      "path": "raw/shade-focus-noon-sleep-left-globe.json.gz",
+      "bytes": 786,
+      "sha256": "2d3d0eb03814c9dea4f423c13f7e03e0a1cc093ffa66fe1177b96a9a25286ced"
+    },
+    {
+      "path": "raw/shade-focus-noon-sleep-left-gpu.json.gz",
+      "bytes": 1065365,
+      "sha256": "d3232c6093297a85100e2aab4f2a8a62be62e00f918866ded3bbcdaedddc27b5"
+    },
+    {
+      "path": "raw/shade-focus-noon-sleep-right-globe.json.gz",
+      "bytes": 742,
+      "sha256": "5c9a13ed4cbc521c710d6bceedbd63f6b868ecc85d44f2d7d3a6d960dcd7ca41"
+    },
+    {
+      "path": "raw/shade-focus-noon-sleep-right-gpu.json.gz",
+      "bytes": 1017924,
+      "sha256": "4ec7a807222d1022a3fabe1090dba4519b2f5dea576fcee79b3ca37bca6487a0"
+    },
+    {
+      "path": "raw/shade-focus-terminal-receipt.json.gz",
+      "bytes": 10994,
+      "sha256": "4557d5a2e9baf5d643be3b932ee3c3fc6dcdc5596f22043c4de42a9d96818150"
+    },
+    {
+      "path": "raw/SHADE-GPU-UV-PROOF.json.gz",
+      "bytes": 1149,
+      "sha256": "7888ec43b42b7c587ee1a8d4063ff0f53ace5ad01ca049fea48f46434a2ed612"
+    },
+    {
+      "path": "raw/shade-mattress-two-way.json.gz",
+      "bytes": 1145,
+      "sha256": "1b675d87da9872fe9451f4b69b4e257d6ec6cd2e92e8699815f0d3e7905fbc77"
+    },
+    {
+      "path": "raw/shade-native-build.log.gz",
+      "bytes": 321,
+      "sha256": "22f8af6665b4b2c8b9609e7085de9bc24f1eef14c9b598673ea407075ecf314d"
+    },
+    {
+      "path": "raw/shade-native-first-unhandled-attribute.log.gz",
+      "bytes": 988,
+      "sha256": "380f51d755ce92bb82e8967df3b13aa7fc468b1f849e534849b2bf688cba50a6"
+    },
+    {
+      "path": "raw/SHADE-NATIVE-INVOCATION.json.gz",
+      "bytes": 405,
+      "sha256": "13480256ffd4fe955adbe058f81e2901eebdf2eda132aa26a188fe55f486bbeb"
+    },
+    {
+      "path": "raw/SHADE-NATIVE-PRESERVATION.json.gz",
+      "bytes": 395917,
+      "sha256": "5f7547805d600f1b66e10480b9740384c82651bb51157bae57df5393d8bbec6e"
+    },
+    {
+      "path": "raw/shade-native-second-unhandled-attribute.log.gz",
+      "bytes": 992,
+      "sha256": "28787730f2e3cbe901587ffcc262538803bacc52f53a713ada4e28b477ba5a6a"
+    },
+    {
+      "path": "raw/SHADE-NATIVE-SUMMARY.json.gz",
+      "bytes": 1396,
+      "sha256": "a79ca1dd11f66110baae04390999b732e10745e98852227380280a4dcd90967a"
+    },
+    {
+      "path": "raw/shade-native-third-material-index-census-control.log.gz",
+      "bytes": 654,
+      "sha256": "35815f82c4dd28191c68e9fa18ad6a63568e01be5f7b5502407ad76464bb901a"
+    },
+    {
+      "path": "raw/shade-peak-appearance-rows.json.gz",
+      "bytes": 103074,
+      "sha256": "2b4bc6477bd1f42c41a05b8de8dbd73d99817a686a453a88d5463ffac74e7bd7"
+    },
+    {
+      "path": "raw/shade-peak-capture-receipt.json.gz",
+      "bytes": 11309,
+      "sha256": "ad55d0ae68876e96faa6e13c4d49ab8da2724a585b9534cd4024f33f9ea8979a"
+    },
+    {
+      "path": "raw/shade-peak-maximum-source-sleep-default-globe.json.gz",
+      "bytes": 716,
+      "sha256": "fe03ed803aa79b54bf4fb7135986fd03a2e59e98a0db372d20a56d70e0008c89"
+    },
+    {
+      "path": "raw/shade-peak-maximum-source-sleep-default-gpu.json.gz",
+      "bytes": 1020991,
+      "sha256": "d0ef4bb90773614e19eef5f01ac4830a631ed96a8e54f9b9d2cc1080e489d93a"
+    },
+    {
+      "path": "raw/shade-peak-maximum-source-sleep-left-globe.json.gz",
+      "bytes": 618,
+      "sha256": "477129cc456f4d1ef2eac0de736688782800fe0900280da9b08b765f9db09d77"
+    },
+    {
+      "path": "raw/shade-peak-maximum-source-sleep-left-gpu.json.gz",
+      "bytes": 1067291,
+      "sha256": "ca37f6432ae319d4f9fb2d6fc642e87e665b649cb7b895d55e0d121f21668c17"
+    },
+    {
+      "path": "raw/shade-peak-maximum-source-sleep-right-globe.json.gz",
+      "bytes": 894,
+      "sha256": "55969048bb61d9941189abf257ddb2c6f9ba0988f26069674d9905916c46e0db"
+    },
+    {
+      "path": "raw/shade-peak-maximum-source-sleep-right-gpu.json.gz",
+      "bytes": 859779,
+      "sha256": "d7932e75f4c0e1e97c878785acf387c481e40a854006cfc0ecd89386631a0e7e"
+    },
+    {
+      "path": "raw/shade-peak-native-programs.json.gz",
+      "bytes": 22724,
+      "sha256": "11de7cec0f618b0d3281b7e5e0359e8950edc748b59ec0998667c516ae8bd1c8"
+    },
+    {
+      "path": "raw/shade-peak-terminal-receipt.json.gz",
+      "bytes": 11034,
+      "sha256": "8ee1b296a7a85f835552b52831c4f5e58de2ec68471cc309704038dc1f5bb58e"
+    },
+    {
+      "path": "raw/shade-qualified-appearance-rows.json.gz",
+      "bytes": 1033801,
+      "sha256": "82bfb902e557fec3896c8573648311a871d9500a4f4ed1bea924356161ad73e2"
+    },
+    {
+      "path": "raw/shade-qualified-capture-receipt.json.gz",
+      "bytes": 11492,
+      "sha256": "241b97cd134f4d17b7bbec4e9f2d893785bb57f6a2a8b1bf3f6aa03321dce206"
+    },
+    {
+      "path": "raw/shade-qualified-terminal-receipt.json.gz",
+      "bytes": 11216,
+      "sha256": "e7bf4df2e57f01f0d7bd3b6e4759c928ed874b6667ac00ebc6d132f57fbc3d06"
+    },
+    {
+      "path": "raw/shade-uniform-first-assertion-controls.json.gz",
+      "bytes": 479,
+      "sha256": "a3c4c5ac6293509110cd8dd183f73c253c08aeefd825872bf06d7c80407e5937"
+    },
+    {
+      "path": "raw/sleep-light-coverage-full.json.gz",
+      "bytes": 1513229,
+      "sha256": "842dd0a3cbb9bc7f22032c92d30f3f94a4510bbbe87113ce18eb014805143e8a"
+    },
+    {
+      "path": "raw/sleep-light-coverage.json.gz",
+      "bytes": 1476,
+      "sha256": "96b63a8e8ef0a08e7ce43957ebf3fa04fd9461d491384910f2c778bc5ec8db0d"
+    },
+    {
+      "path": "raw/source-check-0.log.gz",
+      "bytes": 1143,
+      "sha256": "464df40244dcc7befd4c5b12cbf0a7c490ddf6b71f891008f097608a07563dff"
+    },
+    {
+      "path": "raw/source-check-1.log.gz",
+      "bytes": 1339,
+      "sha256": "95fd4cf84c6ff29659d28ee60b6a843253d5e28eff75159da00f89d4a5b870cb"
+    },
+    {
+      "path": "raw/SOURCE-CHECK-LONGPATH.json.gz",
+      "bytes": 299,
+      "sha256": "4b87c09c89bbf94ec89ec1698921506b4b298336fbae64ade2b35126de29cb3f"
+    },
+    {
+      "path": "raw/source-check-longpath.log.first-invocation.gz",
+      "bytes": 252,
+      "sha256": "ff4bae8cabe5a261b693cf8244578c4cd9eea0481827022e9f98d29b079e7c18"
+    },
+    {
+      "path": "raw/source-check-longpath.log.gz",
+      "bytes": 246,
+      "sha256": "1ce6e2b5643f3520ef967501bf38045b650f8e18094f1b2b0ba3c55b44e71601"
+    },
+    {
+      "path": "raw/SOURCE-CHECKS.json.gz",
+      "bytes": 264,
+      "sha256": "723ed87b715a1117e30056a6a84ad1a9a72ec276097dfaa6239904328680a08f"
+    },
+    {
+      "path": "raw/WEBKIT-CLEAN-INVOCATION.json.gz",
+      "bytes": 379,
+      "sha256": "b1be1a4cd6b87d9732a1e30d74075114c9009009b1fd56f95d7fb955ef279439"
+    },
+    {
+      "path": "raw/webkit-shade-appearance-rows.json.gz",
+      "bytes": 133655,
+      "sha256": "9086e3f7f5b026f184c77b2b4f9b0c79eb453f88ca220f8476ee57c76305bd61"
+    },
+    {
+      "path": "raw/webkit-shade-capture-receipt.json.gz",
+      "bytes": 11274,
+      "sha256": "f11c1a979d05e9f1a970c1f4b223f84c2545947fa0cd25d3200ad890c3fd4054"
+    },
+    {
+      "path": "raw/webkit-shade-clean-appearance-rows.json.gz",
+      "bytes": 133774,
+      "sha256": "e2759790ac1f047e216ab8322ac163b3da43e19edaf558af73afeb1a2c59249a"
+    },
+    {
+      "path": "raw/webkit-shade-clean-capture-receipt.json.gz",
+      "bytes": 11142,
+      "sha256": "6e1b1abf744b33c9d81055c5c30f0ada788122794ed8030af7564d0d2a314eb2"
+    },
+    {
+      "path": "raw/webkit-shade-clean-evening-library-upper-default-globe.json.gz",
+      "bytes": 708,
+      "sha256": "48bff98aa69756da011a16014f387495c13dbdcf6a847efe739c05cec03ef3df"
+    },
+    {
+      "path": "raw/webkit-shade-clean-evening-library-upper-default-gpu.json.gz",
+      "bytes": 22,
+      "sha256": "21947b02ead137acb20e602e9448c7c453b2836d1a755aadd5e1c61ecd2eb034"
+    },
+    {
+      "path": "raw/webkit-shade-clean-evening-sleep-default-globe.json.gz",
+      "bytes": 981,
+      "sha256": "2d63fd76c1871cfc6506962757e228b60c1f57ecb07d2882bde5de24e45bd3b5"
+    },
+    {
+      "path": "raw/webkit-shade-clean-evening-sleep-default-gpu.json.gz",
+      "bytes": 22,
+      "sha256": "21947b02ead137acb20e602e9448c7c453b2836d1a755aadd5e1c61ecd2eb034"
+    },
+    {
+      "path": "raw/webkit-shade-clean-native-programs.json.gz",
+      "bytes": 22724,
+      "sha256": "bfff77cf9f714ce4bf88665cbfba6011b8c3112281a3b353113ca1456e9ae872"
+    },
+    {
+      "path": "raw/webkit-shade-clean-noon-library-upper-default-globe.json.gz",
+      "bytes": 722,
+      "sha256": "c768e321f0f04e6b8d4f477da913bc53a4cd9fc5c2ace1cabc889d86c6903d74"
+    },
+    {
+      "path": "raw/webkit-shade-clean-noon-library-upper-default-gpu.json.gz",
+      "bytes": 22,
+      "sha256": "21947b02ead137acb20e602e9448c7c453b2836d1a755aadd5e1c61ecd2eb034"
+    },
+    {
+      "path": "raw/webkit-shade-clean-noon-sleep-default-globe.json.gz",
+      "bytes": 1022,
+      "sha256": "d16bbe69c1cad87bd54f7a2068bae64d36c3262eeafccae2b3d12ee00ddb0011"
+    },
+    {
+      "path": "raw/webkit-shade-clean-noon-sleep-default-gpu.json.gz",
+      "bytes": 22,
+      "sha256": "21947b02ead137acb20e602e9448c7c453b2836d1a755aadd5e1c61ecd2eb034"
+    },
+    {
+      "path": "raw/webkit-shade-clean-terminal-receipt.json.gz",
+      "bytes": 10759,
+      "sha256": "e3d66ca6e534438931a6db898658fff228197a14a8d9c6f0ed5c432380156052"
+    },
+    {
+      "path": "raw/WEBKIT-SHADE-QUALIFIED.json.gz",
+      "bytes": 699,
+      "sha256": "27ac14e8b08030d69de7f44b7f08490d8f8e33c41a2f053ddbaaa8fdb734c4f9"
+    },
+    {
+      "path": "raw/webkit-shade-terminal-receipt.json.gz",
+      "bytes": 10988,
+      "sha256": "004521e2ffbac7123bb00a1d209889b351ad76e45dd88d72d8fd9662c3fbb3c6"
+    },
+    {
+      "path": "README.md",
+      "bytes": 10458,
+      "sha256": "79e613f048ca876175282d8397c2b9d3f90f1f3eaf6984ed5e0ee597deba0c57"
+    },
+    {
+      "path": "replay_lighting.py",
+      "bytes": 12647,
+      "sha256": "a96376c540c3e97493c485eebde1988eebec1189b121848948741c78d6fb05ac"
+    }
+  ]
+}

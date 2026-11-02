@@ -1,5 +1,19 @@
 # Coastal home asset provenance
 
+## November 2: integrated bedside light and kitchen olive
+
+The [ambience integration](reviews/ambience-integration-2026-11-02/README.md)
+replays the qualified bedside practical/region and olive recipes onto the
+retained native source in Blender 4.5.9. The current master is
+`1e10b25d5cf0eec87d7001acbf9d938d65ba33af6076380d5a8e5d45cf3d23e7`.
+All 459 unowned original meshes retain their native geometry and fields. Only
+the forty replacement leaves and six new branches receive the owning native
+24-sample contact/indirect bake. Sleep and kitchen exports, the official light
+cache, perch source binding and full overlap reports are regenerated. The
+review distinguishes exact native preservation from the shared kitchen wood's
+bounded codec quantization and records desktop/WebKit appearance evidence.
+Cliff, arrival and garden-nook changes still require their own integration.
+
 ## October 31: retained hardware, foliage and reading light
 
 The [combined interior checkpoint](reviews/interior-integration-2026-10-31/README.md)

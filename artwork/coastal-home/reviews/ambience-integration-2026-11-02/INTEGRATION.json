@@ -1,0 +1,161 @@
+{
+  "sourceBaseline": "fb6a9c6ff4f14b4aa5f4de91f7cddcc9abccf54d",
+  "nativeBaselineSha256": "de217984242f77903145dd6d16f277923b57fd5e3eb2469c906c2507b494ad87",
+  "sourceHashes": [
+    {
+      "path": "artwork/coastal-home/coastal-home.blend",
+      "bytes": 29047137,
+      "sha256": "1e10b25d5cf0eec87d7001acbf9d938d65ba33af6076380d5a8e5d45cf3d23e7",
+      "hashBasis": "working bytes; JS text may normalize checkout CRLF at commit"
+    },
+    {
+      "path": "assets/models/home/room-kitchen.glb",
+      "bytes": 249300,
+      "sha256": "ff670de9f0f4b10d93873d644d9d3f9deedd0bd2c373ece627734f2295762a07",
+      "hashBasis": "working bytes; JS text may normalize checkout CRLF at commit"
+    },
+    {
+      "path": "assets/models/home/room-sleep.glb",
+      "bytes": 294448,
+      "sha256": "3e767a1b93f35736eb54d39da60a2fefc92056d296e22ba6a41c2c31a582aa45",
+      "hashBasis": "working bytes; JS text may normalize checkout CRLF at commit"
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "bytes": 331879,
+      "sha256": "fc01cb3761a228ba2eaaf305b9c32fee579fba2dec9d99b062eb8864be8055f6",
+      "hashBasis": "working bytes; JS text may normalize checkout CRLF at commit"
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "bytes": 711870,
+      "sha256": "bc5f912cc4da5f6bb41d8d15cecd3efdd91f03a9e67d6d0922781e6d3462e172",
+      "hashBasis": "working bytes; JS text may normalize checkout CRLF at commit"
+    },
+    {
+      "path": "assets/models/home/wildlife-perch-support.json",
+      "bytes": 37636,
+      "sha256": "6c535c0a0135e5dab34472814c7600f5ae007448107059d90d70d9cdea004be9",
+      "hashBasis": "working bytes; JS text may normalize checkout CRLF at commit"
+    },
+    {
+      "path": "assets/js/home.js",
+      "bytes": 81175,
+      "sha256": "3565529bc332137a5820f0be028e897812779db6873a9aba3d6d16896e4a44ce",
+      "hashBasis": "working bytes; JS text may normalize checkout CRLF at commit"
+    },
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "bytes": 215108,
+      "sha256": "82f06af2cb5f5c0c33b5409825b5d7e38f60f0e6c0cf43be0e2d496e67b38c57",
+      "hashBasis": "working bytes; JS text may normalize checkout CRLF at commit"
+    },
+    {
+      "path": "assets/js/home-scene/warm-practicals.mjs",
+      "bytes": 9968,
+      "sha256": "9c7abe0d8f37239af93624d16abc2d460538d1fb26ae6747150562f2d3555bb5",
+      "hashBasis": "working bytes; JS text may normalize checkout CRLF at commit"
+    },
+    {
+      "path": "bin/coastal_architecture_finish.py",
+      "bytes": 90578,
+      "sha256": "17e9e8fd358276b45cda25b103cfca4616ef392ba377e6efdc978b71e059d9b3",
+      "hashBasis": "working bytes; JS text may normalize checkout CRLF at commit"
+    },
+    {
+      "path": "bin/coastal_retreat.py",
+      "bytes": 62032,
+      "sha256": "cc18c556dd22ac33160949d128db00cd8bad26d305d4303d5d400e354e8b7cad",
+      "hashBasis": "working bytes; JS text may normalize checkout CRLF at commit"
+    },
+    {
+      "path": "bin/coastal_kitchen.py",
+      "bytes": 39300,
+      "sha256": "c5e73e29af89eba96a172109495b0e337241ff234adcaad838444b6a9f9c912c",
+      "hashBasis": "working bytes; JS text may normalize checkout CRLF at commit"
+    },
+    {
+      "path": "bin/coastal_private_reading.py",
+      "bytes": 6292,
+      "sha256": "322e3410cc43694a667df03c05c5782268f9a73832359cdb2b0348eeeed82c27",
+      "hashBasis": "working bytes; JS text may normalize checkout CRLF at commit"
+    }
+  ],
+  "completeProduct": {
+    "url": "http://127.0.0.1:55608/al-folio/",
+    "header": "house-ambience-20261102-36472",
+    "buildSeconds": 82.556,
+    "unchangedDerivedImagesReusedFrom": "frozen complete rain product55012/assets/img",
+    "postBuildRefresh": "Only manifest/cache/perch JSON after their official regeneration; browser modules unchanged since build"
+  },
+  "appearance": [
+    {
+      "receipt": "shade-qualified-terminal-receipt.json",
+      "views": 12,
+      "completeResponseBodiesExact": 206,
+      "errors": 0,
+      "requestFailures": 0
+    },
+    {
+      "receipt": "webkit-shade-clean-terminal-receipt.json",
+      "views": 4,
+      "completeResponseBodiesExact": 198,
+      "errors": 0,
+      "requestFailures": 0
+    },
+    {
+      "receipt": "webkit-plant-qualified-terminal-receipt.json",
+      "views": 4,
+      "completeResponseBodiesExact": 199,
+      "errors": 0,
+      "requestFailures": 0
+    }
+  ],
+  "nativeUnownedExactVsOriginal": 459,
+  "nativeBakeUnownedExact": 461,
+  "preRoiTriangles": 731733,
+  "cache": {
+    "bytes": 711870,
+    "signature": "81c2e9a3388a535a93dc85eef34cd3da85ce2d19752eef92a4e362a51e4a8c2d",
+    "sha256": "bc5f912cc4da5f6bb41d8d15cecd3efdd91f03a9e67d6d0922781e6d3462e172",
+    "bake": {
+      "ready": true,
+      "triangles": 615630,
+      "meshes": 441,
+      "skippedMeshes": 145,
+      "skippedTriangles": 116103,
+      "geometryMs": 2498.5,
+      "acceleratorMs": 3927.2000000178814,
+      "transportMs": 2709.5999999940395,
+      "bakeMs": 9135.5,
+      "maxTaskMs": 40.70000001788139,
+      "relocatedProbes": 1,
+      "rejectedProbes": 4,
+      "acceleratorBytes": 51713280,
+      "trace": {
+        "rays": 90241,
+        "triangleTests": 3664198,
+        "boxTests": 24462798
+      }
+    }
+  },
+  "tests": {
+    "node": {
+      "tests": 992,
+      "pass": 985,
+      "intentionalSkipped": 7,
+      "fail": 0
+    },
+    "python": {
+      "tests": 384,
+      "fail": 0
+    }
+  },
+  "limitations": [
+    "Two affected rooms and foliage checkpoint; no claim of complete house lighting or final F6 architecture.",
+    "Linux WebKit images are appearance/function evidence, not physical iPhone cost.",
+    "Kitchen shared-wood decoded POSITION changes up to0.322342mm are retained and bounded; normals/colors/winding exact.",
+    "Original failed portable packet indices and CRLF helper bytes retained with explicit custody corrections.",
+    "No final performance or SOTA claim."
+  ]
+}
