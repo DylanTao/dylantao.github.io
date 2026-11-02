@@ -120,7 +120,17 @@ existing full-orbit/interior case pass on the complete product. It also adds
 strict optional runtime support for the separately qualified arrival/nook
 metadata. The public native master and all GLBs are unchanged; the official
 cache retains its transport exactly. New native exports, coffee contacts and
-the full walkthrough remain open, and CI/live delivery require their own receipt.
+the full walkthrough remain open. Its [integration receipt](../artwork/coastal-home/reviews/exporter-integration-2026-11-02/README.md)
+records all 42 green visual jobs, the other successful checks and nine exact live
+responses. GitHub rejected the first Pages upload with a server error; the
+same-source retry succeeded and the original failed log remains retained.
+
+The same integration checkpoint ports the guarded Blender exporter-preservation
+helper and optional lower-room Walk entry. It preserves the original SDK and
+every public model byte. The native eight-face fixture, complete 394-test Python
+suite and 1,005 Node tests pass, with seven Node skips. This qualifies the authoring/API
+mechanism, not the final private house. The new exports, global contact audit,
+coffee motion, complete appearance review and actual performance remain open.
 
 The [paper/limewash material checkpoint](../artwork/coastal-home/reviews/washi-material-2026-11-02/README.md)
 corrects an actual substring matcher: washi diffusers and incoming limewash were

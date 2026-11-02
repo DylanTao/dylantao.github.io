@@ -136,6 +136,61 @@ export function walkQuaternion(yaw, pitch, out = new THREE.Quaternion()) {
 // floor and facing it (the side the current camera is on, so the visitor keeps their bearings); from
 // the coast, on the terrace facing the house; from the whole house, in Sirui's room. A manifest
 // `walk.start` ({ position, yaw }) overrides every first arrival, for an entrance.
+function authoredRoomEntry(room, contact) {
+  const entry = room.walkEntry,
+    point = entry?.position;
+  if (
+    !entry ||
+    typeof entry !== "object" ||
+    Array.isArray(entry) ||
+    Object.keys(entry).some((key) => !["position", "floor"].includes(key)) ||
+    !Array.isArray(point) ||
+    point.length !== 3 ||
+    !point.every(Number.isFinite) ||
+    !Number.isFinite(entry.floor) ||
+    !Number.isFinite(room.floor) ||
+    Math.abs(entry.floor - room.floor) > 1.4 ||
+    Math.abs(point[1] - entry.floor) > 1e-6 ||
+    Math.hypot(point[0] - room.target[0], point[2] - room.target[2]) > 3.5 ||
+    ![room.exitPath, contact.exitPath].every(
+      (path) =>
+        Array.isArray(path) &&
+        path.some((p) => Array.isArray(p) && p.length === 3 && p.every(Number.isFinite) && Math.hypot(...p.map((v, i) => v - point[i])) < 1e-6)
+    )
+  )
+    return null;
+  const surfaces = room.breakfastNook?.supportSurfaces || room.supportSurfaces;
+  if (!Array.isArray(surfaces)) return null;
+  const inside = (x, z, polygon) => {
+    let hit = false;
+    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+      const a = polygon[i],
+        b = polygon[j];
+      if (a[1] > z !== b[1] > z && x < ((b[0] - a[0]) * (z - a[1])) / (b[1] - a[1]) + a[0]) hit = !hit;
+    }
+    return hit;
+  };
+  if (
+    !surfaces.every(
+      (surface) =>
+        surface !== null &&
+        typeof surface === "object" &&
+        !Array.isArray(surface) &&
+        Number.isFinite(surface.height) &&
+        Array.isArray(surface.polygon) &&
+        surface.polygon.length >= 3 &&
+        surface.polygon.length <= 64 &&
+        surface.polygon.every((p) => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite))
+    )
+  )
+    return null;
+  const support = surfaces.filter((surface) => Math.abs(surface.height - entry.floor) < 1e-6);
+  for (const dx of [-BODY.radius, 0, BODY.radius])
+    for (const dz of [-BODY.radius, 0, BODY.radius])
+      if (!support.some((surface) => inside(point[0] + dx, point[2] + dz, surface.polygon))) return null;
+  return { candidates: [[point[0], point[2]]], floor: entry.floor, look: room.target, room: room.id, strict: true };
+}
+
 export function spawnPlan(config, view, { entrance = true } = {}) {
   const rooms = config?.rooms || [];
   const start = entrance && (config?.walk?.start ?? (config?.entrance?.portal ? { position: config.entrance.portal } : null));
@@ -157,7 +212,7 @@ export function spawnPlan(config, view, { entrance = true } = {}) {
   }
   const id = rooms.some((r) => r.id === view.room) ? view.room : view.routineRoom || rooms[0]?.id;
   const room = rooms.find((r) => r.id === id);
-  if (!room?.target) return null;
+  if (!Array.isArray(room?.target) || room.target.length !== 3 || !room.target.every(Number.isFinite)) return null;
   const target = room.target;
   let toward = null;
   if (view.room === id && view.camera) toward = [view.camera[0] - target[0], view.camera[2] - target[2]];
@@ -169,6 +224,8 @@ export function spawnPlan(config, view, { entrance = true } = {}) {
     ux = toward[0] / length,
     uz = toward[1] / length;
   const contact = config?.terrain?.contacts?.[id] || room;
+  const entry = authoredRoomEntry(room, contact);
+  if (entry) return entry;
   return {
     candidates: [
       ...[1.7, 1.3, 2.2, 0.9, 2.7, 3.2].map((d) => [target[0] + ux * d, target[2] + uz * d]),

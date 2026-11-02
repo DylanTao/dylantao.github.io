@@ -1,0 +1,15 @@
+# Exporter and lower-room entry: integration checkpoint
+
+The maintained Blender 4.5.9 export adapter preserves the two qualified geology meshes without changing the installed SDK. The ordinary exporter was removing 53 original faces before compression. The [mechanism packet](../geology-export-custody-2026-11-02/QUALIFICATION.json) retains the exact source hunk, full corner-field census, production decoder, closure, route and structural-validator evidence. Position data is lossless only for those two meshes; the other material and water policies retain their qualified settings. This is an authoring mechanism, and the public native master and models are unchanged.
+
+The coordinator repeats the native parallel-port fixture after porting the helper. It preserves all eight faces and native fields, rejects open and reversed controls, leaves ordinary validation active and keeps the source/SDK files exact. Its generated GLB is byte-identical to the portable fixture with the retained production-WASM eight-face proof. The root smoke does not separately exercise the water wrapper; its compatibility evidence remains in the owning mechanism packet.
+
+The optional room-entry API lets a future qualified garden-nook descriptor start Walk on its actual lower floor. It requires a finite target, exact room/contact route membership, supported body-radius cells and a bounded floor offset. Null, primitive, unknown, remote and unsupported data fall back safely. The ordinary entrance remains the first arrival. No such descriptor is added to the public manifest in this checkpoint. Thirty-five local walking cases, including actual delivered entrance, gallery and study-to-patio routes, pass.
+
+The isolated selected-source checkout passes all 394 Python tests and 1,005 Node tests with seven skips. The official lighting-input signature remains exact, so this source-only adapter and dormant Walk extension do not change the public transport. The later addition of this sealed integration packet to the custody list gets its own targeted custody check.
+
+A fresh complete production build passes. The existing public Rooms/Walk browser case then passes on native Windows D3D11 at desktop 1440 and touch 390, covering embedded/fullscreen destinations and supported starts on the unchanged delivered house. Four screenshots and both route receipts are retained. These are PC browser checks, not a physical-iPhone result.
+
+The preceding camera checkpoint `2dfd0d016` passes all 42 visual jobs and every other applicable workflow. Nine live responses match pinned Pages `2c846cc119103bd5afc0b696fc273e3922e1c8ba` exactly. Its first deployment attempt built successfully but GitHub rejected the Pages upload with an Internal Server Error; retrying the same source succeeded. The original failure and intermediate CI state remain retained.
+
+F6, straight-arrival and garden admission remains open. Native support and decoded face preservation do not establish final overlap clearance, appearance, coffee choreography, producer budget or whole-scene performance. Those are separate coordinator gates before the models can replace the public house.

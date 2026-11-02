@@ -1,4 +1,5 @@
 """Keep sealed visual evidence byte-exact when source formatting changes."""
+import base64
 import gzip
 import hashlib
 import json
@@ -10,6 +11,32 @@ REVIEWS = ROOT / "artwork/coastal-home/reviews"
 
 
 class RestingReviewCustody(unittest.TestCase):
+    def test_exporter_custody_preserves_the_qualified_programs_and_each_original_body(self):
+        packet = REVIEWS / "geology-export-custody-2026-11-02"
+        qualification = json.loads((packet / "QUALIFICATION.json").read_text(encoding="utf8"))
+        for relative, row in qualification["code"].items():
+            body = (ROOT / relative).read_bytes().replace(b"\r\n", b"\n")
+            self.assertEqual(hashlib.sha256(body).hexdigest(), row["gitLfSha256"], relative)
+        row = qualification["evidence"]
+        stored = (packet / row["file"]).read_bytes()
+        self.assertEqual(len(stored), row["bytes"])
+        self.assertEqual(hashlib.sha256(stored).hexdigest(), row["sha256"])
+        raw = gzip.decompress(stored)
+        self.assertEqual(len(raw), row["uncompressedBytes"])
+        evidence = json.loads(raw)
+        self.assertEqual(len(evidence["files"]), row["fileCount"])
+        seen = set()
+        for payload in evidence["files"]:
+            with self.subTest(payload=payload["path"]):
+                relative = Path(payload["path"])
+                self.assertFalse(relative.is_absolute())
+                self.assertNotIn("..", relative.parts)
+                self.assertNotIn(payload["path"], seen)
+                seen.add(payload["path"])
+                body = base64.b64decode(payload["base64"], validate=True)
+                self.assertEqual(len(body), payload["bytes"])
+                self.assertEqual(hashlib.sha256(body).hexdigest(), payload["sha256"])
+
     def test_committed_packets_keep_every_recorded_payload(self):
         packets = {
             "resting-wildlife-ci-2026-11-01": "MANIFEST.json",
@@ -32,6 +59,7 @@ class RestingReviewCustody(unittest.TestCase):
             "garden-nook-seams-2026-11-02": "MANIFEST.json",
             "garden-native-2026-11-02": "MANIFEST.json",
             "camera-focus-2026-11-02": "MANIFEST.json",
+            "exporter-integration-2026-11-02": "MANIFEST.json",
             "exporter-holes-2026-11-01": "MANIFEST.json",
             "exterior-waterline-2026-11-01": "MANIFEST.json",
             "waterline-release-2026-11-01": "MANIFEST.json",

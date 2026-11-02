@@ -1,0 +1,282 @@
+{
+  "schema": "coastal-exporter-integration-v1",
+  "scope": "Actual isolated source gates, root nativefixture and exact portable fixture identity, prior cameraCI42success/live9response binding, plus original GitHub remote500deployment failure. README is editorial; all raw program/generated payload bytes remain sealed.",
+  "files": [
+    {
+      "path": "gates/SOURCE.json.gz",
+      "bytes": 4875,
+      "sha256": "b38386b1cc15b552607f8619c6190455b245c4dcb1fd47c1b43c3964106edce6",
+      "encoding": "gzip",
+      "bodyBytes": 17772,
+      "bodySha256": "fbe92798b177231868a8733d4ec07a2f04a20f7909957805ab5637dc18a79051"
+    },
+    {
+      "path": "gates/node.json.gz",
+      "bytes": 1405,
+      "sha256": "75f7ba2ccc4c5773f7207d221bca8e1e220319b2af5ac0be08d330991d68a326",
+      "encoding": "gzip",
+      "bodyBytes": 6302,
+      "bodySha256": "2af86e61919884dbcd1c24c83c1bc19e12207c8d0e63c3339eb68df5e4a30a2d"
+    },
+    {
+      "path": "gates/node.log.gz",
+      "bytes": 45725,
+      "sha256": "33837567ee375784166742839cb53bfa3071ed0dab28f15a0d1754a2088f4b57",
+      "encoding": "gzip",
+      "bodyBytes": 167055,
+      "bodySha256": "d4b11f24bd5013172b0e1faa80e5424c5acaa5af5aba3d499c5d58eeb5bfcf1e"
+    },
+    {
+      "path": "gates/python.json.gz",
+      "bytes": 280,
+      "sha256": "3b4c8a7ecebda5ae9b2b899f163e5b69b3188168a5bb9b3b3cd784838fd82510",
+      "encoding": "gzip",
+      "bodyBytes": 423,
+      "bodySha256": "247064ab9178c33535e80b511fd89c72e640fe022920822f9d471776e1189081"
+    },
+    {
+      "path": "gates/python.log.gz",
+      "bytes": 118,
+      "sha256": "dc8f6896070bace2e3ca2e965429ef371fd77d604140476314f59ad02aeaa5fd",
+      "encoding": "gzip",
+      "bodyBytes": 554,
+      "bodySha256": "cf7a45bcc946904a9b2edd654453754669a3b030bff8e24710682ec595ea9641"
+    },
+    {
+      "path": "native-fixture/NATIVE-FIXTURE.json.gz",
+      "bytes": 234,
+      "sha256": "cb2603048f691a9b214c0635d1f983944b72e6c8770eafbb31a900f0187d0b63",
+      "encoding": "gzip",
+      "bodyBytes": 383,
+      "bodySha256": "79c3078fcd6960a1b3a5d0175c61b491a4147c428f1052d141c228470ef2f9d3"
+    },
+    {
+      "path": "native-fixture/ORIGINAL-FIELDS.json.gz",
+      "bytes": 236,
+      "sha256": "245d692493035d70197cadd78c60858763d5a7bebd082b5f930b6b3eecf052eb",
+      "encoding": "gzip",
+      "bodyBytes": 1197,
+      "bodySha256": "fed11e1eb8cfeefbeb39797f09ec7debbdb4875c463a7b5efc5954f26301917c"
+    },
+    {
+      "path": "native-fixture/REOPENED-FIELDS.json.gz",
+      "bytes": 236,
+      "sha256": "245d692493035d70197cadd78c60858763d5a7bebd082b5f930b6b3eecf052eb",
+      "encoding": "gzip",
+      "bodyBytes": 1197,
+      "bodySha256": "fed11e1eb8cfeefbeb39797f09ec7debbdb4875c463a7b5efc5954f26301917c"
+    },
+    {
+      "path": "native-fixture/fixture.glb.gz",
+      "bytes": 730,
+      "sha256": "af89633bed440851e7347034ceb9960929a43db96a72994c714c0ac9aeb6b957",
+      "encoding": "gzip",
+      "bodyBytes": 1788,
+      "bodySha256": "5ab777c8e99ec52fef2f033505d746e240c6c5a4466a2d6ed43d8887cb100100"
+    },
+    {
+      "path": "native-fixture/custody/CUSTODY.json.gz",
+      "bytes": 849,
+      "sha256": "f1dc01c3bf83a6da8d664937e5456a6350dfccedec0c4efd2197c2d03874a295",
+      "encoding": "gzip",
+      "bodyBytes": 1826,
+      "bodySha256": "2a5c4f8d0b5c7da2305aa2e902845119658cda976d84b0912e61b723bbc5c6fb"
+    },
+    {
+      "path": "native-fixture/custody/gather-mesh-adapted.py.gz",
+      "bytes": 1670,
+      "sha256": "055d3caa5da1f97a0acb9e33f14ccd02c4ac85ecfa52b8a19eb517b32cd157d8",
+      "encoding": "gzip",
+      "bodyBytes": 6512,
+      "bodySha256": "05f65921eb36e1c82924f162ccc613e7c341a55a927064bc93f1de40d091bf4d"
+    },
+    {
+      "path": "native-fixture/custody/gather-mesh-original.py.gz",
+      "bytes": 1659,
+      "sha256": "04ff62449aa08bbe5854e4864efb4498228eee0c77326455d6c4a200ae210550",
+      "encoding": "gzip",
+      "bodyBytes": 6501,
+      "bodySha256": "1367e1a616d58d0835182ee7dfd069f9b3cb7424f9b77220d032779c8516fc4b"
+    },
+    {
+      "path": "native-fixture/custody/PRECISE-DIFF.txt.gz",
+      "bytes": 285,
+      "sha256": "a94cd3985502aab3d67ef6c7b191d22f7c8e681857f0c6efdf16db9745f552e1",
+      "encoding": "gzip",
+      "bodyBytes": 499,
+      "bodySha256": "22982fbfe7b713226d5a46a3e159ca4c15e4d3ce2e642c3dad458fe31342338d"
+    },
+    {
+      "path": "FIXTURE-BYTE-IDENTITY.json.gz",
+      "bytes": 360,
+      "sha256": "a00344bcb48ae41a158feee372bf1eb2a6244cf2be3f8bf9d5f4c0f37d753534",
+      "encoding": "gzip",
+      "bodyBytes": 510,
+      "bodySha256": "ac49cba1c8e8f7dc30a33c4a9c505ae1e5eb83082f6dd5b676f286b0bf44843b"
+    },
+    {
+      "path": "CAMERA-DELIVERY.json.gz",
+      "bytes": 1747,
+      "sha256": "a63160eca35b5c25fe5cdd6fa9808b4c2416bd884760cf7ec92357f947b030e2",
+      "encoding": "gzip",
+      "bodyBytes": 13566,
+      "bodySha256": "664230657e1a9aa226bbeb7028ea666286e7479368ffa1bbf7828de40b767fdc"
+    },
+    {
+      "path": "CAMERA-DELIVERY-INTERIM.json.gz",
+      "bytes": 1778,
+      "sha256": "7ce3cf15f16d1876f2d72f91c36d2908e524be4160d0f2344fd7ef48b9c0eb99",
+      "encoding": "gzip",
+      "bodyBytes": 13511,
+      "bodySha256": "e4629667002bf818e080cf535d6733b135c79315fee7ea25e75f52cc65b172b8"
+    },
+    {
+      "path": "camera-deploy-original-failure.log.gz",
+      "bytes": 2390,
+      "sha256": "ff8b7dda3aaa2fdd4b9975948240d7b9217da4c67dbe14f7d655604882f06037",
+      "encoding": "gzip",
+      "bodyBytes": 9917,
+      "bodySha256": "112dfb8f3e368ff1fd8dee68d60cdd6360e7f41d11f6d8d9bf7e6f9ec1aedef5"
+    },
+    {
+      "path": "producers/validate-exporter-checkpoint.py.gz",
+      "bytes": 1393,
+      "sha256": "ba16b5f7295a09977edad923b740f594acbfe4e5bbd55d24c83d804cf86f5055",
+      "encoding": "gzip",
+      "bodyBytes": 2789,
+      "bodySha256": "7b34c56efc309cfc5ece892c997c657c358c3a182d4eb6a7190307c6a864ad29"
+    },
+    {
+      "path": "producers/check-camera-delivery.py.gz",
+      "bytes": 1326,
+      "sha256": "44d77f308429b504be5b6a85e8e66529dfd673892eec521da7089f2547c234bb",
+      "encoding": "gzip",
+      "bodyBytes": 2723,
+      "bodySha256": "e05104576e4f33369ed335304ab4e949b45204a583d14698b0f8a075242e42d2"
+    },
+    {
+      "path": "producers/archive-exporter-checkpoint.py.gz",
+      "bytes": 1513,
+      "sha256": "709d668e6dd49fb21841f2af21ea400d649e169fc5d23a27a3f75d82167f233a",
+      "encoding": "gzip",
+      "bodyBytes": 3204,
+      "bodySha256": "1b8f9eace2e8af0c065afc75c32df1289a99ba903b87424fc2982a84d0ea9782"
+    },
+    {
+      "path": "final-gates/build-exporter.json.gz",
+      "bytes": 579,
+      "sha256": "b86eb3d70bc874eb24c8e1598c78acebce2ed469ede6e90f376b125c4083ba37",
+      "encoding": "gzip",
+      "bodyBytes": 939,
+      "bodySha256": "5d8ee1c48c476043ae78a31bd8c361b1df0fa8a9f4aa14e032328224233853c4"
+    },
+    {
+      "path": "final-gates/build-exporter.log.gz",
+      "bytes": 4498,
+      "sha256": "a02f59eb18d1784d3bb41150ab5202b2cf1edbb56cefaa9cf490b26754b36643",
+      "encoding": "gzip",
+      "bodyBytes": 89559,
+      "bodySha256": "a86e3ebb58a459cbeac8bf167e204efd0de5c8ca90ac44e3d9708675186131cc"
+    },
+    {
+      "path": "final-gates/NAVIGATION-PROCESS.json.gz",
+      "bytes": 584,
+      "sha256": "1ab3dab522a84b278dc35dd1c0e862f1828f443642a09fae3a08d778c1f7db36",
+      "encoding": "gzip",
+      "bodyBytes": 1119,
+      "bodySha256": "5af9b2984d26e0e7525db9d8e07d3ff8bb30542e5607af8d07a4bde5b6e855b2"
+    },
+    {
+      "path": "final-gates/native-navigation.log.gz",
+      "bytes": 343,
+      "sha256": "db4fb5bb74b1184fe3843a15fced0ce90447e51e9b37e6e65ffaab4e10d2c18b",
+      "encoding": "gzip",
+      "bodyBytes": 1120,
+      "bodySha256": "adbb4f456882e9551553d3eae91c9795b064f4c2cb921a0d40d1c61ffe3eb312"
+    },
+    {
+      "path": "navigation/desk-scene-coastal-home-pu-1fb92-e-walk-from-the-chosen-room-desktop-1440/public-embed-rooms.png",
+      "bytes": 383182,
+      "sha256": "2ec9c0c32cd60ec2d727362cdf2a3e6b18ccf27b09aefc976cb8555208e13c7b"
+    },
+    {
+      "path": "navigation/desk-scene-coastal-home-pu-1fb92-e-walk-from-the-chosen-room-desktop-1440/public-fullscreen-rooms.png",
+      "bytes": 1472715,
+      "sha256": "a962e6204b0608fb6edc0f34757c3baabe28ec5e17a8a38367225db4f426d3a9"
+    },
+    {
+      "path": "navigation/desk-scene-coastal-home-pu-1fb92-e-walk-from-the-chosen-room-desktop-1440/public-room-starts.json.gz",
+      "bytes": 761,
+      "sha256": "8558dfd126894e95efe8436134a745b961930174800a4b9c872d9efcc8a87258",
+      "encoding": "gzip",
+      "bodyBytes": 2937,
+      "bodySha256": "70b5206b86fdfb7df66dbc9a3469c40844a803c7806608f1746106d89dcf93ac"
+    },
+    {
+      "path": "navigation/desk-scene-coastal-home-pu-1fb92-e-walk-from-the-chosen-room-mobile-390/public-embed-rooms.png",
+      "bytes": 170602,
+      "sha256": "f2cfe266b3750d48321ca4c7b98db83d27945147db55151bd29688620d28260b"
+    },
+    {
+      "path": "navigation/desk-scene-coastal-home-pu-1fb92-e-walk-from-the-chosen-room-mobile-390/public-fullscreen-rooms.png",
+      "bytes": 415311,
+      "sha256": "b4160919b63961261cf1a4c91deb39dddc8faf6bb94d7b544e15ad7c20cbcb8e"
+    },
+    {
+      "path": "navigation/desk-scene-coastal-home-pu-1fb92-e-walk-from-the-chosen-room-mobile-390/public-room-starts.json.gz",
+      "bytes": 761,
+      "sha256": "182b950a9c6f999e33207d3a9d1c0375bf7810b9d29c0063ee9430ad03955e1f",
+      "encoding": "gzip",
+      "bodyBytes": 2935,
+      "bodySha256": "2c88b9c91aa2eff0d38284136d841adec5e1f834c4d30aebf38c9267ca514e48"
+    },
+    {
+      "path": "selected-source/assets/js/home-scene/walk-controls.mjs.gz",
+      "bytes": 13519,
+      "sha256": "0363b9713ab5f1e60ad0aed5855e81e01e372571502807e4f5466e13c5cb4df9",
+      "encoding": "gzip",
+      "bodyBytes": 43237,
+      "bodySha256": "990c318651760a68e8389d412f5116ad20c729118410bb422976c306e9650760"
+    },
+    {
+      "path": "selected-source/test/coastal-breakfast-walk-entry.test.mjs.gz",
+      "bytes": 1351,
+      "sha256": "12f022d173de218ac34f1db2e6c142fc570e62059d4c7563f3859916ccdae958",
+      "encoding": "gzip",
+      "bodyBytes": 4066,
+      "bodySha256": "a2a5944752cebc74c7dbc76248f26c1c0ba0300846d60761ce5341c2d4017843"
+    },
+    {
+      "path": "selected-source/test/test_resting_review_custody.py.gz",
+      "bytes": 1538,
+      "sha256": "8d436fb08b5cb538b920c5c66e2befd0809f94789370c251a1a88db3ee8e6deb",
+      "encoding": "gzip",
+      "bodyBytes": 5830,
+      "bodySha256": "84591949ab66168af79db80cc7973366b7888aa9eff623ffac9d8c15550bc640"
+    },
+    {
+      "path": "producers/run-exporter-navigation.py.gz",
+      "bytes": 1005,
+      "sha256": "37d91e4c80bf48fd18a2d91c387b1e4ebb3fe04257a52b8d44892aef5b2c5096",
+      "encoding": "gzip",
+      "bodyBytes": 1891,
+      "bodySha256": "4bd3d01b079950aad82aa610a133c6097873a113e995937f21b5a667961523ce"
+    },
+    {
+      "path": "producers/prepare-exporter-build.py.gz",
+      "bytes": 391,
+      "sha256": "d643dfe26a253f619e1d03fd23b1cfbd0ac99c880aa509ea57267fb04912064b",
+      "encoding": "gzip",
+      "bodyBytes": 660,
+      "bodySha256": "7d2e9ba3a65c4a9a0798f54b85f7ed70f3b53ed6995957853b3413f6012c8c1f"
+    },
+    {
+      "path": "producers/finalize-exporter-checkpoint.py.gz",
+      "bytes": 919,
+      "sha256": "6fa1565289e151d1c09fc87015ab677642b615b943a57d28b38d6db695b49c44",
+      "encoding": "gzip",
+      "bodyBytes": 2061,
+      "bodySha256": "7425a3868aecd5084daa5350a234bbca9dc4e5278cbf43a2e7e5af08744d5f84"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "schema": "coastal-geology-export-custody-qualification/v1",
+  "status": "Export mechanism qualified; wholehouse admission OPEN",
+  "sourceNativeSha256": "7ff4d15a6462f26e478f31c902f5fafd01363afa591a5f40ba2b8c66364a9f12",
+  "blenderVersion": [4, 5, 9],
+  "code": {
+    "bin/coastal_geology_export_custody.py": {
+      "rawSha256": "e9313633ccddb29aefe10a6e502cd27000618bb4c8ee3f3eccdea8bf795c93cd",
+      "gitLfSha256": "e9313633ccddb29aefe10a6e502cd27000618bb4c8ee3f3eccdea8bf795c93cd"
+    },
+    "bin/test_coastal_geology_export_custody.py": {
+      "rawSha256": "03008a53aa4bc9353c9359972d5373fb241983c8393e0cab93f469c7927467e4",
+      "gitLfSha256": "03008a53aa4bc9353c9359972d5373fb241983c8393e0cab93f469c7927467e4"
+    }
+  },
+  "policy": {
+    "losslessPositionOwners": ["core__golden coastal sandstone", "coast_shared_golden coastal sandstone"],
+    "positionBitsForThoseOwners": 0,
+    "normalBitsUnchanged": 8,
+    "otherOpaquePositionBitsUnchanged": 14,
+    "arrivalWaterPositionNormalBitsUnchanged": [18, 10],
+    "sdkDiskWrites": false,
+    "nativeWrites": false,
+    "noWeldOrEpsilonOrSurfaceRetirement": true
+  },
+  "passedMechanismGates": [
+    "Two-mesh directed native-port guards with exact installed-source/function hunk pin",
+    "Complete source emitted oriented P/N/C tuple and multiplicity census224886faces including53restoredfaces",
+    "Actual production WASM216primitives and9geologyP/face-census matches",
+    "Exact directed geometric coordinate-edge chains0forCOREandCOAST; nativefan/volume checks remain separate",
+    "Current runtime12arrivalroutes standard+2.1m, water54+52components/0degenerate, fullWalkenvelope",
+    "OfficialKhronos2.0.0-dev.3.10zeroerrors/zerowarnings",
+    "Nativeparallel-port8face fixture+actualWASM8faces, open/reversed rejection, ordinaryvalidation andwaterhookcompatibility",
+    "All other seedmodels/native input/owningF4/installedSDK bytes unchanged"
+  ],
+  "notQualifiedByThisPacket": [
+    "Actual final750000preROI/800KBproducer gate",
+    "Final globalcoplanar/deepcontacts andphysicallyboundedbearing proofs",
+    "Final decodedroof-cap/flora support andecology-completeappearance",
+    "Knownangularrightwingupperfins/continuousorganicrockdesign",
+    "Publication/deployedsite acceptance"
+  ],
+  "retainedNegativeControls": [
+    "GlobalP0/28/30failonunrelatedprimitives; onlytwoexactgeologyownersadmittedtopolicy",
+    "Original14quantseamsanddestructiveSDKvalidation53missingfaces",
+    "V615wrong6decimalSDKnormalassumption; calibratedsourceconstant4inV617",
+    "V619invalidRNAhandlefixture andV620/621Mesh.copy/validatecopyonwritenegativecontrols",
+    "V624driverplaceholdercollision andV625waterwrapperparametersignatureguard; bothfailedclosedbeforeassetwrites"
+  ],
+  "evidence": {
+    "file": "EVIDENCE.json.gz",
+    "bytes": 3472500,
+    "sha256": "448a9318636f852a78c50960811409b731169a77d31cf1fa1316e9cec4a4cd1c",
+    "uncompressedBytes": 10297258,
+    "fileCount": 68
+  },
+  "commands": {
+    "nativeFixture": "Blender4.5.9 --background --factory-startup --python-exit-code1 --python bin/test_coastal_geology_export_custody.py -- <new-private-Q-directory> --water-helper=<owning-coastal_water_export_precision.py>",
+    "install": "custody = install_geology_export_custody(source, expected_source_sha256, new_private_archive_directory) before owning glTF export; custody.finish() afterward. Install before existing water precision wrapper.",
+    "sourceSafety": "The owning helper pins the exact installed4.5.9SDK source/function and sourcefileSHA; unsupported SDK/mesh/codec changes fail closed. Parent coordinator owns source/asset integration and publication."
+  }
+}
