@@ -55,7 +55,7 @@ LANDING = (-3.26, -2.66)  # y range of the marble landing between the refrigerat
 FRIDGE = {"center": (-4.37, -3.64), "size": (0.76, 0.70, 2.13)}
 PANTRY = (-4.62, -4.02)  # y range of the tall oak pantry
 
-ISLAND = {"x": (-2.95, -1.95), "y": (-0.40, 1.90), "top": 0.975}
+ISLAND = {"x": (-2.80, -1.95), "y": (-0.40, 1.90), "top": 0.975}
 
 # The breakfast nook: sunk NOOK_DEPTH below the kitchen floor in the corner by the glass.
 NOOK = {"x": (-4.95, sunken.seam(-2.80)), "y": (2.42, 4.36)}  # the north edge on a board seam
