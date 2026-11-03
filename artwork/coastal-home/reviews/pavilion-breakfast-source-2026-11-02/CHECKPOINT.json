@@ -1,0 +1,75 @@
+{
+  "status": "Source checkpoint; native-shape direction qualified, runtime venue/carry/entry/full meal/final decoded admission OPEN",
+  "sourceCommits": ["3cffcbe94", "2cd53a8a3"],
+  "sourceFiles": [
+    {
+      "path": "bin/coastal_pavilion_breakfast.py",
+      "bytes": 9492,
+      "sha256": "65c672c83ed005095b3091b76b19fd333d45a64a8740ccd1cb9d804009951171",
+      "rawWorkingEqualsGitLF": true
+    },
+    {
+      "path": "bin/refresh_coastal_pavilion_breakfast.py",
+      "bytes": 3426,
+      "sha256": "078d85cda602af43a60b4196369e43e8a2dc4ff3248d61f557d7f2adfa221c60",
+      "rawWorkingEqualsGitLF": true
+    },
+    {
+      "path": "test/test_pavilion_breakfast.py",
+      "bytes": 3483,
+      "sha256": "fde262e7d3c8bbcdc539303180ecf9e654cd49c10e6c58cb0494293e69aa479c",
+      "rawWorkingEqualsGitLF": true
+    },
+    {
+      "path": "bin/coastal_pavilion_chair.py",
+      "bytes": 15169,
+      "sha256": "46942a1ca8f2f27a6b034cbee645c3de2e80f5b6ea6a18a37704b4760c1e0669",
+      "rawWorkingEqualsGitLF": true
+    },
+    {
+      "path": "bin/refresh_coastal_pavilion_chair.py",
+      "bytes": 4027,
+      "sha256": "1bdbba03c6051258b5becd1b53d3dd8a289d5e5c6338c8d65e9af8492b79f150",
+      "rawWorkingEqualsGitLF": true
+    },
+    {
+      "path": "test/test_pavilion_chair.py",
+      "bytes": 2262,
+      "sha256": "a3b9d68ab60513f24bd73ddf22698db48b533740c08e18d1cc4a4e0e3582bba1",
+      "rawWorkingEqualsGitLF": true
+    }
+  ],
+  "canonicalNativeSHA256": "1e10b25d5cf0eec87d7001acbf9d938d65ba33af6076380d5a8e5d45cf3d23e7",
+  "qualifiedChairInputSHA256": "a8e3135608d7c415d8d8ab344de1a736cff688c43c0feb09210458059b7d92a0",
+  "qualifiedChairOutputSHA256": "16f3a9d226ca5352b268d5160350f277e7cd28816cd0d6ae1b489a655c801b47",
+  "introducedTriangles": 204,
+  "retiredExactDisjointPanelTriangles": 188,
+  "netNativeTriangles": 16,
+  "sourceGates": {
+    "focusedPythonTests": 7,
+    "unownedInputMeshesExact": 466,
+    "retainedPaleOakNumericFieldsExact": true,
+    "newSolidsDirectedClosedPositive": 7,
+    "staticFiveRigsRigidInteriors": 0,
+    "staticFiveRigsFiniteRigidCrossings": 0,
+    "tailEatDrinkFrames": 246,
+    "distinctTailPoses": 121,
+    "tailVsThreeNewNativePartsInteriors": 0,
+    "tailVsThreeNewNativePartsFiniteCrossings": 0,
+    "testProcessReturncode": 0,
+    "testProcessReceipt": "records/PAVILION-FOCUSED-GATES-V2.json.gz"
+  },
+  "limits": [
+    "No published assets/cache/manifest or runtime enablement from these commits.",
+    "Static all-skin proof uses exact original18 delivered primitives plus actual saved native3-part chair overlay. Final chair codec must repeat.",
+    "Seven actual native solids verified; actual whole-scene pre-ROI budget remains coordinator gate.",
+    "Linen compression is intentional and explicitly measured, not classified as zero body contact.",
+    "The246frame Tail sweep covers complete eat+drink clips, not seat transfer or all additive Dining choreography.",
+    "Empty intersection bounds in the no-contact Tail receipts serialize to null elements; use the explicit zero counts, not those arrays as finite coordinates.",
+    "Neutral native studio renders assess shape only; temporary180W/90W lights do not establish website ambience or performance.",
+    "Original6-primitive public comparison is withdrawn for full coverage; complete14node/18primitive comparison and actual GLB JSON census supersede it.",
+    "Original nominal sole/top and U-footprint controls are supplemented by actual decoded triangle projections inV11.",
+    "Three obstructed route controls remain red. Existing public study/patio journey does not establish a kitchen connector.",
+    "Original PowerShell redirect wrapper returned1 while unittest printed7OK; retained raw. Fresh direct subprocess receipt captures actual Python0 without source/assertion change."
+  ]
+}

@@ -1,0 +1,86 @@
+[
+  {
+    "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\DECODED-312-FULLBODY-V12.json.gz",
+    "file": "records/DECODED-312-FULLBODY-V12.json.gz",
+    "rawBytes": 141724,
+    "rawSHA256": "00a56b4b42b97ff47516fe8add98abe66f09cc662867f6d9a4611f2391f9209f",
+    "storedSHA256": "00a56b4b42b97ff47516fe8add98abe66f09cc662867f6d9a4611f2391f9209f"
+  },
+  {
+    "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\DECODED-312-SOLE-PAD-SUPPORT-V13.json",
+    "file": "records/DECODED-312-SOLE-PAD-SUPPORT-V13.json.gz",
+    "rawBytes": 241085,
+    "rawSHA256": "65a2539e72b71e5397ceeb4744028a0654c29bbb0e0ebbd893662e201bd14037",
+    "storedSHA256": "5a1afb1e62ea521ce8ed1b6dec855141d0027fcf75c04d80596b9e3f22a9f70a"
+  },
+  {
+    "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\DECODED-312-TAIL-CLIPS-V14.json.gz",
+    "file": "records/DECODED-312-TAIL-CLIPS-V14.json.gz",
+    "rawBytes": 24250,
+    "rawSHA256": "43d237695d220b65fff4603c9662bde42dc5e758c128b2eb0422293f3c073db5",
+    "storedSHA256": "43d237695d220b65fff4603c9662bde42dc5e758c128b2eb0422293f3c073db5"
+  },
+  {
+    "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-pavilion-decoded-312-fullbody-v12.mjs",
+    "file": "producers/audit-pavilion-decoded-312-fullbody-v12.mjs.gz",
+    "rawBytes": 21148,
+    "rawSHA256": "8fb144ddcb6c71af0d1ac1736e8bd57018cbb5a06f2704f1eea84e1b3ff5a807",
+    "storedSHA256": "ee0362e1ec72d68d9105a266245cab4b5b3ea1e092c75a3e47a3caf1a2cd2fe2"
+  },
+  {
+    "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-decoded-312-sole-pad-support-v13.mjs",
+    "file": "producers/audit-decoded-312-sole-pad-support-v13.mjs.gz",
+    "rawBytes": 4627,
+    "rawSHA256": "b5f51e7107dd1150fb2c49f37b3add889619fd5d936cd7cf3dec7ae4d3ce07a4",
+    "storedSHA256": "28c898401c8e3a475b71f4fb4049905eba962c08a8742182c165793df4d6399f"
+  },
+  {
+    "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\qualify-decoded-312-tail-clips-v14.mjs",
+    "file": "producers/qualify-decoded-312-tail-clips-v14.mjs.gz",
+    "rawBytes": 18352,
+    "rawSHA256": "a7bdc7647167bd0be5aa7429835707bb06fb5fa3d3e84dbdd9f83fb567922711",
+    "storedSHA256": "3c8e671d7db122a69d2f60b4af121ca54856a937b85658df30bdc65f3f883e56"
+  },
+  {
+    "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\pavilion-contact-geometry-v4-final312.mjs",
+    "file": "producers/pavilion-contact-geometry-v4-final312.mjs.gz",
+    "rawBytes": 4180,
+    "rawSHA256": "b628268d815d3f59fa5f264ba1b6b28b59bf6b8eec3e5ec93084d805b2a5fd79",
+    "storedSHA256": "0a011f6cff6be86e73fcdc6a400fadb137b9e0ece7e2c45706f18e268c65291d"
+  },
+  {
+    "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\home-scene\\locomotion.mjs",
+    "file": "pose-source/assets__js__home-scene__locomotion.mjs.gz",
+    "rawBytes": 23824,
+    "rawSHA256": "bff6892b70dd6181809cfde9e07e154c84636bfac48436389d0757b4070e4af1",
+    "storedSHA256": "71ff4a72ad35ae7b729b98d4843006cf7254728ea6596a148cc4e680d060bbbb"
+  },
+  {
+    "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\home-scene\\coffee-tail-contact.mjs",
+    "file": "pose-source/assets__js__home-scene__coffee-tail-contact.mjs.gz",
+    "rawBytes": 6530,
+    "rawSHA256": "c72086d7b3f95952b61c92715956f85023cef38c03a5d3d8c4dc80d2b5967aee",
+    "storedSHA256": "5585f766cb0a49f5480e4e100a2e55838a149a34c7815fa34614028c8c15e5f4"
+  },
+  {
+    "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\home-scene\\shore.mjs",
+    "file": "pose-source/assets__js__home-scene__shore.mjs.gz",
+    "rawBytes": 2060,
+    "rawSHA256": "3872a5c53af372451b048ed7f0667d66fa0359e26a4b9770f2152e96fbef043f",
+    "storedSHA256": "18d7c657d62a7667838838aaa053da6d8876aca0c718be40c9c911ed227547bf"
+  },
+  {
+    "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\three.module.min.js",
+    "file": "pose-source/assets__js__three.module.min.js.gz",
+    "rawBytes": 674428,
+    "rawSHA256": "d08334115492bd88100491499f9dc9c830759154e524ec536739d1dacb2bce18",
+    "storedSHA256": "01adbcced4507cd38339b149e63e2dd879aa2855adc314a4c2de70ac9cab77b8"
+  },
+  {
+    "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\test\\helpers\\coastal-triangle-parity.mjs",
+    "file": "pose-source/test__helpers__coastal-triangle-parity.mjs.gz",
+    "rawBytes": 2372,
+    "rawSHA256": "10ca94f8cdf6a5436ab8283d62a16917b1707ea11069b8ab23f70a67b0776386",
+    "storedSHA256": "ce142b7a9e732ec1576e72a530ffa0da22726ba126a7c36ac4c512b453f28c80"
+  }
+]

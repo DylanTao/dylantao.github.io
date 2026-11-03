@@ -1,0 +1,982 @@
+[
+  {
+    "source": "pavilion-breakfast-v1\\ACTUAL-DELIVERED-SOLE-PAD-SUPPORT-V11.json",
+    "file": "records/ACTUAL-DELIVERED-SOLE-PAD-SUPPORT-V11.json.gz",
+    "rawBytes": 240975,
+    "rawSHA256": "3518ba93c1369989778f4e7fa83373d206d7072bd124c9f380d9237cb51e9102",
+    "storedSHA256": "eabf364162300373b7b51b030523775fa239a29c3688099fa5f20268daa0907b"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\BUTTOCKS-LOWER-CUSTODY-V1-PROCESS.json",
+    "file": "records/BUTTOCKS-LOWER-CUSTODY-V1-PROCESS.json.gz",
+    "rawBytes": 232,
+    "rawSHA256": "d062f919f27934771dbfb5d1618d0bb0030665c03ca5c5a4b0a0e405ffdd2b54",
+    "storedSHA256": "c5c3253f6579d1dea0193b64fbf796ea945996510441efaf719c5cb0ca9029cc"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\BUTTOCKS-LOWER-CUSTODY-V1.json",
+    "file": "records/BUTTOCKS-LOWER-CUSTODY-V1.json.gz",
+    "rawBytes": 78098,
+    "rawSHA256": "45198a3f51cee132e5d2b0d04853cb2a225c27004fd6077082140b6e5bb17961",
+    "storedSHA256": "908fbbe6380fff401547cc257145f27bfb4e8506145d41bb70bfc964a082a940"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\CENSUS-V1-PROCESS.json",
+    "file": "records/CENSUS-V1-PROCESS.json.gz",
+    "rawBytes": 221,
+    "rawSHA256": "e140ab752f91dde265e837b9ebfb40148cda62e654d1f95b8980fc03193c77c5",
+    "storedSHA256": "1f322976e21cd59a269b3c6867765d64f510513164872672d845f98f6b322fa0"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\EXACT-SKIN-READER-CONTROL-V1-PROCESS.json",
+    "file": "records/EXACT-SKIN-READER-CONTROL-V1-PROCESS.json.gz",
+    "rawBytes": 234,
+    "rawSHA256": "c58469341041cc564910774873b69d7b391ea80117d054cb3bca65caca65be56",
+    "storedSHA256": "e14acf92a05a24a0104b3fc306180904dc4a80e7091d738d6fde043f5dbf63ac"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\EXACT-SKIN-READER-CONTROL-V2-PROCESS.json",
+    "file": "records/EXACT-SKIN-READER-CONTROL-V2-PROCESS.json.gz",
+    "rawBytes": 232,
+    "rawSHA256": "20550ba5bdc9ed62e54614277cb3eddfdfd7452d508650e62fb7b04b6a0e26cd",
+    "storedSHA256": "50b0e4ec7f5e6569c933fb90fd8e3d75ff9b8d59e63a5ad4d22ddd15816f26aa"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\EXACT-SKIN-READER-CONTROL-V2.json",
+    "file": "records/EXACT-SKIN-READER-CONTROL-V2.json.gz",
+    "rawBytes": 4053,
+    "rawSHA256": "7f2483efb94414fc33f9ab9b1cbbb570d77f5d9e892e9c34983c9ed1d35c0921",
+    "storedSHA256": "c66b61c0465621c889b15dcb394bafad2e3ce5e8aa9b5b2d899b2ca56a448956"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\FOOTREST-PYTHON-V1-PROCESS.json",
+    "file": "records/FOOTREST-PYTHON-V1-PROCESS.json.gz",
+    "rawBytes": 433,
+    "rawSHA256": "32e53a8e14eb3b996d3d5ff9af55460728218cf1ebbce4352eb4115d3c7a5a2f",
+    "storedSHA256": "b47f57815e32bad762170cecad90f944f39d29b487efcdd16e9b5ab21bd1f95d"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\LUMBAR-BEARING-V1-FAILURE.json",
+    "file": "records/LUMBAR-BEARING-V1-FAILURE.json.gz",
+    "rawBytes": 293,
+    "rawSHA256": "f31b6e0d1601cae682b50f181991f42cd975bc73a371393c5b87dff53b050195",
+    "storedSHA256": "8d95c96a45f425d7e24c0b723057b6a969d14999c77203175ba70715d70efb67"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\LUMBAR-METAL-POST-BEARINGS-V4.json",
+    "file": "records/LUMBAR-METAL-POST-BEARINGS-V4.json.gz",
+    "rawBytes": 11317,
+    "rawSHA256": "caec27ecc76ebfb0a9532ca54497677831ecbcc44ae59301c9ce281332f89d07",
+    "storedSHA256": "a0b187d5ab440495f7a006bd6630fa873ada33a44a30d5aa4ea52a7bd0130ec2"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\LUMBAR-METAL-POST-BEARINGS-V6.json",
+    "file": "records/LUMBAR-METAL-POST-BEARINGS-V6.json.gz",
+    "rawBytes": 10914,
+    "rawSHA256": "9ac9f5b82cf3958ef58bb560706bff71368fe6bb7a6e38f4e24cfbb846ff6719",
+    "storedSHA256": "16e2b2e1b9e4278730b76298784897c2a4873013c668ca3ed0d41f90a40048bb"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\NATIVE-CHAIR-PARTS-V6.json",
+    "file": "records/NATIVE-CHAIR-PARTS-V6.json.gz",
+    "rawBytes": 21505,
+    "rawSHA256": "cd327bcf5471d9636a836492eb5fc0045989ab57f8dde0bedfa63d140fd45c7a",
+    "storedSHA256": "652194e267310f6977331fe7e6d0d02fcc0045f2ce26b3e07293ef84928ab68d"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\NATIVE-PAVING-BEARING-V1-PROCESS.json",
+    "file": "records/NATIVE-PAVING-BEARING-V1-PROCESS.json.gz",
+    "rawBytes": 437,
+    "rawSHA256": "8e898e75e3ff1b73ef5979f27758c174873ff5af53ab7418f0eb9584fb920ef0",
+    "storedSHA256": "e1b57c2acbed01237c6afdc86dd3e968ced20c1b61559c90131bef891521342f"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\NATIVE-PAVING-BEARING-V1.json",
+    "file": "records/NATIVE-PAVING-BEARING-V1.json.gz",
+    "rawBytes": 5040,
+    "rawSHA256": "42f6e0b331da02e774b889466c4d6491c01bcca58258d012e772e701ec21167b",
+    "storedSHA256": "647d5b4b096628d3a69564a26f1241074c8e8efe4fe838888ca1215a2c486d99"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\NATIVE-SEVEN-SOLIDS-V7.json",
+    "file": "records/NATIVE-SEVEN-SOLIDS-V7.json.gz",
+    "rawBytes": 5555,
+    "rawSHA256": "8366c9e7f28a274f8cca1d7f23b747c4d98c9a9e55981a0765cbed38bbd0f6b0",
+    "storedSHA256": "37770bdda45f83b6bbca8558d9f28319aa740dc23e9229ba5f21df8aee86ccab"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\PAD-FOOTREST-FIT-V3-PROCESS.json",
+    "file": "records/PAD-FOOTREST-FIT-V3-PROCESS.json.gz",
+    "rawBytes": 228,
+    "rawSHA256": "f51fcf4c52ea4f840dc07915f53232e1e385ccd3f7be25f88574d01fdf8e8af7",
+    "storedSHA256": "a44e754ff426fa828aa98555dc9dc60f462f320f0a6a85c69d8b48d1693d48eb"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\PANEL-ALL-RAW-FIELDS-V2.json",
+    "file": "records/PANEL-ALL-RAW-FIELDS-V2.json.gz",
+    "rawBytes": 14398,
+    "rawSHA256": "4b3255e53ff3e9129413b01c008ab3f24a732e3163513bec519c05337832862b",
+    "storedSHA256": "c25a46c93dd9572fc96d32df3bad2bdf493e17faaf2bdc574e67f28c814a9e00"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\PAVILION-CENSUS-V1.json",
+    "file": "records/PAVILION-CENSUS-V1.json.gz",
+    "rawBytes": 73035,
+    "rawSHA256": "05317a4117a5b224a6d505bf75dabbe1f52d3b7cc095fce8093ba83cc2c82ef7",
+    "storedSHA256": "36399a028712d2a2349560f299080671b9045f937cbea491488b3d120a502a55"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\PAVILION-ORIGINAL-BACK-PANEL-V1.json",
+    "file": "records/PAVILION-ORIGINAL-BACK-PANEL-V1.json.gz",
+    "rawBytes": 198939,
+    "rawSHA256": "71b69380ab48aba8ac287466ac4e30c50afaf8bc68ac26d31dd2654a61705f3b",
+    "storedSHA256": "05a960cbe0d8ec65309a38e72879cec70a7818251c627b3e37a75df5c5977e0e"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\ROOT-CURL-V5-FAILURE.json",
+    "file": "records/ROOT-CURL-V5-FAILURE.json.gz",
+    "rawBytes": 272,
+    "rawSHA256": "2c6c0839f06b4969ff2720c344886b59a232f3bb9600ebea7a0eb9cf86150ee1",
+    "storedSHA256": "dc7479bb979e781ecffc59fd8b75531934fa1317cad1196ad34c586dc69108ea"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\STATIC-FOOTREST-FIT-V2-PROCESS.json",
+    "file": "records/STATIC-FOOTREST-FIT-V2-PROCESS.json.gz",
+    "rawBytes": 233,
+    "rawSHA256": "1bd07083e3876f85ff4e9e798bd3cc00ee392eb4f0bced1d9cb9c011fdf9a8eb",
+    "storedSHA256": "b394b88d99b05fef6915e1e500cfc7bafa3368eb96fd50c1c279402354abc215"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\STATIC-SEAT-FIT-V1-PROCESS.json",
+    "file": "records/STATIC-SEAT-FIT-V1-PROCESS.json.gz",
+    "rawBytes": 231,
+    "rawSHA256": "696a2eee51f6ce9785d1e59bf17a7c5f11a6d8e4e6d69c39e99ed0280b304260",
+    "storedSHA256": "8eca668437d07a782ef85f678a0a47f387c5ab8c7a39dea353e72569e445a27b"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\TAIL-FOOTPRINT-V1-FAILURE.json",
+    "file": "records/TAIL-FOOTPRINT-V1-FAILURE.json.gz",
+    "rawBytes": 323,
+    "rawSHA256": "14e806b6b9d0a1413348e4bc97283ba34a529ff53667936e87f5d590ff27d0df",
+    "storedSHA256": "2c99b0301fb15614dece37c14ef8374aeac60482137f62bc3872b9ded512d992"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\UPPER-POST-ALL-RAW-FIELDS-V4.json",
+    "file": "records/UPPER-POST-ALL-RAW-FIELDS-V4.json.gz",
+    "rawBytes": 6132,
+    "rawSHA256": "8ffd812dc99821864604083161f922a890cc8bc5bbf07ac1baf23c9fb0e81d6f",
+    "storedSHA256": "e7a97053aa01b1325933bd2d83aaa8eeccf0664ebcab8f78eac548cb14e5c110"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\CANONICAL80-STATIC-V8.json.gz",
+    "file": "records/CANONICAL80-STATIC-V8.json.gz",
+    "rawBytes": 142950,
+    "rawSHA256": "1717758cdcca94ae360f4096e6960113a519466b9e05ee59cce02f8260b8f865",
+    "storedSHA256": "1717758cdcca94ae360f4096e6960113a519466b9e05ee59cce02f8260b8f865"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\NATIVE-CHAIR-FULLBODY-V9.json.gz",
+    "file": "records/NATIVE-CHAIR-FULLBODY-V9.json.gz",
+    "rawBytes": 141361,
+    "rawSHA256": "0cf82747a06327eccd37350ede41f92fda3e9b4c213edf3ab3dd41dfdbd4f390",
+    "storedSHA256": "0cf82747a06327eccd37350ede41f92fda3e9b4c213edf3ab3dd41dfdbd4f390"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\PAD-FOOTREST-FIT-V3.json.gz",
+    "file": "records/PAD-FOOTREST-FIT-V3.json.gz",
+    "rawBytes": 96926,
+    "rawSHA256": "304f5fce495d7dedd4bbbc750e4a233bb6b885c23a34e707a38bc8a2723e781c",
+    "storedSHA256": "304f5fce495d7dedd4bbbc750e4a233bb6b885c23a34e707a38bc8a2723e781c"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\PAD-FOOTREST-FIT-V4.json.gz",
+    "file": "records/PAD-FOOTREST-FIT-V4.json.gz",
+    "rawBytes": 79016,
+    "rawSHA256": "ef7cbd0caba5cc430f0936a779355a4b0c086955e552dbda1f105d578d35f1e5",
+    "storedSHA256": "ef7cbd0caba5cc430f0936a779355a4b0c086955e552dbda1f105d578d35f1e5"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\PAD-HIPS-TILT-V7.json.gz",
+    "file": "records/PAD-HIPS-TILT-V7.json.gz",
+    "rawBytes": 82011,
+    "rawSHA256": "e745ec67f62302e5519487ff158faa1ab3ab8b4b53725439cefe46ec09b50a60",
+    "storedSHA256": "e745ec67f62302e5519487ff158faa1ab3ab8b4b53725439cefe46ec09b50a60"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\PAD-ROOT-CURL-V6.json.gz",
+    "file": "records/PAD-ROOT-CURL-V6.json.gz",
+    "rawBytes": 294012,
+    "rawSHA256": "ab5dc0a522a6e2ee9f584466216f4392ff8d5d0ea80b8f637a4ee6f67dfda078",
+    "storedSHA256": "ab5dc0a522a6e2ee9f584466216f4392ff8d5d0ea80b8f637a4ee6f67dfda078"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\PAVILION-TAIL-ANALYTIC-LOBES-V3.json.gz",
+    "file": "records/PAVILION-TAIL-ANALYTIC-LOBES-V3.json.gz",
+    "rawBytes": 23901,
+    "rawSHA256": "b948a10ba60679fed2c06cde43b8560a05bf3eb5ca877cf330d97654c7581548",
+    "storedSHA256": "b948a10ba60679fed2c06cde43b8560a05bf3eb5ca877cf330d97654c7581548"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\PAVILION-TAIL-NATIVE-CHAIR-V10.json.gz",
+    "file": "records/PAVILION-TAIL-NATIVE-CHAIR-V10.json.gz",
+    "rawBytes": 25538,
+    "rawSHA256": "76f27cf3c6fb548ded356c4784a94a68c009a64e02b3f72bae6d3c24cd35055a",
+    "storedSHA256": "76f27cf3c6fb548ded356c4784a94a68c009a64e02b3f72bae6d3c24cd35055a"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\PAVILION-TAIL-PANEL-FOOTPRINT-V2.json.gz",
+    "file": "records/PAVILION-TAIL-PANEL-FOOTPRINT-V2.json.gz",
+    "rawBytes": 472121,
+    "rawSHA256": "e5977aab3e1102efcf4465068a64d385b291e67d16cbb3c4df1b243aa0e02d5a",
+    "storedSHA256": "e5977aab3e1102efcf4465068a64d385b291e67d16cbb3c4df1b243aa0e02d5a"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\STATIC-FOOTREST-FIT-V2.json.gz",
+    "file": "records/STATIC-FOOTREST-FIT-V2.json.gz",
+    "rawBytes": 112422,
+    "rawSHA256": "2034f0a1e9b41aa89feb00db33c73d77ac78df3eb64148cf9cb45c8cc027ae6c",
+    "storedSHA256": "2034f0a1e9b41aa89feb00db33c73d77ac78df3eb64148cf9cb45c8cc027ae6c"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\STATIC-SEAT-FIT-V1.json.gz",
+    "file": "records/STATIC-SEAT-FIT-V1.json.gz",
+    "rawBytes": 314539,
+    "rawSHA256": "e6f890aa9ebded4d7eb6305ec637c878bd84c8fe9bdfd48aa4d93e654ced0bb0",
+    "storedSHA256": "e6f890aa9ebded4d7eb6305ec637c878bd84c8fe9bdfd48aa4d93e654ced0bb0"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\BUTTOCKS-LOWER-CUSTODY-V1.log",
+    "file": "records/BUTTOCKS-LOWER-CUSTODY-V1.log.gz",
+    "rawBytes": 1776,
+    "rawSHA256": "77a910a76f4f98abcf6daf230ddaad3837b901a1368b1f8b9bd0baa9048a8fce",
+    "storedSHA256": "70c48084ffd28bd764b98fab49b7653fc565d31774d866e2dbbf46c139db67cc"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\CENSUS-V1.log",
+    "file": "records/CENSUS-V1.log.gz",
+    "rawBytes": 15783,
+    "rawSHA256": "4fb976e7fb0900639f419fe1b6fb033ffb00eacdfe67a2422ced9505e0615831",
+    "storedSHA256": "a624628a566964fe02f63fe20899f362036853283042b19ae74f8041b52857c5"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\EXACT-SKIN-READER-CONTROL-V1.log",
+    "file": "records/EXACT-SKIN-READER-CONTROL-V1.log.gz",
+    "rawBytes": 1184,
+    "rawSHA256": "1208d016eeac5718da2f5d5dfaf73d02e81a1b74e91e8e621c066e38f3e3159b",
+    "storedSHA256": "2957e56ace8c9d6d53159273b23bdc8a48a4fd4e8636ab27e30e5702a098db9f"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\EXACT-SKIN-READER-CONTROL-V2.log",
+    "file": "records/EXACT-SKIN-READER-CONTROL-V2.log.gz",
+    "rawBytes": 2404,
+    "rawSHA256": "326d066a13857c745c915416cfe7134e2394f4a78f2463ab81e4ddeb53c5cbd8",
+    "storedSHA256": "c104220b128a8ead64af8b9bf2ea4f1b3c70a27cf27f21ddd26fc43b66aa0e38"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\FOOTREST-PYTHON-V1.log",
+    "file": "records/FOOTREST-PYTHON-V1.log.gz",
+    "rawBytes": 719,
+    "rawSHA256": "8664277162b29eec835fcc5c18b8f9e85ab3acb6566fc280dcf8a487ef791f51",
+    "storedSHA256": "fbd1143be175591fcd0ea41f173f53068385ab523d5833ed3d02bbf2e988d7ba"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\NATIVE-PAVING-BEARING-V1.log",
+    "file": "records/NATIVE-PAVING-BEARING-V1.log.gz",
+    "rawBytes": 3404,
+    "rawSHA256": "47ea24cb02a7616a9d423f2c6bc2f7b6b02cc6486228c5f3c4531f9f50a2054e",
+    "storedSHA256": "86f1144f65c6c19ef8f25f7f96e66edc6e3e5f3351f04f4de88ec9e072d25d5f"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\PAD-FOOTREST-FIT-V3.log",
+    "file": "records/PAD-FOOTREST-FIT-V3.log.gz",
+    "rawBytes": 1611,
+    "rawSHA256": "f08de7b667992e0f0f2e631739f539e4014e8d1138f4fe59adb6b29c092c1d34",
+    "storedSHA256": "bed7419dd141d2a5111568a29a82becad99f90ffe18dd0ae256faa6f9fbd57fa"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\PAVILION-FOCUSED-GATES.log",
+    "file": "records/PAVILION-FOCUSED-GATES.log.gz",
+    "rawBytes": 3138,
+    "rawSHA256": "2855c2675d60c7558141f5c7baaa5ce4bd75ac9967fe0f27aac26848e9816b33",
+    "storedSHA256": "859e5753f1c9d0a4e28e2c01831583d58f2811b5f81439ab552a9e52f6957ce7"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\PAVILION-TAIL-NATIVE-CHAIR-V10.log",
+    "file": "records/PAVILION-TAIL-NATIVE-CHAIR-V10.log.gz",
+    "rawBytes": 2052,
+    "rawSHA256": "62fcb8a114aaad446ddbe4ffb9f0c588f00f11542964d62a9d145b35cd0e86ff",
+    "storedSHA256": "49f8a4a7bab99efc86611a38202c692f562344193c2421ec9430781ffe7b32fe"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\STATIC-FOOTREST-FIT-V2.log",
+    "file": "records/STATIC-FOOTREST-FIT-V2.log.gz",
+    "rawBytes": 10775,
+    "rawSHA256": "4f67b989a8a8304c8366347cdebf27ca796933f697f16024cc36e939467c99e7",
+    "storedSHA256": "f74a3fe52aadd5b4d7a74168ac51a62258e21e8b545f5be617c2f923fff22095"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\STATIC-SEAT-FIT-V1.log",
+    "file": "records/STATIC-SEAT-FIT-V1.log.gz",
+    "rawBytes": 14510,
+    "rawSHA256": "bb48aee91ac007e743dd70545d3f065dca7b8720199b8a1a59d95df596e2f939",
+    "storedSHA256": "50cadd8806dd9380afb204aee79498ca15ce2b91acab4db935f382d4eeb7d180"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\native-footrest-v1\\FAILURE.json",
+    "file": "records/native-footrest-v1/FAILURE.json.gz",
+    "rawBytes": 531,
+    "rawSHA256": "dff252398d25c5f774fbcec9c490fc60e7b90b74d717cbbf9e13dd05ba10a237",
+    "storedSHA256": "722756ad7a74f6448aaf1f92b18e624dd57b8042464d77a3b2a86c04351f5383"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\native-footrest-v1\\PROCESS.json",
+    "file": "records/native-footrest-v1/PROCESS.json.gz",
+    "rawBytes": 1177,
+    "rawSHA256": "e428f6dac51436648b4507960b30f4410e0c6e3a241c245c1308db88c1d661b8",
+    "storedSHA256": "1667dab86366b689e33a993fc9c444379b5b8e5cee458120554149fd90b51647"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\native-footrest-v1\\process.log",
+    "file": "records/native-footrest-v1/process.log.gz",
+    "rawBytes": 1469,
+    "rawSHA256": "cc5124edef0418913c441c469ef8be1c59a68e1c56cadafee22a04912543ac0f",
+    "storedSHA256": "b64df448febe9ee11a5c7b1308ad1e16196b33ded47e90e91959a3ffaaa101d7"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\native-footrest-v2\\PROCESS.json",
+    "file": "records/native-footrest-v2/PROCESS.json.gz",
+    "rawBytes": 1264,
+    "rawSHA256": "eaf4ccc34634ce533386fb819528bbf8382e01535609561bbda3d27827ad96ab",
+    "storedSHA256": "96a507fb65b39bc25d53af66dd3485cad681b0dcfab8b1b6f77406ae7df858ae"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\native-footrest-v2\\process.log",
+    "file": "records/native-footrest-v2/process.log.gz",
+    "rawBytes": 770,
+    "rawSHA256": "691285bd71163d9a0efe5d865d1894905a3764dce1901343d8c3d24c4773c157",
+    "storedSHA256": "602151890f71a799a9688bb03260a1049fd1215da6e0021982593882d7357411"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\native-footrest-v2\\REPLAY.json",
+    "file": "records/native-footrest-v2/REPLAY.json.gz",
+    "rawBytes": 57606,
+    "rawSHA256": "6cc248f040935dffdfb31626e70960ab5f6fb58c2761bc0c562f75056c7919ca",
+    "storedSHA256": "d9b3ea2602bd1645fae3d9e469225fb510036c828dc99cb302f84cc914b8ad95"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\native-footrest-pad-v3\\PROCESS.json",
+    "file": "records/native-footrest-pad-v3/PROCESS.json.gz",
+    "rawBytes": 1271,
+    "rawSHA256": "b85e530b4778e06671e6840ab1c79d55dd9d1b31f38c6bde004f987624ede7ae",
+    "storedSHA256": "1bb8be89f53790fe58176fd6603d09de9398ac893356ab6aa7a81261d763ad45"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\native-footrest-pad-v3\\process.log",
+    "file": "records/native-footrest-pad-v3/process.log.gz",
+    "rawBytes": 778,
+    "rawSHA256": "7094e9bc826884990a63e673062cbe6e2d3960b6afd37ab317b1f03e12fa4ddf",
+    "storedSHA256": "a7d3c04f967da9fb94a034b39d512b8c81caeff07c274626478aeb1a65c79f4e"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\native-footrest-pad-v3\\REPLAY.json",
+    "file": "records/native-footrest-pad-v3/REPLAY.json.gz",
+    "rawBytes": 58559,
+    "rawSHA256": "d22f01da706f6cc6fdda18d365cc56dd18d4a4db40be12b7c1b89c6f270ad8f0",
+    "storedSHA256": "ec6d8456af80d1c92be082b1ecff387d576935a057b947ed085d04f9626e355e"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-lobes-native-v1\\coastal_pavilion_chair.py",
+    "file": "records/chair-lobes-native-v1/coastal_pavilion_chair.py.gz",
+    "rawBytes": 11044,
+    "rawSHA256": "8319bfe89b6b256c32c94894403ca8f3d1e138a3a4dc0422e9ca114d4e9cb05d",
+    "storedSHA256": "2812be3deb46010de6963d907b240262955d666b83fb130d46fb28bab22dabd3"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-lobes-native-v1\\FAILURE.json",
+    "file": "records/chair-lobes-native-v1/FAILURE.json.gz",
+    "rawBytes": 304,
+    "rawSHA256": "629460832cf6989c57cc5f91a1a32313ceab7414bd006f3465184f28cc7d2d7d",
+    "storedSHA256": "471c4677bfdc69a46142b36466923c943b26d660a01ea564258f6e5e15198268"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-lobes-native-v1\\refresh_coastal_pavilion_chair.py",
+    "file": "records/chair-lobes-native-v1/refresh_coastal_pavilion_chair.py.gz",
+    "rawBytes": 4007,
+    "rawSHA256": "d066868dd29e664e985e0841784674347d8ef6b15a7bae2fa9cfd4cea734f448",
+    "storedSHA256": "5289e6f26c389831da0054c9168f4f7a8605a79025735023466b7367cdbbeeaa"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-lobes-native-v2\\coastal_pavilion_chair.py",
+    "file": "records/chair-lobes-native-v2/coastal_pavilion_chair.py.gz",
+    "rawBytes": 11344,
+    "rawSHA256": "ca4a6fc817e0ed8390282f6aeb8a8be9e92a53fa521c873f226738591e476069",
+    "storedSHA256": "8a6a9044f2c7afb5cf767e079f7a34f6722f8c17dd082649ede62b9265af7441"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-lobes-native-v2\\FAILURE.json",
+    "file": "records/chair-lobes-native-v2/FAILURE.json.gz",
+    "rawBytes": 262,
+    "rawSHA256": "4da6c572a82a11f7f6d6a3cb4e36240a2d40e236ecd8f87680a52f7d979fe9bd",
+    "storedSHA256": "ce79956533f9c0b9ccc08eec6258c27ee9d3a254aa39c2c8eb9035aed348c4b7"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-lobes-native-v2\\refresh_coastal_pavilion_chair.py",
+    "file": "records/chair-lobes-native-v2/refresh_coastal_pavilion_chair.py.gz",
+    "rawBytes": 4007,
+    "rawSHA256": "d066868dd29e664e985e0841784674347d8ef6b15a7bae2fa9cfd4cea734f448",
+    "storedSHA256": "5289e6f26c389831da0054c9168f4f7a8605a79025735023466b7367cdbbeeaa"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-lobes-native-v3\\coastal_pavilion_chair.py",
+    "file": "records/chair-lobes-native-v3/coastal_pavilion_chair.py.gz",
+    "rawBytes": 11938,
+    "rawSHA256": "85e49675656872763d92ea7a994f9fabaac2fce1be15e5f6bea864bcdbe4b0ee",
+    "storedSHA256": "cfcdf8ff7e1ab176516b57bbd839bcbdecc4ed518da7eb6b3499891d74192690"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-lobes-native-v3\\refresh_coastal_pavilion_chair.py",
+    "file": "records/chair-lobes-native-v3/refresh_coastal_pavilion_chair.py.gz",
+    "rawBytes": 4007,
+    "rawSHA256": "d066868dd29e664e985e0841784674347d8ef6b15a7bae2fa9cfd4cea734f448",
+    "storedSHA256": "5289e6f26c389831da0054c9168f4f7a8605a79025735023466b7367cdbbeeaa"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-lobes-native-v3\\REPLAY.json",
+    "file": "records/chair-lobes-native-v3/REPLAY.json.gz",
+    "rawBytes": 513016,
+    "rawSHA256": "2d75c3033906e9fcf4e0fd6689212744b1d681205dd66753c5db49ec132b5fff",
+    "storedSHA256": "3d0719d2120a67cadd508f371bd25cf73941c2b6c0c638b2d958ad5ad653ea88"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-lobes-native-v5\\coastal_pavilion_chair.py",
+    "file": "records/chair-lobes-native-v5/coastal_pavilion_chair.py.gz",
+    "rawBytes": 14969,
+    "rawSHA256": "7a80be27dc09ff82aee1e53f902bd506edf31ad1533a8ea443edab1d2b640ce0",
+    "storedSHA256": "89f3282bede083c50c4733b651898d441528addc7d929fdfed969defd84f66aa"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-lobes-native-v5\\refresh_coastal_pavilion_chair.py",
+    "file": "records/chair-lobes-native-v5/refresh_coastal_pavilion_chair.py.gz",
+    "rawBytes": 4027,
+    "rawSHA256": "1bdbba03c6051258b5becd1b53d3dd8a289d5e5c6338c8d65e9af8492b79f150",
+    "storedSHA256": "e85f4744dffabfef0dbc9dd31ef4c919c2b96c15b516dbf2757cfae7dadf4c92"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-lobes-native-v5\\REPLAY.json",
+    "file": "records/chair-lobes-native-v5/REPLAY.json.gz",
+    "rawBytes": 519812,
+    "rawSHA256": "2cc000406b041ad2f3d5e7a3b07efab52af16ef79bf208ccf491b8cab3aec632",
+    "storedSHA256": "377901d24ed63a49ce94b63f613095a04e596462bd3bfa73de5942e9d6a76fb0"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-lobes-native-v6\\REPLAY.json",
+    "file": "records/chair-lobes-native-v6/REPLAY.json.gz",
+    "rawBytes": 519812,
+    "rawSHA256": "fd145163bd7357bb482383a3390fc19de42f62da142ce0c812e1a03210fb6e47",
+    "storedSHA256": "3075688f11e583be563a3ef8cd267ee1f2fddf8661aee1f0307718ef66d588bc"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\compare-decoded-canonical80-pavilion-v3.mjs",
+    "file": "records/public-binding/compare-decoded-canonical80-pavilion-v3.mjs.gz",
+    "rawBytes": 5161,
+    "rawSHA256": "8bdc29072a022c3b3a5e4813d95fe5679cfa60e8655350c1ee7c93878fbd3d7f",
+    "storedSHA256": "ba407147ae9c9e80990f20d59d25014f1734461d550579d03207e983a6774a38"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\compare-decoded-public-pavilion-v1.mjs",
+    "file": "records/public-binding/compare-decoded-public-pavilion-v1.mjs.gz",
+    "rawBytes": 4267,
+    "rawSHA256": "2ea8a7f142bf41082998187bbb0e178b6a44bba5c96a745c543dce29d93c12c3",
+    "storedSHA256": "e7ed3a6559f1c5f5695c458cc3fc60e3c3a026a1d776fa3c0da8c3ae39577f23"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\compare-decoded-public-pavilion-v2.mjs",
+    "file": "records/public-binding/compare-decoded-public-pavilion-v2.mjs.gz",
+    "rawBytes": 4526,
+    "rawSHA256": "105a707e401173943c2a45ea8cf15dd831e7ff211bae68237af1740bbc89d4ae",
+    "storedSHA256": "d48af9b6d36557274cf46cdd6e5321b5d7735f97fa3618c5f1a62144d185f3ea"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\compare-native-public-pavilion-v1.py",
+    "file": "records/public-binding/compare-native-public-pavilion-v1.py.gz",
+    "rawBytes": 2825,
+    "rawSHA256": "971fadf45642e7650645f899a45e7f1e2112ed24543e13173751a6aee203ed84",
+    "storedSHA256": "7bb1d9a66b7f9902dda70d5d78195a3aa297b2b54d1de4540b4230c96779838a"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\DECODED-CANONICAL80-ADDITIVE-CLASSIFICATION-V4.json",
+    "file": "records/public-binding/DECODED-CANONICAL80-ADDITIVE-CLASSIFICATION-V4.json.gz",
+    "rawBytes": 6361,
+    "rawSHA256": "f908ef3dd34932d94495f80d4009cffc1903ddc4e602ff1130d393b0592804b2",
+    "storedSHA256": "05e63f2214f69680392813e295e4ab17f3c7b4aa9a1d99ece1ecfbc1106c0e75"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\DECODED-CANONICAL80-PAVILION-V3.json",
+    "file": "records/public-binding/DECODED-CANONICAL80-PAVILION-V3.json.gz",
+    "rawBytes": 99328,
+    "rawSHA256": "4d0241a1094df257146fc8e02557644f3441204819b6fbccc90fac0ba573bf3a",
+    "storedSHA256": "138362cee3cc69700832471c511d8cfd7c3c593418614c22a748a0db5cf162bd"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\DECODED-PUBLIC-PAVILION-EQUALITY-V1-PROCESS.json",
+    "file": "records/public-binding/DECODED-PUBLIC-PAVILION-EQUALITY-V1-PROCESS.json.gz",
+    "rawBytes": 254,
+    "rawSHA256": "2bba61307f19a9ead4ef03f6b2daa17f58c42e66c2e68e1d46c24a6cf91dac19",
+    "storedSHA256": "2b7dc07eb00700a21ec91f3e95eebacebf3868ba9dac21ce5d41011289808743"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\DECODED-PUBLIC-PAVILION-EQUALITY-V1.json",
+    "file": "records/public-binding/DECODED-PUBLIC-PAVILION-EQUALITY-V1.json.gz",
+    "rawBytes": 30115,
+    "rawSHA256": "b202250634282e7a0af03a9f166f76ab03f0cbd171c118aa90ca65817f2e9c9d",
+    "storedSHA256": "2460557a53f85936f4792f609f39a0b8b15c995b5dbdaa5b4b01b9c21f30c600"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\DECODED-PUBLIC-PAVILION-EQUALITY-V1.log",
+    "file": "records/public-binding/DECODED-PUBLIC-PAVILION-EQUALITY-V1.log.gz",
+    "rawBytes": 599,
+    "rawSHA256": "ff8bd67cc2c23bbdfbc615f914f47edc0f7b6563d1cbcfb55e4ea8009d0d195c",
+    "storedSHA256": "eca28c0ac8f5c4bbf4dacde2a3ca738054a1b40f07866875780d377e3c42bd94"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\DECODED-PUBLIC-PAVILION-EQUALITY-V2-PROCESS.json",
+    "file": "records/public-binding/DECODED-PUBLIC-PAVILION-EQUALITY-V2-PROCESS.json.gz",
+    "rawBytes": 254,
+    "rawSHA256": "9fd8e87bef203e91ba66592b95c370ee4ed546d776bd19b821678b642cc3b60b",
+    "storedSHA256": "a4728caf3e21cc0da5c0002ca92532a005d60f65d41ea724a8f14411d55cbd0f"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\DECODED-PUBLIC-PAVILION-EQUALITY-V2.json",
+    "file": "records/public-binding/DECODED-PUBLIC-PAVILION-EQUALITY-V2.json.gz",
+    "rawBytes": 85017,
+    "rawSHA256": "c9469a944152a6ef5cf4a8ef924dddf7175d8610f88933ff7d1d0a1275e09d24",
+    "storedSHA256": "21d5dcd43edb366d346339e76e2a596afab0b9208953d1edc061aef22eb034e4"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\DECODED-PUBLIC-PAVILION-EQUALITY-V2.log",
+    "file": "records/public-binding/DECODED-PUBLIC-PAVILION-EQUALITY-V2.log.gz",
+    "rawBytes": 602,
+    "rawSHA256": "34863cf384a73e85e6fad520106d328c7e9d5138e713d78592dc11185186d900",
+    "storedSHA256": "364617fc6d8369caac1412bc63acc3309646e2aef481c3cfd1bfda379b032d49"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\DECODED-PUBLIC-V1-COVERAGE-CORRECTION.json",
+    "file": "records/public-binding/DECODED-PUBLIC-V1-COVERAGE-CORRECTION.json.gz",
+    "rawBytes": 354,
+    "rawSHA256": "b0f6093683886339f55d6bfd65782fbded02e1b02cd4473af51690ba86b29443",
+    "storedSHA256": "d09ded9eb35657ecee3e129428c1b60d3ae35d6df7d322d18e6b0915a418d38c"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\NATIVE-PUBLIC-PAVILION-EQUALITY-V1-PROCESS.json",
+    "file": "records/public-binding/NATIVE-PUBLIC-PAVILION-EQUALITY-V1-PROCESS.json.gz",
+    "rawBytes": 454,
+    "rawSHA256": "58c8a1977635d3129e41a2ed9b8a7fa9cbb75be10a299c50d8b5dddd9856ff69",
+    "storedSHA256": "e1b73e38486dd7464498d35d2ec1dc1f3fa8d2bb5553ee07deef3de1ab6e51ce"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\NATIVE-PUBLIC-PAVILION-EQUALITY-V1.json",
+    "file": "records/public-binding/NATIVE-PUBLIC-PAVILION-EQUALITY-V1.json.gz",
+    "rawBytes": 21900,
+    "rawSHA256": "de301cde78cba37dca07a7528d14e51400cf5c49c2568bada396907a680559f8",
+    "storedSHA256": "19fde7beeb6d2ec146a00ffc545a3685becd97ebcdbf28f756a7968a36e2aa4b"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\NATIVE-PUBLIC-PAVILION-EQUALITY-V1.log",
+    "file": "records/public-binding/NATIVE-PUBLIC-PAVILION-EQUALITY-V1.log.gz",
+    "rawBytes": 367,
+    "rawSHA256": "cb3dd3506f0680420d8a91115cd66229c5e8bf669a3bd9daa6d77cb2ee7ea1d1",
+    "storedSHA256": "d25fb646a7f1aa561d15c70cb95b06a59f6477aa166af8e82f43d560fc8c528c"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\public-binding\\PUBLIC-ASSET-READBACK.json",
+    "file": "records/public-binding/PUBLIC-ASSET-READBACK.json.gz",
+    "rawBytes": 1524,
+    "rawSHA256": "06751bdf668efe02dbc21b09f88a9ba730961cb333b21b0b2431cfcdfdd4d364",
+    "storedSHA256": "d58259c9c9119db99a962cccea0be17cc722ba89e9ee12ff5ef680b9d6e768df"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-native-design-v1\\CAPTURE.json",
+    "file": "renders/chair-native-design-v1/CAPTURE.json.gz",
+    "rawBytes": 2173,
+    "rawSHA256": "c441ce69fdb4a3991dd8453613eab48b89a1941da4a8d6b9b33d866ac0104e26",
+    "storedSHA256": "f523e5b836b12a28fb76c71f48580e285fbf2522f3b8da0ba3ffc454308a98e6"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-native-design-v1\\open-back.png",
+    "file": "renders/chair-native-design-v1/open-back.png",
+    "rawBytes": 2531178,
+    "rawSHA256": "8f481b67fce7912162bbe14b2da194b72cad5b7aea539eddfe01bba1213a9ece",
+    "storedSHA256": "8f481b67fce7912162bbe14b2da194b72cad5b7aea539eddfe01bba1213a9ece"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-native-design-v1\\original-back.png",
+    "file": "renders/chair-native-design-v1/original-back.png",
+    "rawBytes": 2483133,
+    "rawSHA256": "31bc6f3e988b30d24da6cbe82d314f8cddd09ff346703c012f617a62a3e7b0f9",
+    "storedSHA256": "31bc6f3e988b30d24da6cbe82d314f8cddd09ff346703c012f617a62a3e7b0f9"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-native-design-v2\\CAPTURE.json",
+    "file": "renders/chair-native-design-v2/CAPTURE.json.gz",
+    "rawBytes": 1381,
+    "rawSHA256": "28b11bef8a196ec03d11acc51a6ce62d4a83de6e5cd9ccaee7fcec069e9edf9a",
+    "storedSHA256": "f65d0fdccf9fd57c2cea6ca2d3131c369892dd7f6da85ce5b602078f1f34f481"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\chair-native-design-v2\\rounded-open-back.png",
+    "file": "renders/chair-native-design-v2/rounded-open-back.png",
+    "rawBytes": 2516873,
+    "rawSHA256": "eca0d5d9ebb46dca4450f9cbe6dbac6901fc9ffb83030c4f1ca1d61f61d09553",
+    "storedSHA256": "eca0d5d9ebb46dca4450f9cbe6dbac6901fc9ffb83030c4f1ca1d61f61d09553"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\audit-actual-delivered-sole-pad-support-v11.mjs",
+    "file": "producers/pavilion-breakfast-v1/audit-actual-delivered-sole-pad-support-v11.mjs.gz",
+    "rawBytes": 4633,
+    "rawSHA256": "7f18b434fd419d052242946131a1d0ff586f1229d40b2258d11e80818c130eb5",
+    "storedSHA256": "0ad8d831cf4bd2d533171e89a157ce94b25c285c57d912359e80ce6b9e6e5ad9"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\audit-pavilion-canonical80-static-v8.mjs",
+    "file": "producers/pavilion-breakfast-v1/audit-pavilion-canonical80-static-v8.mjs.gz",
+    "rawBytes": 20681,
+    "rawSHA256": "a42d1d01fb343d09b84ac04259defd112895cfa5ce27c527a9959828c313f71a",
+    "storedSHA256": "48c469b6453f427bb3639248a92f2e3dab79cb2534f05989ff46c50da5a6abd8"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\audit-pavilion-footrest-fit-v2.mjs",
+    "file": "producers/pavilion-breakfast-v1/audit-pavilion-footrest-fit-v2.mjs.gz",
+    "rawBytes": 18779,
+    "rawSHA256": "5f2788083c82ac81ba57a7b687d4a6d9a0dadc7b34115998afe8802c4ae7cee9",
+    "storedSHA256": "3237bc0192cf356faa451767c6af719a6ddd08aca0ab74ad778c645c32f683f3"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\audit-pavilion-hips-tilt-v7.mjs",
+    "file": "producers/pavilion-breakfast-v1/audit-pavilion-hips-tilt-v7.mjs.gz",
+    "rawBytes": 22800,
+    "rawSHA256": "7efee8b50f226742f294ff199e2d7bd03ee506fe78f608979b7f00ba5ecbd99d",
+    "storedSHA256": "321ecb58edaf7951a0dc726dfe8fbb7b091ee1685144903c77c783922566cbdc"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\audit-pavilion-native-chair-fullbody-v9.mjs",
+    "file": "producers/pavilion-breakfast-v1/audit-pavilion-native-chair-fullbody-v9.mjs.gz",
+    "rawBytes": 20688,
+    "rawSHA256": "15f8dcffd4824b0759f985bff3d05abff7eef40164cf74804f72e18585e8e7d9",
+    "storedSHA256": "5dea0bbe458cea811474ff31da6c1f2a11ef8b502a72b60894d82f760d6f37a6"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\audit-pavilion-pad-fit-v3.mjs",
+    "file": "producers/pavilion-breakfast-v1/audit-pavilion-pad-fit-v3.mjs.gz",
+    "rawBytes": 20610,
+    "rawSHA256": "94f55ea18c8a07e405c86c97095e16e6932f3c6a87165b99e2706225aecbc422",
+    "storedSHA256": "f3c5869d696d4335d41787ef81f46629e12d78965af9a91fb04e1def5ee0d9a3"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\audit-pavilion-pad-fit-v4.mjs",
+    "file": "producers/pavilion-breakfast-v1/audit-pavilion-pad-fit-v4.mjs.gz",
+    "rawBytes": 20665,
+    "rawSHA256": "61c6b404ed5045e87eeda861931c41e29128d15f9883d4fb2736514237794385",
+    "storedSHA256": "641c9b92a5aa905d59c2251b0d7094324bdb9ee1e4fd74d3fa31cd5cc8c769dc"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\audit-pavilion-root-curl-v5.mjs",
+    "file": "producers/pavilion-breakfast-v1/audit-pavilion-root-curl-v5.mjs.gz",
+    "rawBytes": 22660,
+    "rawSHA256": "5e8fc599c0764229c3c046e34ee798c3faea56caceca8c930598d05c375519b0",
+    "storedSHA256": "d96f3180fb062497279f51104c6f8b03452dff194e723697ceacc16004efa1db"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\audit-pavilion-root-curl-v6.mjs",
+    "file": "producers/pavilion-breakfast-v1/audit-pavilion-root-curl-v6.mjs.gz",
+    "rawBytes": 22774,
+    "rawSHA256": "bd9897428a53a7f41b9619735d810b7f3a1d6baf2450aa61797f800f81367e89",
+    "storedSHA256": "de292f79255be5dbd7eeedc9726d3430687d33238618ba2877b987cd86dcf2cb"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\audit-pavilion-static-seat-v1.mjs",
+    "file": "producers/pavilion-breakfast-v1/audit-pavilion-static-seat-v1.mjs.gz",
+    "rawBytes": 15797,
+    "rawSHA256": "7cc02034142099bdc071dc1988f190a6e4c3e8413c675585fd7d0da2f167f577",
+    "storedSHA256": "b9ea08d1a9616e6979b47a65bd9eee5c3ebfe5653f9837bb71214946254d195f"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\census-pavilion-v1.mjs",
+    "file": "producers/pavilion-breakfast-v1/census-pavilion-v1.mjs.gz",
+    "rawBytes": 4524,
+    "rawSHA256": "491af4c87b498c7563daf005a08e7c4397d7410326c8309cbaee727b79124b46",
+    "storedSHA256": "79dc2cab754756fea3cd9145856130a9a8b321a6127f0a44255dee909179a0ba"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\exact-skin-reader-v1.mjs",
+    "file": "producers/pavilion-breakfast-v1/exact-skin-reader-v1.mjs.gz",
+    "rawBytes": 1497,
+    "rawSHA256": "5f23f08483acae8d4c707099aa3496dd88c4f0fe6edc22aad1978d7d4fe090f9",
+    "storedSHA256": "915188887800b440e0495ca76ab14ebcd3f1380281ca9a53ce1fc31fa90eb345"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\measure-pavilion-buttocks-v1.mjs",
+    "file": "producers/pavilion-breakfast-v1/measure-pavilion-buttocks-v1.mjs.gz",
+    "rawBytes": 1732,
+    "rawSHA256": "977ca858e1e57f64258db3d7c6ffcbde74859f0a6ab3bd8ea979ed11b2b5b019",
+    "storedSHA256": "61eff8ed37c6d4072575d036b5d11484f421997a195a0843573cf9bc84809c6e"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\measure-pavilion-tail-panel-footprint-v1.mjs",
+    "file": "producers/pavilion-breakfast-v1/measure-pavilion-tail-panel-footprint-v1.mjs.gz",
+    "rawBytes": 17241,
+    "rawSHA256": "1d73fd6003efac8c0bd64f9efca1c81a00710e843effc9a9f7bc512fe2967092",
+    "storedSHA256": "e055e7aee464cdd9d27a075835ef0bfa17857637aabf65b8bab703cddb84c68e"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\measure-pavilion-tail-panel-footprint-v2.mjs",
+    "file": "producers/pavilion-breakfast-v1/measure-pavilion-tail-panel-footprint-v2.mjs.gz",
+    "rawBytes": 17317,
+    "rawSHA256": "4b780e26cd60f2958bbbbad9670b41841f4fef191215806b71bbff4276256857",
+    "storedSHA256": "170848a44f2d2a2caa9c8833a6bd5f3531ca1bc48f729a6437ba54c63ea46b21"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\pavilion-contact-geometry-v1.mjs",
+    "file": "producers/pavilion-breakfast-v1/pavilion-contact-geometry-v1.mjs.gz",
+    "rawBytes": 4182,
+    "rawSHA256": "6b9d90aee6acc85a1b8f4244886c4b3b15d4a1231ac480713902bcbadb92501e",
+    "storedSHA256": "b36e53b12e2cdaf29aae70a8029358251e9b02a931bd29ff2db1547e144883c0"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\pavilion-contact-geometry-v2-canonical80.mjs",
+    "file": "producers/pavilion-breakfast-v1/pavilion-contact-geometry-v2-canonical80.mjs.gz",
+    "rawBytes": 4174,
+    "rawSHA256": "023e34627d95bff1a45a0472ffc5cde1c9380f52a41a7a355ea91a508a948786",
+    "storedSHA256": "ea44f1ca594b6a7a58d12e73a51515ac12b514f965719c60caba07331500b4e1"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\pavilion-contact-geometry-v3-native-chair.mjs",
+    "file": "producers/pavilion-breakfast-v1/pavilion-contact-geometry-v3-native-chair.mjs.gz",
+    "rawBytes": 5370,
+    "rawSHA256": "dbe9768013d10d43b4baa7249d2890b2e6f6f2cb9df76ebd63e9069c8481833f",
+    "storedSHA256": "3208e33aa77ab9b8166915659a7e51ae5a244e58f5ce55159b2deee12a23e285"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\qualify-exact-skin-reader-v1.mjs",
+    "file": "producers/pavilion-breakfast-v1/qualify-exact-skin-reader-v1.mjs.gz",
+    "rawBytes": 2180,
+    "rawSHA256": "300afe9f88743d282fc9a7b87dbb4debe1e7155bd213afdf3b4f99b1e9379a6b",
+    "storedSHA256": "184540316c9c3d7ef1e960f1805469bae3ca692ff0a5aa2abbea39f93a7b41f1"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\qualify-exact-skin-reader-v2.mjs",
+    "file": "producers/pavilion-breakfast-v1/qualify-exact-skin-reader-v2.mjs.gz",
+    "rawBytes": 2183,
+    "rawSHA256": "7f02734e0df7bea59b8cf1d474b1a11bfc471e0d2a9d3ae27c6b30855b2e7594",
+    "storedSHA256": "fa7e4011d100b648e1d8d924963d505f869133f5892539cf214d7f9b99ef892e"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\qualify-pavilion-tail-analytic-lobes-v3.mjs",
+    "file": "producers/pavilion-breakfast-v1/qualify-pavilion-tail-analytic-lobes-v3.mjs.gz",
+    "rawBytes": 17990,
+    "rawSHA256": "0542e4285a5e0900d223cd1105508b8f6e6fb693e0cf242f00ad2cf79070055e",
+    "storedSHA256": "64076ba90b597db682b5068f4c1bd27bdda042e00f2db6c51b0bdbaa03b592bc"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\qualify-pavilion-tail-native-chair-v10.mjs",
+    "file": "producers/pavilion-breakfast-v1/qualify-pavilion-tail-native-chair-v10.mjs.gz",
+    "rawBytes": 17986,
+    "rawSHA256": "9ad5aa4ce2564a0dabdc1193da4aa16e8c2d878511776c60542f49cfcff41fef",
+    "storedSHA256": "91a233d4650993543af38c939a78c9b173753e46e04b4883bc3acba34738e19d"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\audit-native-seven-solids-v7.py",
+    "file": "producers/pavilion-breakfast-v1/audit-native-seven-solids-v7.py.gz",
+    "rawBytes": 1585,
+    "rawSHA256": "1f7b5eb8654201ced6bf0d2a5c50f6a4622015d7be06903386705c4cb3ef7988",
+    "storedSHA256": "88c95e1c2f211df2904dbf449a7b939983ba125b6d638ba295c4dfcd424dcedd"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\audit-pavilion-lumbar-metal-bearings-v1.py",
+    "file": "producers/pavilion-breakfast-v1/audit-pavilion-lumbar-metal-bearings-v1.py.gz",
+    "rawBytes": 3621,
+    "rawSHA256": "2c5e36c0bf4e5a85d40d6ce9995163e387005e9f077f3cef4db7276e7e8efdc1",
+    "storedSHA256": "4bbe15a82d99ffe4cb8f7fb7031e4e00d65c7e5e80e27847117ff14bcaa138d1"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\audit-pavilion-lumbar-metal-bearings-v2.py",
+    "file": "producers/pavilion-breakfast-v1/audit-pavilion-lumbar-metal-bearings-v2.py.gz",
+    "rawBytes": 3613,
+    "rawSHA256": "0d2603409e26505ff1f379c9c15209dbed197de3fae40b81cd9e310b024c6b7a",
+    "storedSHA256": "6fffb503bd2fe9fc20439f6c0e6f8463847e9c3bbe145f6fee25cbc427569597"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\audit-pavilion-lumbar-metal-bearings-v4.py",
+    "file": "producers/pavilion-breakfast-v1/audit-pavilion-lumbar-metal-bearings-v4.py.gz",
+    "rawBytes": 4577,
+    "rawSHA256": "658d900add527842b8c211198db145bf525e18caacef94cc78b801a5939f9b49",
+    "storedSHA256": "003aa53e032495d67bd02497b1ab5eaec56736a0bd704b9922fe90e07f9cf8b7"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\audit-pavilion-lumbar-metal-bearings-v6.py",
+    "file": "producers/pavilion-breakfast-v1/audit-pavilion-lumbar-metal-bearings-v6.py.gz",
+    "rawBytes": 4577,
+    "rawSHA256": "919a23a4b1931e0dd5ff310f63638b80db083edaa072b6e3974af619a54a4805",
+    "storedSHA256": "80963ab8bca4d083e18bf3c4141c49f1c3525b54b2d3a47f79163c7bc7be689d"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\census-pavilion-left-back-post-v3.py",
+    "file": "producers/pavilion-breakfast-v1/census-pavilion-left-back-post-v3.py.gz",
+    "rawBytes": 2021,
+    "rawSHA256": "0923cb4a42f6233896d6758ad063b4105aa959412cffeb6761751c8b95375ecf",
+    "storedSHA256": "684f1acd570424a95ea10296aa2e3fc58bfdfda72dec30321f954c85fe770aea"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\dump-native-chair-parts-v6.py",
+    "file": "producers/pavilion-breakfast-v1/dump-native-chair-parts-v6.py.gz",
+    "rawBytes": 1428,
+    "rawSHA256": "22cc52294c28b6855eb79eaf5333a8f433ec56d044a33a15439b088966725157",
+    "storedSHA256": "4b207186ce266269f90c1e9f8c9eda4e5bd0f59a329f973298ddd594dbfc9bea"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\inventory-original-pavilion-back-panel-v1.py",
+    "file": "producers/pavilion-breakfast-v1/inventory-original-pavilion-back-panel-v1.py.gz",
+    "rawBytes": 3019,
+    "rawSHA256": "da272bfce21a29c98c9b2ecabfafe935d13b96baa85c06c1094b0c4f10e37a77",
+    "storedSHA256": "4cb27cc819c9151a41877297be7e4a3a7e705e48f15992e281c7f0a1fbd0bb16"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\inventory-pavilion-donor-all-fields-v4.py",
+    "file": "producers/pavilion-breakfast-v1/inventory-pavilion-donor-all-fields-v4.py.gz",
+    "rawBytes": 976,
+    "rawSHA256": "900a53c835768826a3f53339cd8f71d7b8285ce01f8c5a40a5d4833f5290ec9c",
+    "storedSHA256": "6ac0dc722ffaf17e4ccc3997872c7456140c946b2ab6a3d5439fc4b43547097a"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\inventory-pavilion-panel-all-fields-v2.py",
+    "file": "producers/pavilion-breakfast-v1/inventory-pavilion-panel-all-fields-v2.py.gz",
+    "rawBytes": 925,
+    "rawSHA256": "fe787433f91f8db0979deaf6080cdafb5fcd7400548b0582b8253bb0288f81a8",
+    "storedSHA256": "3f543f5563eb0cfde06aa4b67db6dbdb5b7f4a22dff3a036b9a0fa507acad66d"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\measure-native-paving-bearing-v1.py",
+    "file": "producers/pavilion-breakfast-v1/measure-native-paving-bearing-v1.py.gz",
+    "rawBytes": 1107,
+    "rawSHA256": "d404d97ea58adfeb7fff773606f84e0c0052be4394ab8f675912e431503bc613",
+    "storedSHA256": "da49f33876f4bb57c292999e53ec53f5b13164df64413d55636b879278a3f84c"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\render-pavilion-chair-native-design-v1.py",
+    "file": "producers/pavilion-breakfast-v1/render-pavilion-chair-native-design-v1.py.gz",
+    "rawBytes": 3214,
+    "rawSHA256": "ab72f1d0890963df8e5ce0c620518c5bad2fc6edd0a6c500225f8cd20ee51a34",
+    "storedSHA256": "b718124280952b495dd7e72e6dee3bf0f57474a2e9b975743ce3e56fbc4c61b1"
+  },
+  {
+    "source": "pavilion-breakfast-v1\\render-pavilion-chair-native-design-v2.py",
+    "file": "producers/pavilion-breakfast-v1/render-pavilion-chair-native-design-v2.py.gz",
+    "rawBytes": 3000,
+    "rawSHA256": "efcba4ef74c60291fdc657d7f8cd9275856711e4847d48de88ba52664761c465",
+    "storedSHA256": "daa1692d21962b8d502ea4948c5591f3d78c3811dde5e4ec24caaf27f01c3baf"
+  },
+  {
+    "source": "bound-native-inputs-v1.mjs",
+    "file": "producers/bound-native-inputs-v1.mjs.gz",
+    "rawBytes": 314,
+    "rawSHA256": "3271563ff89445175e834646219dde2ad325d03bbc6025fbfb59814c9087ddff",
+    "storedSHA256": "319c6012aae7104a4c3a070b8fc6d340328a9a765dcd566a7c19c713bdcd5ac4"
+  },
+  {
+    "source": "bound-native-avatar-v1.mjs",
+    "file": "producers/bound-native-avatar-v1.mjs.gz",
+    "rawBytes": 3530,
+    "rawSHA256": "ac6bc837318600686822a9f13b6cc8ab3f93d4ff450fe1b7c0ce475505830f35",
+    "storedSHA256": "a7ca700d178854110986d4666d44e5e11a441ab8a8ccd02d1ace97ac0949dd71"
+  },
+  {
+    "source": "bound-native-geometry-v1.mjs",
+    "file": "producers/bound-native-geometry-v1.mjs.gz",
+    "rawBytes": 5328,
+    "rawSHA256": "6a0ae3a9b426cfdf734539b3090a0e2a61b0291b577978adfa47f20838b1bca4",
+    "storedSHA256": "84c4f626681edea96b853c6551c09083501b2880aa37ae698adefcb6d0472c78"
+  },
+  {
+    "source": "posed-self-contact-v2.mjs",
+    "file": "producers/posed-self-contact-v2.mjs.gz",
+    "rawBytes": 3113,
+    "rawSHA256": "5c42ad359283e02edf026c7a5713f1f36f1b710b4900520c90904f3dd57fdcce",
+    "storedSHA256": "fcef6b14db9ec5bb1932fbc11fd54aea01172b0274005a9e55216c6c42f841cc"
+  },
+  {
+    "source": "finite-triangle-distance.mjs",
+    "file": "producers/finite-triangle-distance.mjs.gz",
+    "rawBytes": 2557,
+    "rawSHA256": "6400a7428a353844be27ccbf458b2f74319a7f96759f9cce597b4280b95e0fd4",
+    "storedSHA256": "f616424f5850081d193c7ccf60e1172744cf9ea463d93a0befcbda211fe07473"
+  },
+  {
+    "source": "PUBLIC-BAR-PAVILION-ROUTE-V1.json",
+    "file": "route-red-controls/PUBLIC-BAR-PAVILION-ROUTE-V1.json.gz",
+    "rawBytes": 25748920,
+    "rawSHA256": "43ae121fd4ec519e89170130dd77148d02cd252ee4eddfb7a1fa0accefdd15df",
+    "storedSHA256": "d5282b56815ffec0356900b1e73eac4afbf61cfa1b49bed28bb4a15718ad4dc1"
+  },
+  {
+    "source": "PUBLIC-BAR-PAVILION-ROUTE-V2.json",
+    "file": "route-red-controls/PUBLIC-BAR-PAVILION-ROUTE-V2.json.gz",
+    "rawBytes": 59682580,
+    "rawSHA256": "36e5f5b71e02f13709c3a298be80fcd6b376c89604d333b9a51b2713f0394468",
+    "storedSHA256": "9073adf7b94f0ad4a47b556dec3477e65f852ec75614e0fcba78aea8d3d6b671"
+  },
+  {
+    "source": "PUBLIC-BAR-PAVILION-ROUTE-V3.json",
+    "file": "route-red-controls/PUBLIC-BAR-PAVILION-ROUTE-V3.json.gz",
+    "rawBytes": 36162491,
+    "rawSHA256": "6cd78adb6604ee23c5706aea8b8b4a4771bb879c59ff1215db6e6a68d6cf5a9d",
+    "storedSHA256": "c3db6b9c639939870cc9d8ee5778c48dc6b818e128d35b3c90777d1a4bb263fa"
+  },
+  {
+    "source": "probe-public-bar-pavilion-route-v1.mjs",
+    "file": "route-red-controls/probe-public-bar-pavilion-route-v1.mjs.gz",
+    "rawBytes": 7929,
+    "rawSHA256": "45887dc9a31374bc48732f14e197d40d7ed06bccee7d0cf1060fd54adbdab2c1",
+    "storedSHA256": "5f173649a2055c8e0126e66cb53da6119e73da8a7a8afe0e12e3a5b2e8fd2559"
+  },
+  {
+    "source": "probe-public-bar-pavilion-route-v2.mjs",
+    "file": "route-red-controls/probe-public-bar-pavilion-route-v2.mjs.gz",
+    "rawBytes": 8344,
+    "rawSHA256": "f5c97d02bd5e1ea359f930a9c55533db1077b773c659558bd578f933531cf885",
+    "storedSHA256": "271bf5774e6f0e3ea92eca715e35396bb90a7c876bbba487c1386ce803d37b59"
+  },
+  {
+    "source": "probe-public-bar-pavilion-route-v3.mjs",
+    "file": "route-red-controls/probe-public-bar-pavilion-route-v3.mjs.gz",
+    "rawBytes": 8328,
+    "rawSHA256": "a63180a48f4203e5d5c0988b1d6ea5d38dea0c2b3e181815b6f7d41ac725e8a6",
+    "storedSHA256": "f6777897388ef40def30e6ef6c1040385bd34a23e7823bfc1fd1883aa9b9fcb0"
+  },
+  {
+    "source": "PAVILION-FOCUSED-GATES-V2.json",
+    "file": "records/PAVILION-FOCUSED-GATES-V2.json.gz",
+    "rawBytes": 761,
+    "rawSHA256": "fd1074fc9bbd456c55640697a793c4a1ff459ea968b7d25cee7809a5293bf6a2",
+    "storedSHA256": "6ae033bd0689b463c581e57981ae9ca9ea3723a6b511ea0cb1f48869bb47dcf4"
+  },
+  {
+    "source": "PAVILION-FOCUSED-GATES-V2.stdout",
+    "file": "records/PAVILION-FOCUSED-GATES-V2.stdout.gz",
+    "rawBytes": 0,
+    "rawSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "storedSHA256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+  },
+  {
+    "source": "PAVILION-FOCUSED-GATES-V2.stderr",
+    "file": "records/PAVILION-FOCUSED-GATES-V2.stderr.gz",
+    "rawBytes": 1216,
+    "rawSHA256": "3df0b829af15d283d4b178927ad2f46aad3bd40362ec9de371922be516308bb9",
+    "storedSHA256": "9f0019b2a2ba1922f3442f149daada8ea10c3a667ed8ebfa12bece9d299bbc34"
+  },
+  {
+    "source": "FORMATTER-INVOCATION-CORRECTION.json",
+    "file": "records/FORMATTER-INVOCATION-CORRECTION.json.gz",
+    "rawBytes": 292,
+    "rawSHA256": "6abbe6d4027edd6c9d4c45e66f3edc76dce0912fa4c250dd140be5144bf39c73",
+    "storedSHA256": "2475bda15e3a0d8f06588b2a87a4919b39f3612e1c1cb8cd7caf712d9f57372c"
+  }
+]

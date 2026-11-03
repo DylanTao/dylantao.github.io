@@ -1,0 +1,720 @@
+{
+  "files": [
+    {
+      "path": "ARCHIVE-INDEX.json",
+      "bytes": 48867,
+      "sha256": "7878ef22d2f9ad16e3f469271c5c955d57d4e21b9454a1fb72aeb88bc297d1f6"
+    },
+    {
+      "path": "CHECKPOINT.json",
+      "bytes": 3812,
+      "sha256": "5507de704796e9962627e3bb142a0049e430ed36b39a227df264c6ad1dfbac40"
+    },
+    {
+      "path": "producers/bound-native-avatar-v1.mjs.gz",
+      "bytes": 1392,
+      "sha256": "a7ca700d178854110986d4666d44e5e11a441ab8a8ccd02d1ace97ac0949dd71"
+    },
+    {
+      "path": "producers/bound-native-geometry-v1.mjs.gz",
+      "bytes": 2028,
+      "sha256": "84c4f626681edea96b853c6551c09083501b2880aa37ae698adefcb6d0472c78"
+    },
+    {
+      "path": "producers/bound-native-inputs-v1.mjs.gz",
+      "bytes": 226,
+      "sha256": "319c6012aae7104a4c3a070b8fc6d340328a9a765dcd566a7c19c713bdcd5ac4"
+    },
+    {
+      "path": "producers/finite-triangle-distance.mjs.gz",
+      "bytes": 1161,
+      "sha256": "f616424f5850081d193c7ccf60e1172744cf9ea463d93a0befcbda211fe07473"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/audit-actual-delivered-sole-pad-support-v11.mjs.gz",
+      "bytes": 2189,
+      "sha256": "0ad8d831cf4bd2d533171e89a157ce94b25c285c57d912359e80ce6b9e6e5ad9"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/audit-native-seven-solids-v7.py.gz",
+      "bytes": 828,
+      "sha256": "88c95e1c2f211df2904dbf449a7b939983ba125b6d638ba295c4dfcd424dcedd"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/audit-pavilion-canonical80-static-v8.mjs.gz",
+      "bytes": 6173,
+      "sha256": "48c469b6453f427bb3639248a92f2e3dab79cb2534f05989ff46c50da5a6abd8"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/audit-pavilion-footrest-fit-v2.mjs.gz",
+      "bytes": 5595,
+      "sha256": "3237bc0192cf356faa451767c6af719a6ddd08aca0ab74ad778c645c32f683f3"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/audit-pavilion-hips-tilt-v7.mjs.gz",
+      "bytes": 6566,
+      "sha256": "321ecb58edaf7951a0dc726dfe8fbb7b091ee1685144903c77c783922566cbdc"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/audit-pavilion-lumbar-metal-bearings-v1.py.gz",
+      "bytes": 1810,
+      "sha256": "4bbe15a82d99ffe4cb8f7fb7031e4e00d65c7e5e80e27847117ff14bcaa138d1"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/audit-pavilion-lumbar-metal-bearings-v2.py.gz",
+      "bytes": 1804,
+      "sha256": "6fffb503bd2fe9fc20439f6c0e6f8463847e9c3bbe145f6fee25cbc427569597"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/audit-pavilion-lumbar-metal-bearings-v4.py.gz",
+      "bytes": 2060,
+      "sha256": "003aa53e032495d67bd02497b1ab5eaec56736a0bd704b9922fe90e07f9cf8b7"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/audit-pavilion-lumbar-metal-bearings-v6.py.gz",
+      "bytes": 2058,
+      "sha256": "80963ab8bca4d083e18bf3c4141c49f1c3525b54b2d3a47f79163c7bc7be689d"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/audit-pavilion-native-chair-fullbody-v9.mjs.gz",
+      "bytes": 6173,
+      "sha256": "5dea0bbe458cea811474ff31da6c1f2a11ef8b502a72b60894d82f760d6f37a6"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/audit-pavilion-pad-fit-v3.mjs.gz",
+      "bytes": 6130,
+      "sha256": "f3c5869d696d4335d41787ef81f46629e12d78965af9a91fb04e1def5ee0d9a3"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/audit-pavilion-pad-fit-v4.mjs.gz",
+      "bytes": 6157,
+      "sha256": "641c9b92a5aa905d59c2251b0d7094324bdb9ee1e4fd74d3fa31cd5cc8c769dc"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/audit-pavilion-root-curl-v5.mjs.gz",
+      "bytes": 6627,
+      "sha256": "d96f3180fb062497279f51104c6f8b03452dff194e723697ceacc16004efa1db"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/audit-pavilion-root-curl-v6.mjs.gz",
+      "bytes": 6667,
+      "sha256": "de292f79255be5dbd7eeedc9726d3430687d33238618ba2877b987cd86dcf2cb"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/audit-pavilion-static-seat-v1.mjs.gz",
+      "bytes": 4563,
+      "sha256": "b9ea08d1a9616e6979b47a65bd9eee5c3ebfe5653f9837bb71214946254d195f"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/census-pavilion-left-back-post-v3.py.gz",
+      "bytes": 1083,
+      "sha256": "684f1acd570424a95ea10296aa2e3fc58bfdfda72dec30321f954c85fe770aea"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/census-pavilion-v1.mjs.gz",
+      "bytes": 2139,
+      "sha256": "79dc2cab754756fea3cd9145856130a9a8b321a6127f0a44255dee909179a0ba"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/dump-native-chair-parts-v6.py.gz",
+      "bytes": 747,
+      "sha256": "4b207186ce266269f90c1e9f8c9eda4e5bd0f59a329f973298ddd594dbfc9bea"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/exact-skin-reader-v1.mjs.gz",
+      "bytes": 710,
+      "sha256": "915188887800b440e0495ca76ab14ebcd3f1380281ca9a53ce1fc31fa90eb345"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/inventory-original-pavilion-back-panel-v1.py.gz",
+      "bytes": 1437,
+      "sha256": "4cb27cc819c9151a41877297be7e4a3a7e705e48f15992e281c7f0a1fbd0bb16"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/inventory-pavilion-donor-all-fields-v4.py.gz",
+      "bytes": 579,
+      "sha256": "6ac0dc722ffaf17e4ccc3997872c7456140c946b2ab6a3d5439fc4b43547097a"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/inventory-pavilion-panel-all-fields-v2.py.gz",
+      "bytes": 550,
+      "sha256": "3f543f5563eb0cfde06aa4b67db6dbdb5b7f4a22dff3a036b9a0fa507acad66d"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/measure-native-paving-bearing-v1.py.gz",
+      "bytes": 612,
+      "sha256": "da49f33876f4bb57c292999e53ec53f5b13164df64413d55636b879278a3f84c"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/measure-pavilion-buttocks-v1.mjs.gz",
+      "bytes": 1016,
+      "sha256": "61eff8ed37c6d4072575d036b5d11484f421997a195a0843573cf9bc84809c6e"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/measure-pavilion-tail-panel-footprint-v1.mjs.gz",
+      "bytes": 5047,
+      "sha256": "e055e7aee464cdd9d27a075835ef0bfa17857637aabf65b8bab703cddb84c68e"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/measure-pavilion-tail-panel-footprint-v2.mjs.gz",
+      "bytes": 5049,
+      "sha256": "170848a44f2d2a2caa9c8833a6bd5f3531ca1bc48f729a6437ba54c63ea46b21"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/pavilion-contact-geometry-v1.mjs.gz",
+      "bytes": 1848,
+      "sha256": "b36e53b12e2cdaf29aae70a8029358251e9b02a931bd29ff2db1547e144883c0"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/pavilion-contact-geometry-v2-canonical80.mjs.gz",
+      "bytes": 1838,
+      "sha256": "ea44f1ca594b6a7a58d12e73a51515ac12b514f965719c60caba07331500b4e1"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/pavilion-contact-geometry-v3-native-chair.mjs.gz",
+      "bytes": 2304,
+      "sha256": "3208e33aa77ab9b8166915659a7e51ae5a244e58f5ce55159b2deee12a23e285"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/qualify-exact-skin-reader-v1.mjs.gz",
+      "bytes": 1209,
+      "sha256": "184540316c9c3d7ef1e960f1805469bae3ca692ff0a5aa2abbea39f93a7b41f1"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/qualify-exact-skin-reader-v2.mjs.gz",
+      "bytes": 1210,
+      "sha256": "fa7e4011d100b648e1d8d924963d505f869133f5892539cf214d7f9b99ef892e"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/qualify-pavilion-tail-analytic-lobes-v3.mjs.gz",
+      "bytes": 5267,
+      "sha256": "64076ba90b597db682b5068f4c1bd27bdda042e00f2db6c51b0bdbaa03b592bc"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/qualify-pavilion-tail-native-chair-v10.mjs.gz",
+      "bytes": 5247,
+      "sha256": "91a233d4650993543af38c939a78c9b173753e46e04b4883bc3acba34738e19d"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/render-pavilion-chair-native-design-v1.py.gz",
+      "bytes": 1595,
+      "sha256": "b718124280952b495dd7e72e6dee3bf0f57474a2e9b975743ce3e56fbc4c61b1"
+    },
+    {
+      "path": "producers/pavilion-breakfast-v1/render-pavilion-chair-native-design-v2.py.gz",
+      "bytes": 1481,
+      "sha256": "daa1692d21962b8d502ea4948c5591f3d78c3811dde5e4ec24caaf27f01c3baf"
+    },
+    {
+      "path": "producers/posed-self-contact-v2.mjs.gz",
+      "bytes": 1420,
+      "sha256": "fcef6b14db9ec5bb1932fbc11fd54aea01172b0274005a9e55216c6c42f841cc"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6224,
+      "sha256": "e36a672896a4663b28c99876693d4b784423c69ac1d3d222d8529bd583ddbe85"
+    },
+    {
+      "path": "records/ACTUAL-DELIVERED-SOLE-PAD-SUPPORT-V11.json.gz",
+      "bytes": 20265,
+      "sha256": "eabf364162300373b7b51b030523775fa239a29c3688099fa5f20268daa0907b"
+    },
+    {
+      "path": "records/BUTTOCKS-LOWER-CUSTODY-V1-PROCESS.json.gz",
+      "bytes": 193,
+      "sha256": "c5c3253f6579d1dea0193b64fbf796ea945996510441efaf719c5cb0ca9029cc"
+    },
+    {
+      "path": "records/BUTTOCKS-LOWER-CUSTODY-V1.json.gz",
+      "bytes": 7448,
+      "sha256": "908fbbe6380fff401547cc257145f27bfb4e8506145d41bb70bfc964a082a940"
+    },
+    {
+      "path": "records/BUTTOCKS-LOWER-CUSTODY-V1.log.gz",
+      "bytes": 577,
+      "sha256": "70c48084ffd28bd764b98fab49b7653fc565d31774d866e2dbbf46c139db67cc"
+    },
+    {
+      "path": "records/CANONICAL80-STATIC-V8.json.gz",
+      "bytes": 142950,
+      "sha256": "1717758cdcca94ae360f4096e6960113a519466b9e05ee59cce02f8260b8f865"
+    },
+    {
+      "path": "records/CENSUS-V1-PROCESS.json.gz",
+      "bytes": 187,
+      "sha256": "1f322976e21cd59a269b3c6867765d64f510513164872672d845f98f6b322fa0"
+    },
+    {
+      "path": "records/CENSUS-V1.log.gz",
+      "bytes": 2422,
+      "sha256": "a624628a566964fe02f63fe20899f362036853283042b19ae74f8041b52857c5"
+    },
+    {
+      "path": "records/chair-lobes-native-v1/coastal_pavilion_chair.py.gz",
+      "bytes": 3742,
+      "sha256": "2812be3deb46010de6963d907b240262955d666b83fb130d46fb28bab22dabd3"
+    },
+    {
+      "path": "records/chair-lobes-native-v1/FAILURE.json.gz",
+      "bytes": 229,
+      "sha256": "471c4677bfdc69a46142b36466923c943b26d660a01ea564258f6e5e15198268"
+    },
+    {
+      "path": "records/chair-lobes-native-v1/refresh_coastal_pavilion_chair.py.gz",
+      "bytes": 1508,
+      "sha256": "5289e6f26c389831da0054c9168f4f7a8605a79025735023466b7367cdbbeeaa"
+    },
+    {
+      "path": "records/chair-lobes-native-v2/coastal_pavilion_chair.py.gz",
+      "bytes": 3795,
+      "sha256": "8a6a9044f2c7afb5cf767e079f7a34f6722f8c17dd082649ede62b9265af7441"
+    },
+    {
+      "path": "records/chair-lobes-native-v2/FAILURE.json.gz",
+      "bytes": 208,
+      "sha256": "ce79956533f9c0b9ccc08eec6258c27ee9d3a254aa39c2c8eb9035aed348c4b7"
+    },
+    {
+      "path": "records/chair-lobes-native-v2/refresh_coastal_pavilion_chair.py.gz",
+      "bytes": 1508,
+      "sha256": "5289e6f26c389831da0054c9168f4f7a8605a79025735023466b7367cdbbeeaa"
+    },
+    {
+      "path": "records/chair-lobes-native-v3/coastal_pavilion_chair.py.gz",
+      "bytes": 3969,
+      "sha256": "cfcdf8ff7e1ab176516b57bbd839bcbdecc4ed518da7eb6b3499891d74192690"
+    },
+    {
+      "path": "records/chair-lobes-native-v3/refresh_coastal_pavilion_chair.py.gz",
+      "bytes": 1508,
+      "sha256": "5289e6f26c389831da0054c9168f4f7a8605a79025735023466b7367cdbbeeaa"
+    },
+    {
+      "path": "records/chair-lobes-native-v3/REPLAY.json.gz",
+      "bytes": 101334,
+      "sha256": "3d0719d2120a67cadd508f371bd25cf73941c2b6c0c638b2d958ad5ad653ea88"
+    },
+    {
+      "path": "records/chair-lobes-native-v5/coastal_pavilion_chair.py.gz",
+      "bytes": 4474,
+      "sha256": "89f3282bede083c50c4733b651898d441528addc7d929fdfed969defd84f66aa"
+    },
+    {
+      "path": "records/chair-lobes-native-v5/refresh_coastal_pavilion_chair.py.gz",
+      "bytes": 1520,
+      "sha256": "e85f4744dffabfef0dbc9dd31ef4c919c2b96c15b516dbf2757cfae7dadf4c92"
+    },
+    {
+      "path": "records/chair-lobes-native-v5/REPLAY.json.gz",
+      "bytes": 102749,
+      "sha256": "377901d24ed63a49ce94b63f613095a04e596462bd3bfa73de5942e9d6a76fb0"
+    },
+    {
+      "path": "records/chair-lobes-native-v6/REPLAY.json.gz",
+      "bytes": 102748,
+      "sha256": "3075688f11e583be563a3ef8cd267ee1f2fddf8661aee1f0307718ef66d588bc"
+    },
+    {
+      "path": "records/EXACT-SKIN-READER-CONTROL-V1-PROCESS.json.gz",
+      "bytes": 198,
+      "sha256": "e14acf92a05a24a0104b3fc306180904dc4a80e7091d738d6fde043f5dbf63ac"
+    },
+    {
+      "path": "records/EXACT-SKIN-READER-CONTROL-V1.log.gz",
+      "bytes": 527,
+      "sha256": "2957e56ace8c9d6d53159273b23bdc8a48a4fd4e8636ab27e30e5702a098db9f"
+    },
+    {
+      "path": "records/EXACT-SKIN-READER-CONTROL-V2-PROCESS.json.gz",
+      "bytes": 197,
+      "sha256": "50b0e4ec7f5e6569c933fb90fd8e3d75ff9b8d59e63a5ad4d22ddd15816f26aa"
+    },
+    {
+      "path": "records/EXACT-SKIN-READER-CONTROL-V2.json.gz",
+      "bytes": 872,
+      "sha256": "c66b61c0465621c889b15dcb394bafad2e3ce5e8aa9b5b2d899b2ca56a448956"
+    },
+    {
+      "path": "records/EXACT-SKIN-READER-CONTROL-V2.log.gz",
+      "bytes": 599,
+      "sha256": "c104220b128a8ead64af8b9bf2ea4f1b3c70a27cf27f21ddd26fc43b66aa0e38"
+    },
+    {
+      "path": "records/FOOTREST-PYTHON-V1-PROCESS.json.gz",
+      "bytes": 269,
+      "sha256": "b47f57815e32bad762170cecad90f944f39d29b487efcdd16e9b5ab21bd1f95d"
+    },
+    {
+      "path": "records/FOOTREST-PYTHON-V1.log.gz",
+      "bytes": 245,
+      "sha256": "fbd1143be175591fcd0ea41f173f53068385ab523d5833ed3d02bbf2e988d7ba"
+    },
+    {
+      "path": "records/FORMATTER-INVOCATION-CORRECTION.json.gz",
+      "bytes": 212,
+      "sha256": "2475bda15e3a0d8f06588b2a87a4919b39f3612e1c1cb8cd7caf712d9f57372c"
+    },
+    {
+      "path": "records/LUMBAR-BEARING-V1-FAILURE.json.gz",
+      "bytes": 210,
+      "sha256": "8d95c96a45f425d7e24c0b723057b6a969d14999c77203175ba70715d70efb67"
+    },
+    {
+      "path": "records/LUMBAR-METAL-POST-BEARINGS-V4.json.gz",
+      "bytes": 1686,
+      "sha256": "a0b187d5ab440495f7a006bd6630fa873ada33a44a30d5aa4ea52a7bd0130ec2"
+    },
+    {
+      "path": "records/LUMBAR-METAL-POST-BEARINGS-V6.json.gz",
+      "bytes": 1597,
+      "sha256": "16e2b2e1b9e4278730b76298784897c2a4873013c668ca3ed0d41f90a40048bb"
+    },
+    {
+      "path": "records/NATIVE-CHAIR-FULLBODY-V9.json.gz",
+      "bytes": 141361,
+      "sha256": "0cf82747a06327eccd37350ede41f92fda3e9b4c213edf3ab3dd41dfdbd4f390"
+    },
+    {
+      "path": "records/NATIVE-CHAIR-PARTS-V6.json.gz",
+      "bytes": 1807,
+      "sha256": "652194e267310f6977331fe7e6d0d02fcc0045f2ce26b3e07293ef84928ab68d"
+    },
+    {
+      "path": "records/native-footrest-pad-v3/PROCESS.json.gz",
+      "bytes": 563,
+      "sha256": "1bb8be89f53790fe58176fd6603d09de9398ac893356ab6aa7a81261d763ad45"
+    },
+    {
+      "path": "records/native-footrest-pad-v3/process.log.gz",
+      "bytes": 435,
+      "sha256": "a7d3c04f967da9fb94a034b39d512b8c81caeff07c274626478aeb1a65c79f4e"
+    },
+    {
+      "path": "records/native-footrest-pad-v3/REPLAY.json.gz",
+      "bytes": 25564,
+      "sha256": "ec6d8456af80d1c92be082b1ecff387d576935a057b947ed085d04f9626e355e"
+    },
+    {
+      "path": "records/native-footrest-v1/FAILURE.json.gz",
+      "bytes": 385,
+      "sha256": "722756ad7a74f6448aaf1f92b18e624dd57b8042464d77a3b2a86c04351f5383"
+    },
+    {
+      "path": "records/native-footrest-v1/PROCESS.json.gz",
+      "bytes": 524,
+      "sha256": "1667dab86366b689e33a993fc9c444379b5b8e5cee458120554149fd90b51647"
+    },
+    {
+      "path": "records/native-footrest-v1/process.log.gz",
+      "bytes": 556,
+      "sha256": "b64df448febe9ee11a5c7b1308ad1e16196b33ded47e90e91959a3ffaaa101d7"
+    },
+    {
+      "path": "records/native-footrest-v2/PROCESS.json.gz",
+      "bytes": 559,
+      "sha256": "96a507fb65b39bc25d53af66dd3485cad681b0dcfab8b1b6f77406ae7df858ae"
+    },
+    {
+      "path": "records/native-footrest-v2/process.log.gz",
+      "bytes": 429,
+      "sha256": "602151890f71a799a9688bb03260a1049fd1215da6e0021982593882d7357411"
+    },
+    {
+      "path": "records/native-footrest-v2/REPLAY.json.gz",
+      "bytes": 25400,
+      "sha256": "d9b3ea2602bd1645fae3d9e469225fb510036c828dc99cb302f84cc914b8ad95"
+    },
+    {
+      "path": "records/NATIVE-PAVING-BEARING-V1-PROCESS.json.gz",
+      "bytes": 292,
+      "sha256": "e1b57c2acbed01237c6afdc86dd3e968ced20c1b61559c90131bef891521342f"
+    },
+    {
+      "path": "records/NATIVE-PAVING-BEARING-V1.json.gz",
+      "bytes": 570,
+      "sha256": "647d5b4b096628d3a69564a26f1241074c8e8efe4fe838888ca1215a2c486d99"
+    },
+    {
+      "path": "records/NATIVE-PAVING-BEARING-V1.log.gz",
+      "bytes": 544,
+      "sha256": "86f1144f65c6c19ef8f25f7f96e66edc6e3e5f3351f04f4de88ec9e072d25d5f"
+    },
+    {
+      "path": "records/NATIVE-SEVEN-SOLIDS-V7.json.gz",
+      "bytes": 970,
+      "sha256": "37770bdda45f83b6bbca8558d9f28319aa740dc23e9229ba5f21df8aee86ccab"
+    },
+    {
+      "path": "records/PAD-FOOTREST-FIT-V3-PROCESS.json.gz",
+      "bytes": 192,
+      "sha256": "a44e754ff426fa828aa98555dc9dc60f462f320f0a6a85c69d8b48d1693d48eb"
+    },
+    {
+      "path": "records/PAD-FOOTREST-FIT-V3.json.gz",
+      "bytes": 96926,
+      "sha256": "304f5fce495d7dedd4bbbc750e4a233bb6b885c23a34e707a38bc8a2723e781c"
+    },
+    {
+      "path": "records/PAD-FOOTREST-FIT-V3.log.gz",
+      "bytes": 693,
+      "sha256": "bed7419dd141d2a5111568a29a82becad99f90ffe18dd0ae256faa6f9fbd57fa"
+    },
+    {
+      "path": "records/PAD-FOOTREST-FIT-V4.json.gz",
+      "bytes": 79016,
+      "sha256": "ef7cbd0caba5cc430f0936a779355a4b0c086955e552dbda1f105d578d35f1e5"
+    },
+    {
+      "path": "records/PAD-HIPS-TILT-V7.json.gz",
+      "bytes": 82011,
+      "sha256": "e745ec67f62302e5519487ff158faa1ab3ab8b4b53725439cefe46ec09b50a60"
+    },
+    {
+      "path": "records/PAD-ROOT-CURL-V6.json.gz",
+      "bytes": 294012,
+      "sha256": "ab5dc0a522a6e2ee9f584466216f4392ff8d5d0ea80b8f637a4ee6f67dfda078"
+    },
+    {
+      "path": "records/PANEL-ALL-RAW-FIELDS-V2.json.gz",
+      "bytes": 2804,
+      "sha256": "c25a46c93dd9572fc96d32df3bad2bdf493e17faaf2bdc574e67f28c814a9e00"
+    },
+    {
+      "path": "records/PAVILION-CENSUS-V1.json.gz",
+      "bytes": 5993,
+      "sha256": "36399a028712d2a2349560f299080671b9045f937cbea491488b3d120a502a55"
+    },
+    {
+      "path": "records/PAVILION-FOCUSED-GATES-V2.json.gz",
+      "bytes": 493,
+      "sha256": "6ae033bd0689b463c581e57981ae9ca9ea3723a6b511ea0cb1f48869bb47dcf4"
+    },
+    {
+      "path": "records/PAVILION-FOCUSED-GATES-V2.stderr.gz",
+      "bytes": 351,
+      "sha256": "9f0019b2a2ba1922f3442f149daada8ea10c3a667ed8ebfa12bece9d299bbc34"
+    },
+    {
+      "path": "records/PAVILION-FOCUSED-GATES-V2.stdout.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "records/PAVILION-FOCUSED-GATES.log.gz",
+      "bytes": 662,
+      "sha256": "859e5753f1c9d0a4e28e2c01831583d58f2811b5f81439ab552a9e52f6957ce7"
+    },
+    {
+      "path": "records/PAVILION-ORIGINAL-BACK-PANEL-V1.json.gz",
+      "bytes": 16660,
+      "sha256": "05a960cbe0d8ec65309a38e72879cec70a7818251c627b3e37a75df5c5977e0e"
+    },
+    {
+      "path": "records/PAVILION-TAIL-ANALYTIC-LOBES-V3.json.gz",
+      "bytes": 23901,
+      "sha256": "b948a10ba60679fed2c06cde43b8560a05bf3eb5ca877cf330d97654c7581548"
+    },
+    {
+      "path": "records/PAVILION-TAIL-NATIVE-CHAIR-V10.json.gz",
+      "bytes": 25538,
+      "sha256": "76f27cf3c6fb548ded356c4784a94a68c009a64e02b3f72bae6d3c24cd35055a"
+    },
+    {
+      "path": "records/PAVILION-TAIL-NATIVE-CHAIR-V10.log.gz",
+      "bytes": 213,
+      "sha256": "49f8a4a7bab99efc86611a38202c692f562344193c2421ec9430781ffe7b32fe"
+    },
+    {
+      "path": "records/PAVILION-TAIL-PANEL-FOOTPRINT-V2.json.gz",
+      "bytes": 472121,
+      "sha256": "e5977aab3e1102efcf4465068a64d385b291e67d16cbb3c4df1b243aa0e02d5a"
+    },
+    {
+      "path": "records/public-binding/compare-decoded-canonical80-pavilion-v3.mjs.gz",
+      "bytes": 2154,
+      "sha256": "ba407147ae9c9e80990f20d59d25014f1734461d550579d03207e983a6774a38"
+    },
+    {
+      "path": "records/public-binding/compare-decoded-public-pavilion-v1.mjs.gz",
+      "bytes": 1862,
+      "sha256": "e7ed3a6559f1c5f5695c458cc3fc60e3c3a026a1d776fa3c0da8c3ae39577f23"
+    },
+    {
+      "path": "records/public-binding/compare-decoded-public-pavilion-v2.mjs.gz",
+      "bytes": 1958,
+      "sha256": "d48af9b6d36557274cf46cdd6e5321b5d7735f97fa3618c5f1a62144d185f3ea"
+    },
+    {
+      "path": "records/public-binding/compare-native-public-pavilion-v1.py.gz",
+      "bytes": 1374,
+      "sha256": "7bb1d9a66b7f9902dda70d5d78195a3aa297b2b54d1de4540b4230c96779838a"
+    },
+    {
+      "path": "records/public-binding/DECODED-CANONICAL80-ADDITIVE-CLASSIFICATION-V4.json.gz",
+      "bytes": 1282,
+      "sha256": "05e63f2214f69680392813e295e4ab17f3c7b4aa9a1d99ece1ecfbc1106c0e75"
+    },
+    {
+      "path": "records/public-binding/DECODED-CANONICAL80-PAVILION-V3.json.gz",
+      "bytes": 8679,
+      "sha256": "138362cee3cc69700832471c511d8cfd7c3c593418614c22a748a0db5cf162bd"
+    },
+    {
+      "path": "records/public-binding/DECODED-PUBLIC-PAVILION-EQUALITY-V1-PROCESS.json.gz",
+      "bytes": 207,
+      "sha256": "2b7dc07eb00700a21ec91f3e95eebacebf3868ba9dac21ce5d41011289808743"
+    },
+    {
+      "path": "records/public-binding/DECODED-PUBLIC-PAVILION-EQUALITY-V1.json.gz",
+      "bytes": 3210,
+      "sha256": "2460557a53f85936f4792f609f39a0b8b15c995b5dbdaa5b4b01b9c21f30c600"
+    },
+    {
+      "path": "records/public-binding/DECODED-PUBLIC-PAVILION-EQUALITY-V1.log.gz",
+      "bytes": 417,
+      "sha256": "eca28c0ac8f5c4bbf4dacde2a3ca738054a1b40f07866875780d377e3c42bd94"
+    },
+    {
+      "path": "records/public-binding/DECODED-PUBLIC-PAVILION-EQUALITY-V2-PROCESS.json.gz",
+      "bytes": 206,
+      "sha256": "a4728caf3e21cc0da5c0002ca92532a005d60f65d41ea724a8f14411d55cbd0f"
+    },
+    {
+      "path": "records/public-binding/DECODED-PUBLIC-PAVILION-EQUALITY-V2.json.gz",
+      "bytes": 7400,
+      "sha256": "21d5dcd43edb366d346339e76e2a596afab0b9208953d1edc061aef22eb034e4"
+    },
+    {
+      "path": "records/public-binding/DECODED-PUBLIC-PAVILION-EQUALITY-V2.log.gz",
+      "bytes": 417,
+      "sha256": "364617fc6d8369caac1412bc63acc3309646e2aef481c3cfd1bfda379b032d49"
+    },
+    {
+      "path": "records/public-binding/DECODED-PUBLIC-V1-COVERAGE-CORRECTION.json.gz",
+      "bytes": 260,
+      "sha256": "d09ded9eb35657ecee3e129428c1b60d3ae35d6df7d322d18e6b0915a418d38c"
+    },
+    {
+      "path": "records/public-binding/NATIVE-PUBLIC-PAVILION-EQUALITY-V1-PROCESS.json.gz",
+      "bytes": 298,
+      "sha256": "e1b73e38486dd7464498d35d2ec1dc1f3fa8d2bb5553ee07deef3de1ab6e51ce"
+    },
+    {
+      "path": "records/public-binding/NATIVE-PUBLIC-PAVILION-EQUALITY-V1.json.gz",
+      "bytes": 2102,
+      "sha256": "19fde7beeb6d2ec146a00ffc545a3685becd97ebcdbf28f756a7968a36e2aa4b"
+    },
+    {
+      "path": "records/public-binding/NATIVE-PUBLIC-PAVILION-EQUALITY-V1.log.gz",
+      "bytes": 261,
+      "sha256": "d25fb646a7f1aa561d15c70cb95b06a59f6477aa166af8e82f43d560fc8c528c"
+    },
+    {
+      "path": "records/public-binding/PUBLIC-ASSET-READBACK.json.gz",
+      "bytes": 825,
+      "sha256": "d58259c9c9119db99a962cccea0be17cc722ba89e9ee12ff5ef680b9d6e768df"
+    },
+    {
+      "path": "records/ROOT-CURL-V5-FAILURE.json.gz",
+      "bytes": 203,
+      "sha256": "dc7479bb979e781ecffc59fd8b75531934fa1317cad1196ad34c586dc69108ea"
+    },
+    {
+      "path": "records/STATIC-FOOTREST-FIT-V2-PROCESS.json.gz",
+      "bytes": 196,
+      "sha256": "b394b88d99b05fef6915e1e500cfc7bafa3368eb96fd50c1c279402354abc215"
+    },
+    {
+      "path": "records/STATIC-FOOTREST-FIT-V2.json.gz",
+      "bytes": 112422,
+      "sha256": "2034f0a1e9b41aa89feb00db33c73d77ac78df3eb64148cf9cb45c8cc027ae6c"
+    },
+    {
+      "path": "records/STATIC-FOOTREST-FIT-V2.log.gz",
+      "bytes": 2372,
+      "sha256": "f74a3fe52aadd5b4d7a74168ac51a62258e21e8b545f5be617c2f923fff22095"
+    },
+    {
+      "path": "records/STATIC-SEAT-FIT-V1-PROCESS.json.gz",
+      "bytes": 192,
+      "sha256": "8eca668437d07a782ef85f678a0a47f387c5ab8c7a39dea353e72569e445a27b"
+    },
+    {
+      "path": "records/STATIC-SEAT-FIT-V1.json.gz",
+      "bytes": 314539,
+      "sha256": "e6f890aa9ebded4d7eb6305ec637c878bd84c8fe9bdfd48aa4d93e654ced0bb0"
+    },
+    {
+      "path": "records/STATIC-SEAT-FIT-V1.log.gz",
+      "bytes": 1973,
+      "sha256": "50cadd8806dd9380afb204aee79498ca15ce2b91acab4db935f382d4eeb7d180"
+    },
+    {
+      "path": "records/TAIL-FOOTPRINT-V1-FAILURE.json.gz",
+      "bytes": 221,
+      "sha256": "2c99b0301fb15614dece37c14ef8374aeac60482137f62bc3872b9ded512d992"
+    },
+    {
+      "path": "records/UPPER-POST-ALL-RAW-FIELDS-V4.json.gz",
+      "bytes": 1597,
+      "sha256": "e7a97053aa01b1325933bd2d83aaa8eeccf0664ebcab8f78eac548cb14e5c110"
+    },
+    {
+      "path": "renders/chair-native-design-v1/CAPTURE.json.gz",
+      "bytes": 856,
+      "sha256": "f523e5b836b12a28fb76c71f48580e285fbf2522f3b8da0ba3ffc454308a98e6"
+    },
+    {
+      "path": "renders/chair-native-design-v1/open-back.png",
+      "bytes": 2531178,
+      "sha256": "8f481b67fce7912162bbe14b2da194b72cad5b7aea539eddfe01bba1213a9ece"
+    },
+    {
+      "path": "renders/chair-native-design-v1/original-back.png",
+      "bytes": 2483133,
+      "sha256": "31bc6f3e988b30d24da6cbe82d314f8cddd09ff346703c012f617a62a3e7b0f9"
+    },
+    {
+      "path": "renders/chair-native-design-v2/CAPTURE.json.gz",
+      "bytes": 678,
+      "sha256": "f65d0fdccf9fd57c2cea6ca2d3131c369892dd7f6da85ce5b602078f1f34f481"
+    },
+    {
+      "path": "renders/chair-native-design-v2/rounded-open-back.png",
+      "bytes": 2516873,
+      "sha256": "eca0d5d9ebb46dca4450f9cbe6dbac6901fc9ffb83030c4f1ca1d61f61d09553"
+    },
+    {
+      "path": "route-red-controls/probe-public-bar-pavilion-route-v1.mjs.gz",
+      "bytes": 3427,
+      "sha256": "5f173649a2055c8e0126e66cb53da6119e73da8a7a8afe0e12e3a5b2e8fd2559"
+    },
+    {
+      "path": "route-red-controls/probe-public-bar-pavilion-route-v2.mjs.gz",
+      "bytes": 3593,
+      "sha256": "271bf5774e6f0e3ea92eca715e35396bb90a7c876bbba487c1386ce803d37b59"
+    },
+    {
+      "path": "route-red-controls/probe-public-bar-pavilion-route-v3.mjs.gz",
+      "bytes": 3592,
+      "sha256": "f6777897388ef40def30e6ef6c1040385bd34a23e7823bfc1fd1883aa9b9fcb0"
+    },
+    {
+      "path": "route-red-controls/PUBLIC-BAR-PAVILION-ROUTE-V1.json.gz",
+      "bytes": 692014,
+      "sha256": "d5282b56815ffec0356900b1e73eac4afbf61cfa1b49bed28bb4a15718ad4dc1"
+    },
+    {
+      "path": "route-red-controls/PUBLIC-BAR-PAVILION-ROUTE-V2.json.gz",
+      "bytes": 1549688,
+      "sha256": "9073adf7b94f0ad4a47b556dec3477e65f852ec75614e0fcba78aea8d3d6b671"
+    },
+    {
+      "path": "route-red-controls/PUBLIC-BAR-PAVILION-ROUTE-V3.json.gz",
+      "bytes": 1027658,
+      "sha256": "c3db6b9c639939870cc9d8ee5778c48dc6b818e128d35b3c90777d1a4bb263fa"
+    }
+  ],
+  "scope": "Immutable source/custody/static contact evidence; runtime venue release remains open."
+}

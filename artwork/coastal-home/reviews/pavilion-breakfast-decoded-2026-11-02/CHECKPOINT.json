@@ -1,0 +1,69 @@
+{
+  "status": "Final decoded pose-fixture physical gates PASS; source feature/entry/carry/full meal and public release remain OPEN",
+  "parentSourceEvidenceCommit": "7b1bd33a3",
+  "nativeSourceSHA256": "530a2c23d102d5a0a93c24224272ec18656e6bb1f6afb102e84348a50977f2ea",
+  "actualShell": {
+    "sha256": "312bf6d04189051a00c1e1c57d9e4afd17a6b0ced234cdc6f4bbd8a59ffad7a4",
+    "bytes": 1540140
+  },
+  "results": {
+    "fullSkinRigs": 5,
+    "rigidInteriors": 0,
+    "finiteRigidCrossings": 0,
+    "soleSupportRigs": 5,
+    "tailFrames": 246,
+    "uniqueTailPoses": 121,
+    "tailInteriors": 0,
+    "tailFiniteCrossings": 0
+  },
+  "poseSource": [
+    {
+      "file": "assets/js/home-scene/locomotion.mjs",
+      "sha256": "bff6892b70dd6181809cfde9e07e154c84636bfac48436389d0757b4070e4af1",
+      "bytes": 23824,
+      "matchesCommittedLF": false,
+      "committedGitBlobSHA256": "4653d3ae89f81e4c1276e695673d7dd5c597b3210bbc2e86da26cd5ac1415883",
+      "promotedByThisPacket": false
+    },
+    {
+      "file": "assets/js/home-scene/coffee-tail-contact.mjs",
+      "sha256": "c72086d7b3f95952b61c92715956f85023cef38c03a5d3d8c4dc80d2b5967aee",
+      "bytes": 6530,
+      "matchesCommittedLF": false,
+      "committedGitBlobSHA256": null,
+      "promotedByThisPacket": false
+    },
+    {
+      "file": "assets/js/home-scene/shore.mjs",
+      "sha256": "3872a5c53af372451b048ed7f0667d66fa0359e26a4b9770f2152e96fbef043f",
+      "bytes": 2060,
+      "matchesCommittedLF": true,
+      "committedGitBlobSHA256": "b79050a2604f52b38c6c940cfbaca14ecd26d5c4a6ace6ab37b0890e758f19f9",
+      "promotedByThisPacket": false
+    },
+    {
+      "file": "assets/js/three.module.min.js",
+      "sha256": "d08334115492bd88100491499f9dc9c830759154e524ec536739d1dacb2bce18",
+      "bytes": 674428,
+      "matchesCommittedLF": true,
+      "committedGitBlobSHA256": "6c2bfdf07626404916f34aef8cf57992926d849526bc6eb4556da96a3ba4e78c",
+      "promotedByThisPacket": false
+    },
+    {
+      "file": "test/helpers/coastal-triangle-parity.mjs",
+      "sha256": "10ca94f8cdf6a5436ab8283d62a16917b1707ea11069b8ab23f70a67b0776386",
+      "bytes": 2372,
+      "matchesCommittedLF": true,
+      "committedGitBlobSHA256": "c382ba79cda617d9baf642247980baa714a844199085c62e717fc6e339909be6",
+      "promotedByThisPacket": false
+    }
+  ],
+  "limits": [
+    "Actual final decoder body, no native overlay or old-source identity inference.",
+    "Private measured foot solver and reversible distal-tail helper define the inspected poses; complete before/after source hashes retained. They are not promoted by this evidence commit.",
+    "Static and complete eat/drink Tail clip coverage does not establish seated entry, full additive Dining or carrying route.",
+    "Linen pad and original cushion contacts remain explicit measured soft support.",
+    "The predecessor packet is unchanged. This addendum supplies actual final decode and exact pose-helper source bodies.",
+    "No rendered hardware upload or performance claim from CPU proof."
+  ]
+}

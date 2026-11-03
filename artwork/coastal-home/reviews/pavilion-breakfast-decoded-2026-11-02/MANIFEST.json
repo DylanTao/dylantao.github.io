@@ -1,0 +1,79 @@
+{
+  "files": [
+    {
+      "path": "ARCHIVE-INDEX.json",
+      "bytes": 5286,
+      "sha256": "308b7a05fe29e0a21343a7ffaf9a39b414dd3e45c676aeefa997edc2904650ed"
+    },
+    {
+      "path": "CHECKPOINT.json",
+      "bytes": 3006,
+      "sha256": "afe269213e6a8caa77225179f4a96613088484fdb431632e217edfe3ad49008c"
+    },
+    {
+      "path": "pose-source/assets__js__home-scene__coffee-tail-contact.mjs.gz",
+      "bytes": 2253,
+      "sha256": "5585f766cb0a49f5480e4e100a2e55838a149a34c7815fa34614028c8c15e5f4"
+    },
+    {
+      "path": "pose-source/assets__js__home-scene__locomotion.mjs.gz",
+      "bytes": 6811,
+      "sha256": "71ff4a72ad35ae7b729b98d4843006cf7254728ea6596a148cc4e680d060bbbb"
+    },
+    {
+      "path": "pose-source/assets__js__home-scene__shore.mjs.gz",
+      "bytes": 851,
+      "sha256": "18d7c657d62a7667838838aaa053da6d8876aca0c718be40c9c911ed227547bf"
+    },
+    {
+      "path": "pose-source/assets__js__three.module.min.js.gz",
+      "bytes": 166615,
+      "sha256": "01adbcced4507cd38339b149e63e2dd879aa2855adc314a4c2de70ac9cab77b8"
+    },
+    {
+      "path": "pose-source/test__helpers__coastal-triangle-parity.mjs.gz",
+      "bytes": 1000,
+      "sha256": "ce142b7a9e732ec1576e72a530ffa0da22726ba126a7c36ac4c512b453f28c80"
+    },
+    {
+      "path": "producers/audit-decoded-312-sole-pad-support-v13.mjs.gz",
+      "bytes": 2171,
+      "sha256": "28c898401c8e3a475b71f4fb4049905eba962c08a8742182c165793df4d6399f"
+    },
+    {
+      "path": "producers/audit-pavilion-decoded-312-fullbody-v12.mjs.gz",
+      "bytes": 6318,
+      "sha256": "ee0362e1ec72d68d9105a266245cab4b5b3ea1e092c75a3e47a3caf1a2cd2fe2"
+    },
+    {
+      "path": "producers/pavilion-contact-geometry-v4-final312.mjs.gz",
+      "bytes": 1843,
+      "sha256": "0a011f6cff6be86e73fcdc6a400fadb137b9e0ece7e2c45706f18e268c65291d"
+    },
+    {
+      "path": "producers/qualify-decoded-312-tail-clips-v14.mjs.gz",
+      "bytes": 5336,
+      "sha256": "3c8e671d7db122a69d2f60b4af121ca54856a937b85658df30bdc65f3f883e56"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1781,
+      "sha256": "1cbb567b3543113c9a7f33cb61cb221195f951fce0b85f0605b04944940aed41"
+    },
+    {
+      "path": "records/DECODED-312-FULLBODY-V12.json.gz",
+      "bytes": 141724,
+      "sha256": "00a56b4b42b97ff47516fe8add98abe66f09cc662867f6d9a4611f2391f9209f"
+    },
+    {
+      "path": "records/DECODED-312-SOLE-PAD-SUPPORT-V13.json.gz",
+      "bytes": 20276,
+      "sha256": "5a1afb1e62ea521ce8ed1b6dec855141d0027fcf75c04d80596b9e3f22a9f70a"
+    },
+    {
+      "path": "records/DECODED-312-TAIL-CLIPS-V14.json.gz",
+      "bytes": 24250,
+      "sha256": "43d237695d220b65fff4603c9662bde42dc5e758c128b2eb0422293f3c073db5"
+    }
+  ]
+}
