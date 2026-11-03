@@ -1,0 +1,8 @@
+{
+  "at": "2026-11-03T18:30:56.096117+00:00",
+  "previousSealedPacketExact": true,
+  "previousSealedPayloads": 71,
+  "canonicalManifestSHA256": "dd926845ee5c1293d1e089ced5dfcd287220cd7c39c3138e3a21b94a2604c05b",
+  "fullFormattingAndRosterPassed": true,
+  "rootAPIModelBodiesUnchanged": true
+}

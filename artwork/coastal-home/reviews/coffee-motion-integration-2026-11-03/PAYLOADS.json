@@ -1,0 +1,341 @@
+{
+  "at": "2026-11-03T18:12:57.577435+00:00",
+  "rows": [
+    {
+      "path": "raw/coffee-motion-root-preparation-v1/RECEIPT.json.gz",
+      "originalBytes": 2392,
+      "originalSha256": "0611a6b18c6d2e70a7ff38dae99bfb912213cc09144b2281bd9752fd98cc24e2",
+      "bytes": 1028,
+      "sha256": "46546fa259bced1fd39d5228daf4fb9651458e3df794d080fe5e9f1dce9db3e4"
+    },
+    {
+      "path": "raw/coffee-motion-root-preparation-v1/MANIFEST-LINE-ENDINGS.json.gz",
+      "originalBytes": 558,
+      "originalSha256": "c5bc18750ed6d327a61b97744bca89f5f17511eaf904cfa3d6a9573d6ebdf0fe",
+      "bytes": 382,
+      "sha256": "0a4ba76ebf38168b116f792e4027b48d91d1f2b8a913d7d4e18a4d0ee5b587c6"
+    },
+    {
+      "path": "raw/coffee-motion-root-gates-v1/SOURCE.json.gz",
+      "originalBytes": 1488,
+      "originalSha256": "8f83b15a029fc8c576b898ef88dc7278650d2f7b1abde8edc65f20313c67f237",
+      "bytes": 713,
+      "sha256": "f922ed7b81bab72990ff814a18228c14ea08da1d65c0e8e5e7994db9427ea2ac"
+    },
+    {
+      "path": "raw/coffee-motion-root-gates-v1/FOCUSED.json.gz",
+      "originalBytes": 204,
+      "originalSha256": "b8da4bf1bf056416c41868d4ebff1c5713ffca117743403c1bd63846915ee1fa",
+      "bytes": 149,
+      "sha256": "aa86b59a770ed9271100863e552248511948f647546465da73844a2214181bf1"
+    },
+    {
+      "path": "raw/coffee-motion-root-gates-v1/FOCUSED.log.gz",
+      "originalBytes": 3312,
+      "originalSha256": "4d29607f5d37a77926fb7965c3029d8985b5dc1e7ee80c28bdded3baaf504624",
+      "bytes": 1549,
+      "sha256": "566a942ff2687842a808e0fc6e2d6d4c0cecdf4edf52a57f011fa78aac230b2e"
+    },
+    {
+      "path": "raw/coffee-motion-checkpoint-v1/SOURCE.json.gz",
+      "originalBytes": 2226580,
+      "originalSha256": "f89c5a1db88a966b3d5fde0bf726bef20d77e130ba79802a53114a6ae1d4d88c",
+      "bytes": 521252,
+      "sha256": "e83102c725c70f9c20f0dbacf5966a237ad0c0f7ba706ada77c21f1f5a191d56"
+    },
+    {
+      "path": "raw/coffee-motion-checkpoint-v1/BUILD-GATES.json.gz",
+      "originalBytes": 560,
+      "originalSha256": "3ab5bdf7b20127e97442b8f5e1dc65a25817f0b1ac1417492db751b9de329ce6",
+      "bytes": 323,
+      "sha256": "7a99f46a28cf9f818175446eaa4551578971d4b68419c2d49f097a12ea62f3cf"
+    },
+    {
+      "path": "raw/coffee-motion-checkpoint-v1/UNIT-GATES.json.gz",
+      "originalBytes": 8069,
+      "originalSha256": "745da70ed4b6d5b623be5f278003bc60c0515afeadf1d8f2fe60a4022e91a6d0",
+      "bytes": 1616,
+      "sha256": "86df9b6f2f2fc61c887dd9758dbef6388502988e8346d8ca48bd7faeb1c95564"
+    },
+    {
+      "path": "raw/coffee-motion-checkpoint-v1/production-build.log.gz",
+      "originalBytes": 92577,
+      "originalSha256": "b9e29c9f6e7cc1d7c947001d62c4f02465b0b1e53a00e39323b93c99aaada10e",
+      "bytes": 4509,
+      "sha256": "335809e4abcf3c43511a5f54c8b92a2222258ffd5800c003dae491596a96efb3"
+    },
+    {
+      "path": "raw/coffee-motion-checkpoint-v1/python.log.gz",
+      "originalBytes": 579,
+      "originalSha256": "f99e828f4da24f45fea8a9d609f67f3229f300b887bb93532b629091034b0f43",
+      "bytes": 117,
+      "sha256": "558e11b63417a4f254b9180b1efcf7a4a29aed756c8da29e9e305e75a46a1ca4"
+    },
+    {
+      "path": "raw/coffee-motion-checkpoint-v1/node.log.gz",
+      "originalBytes": 176623,
+      "originalSha256": "1cf71e7c9d6ad81d39661fa8d3495576f60647a01cfe554dedd66221398e147f",
+      "bytes": 48484,
+      "sha256": "3f1b0d881c488d5e9f505a7c65158096d5922ca56ce46a0d33c44dc569d7123a"
+    },
+    {
+      "path": "raw/coffee-motion-checkpoint-v1/style.log.gz",
+      "originalBytes": 37,
+      "originalSha256": "e959900fa566355a00b04f8721479609c46d53edf7fe6f232946b5e9a510ff42",
+      "bytes": 57,
+      "sha256": "1285c7c023390ffa10b2c143c9c2512cbaa6e4fefe4979514838c789099a94e8"
+    },
+    {
+      "path": "raw/coffee-motion-checkpoint-v1/POSTPROCESS.json.gz",
+      "originalBytes": 300123,
+      "originalSha256": "469af44fae6fdbc3fa98686f690d278a9c748e08bcc70e9297b72e7a1a727d94",
+      "bytes": 31420,
+      "sha256": "03e46e078b7fab0066d1942c4fd1b71a0407cb1f6dc5290429bb2a64d1f4ae05"
+    },
+    {
+      "path": "raw/coffee-motion-checkpoint-v1/CACHE-AND-COMPILED-BINDINGS.json.gz",
+      "originalBytes": 1217,
+      "originalSha256": "7850122ba4c13cc9d66fc1697be95a096d4d7ccc4ea51b35e59fa762d44e7b12",
+      "bytes": 711,
+      "sha256": "c83b8c4b5c9cdd3c3ced6bbcd402ff1963358b9ad77980d360bd550a52d85a35"
+    },
+    {
+      "path": "raw/coffee-motion-checkpoint-v1/BROWSER.json.gz",
+      "originalBytes": 908,
+      "originalSha256": "6f7e2e3e2bff11f1eae42c88e10ac806a50eec21db4efd80170ae41e8a833445",
+      "bytes": 577,
+      "sha256": "9fa6dba58f58fbff2e80d78710930a6ab2c5784ae53e7ca2f78cde208361309a"
+    },
+    {
+      "path": "raw/coffee-motion-checkpoint-v1/BROWSER.log.gz",
+      "originalBytes": 582,
+      "originalSha256": "0430cd13f7c391c67960c10ac92dc6075f03aae91c6d3adf72917845500b620a",
+      "bytes": 310,
+      "sha256": "2742a6eca04c5984ed3e52af0cc5e63ee7884ea90b857fe914c7b0a4d930bea1"
+    },
+    {
+      "path": "raw/coffee-pull-retained-v1/FAILED-PREFLIGHT.json.gz",
+      "originalBytes": 449,
+      "originalSha256": "3e19f18aa054dc7d64ea5ca5f134d086c74da17b1d9d4b4fe9068a9c741f5fbc",
+      "bytes": 311,
+      "sha256": "bc49e5ae0943bd335f093a02059393288b354195f08edfc3541261689a394a59"
+    },
+    {
+      "path": "raw/coffee-pull-retained-v2/RETAINED.json.gz",
+      "originalBytes": 304016,
+      "originalSha256": "d697e86dbeb03f4a656ee1a78bb8c41fb19d21163ace75b309b4b20287ecea3a",
+      "bytes": 38677,
+      "sha256": "82e2e4eeb7f263355568bfb2cad5560f7cff65f6995debed8887644621727d83"
+    },
+    {
+      "path": "raw/chair-producer-ci-v1/GREEN.json.gz",
+      "originalBytes": 2577,
+      "originalSha256": "dee9c726b35842709e706d3e8801f5a3e01479f9ea66f1ea89b3ce0d5b9950d0",
+      "bytes": 474,
+      "sha256": "5fbf94fc5a32c74a4305640647c7782a5706c4331594ea0fef05c4492fa8b6c2"
+    },
+    {
+      "path": "raw/chair-producer-live-v1/DELIVERY.json.gz",
+      "originalBytes": 7140,
+      "originalSha256": "70b6cde1fc98e3c61839e0465262b7d1ba4693d47ffa8f4334278c074ed0f491",
+      "bytes": 1623,
+      "sha256": "1f06f85fac0456048d06c63c0907fcb34a40d2012ffc514b7690440ae5129a06"
+    },
+    {
+      "path": "raw/coordinator-replay/REPRODUCTION.json.gz",
+      "originalBytes": 2615,
+      "originalSha256": "9aab9cb3f6810021e2438f30b68db3957a3eb238faa7b2a88ec626c15f847d35",
+      "bytes": 923,
+      "sha256": "8b99bccdb86af503cdfe4b2412df89528a9d41fe2af25fd744073e0063519bb2"
+    },
+    {
+      "path": "raw/coordinator-replay/RESOLVED-INPUTS.jsonl.gz",
+      "originalBytes": 79043,
+      "originalSha256": "679de70b25412641b1f83382ea320edae42d70a9370dd7bfd88be691dd34bab0",
+      "bytes": 8773,
+      "sha256": "625afbfae33ce48722cc61b65ce047564a502c5fce54ba4d8f304e3848dbf8f6"
+    },
+    {
+      "path": "raw/coordinator-replay/COFFEE-CHAIR-MOTION-V112-ALL5-REPLAY-SAVED-REFERENCE-COMPARISON.json.gz",
+      "originalBytes": 453,
+      "originalSha256": "0dabcdacca801e09d75005738cbb2d49361c2b3c28f874a09d8c5944379339b3",
+      "bytes": 301,
+      "sha256": "502d4d1724f814f963761f52b7f3c5415c1c0a02ed07ef38d7585fffdea07187"
+    },
+    {
+      "path": "raw/coordinator-replay/COFFEE-CHAIR-MOTION-V114-ALL5-ORIGINAL-REFERENCE-FULL-SKIN-MATRIX-COMPARISON.json.gz",
+      "originalBytes": 500,
+      "originalSha256": "a3ef00b514fe82234efa1fb6a0ab8b1170b2df44e035b80bbb143e34eaea1ebc",
+      "bytes": 343,
+      "sha256": "7d139c75a8a9f4e208cec8eb74169902b7088438556b3ec95defb6a292984b38"
+    },
+    {
+      "path": "raw/prerequisite/FORMAT-CUSTODY.json.gz",
+      "originalBytes": 1986,
+      "originalSha256": "08f9d7a6140dea3f134f0e93af85951ca08105c033c5eb5099a0ed1a28ca952a",
+      "bytes": 929,
+      "sha256": "832628f0d211d7f06908ffeac27951751a70051cd1f77d31881ce2ef26fab7de"
+    },
+    {
+      "path": "raw/prerequisite/TESTS-PROCESS.json.gz",
+      "originalBytes": 1557,
+      "originalSha256": "de881393d238127f6dcfffaa2fac852a61307f3865c0b60320689bad6c6d2c29",
+      "bytes": 526,
+      "sha256": "d92541da403d13dce54030df7a503bb1cf3cfc7ec301cb02ad7d160bdb3fb133"
+    },
+    {
+      "path": "raw/prerequisite/TESTS.log.gz",
+      "originalBytes": 3432,
+      "originalSha256": "c78b68ae7c1dde7ce3e2f71d8a55b38df092ded873df4dc0f0599037c52b71e2",
+      "bytes": 1564,
+      "sha256": "5f9ea424452135f7414abb3c858becc40a2326db82bcbdbfd3a92bb59ff45121"
+    },
+    {
+      "path": "inputs/assets/js/home-scene/locomotion.mjs.gz",
+      "originalBytes": 30797,
+      "originalSha256": "3d7f25224e4dc2008c72ce97bffccacd585588b5152db1c65eaea6b4689694b5",
+      "bytes": 7646,
+      "sha256": "ce15b12ff9e3cec765e6509296120c7711207d9838fceee8b0cd94ec04d66862"
+    },
+    {
+      "path": "inputs/assets/js/home-scene/coffee-chair-motion.mjs.gz",
+      "originalBytes": 21452,
+      "originalSha256": "cf6a61d8bb1042ed3380e88862ea41fb569b43a9557f22667f5bb81ed6e1cb1d",
+      "bytes": 6456,
+      "sha256": "5b214a928b8c924622d7991464b7ad14efede14a51f9e0eeea2a8ee6d57cd317"
+    },
+    {
+      "path": "inputs/test/coastal-coffee-chair-motion.test.mjs.gz",
+      "originalBytes": 12364,
+      "originalSha256": "c00eafafd63e20a44259c85ebac6324cceb989751370b07e806ee1af8d68bd48",
+      "bytes": 3806,
+      "sha256": "0338dea31db249793b784fd805514dee7cf749aecee4b70a0cf582b5e2c24a5b"
+    },
+    {
+      "path": "inputs/test/coastal-coffee-sole-contact.test.mjs.gz",
+      "originalBytes": 24646,
+      "originalSha256": "e65d94b15b96e73df8f2b7801aeb9980851663b90903edb72026d504f0aa2daa",
+      "bytes": 5811,
+      "sha256": "7ea64a49aeb3d6f6708da76b1d8e1fbf6cca380e29ff8ced1d77024c2177b5e0"
+    },
+    {
+      "path": "producers/prepare-root-coffee-motion-replay-v1.py.gz",
+      "originalBytes": 1461,
+      "originalSha256": "add39814137413180d2047eabcd2e984e84830cded8a79e820b9f6fd6eda5ff5",
+      "bytes": 861,
+      "sha256": "e3e3f1df48d2809c882e60dee008958b5feee5cc80f9275a90f4748fdba9eff0"
+    },
+    {
+      "path": "producers/prepare-root-coffee-motion-gates-v1.py.gz",
+      "originalBytes": 1824,
+      "originalSha256": "d4237f73322a4c26fc9d968a71b336f6a518ef32c12e0edc5f94724eb4b9d578",
+      "bytes": 958,
+      "sha256": "afa8d3b1ed2634868fd1909137676ea9aa7ee1a942693014dc0b8e0b3f23b8a4"
+    },
+    {
+      "path": "producers/prepare-coffee-motion-checkpoint-v1.py.gz",
+      "originalBytes": 2116,
+      "originalSha256": "11f56e932d02da224815fafc54b2c61141f09547834df20f5d37766324696bbe",
+      "bytes": 1111,
+      "sha256": "ca4c57d05ca5c0a6656bfe61191a23b22ec372780a132d51eb56d0412342bce5"
+    },
+    {
+      "path": "producers/run-coffee-motion-gates-v1.py.gz",
+      "originalBytes": 1617,
+      "originalSha256": "e3bbd5f24795885f8ed44b438479418de1ed935ea8ddd7a5906e750499a34ed9",
+      "bytes": 950,
+      "sha256": "4755996414102a95d9cb6a0fb3f118bce4778e6820e3d25050a05be8bbe1fead"
+    },
+    {
+      "path": "producers/postprocess-coffee-motion-v1.cjs.gz",
+      "originalBytes": 1726,
+      "originalSha256": "e1d86c35b8034d1c54e10c9258ad3ac39ec5fac91be3df77bf6e777d4cbed21b",
+      "bytes": 900,
+      "sha256": "3ec5e3e5b32a781ee170ace337e63ebc98af5d97d4f30fa1620c48b5612c2eeb"
+    },
+    {
+      "path": "producers/check-coffee-motion-cache-v1.cjs.gz",
+      "originalBytes": 2574,
+      "originalSha256": "8705a80cc5cdaa6508e2fb702fff03f219ab25328ed7a798e24b3639548e89c3",
+      "bytes": 1244,
+      "sha256": "834a37343035c1cc7ab14e6ace9453057e1917f5e73d152f60faf25a0e6fc2f3"
+    },
+    {
+      "path": "producers/run-coffee-motion-visual-v1.py.gz",
+      "originalBytes": 1302,
+      "originalSha256": "eb0687cea54d2a374322e9f5f35ad05e62c6edd98a9da8103e2f1b7b8caa6fc3",
+      "bytes": 786,
+      "sha256": "5b051a243bff00a288f2b9f392f94b0211afd27d0feac513b98be6910b72cfbc"
+    },
+    {
+      "path": "producers/retain-coffee-pull-raw-v1.py.gz",
+      "originalBytes": 2331,
+      "originalSha256": "70abd22f084b387d918ead2dd1ee939d91492e82a2ffb1e989adca9bf7c9467e",
+      "bytes": 1205,
+      "sha256": "fb9f3484ed0b29e6858b340720e32b29d458fbea05964fc2f1a67fe9d8109ff7"
+    },
+    {
+      "path": "producers/retain-coffee-pull-raw-v2.py.gz",
+      "originalBytes": 2383,
+      "originalSha256": "1ed1da84759cf685cc08b2578c2f5ed4adcce7e2aa4c7e61028384ef6b7990c4",
+      "bytes": 1224,
+      "sha256": "3676a8be00901c94d3da727827cc293534d8f23d4fc50d208c6cf13c9f831696"
+    },
+    {
+      "path": "raw/final-gates/coffee-motion-final-gates-v1/GATES.json.gz",
+      "bytes": 202,
+      "sha256": "d99f10bf7e9202e004990082796d0f9b0fa7b5bd6463660ad7df5a06e1340f65",
+      "originalBytes": 296,
+      "originalSha256": "6470b2b830ee8ae566010520d1e5f5de5e16ba9b69fd87bcdc5be372843adc1f"
+    },
+    {
+      "path": "raw/final-gates/coffee-motion-final-gates-v1/prettier.log.gz",
+      "bytes": 194,
+      "sha256": "445d00610ece46a6e24f8b4f4f17445ebb448d147e048cfed534d0a15718043c",
+      "originalBytes": 233,
+      "originalSha256": "46e188cc0c6461a11162f96e0403ad09f8b0e8a8d6dffeb4789b5b25341d3f70"
+    },
+    {
+      "path": "raw/final-gates/coffee-motion-final-gates-v2/GATES.json.gz",
+      "bytes": 288,
+      "sha256": "f15261e32d622b1311d94220711210699c63f689fb55d14109c7836150c93fdc",
+      "originalBytes": 573,
+      "originalSha256": "4ffe0cdd872cd042a3336eb957eedf541ff55920dd0d2313694003737a460202"
+    },
+    {
+      "path": "raw/final-gates/coffee-motion-final-gates-v2/prettier.log.gz",
+      "bytes": 82,
+      "sha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5",
+      "originalBytes": 66,
+      "originalSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "raw/final-gates/coffee-motion-final-gates-v2/roster.log.gz",
+      "bytes": 418,
+      "sha256": "d5857d1c55457a35ac1d08372efa907c57971fae5b5c9dadf6b05edea5830979",
+      "originalBytes": 1528,
+      "originalSha256": "12bb00f8f72efaff508ba2d35e068377bf0d29ebad366725b10789f5eef603e6"
+    },
+    {
+      "path": "raw/final-gates/COFFEE-MOTION-FORMAT-PRODUCER-CORRECTION.json.gz",
+      "bytes": 522,
+      "sha256": "c81349d01e2a8f43a4561439976cce196836ee8282c4029fbc2bb37c76d16f7b",
+      "originalBytes": 874,
+      "originalSha256": "b24fc8916d45da55c0a3322149c7f231728d824a249d4b3503d7f703b1123ec5"
+    },
+    {
+      "path": "raw/final-gates/run-coffee-motion-final-gates-v1.py.gz",
+      "bytes": 1071,
+      "sha256": "758edcc46a0390d7fbbebd87a6000b183e7e863bc2865ed30ecb60f1d2f176e3",
+      "originalBytes": 1898,
+      "originalSha256": "9334bc66e34deab51c6418de6143d4b43046253f86b6f5a3721dc21358d419b0"
+    },
+    {
+      "path": "raw/final-gates/run-coffee-motion-final-gates-v2.py.gz",
+      "bytes": 1111,
+      "sha256": "e186c05c7cb91066b22a441f875436a3ef283f8392f24d826d40588ba5d2c839",
+      "originalBytes": 1946,
+      "originalSha256": "a2111bffdaf31bf6ab0380e68efa36b657345ec9b2b8a99fb7af7a3d0ce53a7a"
+    }
+  ]
+}

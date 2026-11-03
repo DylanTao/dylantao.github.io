@@ -3,6 +3,11 @@
 *.pdf binary
 # The manifest binds this generated cache to its exact response bytes.
 assets/models/home/static-light-field.json text eol=lf
+# These tests bind the unchanged legacy solver body to its canonical source bytes.
+assets/js/home-scene/locomotion.mjs text eol=lf
+assets/js/home-scene/coffee-chair-motion.mjs text eol=lf
+test/coastal-coffee-sole-contact.test.mjs text eol=lf
+test/coastal-coffee-chair-motion.test.mjs text eol=lf
 # Keep recorded upstream source hashes identical on Windows and Linux.
 assets/vendor/paper-shaders/** text eol=lf
 assets/js/vendor/three-r164/** text eol=lf whitespace=-blank-at-eof
@@ -66,6 +71,13 @@ artwork/site-fidelity/reviews/runtime-navigation-publication-2026-11-03/**/*.md 
 artwork/site-fidelity/reviews/runtime-navigation-publication-2026-11-03/**/*.json text eol=lf
 artwork/coastal-home/reviews/chair-producer-integration-2026-11-03/**/*.md text eol=lf
 artwork/coastal-home/reviews/chair-producer-integration-2026-11-03/**/*.json text eol=lf
+artwork/coastal-home/reviews/coffee-chair-motion-2026-11-03/**/*.md text eol=lf
+artwork/coastal-home/reviews/coffee-chair-motion-2026-11-03/**/*.json text eol=lf
+artwork/coastal-home/reviews/coffee-chair-motion-2026-11-03/**/*.py text eol=lf
+artwork/coastal-home/reviews/coffee-chair-motion-2026-11-03/**/*.mjs text eol=lf
+artwork/coastal-home/reviews/coffee-chair-motion-2026-11-03/**/*.cjs text eol=lf
+artwork/coastal-home/reviews/coffee-motion-integration-2026-11-03/**/*.md text eol=lf
+artwork/coastal-home/reviews/coffee-motion-integration-2026-11-03/**/*.json text eol=lf
 artwork/site-fidelity/reviews/brand-publication-2026-11-03/**/*.md text eol=lf
 artwork/site-fidelity/reviews/brand-publication-2026-11-03/**/*.json text eol=lf
 artwork/site-fidelity/reviews/brand-publication-2026-11-03/**/*.py text eol=lf
