@@ -3,7 +3,9 @@ import * as THREE from "../three.module.min.js";
 // This is one source-measured pavilion chair, its linen pad, and a separately
 // authored U footrest. The parts move together for the seating action; this does
 // not imply mechanical joinery, an updated static-GI bake, or force simulation.
-// Native typed streams below bind the independently qualified 312bf6d0 shell.
+// The original 312bf6d0 shell supplies the ownership reference. Later source
+// definitions come from the SHA-bound producer and require separate final
+// geometry, material, contact and rendered admission.
 const NATIVE = {
   maxOffset: 0.4,
   sources: [
