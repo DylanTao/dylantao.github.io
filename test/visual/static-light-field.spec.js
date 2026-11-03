@@ -75,7 +75,7 @@ test("static light field: native linear GPU diffuse matches traced cache without
       const light = (color) => ({ zenith: color, horizon: color, ground: color, practicalPowers: [] });
       try {
         const baseline = render(),
-          field = createStaticLightField({ regions });
+          field = createStaticLightField({ regions, maxDiffuseBounces: 3 });
         liveFields.push(field);
         field.setLighting(light([0.5, 0.5, 0.5]));
         await field.bake({ yieldTask: () => Promise.resolve() });
@@ -105,7 +105,7 @@ test("static light field: native linear GPU diffuse matches traced cache without
           values.forEach((value, i) => (width === 8 ? view.setFloat64(i * width, value, true) : view.setFloat32(i * width, value, true)));
           return btoa(Array.from(bytes, (b) => String.fromCharCode(b)).join(""));
         };
-        const packedField = createStaticLightField({ regions });
+        const packedField = createStaticLightField({ regions, maxDiffuseBounces: 3 });
         liveFields.push(packedField);
         packedField.setLighting(light(nextRadiance));
         const packedRestored = packedField.restoreSnapshot(
@@ -128,7 +128,7 @@ test("static light field: native linear GPU diffuse matches traced cache without
         // The closed shell is a transport root, not a camera occluder in this
         // isolated shader fixture. The receiver and native hemi remain visible.
         const shell = new THREE.Mesh(shellGeometry, shellMaterial),
-          closedField = createStaticLightField({ regions });
+          closedField = createStaticLightField({ regions, maxDiffuseBounces: 3 });
         liveFields.push(closedField);
         closedField.addRoot(shell);
         closedField.setLighting(light([0.5, 0.5, 0.5]));
@@ -143,6 +143,7 @@ test("static light field: native linear GPU diffuse matches traced cache without
         // A rotated, inclined cage far from the origin exercises the actual
         // GLSL coordinate transform. CPU-only coverage would miss a bad shader.
         const framedField = createStaticLightField({
+          maxDiffuseBounces: 3,
           regions: [{ id: "inclined", min: [-0.8, -0.8, -0.8], max: [0.8, 0.8, 0.8], frame: { origin: [40, 3, 60], along: [0.8, 0.6], slope: 0.5 } }],
         });
         liveFields.push(framedField);

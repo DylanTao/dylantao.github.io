@@ -68,7 +68,8 @@ import { createCurtainRig } from "./curtain-rig.mjs";
 import { createWarmPracticals, practicalSourcesFor } from "./warm-practicals.mjs?v=ambience-20261102";
 import { createSteamDensity } from "./steam-density.mjs";
 import { createSteamVolume } from "./steam-volume.mjs";
-import { createStaticLightField, staticLightRegions } from "./static-light-field.mjs?v=packed-20261031";
+import { createStaticLightField, staticLightRegions } from "./static-light-field.mjs?v=diffuse-20261103";
+import { createInteriorExposure } from "./interior-exposure.mjs";
 import { prepareFramePrograms } from "./program-warmup.mjs";
 import { retireCompiledMaterials } from "./program-lifetime.mjs";
 import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
@@ -91,6 +92,7 @@ import { createRainRoofField } from "./rain-roof-field.mjs";
 import { createLibraryLadder } from "./library-ladder.mjs";
 
 const manifestUrl = new URL("../../models/home/manifest.json", import.meta.url);
+manifestUrl.searchParams.set("v", new URL(import.meta.url).searchParams.get("v") || "diffuse-20261103");
 const clamp = THREE.MathUtils.clamp;
 const stored = (key, fallback) => {
   try {
@@ -122,6 +124,8 @@ export function createCoastalHome(container, records, artifacts) {
   const explore = createExplorationState();
   const recordMotion = createRecordMotion();
   const cameraMotion = createCameraMotion();
+  const interiorExposure = createInteriorExposure(),
+    exposurePoint = [0, 0, 0];
   // A released drag coasts (orbit in radians, pan in metres); see camera-motion.mjs.
   const inertia = createInertia();
   const { loader, decoder } = createModelLoader();
@@ -1560,7 +1564,10 @@ export function createCoastalHome(container, records, artifacts) {
       lightBakeAbort.signal.addEventListener("abort", abortCache, { once: true });
       let bytes;
       try {
-        const response = await fetch(new URL(cache.url, manifestUrl).href, { signal: cacheAbort.signal, priority: "low" });
+        const cacheUrl = new URL(cache.url, manifestUrl);
+        if (cache.sha256) cacheUrl.searchParams.set("v", cache.sha256);
+        lightCache.url = cacheUrl.href;
+        const response = await fetch(cacheUrl.href, { signal: cacheAbort.signal, priority: "low" });
         if (!response.ok) throw new Error(`Cached light unavailable: ${response.status}`);
         progressed();
         bytes = await readWithProgress(response, progressed);
@@ -3648,6 +3655,10 @@ export function createCoastalHome(container, records, artifacts) {
       lightKey: JSON.stringify([routine?.dateKey, routine?.minute]),
       now,
     });
+    const exposureGain = interiorExposure.update(staticLightField?.ambientAt(camera.position.toArray(exposurePoint)), frameDelta, {
+      instant: reduced || paused || style !== "realistic",
+    });
+    renderer.toneMappingExposure = (style === "realistic" ? 1.05 * exposureGain : 1.18) * TONE_EXPOSURE[look.tone];
     walkPresence?.withoutHead(() => {
       if (style === "realistic" && finish)
         finish.render(
@@ -3911,6 +3922,8 @@ export function createCoastalHome(container, records, artifacts) {
       staticLightField = createStaticLightField({
         regions: staticLightRegions(config),
         practicalSources: [...warmPracticals.sources, ...roomLightSources(config)],
+        maxDiffuseBounces: 3,
+        bouncePracticals: false,
         acceptMesh(mesh) {
           if (mesh.geometry?.attributes.coastalPlantWeight) return false;
           const screenFace = gymScreen?.objects().includes(mesh);
@@ -4511,6 +4524,7 @@ export function createCoastalHome(container, records, artifacts) {
         })(),
       },
       lightField: staticLightField ? { ...staticLightField.evidence(), error: lightBakeError } : null,
+      interiorExposure: interiorExposure.evidence(),
       steam: steamVolume
         ? { ready: steamReady, setupMilliseconds: steamSetupMilliseconds, visible: steamVolume.object.visible, ...steamVolume.evidence() }
         : null,

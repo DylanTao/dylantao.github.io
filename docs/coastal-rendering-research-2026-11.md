@@ -69,6 +69,69 @@ reconstructs the exact target. That checks accounting and edge handling; it does
 not predict dirty tiles or demonstrate saved rendering work. In particular,
 freezing last-frame RGB or assuming a static room is safe is not admitted.
 
+## Daylight transport, November 3
+
+Sirui's noon-study report exposed a different limitation from draw submission:
+the existing cache terminated most paths after one diffuse surface. The sky
+already uses a solar position, Rayleigh/Mie scattering, ozone, marine weather
+and a separate moon. Replacing that with an authored orange-to-purple timer
+would discard working physics. Sunset color depends on atmosphere and clouds;
+the implementation does not guarantee a vivid purple sunset every day.
+[Bruneton's reference](https://ebruneton.github.io/precomputed_atmospheric_scattering/)
+provides a useful spectral/ozone reference and CPU/GPU comparison methodology.
+[Sloan, Kautz and Snyder's SIGGRAPH 2002 PRT abstract](https://www.microsoft.com/en-us/research/publication/precomputed-radiance-transfer-real-time-rendering-dynamic-low-frequency-lighting-environments/)
+motivates separating static transport from changing illumination; the paper
+abstract was reviewed here, not a new implementation reproduced.
+
+A real full-geometry experiment traced a hemisphere grid of solar directions,
+retaining the current 128 probes and first-order output. Interpolation was
+inaccurate around the study's occluded apertures: for 289 directions, held-out
+November 3 directions gave study normalized RMS error about 7.85 against a very
+small direct single-bounce reference (maximum reference0.00417, maximum absolute
+error0.03144 in unit-illuminance irradiance). The losslessly deflated solar basis
+alone was 834,743 bytes, exceeding the whole cache's 800,000-byte limit before
+base lighting or JSON. The 73- and 145-direction controls also fail accuracy.
+This candidate is rejected. Its corrected producer proves that all prototype
+modules and the uncached manifest were actually served; the first attempt's
+query-string mismatch timed out and remains a harness failure, not a result.
+
+An independent exact-current-direction prototype includes one, two and three
+diffuse surfaces with actual visibility queries. Additional sky/practical
+reflections increase the study-center diffuse irradiance by roughly half in
+the inspected noon state, using the existing source basis and GPU shader. Its
+additional exact solar term is small in that study view. The prototype reports
+113,020 second/third-surface visits and keeps the current geometry intact.
+The first prototype called its combined sky/practical mode `sky-only`; that
+label was wrong. The second names it `multibounce`. Neither is sky-only and
+neither implies a steady-frame speedup.
+
+The first maintained all-source candidate passed the build but failed the
+unchanged complete-first-scene transfer gate:4,255,092 bytes exceeded4MiB.
+Lossless byte shuffling/DEFLATE saved only about20KB of the actual gzip cache,
+and tested XOR/delta/bitplane predictors did not solve the remaining gap.
+Brotli was neither sufficient nor natively available in the retained Chromium145
+and WebKit27.2. These packing experiments add no runtime decoder or dependency.
+
+The selected candidate allocates the deeper paths to sky and far-ground light,
+while preserving every practical transport bit. Its official cache is712,544
+bytes,186,913gzip, and the unchanged complete-first-scene test passes. All61
+model inputs, distance moments and probe validity/positions stay exact. This
+also avoids adding extra orange lamp interreflection to the daytime room.
+The earlier roughly-half gain includes deeper lamp paths and must not be
+reported as the selected candidate's measured daylight gain.
+
+The maintained candidate combines those environment paths with bounded
+direction-independent room exposure and the existing native sun/moon/shadows.
+It preserves zero-ray relighting, the cache-size limit, closed-wall rejection,
+constant-radiance energy bounds and the exact packed representation. The
+angular-grid result is not used. A runtime retained BVH would cost about52MB
+for this source and needs a separate memory/startup/benefit experiment; it is
+not silently added to phones for a small study gain. See
+[the field contract](static-light-field.md#november-3-daylight-revision) for the
+implementation limits. Native production day/night and sunset evidence,
+WebKit, quiet frame cost and public verification remain the candidate's
+integration gates.
+
 ## Next bounded hypotheses
 
 1. Cache expensive static geometry/material evaluation, not finished lighting.

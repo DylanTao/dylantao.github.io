@@ -787,6 +787,7 @@ test("coastal loading: the occupied room and avatar precede the first ready fram
     expect(ready.roomCount).toBe(homeManifest().rooms.length);
     expect(ready.simulation.lightField.ready).toBe(true);
     expect(ready.simulation.lightField.cacheHit).toBe(true);
+    expect(new URL(ready.loading.lightCache.url).searchParams.get("v")).toBe(homeManifest().staticLightFieldCache.sha256);
     expect(ready.furniture.placed.length).toBeGreaterThan(10);
     expect(Object.values(ready.loading.progress)).toEqual([1, 1, 1, 1, 1]);
     await expect(page.locator("[data-world-progress]")).toBeHidden();
@@ -810,7 +811,7 @@ test("coastal loading: a stalled optional light cache falls back before the firs
   await page.clock.setFixedTime(new Date("2026-10-02T13:20:00-07:00"));
   let release;
   const held = new Promise((resolve) => (release = resolve));
-  await page.route("**/static-light-field.json", async (route) => {
+  await page.route(/\/static-light-field\.json(?:\?|$)/, async (route) => {
     await held;
     await route.continue().catch(() => {});
   });

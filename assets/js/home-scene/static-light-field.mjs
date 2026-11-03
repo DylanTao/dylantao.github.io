@@ -1,4 +1,5 @@
 import * as THREE from "../three.module.min.js";
+import { traceAdditionalDiffuse } from "./diffuse-paths.mjs";
 import {
   accumulateL1,
   clamp,
@@ -169,12 +170,14 @@ function snapshotArray(encoded, length, width) {
   }
 }
 
-// Static, one-bounce, visibility-weighted diffuse field. No dynamic ray tracing.
+// Static, visibility-weighted diffuse field. No dynamic ray tracing.
 export function createStaticLightField({
   regions = STATIC_LIGHT_REGIONS,
   practicalSources = [],
   raysPerProbe = 64,
   skyRaysPerHit = 8,
+  maxDiffuseBounces = 1,
+  bouncePracticals = false,
   maxTraceDistance = 16,
   maxTriangles = 750000,
   acceptMesh = () => true,
@@ -185,6 +188,8 @@ export function createStaticLightField({
   const side = Math.sqrt(raysPerProbe),
     rays = sphereQuadrature(side);
   if (!Number.isInteger(skyRaysPerHit) || skyRaysPerHit < 1 || skyRaysPerHit > 16) throw new RangeError("sky rays per hit must be 1..16");
+  if (!Number.isInteger(maxDiffuseBounces) || maxDiffuseBounces < 1 || maxDiffuseBounces > 3) throw new RangeError("diffuse bounces must be 1..3");
+  if (typeof bouncePracticals !== "boolean") throw new TypeError("practical bounce selection must be boolean");
   if (!Number.isFinite(maxTraceDistance) || maxTraceDistance <= 0 || !Number.isInteger(maxTriangles) || maxTriangles < 1)
     throw new RangeError("invalid trace bounds");
   if (!regions.length || regions.length > 16 || practicalSources.length > 28)
@@ -250,7 +255,8 @@ export function createStaticLightField({
   );
   const coefficientData = new Float32Array(count * 16),
     positionData = new Float32Array(count * 4),
-    momentData = new Float32Array(count * raysPerProbe * 4);
+    momentData = new Float32Array(count * raysPerProbe * 4),
+    regionMeanLuminance = new Float64Array(regions.length);
   const coefficientTexture = makeTexture(coefficientData, 4, count),
     positionTexture = makeTexture(positionData, count, 1),
     momentTexture = makeTexture(momentData, side, side * count);
@@ -299,6 +305,9 @@ export function createStaticLightField({
     maxTaskMs: 0,
     relocatedProbes: 0,
     rejectedProbes: 0,
+    secondarySurfaces: 0,
+    secondaryEscapes: 0,
+    absorbedBackfaces: 0,
   };
   // Geometry visibility is independent of the live sky and lamp powers. An authoring bake can
   // retain this small transport field; the visitor only relights its coefficients. The caller's
@@ -316,6 +325,8 @@ export function createStaticLightField({
     })),
     raysPerProbe,
     skyRaysPerHit,
+    maxDiffuseBounces,
+    bouncePracticals,
     maxTraceDistance,
     maxTriangles,
   });
@@ -520,6 +531,23 @@ export function createStaticLightField({
           weight
         );
       });
+      traceAdditionalDiffuse({
+        bvh,
+        first: hit,
+        origin,
+        direction,
+        weight,
+        probeIndex: index,
+        rayIndex: k,
+        skyRaysPerHit,
+        maxDiffuseBounces,
+        bouncePracticals,
+        maxTraceDistance,
+        practicalSources,
+        transport,
+        start,
+        statistics,
+      });
       const pending = yieldIfNeeded();
       if (pending) await pending;
     }
@@ -683,6 +711,8 @@ export function createStaticLightField({
     fallbackCoefficients = fallback;
     uniforms.slfFallback.value.set(fallback);
     if (!transport) return true;
+    regionMeanLuminance.fill(0);
+    const validByRegion = new Uint16Array(regions.length);
     const coefficients = new Float64Array(12);
     for (let p = 0; p < count; p++) {
       coefficients.fill(0);
@@ -690,8 +720,14 @@ export function createStaticLightField({
         for (let k = 0; k < 12; k++)
           coefficients[k] += transport[(p * sourceCount + s) * 12 + k] * (s < 3 ? colors[s][k % 3] : lighting.practicalPowers[s - 3]);
       deringL1(coefficients);
+      if (probes[p].valid) {
+        const region = probes[p].region;
+        regionMeanLuminance[region] += 0.2126 * coefficients[0] + 0.7152 * coefficients[1] + 0.0722 * coefficients[2];
+        validByRegion[region]++;
+      }
       for (let k = 0; k < 4; k++) coefficientData.set([...coefficients.subarray(k * 3, k * 3 + 3), 0], p * 16 + k * 4);
     }
+    for (let region = 0; region < regions.length; region++) regionMeanLuminance[region] /= validByRegion[region] || 1;
     coefficientTexture.needsUpdate = true;
     return true;
   }
@@ -706,6 +742,25 @@ export function createStaticLightField({
     const coverage = 1 - t * t * (3 - 2 * t),
       score = point.reduce((s, x, a) => s + ((x - (r.min[a] + r.max[a]) * 0.5) / (r.max[a] - r.min[a])) ** 2, 0);
     return { coverage, weight: coverage / (0.25 + score) ** 2 };
+  }
+  function ambientAt(point) {
+    let luminance = 0,
+      total = 0,
+      coverage = 0;
+    if (uniforms.slfReady.value && !disposed)
+      for (let region = 0; region < regions.length; region++) {
+        if (!regionMeanLuminance[region]) continue;
+        const support = regionSupport(point, regions[region]);
+        luminance += support.weight * regionMeanLuminance[region];
+        total += support.weight;
+        coverage = Math.max(coverage, support.coverage);
+      }
+    return {
+      ready: Boolean(uniforms.slfReady.value) && !disposed,
+      coverage,
+      luminance: total ? luminance / total : 0,
+      unoccludedLuminance: 0.2126 * fallbackCoefficients[0] + 0.7152 * fallbackCoefficients[1] + 0.0722 * fallbackCoefficients[2],
+    };
   }
   function sampleRegion(region, point, normal) {
     const bounds = regions[region],
@@ -908,11 +963,15 @@ if(slfReady>.5) {
       })),
       raysPerProbe,
       skyRaysPerHit,
+      maxDiffuseBounces,
+      practicalDiffuseBounces: bouncePracticals ? maxDiffuseBounces : 1,
       maxTraceDistance,
       triangleBudget: maxTriangles,
       acceleratorBytes: statistics.acceleratorBytes || bvh?.bytes || 0,
       acceleratorRetainedBytes: bvh?.bytes || 0,
-      retainedCpuBytes: coefficientData.byteLength + positionData.byteLength + momentData.byteLength + (transport?.byteLength || 0),
+      retainedCpuBytes:
+        coefficientData.byteLength + positionData.byteLength + momentData.byteLength + regionMeanLuminance.byteLength + (transport?.byteLength || 0),
+      ambientMeanBytes: regionMeanLuminance.byteLength,
       textureBytes: coefficientData.byteLength + positionData.byteLength + momentData.byteLength,
       transportBytes: transport?.byteLength || 0,
       trace: statistics.trace || bvh?.evidence?.() || {},
@@ -920,7 +979,7 @@ if(slfReady>.5) {
       ready: !!uniforms.slfReady.value,
       disposed,
       limits: [
-        "Static opaque geometry and one Lambertian bounce; no dynamic actor/leaf/coast displacement visibility",
+        `Static opaque geometry; sky/ground up to ${maxDiffuseBounces} Lambertian bounces, practicals ${bouncePracticals ? maxDiffuseBounces : 1}; no dynamic actor/leaf/coast displacement visibility`,
         "First-order directional irradiance; sparse moment visibility is approximate and may leak across unsampled thin walls",
         "Material base color/metalness only; texture, vertex color and procedural detail are not baked",
         "Actual sky gradient plus authored far-ground boundary; solar disk/cloud/stars and direct-sun bounce omitted",
@@ -944,7 +1003,7 @@ if(slfReady>.5) {
     transport = bvh = null;
     roots.length = 0;
   }
-  const api = { addRoot, bake, exportSnapshot, restoreSnapshot, setLighting, setPracticalPowers, bindMaterial, sample, evidence, dispose };
+  const api = { addRoot, bake, exportSnapshot, restoreSnapshot, setLighting, setPracticalPowers, bindMaterial, sample, ambientAt, evidence, dispose };
   setLighting(lighting);
   return api;
 }

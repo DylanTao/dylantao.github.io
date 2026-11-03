@@ -20,6 +20,8 @@ async function coastalLightInputs(root) {
     "_plugins/site_module_assets.rb",
     "Gemfile.lock",
     "assets/js/home-scene/static-light-field.mjs",
+    "assets/js/home-scene/diffuse-paths.mjs",
+    "assets/js/home-scene/interior-exposure.mjs",
     "assets/js/home-scene/light-trace-core.mjs",
     "assets/js/home-scene/controller.mjs",
     "assets/js/home-scene/arrival-rill.mjs",

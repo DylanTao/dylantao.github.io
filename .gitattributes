@@ -50,6 +50,13 @@ bin/coastal_pavilion_chair.py text eol=lf
 bin/refresh_coastal_pavilion_chair.py text eol=lf
 test/test_pavilion_breakfast.py text eol=lf
 test/test_pavilion_chair.py text eol=lf
+artwork/coastal-home/reviews/daylight-transport-2026-11-03/**/*.md text eol=lf
+artwork/coastal-home/reviews/daylight-transport-2026-11-03/**/*.json text eol=lf
+artwork/coastal-home/reviews/daylight-transport-2026-11-03/**/*.py text eol=lf
+artwork/coastal-home/reviews/daylight-transport-2026-11-03/**/*.js text eol=lf
+artwork/site-fidelity/reviews/brand-publication-2026-11-03/**/*.md text eol=lf
+artwork/site-fidelity/reviews/brand-publication-2026-11-03/**/*.json text eol=lf
+artwork/site-fidelity/reviews/brand-publication-2026-11-03/**/*.py text eol=lf
 artwork/site-fidelity/reviews/cv-navigation-2026-11-01/*.md text eol=lf
 artwork/site-fidelity/reviews/cv-navigation-2026-11-01/*.json text eol=lf
 artwork/la-jolla/reconstruction/HUNYUAN-LICENSE.txt text eol=lf whitespace=-blank-at-eol

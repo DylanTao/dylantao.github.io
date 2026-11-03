@@ -1,0 +1,944 @@
+{
+  "schema": "sirui-review-manifest-v1",
+  "at": "2026-11-03T11:37:07.680212+00:00",
+  "scope": "Selected environment-only deep diffuse/camera-exposure checkpoint. Local study native2K/4K and modernWebKit, exact unchanged practical/model readback, failed controls and unresolved bedroom follow-up. Publication is separate.",
+  "files": [
+    { "path": "README.md", "bytes": 4805, "sha256": "bd6a336160c9d34b3405e29b3a56d044a6f4dabcfdcd286d95a0865a69242e07" },
+    {
+      "path": "before-study-2k/CAPTURE.json.gz",
+      "bytes": 271110,
+      "sha256": "f72c8f2ed520d18bd822dbf26451583892b75c6e871d4383a34bb5e00fd20f93",
+      "originalBytes": 2110398,
+      "originalSha256": "0db1bc9948f951f2f4bf9c3803b89708df795c45aabe07259f9940328e8907aa",
+      "source": "study-daylight-baseline-v1-2k\\CAPTURE.json"
+    },
+    {
+      "path": "before-study-2k/noon-default-canvas.png",
+      "bytes": 1826164,
+      "sha256": "d43457e72c755a6de2e0238125a870af92af1c99103bb8f69ca6040015104a0c",
+      "originalBytes": 1826164,
+      "originalSha256": "d43457e72c755a6de2e0238125a870af92af1c99103bb8f69ca6040015104a0c",
+      "source": "study-daylight-baseline-v1-2k\\noon-default-canvas.png"
+    },
+    {
+      "path": "before-study-2k/noon-side-canvas.png",
+      "bytes": 1727744,
+      "sha256": "bb722aaa59a0c35985c28eee3bd2a73743f7dedfee96b5d577fab04aff036121",
+      "originalBytes": 1727744,
+      "originalSha256": "bb722aaa59a0c35985c28eee3bd2a73743f7dedfee96b5d577fab04aff036121",
+      "source": "study-daylight-baseline-v1-2k\\noon-side-canvas.png"
+    },
+    {
+      "path": "controls/DAYLIGHT-ROOM-CAPTURES-V6.json.gz",
+      "bytes": 149,
+      "sha256": "66617ad17ee15980c608fe3b909bbe2f3edd7b4c4829ae5b6d29f360ad440a4a",
+      "originalBytes": 275,
+      "originalSha256": "ab8deb3e923f8a25d1c46d61635d1312d9d7c8e5e8c5c47da55e210f47afa30e",
+      "source": "DAYLIGHT-ROOM-CAPTURES-V6.json"
+    },
+    {
+      "path": "controls/daylight-bake-v5/PROCESS.json.gz",
+      "bytes": 1222,
+      "sha256": "ee0a1dd681b98df145dcbfca8273c42a14a2ae493fc0af1f30505276e878447c",
+      "originalBytes": 2872,
+      "originalSha256": "e0ce7a8399f7fa2da6e78272f4ec57a3c60c2fd992fdf3e010a19a9070971106",
+      "source": "daylight-bake-v5\\PROCESS.json"
+    },
+    {
+      "path": "controls/daylight-bake-v5/SOURCE.json.gz",
+      "bytes": 1068,
+      "sha256": "f19161fb1d2defb4c011a2a2dc41467c869b16d3a883ddee120d5d0387441264",
+      "originalBytes": 2255,
+      "originalSha256": "11d8a66055f9fa6f710ccc6babdde0ecfd24df7d6b8df2e0476235cb66eecd17",
+      "source": "daylight-bake-v5\\SOURCE.json"
+    },
+    {
+      "path": "controls/daylight-bake-v5/bake.log.gz",
+      "bytes": 420,
+      "sha256": "70e084761d22a8533e9d4d2ff5c1a5e004212b7fb0c5de489bd05233f9beb121",
+      "originalBytes": 778,
+      "originalSha256": "d87867bfc3a891503aa44a91a205edad4c85234c462e21a987cc5f41ba42143a",
+      "source": "daylight-bake-v5\\bake.log"
+    },
+    {
+      "path": "controls/daylight-thin-shell-green-v2.log.gz",
+      "bytes": 3125,
+      "sha256": "f9a1f831cb53db5939fb26451e3aaf734266f59516cfa3966715c59cc14d96e2",
+      "originalBytes": 13172,
+      "originalSha256": "f5dc6f52d486c74e37b45ad29d8c1cf8d7d3aff810e4e11d7e560d4a928fba14",
+      "source": "daylight-thin-shell-green-v2.log"
+    },
+    {
+      "path": "controls/daylight-thin-shell-path-near-v3.log.gz",
+      "bytes": 736,
+      "sha256": "11a4637f084741687309b229d1b9d7be8f228719343246493fbde14061605f8a",
+      "originalBytes": 1750,
+      "originalSha256": "b103cfa533ca1f9ac0b13284253321569b4c389a12223a534bd56db21a4b7e57",
+      "source": "daylight-thin-shell-path-near-v3.log"
+    },
+    {
+      "path": "controls/daylight-thin-shell-red-v1.log.gz",
+      "bytes": 992,
+      "sha256": "fb251ffe0ad8a7df98360ba47ce4378138c4b137a5b8412d66f198ed1997f3ab",
+      "originalBytes": 2836,
+      "originalSha256": "8e720b866f159396614072dbfefb5c9e54f8b0bffde344a40ba7c43234cb4c74",
+      "source": "daylight-thin-shell-red-v1.log"
+    },
+    {
+      "path": "controls/sky-bake-v5-comparison.json.gz",
+      "bytes": 709,
+      "sha256": "1c630b7fcbff8665bce5b73482e51ecaaa02e18452e6af4f7e20d7e612edd044",
+      "originalBytes": 1358,
+      "originalSha256": "8d95817b3926c154e694b45e317b720eefe8031c1f88a38ba1bac3041da3e299",
+      "source": "sky-bake-v5-comparison.json"
+    },
+    {
+      "path": "producers/bake-daylight-v5.py",
+      "bytes": 2439,
+      "sha256": "fce54f0617b348ac74d5f2391f46e412484872dd96897abe3e5867c14efd0593",
+      "originalBytes": 2439,
+      "originalSha256": "fce54f0617b348ac74d5f2391f46e412484872dd96897abe3e5867c14efd0593",
+      "source": "bake-daylight-v5.py"
+    },
+    {
+      "path": "producers/capture-daylight-tour-sunset-v1.cjs.gz",
+      "bytes": 3267,
+      "sha256": "40ffa426a8355e1c85c66243c4da324cd132a22a8629a60fb88709da6542d431",
+      "originalBytes": 7446,
+      "originalSha256": "f1651113c43df0dc124d7a5b32028b08f1e107eced82c5d5ebf1355365985528",
+      "source": "capture-daylight-tour-sunset-v1.cjs"
+    },
+    {
+      "path": "producers/capture-daylight-tour-sunset-v3.cjs.gz",
+      "bytes": 4126,
+      "sha256": "c528420c848a55ca9738776cadf0071b86b069fc4201f1977ae9cb480ef0a66d",
+      "originalBytes": 9680,
+      "originalSha256": "674b18642b7efa9ddbef41d2dd370674f829ead0d159558b12709f5f906443af",
+      "source": "capture-daylight-tour-sunset-v3.cjs"
+    },
+    {
+      "path": "producers/capture-study-daylight-final-v6.cjs.gz",
+      "bytes": 4316,
+      "sha256": "19a33a9cc37defa4e8a0973127108ba2532105c017bbec6d8b3bad99df7b43a0",
+      "originalBytes": 10558,
+      "originalSha256": "7baa16e2ddefc1de6d93b4a9f3720ed840ec6a917fff5714fb120210f320c124",
+      "source": "capture-study-daylight-final-v6.cjs"
+    },
+    {
+      "path": "producers/compare-daylight-cache-v5.py",
+      "bytes": 2182,
+      "sha256": "7cce38bc95dde576a8f33468a2f5453b4ced1aa2056c0d0b5cd1d18819c4e2b4",
+      "originalBytes": 2182,
+      "originalSha256": "7cce38bc95dde576a8f33468a2f5453b4ced1aa2056c0d0b5cd1d18819c4e2b4",
+      "source": "compare-daylight-cache-v5.py"
+    },
+    {
+      "path": "producers/multibounce-experiment-v1.mjs.gz",
+      "bytes": 1908,
+      "sha256": "60ce5283f29c56bdc9ab867ffcfb0ca2688107374d5905a04e1a6682b376b0cc",
+      "originalBytes": 4499,
+      "originalSha256": "99bd6db863c22d5592e4fcebd9e4883d1e0693789654201857a9e474f561a3e7",
+      "source": "multibounce-experiment-v1.mjs"
+    },
+    {
+      "path": "producers/postprocess-daylight-v4.cjs.gz",
+      "bytes": 902,
+      "sha256": "a0dce1a53d5890d7ba5c608131200ba9b56e0ceda3f2f7ec451ecbea9e5ccfd3",
+      "originalBytes": 1733,
+      "originalSha256": "e3ba98a998b904ce65764126fd58ae378fa6456e799a243f4a942def565fa4c0",
+      "source": "postprocess-daylight-v4.cjs"
+    },
+    {
+      "path": "producers/run-daylight-gates-v4.py",
+      "bytes": 1631,
+      "sha256": "553d3a49ff90c2b8838fa5f203d517e2e738ff17f701a74ad1a3eb89be5be97f",
+      "originalBytes": 1631,
+      "originalSha256": "553d3a49ff90c2b8838fa5f203d517e2e738ff17f701a74ad1a3eb89be5be97f",
+      "source": "run-daylight-gates-v4.py"
+    },
+    {
+      "path": "producers/run-daylight-visual-v4.py",
+      "bytes": 1216,
+      "sha256": "ca75dd2c76386b7906f9e79cd026b6fa7227d04690eddd15e97f1939f0da8346",
+      "originalBytes": 1216,
+      "originalSha256": "ca75dd2c76386b7906f9e79cd026b6fa7227d04690eddd15e97f1939f0da8346",
+      "source": "run-daylight-visual-v4.py"
+    },
+    {
+      "path": "producers/run-multibounce-experiment-v2.cjs.gz",
+      "bytes": 3222,
+      "sha256": "15733897ba8f8afda661f98d392b3d471b52b298183fd23643dd996fb5e59355",
+      "originalBytes": 8356,
+      "originalSha256": "aa92e48c9fe5d0ce3857c8094dcee436378a1d2e709f8cd0f9c6af21e2fdf034",
+      "source": "run-multibounce-experiment-v2.cjs"
+    },
+    {
+      "path": "producers/run-solar-transfer-experiment-v2.cjs.gz",
+      "bytes": 2847,
+      "sha256": "1a0ca05b05fd724642c1606910cf39f7d6188f03a1199bd869bcffee69cecd6e",
+      "originalBytes": 7233,
+      "originalSha256": "39e7922bb63ad9a1d2f0a8a423c948f5dbaf9ea0e437d940df2fe042e09c3c19",
+      "source": "run-solar-transfer-experiment-v2.cjs"
+    },
+    {
+      "path": "producers/solar-transfer-experiment-v1.mjs.gz",
+      "bytes": 1874,
+      "sha256": "90ba35aa56bc58c09ed2f81443da3355286819c6d1d34df60ca0d11f6efdf980",
+      "originalBytes": 5561,
+      "originalSha256": "3fa82afde691f7b4fc1c8f4ad838df25695bb9eeb4116d416e71591e20e6d017",
+      "source": "solar-transfer-experiment-v1.mjs"
+    },
+    {
+      "path": "rejected/daylight-checkpoint-v1/SOURCE.json.gz",
+      "bytes": 1247,
+      "sha256": "efd5e58c35ec158b0db3795b5037bbd5726c4a53f353893bbab8f45ac654889f",
+      "originalBytes": 3911,
+      "originalSha256": "d85f099eea2084fffb0ef506a2227eb18b2233f1a717870b767ddf587d5b5faf",
+      "source": "daylight-checkpoint-v1\\SOURCE.json"
+    },
+    {
+      "path": "rejected/daylight-checkpoint-v1/UNIT-GATES.json.gz",
+      "bytes": 253,
+      "sha256": "996e044b732b745d07caaa24e6843691696cf811aaa92f682e72ff66cd8bdd67",
+      "originalBytes": 444,
+      "originalSha256": "f797f7853917f9e973dec28322f4a3f3567655c9111f2662173432b589d06832",
+      "source": "daylight-checkpoint-v1\\UNIT-GATES.json"
+    },
+    {
+      "path": "rejected/daylight-checkpoint-v1/python.log.gz",
+      "bytes": 395,
+      "sha256": "33248b85178f0b7d0b4049a8d06ca9e802c82ccd4766639da8c5a1d6b91b538f",
+      "originalBytes": 1376,
+      "originalSha256": "8dc1c309b3108b77a7eb9375980d92faf68da78d6b04f44454b7aa4a3582932b",
+      "source": "daylight-checkpoint-v1\\python.log"
+    },
+    {
+      "path": "rejected/daylight-checkpoint-v3/TARGETED-VISUAL.json.gz",
+      "bytes": 477,
+      "sha256": "ee9a164fdb03ddf5ad2eaf690ca9a1a5f42ff6872530b4bd56ee1e0cd085186e",
+      "originalBytes": 788,
+      "originalSha256": "66a3999f000b1a2fdd4729016b35bb7a2c22b9c0c33b36df6e80ae56b7637766",
+      "source": "daylight-checkpoint-v3\\TARGETED-VISUAL.json"
+    },
+    {
+      "path": "rejected/daylight-checkpoint-v3/targeted-visual.log.gz",
+      "bytes": 930,
+      "sha256": "eddcdb391eaa9a368aa1abe10fae04ccd8c13a8e529fedb7a1c04de76a127954",
+      "originalBytes": 3665,
+      "originalSha256": "b120642bdb66c2047a7abdb53ed4cb5a8b65fde7369f12da326ca0d83713d7e3",
+      "source": "daylight-checkpoint-v3\\targeted-visual.log"
+    },
+    {
+      "path": "rejected/daylight-sunset-v2/FAILURE.json.gz",
+      "bytes": 2694,
+      "sha256": "d8e84bb30b74f71d3011aa39ad8153c13dd87543ee14c2cde72fa29d929d464f",
+      "originalBytes": 40728,
+      "originalSha256": "c443a200561167d90a3eecf4b3bfd7df552c017cd7b8495f5c33271210bee668",
+      "source": "daylight-sunset-v2\\FAILURE.json"
+    },
+    {
+      "path": "rejected/study-daylight-final-v3-2k/FAILURE.json.gz",
+      "bytes": 279221,
+      "sha256": "a760c378f25a74c81bb481f53dc3ea2d8511fad8a50de67094e867ea19889c01",
+      "originalBytes": 2138730,
+      "originalSha256": "54c4f0545e0dabaa90ec1bbd3192bd00155fded45d02747f64508c16fa609b39",
+      "source": "study-daylight-final-v3-2k\\FAILURE.json"
+    },
+    {
+      "path": "rejected/study-daylight-final-v5-2k/CAPTURE.json.gz",
+      "bytes": 1356383,
+      "sha256": "7391075b863322104e1b06ef693fe086211854873d7ffefad4fcaca1796d990f",
+      "originalBytes": 4948072,
+      "originalSha256": "2ba56cb2aef92e9bd3053a7f5ddc62cc1d99190fbc355085a92c931179335431",
+      "source": "study-daylight-final-v5-2k\\CAPTURE.json"
+    },
+    {
+      "path": "research/compression-streams-chromium-v1.json.gz",
+      "bytes": 129,
+      "sha256": "8e839fe49068496eb2cc31a3ae934cd40985e2e4fcb75a1339cf3ef125ef01ee",
+      "originalBytes": 158,
+      "originalSha256": "7ffcfeb47946a89f4119e00bd2c710093d28fe6ea2ab95cf101d1c9149ffbbc0",
+      "source": "compression-streams-chromium-v1.json"
+    },
+    {
+      "path": "research/compression-streams-webkit-v1.json.gz",
+      "bytes": 117,
+      "sha256": "3fcba21a48144a7f7f5da95cdce60e926a5e46d0600cc8e42bf4541b242632c2",
+      "originalBytes": 148,
+      "originalSha256": "6c1399aaf5b0005fbaa36c901ad58b5d0508d11b55a1874e3f79c417ca9304f1",
+      "source": "compression-streams-webkit-v1.json"
+    },
+    {
+      "path": "research/light-brotli-v1.json.gz",
+      "bytes": 172,
+      "sha256": "aee2f02f66654d0240b1f833940c6737f716122139de66e709ddee2193b07efc",
+      "originalBytes": 572,
+      "originalSha256": "fc24f46b0db14ff0aa395b4c07d0e8ef67c3f633afbbb6f3156590ceb74ba9f2",
+      "source": "light-brotli-v1.json"
+    },
+    {
+      "path": "research/lossless-light-cache-size-v1.json.gz",
+      "bytes": 473,
+      "sha256": "90e3282ad02e8ba4e402abb6fc4ae72a373d16cda2c650707ca6cebed5511ba7",
+      "originalBytes": 923,
+      "originalSha256": "93b912d23eb84fd4d11a3dc2dc5581833fd68cec0b8f4b7f0105c961bfffd376",
+      "source": "lossless-light-cache-size-v1.json"
+    },
+    {
+      "path": "research/lossless-predictors-v1.json.gz",
+      "bytes": 1066,
+      "sha256": "baf0d33bc716083a9be73db3b0f87d96da1f29a3608095c82306e26c82522ea6",
+      "originalBytes": 13297,
+      "originalSha256": "33d0db9aab0d65f6ba3e13c212dd98c0175b57b114ed2b1ea2010f741b7d3865",
+      "source": "lossless-predictors-v1.json"
+    },
+    {
+      "path": "research/multibounce-experiment-v2/EVIDENCE.json.gz",
+      "bytes": 32054,
+      "sha256": "0bb00e6d9c96a8935a54e529e56d41c897a66c93d9eb91ddc535a6b26fa98253",
+      "originalBytes": 208992,
+      "originalSha256": "471cf5d1b2eff03df0b02a031367ab72a5cf0e47a8ca86c231e45d4d4c6fa346",
+      "source": "multibounce-experiment-v2\\EVIDENCE.json"
+    },
+    {
+      "path": "research/multibounce-experiment-v2/METRICS.json.gz",
+      "bytes": 16880,
+      "sha256": "075d2cb96aa20f9c33f7214f4151668c989411ccb75df74d8352f36d415a7043",
+      "originalBytes": 164033,
+      "originalSha256": "5ba8e52bdc5122726e41dc3b25db1321ea0246555d8083aa5a0c3bc5ec57efa5",
+      "source": "multibounce-experiment-v2\\METRICS.json"
+    },
+    {
+      "path": "research/multibounce-experiment-v2/PRIVATE-SNAPSHOT.json.gz",
+      "bytes": 477873,
+      "sha256": "4387e2327b1723482d182015e8e8bc762a6852e7636bb1cb6f085409954dcdf1",
+      "originalBytes": 1333131,
+      "originalSha256": "d69ea0d527234daee920574d9c91bbe20a30adc0838de1369e060db14f5be1f9",
+      "source": "multibounce-experiment-v2\\PRIVATE-SNAPSHOT.json"
+    },
+    {
+      "path": "research/multibounce-experiment-v2/REPORT.json.gz",
+      "bytes": 1311,
+      "sha256": "0d277a53e67a50af0afcff9a4907e992cfbbda87220215bc48abbfbd4a822a64",
+      "originalBytes": 3459,
+      "originalSha256": "28cbed968ebb49681b18c4db6a51baea5caf1db8a3d799351bf3200219c1bc18",
+      "source": "multibounce-experiment-v2\\REPORT.json"
+    },
+    {
+      "path": "research/multibounce-experiment-v2/SERVED.json.gz",
+      "bytes": 71,
+      "sha256": "1aabc8abbfe04e82815b4e7676a0f113dd8db5fb408e3cbbfe89732a23dfca79",
+      "originalBytes": 71,
+      "originalSha256": "d727f66938bf73d45e55e9a91500daa4b21bb18d853d3ff9124fb23904a985d5",
+      "source": "multibounce-experiment-v2\\SERVED.json"
+    },
+    {
+      "path": "research/multibounce-experiment-v2/prototype-controller.mjs.gz",
+      "bytes": 63562,
+      "sha256": "df220cdfdaf1a199c1e54c7473d316b0a259e2da5ab5c23e0aeae679a04b9b2e",
+      "originalBytes": 216637,
+      "originalSha256": "5ccddaa290f14c09c853ec52903d695ad15689d48151662fd21d23ce30037ff0",
+      "source": "multibounce-experiment-v2\\prototype-controller.mjs"
+    },
+    {
+      "path": "research/multibounce-experiment-v2/prototype-static-light-field.mjs.gz",
+      "bytes": 13339,
+      "sha256": "b0aeb1025121b13d3804ddf477ca2e235656c595b727f6e66fcb1c246524084a",
+      "originalBytes": 43793,
+      "originalSha256": "7b6f2d09790acef04354665cab29394257603c9e113dc31c41c8e210a0b26fb0",
+      "source": "multibounce-experiment-v2\\prototype-static-light-field.mjs"
+    },
+    {
+      "path": "research/selective-bounce-size-v1.json.gz",
+      "bytes": 310,
+      "sha256": "0bcd882687f65b7acc8d939b7b5bf36aaadfd406324a1ce4425b9f7cbbab7be3",
+      "originalBytes": 462,
+      "originalSha256": "313ba442e5751e5d1984e14962ab368a8036e835273849894c41da4808c2376e",
+      "source": "selective-bounce-size-v1.json"
+    },
+    {
+      "path": "research/solar-transfer-experiment-v2/EVIDENCE.json.gz",
+      "bytes": 32319,
+      "sha256": "327a40027643090dea097510a1adc1a67f304eb98ffd22382f517f5fa135c27e",
+      "originalBytes": 213801,
+      "originalSha256": "c458e6cbcff957c16c6ce09e5a4cac5e8583fe40654c853015400d45dba1c70a",
+      "source": "solar-transfer-experiment-v2\\EVIDENCE.json"
+    },
+    {
+      "path": "research/solar-transfer-experiment-v2/PACKING.json.gz",
+      "bytes": 135,
+      "sha256": "8f719621e39f62ad3d427e8531f91456ae3b9390dfa5908b5f3ab043edbb1526",
+      "originalBytes": 158,
+      "originalSha256": "91f2843575d27c8d93fbf826aaa91a543f08de007e2c9eac6b34f71e276c016c",
+      "source": "solar-transfer-experiment-v2\\PACKING.json"
+    },
+    {
+      "path": "research/solar-transfer-experiment-v2/REPORT.json.gz",
+      "bytes": 3655,
+      "sha256": "662586172d2054105c06289f312a6df08d1077d6e3944a529b6d4fa12421a560",
+      "originalBytes": 18264,
+      "originalSha256": "67a5e11dbb326d8d9e8a7e9de9f1dde2499768e74496afb97e75c5e78fc7332d",
+      "source": "solar-transfer-experiment-v2\\REPORT.json"
+    },
+    {
+      "path": "research/solar-transfer-experiment-v2/SERVED.json.gz",
+      "bytes": 71,
+      "sha256": "1aabc8abbfe04e82815b4e7676a0f113dd8db5fb408e3cbbfe89732a23dfca79",
+      "originalBytes": 71,
+      "originalSha256": "d727f66938bf73d45e55e9a91500daa4b21bb18d853d3ff9124fb23904a985d5",
+      "source": "solar-transfer-experiment-v2\\SERVED.json"
+    },
+    {
+      "path": "research/solar-transfer-experiment-v2/prototype-controller.mjs.gz",
+      "bytes": 63511,
+      "sha256": "71b8d04f44cf78ec64d7ffa9d18bd5fdf54b4291ee2a9a6219163177ea60e5ee",
+      "originalBytes": 216474,
+      "originalSha256": "1630d0eb25b4a709f1c0051d349e6306509ff0e3ed4f183e300a231a13f59e71",
+      "source": "solar-transfer-experiment-v2\\prototype-controller.mjs"
+    },
+    {
+      "path": "research/solar-transfer-experiment-v2/prototype-static-light-field.mjs.gz",
+      "bytes": 13239,
+      "sha256": "48057ef339a961fa91f4fad965e6e49cde8b8688c5e9d8c79bf5b34591ac9575",
+      "originalBytes": 43457,
+      "originalSha256": "febebafe4864e79d75b0d644752ae1ae57f077f910bdf7ee71e8d8655dcafc23",
+      "source": "solar-transfer-experiment-v2\\prototype-static-light-field.mjs"
+    },
+    {
+      "path": "research/solar-transfer-experiment-v2/solar-transfer.f64.deflate",
+      "bytes": 834743,
+      "sha256": "1545feeee2b62d15c5b32cf62f239b07976040e4b17495442c6d55f770653572",
+      "originalBytes": 834743,
+      "originalSha256": "1545feeee2b62d15c5b32cf62f239b07976040e4b17495442c6d55f770653572",
+      "source": "solar-transfer-experiment-v2\\solar-transfer.f64.deflate"
+    },
+    {
+      "path": "room-tour/FAILURE.json.gz",
+      "bytes": 396112,
+      "sha256": "e2ca8e904da556a291f8bd251890fa4d9d5cce1b7a579cc94ef88b9f25003593",
+      "originalBytes": 3139051,
+      "originalSha256": "695a96588c09c73149fc3540ddc6635dfced6445b443610185de50c182dccf52",
+      "source": "daylight-tour-v1\\FAILURE.json"
+    },
+    {
+      "path": "room-tour/REPORT.json.gz",
+      "bytes": 396207,
+      "sha256": "79cc6d463ca9157e4a3a293219707427678e46077cf14a2dbc0974ab31460210",
+      "originalBytes": 3138588,
+      "originalSha256": "3d51f7366dee0794bfeb9944ab2e053bb848cfee3bc358df730a22567a81c9b4",
+      "source": "daylight-tour-v1\\REPORT.json"
+    },
+    {
+      "path": "room-tour/evening-gym.png",
+      "bytes": 474285,
+      "sha256": "c777eb4ec9c083df9691bf605708e9e69d8214ca1129a2ca7f4bec79854493e1",
+      "originalBytes": 474285,
+      "originalSha256": "c777eb4ec9c083df9691bf605708e9e69d8214ca1129a2ca7f4bec79854493e1",
+      "source": "daylight-tour-v1\\evening-gym.png"
+    },
+    {
+      "path": "room-tour/evening-kitchen.png",
+      "bytes": 736495,
+      "sha256": "d281e54119bcd5be581a7b556f26d756e22ed6151b71db8f9eaaee21841cc98c",
+      "originalBytes": 736495,
+      "originalSha256": "d281e54119bcd5be581a7b556f26d756e22ed6151b71db8f9eaaee21841cc98c",
+      "source": "daylight-tour-v1\\evening-kitchen.png"
+    },
+    {
+      "path": "room-tour/evening-library.png",
+      "bytes": 730904,
+      "sha256": "d90d3384c38a9c8c621002be6fa7c0ceda3723661abfdff5e14507d68adfd2dc",
+      "originalBytes": 730904,
+      "originalSha256": "d90d3384c38a9c8c621002be6fa7c0ceda3723661abfdff5e14507d68adfd2dc",
+      "source": "daylight-tour-v1\\evening-library.png"
+    },
+    {
+      "path": "room-tour/evening-lounge.png",
+      "bytes": 797871,
+      "sha256": "f648e95b344aa4679fb8dbb161693592e14adf8e919321297ec16456578327dc",
+      "originalBytes": 797871,
+      "originalSha256": "f648e95b344aa4679fb8dbb161693592e14adf8e919321297ec16456578327dc",
+      "source": "daylight-tour-v1\\evening-lounge.png"
+    },
+    {
+      "path": "room-tour/evening-sleep.png",
+      "bytes": 684930,
+      "sha256": "d78931cd5b05a14a301a8c4efaaa7f43ec70c355390d13a8cf30ef5ce4d1db49",
+      "originalBytes": 684930,
+      "originalSha256": "d78931cd5b05a14a301a8c4efaaa7f43ec70c355390d13a8cf30ef5ce4d1db49",
+      "source": "daylight-tour-v1\\evening-sleep.png"
+    },
+    {
+      "path": "room-tour/evening-study.png",
+      "bytes": 913894,
+      "sha256": "1394205f7f36d7f98cae4e417236cecafe538f3c84309626553c5bd33be27f08",
+      "originalBytes": 913894,
+      "originalSha256": "1394205f7f36d7f98cae4e417236cecafe538f3c84309626553c5bd33be27f08",
+      "source": "daylight-tour-v1\\evening-study.png"
+    },
+    {
+      "path": "room-tour/noon-gym.png",
+      "bytes": 588262,
+      "sha256": "bdcfa204ace5afea3571691f7666d808654a49b907551c5fb1e45838dd1de860",
+      "originalBytes": 588262,
+      "originalSha256": "bdcfa204ace5afea3571691f7666d808654a49b907551c5fb1e45838dd1de860",
+      "source": "daylight-tour-v1\\noon-gym.png"
+    },
+    {
+      "path": "room-tour/noon-kitchen.png",
+      "bytes": 755680,
+      "sha256": "af6c4a74a8fcd8c508c8886b101df66219c5e6da6c63bcf039ccc7f06ee0e231",
+      "originalBytes": 755680,
+      "originalSha256": "af6c4a74a8fcd8c508c8886b101df66219c5e6da6c63bcf039ccc7f06ee0e231",
+      "source": "daylight-tour-v1\\noon-kitchen.png"
+    },
+    {
+      "path": "room-tour/noon-library.png",
+      "bytes": 940524,
+      "sha256": "18befb8e5822ebab87c45bccb4c18999ac7f626f98020e50d75d4acc6e44a3e3",
+      "originalBytes": 940524,
+      "originalSha256": "18befb8e5822ebab87c45bccb4c18999ac7f626f98020e50d75d4acc6e44a3e3",
+      "source": "daylight-tour-v1\\noon-library.png"
+    },
+    {
+      "path": "room-tour/noon-lounge.png",
+      "bytes": 1057266,
+      "sha256": "8e87ded3e5cc61fe39d3e084d560fd4523321705e8922b0e157c3785d840eef3",
+      "originalBytes": 1057266,
+      "originalSha256": "8e87ded3e5cc61fe39d3e084d560fd4523321705e8922b0e157c3785d840eef3",
+      "source": "daylight-tour-v1\\noon-lounge.png"
+    },
+    {
+      "path": "room-tour/noon-sleep.png",
+      "bytes": 796386,
+      "sha256": "989d5fb548cdf2a20edaa358e8a891e7af9369f39260c44e26c51202380d5397",
+      "originalBytes": 796386,
+      "originalSha256": "989d5fb548cdf2a20edaa358e8a891e7af9369f39260c44e26c51202380d5397",
+      "source": "daylight-tour-v1\\noon-sleep.png"
+    },
+    {
+      "path": "room-tour/noon-study.png",
+      "bytes": 1080269,
+      "sha256": "6fc8a0f4dedd5f9f882c999c952f5cc1cb928509e6b527b31750d7503ac47434",
+      "originalBytes": 1080269,
+      "originalSha256": "6fc8a0f4dedd5f9f882c999c952f5cc1cb928509e6b527b31750d7503ac47434",
+      "source": "daylight-tour-v1\\noon-study.png"
+    },
+    {
+      "path": "sources/assets/js/home-scene/controller.mjs.gz",
+      "bytes": 63717,
+      "sha256": "ff83e3a51407204c3d23829d44bc660dbb4f0a6ef2c75f032315a384f18ff5cf",
+      "originalBytes": 217075,
+      "originalSha256": "f7368034c494d52fb0f10e4ada88a2ae8af2961e64e326b99e9e62e020c83f82",
+      "source": "daylight-checkpoint-v4\\sources\\assets\\js\\home-scene\\controller.mjs"
+    },
+    {
+      "path": "sources/assets/js/home-scene/diffuse-paths.mjs.gz",
+      "bytes": 1858,
+      "sha256": "1f4f9646ff9b97b3be97bf9f7f2638e51271dba8332f4e666a4e10ad24d84ff2",
+      "originalBytes": 4903,
+      "originalSha256": "505babbe5a4fcf60dacad7c41872cb4a33bbca0b398de9b6565215daa6c3e13c",
+      "source": "daylight-checkpoint-v4\\sources\\assets\\js\\home-scene\\diffuse-paths.mjs"
+    },
+    {
+      "path": "sources/assets/js/home-scene/interior-exposure.mjs.gz",
+      "bytes": 739,
+      "sha256": "b0b72061098dad8583b5e2dbbd8360e673266f6cfd4bcee83f6442f23eca9a69",
+      "originalBytes": 1631,
+      "originalSha256": "380ce9ba52cffde00718a5448af495ad31a21d3e68c08f68810851ba482dfba1",
+      "source": "daylight-checkpoint-v4\\sources\\assets\\js\\home-scene\\interior-exposure.mjs"
+    },
+    {
+      "path": "sources/assets/js/home-scene/static-light-field.mjs.gz",
+      "bytes": 13630,
+      "sha256": "bb776ee61c94a2656e3ff20a37f59e3a7b29caf8ef4d51c9383b7e2670b83210",
+      "originalBytes": 45400,
+      "originalSha256": "038d9df30826560d9cd1e63980f4ec98c940289c3cebbce8b421d1ce5332b612",
+      "source": "daylight-checkpoint-v4\\sources\\assets\\js\\home-scene\\static-light-field.mjs"
+    },
+    {
+      "path": "sources/assets/js/home.js",
+      "bytes": 79191,
+      "sha256": "fe7720ef9052f6c770841e3286b8fef41df99bb31e0437fac688264c22f9526d",
+      "originalBytes": 79191,
+      "originalSha256": "fe7720ef9052f6c770841e3286b8fef41df99bb31e0437fac688264c22f9526d",
+      "source": "daylight-checkpoint-v4\\sources\\assets\\js\\home.js"
+    },
+    {
+      "path": "sources/assets/models/home/manifest.json.gz",
+      "bytes": 66619,
+      "sha256": "6d84cd13cc5c7f7b5c8c661b451d768c4d38926933c99534bff7031203b63906",
+      "originalBytes": 331879,
+      "originalSha256": "dad3b93560639f76fe411470c057d7531c466479afe48394adb4b83113e282b4",
+      "source": "daylight-checkpoint-v4\\sources\\assets\\models\\home\\manifest.json"
+    },
+    {
+      "path": "sources/assets/models/home/static-light-field.json.gz",
+      "bytes": 186913,
+      "sha256": "6232a775cec667b5162d1ed2c4bb44fc290c6574847092f4778a510bcdcd0120",
+      "originalBytes": 712544,
+      "originalSha256": "c6bca92a56e27fc2ba88b91331b959c0ccedfb8efb07beb4e946cdfdd02f0cb9",
+      "source": "daylight-checkpoint-v4\\sources\\assets\\models\\home\\static-light-field.json"
+    },
+    {
+      "path": "sources/bin/coastal_static_light_inputs.cjs.gz",
+      "bytes": 1157,
+      "sha256": "146c31d2e6b93c4f0b40190e4071e1f720380dc94abfe29253bdab68e49eabfe",
+      "originalBytes": 3150,
+      "originalSha256": "9223880a79673008ca2717075f9a60188f7d93005a5b084e46dc15e2c22c8cd7",
+      "source": "daylight-checkpoint-v4\\sources\\bin\\coastal_static_light_inputs.cjs"
+    },
+    {
+      "path": "sources/docs/coastal-rendering-research-2026-11.md",
+      "bytes": 16434,
+      "sha256": "d5e96fec3de9457d3142e0186cfa255bba9318d41386acc1629a060ca8a46952",
+      "originalBytes": 16434,
+      "originalSha256": "d5e96fec3de9457d3142e0186cfa255bba9318d41386acc1629a060ca8a46952",
+      "source": "daylight-checkpoint-v4\\sources\\docs\\coastal-rendering-research-2026-11.md"
+    },
+    {
+      "path": "sources/docs/static-light-field.md",
+      "bytes": 12514,
+      "sha256": "e043fe4717f3031e834e7c1be426329858c0bac9208bfd4ce14cede39ecc24a9",
+      "originalBytes": 12514,
+      "originalSha256": "e043fe4717f3031e834e7c1be426329858c0bac9208bfd4ce14cede39ecc24a9",
+      "source": "daylight-checkpoint-v4\\sources\\docs\\static-light-field.md"
+    },
+    {
+      "path": "sources/test/diffuse-paths.test.mjs.gz",
+      "bytes": 3039,
+      "sha256": "e87b225b041b6b5bc437c8c8cec61b0680e3b71949fbc2ea6a84512abb12b2cd",
+      "originalBytes": 11126,
+      "originalSha256": "845e6d205ac65202563e73c6b64f9ab71562db9520404e40767a90f120fddbf8",
+      "source": "daylight-checkpoint-v4\\sources\\test\\diffuse-paths.test.mjs"
+    },
+    {
+      "path": "sources/test/interior-exposure.test.mjs.gz",
+      "bytes": 1478,
+      "sha256": "b86a6c15a505041b933372cef149b4856c6810c67dae6c827db200632683d885",
+      "originalBytes": 4434,
+      "originalSha256": "6d7a1154e57e19e50dc2ee91459aac58e56bd20145108bd78d805f5d2bec1c2b",
+      "source": "daylight-checkpoint-v4\\sources\\test\\interior-exposure.test.mjs"
+    },
+    {
+      "path": "sources/test/visual/desk-scene.spec.js",
+      "bytes": 261437,
+      "sha256": "e23cc55938aa694d09ebf9a9f0d055eb8434bcbdfdc9b8243c698888905bba5b",
+      "originalBytes": 261437,
+      "originalSha256": "e23cc55938aa694d09ebf9a9f0d055eb8434bcbdfdc9b8243c698888905bba5b",
+      "source": "daylight-checkpoint-v4\\sources\\test\\visual\\desk-scene.spec.js"
+    },
+    {
+      "path": "sources/test/visual/static-light-field.spec.js",
+      "bytes": 12383,
+      "sha256": "ab6c8397396d29e6e27777027c1f8583767d3957876695240dfda1cb4d99afc7",
+      "originalBytes": 12383,
+      "originalSha256": "ab6c8397396d29e6e27777027c1f8583767d3957876695240dfda1cb4d99afc7",
+      "source": "daylight-checkpoint-v4\\sources\\test\\visual\\static-light-field.spec.js"
+    },
+    {
+      "path": "study-2k/CAPTURE.json.gz",
+      "bytes": 275303,
+      "sha256": "4fcce7a36ad552783d2d7f69e185df9774dbcae9c81ca337f0bc12fbc844d3c5",
+      "originalBytes": 2133121,
+      "originalSha256": "dd93ebd8c233ab4d6d023f2e7f896ce3ea8980a2841648a7925e574be5197082",
+      "source": "study-daylight-final-v6-2k\\CAPTURE.json"
+    },
+    {
+      "path": "study-2k/evening-default-canvas.png",
+      "bytes": 1853963,
+      "sha256": "b8f26a830c7b2a86ea9ff795b58308dbd4a853b3f720b256061590ee572ebbf1",
+      "originalBytes": 1853963,
+      "originalSha256": "b8f26a830c7b2a86ea9ff795b58308dbd4a853b3f720b256061590ee572ebbf1",
+      "source": "study-daylight-final-v6-2k\\evening-default-canvas.png"
+    },
+    {
+      "path": "study-2k/evening-embed.png",
+      "bytes": 320632,
+      "sha256": "052f2db2811ade5f6b27df196ffed5b86bfb0c357e16f50446cdd4131cfa9728",
+      "originalBytes": 320632,
+      "originalSha256": "052f2db2811ade5f6b27df196ffed5b86bfb0c357e16f50446cdd4131cfa9728",
+      "source": "study-daylight-final-v6-2k\\evening-embed.png"
+    },
+    {
+      "path": "study-2k/evening-side-canvas.png",
+      "bytes": 1751181,
+      "sha256": "59c5ec18b81008e81e18bc4dba9f9116a6ee65e097d8b27d702964944e267032",
+      "originalBytes": 1751181,
+      "originalSha256": "59c5ec18b81008e81e18bc4dba9f9116a6ee65e097d8b27d702964944e267032",
+      "source": "study-daylight-final-v6-2k\\evening-side-canvas.png"
+    },
+    {
+      "path": "study-2k/noon-default-canvas.png",
+      "bytes": 2120188,
+      "sha256": "48a46bc9634fb1f3d7bf614302f9c07572e1d003ef51a6bf50a0a4566921c749",
+      "originalBytes": 2120188,
+      "originalSha256": "48a46bc9634fb1f3d7bf614302f9c07572e1d003ef51a6bf50a0a4566921c749",
+      "source": "study-daylight-final-v6-2k\\noon-default-canvas.png"
+    },
+    {
+      "path": "study-2k/noon-embed.png",
+      "bytes": 366283,
+      "sha256": "140a2a808622b76e5f60dd1788652a4b47a93b9c0c8e672933bee22443489d43",
+      "originalBytes": 366283,
+      "originalSha256": "140a2a808622b76e5f60dd1788652a4b47a93b9c0c8e672933bee22443489d43",
+      "source": "study-daylight-final-v6-2k\\noon-embed.png"
+    },
+    {
+      "path": "study-2k/noon-side-canvas.png",
+      "bytes": 2039559,
+      "sha256": "9cdcf28801b738ee4a99346e7a293ae8699ad9503b0d5f16b32dc499ddd42804",
+      "originalBytes": 2039559,
+      "originalSha256": "9cdcf28801b738ee4a99346e7a293ae8699ad9503b0d5f16b32dc499ddd42804",
+      "source": "study-daylight-final-v6-2k\\noon-side-canvas.png"
+    },
+    {
+      "path": "study-4k/CAPTURE.json.gz",
+      "bytes": 78808,
+      "sha256": "ad39918d95617b97918bfe29a7048248f61ec7c8fae0eae3cdfa4df235a6afb8",
+      "originalBytes": 583314,
+      "originalSha256": "caa1ab8cbe3a60a63ee5ce296ecd6cbed2278030913e114e47ebbf9f1819f836",
+      "source": "study-daylight-final-v6-4k\\CAPTURE.json"
+    },
+    {
+      "path": "study-4k/noon-default-canvas.png",
+      "bytes": 3877354,
+      "sha256": "c3935a00b69cd305963ee1554996dbea19f6296df6d670b95b0ebe15b68c231b",
+      "originalBytes": 3877354,
+      "originalSha256": "c3935a00b69cd305963ee1554996dbea19f6296df6d670b95b0ebe15b68c231b",
+      "source": "study-daylight-final-v6-4k\\noon-default-canvas.png"
+    },
+    {
+      "path": "study-4k/noon-embed.png",
+      "bytes": 396750,
+      "sha256": "b6e1ca6efe9299199a467587fa3a568ebcbc333fb544d9d31b7b22cc63c9df23",
+      "originalBytes": 396750,
+      "originalSha256": "b6e1ca6efe9299199a467587fa3a568ebcbc333fb544d9d31b7b22cc63c9df23",
+      "source": "study-daylight-final-v6-4k\\noon-embed.png"
+    },
+    {
+      "path": "study-phone-webkit/CAPTURE.json.gz",
+      "bytes": 271273,
+      "sha256": "175d2738cc7676129a55ffa09a66b88b6100ae4e5d895ff6f9f8303ed89f0c39",
+      "originalBytes": 2105117,
+      "originalSha256": "0e8d2f71833e232cfd83a2b97fcc1897ea4fee8707d85c032cd138c0c78bbe16",
+      "source": "study-daylight-final-v6-phone-webkit\\CAPTURE.json"
+    },
+    {
+      "path": "study-phone-webkit/evening-default-canvas.png",
+      "bytes": 386134,
+      "sha256": "1798334e6403bdbdf0637b71109e1d665c975cdb1da5db67bf226776d4aa642f",
+      "originalBytes": 386134,
+      "originalSha256": "1798334e6403bdbdf0637b71109e1d665c975cdb1da5db67bf226776d4aa642f",
+      "source": "study-daylight-final-v6-phone-webkit\\evening-default-canvas.png"
+    },
+    {
+      "path": "study-phone-webkit/evening-embed.png",
+      "bytes": 127894,
+      "sha256": "d918eef0f41568b8bf76f8f39c9bc396a5ff865ec41efa54bd4625637552dd7a",
+      "originalBytes": 127894,
+      "originalSha256": "d918eef0f41568b8bf76f8f39c9bc396a5ff865ec41efa54bd4625637552dd7a",
+      "source": "study-daylight-final-v6-phone-webkit\\evening-embed.png"
+    },
+    {
+      "path": "study-phone-webkit/evening-side-canvas.png",
+      "bytes": 341265,
+      "sha256": "1bc2231be19f99ae336ca2125f8ccf1989d464f80f7f3817112ea9d341dd8082",
+      "originalBytes": 341265,
+      "originalSha256": "1bc2231be19f99ae336ca2125f8ccf1989d464f80f7f3817112ea9d341dd8082",
+      "source": "study-daylight-final-v6-phone-webkit\\evening-side-canvas.png"
+    },
+    {
+      "path": "study-phone-webkit/noon-default-canvas.png",
+      "bytes": 430937,
+      "sha256": "df9febe04b8a848d2b0a5b58477f7d2c6b470938271fc11f754bb93e33e999b1",
+      "originalBytes": 430937,
+      "originalSha256": "df9febe04b8a848d2b0a5b58477f7d2c6b470938271fc11f754bb93e33e999b1",
+      "source": "study-daylight-final-v6-phone-webkit\\noon-default-canvas.png"
+    },
+    {
+      "path": "study-phone-webkit/noon-embed.png",
+      "bytes": 149056,
+      "sha256": "2a9227cf070f9cb0ac6dc3d4490f0feba640e15aa2b80a3bdf422e753a0ef450",
+      "originalBytes": 149056,
+      "originalSha256": "2a9227cf070f9cb0ac6dc3d4490f0feba640e15aa2b80a3bdf422e753a0ef450",
+      "source": "study-daylight-final-v6-phone-webkit\\noon-embed.png"
+    },
+    {
+      "path": "study-phone-webkit/noon-side-canvas.png",
+      "bytes": 382557,
+      "sha256": "e99e6b3ff3bdd1f187ed14862c4c3aee959ace57083ca49fcda96b1c06ea1fd6",
+      "originalBytes": 382557,
+      "originalSha256": "e99e6b3ff3bdd1f187ed14862c4c3aee959ace57083ca49fcda96b1c06ea1fd6",
+      "source": "study-daylight-final-v6-phone-webkit\\noon-side-canvas.png"
+    },
+    {
+      "path": "sunset/REPORT.json.gz",
+      "bytes": 236032,
+      "sha256": "f7e376ae7a29259fe803590912c10d339e8d0b98c50cfc37d75390c54a07af69",
+      "originalBytes": 1855776,
+      "originalSha256": "8b4018c4a5b1fca983ce95a28090aba599a05aa91db18116248e1cf8cb994c4c",
+      "source": "daylight-sunset-v3\\REPORT.json"
+    },
+    {
+      "path": "sunset/STREAM-READBACK.json.gz",
+      "bytes": 512,
+      "sha256": "28af09a5293b7ce12145064d227d8fa94bc5ebc36bbe2722563b56f160e0e0ca",
+      "originalBytes": 1038,
+      "originalSha256": "b2e996f719b00a15b418c643ddc448651783329751c7129ffde1eb88ce163f0a",
+      "source": "daylight-sunset-v3\\STREAM-READBACK.json"
+    },
+    {
+      "path": "sunset/sunset-after0-1017.png",
+      "bytes": 501678,
+      "sha256": "90adabbecad72a75b74dc282f2bfc1ede1da0dbec8251a84fb89733a1ae2b94d",
+      "originalBytes": 501678,
+      "originalSha256": "90adabbecad72a75b74dc282f2bfc1ede1da0dbec8251a84fb89733a1ae2b94d",
+      "source": "daylight-sunset-v3\\sunset-after0-1017.png"
+    },
+    {
+      "path": "sunset/sunset-after15-1032.png",
+      "bytes": 311050,
+      "sha256": "86754394800b25277b5663d00b3912bfc8d44a3276d5f1b863398556db061325",
+      "originalBytes": 311050,
+      "originalSha256": "86754394800b25277b5663d00b3912bfc8d44a3276d5f1b863398556db061325",
+      "source": "daylight-sunset-v3\\sunset-after15-1032.png"
+    },
+    {
+      "path": "sunset/sunset-after35-1052.png",
+      "bytes": 348749,
+      "sha256": "16f378681b7fb1244071e14f3dcbf8850adc2cb1b49d3111967c146c329cffd4",
+      "originalBytes": 348749,
+      "originalSha256": "16f378681b7fb1244071e14f3dcbf8850adc2cb1b49d3111967c146c329cffd4",
+      "source": "daylight-sunset-v3\\sunset-after35-1052.png"
+    },
+    {
+      "path": "sunset/sunset-after4-1021.png",
+      "bytes": 427882,
+      "sha256": "911ac8da60c36f4e8fc340abd2dfeee8122f383c46d2b2e7308d02db186e5a6b",
+      "originalBytes": 427882,
+      "originalSha256": "911ac8da60c36f4e8fc340abd2dfeee8122f383c46d2b2e7308d02db186e5a6b",
+      "source": "daylight-sunset-v3\\sunset-after4-1021.png"
+    },
+    {
+      "path": "sunset/sunset-before15-1002.png",
+      "bytes": 644580,
+      "sha256": "fe6325484a7e4cc8aa61cb82a33b0e89a149b6a01f88e37c363f4f529752190f",
+      "originalBytes": 644580,
+      "originalSha256": "fe6325484a7e4cc8aa61cb82a33b0e89a149b6a01f88e37c363f4f529752190f",
+      "source": "daylight-sunset-v3\\sunset-before15-1002.png"
+    },
+    {
+      "path": "sunset/sunset-before35-982.png",
+      "bytes": 653321,
+      "sha256": "cc215aa312005c7b2a6949f81f46539652e80edff25787c1c327b746c26ffd26",
+      "originalBytes": 653321,
+      "originalSha256": "cc215aa312005c7b2a6949f81f46539652e80edff25787c1c327b746c26ffd26",
+      "source": "daylight-sunset-v3\\sunset-before35-982.png"
+    },
+    {
+      "path": "sunset/sunset-before4-1013.png",
+      "bytes": 571710,
+      "sha256": "ff3409895b5980874c2f1302586dc0ca37b9bf733a7feb0cc6d7b3d5fb38c54d",
+      "originalBytes": 571710,
+      "originalSha256": "ff3409895b5980874c2f1302586dc0ca37b9bf733a7feb0cc6d7b3d5fb38c54d",
+      "source": "daylight-sunset-v3\\sunset-before4-1013.png"
+    },
+    {
+      "path": "validation/BUILD-GATES.json.gz",
+      "bytes": 321,
+      "sha256": "4cba09b81c1209e6d79d844681eeef279b0fbe4359421690ac9a73747fba4765",
+      "originalBytes": 555,
+      "originalSha256": "1486f8e0cdfe6957f708aa4c1e841007599d654e5c025c295ed996ea718d2f84",
+      "source": "daylight-checkpoint-v4\\BUILD-GATES.json"
+    },
+    {
+      "path": "validation/POSTPROCESS.json.gz",
+      "bytes": 31697,
+      "sha256": "fc18c983e890317fc18d6ace035ff323493442c2bb9500f210c0d804b9339335",
+      "originalBytes": 301941,
+      "originalSha256": "65655cb09af4a6a10452e3cd754f28b37d6e4c6bd0757586f0dbcab0d12dfb81",
+      "source": "daylight-checkpoint-v4\\POSTPROCESS.json"
+    },
+    {
+      "path": "validation/SOURCE.json.gz",
+      "bytes": 1315,
+      "sha256": "85c3b3749a22996c8f257f79595bf9886ac149c2b39a7663ac734a45047346a3",
+      "originalBytes": 4173,
+      "originalSha256": "b3ce83be99f3bca70e4ea0b890c4f31874b73977ce30aab737dd848c53d63a46",
+      "source": "daylight-checkpoint-v4\\SOURCE.json"
+    },
+    {
+      "path": "validation/TARGETED-VISUAL.json.gz",
+      "bytes": 477,
+      "sha256": "abcb2764ad163b6c1412bdd05ad62cba138191a6892cfd7566c5fa0b4d314672",
+      "originalBytes": 788,
+      "originalSha256": "09494ac4d9bdd3bb012fc1bc55d55539e0200d4995ac9f3eec3da66dc57667c0",
+      "source": "daylight-checkpoint-v4\\TARGETED-VISUAL.json"
+    },
+    {
+      "path": "validation/UNIT-GATES.json.gz",
+      "bytes": 1588,
+      "sha256": "6adb6c5d4783e6841b346199d6c0a6feafbba4ff5c14ca5ce13a392c81f87e0b",
+      "originalBytes": 7852,
+      "originalSha256": "c806a0a1a1c3b1ab0bc344a5904c1b5261e9cccf118189ea2cb6d8b15e3d3a09",
+      "source": "daylight-checkpoint-v4\\UNIT-GATES.json"
+    },
+    {
+      "path": "validation/coastal-loading-evidence.json.gz",
+      "bytes": 59596,
+      "sha256": "a800ffc893a0bc8b9c918d114f8ae4a989951d77caf0a2c091b17fadc1215226",
+      "originalBytes": 434712,
+      "originalSha256": "a05615f6bd608d6aa311b4ee574e07c608b9809025b5d2ba979ff09fe03e5879",
+      "source": "daylight-checkpoint-v4\\targeted-results\\desk-scene-coastal-loading-d42fc-ecede-the-first-ready-frame-desktop-1440\\coastal-loading-evidence.json"
+    },
+    {
+      "path": "validation/node.log.gz",
+      "bytes": 47073,
+      "sha256": "0f5bf3103aa77732b68a7446847fd3bbd115580673cb9b9d0e94f698b294eb11",
+      "originalBytes": 171906,
+      "originalSha256": "b34e97ae4fd109c051b1116c97760a4a8830458c08a8d1ef1af3d8aa0f01571f",
+      "source": "daylight-checkpoint-v4\\node.log"
+    },
+    {
+      "path": "validation/production-build.log.gz",
+      "bytes": 4501,
+      "sha256": "f2a3307fb9f3d86acf25cc9c0590f34115fba648786420624b17d5826682512d",
+      "originalBytes": 90692,
+      "originalSha256": "e0d64cadb6354ad389bc06ef051cbc50930a5e65c4340185ab6c376d55a5219b",
+      "source": "daylight-checkpoint-v4\\production-build.log"
+    },
+    {
+      "path": "validation/python.log.gz",
+      "bytes": 115,
+      "sha256": "0667beefea36fd07e6c738b9c50ea5010c17c08f1a1827dea78daa3fff66e547",
+      "originalBytes": 579,
+      "originalSha256": "dc87dff8853b3ccfc5c0c5a86947703a8fd147eeb7eb35f71d62ea15faf441d5",
+      "source": "daylight-checkpoint-v4\\python.log"
+    },
+    {
+      "path": "validation/stalled-light-cache-fallback.json.gz",
+      "bytes": 31613,
+      "sha256": "f8bbc97bbd27211b52360544150ba6a316c2eb4d0528d9ec3a60da714a0b31d2",
+      "originalBytes": 206230,
+      "originalSha256": "79aa969b788a39042797ddb06dff48095c7bbd2810d630d11e25025e0800bd82",
+      "source": "daylight-checkpoint-v4\\targeted-results\\desk-scene-coastal-loading-b204b-ore-the-first-complete-view-desktop-1440\\stalled-light-cache-fallback.json"
+    },
+    {
+      "path": "validation/static-light-field-native-linear-gpu.json.gz",
+      "bytes": 2063,
+      "sha256": "20b6d9e29483ba2998e34741dffab5406166064a554f6a68037a54f1fef22279",
+      "originalBytes": 11754,
+      "originalSha256": "cf2e54b2f3e7846301f5efd2bbee07ee0f7ca3fffa32a13eea30b5e3d067fa01",
+      "source": "daylight-checkpoint-v4\\targeted-results\\static-light-field-static--d902a--without-doubled-hemisphere-desktop-1440\\static-light-field-native-linear-gpu.json"
+    },
+    {
+      "path": "validation/targeted-visual.log.gz",
+      "bytes": 425,
+      "sha256": "8e20c20ea67fcfbd3062c40a2fc1da451793424bf9a3c8412ee37f93d54a914a",
+      "originalBytes": 896,
+      "originalSha256": "4917b9f74d4a3879187fb4561b729a955968112c75ab455166023e9f081a8646",
+      "source": "daylight-checkpoint-v4\\targeted-visual.log"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "schema": "sirui-review-manifest-v1",
+  "at": "2026-11-03T11:33:07.199280+00:00",
+  "scope": "Published brand repair; complete CI and exact live delivery plus actual pointer/touch evidence. Exact machine payloads compressed without byte changes. No physical-phone or later house-source acceptance.",
+  "files": [
+    { "path": "ci-runs.json.gz", "bytes": 443, "sha256": "52ebd76c61ba30ae94f8527886d8f266456e4acca22985f5e50301cfec04e4e6" },
+    { "path": "css-delivery.json.gz", "bytes": 926, "sha256": "5f15d03ba68bca1edf395624fef692be85971d00b58152a46a9551b4ab8a3936" },
+    { "path": "delivery.json.gz", "bytes": 1332, "sha256": "1a7d875544d6c894df8d567a89115d5867e0ad5724d7b3910316efa8c230fb3b" },
+    { "path": "live-ui/desktop-after.png", "bytes": 7015, "sha256": "fa65603a82b06d50a9355c38d837ca77acd6f9040893c2ecac8ff5a114623bd0" },
+    { "path": "live-ui/desktop-before.png", "bytes": 4394, "sha256": "069c4201dbdec3a8b9c376b95e02a56c7adc48b40e9327581cd06eac0538a1d1" },
+    { "path": "live-ui/desktop-during.png", "bytes": 7984, "sha256": "e77da9a5922efdf6f1960606939aa45970d066133e203d7e5469874339467b05" },
+    { "path": "live-ui/phone-after.png", "bytes": 5310, "sha256": "de50e4982cec90dba7983de058a4d3ad9f95212c745c8570cac3508fd9df7ab4" },
+    { "path": "live-ui/phone-before.png", "bytes": 3702, "sha256": "7b843bb4da3edee4d9f51b093b99cef08d78e87b4e23cc4fa63a3a0c499fb663" },
+    { "path": "live-ui/phone-during.png", "bytes": 3353, "sha256": "058a78f7188afbe0f64ca4699c167946bd48d78803e9e3ee429bdc12fae9982b" },
+    { "path": "live-ui/REPORT.json.gz", "bytes": 478, "sha256": "72640a3df777412314bd31565ed65bb71abdc259110e84c7e94dcfbcc0ad2e95" },
+    { "path": "producers/check-brand-live-v1.py", "bytes": 3328, "sha256": "dda512a568a4a0d3a2658c0786f8778812d1dd2fab90665cdb624715a05373f9" },
+    {
+      "path": "producers/probe-deployed-brand-v4.cjs.gz",
+      "bytes": 1540,
+      "sha256": "a0354187d1f61e928ac960b86b091ccc5dd162c353653c43de6289e6b3b8dc43"
+    },
+    { "path": "README.md", "bytes": 2297, "sha256": "002dcf66147fec345fdc224fe46abd6fd1941a4d9212e3bfc8fa14d90371d0bf" },
+    { "path": "visual-jobs.json.gz", "bytes": 6664, "sha256": "ef317cfee8ba52540b66a59b804f628948e3aa0dfec36551c6d96c3d0938a6f0" }
+  ]
+}
