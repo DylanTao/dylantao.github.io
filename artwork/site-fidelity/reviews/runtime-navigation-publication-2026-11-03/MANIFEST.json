@@ -1,0 +1,115 @@
+{
+  "schema": "sirui-review-manifest-v1",
+  "at": "2026-11-03T15:10:44.775307+00:00",
+  "sourceHead": "db85127b4398b2b6f9a11140c0be2094609b9ec9",
+  "pagesHead": "43a7cf5576f994b28f1eb0a8e2d3ad129fea8d9b",
+  "scope": "All46visual jobs and7applicable workflows,14exact public bodies/192compiled bindings, actual public phone-size CV/dock/brand touch and reset; path-filter observer correction preserved.",
+  "files": [
+    { "path": "README.md", "bytes": 2077, "sha256": "76b081a5fbd038a39cbec906be18f617c3b169a93838e015ba57c893b8037fcb" },
+    {
+      "path": "probe-runtime-navigation-public-ui-v1.cjs.gz",
+      "bytes": 1983,
+      "sha256": "e14a5b43e582ceda3b9df79c5d98d23a6a939a0f6eb864feea2a1b86aeb48db5",
+      "originalSha256": "e31fb3e2027b05be3e12ccff81545c4a5750640174dd5ecd54521f0187169231",
+      "originalBytes": 4509
+    },
+    {
+      "path": "readback-runtime-css-public-v1.py.gz",
+      "bytes": 1410,
+      "sha256": "67b675e1d1edc795cdb77c4fa8be18b53d69d6146101a7e6287d083bbdb37a5e",
+      "originalSha256": "ce4076831dd79dcb087deaed966178e2f00c68b69eb6a7dca29aa13a1e87f61e",
+      "originalBytes": 2768
+    },
+    {
+      "path": "runtime-css-ci-v1/HISTORY.jsonl.gz",
+      "bytes": 413,
+      "sha256": "3d3ab209d809606478bfdc1e3f25e747e08abe161731ee548c56ae11d28c514f",
+      "originalSha256": "8376145d4664722c52cf1d5f03dcfa6002ded6306d6c5f32f2ce6d5da7c19971",
+      "originalBytes": 3214
+    },
+    {
+      "path": "runtime-css-ci-v1/OBSERVER-STOP.json.gz",
+      "bytes": 1227,
+      "sha256": "6eb67363ad49940fa8080c647cea6f9a5e5817a360d384d521e472d78b4f6caf",
+      "originalSha256": "53f80b1f3e864fcebdb05d2a9a4f6cc81147c89eab2e7e20014e424a22afd801",
+      "originalBytes": 7767
+    },
+    {
+      "path": "runtime-css-ci-v2/GREEN.json.gz",
+      "bytes": 450,
+      "sha256": "af85ecaac91fa42bde3641768fa77aa493ccc256a814ff8dcc0e38ac7ea6d72a",
+      "originalSha256": "925a370567e8de2a3788bd45e9a4e865e1009640606261f9a067113d4028c716",
+      "originalBytes": 2274
+    },
+    {
+      "path": "runtime-css-ci-v2/HISTORY.jsonl.gz",
+      "bytes": 535,
+      "sha256": "ce80f2d62fc55107d30048d7fc06cb572bc0ce13c18e32dfaefb45083e357804",
+      "originalSha256": "471010789847ab5415775965dc20b69b46446d97260cee8d769b8f3aaacdb4e1",
+      "originalBytes": 5418
+    },
+    {
+      "path": "runtime-css-ci-v2/RUNS.json.gz",
+      "bytes": 351,
+      "sha256": "62889472b546e28b048bde4fc8b4a067f4cb44fe47ecfd8986ab06ea0084123d",
+      "originalSha256": "77f3fd2612c4bbf829db14af4acee5ae4e0dd117dfabff7c47c890569160a0dc",
+      "originalBytes": 1636
+    },
+    {
+      "path": "runtime-css-ci-v2/VISUAL-JOBS.json.gz",
+      "bytes": 6578,
+      "sha256": "2f979f4a61d182b496e984c47a19184bbeecd05142fc3a11409574b4abbe91b8",
+      "originalSha256": "c513d3db351ae46e248b540ea6bfe2826930ebf1c7da5a41f9af68d4485db67e",
+      "originalBytes": 199702
+    },
+    {
+      "path": "runtime-css-live-v1/DELIVERY.json.gz",
+      "bytes": 1496,
+      "sha256": "9c5422d917844275d74936cf911e89c5d773e7302d80e2c94655cefe39fc94bc",
+      "originalSha256": "aabac931a85f6d559c6c5913bc7f65a0554ab8d63caa2282abb65e38335aa298",
+      "originalBytes": 6577
+    },
+    {
+      "path": "runtime-navigation-final-gates-v1/GATES.json.gz",
+      "bytes": 330,
+      "sha256": "efcd2669d7e4a8b3db733e1a6cf3fe66a679f9fff71c16a627a1454e297a7755",
+      "originalSha256": "069f13d014e802407dad7473da5053ae14067893447f366825750e93bdf9c027",
+      "originalBytes": 753
+    },
+    {
+      "path": "runtime-navigation-public-ui-v1/REPORT.json.gz",
+      "bytes": 578,
+      "sha256": "4fc8afb70c96b8fe8b94efec584cdbbc5f5d943611605c081980880a1ceed8ca",
+      "originalSha256": "3fbcc2c314b048f38563d1d76bf95b8c07e80b6f966fd045339728c7c067d381",
+      "originalBytes": 996
+    },
+    {
+      "path": "runtime-navigation-public-ui-v1/brand-touch-story.png",
+      "bytes": 7517,
+      "sha256": "6f2f389e125f274ba8f0f641ed076d4abee0bfc030f7b71d69024fe4be5d4e5a",
+      "originalSha256": "6f2f389e125f274ba8f0f641ed076d4abee0bfc030f7b71d69024fe4be5d4e5a",
+      "originalBytes": 7517
+    },
+    {
+      "path": "runtime-navigation-public-ui-v1/cv-touch-arrival.png",
+      "bytes": 5796,
+      "sha256": "4ad8af354f5d8b0814fd4dc8c133a0782fca7f6d9e1adafc8cc38c69fb2a92dd",
+      "originalSha256": "4ad8af354f5d8b0814fd4dc8c133a0782fca7f6d9e1adafc8cc38c69fb2a92dd",
+      "originalBytes": 5796
+    },
+    {
+      "path": "runtime-navigation-public-ui-v1/project-touch-arrival.png",
+      "bytes": 154740,
+      "sha256": "0aa7f8ad7295212e5322c7f2a47516e70b33317739276301970e84d3017295e3",
+      "originalSha256": "0aa7f8ad7295212e5322c7f2a47516e70b33317739276301970e84d3017295e3",
+      "originalBytes": 154740
+    },
+    {
+      "path": "watch-runtime-css-ci-v2.py.gz",
+      "bytes": 1114,
+      "sha256": "41a5f03e5509d808918696b69ed90a4978d3e2536433eee65cf494ea67eec47c",
+      "originalSha256": "b6994d99217df814d6a9659ed7bfc17eb28345e03d43411c319c33db86e9d20f",
+      "originalBytes": 2503
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "schema": "sirui-review-manifest-v1",
+  "at": "2026-11-03T15:20:40.717519+00:00",
+  "scope": "Independent root producer replay on actual preserved312reference/approved14part roster;420Python1051Nodeplus7skips, complete build, all192compiled bodies and publisher CSS exact to DB, cache signature unchanged. Tooling only, no geometry or venue admission.",
+  "baseHead": "db85127b4398b2b6f9a11140c0be2094609b9ec9",
+  "producerCommit": "529f3d748",
+  "files": [
+    { "path": "README.md", "bytes": 2218, "sha256": "bdb554add9eb1390540cea0e1717880628621311e7151951409975e080b06695" },
+    {
+      "path": "chair-producer-checkpoint-v1/BUILD-GATES.json.gz",
+      "bytes": 324,
+      "sha256": "7c2927dd5ae44b40cd69bc3861aa4b3b2356254bcfcaf448f3b5b91e5f1add32",
+      "originalSha256": "f5cac1acfe86478eed7d956b24e64f6e31466a2742b09bbd52ed9bb739db680d",
+      "originalBytes": 561
+    },
+    {
+      "path": "chair-producer-checkpoint-v1/RUNTIME-AND-CACHE-EXACT.json.gz",
+      "bytes": 3258,
+      "sha256": "28edd04f3c025c50c5367f50302a2246a8d85531e7ed2122e239820fc69df93b",
+      "originalSha256": "2e23d0ee5820ac693f88e6429a9050329856a04956825baf49e20ef72019006d",
+      "originalBytes": 27647
+    },
+    {
+      "path": "chair-producer-checkpoint-v1/SOURCE.json.gz",
+      "bytes": 536,
+      "sha256": "41f6465606d0605eda073bc6b62e47eb747575da2f849c188d19ab67979d6d95",
+      "originalSha256": "a8d203c796a6d7a187d77e5f6cc8372f9d7045bca7bf96d32163263a86c30558",
+      "originalBytes": 935
+    },
+    {
+      "path": "chair-producer-checkpoint-v1/UNIT-GATES.json.gz",
+      "bytes": 1606,
+      "sha256": "43cf95dec4e0a4dd349d4a61583578f020472915f7a06dbce3cad6ced2a5d75e",
+      "originalSha256": "b62c6430d230d55b18d59b3d4d3f599515bf3514fc547d233a9c0e4b539aef7c",
+      "originalBytes": 7959
+    },
+    {
+      "path": "chair-producer-checkpoint-v1/node.log.gz",
+      "bytes": 47540,
+      "sha256": "00101204682433c82934328dde6a378a28069e6c6d705ab5b273affc1277a51c",
+      "originalSha256": "ebb974999675cad69f50008383348670a90913d9ce21403e385887b53c62ba78",
+      "originalBytes": 173458
+    },
+    {
+      "path": "chair-producer-checkpoint-v1/production-build.log.gz",
+      "bytes": 4509,
+      "sha256": "d12da693b5b883425b4cfd822fbb7b042d81ffcd242809a9d571512f8a834808",
+      "originalSha256": "8a0381da61dcd6c4fc1c5fb851f3cbac834e5efe5c2dd568d1444fc10be862e3",
+      "originalBytes": 92954
+    },
+    {
+      "path": "chair-producer-checkpoint-v1/python.log.gz",
+      "bytes": 117,
+      "sha256": "d593004de3d2d463232c0843a08ab77dc9c1ed68d6079858173b8e98caa0b2ce",
+      "originalSha256": "86c74929b3858e07145c7d4735cc52f2fb59a56819ba60afeb2c67bb0eb81b5a",
+      "originalBytes": 579
+    },
+    {
+      "path": "chair-producer-checkpoint-v1/style.log.gz",
+      "bytes": 57,
+      "sha256": "1285c7c023390ffa10b2c143c9c2512cbaa6e4fefe4979514838c789099a94e8",
+      "originalSha256": "e959900fa566355a00b04f8721479609c46d53edf7fe6f232946b5e9a510ff42",
+      "originalBytes": 37
+    },
+    {
+      "path": "chair-producer-root-v1/PROCESS.json.gz",
+      "bytes": 732,
+      "sha256": "f36c49d74f7da2ae9999523019e4cfb586a47ce1ca9c39a6fd272a5af38af18f",
+      "originalSha256": "4112fc060b67690c3fb1d088a2ccc6e145079d45d9768b7f1a9ab0f0b7aae8af",
+      "originalBytes": 1911
+    },
+    {
+      "path": "chair-producer-root-v1/candidate/RECEIPT.json.gz",
+      "bytes": 10462,
+      "sha256": "4a8d5f3d414119265035233e6bd3534e82d6097c6b16ba2cf433bd42f89ed90e",
+      "originalSha256": "14aefea7c213ea466c52ca3aa8f37a9e365a247c2f2d6dd25941182618baa505",
+      "originalBytes": 95462
+    },
+    {
+      "path": "chair-producer-root-v1/candidate/census.json.gz",
+      "bytes": 5807,
+      "sha256": "7be6f04973ff8f961303648b6585c7c29ae71c8bbe62da2b927d1b7b77a5206b",
+      "originalSha256": "e2266058c46db95b3c1062328a23d36e18af9b22741529535b8e4ff118ceab02",
+      "originalBytes": 54113
+    },
+    {
+      "path": "chair-producer-root-v1/candidate/definition.json.gz",
+      "bytes": 3290,
+      "sha256": "647b3a9b0cc693e16d332ef44c43ee48eeb93ea881292cbcd433a975427e7f56",
+      "originalSha256": "12a4c987ca6eeeb061b551f1351133b6e282a25bcbdacfa5c74f70ca34e997bc",
+      "originalBytes": 24331
+    },
+    {
+      "path": "chair-producer-root-v1/producer.log.gz",
+      "bytes": 519,
+      "sha256": "e55b4475db095ec95e53084e655746eb916bd8f4a9511fc44c0950275a22d386",
+      "originalSha256": "56efb89d528fe879edb5c62c52912aa8caa5a7c8758ff426bbd563a2a990fb66",
+      "originalBytes": 729
+    },
+    {
+      "path": "chair-producer-root-v1/reference/CHAIR-TYPED-CENSUS-V1.json.gz",
+      "bytes": 13706,
+      "sha256": "23aef5fd0222076f989ef217ce511244808ef8a4643270f682e55fafb33eb8d5",
+      "originalSha256": "7fdd0324772f07e5c0b61aad7cda13e66d8947ba18ee7f22657296bfe814a444",
+      "originalBytes": 123675
+    },
+    {
+      "path": "chair-producer-root-v1/reference/home-shell.glb.gz",
+      "bytes": 996524,
+      "sha256": "eb8866232d8188f32aa64527ac14208b5cb5c74cc655237e4bcf6c32b9dbcbff",
+      "originalSha256": "312bf6d04189051a00c1e1c57d9e4afd17a6b0ced234cdc6f4bbd8a59ffad7a4",
+      "originalBytes": 1540140
+    },
+    {
+      "path": "check-chair-producer-runtime-v1.cjs.gz",
+      "bytes": 1274,
+      "sha256": "ceccfa7d766b130ecfa8386f1f9c6ebc8e48f7040772e7c0f1515e58644da928",
+      "originalSha256": "2944a5c95b54ebb0b804c86ba7a0ba2f8e560b0123da33c4acc3c84c4b709a4b",
+      "originalBytes": 2889
+    },
+    {
+      "path": "verify-root-chair-producer-v1.py.gz",
+      "bytes": 1058,
+      "sha256": "1a0ccf72a62ac641b2504d5cf70f6248cfd93ddace97b8cd10cacb243ac72950",
+      "originalSha256": "81a090c213d0ccd6c7fe5fc969d24b7abea7c95ed357155177c7ce0b711ece2f",
+      "originalBytes": 2172
+    }
+  ]
+}
