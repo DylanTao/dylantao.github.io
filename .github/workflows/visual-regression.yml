@@ -91,6 +91,7 @@ jobs:
           - scene-core-1
           - scene-core-2
           - scene-exploration
+          - scene-rooms
           - scene-gym
           - scene-choreography
           - scene-held-stairs

@@ -1,5 +1,5 @@
 {
-  "head": "6f3be81b8",
+  "head": "a442dee287aed931b326469e77e5682afed4e75c",
   "manifestOrder": [
     "companion.spec.js",
     "duh.spec.js",
@@ -380,12 +380,14 @@
         "title": "coastal weather: retained natural rain clears the actual roofs, falls outside and holds when motion stops"
       },
       {
-        "file": "architecture-finish.spec.js",
-        "title": "finished house: adjacent bedchamber, library patio leaf and composed exterior remain visible through public room visits"
-      },
-      {
         "file": "desk-scene.spec.js",
         "title": "coastal home: desktop orbit sweeps stay proportional and cross the old vertical limits"
+      }
+    ],
+    "scene-rooms": [
+      {
+        "file": "architecture-finish.spec.js",
+        "title": "finished house: adjacent bedchamber, library patio leaf and composed exterior remain visible through public room visits"
       },
       {
         "file": "desk-scene.spec.js",

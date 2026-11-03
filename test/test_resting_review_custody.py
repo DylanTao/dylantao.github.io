@@ -64,6 +64,7 @@ class RestingReviewCustody(unittest.TestCase):
             "entrance-inspection-2026-11-02": "MANIFEST.json",
             "ci-runner-2026-11-02": "MANIFEST.json",
             "surface-roles-2026-11-02": "MANIFEST.json",
+            "ci-exploration-2026-11-02": "MANIFEST.json",
             "exporter-holes-2026-11-01": "MANIFEST.json",
             "exterior-waterline-2026-11-01": "MANIFEST.json",
             "waterline-release-2026-11-01": "MANIFEST.json",
