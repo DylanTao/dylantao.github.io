@@ -1,5 +1,5 @@
 {
-  "head": "a442dee287aed931b326469e77e5682afed4e75c",
+  "head": "4f325d2e6ec33781793c4e8534697b85d6f273f3",
   "manifestOrder": [
     "companion.spec.js",
     "duh.spec.js",
@@ -400,6 +400,10 @@
       {
         "file": "desk-scene.spec.js",
         "title": "coastal home: every Rooms destination receives pointer input above following content"
+      },
+      {
+        "file": "architecture-finish.spec.js",
+        "title": "finished house: public gym visits keep the existing task lights on in the embed and full screen"
       }
     ],
     "scene-gym": [

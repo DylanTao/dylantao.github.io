@@ -73,6 +73,16 @@ From October 24 to 26, 2026, Claude Opus coordinated this site with up to six pa
 
 > Continue Sirui's website from the current `main`. Read `AGENTS.md`, then the Codex continuation brief and the Opus continuation checklist at the top of `docs/october-2026-handoff.md`, then the owning brief for the item you pick. Take an open item whose evidence you can produce. Read its "Best effort so far" note and the retained attempts before trying again. Preserve Sirui's intent, the orange-sun identity, Inter, locked copy, personal voice and accurate credit. Prefer one verified checkpoint to a broad half-change: run the gates, re-bake the light cache when its inputs change, watch CI to green and check the live site. Mark an item done only when it is verified; otherwise leave an honest note with what you tried, the evidence and the next hypothesis.
 
+## November 2 verified checkpoints and current house work
+
+The [46-job publication receipt](../artwork/coastal-home/reviews/ci-46-publication-2026-11-02/README.md) verifies `4f325d2e6`, every triggered applicable workflow and nine exact live responses. The earlier cancelled upload remains retained; it is not relabeled green.
+
+The [gym-lighting checkpoint](../artwork/coastal-home/reviews/gym-ambience-2026-11-02/README.md) corrects visitor-driven practical lighting, the actual pendant anchor and the opaque painted-rack finish. A phone review also catches near-singular diffuser self-lighting admitted by the floor tolerance; strict downward emission removes it with unchanged bloom and exposure. Its production and responsive gates belong to that checkpoint; whole-house ambience remains open.
+
+The [pavilion source](../artwork/coastal-home/reviews/pavilion-breakfast-source-2026-11-02/README.md) and [actual decoded pose checks](../artwork/coastal-home/reviews/pavilion-breakfast-decoded-2026-11-02/README.md) preserve the new footrest, linen pad and one open-back chair recipe. All five static bodies and complete delivered eat/drink Tail clips clear the rigid chair, with measured sole and linen support. The recipes are integrated independently of the native master. The new venue stays disabled until the supported carry route, natural entry, full Dining/cup ownership and public lifecycle checks pass. The under-bedroom room remains a calm plant refuge.
+
+The private cliff crown trial still fails finite self-contact checks on its original partition caps. A bounded cap reconstruction is under review. The earlier squared-fin silhouette is rejected. Neither candidate is installed or accepted, and the combined exterior/arrival/garden source still needs its unchanged capacity, overlap, cache, Walk and appearance gates.
+
 ## November 1 rain-contact checkpoint
 
 The [rain-contact review](../artwork/coastal-home/reviews/rain-contacts-2026-11-02/README.md)

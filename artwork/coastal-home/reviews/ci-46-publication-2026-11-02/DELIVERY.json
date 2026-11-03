@@ -1,0 +1,94 @@
+{
+  "at": "2026-11-03T01:53:39.086171+00:00",
+  "sourceHead": "4f325d2e6ec33781793c4e8534697b85d6f273f3",
+  "pagesHead": "12b9237c5eb2edc1f6dc9acb486c2669aad02980",
+  "pagesSubject": "Deploying to gh-pages from @ DylanTao/dylantao.github.io@4f325d2e6ec33781793c4e8534697b85d6f273f3 \ud83d\ude80",
+  "visualRun": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41556029652",
+  "visualJobsPassed": 46,
+  "compiledSourceModules": 189,
+  "allApplicableRunsPassed": true,
+  "responses": [
+    {
+      "path": "index.html",
+      "url": "https://dylantao.github.io/?delivery=4f325d2e6ec33781793c4e8534697b85d6f273f3",
+      "status": 200,
+      "bytes": 108652,
+      "sha256": "d57f921659dbc779866703eaee30b216f8d3351b2a88873d8c86cc60fdc51f1c",
+      "expectedSha256": "d57f921659dbc779866703eaee30b216f8d3351b2a88873d8c86cc60fdc51f1c",
+      "exact": true
+    },
+    {
+      "path": "assets/js/module-build.json",
+      "url": "https://dylantao.github.io/assets/js/module-build.json?delivery=4f325d2e6ec33781793c4e8534697b85d6f273f3",
+      "status": 200,
+      "bytes": 41560,
+      "sha256": "f72a5891836715143cc7e9dd2a2a17e1301c7b93fc9a12e3aaa30f9e7d4f495b",
+      "expectedSha256": "f72a5891836715143cc7e9dd2a2a17e1301c7b93fc9a12e3aaa30f9e7d4f495b",
+      "exact": true
+    },
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "url": "https://dylantao.github.io/assets/js/home-scene/controller.mjs?delivery=4f325d2e6ec33781793c4e8534697b85d6f273f3",
+      "status": 200,
+      "bytes": 104523,
+      "sha256": "cb22a43d96b6c9317301325d3bf4f00640570984b73d49263ee0186565a14ec7",
+      "expectedSha256": "cb22a43d96b6c9317301325d3bf4f00640570984b73d49263ee0186565a14ec7",
+      "exact": true
+    },
+    {
+      "path": "assets/js/home-scene/warm-practicals.mjs",
+      "url": "https://dylantao.github.io/assets/js/home-scene/warm-practicals.mjs?delivery=4f325d2e6ec33781793c4e8534697b85d6f273f3",
+      "status": 200,
+      "bytes": 5468,
+      "sha256": "97b6498b9523bbe8c5c1164e3310e51b6ff6dbb71caa9d60b8db94da585a26c5",
+      "expectedSha256": "97b6498b9523bbe8c5c1164e3310e51b6ff6dbb71caa9d60b8db94da585a26c5",
+      "exact": true
+    },
+    {
+      "path": "assets/js/home-scene/static-light-field.mjs",
+      "url": "https://dylantao.github.io/assets/js/home-scene/static-light-field.mjs?delivery=4f325d2e6ec33781793c4e8534697b85d6f273f3",
+      "status": 200,
+      "bytes": 24762,
+      "sha256": "8ba71f1d804b81f79822610f0c47ee1ebd1c1c7381e3a1c55157684a3ad43482",
+      "expectedSha256": "8ba71f1d804b81f79822610f0c47ee1ebd1c1c7381e3a1c55157684a3ad43482",
+      "exact": true
+    },
+    {
+      "path": "assets/js/home-scene/room-journey.mjs",
+      "url": "https://dylantao.github.io/assets/js/home-scene/room-journey.mjs?delivery=4f325d2e6ec33781793c4e8534697b85d6f273f3",
+      "status": 200,
+      "bytes": 3375,
+      "sha256": "fb644b080e45b61d72932065ff87c030b4926abb5745baad90cbcdb7aea36a6e",
+      "expectedSha256": "fb644b080e45b61d72932065ff87c030b4926abb5745baad90cbcdb7aea36a6e",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "url": "https://dylantao.github.io/assets/models/home/manifest.json?delivery=4f325d2e6ec33781793c4e8534697b85d6f273f3",
+      "status": 200,
+      "bytes": 233487,
+      "sha256": "10347680ea70c1ddb6155c6f82d112a0f19ba00f38734ef00bb5aba7ae4af313",
+      "expectedSha256": "10347680ea70c1ddb6155c6f82d112a0f19ba00f38734ef00bb5aba7ae4af313",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "url": "https://dylantao.github.io/assets/models/home/static-light-field.json?delivery=4f325d2e6ec33781793c4e8534697b85d6f273f3",
+      "status": 200,
+      "bytes": 712081,
+      "sha256": "250589dd35a0ff657f105a64971adda66020b21a7d88fbe868e774ea1fd50ce9",
+      "expectedSha256": "250589dd35a0ff657f105a64971adda66020b21a7d88fbe868e774ea1fd50ce9",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/home-shell.glb",
+      "url": "https://dylantao.github.io/assets/models/home/home-shell.glb?delivery=4f325d2e6ec33781793c4e8534697b85d6f273f3",
+      "status": 200,
+      "bytes": 898704,
+      "sha256": "b51f302da52907dc1d707c14ea3a3c4578da9f43f9147d7917a6bb0e1f99ce72",
+      "expectedSha256": "b51f302da52907dc1d707c14ea3a3c4578da9f43f9147d7917a6bb0e1f99ce72",
+      "exact": true
+    }
+  ],
+  "scope": "Exact public deployment readback after all46current visual jobs and other applicable workflows succeeded. Prior cancelled/failed runs remain retained. This is publication of the source/checker/CI checkpoint; private house geometry/routine/light experiments are not included."
+}

@@ -8,8 +8,10 @@ import {
   dot,
   evaluateL1,
   normalize,
+  normalizeEmission,
   octEncode,
   pointAttenuation,
+  practicalEmission,
   skyBasis,
   sphereQuadrature,
 } from "./light-trace-core.mjs";
@@ -218,12 +220,14 @@ export function createStaticLightField({
         s.region.max.length !== 3)
     )
       throw new RangeError("invalid practical region");
+    const emission = normalizeEmission(s.emission);
     return {
       ...s,
       position: [...s.position],
       color: rgb(s.color, [1, 1, 1]),
       distance: s.distance ?? 0,
       emitterRadius: s.emitterRadius ?? 0.18,
+      ...(emission ? { emission } : {}),
       ...(s.region ? { region: { min: [...s.region.min], max: [...s.region.max] } } : {}),
     };
   });
@@ -301,12 +305,13 @@ export function createStaticLightField({
   // SHA-256 signature binds the snapshot to the exact authored assets and collector sources.
   const snapshotConfiguration = JSON.stringify({
     regions,
-    practicalSources: practicalSources.map(({ id, position, color, distance, emitterRadius, region }) => ({
+    practicalSources: practicalSources.map(({ id, position, color, distance, emitterRadius, region, emission }) => ({
       id,
       position,
       color,
       distance,
       emitterRadius,
+      ...(emission ? { emission } : {}),
       ...(region ? { region } : {}),
     })),
     raysPerProbe,
@@ -501,11 +506,12 @@ export function createStaticLightField({
           distance = Math.hypot(...vector);
         if (distance < 1e-5 || (source.distance && distance >= source.distance)) return;
         const lightDirection = vector.map((x) => x / distance),
-          cosine = Math.max(0, dot(hit.normal, lightDirection));
-        if (!cosine) return;
+          cosine = Math.max(0, dot(hit.normal, lightDirection)),
+          emission = practicalEmission(lightDirection, source.emission);
+        if (!cosine || !emission) return;
         const far = Math.max(0, distance - source.emitterRadius);
         if (far > 0.001 && bvh.ray(origin, lightDirection, far, 0.001, true)) return;
-        const scale = (cosine * pointAttenuation(distance, source.distance)) / Math.PI;
+        const scale = (cosine * emission * pointAttenuation(distance, source.distance)) / Math.PI;
         accumulateL1(
           transport,
           start + (s + 3) * sourceStride,

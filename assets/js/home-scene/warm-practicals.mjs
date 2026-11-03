@@ -1,5 +1,6 @@
 import * as THREE from "../three.module.min.js";
 import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.js";
+import { normalizeEmission } from "./light-trace-core.mjs";
 
 // World-space anchors: the study's task lamp, the bedside lamp, the kitchen's brass picture light over
 // the capybara print, the living room's paper floor lantern, then the bath ledge, the gym (over its
@@ -16,7 +17,16 @@ export const PRACTICAL_SOURCES = [
   // from the bulb, is the emitter, so the static light bake must not let the shade hide its own lamp.
   { id: "lounge", position: [-1.2, 1.42, -3.55], night: 2.7, day: 0.7, distance: 4.8, emitterRadius: 0.26 },
   { id: "bath", position: [3.68, 3.388, 2.2], night: 2.8, day: 0.6, distance: 3.3 },
-  { id: "gym", position: [8.6, 2.3, -0.4], night: 3, day: 0.5, distance: 3.5 },
+  {
+    id: "gym",
+    position: [8.7, 2.9448975324630737, -0.9],
+    night: 6,
+    day: 0.5,
+    distance: 3.5,
+    emitterRadius: 0.04,
+    anyHour: true,
+    emission: { direction: [0, -1, 0], angle: Math.PI / 2, penumbra: 0.35 },
+  },
   { id: "terrace-west", position: [-4.75, 0.170405, -4.12], night: 1.8, day: 0.15, distance: 3.8 },
   { id: "terrace-east", position: [3.9, 0.170405, -4.12], night: 1.8, day: 0.15, distance: 3.8 },
 ];
@@ -33,7 +43,7 @@ export const PRACTICAL_SCHEDULES = {
   kitchen: occupied(["breakfast", "lunch", "dinner"]),
   lounge: occupied(["lounge"]),
   bath: occupied(["soak"]),
-  gym: ({ activity }) => (activity === "workout" ? 1 : 0.15),
+  gym: ({ activity, visit }) => (activity === "workout" || visit === "gym" ? 1 : 0.15),
   "terrace-west": ({ minute }) => (minute >= 16 * 60 || minute < 60 ? 1 : 0.35),
   "terrace-east": ({ minute }) => (minute >= 16 * 60 || minute < 60 ? 1 : 0.35),
   sleep: ({ minute, bed, wake }) => {
@@ -113,8 +123,15 @@ export function createWarmPracticals(scene, bind = (m) => m, { sources = PRACTIC
   root.name = "Warm architectural fixtures";
   const color = new THREE.Color(0xffc18b),
     lights = sources.map((source) => {
-      const light = new THREE.PointLight(color, source.day, source.distance, 2);
+      const emission = normalizeEmission(source.emission);
+      const light = emission
+        ? new THREE.SpotLight(color, source.day, source.distance, emission.angle, emission.penumbra, 2)
+        : new THREE.PointLight(color, source.day, source.distance, 2);
       light.position.fromArray(source.position);
+      if (emission) {
+        light.target.position.copy(light.position).add(new THREE.Vector3(...emission.direction));
+        root.add(light.target);
+      }
       light.name = `${source.id} practical`;
       root.add(light);
       return light;
@@ -195,10 +212,10 @@ export function createWarmPracticals(scene, bind = (m) => m, { sources = PRACTIC
       return nativeDiffusers.size;
     },
     // routine: { minute, id, schedule }. Without one, every lamp follows daylight alone.
-    update(daylight, routine = null) {
+    update(daylight, routine = null, visit = null) {
       const t = THREE.MathUtils.clamp((0.3 - daylight) / 0.3, 0, 1);
       nightMix = t * t * (3 - 2 * t);
-      const state = routine && { minute: routine.minute, activity: routine.id, ...sleepWindow(routine.schedule || []) };
+      const state = routine && { minute: routine.minute, activity: routine.id, visit, ...sleepWindow(routine.schedule || []) };
       lights.forEach((light, i) => {
         const source = sources[i];
         const level = state ? PRACTICAL_SCHEDULES[source.id](state) : 1;
@@ -211,7 +228,8 @@ export function createWarmPracticals(scene, bind = (m) => m, { sources = PRACTIC
     evidence() {
       return {
         nightMix,
-        pointLights: lights.length,
+        pointLights: lights.filter((light) => light.isPointLight).length,
+        spotLights: lights.filter((light) => light.isSpotLight).length,
         newFixtures: 3,
         fixtureDraws: 2,
         nativeDiffuserMeshes: nativeDiffusers.size,

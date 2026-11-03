@@ -7,6 +7,35 @@ export const normalize = (v) => {
   const l = Math.hypot(...v);
   return l > 1e-15 ? v.map((x) => x / l) : [0, 1, 0];
 };
+export function normalizeEmission(emission) {
+  if (emission == null) return null;
+  const { direction, angle, penumbra } = emission;
+  if (
+    !Array.isArray(direction) ||
+    direction.length !== 3 ||
+    !direction.every(Number.isFinite) ||
+    Math.abs(Math.hypot(...direction) - 1) > 1e-6 ||
+    !Number.isFinite(angle) ||
+    angle <= 0 ||
+    angle > Math.PI / 2 ||
+    !Number.isFinite(penumbra) ||
+    penumbra <= 0 ||
+    penumbra > 1
+  )
+    throw new RangeError("invalid practical emission cone");
+  return { direction: [...direction], angle, penumbra };
+}
+
+// Same cone/penumbra smoothstep as the direct Three.js SpotLight. The supplied
+// direction points from the receiving surface toward the source.
+export function practicalEmission(lightDirection, emission) {
+  if (!emission) return 1;
+  const outer = Math.cos(emission.angle),
+    inner = Math.cos(emission.angle * (1 - emission.penumbra)),
+    t = clamp((-dot(emission.direction, lightDirection) - outer) / (inner - outer), 0, 1);
+  return t * t * (3 - 2 * t);
+}
+
 export function octDirection(x, y) {
   let z = 1 - Math.abs(x) - Math.abs(y);
   if (z < 0) {

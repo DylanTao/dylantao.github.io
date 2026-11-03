@@ -1403,6 +1403,7 @@ export function createCoastalHome(container, records, artifacts) {
   const keyColor = new THREE.Color();
   function updateInstallations(visit = currentRoom, lightDaylight = daylight?.daylight) {
     if (routine && daylight) {
+      warmPracticals?.update(lightDaylight, { ...routine, schedule: routine.weekend ? config.weekend : config.weekday }, visit);
       const levels = lightInstallations?.update({ minute: routine.minute, daylight: lightDaylight, activity: routine.id, visit });
       staticLightField?.setPracticalPowers([
         ...warmPracticals.lights.map((light) => light.intensity),
@@ -1442,7 +1443,6 @@ export function createCoastalHome(container, records, artifacts) {
       sunDirection.fromArray(daylight.keyDirection).normalize();
     }
     fitSunShadow(true);
-    warmPracticals?.update(daylight.daylight, { ...routine, schedule: routine.weekend ? config.weekend : config.weekday });
     updateInstallations();
     syncFacadeDoors();
     if (staticLightField && pacific) {

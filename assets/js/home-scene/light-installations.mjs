@@ -338,15 +338,27 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   // vault (bin/coastal_gym.py build_lights). The region keeps them inside the gym and its ledge.
   if (config.equipment?.gym) {
     const region = legacyBox([6.0, -0.1, -4.2], [11.0, 3.6, 1.0]);
-    lines.push({ id: "gym", a: legacyPoint([6.55, 2.45, -2.2]), b: legacyPoint([7.8, 2.45, -2.2]), intensity: 1.1, color: GYM, region });
-    lines.push({ id: "gym", a: legacyPoint([7.02, 2.935, -0.9]), b: legacyPoint([10.38, 2.935, -0.9]), intensity: 1.15, color: GYM, region });
+    // The opaque pendant housings shield their upper hemisphere. Reuse each
+    // emitter's receiver bounds for that half-space; no shader array is added.
+    // Cancel the floor-receiver tolerance here: a diffuser a few millimetres
+    // above its emitting plane must not receive its own near-singular light.
+    const below = (height) => ({ min: region.min, max: region.max.clone().setY(height - RECEIVER_TOLERANCE) });
+    lines.push({ id: "gym", a: legacyPoint([6.55, 2.45, -2.2]), b: legacyPoint([7.8, 2.45, -2.2]), intensity: 3.3, color: GYM, region: below(2.45) });
+    lines.push({
+      id: "gym",
+      a: legacyPoint([7.02, 2.935, -0.9]),
+      b: legacyPoint([10.38, 2.935, -0.9]),
+      intensity: 3.45,
+      color: GYM,
+      region: below(2.935),
+    });
     lines.push({
       id: "gym",
       a: legacyPoint([9.62, 2.552, -2.65]),
       b: legacyPoint([10.78, 2.552, -2.65]),
-      intensity: 0.92,
+      intensity: 2.76,
       color: GYM,
-      region,
+      region: below(2.552),
     });
   }
   // The kitchen and dining room (manifest interiorLights, bin/coastal_kitchen.py), bounded by the

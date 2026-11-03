@@ -73,6 +73,63 @@ function pixelDifference(a, b) {
   return { changedPixels: changed, meanMaximumChannelError: sum / (before.width * before.height), width: before.width, height: before.height };
 }
 
+test("finished house: public gym visits keep the existing task lights on in the embed and full screen", async ({ page }, testInfo) => {
+  test.setTimeout(process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1" ? 900000 : 600000);
+  const errors = collectRuntimeErrors(page),
+    records = [];
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.clock.setFixedTime(new Date("2026-10-23T14:00:00-07:00"));
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const theme = async (mode) => {
+    await page.locator("[data-theme-toggle]:visible").first().click();
+    await page.locator(`[data-theme-mode-option="${mode}"]:visible`).first().click();
+    await page.locator("[data-theme-toggle]:visible").first().click();
+  };
+  await theme("noon");
+  await page.locator('[data-home-desk-mode="3d"]').click();
+  const scene = page.locator("[data-home-desk-scene]");
+  await scene.scrollIntoViewIfNeeded();
+  await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 180000 });
+  const canvas = scene.locator("canvas:not(.home-world-sketch)");
+  const visit = async (room) => {
+    await page.locator("[data-world-places]>summary").click();
+    await page.locator(`[data-world-destination="${room}"]`).click();
+    await expect.poll(async () => (await evidence(scene)).currentRoom, { timeout: 60000 }).toBe(room);
+  };
+  const capture = async (name, active) => {
+    await expect.poll(async () => (await evidence(scene)).simulation.practicals.levels.gym, { timeout: 60000 }).toBe(active ? 1 : 0.15);
+    const state = await evidence(scene),
+      practical = state.simulation.practicals,
+      gym = practical.sources.find((source) => Math.abs(source.position[0] - 8.7) < 1e-6);
+    expect(state.activity).not.toBe("workout");
+    expect(practical.pointLights).toBe(7);
+    expect(practical.spotLights).toBe(1);
+    expect(gym.position).toEqual([8.7, 2.9448975324630737, 7.1]);
+    if (active) {
+      expect(gym.intensity).toBe(6);
+      expect(state.simulation.installations.levels.gym).toBeGreaterThanOrEqual(0.65);
+    } else expect(gym.intensity).toBeLessThan(6);
+    const bytes = await canvas.screenshot();
+    nonblank(bytes);
+    await retain(testInfo, name, { body: bytes, contentType: "image/png" });
+    records.push({ name, state });
+  };
+  await visit("gym");
+  await capture("gym-noon-embed", true);
+  await page.locator("[data-world-fullscreen]").click();
+  await expect.poll(async () => Boolean((await evidence(scene)).fullscreen)).toBe(true);
+  await capture("gym-noon-fullscreen", true);
+  await page.locator("[data-world-exit]").click();
+  await theme("evening");
+  await page.locator("[data-world-fullscreen]").click();
+  await capture("gym-evening-fullscreen", true);
+  await visit("sleep");
+  await capture("gym-light-released-after-departure", false);
+  await retain(testInfo, "gym-public-visits", { body: Buffer.from(JSON.stringify({ records, errors }, null, 2)), contentType: "application/json" });
+  expect(errors).toEqual([]);
+});
+
 test("finished house: adjacent bedchamber, library patio leaf and composed exterior remain visible through public room visits", async ({
   page,
 }, testInfo) => {

@@ -1,0 +1,408 @@
+{
+  "schema": "sirui-gym-release-gates-v1",
+  "at": "2026-11-03T03:46:54.201249+00:00",
+  "python": {
+    "passed": 416,
+    "process": {
+      "name": "python",
+      "command": [
+        "C:\\Users\\dylan\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "-X",
+        "utf8",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "test",
+        "-p",
+        "test_*.py"
+      ],
+      "exitCode": 0,
+      "seconds": 114.45076279999921
+    }
+  },
+  "node": {
+    "passed": 1013,
+    "skipped": 7,
+    "total": 1020,
+    "process": {
+      "name": "node",
+      "command": [
+        "node",
+        "--test",
+        "test\\arrival-rill.test.mjs",
+        "test\\atmosphere.test.mjs",
+        "test\\bed-transfer-native.test.mjs",
+        "test\\bedding-breath.test.mjs",
+        "test\\blog-layout.test.mjs",
+        "test\\build-rhythm-calendar.test.mjs",
+        "test\\build-rhythm-geometry.test.mjs",
+        "test\\character-contacts.test.mjs",
+        "test\\character-performance.test.mjs",
+        "test\\cloth-solver.test.mjs",
+        "test\\cloud-sofa-foot-support.test.mjs",
+        "test\\coast-bottom.test.mjs",
+        "test\\coast-depth.test.mjs",
+        "test\\coast-hills.test.mjs",
+        "test\\coast-people.test.mjs",
+        "test\\coast-posters.test.mjs",
+        "test\\coast-sky.test.mjs",
+        "test\\coast-surfer-motion.test.mjs",
+        "test\\coast-surfer-native.test.mjs",
+        "test\\coast-tilt.test.mjs",
+        "test\\coast-water.test.mjs",
+        "test\\coast-wave-motion.test.mjs",
+        "test\\coast-wind.test.mjs",
+        "test\\coastal-architecture-finish.test.mjs",
+        "test\\coastal-arrival-view.test.mjs",
+        "test\\coastal-bathrooms-native.test.mjs",
+        "test\\coastal-breakfast-lighting.test.mjs",
+        "test\\coastal-breakfast-walk-entry.test.mjs",
+        "test\\coastal-camera-field-hold.test.mjs",
+        "test\\coastal-camera-motion.test.mjs",
+        "test\\coastal-camera.test.mjs",
+        "test\\coastal-contact-lighting.test.mjs",
+        "test\\coastal-contact-rendering.test.mjs",
+        "test\\coastal-environment.test.mjs",
+        "test\\coastal-estate-native.test.mjs",
+        "test\\coastal-fft.test.mjs",
+        "test\\coastal-fireplace-joint.test.mjs",
+        "test\\coastal-fullscreen.test.mjs",
+        "test\\coastal-furniture-collision.test.mjs",
+        "test\\coastal-furniture.test.mjs",
+        "test\\coastal-grip-targets.test.mjs",
+        "test\\coastal-gym-session.test.mjs",
+        "test\\coastal-hinterland.test.mjs",
+        "test\\coastal-interior.test.mjs",
+        "test\\coastal-lazy-loading.test.mjs",
+        "test\\coastal-lift-rig.test.mjs",
+        "test\\coastal-model-loader.test.mjs",
+        "test\\coastal-module-custody.test.mjs",
+        "test\\coastal-navigation.test.mjs",
+        "test\\coastal-overlap-delivered.test.mjs",
+        "test\\coastal-physics.test.mjs",
+        "test\\coastal-planets.test.mjs",
+        "test\\coastal-practical-anchor.test.mjs",
+        "test\\coastal-probe-avatar.test.mjs",
+        "test\\coastal-quality.test.mjs",
+        "test\\coastal-rain.test.mjs",
+        "test\\coastal-research-tiles.test.mjs",
+        "test\\coastal-resolution.test.mjs",
+        "test\\coastal-routine.test.mjs",
+        "test\\coastal-sea-reflection.test.mjs",
+        "test\\coastal-shadow-cache.test.mjs",
+        "test\\coastal-shadow-fit.test.mjs",
+        "test\\coastal-tail-articulation.test.mjs",
+        "test\\coastal-training.test.mjs",
+        "test\\coastal-transport-rendering.test.mjs",
+        "test\\coastal-walk-native.test.mjs",
+        "test\\coastal-walk.test.mjs",
+        "test\\coastal-weather.test.mjs",
+        "test\\coastal-wind.test.mjs",
+        "test\\companion.test.mjs",
+        "test\\curtain-cloth.test.mjs",
+        "test\\curtain-schedule.test.mjs",
+        "test\\dining.test.mjs",
+        "test\\duh-body.test.mjs",
+        "test\\duh-motion.test.mjs",
+        "test\\duvet-solver.test.mjs",
+        "test\\estate-doors.test.mjs",
+        "test\\far-field.test.mjs",
+        "test\\glass-motion.test.mjs",
+        "test\\gym-ambience.test.mjs",
+        "test\\gym-dashboard.test.mjs",
+        "test\\gym-props-materials.test.mjs",
+        "test\\habitat-installations.test.mjs",
+        "test\\habitat-runtime.test.mjs",
+        "test\\home-coffee-stain.test.mjs",
+        "test\\infinity-pool.test.mjs",
+        "test\\interior-reflections.test.mjs",
+        "test\\laundry-frame.test.mjs",
+        "test\\laundry-line.test.mjs",
+        "test\\library-ladder.test.mjs",
+        "test\\light-installation-receivers.test.mjs",
+        "test\\light-installations.test.mjs",
+        "test\\light-lab-chart.test.mjs",
+        "test\\light-lab.test.mjs",
+        "test\\light-well.test.mjs",
+        "test\\lime-plaster-material.test.mjs",
+        "test\\loading-sketch.test.mjs",
+        "test\\local-scene-frame.test.mjs",
+        "test\\occlusion-region.test.mjs",
+        "test\\onsen-caustics.test.mjs",
+        "test\\onsen-inlet.test.mjs",
+        "test\\onsen-water.test.mjs",
+        "test\\page-entry.test.mjs",
+        "test\\pip-attention.test.mjs",
+        "test\\pip-clearance.test.mjs",
+        "test\\pip-departure.test.mjs",
+        "test\\pip-destination-queue.test.mjs",
+        "test\\pip-performance.test.mjs",
+        "test\\pip-studio-scheduler.test.mjs",
+        "test\\pip-world-ownership.test.mjs",
+        "test\\pool-activity.test.mjs",
+        "test\\pool-geometry.test.mjs",
+        "test\\pool-impact.test.mjs",
+        "test\\pool-stroke.test.mjs",
+        "test\\preview-motion.test.mjs",
+        "test\\program-lifetime.test.mjs",
+        "test\\project-decks.test.mjs",
+        "test\\rain-contact.test.mjs",
+        "test\\rain-roof-field.test.mjs",
+        "test\\rain-surface.test.mjs",
+        "test\\record-keyboard.test.mjs",
+        "test\\room-journey.test.mjs",
+        "test\\scene-look.test.mjs",
+        "test\\sea-optics.test.mjs",
+        "test\\seat-surface.test.mjs",
+        "test\\seo-optimization.test.mjs",
+        "test\\sidenotes.test.mjs",
+        "test\\site-motion.test.mjs",
+        "test\\skin-diffusion.test.mjs",
+        "test\\stars.test.mjs",
+        "test\\static-light-cache.test.mjs",
+        "test\\static-light-field.test.mjs",
+        "test\\static-triangle-index.test.mjs",
+        "test\\steam-transport.test.mjs",
+        "test\\still-photo.test.mjs",
+        "test\\sun-arc-math.test.mjs",
+        "test\\tail-corrective.test.mjs",
+        "test\\visual_scene_groups.test.mjs",
+        "test\\volume-depth.test.mjs",
+        "test\\walk-collar-liner.test.mjs",
+        "test\\walk-flight-native.test.mjs",
+        "test\\walk-flight.test.mjs",
+        "test\\walk-head-exclusion.test.mjs",
+        "test\\walk-presence.test.mjs",
+        "test\\whiskey.test.mjs",
+        "test\\wildlife-assets.test.mjs",
+        "test\\wildlife-delivered-contact.test.mjs",
+        "test\\wildlife-ground-bounds.test.mjs",
+        "test\\wildlife-motion.test.mjs",
+        "test\\wildlife-neighbors.test.mjs",
+        "test\\wildlife-perch-contact.test.mjs",
+        "test\\wildlife-rabbit-contact.test.mjs",
+        "test\\wildlife-raccoon-contact.test.mjs",
+        "test\\wildlife-resting-contact.test.mjs",
+        "test\\wildlife-scene.test.mjs",
+        "test\\wildlife-seabirds.test.mjs"
+      ],
+      "exitCode": 0,
+      "seconds": 84.69332940000459
+    }
+  },
+  "styleContract": {
+    "name": "style",
+    "command": ["node", "test/style_contract.js"],
+    "exitCode": 0,
+    "seconds": 0.13031050001154654
+  },
+  "productionBuild": {
+    "name": "production-build",
+    "command": [
+      "C:/tools/Ruby33/bin/ruby.exe",
+      "C:/tools/Ruby33/bin/bundle",
+      "exec",
+      "jekyll",
+      "build",
+      "--baseurl",
+      "/al-folio",
+      "--destination",
+      "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\gym-directed-checkpoint\\site\\al-folio"
+    ],
+    "exitCode": 0,
+    "seconds": 305.4463026000012
+  },
+  "compiledCustody": {
+    "compiledModules": 189,
+    "allRootSourceBindingsExact": true,
+    "allOutputHashesExact": true,
+    "allCompiledBodiesEqualReviewedStrictEmission": true,
+    "allCanonicalHomeGLBsExact": true,
+    "cacheResponseBytesExact": true,
+    "manifestSemanticsExact": true,
+    "lightConfigurationEqualReviewedStrictEmission": true,
+    "signature": "2723c9e0056515a099a8eac324b2f9496538f768fd43ce75286020aee6c15858",
+    "nativeSha256": "1e10b25d5cf0eec87d7001acbf9d938d65ba33af6076380d5a8e5d45cf3d23e7"
+  },
+  "cache": {
+    "command": ["C:\\Program Files\\nodejs\\node.EXE", "bin/bake_coastal_static_light.cjs"],
+    "base": "http://127.0.0.1:8080/",
+    "exitCode": 0,
+    "seconds": 23.18644150000182,
+    "signature": "2723c9e0056515a099a8eac324b2f9496538f768fd43ce75286020aee6c15858",
+    "preROITriangles": 731733,
+    "cacheBytes": 712169,
+    "regions": 16,
+    "probes": 128,
+    "practicals": 28,
+    "compiledModules": 189,
+    "nativeUnchanged": true,
+    "allModelsUnchanged": true
+  },
+  "fourWidthStats": {
+    "startTime": "2026-11-03T03:33:53.954Z",
+    "duration": 107590.184,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "fourWidthProcess": {
+    "command": [
+      "node",
+      "C:\\dev\\dylantao.github.io\\node_modules\\playwright\\cli.js",
+      "test",
+      "--config",
+      "test/visual/public.config.js",
+      "test/visual/architecture-finish.spec.js",
+      "--grep",
+      "finished house: public gym visits keep the existing task lights on in the embed and full screen",
+      "--workers",
+      "1",
+      "--max-failures",
+      "1",
+      "--reporter",
+      "json",
+      "--output",
+      "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\gym-directed-checkpoint\\viewport-results-v2"
+    ],
+    "server": {
+      "pid": 39948,
+      "header": "sirui-preview-gym-directed-checkpoint-39948",
+      "port": 60544,
+      "url": "http://127.0.0.1:60544/al-folio/",
+      "directory": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\gym-directed-checkpoint\\site"
+    },
+    "exitCode": 0,
+    "seconds": 109.56267119999393,
+    "sourceOrModelResponseReplacements": false
+  },
+  "phoneSizedBrowsers": [
+    {
+      "kind": "chromium",
+      "version": "145.0.7632.6",
+      "states": 6,
+      "viewport": [390, 1000],
+      "dpr": 1,
+      "physicalDevice": false
+    },
+    {
+      "kind": "webkit",
+      "version": "27.2",
+      "states": 6,
+      "viewport": [390, 1000],
+      "dpr": 1,
+      "physicalDevice": false
+    }
+  ],
+  "retainedViewportAttachments": [
+    {
+      "project": "desktop-1440",
+      "name": "gym-noon-embed",
+      "path": "release/views/desktop-1440/gym-noon-embed.png"
+    },
+    {
+      "project": "desktop-1440",
+      "name": "gym-noon-fullscreen",
+      "path": "release/views/desktop-1440/gym-noon-fullscreen.png"
+    },
+    {
+      "project": "desktop-1440",
+      "name": "gym-evening-fullscreen",
+      "path": "release/views/desktop-1440/gym-evening-fullscreen.png"
+    },
+    {
+      "project": "desktop-1440",
+      "name": "gym-light-released-after-departure",
+      "path": "release/views/desktop-1440/gym-light-released-after-departure.png"
+    },
+    {
+      "project": "desktop-1440",
+      "name": "gym-public-visits",
+      "path": "release/views/desktop-1440/gym-public-visits.json"
+    },
+    {
+      "project": "laptop-1280",
+      "name": "gym-noon-embed",
+      "path": "release/views/laptop-1280/gym-noon-embed.png"
+    },
+    {
+      "project": "laptop-1280",
+      "name": "gym-noon-fullscreen",
+      "path": "release/views/laptop-1280/gym-noon-fullscreen.png"
+    },
+    {
+      "project": "laptop-1280",
+      "name": "gym-evening-fullscreen",
+      "path": "release/views/laptop-1280/gym-evening-fullscreen.png"
+    },
+    {
+      "project": "laptop-1280",
+      "name": "gym-light-released-after-departure",
+      "path": "release/views/laptop-1280/gym-light-released-after-departure.png"
+    },
+    {
+      "project": "laptop-1280",
+      "name": "gym-public-visits",
+      "path": "release/views/laptop-1280/gym-public-visits.json"
+    },
+    {
+      "project": "tablet-768",
+      "name": "gym-noon-embed",
+      "path": "release/views/tablet-768/gym-noon-embed.png"
+    },
+    {
+      "project": "tablet-768",
+      "name": "gym-noon-fullscreen",
+      "path": "release/views/tablet-768/gym-noon-fullscreen.png"
+    },
+    {
+      "project": "tablet-768",
+      "name": "gym-evening-fullscreen",
+      "path": "release/views/tablet-768/gym-evening-fullscreen.png"
+    },
+    {
+      "project": "tablet-768",
+      "name": "gym-light-released-after-departure",
+      "path": "release/views/tablet-768/gym-light-released-after-departure.png"
+    },
+    {
+      "project": "tablet-768",
+      "name": "gym-public-visits",
+      "path": "release/views/tablet-768/gym-public-visits.json"
+    },
+    {
+      "project": "mobile-390",
+      "name": "gym-noon-embed",
+      "path": "release/views/mobile-390/gym-noon-embed.png"
+    },
+    {
+      "project": "mobile-390",
+      "name": "gym-noon-fullscreen",
+      "path": "release/views/mobile-390/gym-noon-fullscreen.png"
+    },
+    {
+      "project": "mobile-390",
+      "name": "gym-evening-fullscreen",
+      "path": "release/views/mobile-390/gym-evening-fullscreen.png"
+    },
+    {
+      "project": "mobile-390",
+      "name": "gym-light-released-after-departure",
+      "path": "release/views/mobile-390/gym-light-released-after-departure.png"
+    },
+    {
+      "project": "mobile-390",
+      "name": "gym-public-visits",
+      "path": "release/views/mobile-390/gym-public-visits.json"
+    }
+  ],
+  "packetPrivacyChecks": [
+    "artwork/coastal-home/reviews/gym-ambience-2026-11-02",
+    "artwork/coastal-home/reviews/pavilion-breakfast-source-2026-11-02",
+    "artwork/coastal-home/reviews/pavilion-breakfast-decoded-2026-11-02"
+  ],
+  "allArchiveBodiesAndSixRecipeSourceHashesExact": true,
+  "limitations": "This verifies the gym runtime and preserves disabled pavilion construction recipes. The native master/GLBs remain1e10public, so private crown/arrival/garden and breakfast carry/entry are still open. PCWebKit is not a physicaliPhone benchmark. Prior fixture, glare, and archive-long-path failures remain retained; only byte-identical unpublished archive deposits resumed. The initial archive verifier incorrectly decompressed13already-gzip original sources when comparing raw-source hashes; the corrected verifier follows the source extension and preserves every archive/index byte."
+}

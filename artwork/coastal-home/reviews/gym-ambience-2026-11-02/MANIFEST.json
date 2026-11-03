@@ -1,0 +1,1177 @@
+{
+  "schema": "sirui-gym-ambience-evidence-v1",
+  "created": "2026-11-03T02:13:03.513428+00:00",
+  "scope": "Verified strict-directed gym runtime, current production/four-width/Chromium+PCWebKit phone-size evidence, retained superseded controls and exact original archive/source bytes. Whole-house native/appearance work and final device/performance/CI/live checks remain separate.",
+  "files": [
+    {
+      "path": "producers/inspect-public-gym-lights.py.gz",
+      "bytes": 890,
+      "sha256": "c39967c4c8909e1d51b63effc9f61d8ce715ee8f090ebacf177953193a687453",
+      "encoding": "gzip",
+      "bodyBytes": 1579,
+      "bodySha256": "a3f4ee949d89ecf5b45d066eaafced0024330546f3731ec611cd05a019116921"
+    },
+    {
+      "path": "producers/inspect-native-gym-fixture-v2.py.gz",
+      "bytes": 1615,
+      "sha256": "c31cf05a660fcca4681667d0eae0a71e406b6934ab25398dfe5535b54ffe03b3",
+      "encoding": "gzip",
+      "bodyBytes": 3133,
+      "bodySha256": "1bc01df4d50c5c917dccc58aa8e336d9cdc94d9c24aea20dc726e3d191f9d20b"
+    },
+    {
+      "path": "producers/inspect-native-gym-long-fixture-v3.py.gz",
+      "bytes": 1623,
+      "sha256": "27aa19be1f65c3023a60f28e8f4c56797672fbd1299ac171dfbe3a2df1714f59",
+      "encoding": "gzip",
+      "bodyBytes": 3143,
+      "bodySha256": "dbb0cefd0a5c5143f1fed51e4052f9aca7562dea57194850a30e2a1628476c9e"
+    },
+    {
+      "path": "producers/inspect-gym-irradiance.cjs.gz",
+      "bytes": 624,
+      "sha256": "52ef7a2256860a1e83aeb79e0ba3aa9ca143cda033f3e8aa6115dfd567cc007e",
+      "encoding": "gzip",
+      "bodyBytes": 1109,
+      "bodySha256": "68a9cd253657d1cf96824ac0e2a517e05066622fd7d791a692bad57d385f892d"
+    },
+    {
+      "path": "producers/prepare-private-visit-lighting-v1.py.gz",
+      "bytes": 2248,
+      "sha256": "a946068d33fe6e0f12fb2105fd20e385efaed71607e888b790235bcf550a1ffa",
+      "encoding": "gzip",
+      "bodyBytes": 5463,
+      "bodySha256": "e0b28b923607792cee21e763ae9e2036d0ee37edb1ce6ec0ee8917b2b6dcd703"
+    },
+    {
+      "path": "producers/execute-private-visit-lighting-v2.py.gz",
+      "bytes": 2353,
+      "sha256": "46e6604061e9661137f4e88ea300991b54bd089792cd6358a40c2f4071bad4d6",
+      "encoding": "gzip",
+      "bodyBytes": 5637,
+      "bodySha256": "73cd9e7846c45d053c3d8a4d58be50ef2073f36dd1fa7f5bf95f12f65012114e"
+    },
+    {
+      "path": "producers/execute-private-visit-lighting-v3.py.gz",
+      "bytes": 2686,
+      "sha256": "ed8ba787f45231e89fada9837a9aeda0b14a36887b0226759b916e826cc6c9d1",
+      "encoding": "gzip",
+      "bodyBytes": 6641,
+      "bodySha256": "f7dec18f3eee7eaec85d6b02344e199d98bb6bdbffc69715fae71abd87bb9d56"
+    },
+    {
+      "path": "producers/execute-private-visit-lighting-v4.py.gz",
+      "bytes": 2734,
+      "sha256": "839fdcc99afc050d1034592c00e8cd1979d5a130d026bd505eef2d2f6ca19630",
+      "encoding": "gzip",
+      "bodyBytes": 6717,
+      "bodySha256": "cc4798b109694f8a661d0cff04a8003b7c32c72663f1168a5b4d22a7f03b8f75"
+    },
+    {
+      "path": "producers/capture-public-gym-lighting-v2.cjs.gz",
+      "bytes": 2138,
+      "sha256": "5c099f5ecb2488f58a4bee94797ae3a953a90762a92118e985d9160b8e7cdbaf",
+      "encoding": "gzip",
+      "bodyBytes": 4673,
+      "bodySha256": "a3c9d8ee666dabb97c7820b13a892da60bef5571ef2124da6611fc5b41058320"
+    },
+    {
+      "path": "producers/capture-visit-lighting-v1.cjs.gz",
+      "bytes": 2250,
+      "sha256": "fbddeec04de45a4306fa687b6e1ccf84a1c70b5c909b039050315ffe50323913",
+      "encoding": "gzip",
+      "bodyBytes": 4944,
+      "bodySha256": "a682d8cd4dc736ec60d6b2d13ae633f46c69f7e2b746e5dfc7c74ca9f72e7f9e"
+    },
+    {
+      "path": "producers/capture-visit-lighting-v2.cjs.gz",
+      "bytes": 2646,
+      "sha256": "8b29312135b17c3c4d1586dc6203fd7a6af0c97b49e90b92f4b92eb10d810730",
+      "encoding": "gzip",
+      "bodyBytes": 5952,
+      "bodySha256": "f33977b0341af747613c3d03bbf2ea9f8fd02ef5a6cc74fd8c3d3aa4ab177f43"
+    },
+    {
+      "path": "producers/capture-visit-lighting-v3.cjs.gz",
+      "bytes": 2692,
+      "sha256": "dede0f68b67df190de2f77a315753efc0c55258688bb722996fd40705201fbb3",
+      "encoding": "gzip",
+      "bodyBytes": 6030,
+      "bodySha256": "c37ecb439fd6899e90601e4075a95dd926969f623ead19f482a1d8644d7d851f"
+    },
+    {
+      "path": "producers/capture-visit-lighting-v4.cjs.gz",
+      "bytes": 2711,
+      "sha256": "e3299d499557bcd5005f998979440489252399c35df7d2e5e358cf0857567774",
+      "encoding": "gzip",
+      "bodyBytes": 6065,
+      "bodySha256": "81696e62dab3f51bd740dcba5d3aad6d6d3c200f6c2e1a58e4e00870fe34c600"
+    },
+    {
+      "path": "producers/integrate-gym-lighting.py.gz",
+      "bytes": 757,
+      "sha256": "471d2e7396d09115d4f8b71ac4c931af1b5f1f53bd650ad5426db23604d7bec8",
+      "encoding": "gzip",
+      "bodyBytes": 1287,
+      "bodySha256": "798583ad61571a6ccef6ba8cffa76162b85de9793bc16194fea5d6628aaaf73e"
+    },
+    {
+      "path": "producers/bake-public-gym-checkpoint.py.gz",
+      "bytes": 1140,
+      "sha256": "674b7f3500556e955a8cc456fb9fe2f64151b6d19c78a049de12c06cbb9e8d37",
+      "encoding": "gzip",
+      "bodyBytes": 2266,
+      "bodySha256": "500e80790a05a261fe4227fc2fd3272d56f5e3e4180216801db51276a880acdb"
+    },
+    {
+      "path": "controls/PUBLIC-GYM-NATIVE-FIXTURES.json.gz",
+      "bytes": 3425,
+      "sha256": "a7915e88e5516c83f5300d45f389cb94264ed9a84bb5a97b99e864c6dfe96f54",
+      "encoding": "gzip",
+      "bodyBytes": 28022,
+      "bodySha256": "ba573f4983660b73447893ebe49de22011d58c2a810e35db2740cb8015112c70"
+    },
+    {
+      "path": "controls/PUBLIC-GYM-NATIVE-FIXTURE-V2.json.gz",
+      "bytes": 833,
+      "sha256": "38b7621a79c84fd845a9cbea1c60714b91432379855068a747a9043c79491fc2",
+      "encoding": "gzip",
+      "bodyBytes": 2491,
+      "bodySha256": "30c353259c1b8370cf1ef65d9619f2054b2b759bed847189d5dd22c619948442"
+    },
+    {
+      "path": "controls/PUBLIC-GYM-NATIVE-LONG-FIXTURE-V3.json.gz",
+      "bytes": 877,
+      "sha256": "d10bd909a78f6711ab7ab06ad8a41da27ce8d9c05177319ba45a456c7d50ed4b",
+      "encoding": "gzip",
+      "bodyBytes": 2502,
+      "bodySha256": "3dbf7c3abe3b333e1de8fae362c42a704214cf2d2839dfcdf05a93f3a8ddbce7"
+    },
+    {
+      "path": "controls/GYM-IRRADIANCE.json.gz",
+      "bytes": 464,
+      "sha256": "16df63a8f18153a03baf9fa3a43ed96b4e97ad327c36753bf9bc6ff959d4e52a",
+      "encoding": "gzip",
+      "bodyBytes": 1781,
+      "bodySha256": "a60cf7fe4aa8e5f35bd6d7c9a9678b448f7c88372433afa626b160e694fd29ea"
+    },
+    {
+      "path": "controls/GYM-SOURCE-INTEGRATION.json.gz",
+      "bytes": 720,
+      "sha256": "626097179f270496f02f488bfb0411b489eecb0f84f0e84bb5e3956d5f55254b",
+      "encoding": "gzip",
+      "bodyBytes": 1380,
+      "bodySha256": "9d944d5bbdd9c4b1232772078571557a26516ea58e1ca378465dedc1eaa6c503"
+    },
+    {
+      "path": "captures/public-gym-lighting-v2/CAPTURE.json.gz",
+      "bytes": 146277,
+      "sha256": "6f8531596f929dffb392a9da523279afe92d0a6b8cb661acdf2ec190bc937948",
+      "encoding": "gzip",
+      "bodyBytes": 1096469,
+      "bodySha256": "c423aabe4e7032863896636c7d56280dc116017ca420f82f720f25eeec2a5ab7"
+    },
+    {
+      "path": "captures/visit-lighting-capture-v1/CAPTURE.json.gz",
+      "bytes": 146443,
+      "sha256": "675be74f6e607d42403814caad8cd3ff828eec23f828f4cad4152b20dc0f64b6",
+      "encoding": "gzip",
+      "bodyBytes": 1097023,
+      "bodySha256": "b16d1b082e13b86df7d9a2037f54ec7189e4ac8ba86f22deee2524a8c76db4db"
+    },
+    {
+      "path": "captures/visit-lighting-capture-v1/FAILURE.json.gz",
+      "bytes": 146404,
+      "sha256": "1bdcfc8f94b79f8ede390f5b71ffaab0036845e23b9349493c071e0e4a304d4e",
+      "encoding": "gzip",
+      "bodyBytes": 1096940,
+      "bodySha256": "64f2a2f674709dcb538eaf0fc818633f11fd375ef695fb50a757757c05210c91"
+    },
+    {
+      "path": "captures/visit-lighting-capture-v2/CAPTURE.json.gz",
+      "bytes": 281867,
+      "sha256": "73e4e6e592d7f6d1d0174007e45260b6580b5f470ff797cfd6eff874922367df",
+      "encoding": "gzip",
+      "bodyBytes": 2150058,
+      "bodySha256": "043894c4a84bd01d36de8d057fac5821dcaf6117b2e4e1276ab5fa3e6381d8bf"
+    },
+    {
+      "path": "captures/visit-lighting-capture-v3/CAPTURE.json.gz",
+      "bytes": 282503,
+      "sha256": "81b6ada6e2fd9f21aa0b9d66e4f42cd65e0e1ec0ff5a04fd241fea57eb24f9e7",
+      "encoding": "gzip",
+      "bodyBytes": 2154667,
+      "bodySha256": "820707755fce8af6bd4a3cdd248434d3d49c0d3c24d1f7b90b832c12682ca6f2"
+    },
+    {
+      "path": "captures/visit-lighting-capture-v4/CAPTURE.json.gz",
+      "bytes": 281841,
+      "sha256": "944134e010c4abd2e73cd4bda62b065bf22813f9e49146d14bebaefc8ff020b2",
+      "encoding": "gzip",
+      "bodyBytes": 2149234,
+      "bodySha256": "384b3c72c5c3288a303f74a4d7bb676736a2ebe73954e77f3d770cc62f8880e6"
+    },
+    {
+      "path": "controls/private-v1/SOURCE.json.gz",
+      "bytes": 22524,
+      "sha256": "916f32fe4f1e1dc24befff46986f53af7cd5e08079f3fe7533d37b02cca161b6",
+      "encoding": "gzip",
+      "bodyBytes": 52950,
+      "bodySha256": "b949680d3298632349fe37284499afb2cb338886e6d41b398cb0be1b7cd352b5"
+    },
+    {
+      "path": "controls/private-v1/CAPACITY-AND-CUSTODY.json.gz",
+      "bytes": 381,
+      "sha256": "ca371484cf8b04e6412bb1cfb5212713101e945b5902d8d80e52d4dfb40fc7bf",
+      "encoding": "gzip",
+      "bodyBytes": 575,
+      "bodySha256": "aec2787f2d8a532c0553b2e4a5af031103a07d40f8c1b0b1c42b5ddba3862631"
+    },
+    {
+      "path": "controls/private-v1/PROCESS.json.gz",
+      "bytes": 331,
+      "sha256": "1c308f62d6c3b3b08c3b019a0b8a60d29b3c1e0cb41ee9e56e539dd5561fb1d7",
+      "encoding": "gzip",
+      "bodyBytes": 602,
+      "bodySha256": "0a57f4fc14835bab5ed656bd6deb5dfebdebf9fdbcfbf91eca2ffbf288f291d4"
+    },
+    {
+      "path": "controls/private-v2/SOURCE.json.gz",
+      "bytes": 22642,
+      "sha256": "10651d39d8e0430ebd5ec3de4d9204e697c75195a145addfcdc9156ba238b8b5",
+      "encoding": "gzip",
+      "bodyBytes": 53124,
+      "bodySha256": "d4f2c93038f74a49f279343df7c4560f1af0602cab4c57163f1b0825f5be9b9a"
+    },
+    {
+      "path": "controls/private-v2/CAPACITY-AND-CUSTODY.json.gz",
+      "bytes": 383,
+      "sha256": "216454246ace8d5b4fbd758a93defb862a7452b6175a37d85f1f3c7a6e80d1cb",
+      "encoding": "gzip",
+      "bodyBytes": 575,
+      "bodySha256": "8629300864373f8b3dc8decf2a12cf5474ad77665865f1d21ee532bcdd09ca48"
+    },
+    {
+      "path": "controls/private-v2/PROCESS.json.gz",
+      "bytes": 334,
+      "sha256": "717a58f2961b6f52a50e6b593b88ba0f21187a2e4229a93de2c1b5afb4a47670",
+      "encoding": "gzip",
+      "bodyBytes": 602,
+      "bodySha256": "711fcf5b77f4fe5fe277a6741c32585d3350ea27496b7ed1f586e6f49c7e8c86"
+    },
+    {
+      "path": "controls/private-v3/SOURCE.json.gz",
+      "bytes": 22995,
+      "sha256": "b02f76a56973b7def8ee9532aef1b28ce97ad01803c75283801613d0059267fe",
+      "encoding": "gzip",
+      "bodyBytes": 54276,
+      "bodySha256": "e5cb04247c12af13d11b1a9e6117850f053b138899139e1de8f0915ab42cd8ab"
+    },
+    {
+      "path": "controls/private-v3/CAPACITY-AND-CUSTODY.json.gz",
+      "bytes": 382,
+      "sha256": "b023223eb293f942ee9bae845f981a23dbf7d6b4dbe922eeacef2d669a18f6ad",
+      "encoding": "gzip",
+      "bodyBytes": 573,
+      "bodySha256": "5df4a37133115d29ee13b8e6a10d17b2d23222c34c654dd29bf987e33b5f2a82"
+    },
+    {
+      "path": "controls/private-v3/PROCESS.json.gz",
+      "bytes": 330,
+      "sha256": "26a7aa5b72ef051ef8969d1942848640da1906808583a869b097c60af4e33446",
+      "encoding": "gzip",
+      "bodyBytes": 599,
+      "bodySha256": "42fd64246203bd3fd7ddb58222524f7128e806a07d8f161412deaadf748bac17"
+    },
+    {
+      "path": "controls/private-v4/SOURCE.json.gz",
+      "bytes": 23040,
+      "sha256": "e4a2d1d0c2c9abbfd8745febce3e89119dcf27bbbfdd9e702bb9fb9fb532ada9",
+      "encoding": "gzip",
+      "bodyBytes": 54352,
+      "bodySha256": "66900bd36c1f1f8595d04c8ff931491addf8258da47db1ac96d54d2e4810a15d"
+    },
+    {
+      "path": "controls/private-v4/CAPACITY-AND-CUSTODY.json.gz",
+      "bytes": 384,
+      "sha256": "af67b85dfd5b153a684a79ce396f50e93bacdb378ccbba523e3f85d9e0fa742b",
+      "encoding": "gzip",
+      "bodyBytes": 575,
+      "bodySha256": "acaa92e88b500841103ac3ae40e18cb41c2f8f6b987d434c67574913d2943733"
+    },
+    {
+      "path": "controls/private-v4/PROCESS.json.gz",
+      "bytes": 334,
+      "sha256": "a37db43cf9afc3523f0834a04d1c23a8c5f88f2ec44490eb9c3e804380283be6",
+      "encoding": "gzip",
+      "bodyBytes": 602,
+      "bodySha256": "5b214f5f1a8ac932be7b6b3df025a1b64aa46621bdd665ebddd0514418ff627e"
+    },
+    {
+      "path": "official-bake/PROCESS.json.gz",
+      "bytes": 335,
+      "sha256": "9b199bd2a9d90279666d556f2d4125555563fc1559db2693d00bff5d25e13a5b",
+      "encoding": "gzip",
+      "bodyBytes": 483,
+      "bodySha256": "b5c7d8322f48897428ab831bc1eac9efe9898ed1aa332ef35d10275f3a9fc175"
+    },
+    {
+      "path": "official-bake/BAKE.log.gz",
+      "bytes": 374,
+      "sha256": "8e01e6c812dc9a6d0cea5b45640fb29d9a6a88247f692167458c677f3f6fce28",
+      "encoding": "gzip",
+      "bodyBytes": 685,
+      "bodySha256": "04f9279cb40ccde096faefffdfe15ffce00b89bb1a4db58aa9963a1691e52434"
+    },
+    {
+      "path": "views/before-evening-gym.png",
+      "bytes": 671844,
+      "sha256": "8929cf6009e6159ce7de531b723f403bf170d56db31816465d51510c79677515",
+      "encoding": "raw",
+      "bodyBytes": 671844,
+      "bodySha256": "8929cf6009e6159ce7de531b723f403bf170d56db31816465d51510c79677515"
+    },
+    {
+      "path": "views/visit-only-old-anchor.png",
+      "bytes": 877939,
+      "sha256": "eaccfc70fb3c01e9f177f23ee8068849c4abda623557685694393c9161437607",
+      "encoding": "raw",
+      "bodyBytes": 877939,
+      "bodySha256": "eaccfc70fb3c01e9f177f23ee8068849c4abda623557685694393c9161437607"
+    },
+    {
+      "path": "views/rejected-short-pendant.png",
+      "bytes": 604075,
+      "sha256": "012017bab83febb9978040c7b6c0b0787fdeca2fa6c3b5a080f035a1911ba13e",
+      "encoding": "raw",
+      "bodyBytes": 604075,
+      "bodySha256": "012017bab83febb9978040c7b6c0b0787fdeca2fa6c3b5a080f035a1911ba13e"
+    },
+    {
+      "path": "views/paint-and-task-lines.png",
+      "bytes": 745899,
+      "sha256": "e2dc7c37474a0e3e5e84aaec2d0f0d52b213b716c32f0981744dd2208c2b42c5",
+      "encoding": "raw",
+      "bodyBytes": 745899,
+      "bodySha256": "e2dc7c37474a0e3e5e84aaec2d0f0d52b213b716c32f0981744dd2208c2b42c5"
+    },
+    {
+      "path": "views/after-evening-gym.png",
+      "bytes": 928957,
+      "sha256": "c3dc0925342621e48304b01681c4edc7a6ce3f6ba1119352e43033f47a32f348",
+      "encoding": "raw",
+      "bodyBytes": 928957,
+      "bodySha256": "c3dc0925342621e48304b01681c4edc7a6ce3f6ba1119352e43033f47a32f348"
+    },
+    {
+      "path": "views/after-evening-turn.png",
+      "bytes": 1052545,
+      "sha256": "478db55303116d96711a0094416c1fe5edd14bc08ea907f4a9249b858a553438",
+      "encoding": "raw",
+      "bodyBytes": 1052545,
+      "bodySha256": "478db55303116d96711a0094416c1fe5edd14bc08ea907f4a9249b858a553438"
+    },
+    {
+      "path": "views/after-noon-gym.png",
+      "bytes": 1157452,
+      "sha256": "904eb542bdf07309d4fca25436d4ecad62e1148e9cdd98c5626a0b7f05a55b5b",
+      "encoding": "raw",
+      "bodyBytes": 1157452,
+      "bodySha256": "904eb542bdf07309d4fca25436d4ecad62e1148e9cdd98c5626a0b7f05a55b5b"
+    },
+    {
+      "path": "directed/producers/witness-gym-self-light.cjs.gz",
+      "bytes": 1032,
+      "sha256": "92eb60dd6822ee44dd6c72902c1b20df8eaf1ebbb9198764af74042013a75ee1",
+      "encoding": "gzip",
+      "bodyBytes": 1829,
+      "bodySha256": "4be32484810f2072b6d9589593d1d2d88312a0a35114412a16c43ac266b46d86"
+    },
+    {
+      "path": "directed/producers/prepare-directed-gym-preview.py.gz",
+      "bytes": 1364,
+      "sha256": "86e3fae6a9a5ae53f7bb5dfcbe2d1cdb3e6afcee2774daf8660fa06202efcdac",
+      "encoding": "gzip",
+      "bodyBytes": 2768,
+      "bodySha256": "a5aa23057d87c9dc2dab12b78167eb64dc819549ee775529f53283f19e8460b9"
+    },
+    {
+      "path": "directed/producers/prepare-strict-directed-gym-preview.py.gz",
+      "bytes": 487,
+      "sha256": "e7a6e6e2fb3de1ee377f8564e753d2c05c57f4c649e6d24cde384a743df5dcb0",
+      "encoding": "gzip",
+      "bodyBytes": 885,
+      "bodySha256": "09bdbe9968191fcd6fe2d5eb2f994c0f4ca96c57ebed34fb4b2f8232573c8035"
+    },
+    {
+      "path": "directed/producers/capture-directed-gym-phone.cjs.gz",
+      "bytes": 2738,
+      "sha256": "b1500074ba8323b2ec48ef8c7069132e50e45f30c3813533d193e0428ec3489d",
+      "encoding": "gzip",
+      "bodyBytes": 5856,
+      "bodySha256": "9bbe8031d35287d922cedaa250368700784328447e57ec90c614b9c545af7a57"
+    },
+    {
+      "path": "directed/producers/capture-strict-directed-gym-phone.cjs.gz",
+      "bytes": 2927,
+      "sha256": "fbc6fdd52e160a943a2cf781888294f03f08982972e4738916a0504f87681606",
+      "encoding": "gzip",
+      "bodyBytes": 6335,
+      "bodySha256": "09c34f807de9476ff0a27474639f15e29e72143cf1194b24dd88a90417407d71"
+    },
+    {
+      "path": "directed/producers/prepare-strict-directed-phone-capture.py.gz",
+      "bytes": 661,
+      "sha256": "716a50f32a11e321b14535150eba47d2aa12e4d9985f284d2b1af3900e7a115c",
+      "encoding": "gzip",
+      "bodyBytes": 1430,
+      "bodySha256": "c866f044d04834c3e6249fff003e5c50cafa90d7ce981853817e6078fa5fa5c5"
+    },
+    {
+      "path": "directed/producers/run-directed-gym-phone.py.gz",
+      "bytes": 324,
+      "sha256": "802363d3951c9ec9741757a7093b77e715cf3e2ff08ca4afe26119cb5c6841e1",
+      "encoding": "gzip",
+      "bodyBytes": 476,
+      "bodySha256": "ca9625c8b8b0c909ebfc9e31b8bf0af5baff26e0c19bac65a3ed6df35b524aa0"
+    },
+    {
+      "path": "directed/producers/run-strict-directed-gym-phone.py.gz",
+      "bytes": 332,
+      "sha256": "c097efd7a996e3a6f61f4755b698e587ab1c690eb6f8e672f5f671299825433c",
+      "encoding": "gzip",
+      "bodyBytes": 486,
+      "bodySha256": "0ed8465405c2a1394643bd712905b6b19d5bec3dda25c94e9548ab859481fbd1"
+    },
+    {
+      "path": "directed/producers/run-directed-node-gates.py.gz",
+      "bytes": 517,
+      "sha256": "73fcae964f33c4e8564249c800d8719d2aadc33e0e6c8ed78479250fb20018f9",
+      "encoding": "gzip",
+      "bodyBytes": 845,
+      "bodySha256": "effb3f4e9e080188df1f1e776b91667e0cd6841bf18c7d815ed57f6f5a90a7e4"
+    },
+    {
+      "path": "directed/producers/prepare-gym-production-preview.py.gz",
+      "bytes": 1101,
+      "sha256": "0ae234ddc16c615e27a8b0e306c90c8c7bf193426e7ea7ba0d433ddc19aed13d",
+      "encoding": "gzip",
+      "bodyBytes": 2530,
+      "bodySha256": "9274b3c819606c394011a2f9a372e9e3eef0bc34e315ae485b662a8f6030f608"
+    },
+    {
+      "path": "directed/producers/run-gym-viewport-checkpoint.py.gz",
+      "bytes": 739,
+      "sha256": "cf45be52b3f2b1902a83bc3b6d5e63ec42c0e17f31f072c9cd60f35f5be2ba13",
+      "encoding": "gzip",
+      "bodyBytes": 1184,
+      "bodySha256": "8c54f81f39c7c7613357592a407c17669473884255971b283bf0817356626abe"
+    },
+    {
+      "path": "directed/producers/run-gym-viewport-checkpoint-v2.py.gz",
+      "bytes": 651,
+      "sha256": "1f77d68ce0d1d6eb9592dca2f0e1ce49751cbefebbfd8184132afb765897cde7",
+      "encoding": "gzip",
+      "bodyBytes": 1163,
+      "bodySha256": "7f9b007873bd233df5de3cd6a661c2103a5b1281f60c283019273829ce57ec83"
+    },
+    {
+      "path": "directed/GYM-SELF-LIGHT-WITNESS.json.gz",
+      "bytes": 742,
+      "sha256": "2ef0c876624e1f7db9c292c1633e9b9eb5b773e4f720fd9125753a9a57f2ea5d",
+      "encoding": "gzip",
+      "bodyBytes": 1644,
+      "bodySha256": "3cdfc2a61c2e03ec3fd1f0b01e51349c61843086d05f2ce39e015b4497dac4f3"
+    },
+    {
+      "path": "directed/official-bake-v2/PROCESS.json.gz",
+      "bytes": 334,
+      "sha256": "04f6cdbfbdba1f0c9a2c08583681f47d7fbc7383d5fa537887cef71b84dbf8b6",
+      "encoding": "gzip",
+      "bodyBytes": 482,
+      "bodySha256": "9633ee9d76227d0ed39c93cb49643b7b0212bf81d15f8faf1e1d9c6e1d05b067"
+    },
+    {
+      "path": "directed/official-bake-v2/BAKE.log.gz",
+      "bytes": 376,
+      "sha256": "d301c5ffdbf89a9f764289bd1c11668e996e8c161aac842f086206cd346bc141",
+      "encoding": "gzip",
+      "bodyBytes": 670,
+      "bodySha256": "15004ea21e6ea159fd37359d2285ad05d5aee20aa2d7c9f97a6828ae0679d24a"
+    },
+    {
+      "path": "directed/official-bake-v3/PROCESS.json.gz",
+      "bytes": 334,
+      "sha256": "bee127729a5a1f8aa309dc82e6320ce5a5c57a27058b54f8a775b9e4a6bd4ea6",
+      "encoding": "gzip",
+      "bodyBytes": 482,
+      "bodySha256": "440ddef76c6e1b14225d243a3271a3600c9bc28b09d9bbfda3c08128ef7cd7c8"
+    },
+    {
+      "path": "directed/official-bake-v3/BAKE.log.gz",
+      "bytes": 367,
+      "sha256": "ff3b18be062121bd08b93407d134579442077658df47e07bfd25fbeaa94ccc6c",
+      "encoding": "gzip",
+      "bodyBytes": 658,
+      "bodySha256": "235f2232228b4e7cc85eb2ee683e2a3312c223cdefefd7ce42b6030bb3a8b272"
+    },
+    {
+      "path": "directed/source-v1.json.gz",
+      "bytes": 16374,
+      "sha256": "9a07818f545258bd17b329247e2130302a4a73e2674cfba403557703d918de13",
+      "encoding": "gzip",
+      "bodyBytes": 36826,
+      "bodySha256": "e88fa436745d68e9399b4ddc54b8e89136db6dcb659e5480b24a4a9a113778c3"
+    },
+    {
+      "path": "directed/source-v2.json.gz",
+      "bytes": 16484,
+      "sha256": "036afb728cbfb2ff29a16091cf3ccf8311094edb6ea270989726a51bec61d065",
+      "encoding": "gzip",
+      "bodyBytes": 36998,
+      "bodySha256": "390bbd107cf3569d11be20c30bfcebc33da50d676db3c48da65cd8efae980b82"
+    },
+    {
+      "path": "directed/directed-gym-phone-chromium-v1/CAPTURE.json.gz",
+      "bytes": 208066,
+      "sha256": "aac850c00ff8ce4411d66c2e3d668e05b62eb26de482b3556289f3f88ac51240",
+      "encoding": "gzip",
+      "bodyBytes": 1629233,
+      "bodySha256": "f196f90b3435aa79e4071395867cf93356c57b91e670de630af527471228aed6"
+    },
+    {
+      "path": "directed/directed-gym-phone-chromium-v2/CAPTURE.json.gz",
+      "bytes": 206058,
+      "sha256": "f1c65efc2c09e81f866d02842d6be5e2bacc9f3c4dd1ecc2c2d54e7085f077ee",
+      "encoding": "gzip",
+      "bodyBytes": 1592214,
+      "bodySha256": "354a4f28b0840a7b6310e4e317ce387bff7d5aed2a7d3712539eaa36c7843d55"
+    },
+    {
+      "path": "directed/directed-gym-phone-webkit-v2/CAPTURE.json.gz",
+      "bytes": 208052,
+      "sha256": "69d6d0bf88b9f7b3e277370267a21262c1d43a20a38c99d99d563b37474323a3",
+      "encoding": "gzip",
+      "bodyBytes": 1629251,
+      "bodySha256": "a46d13f7a24b6d01776d768d5303cbf9067a376582c517c80083b5296c6c6dd5"
+    },
+    {
+      "path": "superseded-v4-gates/BUILD-GATES.json.gz",
+      "bytes": 285,
+      "sha256": "b26ff7159a78435124ea5cfd8d5d1d2887a97e4020b65512aeaa466cece59b83",
+      "encoding": "gzip",
+      "bodyBytes": 501,
+      "bodySha256": "596314869f961d62b05fd51ef1a0cfba4d7e6e067f160eb78f936958e8572c07"
+    },
+    {
+      "path": "superseded-v4-gates/UNIT-GATES.json.gz",
+      "bytes": 1515,
+      "sha256": "c8c12890d728a1436f52aa9c6af02204b738de8b61bc62edffb387b6a52993cc",
+      "encoding": "gzip",
+      "bodyBytes": 7625,
+      "bodySha256": "4b701d2d1b1ffe80d874bf05544216894f86a7bb0fdb349d567e86ce99d82b4f"
+    },
+    {
+      "path": "superseded-v4-gates/COMPILED-CUSTODY.json.gz",
+      "bytes": 299,
+      "sha256": "a66babe1fc755429242ae658a881c4afc991a70efaf1679fc3d42804f95487d3",
+      "encoding": "gzip",
+      "bodyBytes": 475,
+      "bodySha256": "c6e310dd748b6fdd5892a23150e9f9d4b5a0c0eb14784c90b38e2cbf6f32a298"
+    },
+    {
+      "path": "superseded-v4-gates/VALIDATION-SOURCE.json.gz",
+      "bytes": 39629,
+      "sha256": "fb32b944537e874333908ac40687f9dee097c1dd5d572ca70b764b53ff71be74",
+      "encoding": "gzip",
+      "bodyBytes": 165360,
+      "bodySha256": "d9c3a5bef4b9ced177afb344c2ab77d116dbb1793bfc703223c9f177a22a10b3"
+    },
+    {
+      "path": "superseded-v4-gates/VIEWPORTS.json.gz",
+      "bytes": 2049,
+      "sha256": "a71288be28f010a3ab351d29a215969265735a822fa2773a4f14d1c2a163f843",
+      "encoding": "gzip",
+      "bodyBytes": 13121,
+      "bodySha256": "b82722103e5a3636368e8105f40f4e1cd860413bccaec3860f4e6a9c3414adbe"
+    },
+    {
+      "path": "superseded-v4-gates/VIEWPORT-PROCESS.json.gz",
+      "bytes": 486,
+      "sha256": "38bb7d2e6f7f743481a60e7230e8f6ac887ab88e540b1305ee140cea93263342",
+      "encoding": "gzip",
+      "bodyBytes": 972,
+      "bodySha256": "74b3e861848c3c13c6d37272cbc1e65a7cf434df3fbfa683978e3bc8ec415fff"
+    },
+    {
+      "path": "superseded-v4-gates/VIEWPORTS-V2.json.gz",
+      "bytes": 2264,
+      "sha256": "5037ea88f78046b5d5c0104ae687b29a3a77fa7a815d0124944af70af8dbbd55",
+      "encoding": "gzip",
+      "bodyBytes": 19273,
+      "bodySha256": "aac0286eae08b71d38f09d477bef9b1fd3bc8ad7793d863d1bff17d5cfedbe8b"
+    },
+    {
+      "path": "superseded-v4-gates/VIEWPORT-PROCESS-V2.json.gz",
+      "bytes": 492,
+      "sha256": "f31ea7af3eeb84ccd5dd547a78e0d95a653bd0498d400fa7fc73ad9fda921d63",
+      "encoding": "gzip",
+      "bodyBytes": 976,
+      "bodySha256": "40a611bba97c83d30963e4ad7da865ac6f5f91791a243238e94897f0862df8f4"
+    },
+    {
+      "path": "superseded-v4-gates/TEST-CORRECTION.json.gz",
+      "bytes": 351,
+      "sha256": "4a602f047094febc4ca0af7ac6831d0e4517f636855b3d114e7553146cee36c9",
+      "encoding": "gzip",
+      "bodyBytes": 478,
+      "bodySha256": "cdb1b34e83101aba3fae80aa496ae33f19ce5263bacb30e524195075d45df447"
+    },
+    {
+      "path": "directed/current-node/GATES.json.gz",
+      "bytes": 1386,
+      "sha256": "9a618f68cacd981d2f0bb091ffbd02b28d528ec2be9c5933083ec1a3aa0dc31a",
+      "encoding": "gzip",
+      "bodyBytes": 7254,
+      "bodySha256": "3c982d2a246c9d84483f50d0fb0851c9988092a4b6a57071f04be63f1ff85bda"
+    },
+    {
+      "path": "directed/current-node/node.log.gz",
+      "bytes": 46028,
+      "sha256": "ea72cb693275ffb7adc44295b59f9adba9854d15be93531a7877e427973c5819",
+      "encoding": "gzip",
+      "bodyBytes": 170062,
+      "bodySha256": "313625338e940a0d66fb2947d5b6eb1c66b7be487948e93b7b9bd3d78ed97756"
+    },
+    {
+      "path": "directed/current-node/style.log.gz",
+      "bytes": 57,
+      "sha256": "1285c7c023390ffa10b2c143c9c2512cbaa6e4fefe4979514838c789099a94e8",
+      "encoding": "gzip",
+      "bodyBytes": 37,
+      "bodySha256": "e959900fa566355a00b04f8721479609c46d53edf7fe6f232946b5e9a510ff42"
+    },
+    {
+      "path": "directed/qa-sdk/package.json.gz",
+      "bytes": 93,
+      "sha256": "925512ac9ea564a942476b66f15730de3e8d43e1ca77e115153c027a3cd1a877",
+      "encoding": "gzip",
+      "bodyBytes": 78,
+      "bodySha256": "aa22962ffd2643ad43757491afa95d156c7a5937f8938ce22dc24b350cdd45f4"
+    },
+    {
+      "path": "directed/qa-sdk/package-lock.json.gz",
+      "bytes": 579,
+      "sha256": "ac9fc4b43e0808aa6dbc3ca83803e5bb76020965164055af20972d6b7f5e20b3",
+      "encoding": "gzip",
+      "bodyBytes": 1717,
+      "bodySha256": "825f4c3146f34a7cf633bae8b15737beddd9bae481beb5d07a47e637c0692a91"
+    },
+    {
+      "path": "views/phone-before-self-light.png",
+      "bytes": 185705,
+      "sha256": "fe4a0430feccc1a1de6ce97dccab9511ff4cfb10d4a7f768d320a19c20bf2964",
+      "encoding": "raw",
+      "bodyBytes": 185705,
+      "bodySha256": "fe4a0430feccc1a1de6ce97dccab9511ff4cfb10d4a7f768d320a19c20bf2964"
+    },
+    {
+      "path": "views/phone-after-strict-plane.png",
+      "bytes": 184071,
+      "sha256": "6048a48273dba0ccbb22131d32b47d0d26b802c990d76e0f7e79c2f0e1c73545",
+      "encoding": "raw",
+      "bodyBytes": 184071,
+      "bodySha256": "6048a48273dba0ccbb22131d32b47d0d26b802c990d76e0f7e79c2f0e1c73545"
+    },
+    {
+      "path": "views/phone-after-strict-plane-angle.png",
+      "bytes": 180989,
+      "sha256": "6c711f25885fbd07aafde4dfc609181b51d6aad9a9132768a5f2e08f6dacc999",
+      "encoding": "raw",
+      "bodyBytes": 180989,
+      "bodySha256": "6c711f25885fbd07aafde4dfc609181b51d6aad9a9132768a5f2e08f6dacc999"
+    },
+    {
+      "path": "views/webkit-after-strict-plane.png",
+      "bytes": 194649,
+      "sha256": "18f5c04262a3eeaf66a30acc928eae15b25f6d438093608c9fddb17b38459479",
+      "encoding": "raw",
+      "bodyBytes": 194649,
+      "bodySha256": "18f5c04262a3eeaf66a30acc928eae15b25f6d438093608c9fddb17b38459479"
+    },
+    {
+      "path": "release/BUILD-GATES.json.gz",
+      "bytes": 288,
+      "sha256": "b421158364d858a50ba6f02f4e66dc8da7f4854db888b890b43f5c3947190d03",
+      "encoding": "gzip",
+      "bodyBytes": 510,
+      "bodySha256": "cfdf850d9d2a1252de24397d18d30b07802be867dc3e6317b5639aee11894967"
+    },
+    {
+      "path": "release/PYTHON-GATES.json.gz",
+      "bytes": 224,
+      "sha256": "4378951521b2c70be974941a418fa353bcd7d5f3affc65aa45d14d222f4e3635",
+      "encoding": "gzip",
+      "bodyBytes": 400,
+      "bodySha256": "de24e8022760f49898d24262b2b0ddd7babee8d20cd2a4da1e40ca2b4cc0a87b"
+    },
+    {
+      "path": "release/COMPILED-CUSTODY.json.gz",
+      "bytes": 307,
+      "sha256": "7c3837d39f11a5f2d4b32ffca7e330b8aed7d418ef27f952e4f00d071516751b",
+      "encoding": "gzip",
+      "bodyBytes": 499,
+      "bodySha256": "738dc8a386d3fb6be5d8fc353605da04e8482ebe9b24f983e65404a1a92efa96"
+    },
+    {
+      "path": "release/VALIDATION-SOURCE.json.gz",
+      "bytes": 41894,
+      "sha256": "c5798cba154a699dbd5cdbd6808b65f0efbb4247edafb501f554da912209b0e1",
+      "encoding": "gzip",
+      "bodyBytes": 175001,
+      "bodySha256": "8448f92e09262cfff3cdfb0545d14a52af3d11586ee2ff907d58223254164c07"
+    },
+    {
+      "path": "release/VIEWPORTS-V2.json.gz",
+      "bytes": 2270,
+      "sha256": "6cbd7c2b4c0ec20ed2183a0465a7f4fdc790ae52d59992bef68c354b5d73368d",
+      "encoding": "gzip",
+      "bodyBytes": 19481,
+      "bodySha256": "3d50074854e44d65afe210a397cdf58082d83e149c6be7b4f802e6dcbe015d69"
+    },
+    {
+      "path": "release/VIEWPORT-PROCESS-V2.json.gz",
+      "bytes": 496,
+      "sha256": "3421852d86e4ab35d420691355bf8e179c9f1a07dfc4d2ed06c5f1d6b37806d7",
+      "encoding": "gzip",
+      "bodyBytes": 1003,
+      "bodySha256": "d80576b3be4f9796f14b10c4ebd2f3438ed351cd6c5af131deb225a5234c37fc"
+    },
+    {
+      "path": "release/production-build.log.gz",
+      "bytes": 5932,
+      "sha256": "e2bfbfc481d8a0a53c3ea6882dd155c6334e12aa9094da8f4a0b9a22b1524d9b",
+      "encoding": "gzip",
+      "bodyBytes": 172561,
+      "bodySha256": "04b3db2244cc5ac85f4824f83dbd1acf0e408cbdbb094c3f73cbfc5f8369aa7f"
+    },
+    {
+      "path": "release/python.log.gz",
+      "bytes": 118,
+      "sha256": "194343ce72a686e2b48eccb417b41ea31f785d0b6979568e47f1c71cfecadefe",
+      "encoding": "gzip",
+      "bodyBytes": 576,
+      "bodySha256": "5fdc03a8ab8ea73a245bed73e37ea14deebc6197651e399785f31083512a9771"
+    },
+    {
+      "path": "release/views/desktop-1440/gym-noon-embed.png",
+      "bytes": 179634,
+      "sha256": "790064ec0d2694b4d738763ffb569c1afd3a9c5ecc306ed0282c1e4c21a74a23",
+      "encoding": "raw",
+      "bodyBytes": 179634,
+      "bodySha256": "790064ec0d2694b4d738763ffb569c1afd3a9c5ecc306ed0282c1e4c21a74a23"
+    },
+    {
+      "path": "release/views/desktop-1440/gym-noon-fullscreen.png",
+      "bytes": 587117,
+      "sha256": "d1507be45ea2002628e196aeb7ffd543d8b37b502907b010e69d905b89ed7819",
+      "encoding": "raw",
+      "bodyBytes": 587117,
+      "bodySha256": "d1507be45ea2002628e196aeb7ffd543d8b37b502907b010e69d905b89ed7819"
+    },
+    {
+      "path": "release/views/desktop-1440/gym-evening-fullscreen.png",
+      "bytes": 512591,
+      "sha256": "b354f476ff0986e51b02d92f6044d2ac14594b3212233711c275230afb066d70",
+      "encoding": "raw",
+      "bodyBytes": 512591,
+      "bodySha256": "b354f476ff0986e51b02d92f6044d2ac14594b3212233711c275230afb066d70"
+    },
+    {
+      "path": "release/views/desktop-1440/gym-light-released-after-departure.png",
+      "bytes": 705918,
+      "sha256": "fc2dc76063a89d16190bf4ade54c2d7cf51a8bc89be21edb8ec207b3a5b490a6",
+      "encoding": "raw",
+      "bodyBytes": 705918,
+      "bodySha256": "fc2dc76063a89d16190bf4ade54c2d7cf51a8bc89be21edb8ec207b3a5b490a6"
+    },
+    {
+      "path": "release/views/desktop-1440/gym-public-visits.json.gz",
+      "bytes": 128894,
+      "sha256": "b3222cfc9c54cf215724dbad672e99808d23f4b3c99848c45607775a18223a6a",
+      "encoding": "gzip",
+      "bodyBytes": 1021788,
+      "bodySha256": "95ed55ae75144fb14446333661c6dcea97f01029fa876d3f0a4785247fef7780"
+    },
+    {
+      "path": "release/views/laptop-1280/gym-noon-embed.png",
+      "bytes": 155438,
+      "sha256": "9017fb64b1a47ec69dae61d8b5df23fb5ad80861c7d066e4559fba348dc60059",
+      "encoding": "raw",
+      "bodyBytes": 155438,
+      "bodySha256": "9017fb64b1a47ec69dae61d8b5df23fb5ad80861c7d066e4559fba348dc60059"
+    },
+    {
+      "path": "release/views/laptop-1280/gym-noon-fullscreen.png",
+      "bytes": 460035,
+      "sha256": "85e38ea607e3378b4cc4c09993b7045905eeca8b93aa0f2d2d6901d84af2e56f",
+      "encoding": "raw",
+      "bodyBytes": 460035,
+      "bodySha256": "85e38ea607e3378b4cc4c09993b7045905eeca8b93aa0f2d2d6901d84af2e56f"
+    },
+    {
+      "path": "release/views/laptop-1280/gym-evening-fullscreen.png",
+      "bytes": 402202,
+      "sha256": "0d2eb7cd09b99dd35802156fa35f64faa610ad027b107d8914b65362a82303e5",
+      "encoding": "raw",
+      "bodyBytes": 402202,
+      "bodySha256": "0d2eb7cd09b99dd35802156fa35f64faa610ad027b107d8914b65362a82303e5"
+    },
+    {
+      "path": "release/views/laptop-1280/gym-light-released-after-departure.png",
+      "bytes": 527491,
+      "sha256": "e28d1751823ce9939534b85c176bb8c06fce7fc86e04df2821c734adc2896ae2",
+      "encoding": "raw",
+      "bodyBytes": 527491,
+      "bodySha256": "e28d1751823ce9939534b85c176bb8c06fce7fc86e04df2821c734adc2896ae2"
+    },
+    {
+      "path": "release/views/laptop-1280/gym-public-visits.json.gz",
+      "bytes": 129178,
+      "sha256": "7d075043de07c761a7830c62b0d61c43d2cf9ef7e9298e8c60673c03e5e3e848",
+      "encoding": "gzip",
+      "bodyBytes": 1023264,
+      "bodySha256": "36c86a3428206b0d596eeb7ad9cb97d8b3176e9fffc1a03ade068fb3e7aa6c4a"
+    },
+    {
+      "path": "release/views/tablet-768/gym-noon-embed.png",
+      "bytes": 186837,
+      "sha256": "dd89b09efcd0825d9cbe1b64d9bc31e1f01a096c92399c7e2e998f17e93eb216",
+      "encoding": "raw",
+      "bodyBytes": 186837,
+      "bodySha256": "dd89b09efcd0825d9cbe1b64d9bc31e1f01a096c92399c7e2e998f17e93eb216"
+    },
+    {
+      "path": "release/views/tablet-768/gym-noon-fullscreen.png",
+      "bytes": 359187,
+      "sha256": "6d655fe78532ceba13511b37cd60fe25ac762d37ec99f915dcbfbea4e267f81c",
+      "encoding": "raw",
+      "bodyBytes": 359187,
+      "bodySha256": "6d655fe78532ceba13511b37cd60fe25ac762d37ec99f915dcbfbea4e267f81c"
+    },
+    {
+      "path": "release/views/tablet-768/gym-evening-fullscreen.png",
+      "bytes": 325775,
+      "sha256": "dba87ecc52cd633577e15aa5e3684b786cc78a97ebdf87e11d9a85ec79f20054",
+      "encoding": "raw",
+      "bodyBytes": 325775,
+      "bodySha256": "dba87ecc52cd633577e15aa5e3684b786cc78a97ebdf87e11d9a85ec79f20054"
+    },
+    {
+      "path": "release/views/tablet-768/gym-light-released-after-departure.png",
+      "bytes": 448987,
+      "sha256": "b561874cb44a7dac05eb5a84411dde8e76632c2866399e348ea55d4fbc92d9c7",
+      "encoding": "raw",
+      "bodyBytes": 448987,
+      "bodySha256": "b561874cb44a7dac05eb5a84411dde8e76632c2866399e348ea55d4fbc92d9c7"
+    },
+    {
+      "path": "release/views/tablet-768/gym-public-visits.json.gz",
+      "bytes": 128835,
+      "sha256": "5cdae10a256c00721dccc45991235a36d7cbee4d7fafa451eb25b934e4b7253f",
+      "encoding": "gzip",
+      "bodyBytes": 1021791,
+      "bodySha256": "08dacba2ac280448dde56286f7eea3dd7d26d6d5ae83f40cfbcca6c7700100c3"
+    },
+    {
+      "path": "release/views/mobile-390/gym-noon-embed.png",
+      "bytes": 93404,
+      "sha256": "2eca2eb01d947e7423c61b24081d900d25ef63d09e3bd534d1777fa9d799ccec",
+      "encoding": "raw",
+      "bodyBytes": 93404,
+      "bodySha256": "2eca2eb01d947e7423c61b24081d900d25ef63d09e3bd534d1777fa9d799ccec"
+    },
+    {
+      "path": "release/views/mobile-390/gym-noon-fullscreen.png",
+      "bytes": 195306,
+      "sha256": "53a348f7654cab645275c36eb6822f32290641265376416f503171b0d498de37",
+      "encoding": "raw",
+      "bodyBytes": 195306,
+      "bodySha256": "53a348f7654cab645275c36eb6822f32290641265376416f503171b0d498de37"
+    },
+    {
+      "path": "release/views/mobile-390/gym-evening-fullscreen.png",
+      "bytes": 184071,
+      "sha256": "6048a48273dba0ccbb22131d32b47d0d26b802c990d76e0f7e79c2f0e1c73545",
+      "encoding": "raw",
+      "bodyBytes": 184071,
+      "bodySha256": "6048a48273dba0ccbb22131d32b47d0d26b802c990d76e0f7e79c2f0e1c73545"
+    },
+    {
+      "path": "release/views/mobile-390/gym-light-released-after-departure.png",
+      "bytes": 237578,
+      "sha256": "af346eab70135efd1f48384293702453d78ca7dcc4f58bf304c46ac98dd186e7",
+      "encoding": "raw",
+      "bodyBytes": 237578,
+      "bodySha256": "af346eab70135efd1f48384293702453d78ca7dcc4f58bf304c46ac98dd186e7"
+    },
+    {
+      "path": "release/views/mobile-390/gym-public-visits.json.gz",
+      "bytes": 130345,
+      "sha256": "1a819e78d7dfab9e739cccb66b686c04a75b2e0138bc4a79fbe5c1a3a4d34141",
+      "encoding": "gzip",
+      "bodyBytes": 1046445,
+      "bodySha256": "abb5f22bc69800e3d8b194f9684d026f6d0d49478470275a26b5f0e21b9ea603"
+    },
+    {
+      "path": "release/producers/prepare-directed-final-validation.py.gz",
+      "bytes": 430,
+      "sha256": "1bedc44b84b62d048717b87143e2af4473c4ac1613aff10d6e45ad004894ecc4",
+      "encoding": "gzip",
+      "bodyBytes": 1162,
+      "bodySha256": "a8ce0a8c38c255eea00c79581e77611d8865cb02086221fb58816b07efb8690c"
+    },
+    {
+      "path": "release/producers/run-directed-final-validation.py.gz",
+      "bytes": 889,
+      "sha256": "472b8108b1bf3b9321df3fba991ad72914b49e8ed3bca4aeb5962e2fa157482a",
+      "encoding": "gzip",
+      "bodyBytes": 1565,
+      "bodySha256": "d500c03e007e45e95b89eb8435a68112428b1e629b5c25db6319b37c8cedf5a8"
+    },
+    {
+      "path": "release/producers/prepare-directed-final-preview.py.gz",
+      "bytes": 382,
+      "sha256": "07a1db632ce1c3023ffc233bd6501251c1e810f79ddbdef1a4077340c261adc1",
+      "encoding": "gzip",
+      "bodyBytes": 856,
+      "bodySha256": "7ead4be97bc6d4804d67a1a79da4b3a754d12d61b73b882560ad48b1291189b8"
+    },
+    {
+      "path": "release/producers/run-directed-final-viewports.py.gz",
+      "bytes": 755,
+      "sha256": "010a840f56937d29b84521844b96abee94f9971083ba9f37e67b8cd7cd57a48b",
+      "encoding": "gzip",
+      "bodyBytes": 1205,
+      "bodySha256": "db354408b8ec6e87fd45f5ca0fe79f50d9fd5964d5b5af256973409d73b7dfcc"
+    },
+    {
+      "path": "release/producers/append-directed-gym-evidence.py.gz",
+      "bytes": 1644,
+      "sha256": "7a3944f7b57cd250bf78d87fedac468a1bd269fd3cee4d1a42c6a70998ebef13",
+      "encoding": "gzip",
+      "bodyBytes": 3795,
+      "bodySha256": "c9d3749bb54d49a25ef4f00701a38e9ea15a2c59ac1f505e26b2dd8f9a5b4df9"
+    },
+    {
+      "path": "release/producers/finalize-gym-release-evidence.py.gz",
+      "bytes": 2633,
+      "sha256": "6b8f1f424ab27cfc76d0a1e04fed5594754f2306174b18f10042d6a64a9e5de2",
+      "encoding": "gzip",
+      "bodyBytes": 6301,
+      "bodySha256": "cd6ef7a1e1c04b38c6a96a251bc8060ad9fd34d3ea12dfc1e38228bfc0c19498"
+    },
+    {
+      "path": "release/producers/finalize-gym-release-evidence-v2.py.gz",
+      "bytes": 613,
+      "sha256": "d0aed82d1789da27ad643530bcca678a2f9de0d5129c21db2b574c250c3dd7a3",
+      "encoding": "gzip",
+      "bodyBytes": 1479,
+      "bodySha256": "d704abab8eb4fc162fd37400e3bc08d31aa42bdd7979ecd30aae3d9b89acea8c"
+    }
+  ],
+  "retainedLocalPNGInventory": [
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\public-gym-lighting-v2\\evening-gym.png",
+      "bytes": 671844,
+      "sha256": "8929cf6009e6159ce7de531b723f403bf170d56db31816465d51510c79677515",
+      "publicCopy": "views/before-evening-gym.png"
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\public-gym-lighting-v2\\evening-sleep.png",
+      "bytes": 1356953,
+      "sha256": "9b8c608ef221927ad0bec91a7cdeedbe2194fb4ee1f0d05e19ef73fee950aee5",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\public-gym-lighting-v2\\noon-gym.png",
+      "bytes": 1014577,
+      "sha256": "e370a86cd502177a0c473f914bbfcc49890b3928c4787105e03a01017da2ee90",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\public-gym-lighting-v2\\noon-sleep.png",
+      "bytes": 1633790,
+      "sha256": "b69d58b88db189d26db888af77d18d1d58a78dde807b3ca5c8b6e46b0f9abf3b",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v1\\evening-gym.png",
+      "bytes": 877939,
+      "sha256": "eaccfc70fb3c01e9f177f23ee8068849c4abda623557685694393c9161437607",
+      "publicCopy": "views/visit-only-old-anchor.png"
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v1\\evening-sleep.png",
+      "bytes": 1356552,
+      "sha256": "4940830aa791e880cf216a5a561ff3e46ffadb52e550ba3dc18a912fd7c3d458",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v1\\noon-gym.png",
+      "bytes": 1136290,
+      "sha256": "37f31399a7f0fc94434d420aa4834c32a90ee0ee28ee8a7f3cb983bba05b429a",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v1\\noon-sleep.png",
+      "bytes": 1633724,
+      "sha256": "f9076f288e5df629332fd870c0c10c65f1ecc2eb27ce53f25b53d7f2b2db1fbc",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v2\\evening-gym-turn-0.png",
+      "bytes": 762430,
+      "sha256": "06b4f85074bdd8af27d6787b712d98f04f2766833772f0e03f9b037651037027",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v2\\evening-gym-turn-1.png",
+      "bytes": 568419,
+      "sha256": "88cbb94cbd7893c15e940c7fc0d91bd219877c90d346b8b52d573b33f006c5b4",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v2\\evening-gym.png",
+      "bytes": 604075,
+      "sha256": "012017bab83febb9978040c7b6c0b0787fdeca2fa6c3b5a080f035a1911ba13e",
+      "publicCopy": "views/rejected-short-pendant.png"
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v2\\evening-sleep.png",
+      "bytes": 1356423,
+      "sha256": "c4147ed082b6d7b6cbeaeb6af919139c47a98c032d5b1236808383d83850193b",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v2\\noon-gym-turn-0.png",
+      "bytes": 1250558,
+      "sha256": "af28c12bce3ee9f1a79e74e2d29d67169d09bd83527eb66945e13cba2d569672",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v2\\noon-gym-turn-1.png",
+      "bytes": 1046989,
+      "sha256": "aeeb5404fee51a269aa6c11befe965bea2a2c9b4e6c1913c1dea42877c5dd94c",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v2\\noon-gym.png",
+      "bytes": 1028305,
+      "sha256": "e7681f0b93827aeec0b4c46f88b3ac80b030ce7df9cfb5a0bfd69403a95110a0",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v2\\noon-sleep.png",
+      "bytes": 1633626,
+      "sha256": "de78742e117bb2fa160350f38281d7042c9bf22c1d91816f0ecc2b14fe812b64",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v3\\evening-gym-turn-0.png",
+      "bytes": 929335,
+      "sha256": "0569db62e9afa0c728b04470438a1e57cc2166979cb49fa1211425122bb48c73",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v3\\evening-gym-turn-1.png",
+      "bytes": 709749,
+      "sha256": "f758e284adcebf916435c7223f4447b89a361a9a2369e378bfd41fa965ae8437",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v3\\evening-gym.png",
+      "bytes": 745899,
+      "sha256": "e2dc7c37474a0e3e5e84aaec2d0f0d52b213b716c32f0981744dd2208c2b42c5",
+      "publicCopy": "views/paint-and-task-lines.png"
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v3\\evening-sleep.png",
+      "bytes": 1356627,
+      "sha256": "02068bc78d718601bef3165f5b422ed85e851c79d6637c5a7b22ec2e4995ea67",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v3\\noon-gym-turn-0.png",
+      "bytes": 1399891,
+      "sha256": "527d47e877caea5c7c6e9b3ff3f5bbd43a8a63f24e5e3a0e5852d69219708f22",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v3\\noon-gym-turn-1.png",
+      "bytes": 1105962,
+      "sha256": "205f3a3472407e53599e46f629587b57591baef274ca53162bbdd96813c08efc",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v3\\noon-gym.png",
+      "bytes": 1092108,
+      "sha256": "6a6d3dc2d667142f3534870cf054155f080e59dc69fcdda7ecad6c8871f75ab8",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v3\\noon-sleep.png",
+      "bytes": 1633126,
+      "sha256": "b0feffb30abab3bac75301fb2889bf2d8380123f3170b8c8a3aa1f89a0520b88",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v4\\evening-gym-turn-0.png",
+      "bytes": 1052545,
+      "sha256": "478db55303116d96711a0094416c1fe5edd14bc08ea907f4a9249b858a553438",
+      "publicCopy": "views/after-evening-turn.png"
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v4\\evening-gym-turn-1.png",
+      "bytes": 947908,
+      "sha256": "1d5beb83a24e730703414303a3b642b9ac24a2ef9bf68c0d7401a3e5bdaf2675",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v4\\evening-gym.png",
+      "bytes": 928957,
+      "sha256": "c3dc0925342621e48304b01681c4edc7a6ce3f6ba1119352e43033f47a32f348",
+      "publicCopy": "views/after-evening-gym.png"
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v4\\evening-sleep.png",
+      "bytes": 1356639,
+      "sha256": "2295269a1ff220c888489258479f59a9942eae8dc4959a9a6ba62222d844eba4",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v4\\noon-gym-turn-0.png",
+      "bytes": 1369476,
+      "sha256": "c3514dacd73a1fc2c7aad3302f9ed3ab30263bd882cafd2398feb0db433af0fc",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v4\\noon-gym-turn-1.png",
+      "bytes": 1213685,
+      "sha256": "c5fb84d159b9205dba262aa4d1f52e7f8b3ad73c7a104241bce56de09ec715bd",
+      "publicCopy": null
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v4\\noon-gym.png",
+      "bytes": 1157452,
+      "sha256": "904eb542bdf07309d4fca25436d4ecad62e1148e9cdd98c5626a0b7f05a55b5b",
+      "publicCopy": "views/after-noon-gym.png"
+    },
+    {
+      "file": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\visit-lighting-capture-v4\\noon-sleep.png",
+      "bytes": 1633873,
+      "sha256": "c70aadefae48c8e10998b4e6eb1501d39ed742027502094fb3058ae08f84bccb",
+      "publicCopy": null
+    }
+  ]
+}

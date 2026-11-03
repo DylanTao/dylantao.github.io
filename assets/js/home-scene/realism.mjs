@@ -229,6 +229,11 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
           ? sheenFabric(source)
           : source.clone();
   shareVertexColorProgram(m, mesh);
+  // Opaque powder coat is a dielectric finish over metal.
+  if (name === "powder coated gym steel") {
+    m.metalness = 0;
+    m.roughness = 0.55;
+  }
   if (mesh.isSkinnedMesh) {
     m.roughness = /hair/i.test(name) ? 0.7 : /skin/i.test(name) ? 0.68 : 0.9;
     m.envMapIntensity = /hair/i.test(name) ? 0.28 : 0.5;
