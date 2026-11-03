@@ -1,0 +1,51 @@
+{
+  "at": "2026-11-03T05:44:46.659598+00:00",
+  "scope": "Native-source checkpoint only. No changed GLB/whole-body/current-cup/Walk/renderer or performance admission. No manifest writes. Experimental coffee route remains disabled.",
+  "retainedFailures": [
+    {
+      "case": "initial source-consistency AST test",
+      "result": "AttributeError on nested Tuple target; test selector corrected to require Name children; final4tests pass. No product assertion relaxed."
+    },
+    {
+      "case": "full dirty-worktree Python discovery",
+      "result": "406tests/10errors:9Windows long-path historical payload reads,1already-authored optional garden-coffee WIP guard; not attributed to island or relabeled green. Root clean short-checkout gate required."
+    },
+    {
+      "case": "floor receiver convex shortcutV8",
+      "result": "Actual convexity safeguard failed; producer/control retained. V9uses full finite solid-angle winding; no larger convex tolerance."
+    },
+    {
+      "case": "GLTF floor hierarchyV11",
+      "result": "Expected synthetic nativeGeometry parent; full GLTFLoader has actual floor mesh directly below Scene. Actual traversal resolved beforeV12. V12rows.mesh is owning floor; rows.owner is parent labelScene."
+    },
+    {
+      "case": "saved world joint reconstruction",
+      "result": "Exact1e-10m critical Tail witness assertion failed at2.7205696613927013e-8m. Prediction remains limited to saved-world reconstruction; no physical tolerance waiver or bit-identical assertion."
+    }
+  ],
+  "floorDecision": "42source CORNER points newly exposed. Their active native Baked contact and bounce is constant.68; actual delivered primary color is white and retained bake is unused color_1. Preserve floor exactly; no extra floor AO/shell-export request. Root refreshes transport/cache.",
+  "counts": {
+    "guardedNativeParts": 83,
+    "decodedReferenceParts": 81,
+    "nativeTrianglesBeforeAfter": 16372,
+    "nativeTriangleDelta": 0,
+    "newNodes": 2,
+    "expectedExtraDraws": 2,
+    "extraDrawsMeasured": false
+  },
+  "nativeV3": {
+    "sha256": "ea0902bb8763dbc0224f7a96f0c04cb421939738dda6cc00d02d6ab44db171cb",
+    "all465MeshDigestsEqualV2": true
+  },
+  "independentNative": {
+    "mappedVertices": 8352,
+    "maxRequestedWorldPositionResidual": 9.536743172944284e-8,
+    "rigidPropLocalPAndEffectiveNormalsExact": true,
+    "RGBandUVExact": true,
+    "ownedShapeEffectiveNormalChangeMax": 6.594063360070445e-5,
+    "all83PositiveDirectedClosed": true,
+    "floorSamples": 243,
+    "floorSamplesPresentAndWithin6mm": 243
+  },
+  "publicReadback": "Actual public/root55159/canonical/frozen room-kitchen all249300B SHA ff670de9f0f4b10d93873d644d9d3f9deedd0bd2c373ece627734f2295762a07. This binds original geometry, not changed export."
+}

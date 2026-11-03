@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "d6dca1305",
+  "scope": "Immutable source/native geometry proof only; changed renderer/contact/AO/export/cache admission owned by coordinator. No interpreter caches or external ignored dependencies are claimed as packet files.",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 74,
+      "sha256": "06e14e900e0f7af114d534aeefb1b77a9efdf01c99c47d8b69ca47057f712aee"
+    },
+    {
+      "path": "LIMITS-AND-CONTROLS.json",
+      "bytes": 2775,
+      "sha256": "1632f07edb6809357685a193327adf40617421e64ca4b7f05030e3fc358275ed"
+    },
+    {
+      "path": "raw/audit-island-native-v7.py.gz",
+      "bytes": 3017,
+      "sha256": "878f8d7e40b50c89b915659ab239ea1dec510d139d7a28db86e2c28f0df9fecd"
+    },
+    {
+      "path": "raw/bind-island-floor-color-v10.py.gz",
+      "bytes": 791,
+      "sha256": "a9bdaa4e2b89f42eb8fe4438dd98830eea5ad6f32c0b29732c8771128f34eb3f"
+    },
+    {
+      "path": "raw/bind-island-floor-delivery-v11.mjs.gz",
+      "bytes": 956,
+      "sha256": "c6f37cd3434a4cb8e2864c047489c1d50d98a08a8711e24ea186402280c10039"
+    },
+    {
+      "path": "raw/bind-island-floor-delivery-v12.mjs.gz",
+      "bytes": 960,
+      "sha256": "162c31bc319561587d97b63a981c46844823146aa819b4dc015d2874006ad024"
+    },
+    {
+      "path": "raw/bind-island-owner-guards-v6.py.gz",
+      "bytes": 1010,
+      "sha256": "da9608bbfe16ab058a0b303e16eedfb70f07aeb38cddb8f06328f35c24e07208"
+    },
+    {
+      "path": "raw/bind-island-prediction-witness-v4.mjs.gz",
+      "bytes": 1174,
+      "sha256": "40ce6bd7734890d7f88cfdd04651862b5131635dcfe5ed0d92b01deb525e5150"
+    },
+    {
+      "path": "raw/exact-skin-reader-v1.mjs.gz",
+      "bytes": 710,
+      "sha256": "915188887800b440e0495ca76ab14ebcd3f1380281ca9a53ce1fc31fa90eb345"
+    },
+    {
+      "path": "raw/FROZEN-ISLAND-RECIPE-SOURCES__coastal_kitchen_island-v1.py.gz",
+      "bytes": 3888,
+      "sha256": "2c35f6b9740d5ffa4038beae549517ae662428a5ff0d7c422f5bbb542d8d66e1"
+    },
+    {
+      "path": "raw/FROZEN-ISLAND-RECIPE-SOURCES__coastal_kitchen_island-v2.py.gz",
+      "bytes": 3907,
+      "sha256": "eccb68ae4e7e863bd5151da6a2d3bc872776f2c90fb1a0362943fa03376c4528"
+    },
+    {
+      "path": "raw/FROZEN-ISLAND-RECIPE-SOURCES__coastal_kitchen_island-v3.py.gz",
+      "bytes": 4010,
+      "sha256": "db86c5dc3f41fb572c15905cc2498e7119c72704c428e301981c74d673888f99"
+    },
+    {
+      "path": "raw/inventory-island-aisle-v1.mjs.gz",
+      "bytes": 942,
+      "sha256": "ec2a4d41c6b3840d377781a4618e42cb9fa2317664bed44a4945e2d008ffceff"
+    },
+    {
+      "path": "raw/inventory-island-native-v2.py.gz",
+      "bytes": 1702,
+      "sha256": "8100f27014b792db89b956a9a339d097442cd03eb5cdefd63ace1d28a2a20aa0"
+    },
+    {
+      "path": "raw/ISLAND-AISLE-DELIVERED-CENSUS-V1.json.gz",
+      "bytes": 429678,
+      "sha256": "d770051124263fdb2715557b1f7445356b8c3729c9b9ae706ffb8462b686b477"
+    },
+    {
+      "path": "raw/ISLAND-AISLE-NATIVE-CENSUS-V2.json.gz",
+      "bytes": 1660131,
+      "sha256": "ec2077a67a01ff1c09b67f97dd1a1549dbafd9697b9fbedb9da563d5301ccdb1"
+    },
+    {
+      "path": "raw/ISLAND-EXPOSED-FLOOR-COLOR-V10.json.gz",
+      "bytes": 713,
+      "sha256": "9e7a9ba4639a704ac3e454a1953a981bc9fb906a8a32330d89b68f46346ac88a"
+    },
+    {
+      "path": "raw/ISLAND-EXPOSED-FLOOR-DELIVERY-V12.json.gz",
+      "bytes": 679,
+      "sha256": "443af413223e19ede75796187035c43925256a0eac8493c0fc21191814ab6b91"
+    },
+    {
+      "path": "raw/ISLAND-NATIVE-INDEPENDENT-V7.json.gz",
+      "bytes": 9708,
+      "sha256": "daa2f9fca3bc8be25a13560f94bb95040b3b35d93194ccb42df48d8bc887e0b6"
+    },
+    {
+      "path": "raw/ISLAND-NEWLY-EXPOSED-FLOOR-V8.log.gz",
+      "bytes": 292,
+      "sha256": "12465e7697f2427139c558d36e457d98470cfe87f84685752b39e0ff5a9bbefb"
+    },
+    {
+      "path": "raw/ISLAND-NEWLY-EXPOSED-FLOOR-V9.json.gz",
+      "bytes": 1485,
+      "sha256": "78ec80edc09180773e709ab1133624c5edbc28bc3a1dcfeaf58b60aa24295c83"
+    },
+    {
+      "path": "raw/ISLAND-OWNER-GUARDS-V6.json.gz",
+      "bytes": 333280,
+      "sha256": "3e85fdde3d51a56627d03d694c10a4dfd77e5760a3b4bc2d7f1144cac773138e"
+    },
+    {
+      "path": "raw/ISLAND-PUBLIC-CANONICAL-BINDING-V5.json.gz",
+      "bytes": 1115,
+      "sha256": "2b0f7186dc14a39b20a2b8beb416d515a893c3e74ee26622b640107ac821a079"
+    },
+    {
+      "path": "raw/ISLAND-PYTHON-DISCOVERY-V1.log.gz",
+      "bytes": 1954,
+      "sha256": "86dda11835ced6803a041039e6709cb341278f85f735a938d568106ea8f5a846"
+    },
+    {
+      "path": "raw/ISLAND-SHIFT-MEASURE-V2.json.gz",
+      "bytes": 16262,
+      "sha256": "1c49028344d3e0d317c8ea31346a313f4c35202bc2a07d26cd9876aae71a6aa2"
+    },
+    {
+      "path": "raw/ISLAND-WEST-REDUCTION-PREDICTION-V3.json.gz",
+      "bytes": 116554,
+      "sha256": "2290c998cc80ef5020e6067122ee77e9db064554d99079785022313e18a83fa5"
+    },
+    {
+      "path": "raw/island-width-control-v1__REPLAY.json.gz",
+      "bytes": 707582,
+      "sha256": "2f7bcaf4ed92ea77e2036bfa4ef933493b6dfa53e088b4c3856b4e625de3fd60"
+    },
+    {
+      "path": "raw/island-width-control-v2__REPLAY.json.gz",
+      "bytes": 707585,
+      "sha256": "6c6fcb940350d99e0357a434f8594fcd62640a8bb5fdaf7addaf4d3c9604fcf7"
+    },
+    {
+      "path": "raw/island-width-control-v3__REPLAY.json.gz",
+      "bytes": 889002,
+      "sha256": "b0270c1faa5a2bc29808844848f20d6eadada4972e5211bbaa41160cb2afb9ba"
+    },
+    {
+      "path": "raw/measure-island-exposed-floor-v8.py.gz",
+      "bytes": 1873,
+      "sha256": "47a7c2290f5eecb6a8b63c62091031c927d81c7bad4f6a50e34d94b803337304"
+    },
+    {
+      "path": "raw/measure-island-exposed-floor-v9.py.gz",
+      "bytes": 1892,
+      "sha256": "80d65da200b45683b846b4a9883b3bc120405e799f8e98f8af7935f7c08a9b1a"
+    },
+    {
+      "path": "raw/measure-island-shift-v2.mjs.gz",
+      "bytes": 1715,
+      "sha256": "3bd4c67a5759ab7afff98268f0e9e0b8876b842918ffe0d3fe621f00f9bf3956"
+    },
+    {
+      "path": "raw/pavilion-carry-withdrawal-v2__lizard-implemented-motion.json.gz",
+      "bytes": 5087373,
+      "sha256": "2c3986dcac193c377401e332a61bafd4ac38ffe7e35c3aa790117d6b6e8e7898"
+    },
+    {
+      "path": "raw/pavilion-contact-geometry-v10-lower-carry312.mjs.gz",
+      "bytes": 2514,
+      "sha256": "57bf2fe367fea09b1310e2f27e87c207ce89534c4df925556109c3bf3e2e42c8"
+    },
+    {
+      "path": "raw/predict-island-reduction-v3.mjs.gz",
+      "bytes": 2706,
+      "sha256": "a4bc3a3f550eac4dbd10d25ba692c8eeccaa8dad4ce68a4107c5af70b8a9be5e"
+    },
+    {
+      "path": "raw/PROPOSAL-ISLAND-WEST-REDUCTION-V4.json.gz",
+      "bytes": 82550,
+      "sha256": "dd5fe59cecb11546fded048879a1813194981a5f93082a0db58d4957ad7170cb"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2623,
+      "sha256": "9cab022c3c3e8bcb44fdd6dc2224500251a97fe1388e55f0d0da46f9de65fa28"
+    },
+    {
+      "path": "SOURCE-BINDINGS.json",
+      "bytes": 21805,
+      "sha256": "f4b47ef15706320cfd4945885027386d46f06abd0a16dfc90c70e700658f79e3"
+    }
+  ]
+}

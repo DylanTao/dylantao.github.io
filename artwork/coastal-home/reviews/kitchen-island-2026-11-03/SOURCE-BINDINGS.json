@@ -1,0 +1,377 @@
+{
+  "sourceCommit": "d6dca1305",
+  "files": [
+    {
+      "path": "bin/coastal_kitchen_island.py",
+      "workingSHA256": "1fb82fdea5c60541e83bc200baefdddc4226ac2d6a915b9b7b4b53b0d7b7fcfa",
+      "workingBytes": 11275,
+      "gitLF_SHA256": "1fb82fdea5c60541e83bc200baefdddc4226ac2d6a915b9b7b4b53b0d7b7fcfa",
+      "gitLF_Bytes": 11275,
+      "rawEqualsGit": true,
+      "workingNormalizedLFEqualsGit": true
+    },
+    {
+      "path": "bin/refresh_coastal_kitchen_island.py",
+      "workingSHA256": "c1786bd986651f86edb76943aae9f061dc4a1cb2caa9054e3b38229c03adee75",
+      "workingBytes": 2940,
+      "gitLF_SHA256": "c1786bd986651f86edb76943aae9f061dc4a1cb2caa9054e3b38229c03adee75",
+      "gitLF_Bytes": 2940,
+      "rawEqualsGit": true,
+      "workingNormalizedLFEqualsGit": true
+    },
+    {
+      "path": "bin/coastal_kitchen.py",
+      "workingSHA256": "11c97585edd90cb2bfc70bc4f014d546cfe189aaf19561ca8b78b23330c8ff34",
+      "workingBytes": 39497,
+      "gitLF_SHA256": "11c97585edd90cb2bfc70bc4f014d546cfe189aaf19561ca8b78b23330c8ff34",
+      "gitLF_Bytes": 39497,
+      "rawEqualsGit": true,
+      "workingNormalizedLFEqualsGit": true
+    },
+    {
+      "path": "test/test_kitchen_island.py",
+      "workingSHA256": "16f9b52528a4660e178507adb17413c5df3254c44866a5948c55cafe4233e69a",
+      "workingBytes": 3916,
+      "gitLF_SHA256": "16f9b52528a4660e178507adb17413c5df3254c44866a5948c55cafe4233e69a",
+      "gitLF_Bytes": 3916,
+      "rawEqualsGit": true,
+      "workingNormalizedLFEqualsGit": true
+    },
+    {
+      "path": "bin/coastal_pavilion_chair.py",
+      "workingSHA256": "46942a1ca8f2f27a6b034cbee645c3de2e80f5b6ea6a18a37704b4760c1e0669",
+      "workingBytes": 15169,
+      "gitLF_SHA256": "46942a1ca8f2f27a6b034cbee645c3de2e80f5b6ea6a18a37704b4760c1e0669",
+      "gitLF_Bytes": 15169,
+      "rawEqualsGit": true,
+      "workingNormalizedLFEqualsGit": true
+    },
+    {
+      "path": "bin/coastal_pavilion_breakfast.py",
+      "workingSHA256": "65c672c83ed005095b3091b76b19fd333d45a64a8740ccd1cb9d804009951171",
+      "workingBytes": 9492,
+      "gitLF_SHA256": "65c672c83ed005095b3091b76b19fd333d45a64a8740ccd1cb9d804009951171",
+      "gitLF_Bytes": 9492,
+      "rawEqualsGit": true,
+      "workingNormalizedLFEqualsGit": true
+    },
+    {
+      "path": "bin/refresh_coastal_pavilion_breakfast.py",
+      "workingSHA256": "078d85cda602af43a60b4196369e43e8a2dc4ff3248d61f557d7f2adfa221c60",
+      "workingBytes": 3426,
+      "gitLF_SHA256": "078d85cda602af43a60b4196369e43e8a2dc4ff3248d61f557d7f2adfa221c60",
+      "gitLF_Bytes": 3426,
+      "rawEqualsGit": true,
+      "workingNormalizedLFEqualsGit": true
+    }
+  ],
+  "archivedSourceBodies": [
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\PROPOSAL-ISLAND-WEST-REDUCTION-V4.json",
+      "sourceSHA256": "943d5d3dde1f7a88262b7b9e3315f8dcd1e06e1f0f2e2c837f9e64f025b3b6c5",
+      "sourceBytes": 659758,
+      "path": "raw/PROPOSAL-ISLAND-WEST-REDUCTION-V4.json.gz",
+      "archiveSHA256": "dd5fe59cecb11546fded048879a1813194981a5f93082a0db58d4957ad7170cb",
+      "archiveBytes": 82550,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ISLAND-AISLE-DELIVERED-CENSUS-V1.json",
+      "sourceSHA256": "2489cd8a605e016c4e0eba5c584269ad9ca3cff50224ba4ddf7282968d90d99f",
+      "sourceBytes": 2805288,
+      "path": "raw/ISLAND-AISLE-DELIVERED-CENSUS-V1.json.gz",
+      "archiveSHA256": "d770051124263fdb2715557b1f7445356b8c3729c9b9ae706ffb8462b686b477",
+      "archiveBytes": 429678,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ISLAND-AISLE-NATIVE-CENSUS-V2.json.gz",
+      "sourceSHA256": "ec2077a67a01ff1c09b67f97dd1a1549dbafd9697b9fbedb9da563d5301ccdb1",
+      "sourceBytes": 1660131,
+      "path": "raw/ISLAND-AISLE-NATIVE-CENSUS-V2.json.gz",
+      "archiveSHA256": "ec2077a67a01ff1c09b67f97dd1a1549dbafd9697b9fbedb9da563d5301ccdb1",
+      "archiveBytes": 1660131,
+      "gzipWasAlreadyInput": true
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ISLAND-OWNER-GUARDS-V6.json",
+      "sourceSHA256": "fa29305f748c85f89a06e4d0e92f82a1fb194599e788f00060ed9686d7da9d16",
+      "sourceBytes": 2477698,
+      "path": "raw/ISLAND-OWNER-GUARDS-V6.json.gz",
+      "archiveSHA256": "3e85fdde3d51a56627d03d694c10a4dfd77e5760a3b4bc2d7f1144cac773138e",
+      "archiveBytes": 333280,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ISLAND-SHIFT-MEASURE-V2.json",
+      "sourceSHA256": "582bbc6ff17af66b9bb383cb9c1dd3fdf247e3c6a365600a3a3b2e978b094ac3",
+      "sourceBytes": 162629,
+      "path": "raw/ISLAND-SHIFT-MEASURE-V2.json.gz",
+      "archiveSHA256": "1c49028344d3e0d317c8ea31346a313f4c35202bc2a07d26cd9876aae71a6aa2",
+      "archiveBytes": 16262,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ISLAND-WEST-REDUCTION-PREDICTION-V3.json.gz",
+      "sourceSHA256": "2290c998cc80ef5020e6067122ee77e9db064554d99079785022313e18a83fa5",
+      "sourceBytes": 116554,
+      "path": "raw/ISLAND-WEST-REDUCTION-PREDICTION-V3.json.gz",
+      "archiveSHA256": "2290c998cc80ef5020e6067122ee77e9db064554d99079785022313e18a83fa5",
+      "archiveBytes": 116554,
+      "gzipWasAlreadyInput": true
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ISLAND-PUBLIC-CANONICAL-BINDING-V5.json",
+      "sourceSHA256": "d4c0368e46350d8454e599bf0cc17f70b4c7292243fb72df77cd5678fc65c8ca",
+      "sourceBytes": 2755,
+      "path": "raw/ISLAND-PUBLIC-CANONICAL-BINDING-V5.json.gz",
+      "archiveSHA256": "2b0f7186dc14a39b20a2b8beb416d515a893c3e74ee26622b640107ac821a079",
+      "archiveBytes": 1115,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ISLAND-NATIVE-INDEPENDENT-V7.json",
+      "sourceSHA256": "3dfb3e1642afb96c66c33a872decff7ffd5aac9ca4f82dde8c83b327b81e439a",
+      "sourceBytes": 133986,
+      "path": "raw/ISLAND-NATIVE-INDEPENDENT-V7.json.gz",
+      "archiveSHA256": "daa2f9fca3bc8be25a13560f94bb95040b3b35d93194ccb42df48d8bc887e0b6",
+      "archiveBytes": 9708,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ISLAND-NEWLY-EXPOSED-FLOOR-V9.json",
+      "sourceSHA256": "0e344319330fe4425859f478135d22702751d9be19b58c3513044a3ea09ad467",
+      "sourceBytes": 18239,
+      "path": "raw/ISLAND-NEWLY-EXPOSED-FLOOR-V9.json.gz",
+      "archiveSHA256": "78ec80edc09180773e709ab1133624c5edbc28bc3a1dcfeaf58b60aa24295c83",
+      "archiveBytes": 1485,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ISLAND-EXPOSED-FLOOR-COLOR-V10.json",
+      "sourceSHA256": "a7a1b5c85bda983cc5855b967c8641fe36add39404eba15e8df76bc0666ac0ca",
+      "sourceBytes": 10901,
+      "path": "raw/ISLAND-EXPOSED-FLOOR-COLOR-V10.json.gz",
+      "archiveSHA256": "9e7a9ba4639a704ac3e454a1953a981bc9fb906a8a32330d89b68f46346ac88a",
+      "archiveBytes": 713,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ISLAND-EXPOSED-FLOOR-DELIVERY-V12.json",
+      "sourceSHA256": "995cbd28d38b64be4495d2cd9a4aef49a902732d12f3c6421c4902c5633948b4",
+      "sourceBytes": 1587,
+      "path": "raw/ISLAND-EXPOSED-FLOOR-DELIVERY-V12.json.gz",
+      "archiveSHA256": "443af413223e19ede75796187035c43925256a0eac8493c0fc21191814ab6b91",
+      "archiveBytes": 679,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ISLAND-PYTHON-DISCOVERY-V1.log",
+      "sourceSHA256": "496ba28095257b94391d3a65f7fd6b5374591517d8bd50322800f7a22c74fc0d",
+      "sourceBytes": 30990,
+      "path": "raw/ISLAND-PYTHON-DISCOVERY-V1.log.gz",
+      "archiveSHA256": "86dda11835ced6803a041039e6709cb341278f85f735a938d568106ea8f5a846",
+      "archiveBytes": 1954,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ISLAND-NEWLY-EXPOSED-FLOOR-V8.log",
+      "sourceSHA256": "29d692356d87eb35bc80f56e4669c606ec669b4941da894dc6fb7f69f2421d66",
+      "sourceBytes": 560,
+      "path": "raw/ISLAND-NEWLY-EXPOSED-FLOOR-V8.log.gz",
+      "archiveSHA256": "12465e7697f2427139c558d36e457d98470cfe87f84685752b39e0ff5a9bbefb",
+      "archiveBytes": 292,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\inventory-island-aisle-v1.mjs",
+      "sourceSHA256": "dd9cced322cbcb8b3ccb29fc0da5a0a3372c984954a3e31457557366f26845f4",
+      "sourceBytes": 1800,
+      "path": "raw/inventory-island-aisle-v1.mjs.gz",
+      "archiveSHA256": "ec2a4d41c6b3840d377781a4618e42cb9fa2317664bed44a4945e2d008ffceff",
+      "archiveBytes": 942,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\inventory-island-native-v2.py",
+      "sourceSHA256": "a97b5a2ed653cd85a1988a7dd2920b3d2fa80fc2f9be95b0c1b36746ba9af30b",
+      "sourceBytes": 3542,
+      "path": "raw/inventory-island-native-v2.py.gz",
+      "archiveSHA256": "8100f27014b792db89b956a9a339d097442cd03eb5cdefd63ace1d28a2a20aa0",
+      "archiveBytes": 1702,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\bind-island-owner-guards-v6.py",
+      "sourceSHA256": "62e330bf19d38dac04dcb1ef32af5c50ebdf27fd3771c4ec8628ad81a9376f91",
+      "sourceBytes": 1953,
+      "path": "raw/bind-island-owner-guards-v6.py.gz",
+      "archiveSHA256": "da9608bbfe16ab058a0b303e16eedfb70f07aeb38cddb8f06328f35c24e07208",
+      "archiveBytes": 1010,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\measure-island-shift-v2.mjs",
+      "sourceSHA256": "8097efc8e4a26cf0f81360076bab1a646535e334d594dc34613036d0834df959",
+      "sourceBytes": 3848,
+      "path": "raw/measure-island-shift-v2.mjs.gz",
+      "archiveSHA256": "3bd4c67a5759ab7afff98268f0e9e0b8876b842918ffe0d3fe621f00f9bf3956",
+      "archiveBytes": 1715,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\predict-island-reduction-v3.mjs",
+      "sourceSHA256": "9a2dd21da23d4ac102a58064f3adcbebe6565c44e530d2f92f1e9e2d2176e640",
+      "sourceBytes": 6322,
+      "path": "raw/predict-island-reduction-v3.mjs.gz",
+      "archiveSHA256": "a4bc3a3f550eac4dbd10d25ba692c8eeccaa8dad4ce68a4107c5af70b8a9be5e",
+      "archiveBytes": 2706,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\bind-island-prediction-witness-v4.mjs",
+      "sourceSHA256": "83e4c680f0a66b059344e592fcb776b26acbfa3d56b9f6c62aa498d71ed61eb4",
+      "sourceBytes": 2150,
+      "path": "raw/bind-island-prediction-witness-v4.mjs.gz",
+      "archiveSHA256": "40ce6bd7734890d7f88cfdd04651862b5131635dcfe5ed0d92b01deb525e5150",
+      "archiveBytes": 1174,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-island-native-v7.py",
+      "sourceSHA256": "6cb02029d2d8567df811680711b30d188432e1e03fd7071c8384e2ee9e40339c",
+      "sourceBytes": 6740,
+      "path": "raw/audit-island-native-v7.py.gz",
+      "archiveSHA256": "878f8d7e40b50c89b915659ab239ea1dec510d139d7a28db86e2c28f0df9fecd",
+      "archiveBytes": 3017,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\measure-island-exposed-floor-v8.py",
+      "sourceSHA256": "25cfd46e7e04bc7a5986e0bb630dcbe01e8f9aa5e8bcb2e16ad520269e15f361",
+      "sourceBytes": 3677,
+      "path": "raw/measure-island-exposed-floor-v8.py.gz",
+      "archiveSHA256": "47a7c2290f5eecb6a8b63c62091031c927d81c7bad4f6a50e34d94b803337304",
+      "archiveBytes": 1873,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\measure-island-exposed-floor-v9.py",
+      "sourceSHA256": "aa66e267c3a99772d617ef798542059d041317aeb259dbbb059f46c25814d276",
+      "sourceBytes": 3697,
+      "path": "raw/measure-island-exposed-floor-v9.py.gz",
+      "archiveSHA256": "80d65da200b45683b846b4a9883b3bc120405e799f8e98f8af7935f7c08a9b1a",
+      "archiveBytes": 1892,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\bind-island-floor-color-v10.py",
+      "sourceSHA256": "33d7c43ecbb23ab9078c3f68d0010f4c3ad2e84852a2edc33b9407d1d8ad1dfc",
+      "sourceBytes": 1454,
+      "path": "raw/bind-island-floor-color-v10.py.gz",
+      "archiveSHA256": "a9bdaa4e2b89f42eb8fe4438dd98830eea5ad6f32c0b29732c8771128f34eb3f",
+      "archiveBytes": 791,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\bind-island-floor-delivery-v11.mjs",
+      "sourceSHA256": "06c3fd7ea1144e80fa0110617419054fd3e857cb9050796f5829b4891ba1cfca",
+      "sourceBytes": 1649,
+      "path": "raw/bind-island-floor-delivery-v11.mjs.gz",
+      "archiveSHA256": "c6f37cd3434a4cb8e2864c047489c1d50d98a08a8711e24ea186402280c10039",
+      "archiveBytes": 956,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\bind-island-floor-delivery-v12.mjs",
+      "sourceSHA256": "9c21459df23ba2a14b1dd7b236077cbc405bdc860263ab27b129cdcd56a79d6a",
+      "sourceBytes": 1644,
+      "path": "raw/bind-island-floor-delivery-v12.mjs.gz",
+      "archiveSHA256": "162c31bc319561587d97b63a981c46844823146aa819b4dc015d2874006ad024",
+      "archiveBytes": 960,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\pavilion-contact-geometry-v10-lower-carry312.mjs",
+      "sourceSHA256": "d8cac124cfabd797edcd93493bd3283e150d11849fdbc1caaa0e8582c3335018",
+      "sourceBytes": 6091,
+      "path": "raw/pavilion-contact-geometry-v10-lower-carry312.mjs.gz",
+      "archiveSHA256": "57bf2fe367fea09b1310e2f27e87c207ce89534c4df925556109c3bf3e2e42c8",
+      "archiveBytes": 2514,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\exact-skin-reader-v1.mjs",
+      "sourceSHA256": "5f23f08483acae8d4c707099aa3496dd88c4f0fe6edc22aad1978d7d4fe090f9",
+      "sourceBytes": 1497,
+      "path": "raw/exact-skin-reader-v1.mjs.gz",
+      "archiveSHA256": "915188887800b440e0495ca76ab14ebcd3f1380281ca9a53ce1fc31fa90eb345",
+      "archiveBytes": 710,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\pavilion-carry-withdrawal-v2\\lizard-implemented-motion.json.gz",
+      "sourceSHA256": "2c3986dcac193c377401e332a61bafd4ac38ffe7e35c3aa790117d6b6e8e7898",
+      "sourceBytes": 5087373,
+      "path": "raw/pavilion-carry-withdrawal-v2__lizard-implemented-motion.json.gz",
+      "archiveSHA256": "2c3986dcac193c377401e332a61bafd4ac38ffe7e35c3aa790117d6b6e8e7898",
+      "archiveBytes": 5087373,
+      "gzipWasAlreadyInput": true
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\island-width-control-v1\\REPLAY.json",
+      "sourceSHA256": "4c54879507e2618444bc15ae183b5c34d9f801b062404865d1a66eadef5f8e06",
+      "sourceBytes": 5678261,
+      "path": "raw/island-width-control-v1__REPLAY.json.gz",
+      "archiveSHA256": "2f7bcaf4ed92ea77e2036bfa4ef933493b6dfa53e088b4c3856b4e625de3fd60",
+      "archiveBytes": 707582,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\island-width-control-v2\\REPLAY.json",
+      "sourceSHA256": "efa75b8a1640c610ecf138ffdca936606f650490f6d1ce84023f658dbd86f490",
+      "sourceBytes": 5678261,
+      "path": "raw/island-width-control-v2__REPLAY.json.gz",
+      "archiveSHA256": "6c6fcb940350d99e0357a434f8594fcd62640a8bb5fdaf7addaf4d3c9604fcf7",
+      "archiveBytes": 707585,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\island-width-control-v3\\REPLAY.json",
+      "sourceSHA256": "e0051bb0f06b8b3d295a169f8c32a0139fb0b896459ef2ce47bdf03ebf260395",
+      "sourceBytes": 6885887,
+      "path": "raw/island-width-control-v3__REPLAY.json.gz",
+      "archiveSHA256": "b0270c1faa5a2bc29808844848f20d6eadada4972e5211bbaa41160cb2afb9ba",
+      "archiveBytes": 889002,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\FROZEN-ISLAND-RECIPE-SOURCES\\coastal_kitchen_island-v1.py",
+      "sourceSHA256": "b9f5cb08587245b2d96f9a8d723dfa61d18f2feba8b378c7aaa036a5d5d015e8",
+      "sourceBytes": 10767,
+      "path": "raw/FROZEN-ISLAND-RECIPE-SOURCES__coastal_kitchen_island-v1.py.gz",
+      "archiveSHA256": "2c35f6b9740d5ffa4038beae549517ae662428a5ff0d7c422f5bbb542d8d66e1",
+      "archiveBytes": 3888,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\FROZEN-ISLAND-RECIPE-SOURCES\\coastal_kitchen_island-v2.py",
+      "sourceSHA256": "765800cde38b0b40d29a7645f51316221f1428f9ad7694a4f5c4199173faf9a5",
+      "sourceBytes": 10832,
+      "path": "raw/FROZEN-ISLAND-RECIPE-SOURCES__coastal_kitchen_island-v2.py.gz",
+      "archiveSHA256": "eccb68ae4e7e863bd5151da6a2d3bc872776f2c90fb1a0362943fa03376c4528",
+      "archiveBytes": 3907,
+      "gzipWasAlreadyInput": false
+    },
+    {
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\FROZEN-ISLAND-RECIPE-SOURCES\\coastal_kitchen_island-v3.py",
+      "sourceSHA256": "1fb82fdea5c60541e83bc200baefdddc4226ac2d6a915b9b7b4b53b0d7b7fcfa",
+      "sourceBytes": 11275,
+      "path": "raw/FROZEN-ISLAND-RECIPE-SOURCES__coastal_kitchen_island-v3.py.gz",
+      "archiveSHA256": "db86c5dc3f41fb572c15905cc2498e7119c72704c428e301981c74d673888f99",
+      "archiveBytes": 4010,
+      "gzipWasAlreadyInput": false
+    }
+  ],
+  "historicalHelperSources": "V1/V2 reconstructed by reversing only the retained bounded source edits; exact actual-execution source hashes match all corresponding REPLAY.json dependencies. V3 is the accepted committed source. No predecessor seal changed."
+}

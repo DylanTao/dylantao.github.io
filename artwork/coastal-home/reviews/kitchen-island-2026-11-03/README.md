@@ -1,0 +1,13 @@
+# A wider coffee aisle without narrowing the living passage
+
+Source checkpoint `d6dca1305` reduces only the original island's west side by 15 cm. The top remains 1.02 m wide and 2.51 m long; the living-side edge stays fixed. The board, bowl and four lemons move rigidly 7.5 cm toward the new centre. No room, activity anchor or manifest changes belong to this checkpoint.
+
+The guarded replay uses Blender 4.5.9 and an explicit input SHA. It first matches all 83 original native components across five material owners. The board and bowl become two named kitchen prop nodes; their exact old local geometry, normals, colors, UVs and material fields are retained. The lemons move as their whole existing node. Unchanged east flutes, all unowned shared-batch fields and 458 other complete meshes stay exact. Native triangle count is unchanged; two additional draws are expected and still require actual renderer measurement.
+
+Final private native: `island-width-control-v3/candidate.blend`, SHA `ea0902bb8763dbc0224f7a96f0c04cb421939738dda6cc00d02d6ab44db171cb`. All 465 saved/reopened mesh digests match independently audited V2. The audit maps 8,352 original vertices and all 16,372 owned triangles, proves 83 positive directed closed parts, exact RGB/UV and rigid prop normals, and 243 actual floor samples within 6 mm. Requested world shifts differ by at most 0.096 micrometres from representable native coordinates. Normals on reshaped geometry naturally change; no unowned normal threshold was relaxed.
+
+`REPLAY.json` contains `ownedBakeCorners` after actual index remapping. Use only those six named receivers for the owning bake. The 42 newly exposed old floor corners are evidence only: their native retained color is unused by the delivered primary color channel. Preserve that floor; refresh runtime transport/cache instead.
+
+Four focused Python tests pass. Full discovery on this dirty long-path worker checkout remains red: nine historical Windows path failures and one unrelated optional garden-coffee WIP test, preserved in the raw log. The coordinator's clean checkout gates remain required. A 55-frame saved-world Tail predictor supports the design choice but is not current-source full-body/cup or final decoded proof. Original failed controls and all claim limits are recorded separately.
+
+The coordinator owns canonical replay, official AO/export/cache, global overlap and triangle gates, actual Walk, native/modern WebKit renders and publication. Coffee venue motion stays disabled pending its own continuous contact and appearance proof. This packet contains no performance claim or changed model binary.
