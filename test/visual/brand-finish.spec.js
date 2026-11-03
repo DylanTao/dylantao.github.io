@@ -91,6 +91,14 @@ test("brand mark: the sun stays fixed while waves and the name answer touch and 
   await expect(brand).toHaveAttribute("data-brand-state", "discovering");
   expect(page.url(), "the discovery action never consumes native home navigation").toBe(pageBeforeDiscovery);
   await page.waitForTimeout(1000);
+  const textAnimation = await brand.locator(".brand-name-first").evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { name: style.animationName, state: style.animationPlayState };
+  });
+  expect(textAnimation.name, "processed production CSS must animate the text, not only update its dataset").toMatch(
+    /^brand-(?:compact-)?name-drift$/
+  );
+  expect(textAnimation.state).toBe("running");
   const focused = await mark.screenshot({ path: testInfo.outputPath("brand-focused.png") });
   expect(screenshotDiffRatio(resting, focused, { threshold: 0.03 }), "discovery moves the water around the fixed orange").toBeGreaterThan(0.001);
   const visibleOrange = [];

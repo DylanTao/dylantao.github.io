@@ -1,0 +1,25 @@
+# Restore the floating-name story after production CSS cleanup
+
+Sirui likes the current orange/ocean icon. His November 3 report that the name's discovery had disappeared was correct: live desktop and laptop input changed the JavaScript state, but the deployed stylesheet contained none of its runtime state selectors. The name stayed still. The retained [live baseline](baseline/REPORT.json) and native-size captures show this failure.
+
+PurgeCSS could see the initial markup and script tokens, but not the `data-brand-state` attribute created through `dataset`. Its cleanup discarded the discovery, departure and final-phrase rules. The fix preserves that specific selector family and its keyframes. The publisher, optional accessibility build and optional link-check build now use lockfile-pinned PurgeCSS 8.0.0. The local regression invokes the real processor, proves the old configuration fails, and checks that unrelated unused CSS still disappears. This is a build dependency; no browser library is added.
+
+The sun, icon paths, palette, home link and lettering scale are unchanged. The departing name now has a small staggered wave and a slight turn as it fades. The compact sequence lasts 3.6 seconds, holding the name briefly before departure and allowing the complete phrase to settle into wrapped words. Wide layouts retain the 4.8-second story. The existing motion pause, reduced-motion behavior, persistent departure and home/refresh reset remain intact. The AI profile retains its intentional static header.
+
+## Processed-build evidence
+
+The complete production Jekyll build passed in 310.19 seconds, without incremental mode or omitted scene assets. The same complete HTML, JS and MJS output then went through both the old and corrected publisher cleanup. [POSTPROCESS.json](validation/POSTPROCESS.json) records every stylesheet and the discarded selectors. For the final main stylesheet, the old cleanup retained zero brand state rules; the corrected version retains 12, adding 1,339 raw bytes. The source binding is [FINAL-SOURCE.json](validation/FINAL-SOURCE.json).
+
+The strengthened public brand case passes at 1440×1000, 1280×800, 768×1024 and 390×1000 against that processed build. It verifies an actual running text animation, fixed sun bounds, changing waterline/occlusion, whole word bounds, unit letter scale, unchanged navigation bounds, global pause/resume, reduced motion and home/refresh recovery. The [four-width observations](four-width/1440/brand-motion.json) and adjacent captures retain the measurements. The [runner result](validation/visual-last-run.json) is passed with no failed tests. Its PowerShell wrapper returned a native-stderr error for Node's `NO_COLOR` warning; the complete [log](validation/visual.log) explicitly reports all four passing cases. This wrapper status is retained, not presented as a test failure or an unqualified shell success.
+
+Independent isolated Chromium mouse input on home and blog, and modern WebKit trusted taps at phone size on both routes, reach `adrift` with no page errors. The [Chromium report](processed-chromium/REPORT.json) and [WebKit report](processed-webkit/REPORT.json) include the before/after DOM, computed animation state, loaded script and browser version. Their native-size before/during/after PNGs were inspected. WebKit here is phone emulation, not a new physical-iPhone acceptance. The original mixed-SDK baseline producer stopped after the valid desktop/laptop captures; its harness error does not invalidate those observations, and the corrected final producer separates the SDKs into different processes.
+
+All 420 Python tests pass. Node reports 1,022 cases: 1,015 pass and seven existing skips. The style contract and production build pass. Build/unit process receipts and retained logs are in `validation/`. No scene source, native model or light-cache input changes in this checkpoint, so no rebake is required. The existing brand visual case was strengthened; no new case or scene-group entry was added.
+
+## Previous island publication
+
+The kitchen checkpoint `6d14422798c657203364eab212b0f54244689825` is separately complete. [Its publication receipt](island-publication/DELIVERY.json) binds all 46 successful visual jobs, the other applicable workflows, Pages `033f55fe3e3d869cffb8c598c4d17efc23018c01`, 189 compiled source bindings and 12 exact public responses. This includes the new kitchen, unchanged shell, official cache and current loading drawings. It does not admit the private cliff/arrival/garden changes or enable the experimental coffee venue.
+
+Publication and live verification of this brand repair are recorded separately after its own checkpoint reaches GitHub. Daytime study lighting is a distinct open investigation.
+
+The cleanup behavior follows the [PurgeCSS configuration reference](https://purgecss.com/configuration). `MANIFEST.json` binds every retained payload by SHA-256. The producers retain their original ignored local evidence paths; those are provenance, not portable preview URLs.

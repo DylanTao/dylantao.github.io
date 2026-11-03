@@ -1,0 +1,121 @@
+{
+  "at": "2026-11-03T07:51:50.311530+00:00",
+  "sourceHead": "6d14422798c657203364eab212b0f54244689825",
+  "pagesHead": "033f55fe3e3d869cffb8c598c4d17efc23018c01",
+  "pagesSubject": "Deploying to gh-pages from @ DylanTao/dylantao.github.io@6d14422798c657203364eab212b0f54244689825 \ud83d\ude80",
+  "visualRun": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41593317762",
+  "visualJobsPassed": 46,
+  "compiledSourceModules": 189,
+  "allApplicableRunsPassed": true,
+  "responses": [
+    {
+      "path": "index.html",
+      "url": "https://dylantao.github.io/?delivery=6d14422798c657203364eab212b0f54244689825",
+      "status": 200,
+      "bytes": 108652,
+      "sha256": "12c1b6e56fa9023f348015942f9e1979e7822d257ecac7c40135903c194a71f4",
+      "expectedSha256": "12c1b6e56fa9023f348015942f9e1979e7822d257ecac7c40135903c194a71f4",
+      "exact": true
+    },
+    {
+      "path": "assets/js/module-build.json",
+      "url": "https://dylantao.github.io/assets/js/module-build.json?delivery=6d14422798c657203364eab212b0f54244689825",
+      "status": 200,
+      "bytes": 41560,
+      "sha256": "a7451b6abcfb63229897002827421342f4bad5f74e48efb71dcd51a2a1bfc70e",
+      "expectedSha256": "a7451b6abcfb63229897002827421342f4bad5f74e48efb71dcd51a2a1bfc70e",
+      "exact": true
+    },
+    {
+      "path": "assets/js/home-scene/controller.mjs",
+      "url": "https://dylantao.github.io/assets/js/home-scene/controller.mjs?delivery=6d14422798c657203364eab212b0f54244689825",
+      "status": 200,
+      "bytes": 104515,
+      "sha256": "1243bc092a5d3c15c310f6404d3dd8ade632f8bb89989dc92dffd5dc4570fc28",
+      "expectedSha256": "1243bc092a5d3c15c310f6404d3dd8ade632f8bb89989dc92dffd5dc4570fc28",
+      "exact": true
+    },
+    {
+      "path": "assets/js/brand-orange.js",
+      "url": "https://dylantao.github.io/assets/js/brand-orange.js?delivery=6d14422798c657203364eab212b0f54244689825",
+      "status": 200,
+      "bytes": 11960,
+      "sha256": "868caf3592c36a4566e3eea6e9d50c5578070f5ffc8e5de78b7aed8226a4b2e2",
+      "expectedSha256": "868caf3592c36a4566e3eea6e9d50c5578070f5ffc8e5de78b7aed8226a4b2e2",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "url": "https://dylantao.github.io/assets/models/home/manifest.json?delivery=6d14422798c657203364eab212b0f54244689825",
+      "status": 200,
+      "bytes": 233487,
+      "sha256": "a2c5b0570c011637da777d30f5e6fe12094db78a5303350c28f794a7397b6ca8",
+      "expectedSha256": "a2c5b0570c011637da777d30f5e6fe12094db78a5303350c28f794a7397b6ca8",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "url": "https://dylantao.github.io/assets/models/home/static-light-field.json?delivery=6d14422798c657203364eab212b0f54244689825",
+      "status": 200,
+      "bytes": 712173,
+      "sha256": "5afc0e8dcdb40185ad2283555dd57cdd66f05892e06bc6f3ff84ecc86f820d8a",
+      "expectedSha256": "5afc0e8dcdb40185ad2283555dd57cdd66f05892e06bc6f3ff84ecc86f820d8a",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/room-kitchen.glb",
+      "url": "https://dylantao.github.io/assets/models/home/room-kitchen.glb?delivery=6d14422798c657203364eab212b0f54244689825",
+      "status": 200,
+      "bytes": 253496,
+      "sha256": "6f8ef82b59c58a8a296d5fb795993e8ad599fba51764c56cd82934a8fe1e0697",
+      "expectedSha256": "6f8ef82b59c58a8a296d5fb795993e8ad599fba51764c56cd82934a8fe1e0697",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/home-shell.glb",
+      "url": "https://dylantao.github.io/assets/models/home/home-shell.glb?delivery=6d14422798c657203364eab212b0f54244689825",
+      "status": 200,
+      "bytes": 898704,
+      "sha256": "b51f302da52907dc1d707c14ea3a3c4578da9f43f9147d7917a6bb0e1f99ce72",
+      "expectedSha256": "b51f302da52907dc1d707c14ea3a3c4578da9f43f9147d7917a6bb0e1f99ce72",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/wildlife-perch-support.json",
+      "url": "https://dylantao.github.io/assets/models/home/wildlife-perch-support.json?delivery=6d14422798c657203364eab212b0f54244689825",
+      "status": 200,
+      "bytes": 37635,
+      "sha256": "e9559bb9cee575472d866c60d9eafc4a88291dc0edb81fb2bf180561c349bc82",
+      "expectedSha256": "e9559bb9cee575472d866c60d9eafc4a88291dc0edb81fb2bf180561c349bc82",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/loading-sketch.json",
+      "url": "https://dylantao.github.io/assets/models/home/loading-sketch.json?delivery=6d14422798c657203364eab212b0f54244689825",
+      "status": 200,
+      "bytes": 38286,
+      "sha256": "72f59de348172238771d82a0bf052f2adc552ec0e454a7d781ef140b78001a23",
+      "expectedSha256": "72f59de348172238771d82a0bf052f2adc552ec0e454a7d781ef140b78001a23",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/loading-sketch/kitchen.json",
+      "url": "https://dylantao.github.io/assets/models/home/loading-sketch/kitchen.json?delivery=6d14422798c657203364eab212b0f54244689825",
+      "status": 200,
+      "bytes": 16851,
+      "sha256": "25d58a8eca93734bb85d92885437734c5d0b7ac6023a3c0813966b4d55a2db61",
+      "expectedSha256": "25d58a8eca93734bb85d92885437734c5d0b7ac6023a3c0813966b4d55a2db61",
+      "exact": true
+    },
+    {
+      "path": "assets/models/home/loading-sketch/sleep.json",
+      "url": "https://dylantao.github.io/assets/models/home/loading-sketch/sleep.json?delivery=6d14422798c657203364eab212b0f54244689825",
+      "status": 200,
+      "bytes": 15881,
+      "sha256": "51a83015e194f287a43dfa50415d8f5cfdfa8e5fdcf09bf290903ec13a746ecf",
+      "expectedSha256": "51a83015e194f287a43dfa50415d8f5cfdfa8e5fdcf09bf290903ec13a746ecf",
+      "exact": true
+    }
+  ],
+  "scope": "Exact public deployment readback after all46current visual jobs and other applicable workflows succeeded. Prior cancelled/failed runs remain retained. The narrower kitchen native/export/cache/drawings are included. The optional breakfast venue stays disabled; private cliff/arrival/garden/coffee integration remains separate."
+}

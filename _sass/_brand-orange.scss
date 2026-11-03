@@ -192,6 +192,10 @@
   .brand-name-first {
     animation: brand-name-drift 4.8s cubic-bezier(0.35, 0, 0.25, 1) both;
   }
+  .brand-name-first .brand-wave-letter {
+    animation-name: brand-name-letter-wave;
+    animation-duration: 2.6s;
+  }
   .brand-name-comma {
     opacity: 1;
   }
@@ -234,11 +238,11 @@
     opacity: 1;
   }
   55% {
-    transform: translate(0.75rem, -2.5px);
+    transform: translate(0.75rem, -2.5px) rotate(2deg);
     opacity: 0;
   }
   100% {
-    transform: translate(3rem, -3px);
+    transform: translate(3rem, -3px) rotate(-2deg);
     opacity: 0;
   }
 }
@@ -296,19 +300,27 @@ html[data-theme-mode="evening"] .navbar.navbar-light .site-brand {
 @media (max-width: 991.98px) {
   .site-brand[data-brand-state="discovering"] .brand-name-first {
     animation-name: brand-compact-name-drift;
-    animation-duration: 2.4s;
+    animation-duration: 3.6s;
   }
   .site-brand[data-brand-state="discovering"] .brand-name-story {
     animation-name: brand-compact-story-arrival;
-    animation-duration: 2.4s;
+    animation-duration: 3.6s;
   }
 }
 @keyframes brand-compact-name-drift {
-  0% {
+  0%,
+  30% {
     transform: none;
     opacity: 1;
   }
-  55%,
+  42% {
+    transform: translate(-0.15rem, -1px) rotate(-1deg);
+    opacity: 1;
+  }
+  62% {
+    transform: translate(-1.2rem, -3px) rotate(2deg);
+    opacity: 0;
+  }
   100% {
     transform: translateX(-2rem);
     opacity: 0;
@@ -316,14 +328,26 @@ html[data-theme-mode="evening"] .navbar.navbar-light .site-brand {
 }
 @keyframes brand-compact-story-arrival {
   0%,
-  30% {
+  58% {
     transform: translateY(2px);
     opacity: 0;
   }
-  80%,
+  86%,
   100% {
     transform: none;
     opacity: 1;
+  }
+}
+@keyframes brand-name-letter-wave {
+  0%,
+  100% {
+    transform: none;
+  }
+  25% {
+    transform: translateY(-1.8px) rotate(-1deg);
+  }
+  75% {
+    transform: translateY(1.2px) rotate(1deg);
   }
 }
 @media (max-width: 767.98px) {

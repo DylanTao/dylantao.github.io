@@ -38,6 +38,9 @@ module.exports = {
     ],
     deep: [/^home-/, /^theme-/, /^research-motion-/, /^ninja-/, /^sirui-/],
     greedy: [
+      // Discovery state is created through dataset after the built HTML loads.
+      // Keep its complete selectors, including the compact and reduced-motion states.
+      /data-brand-state/,
       /data-theme/,
       /data-theme-mode/,
       /home-motion/,
@@ -50,7 +53,7 @@ module.exports = {
       /is-active/,
       /view-transition/,
     ],
-    keyframes: [/^home-/, /^site-/, /^cinematic-/],
+    keyframes: [/^home-/, /^site-/, /^cinematic-/, /^brand-/],
     variables: [
       /^--global-/,
       /^--home-/,

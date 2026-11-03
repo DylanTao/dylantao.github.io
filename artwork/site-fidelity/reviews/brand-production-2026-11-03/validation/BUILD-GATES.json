@@ -1,0 +1,20 @@
+{
+  "processes": [
+    {
+      "name": "production-build",
+      "command": [
+        "C:/tools/Ruby33/bin/ruby.exe",
+        "C:/tools/Ruby33/bin/bundle",
+        "exec",
+        "jekyll",
+        "build",
+        "--baseurl",
+        "/al-folio",
+        "--destination",
+        "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\brand-checkpoint\\site\\al-folio"
+      ],
+      "exitCode": 0,
+      "seconds": 310.1856173000124
+    }
+  ]
+}

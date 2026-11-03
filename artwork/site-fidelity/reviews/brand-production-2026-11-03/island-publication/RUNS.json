@@ -1,0 +1,66 @@
+[
+  {
+    "conclusion": "success",
+    "databaseId": 41593779457,
+    "headSha": "6d14422798c657203364eab212b0f54244689825",
+    "name": "Check for broken links on site",
+    "status": "completed",
+    "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41593779457"
+  },
+  {
+    "conclusion": "success",
+    "databaseId": 41593317747,
+    "headSha": "6d14422798c657203364eab212b0f54244689825",
+    "name": "Integration tests",
+    "status": "completed",
+    "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41593317747"
+  },
+  {
+    "conclusion": "success",
+    "databaseId": 41593317765,
+    "headSha": "6d14422798c657203364eab212b0f54244689825",
+    "name": "CodeQL Advanced",
+    "status": "completed",
+    "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41593317765"
+  },
+  {
+    "conclusion": "skipped",
+    "databaseId": 41593317816,
+    "headSha": "6d14422798c657203364eab212b0f54244689825",
+    "name": "Check for broken links",
+    "status": "completed",
+    "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41593317816"
+  },
+  {
+    "conclusion": "success",
+    "databaseId": 41593317748,
+    "headSha": "6d14422798c657203364eab212b0f54244689825",
+    "name": "Upgrade contract checks",
+    "status": "completed",
+    "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41593317748"
+  },
+  {
+    "conclusion": "success",
+    "databaseId": 41593317721,
+    "headSha": "6d14422798c657203364eab212b0f54244689825",
+    "name": "Prettier code formatter",
+    "status": "completed",
+    "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41593317721"
+  },
+  {
+    "conclusion": "success",
+    "databaseId": 41593317775,
+    "headSha": "6d14422798c657203364eab212b0f54244689825",
+    "name": "Deploy site",
+    "status": "completed",
+    "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41593317775"
+  },
+  {
+    "conclusion": "success",
+    "databaseId": 41593317762,
+    "headSha": "6d14422798c657203364eab212b0f54244689825",
+    "name": "Visual checkpoints",
+    "status": "completed",
+    "url": "https://github.com/DylanTao/dylantao.github.io/actions/runs/41593317762"
+  }
+]
