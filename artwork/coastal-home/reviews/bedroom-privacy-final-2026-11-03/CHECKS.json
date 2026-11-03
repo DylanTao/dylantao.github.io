@@ -1,0 +1,144 @@
+{
+  "at": "2026-11-03T20:14:35.507573+00:00",
+  "scope": "Independent final-source/checker/format supplement. No runtime change after testedV3 body-equivalence proof; only this supplement and byte-stability attributes are added after the full build. Publication/CI remains separate.",
+  "buildExitCode": 0,
+  "all194CompiledBodiesExactToTestedV3": true,
+  "signedCacheAndBuiltManifestExactToTestedV3": true,
+  "sourceManifestContentExactToPublisherJSON": true,
+  "fullPrettier": true,
+  "targetedFinalNativePass": 9,
+  "builderSyntax": true,
+  "styleContract": true,
+  "priorFullUnit": {
+    "pythonPass": 420,
+    "nodePass": 1075,
+    "nodeExistingSkips": 7
+  },
+  "cacheBytes": 712655,
+  "cacheSha256": "b2f97ed2ebb09f8ca92213a7017e297725f1fdf4d6f7c7db618f081a2aa82783",
+  "signature": "6e218fc1d148ec0be0c967d511d51b61eb9961f111426f8fe62ab98f38d070cd",
+  "cssSha256": "f81623d3af019fba253ca5ace091fb4d806251f2098a0b987c9906376f88a1d0",
+  "originalFailedCheckerRetained": true,
+  "payloads": [
+    {
+      "path": "raw/bedroom-final-gates-v1/GATES.json.gz",
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-final-gates-v1\\GATES.json",
+      "rawBytes": 1362,
+      "rawSha256": "9633a8fa634e36bad9e07c01661972069b0abeaf4a32c032e587224d1ef48ef8",
+      "bytes": 582,
+      "sha256": "e15fa6f758b947cb3a13e65eea6c1959029a6ca2501a9fd2ca17b79bbb837a5a"
+    },
+    {
+      "path": "raw/bedroom-final-gates-v1/prettier.log.gz",
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-final-gates-v1\\prettier.log",
+      "rawBytes": 66,
+      "rawSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "bytes": 82,
+      "sha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5"
+    },
+    {
+      "path": "raw/bedroom-final-gates-v1/targeted-native-physical.log.gz",
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-final-gates-v1\\targeted-native-physical.log",
+      "rawBytes": 7277,
+      "rawSha256": "c742602e2c76ca9b6461e225d96023946594cfc795524871eca91b32983f7e11",
+      "bytes": 1949,
+      "sha256": "fb0ac9527b6e436ee51528dda22fc9ab3de30d58a32649cb4b7122ffc0bbaf3f"
+    },
+    {
+      "path": "raw/bedroom-final-gates-v1/builder-syntax.log.gz",
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-final-gates-v1\\builder-syntax.log",
+      "rawBytes": 0,
+      "rawSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "raw/bedroom-final-gates-v1/style.log.gz",
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-final-gates-v1\\style.log",
+      "rawBytes": 37,
+      "rawSha256": "e959900fa566355a00b04f8721479609c46d53edf7fe6f232946b5e9a510ff42",
+      "bytes": 57,
+      "sha256": "1285c7c023390ffa10b2c143c9c2512cbaa6e4fefe4979514838c789099a94e8"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v4/SOURCE.json.gz",
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v4\\SOURCE.json",
+      "rawBytes": 2242228,
+      "rawSha256": "ae6e099e931eb43ec27c4192590c1dbbf3774e296a3395a1a23e316a8c178669",
+      "bytes": 525369,
+      "sha256": "55cc4dfb60c8d5d8ed41ebde878c43f42228c90336d276364c6062b8ac86af3e"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v4/BUILD-GATES.json.gz",
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v4\\BUILD-GATES.json",
+      "rawBytes": 563,
+      "rawSha256": "c596c85a2cbc62babffe9be7b97a758e8181e9194c35041a16043c23367e9b1d",
+      "bytes": 326,
+      "sha256": "8b20e1fecb6c20533613f6229a6547b2d7292bb05496c2585cee387d9d5f3182"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v4/production-build.log.gz",
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v4\\production-build.log",
+      "rawBytes": 93708,
+      "rawSha256": "a3e1bc7e6e9324e664e10d410116d46a3c06c414cf7ecec963b429e13a8c6bda",
+      "bytes": 4509,
+      "sha256": "1a644a678b9f68cf33ca67bedd470f2fbc946649483859405bb76ca02bdeb0a6"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v4/POSTPROCESS.json.gz",
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v4\\POSTPROCESS.json",
+      "rawBytes": 300123,
+      "rawSha256": "e8daaa507881596324648b9321d9802312af6d171750ef50baf82928c74f6dad",
+      "bytes": 31420,
+      "sha256": "28b9c3b27b9b5ec384826cfc46ee3a67b041bf5a0257b0098091e1f0c3c15903"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v4/FINAL-BINDINGS.json.gz",
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v4\\FINAL-BINDINGS.json",
+      "rawBytes": 59846,
+      "rawSha256": "5d625271824bf664df4b581e1b9c6d2a98c50216136b1f75435fd22f7bdf06fe",
+      "bytes": 19103,
+      "sha256": "bdad707008392a7cc394c72cdd060705436009d491d2552abfc7f972e0dff0c5"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v4/FAILED-CHECKER-V1.json.gz",
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v4\\FAILED-CHECKER-V1.json",
+      "rawBytes": 734,
+      "rawSha256": "fd584b042cb37a173775cc2b9445baa33cacbfb01bcea045cac64aedcd98ddb0",
+      "bytes": 468,
+      "sha256": "ece323e1689c3cc3903055ec811980057802ac9995bbf0e5153444a3aab4681c"
+    },
+    {
+      "path": "raw/check-bedroom-final-bindings-v1.cjs.gz",
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\check-bedroom-final-bindings-v1.cjs",
+      "rawBytes": 3329,
+      "rawSha256": "6e5b13cc6aaea80a58f2d0438b32fd1390a65cce9d2454bceeeadeff65671ea4",
+      "bytes": 1351,
+      "sha256": "5bb4cb13e012f518734f22ef46b3eb12915bc8aedc96a03bd7fb7526012bc4ca"
+    },
+    {
+      "path": "raw/check-bedroom-final-bindings-v2.cjs.gz",
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\check-bedroom-final-bindings-v2.cjs",
+      "rawBytes": 3487,
+      "rawSha256": "ee9de6ca22bf96723df45f0147c1ae2f83ebec78647d9417a9e43379985752d0",
+      "bytes": 1382,
+      "sha256": "1d1837790ba868eaa73aad47fe7fe9fae01b2f6f471c059efe2622176c1b73ff"
+    },
+    {
+      "path": "raw/prepare-bedroom-bindings-v2.py.gz",
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\prepare-bedroom-bindings-v2.py",
+      "rawBytes": 1592,
+      "rawSha256": "17aa342ff45d636bed57450f0532d50858a16c247b4dc23a01fcf05d147ca6a3",
+      "bytes": 800,
+      "sha256": "28a346ba9aaa26896a25df8d55d8e19ab5951a4f2e6fcfc1ecdc715ccadf9b7a"
+    },
+    {
+      "path": "raw/run-bedroom-final-gates-v1.py.gz",
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\run-bedroom-final-gates-v1.py",
+      "rawBytes": 1514,
+      "rawSha256": "bdb3e41a846a995f0fcc2418ad2e1a35b6670731525ebe41bd7aa578a3507a4b",
+      "bytes": 902,
+      "sha256": "b529dfb76e0b6a1537a60ff2301f2b3095c43833d2e934a8a9c0642228d18e2c"
+    }
+  ]
+}

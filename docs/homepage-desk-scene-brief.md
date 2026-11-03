@@ -10,6 +10,8 @@ This is the active brief for **Sirui's inhabited coastal home**, approved Septem
 4. A convincing Realistic treatment: crafted geometry, coherent coastal light, soft contacts, and water. Realistic is the only active treatment, including authoring previews, following Sirui's October 1 correction.
 5. Bounded asset size and animation work; optional atmosphere after functional proof.
 
+Sirui's November3 phone review confirms that the brand's touch departure and icon reset work. Study daylight is brighter, with a remaining sharp sunlit/shaded boundary to improve. His new screenshots reiterate the under-bedroom bay as an extended, comfortable plant-garden refuge and show the exterior's large sharp cuts; those architecture items remain open. He also requests bedroom curtains during sleep. Keep the existing orange/ocean icon.
+
 ## Known Inspection Targets
 
 - The October 24 estate revision below is the current architecture. The [dated house review](design-reviews/2026-10-24/HOUSE_REVISION.md) separates passed native/browser evidence, final source custody, publication status and the still-partial bedroom adjacency. Earlier dated checkpoints do not establish a later asset revision.

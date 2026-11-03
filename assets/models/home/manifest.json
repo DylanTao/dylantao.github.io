@@ -236,14 +236,14 @@
       "facing": 0.0,
       "egress": [-2.8, 0, 13.6],
       "camera": {
-        "radius": 4.6,
+        "radius": 3.0,
         "yaw": 2.92,
-        "pitch": 0.3,
-        "fov": 50,
+        "pitch": 0.45,
+        "fov": 60,
         "envelope": {
           "yaw": [2.65, 3.6],
           "pitch": [0.12, 0.62],
-          "radius": [2.6, 5.0]
+          "radius": [1.8, 3.05]
         }
       },
       "offset": [0, 0, 0],
@@ -5911,8 +5911,8 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "7c56b9414e90298ac3f50ccb5ba340ac6bf3202f0fb70f9061c4b714a7953729",
-    "sha256": "05515f737a516531216c96a4bd2f84e02a116ea668342c9a9f6f05aa79b2303e"
+    "signature": "6e218fc1d148ec0be0c967d511d51b61eb9961f111426f8fe62ab98f38d070cd",
+    "sha256": "b2f97ed2ebb09f8ca92213a7017e297725f1fdf4d6f7c7db618f081a2aa82783"
   },
   "estateDoors": [
     {

@@ -1,0 +1,221 @@
+{
+  "version": 1,
+  "scope": "Immutable local source/function/physical/renderer evidence for bedroom privacy; final whole-build formatting/publication receipts remain separate.",
+  "files": [
+    {
+      "path": "raw/bake-bedroom-curtains-v1.py.gz",
+      "bytes": 1224,
+      "sha256": "c87752d072523e0082689ea234881f17fc12ae0d857966a69dd5a6857ce5cf89"
+    },
+    {
+      "path": "raw/bake-bedroom-curtains-v2.py.gz",
+      "bytes": 1230,
+      "sha256": "7d1d211822364259978b555e039228cca3cecfd95fb129ffd911c2ee7cb67cd4"
+    },
+    {
+      "path": "raw/bake-bedroom-curtains-v3.py.gz",
+      "bytes": 1230,
+      "sha256": "24204663d6de0e522a7aaad068895b8fffb66a94e6290773bf0f236698531d79"
+    },
+    {
+      "path": "raw/bake-bedroom-curtains-v4.py.gz",
+      "bytes": 1230,
+      "sha256": "1c4d5a2e91d30cf5d815f1fc0bdd112f2df0816ec86d79c2e1b8016d48514114"
+    },
+    {
+      "path": "raw/bedroom-curtain-clearance-v1/REPORT.json.gz",
+      "bytes": 16067,
+      "sha256": "3a762d6fed0d0a1320dc9d17bf1f37d04169d2b6f0e04de237a1efa89c698872"
+    },
+    {
+      "path": "raw/bedroom-curtains-appearance-v1/REPORT.json.gz",
+      "bytes": 393594,
+      "sha256": "49b77686db6e2191d704c9dae0a9dfbabbc6d23410dd06a0e3bb7a576e79e001"
+    },
+    {
+      "path": "raw/bedroom-curtains-appearance-v2/REPORT.json.gz",
+      "bytes": 196441,
+      "sha256": "0a5c46e60ca7cecf2bd6be3cff53cc0bf4a94ecf35e233606e6b09fa2601fd67"
+    },
+    {
+      "path": "raw/bedroom-curtains-appearance-v3/REPORT.json.gz",
+      "bytes": 197021,
+      "sha256": "5b3d0d575357136e37673b73a01783f47a137b0c939d21598d4197c1d7f56d87"
+    },
+    {
+      "path": "raw/bedroom-curtains-bake-v1/bake.log.gz",
+      "bytes": 239,
+      "sha256": "d61d5222eec1d8f052da2bda9e66e47b90f51d1bc665e09de343fc41830698bc"
+    },
+    {
+      "path": "raw/bedroom-curtains-bake-v1/PROCESS.json.gz",
+      "bytes": 938,
+      "sha256": "48dc92ce09568c54867d57fcff16dc9a906a20a80d2982a19d06f3640d6edeb9"
+    },
+    {
+      "path": "raw/bedroom-curtains-bake-v2/PROCESS.json.gz",
+      "bytes": 1071,
+      "sha256": "6423ab6d9bb3d3bdb08f2fca80293101661316019001aba04a99a5ab3475e1cd"
+    },
+    {
+      "path": "raw/bedroom-curtains-bake-v3/PROCESS.json.gz",
+      "bytes": 1071,
+      "sha256": "2e28523c5b14fec9f50e325957a575c171985ced0969cd672c10a445d98e51e9"
+    },
+    {
+      "path": "raw/bedroom-curtains-bake-v4/bake.log.gz",
+      "bytes": 423,
+      "sha256": "a22d0667dd3e96849acb6b2d52bcd881f02dbdb33f1b2e05bbb80a5bda4fc469"
+    },
+    {
+      "path": "raw/bedroom-curtains-bake-v4/PROCESS.json.gz",
+      "bytes": 1072,
+      "sha256": "8ba9a1a2606103efdb2a63f9d134038b8a97922cd000950d226f839e0026d883"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v2/node.log.gz",
+      "bytes": 48605,
+      "sha256": "f2ca081f8f4787c8739793a01388ed3af7699396518705e9b539115f285ca886"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v2/PRIVACY-BROWSER.json.gz",
+      "bytes": 619,
+      "sha256": "7e5e810ae62f8115982dbec0db5d691e3b325b68af05e283941fbde82116106b"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v2/PRIVACY-BROWSER.log.gz",
+      "bytes": 379,
+      "sha256": "a64c1e9efdb001a5c5411d4494d7d76f89908a91da97c416e314f5c0150f8ef8"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v2/python.log.gz",
+      "bytes": 117,
+      "sha256": "b34f722268cbbf930db616f005b44d7c28a3a64ea19703409c34233acf130801"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v2/style.log.gz",
+      "bytes": 57,
+      "sha256": "1285c7c023390ffa10b2c143c9c2512cbaa6e4fefe4979514838c789099a94e8"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v2/UNIT-GATES.json.gz",
+      "bytes": 1624,
+      "sha256": "35ca5aa53dd07944f24ca9b6fe6876ca9f31e5956d3a136f70743cabe3e61d1c"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v3/BUILD-GATES.json.gz",
+      "bytes": 327,
+      "sha256": "742c8a11ff515d149c1608287540202349e79f8e6e290bc473c8cbc2c5540b2e"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v3/POSTPROCESS.json.gz",
+      "bytes": 31420,
+      "sha256": "be07489263fb2abf066051fe167b0f276f3430238ad45f87c9a95e4bfb2c006f"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v3/PRIVACY-BROWSER.json.gz",
+      "bytes": 622,
+      "sha256": "3450af23d739b7f2240f5fc376c6b5a70b41d7cd4010cfbef90bb317bc472948"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v3/PRIVACY-BROWSER.log.gz",
+      "bytes": 377,
+      "sha256": "db39bb632987c45a0a2d1df3d94a0761e167a33c1201199e502984ca5f1c5e85"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v3/production-build.log.gz",
+      "bytes": 4509,
+      "sha256": "c5083379b85d01e0dfb1cb50866de5d7bc86521c00c867f3a55a5fc180c0f14e"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v3/SOURCE.json.gz",
+      "bytes": 522533,
+      "sha256": "df1f98e1af432c52162909768b2c99697f3944ba51a75e4beade08e4b573bfc4"
+    },
+    {
+      "path": "raw/bedroom-curtains-phone-v3/REPORT.json.gz",
+      "bytes": 200174,
+      "sha256": "4af5c38b287805bc7dbaba66152eae266c273f1b91246ca86d11f6ee9b1ea015"
+    },
+    {
+      "path": "raw/bedroom-framing-v3/REPORT.json.gz",
+      "bytes": 456,
+      "sha256": "c3b6e8126c1d5f9233b7a5aaea94d522e2e8672b75c6143ce480108272e12b0d"
+    },
+    {
+      "path": "raw/capture-bedroom-curtains-phone-v3.cjs.gz",
+      "bytes": 2295,
+      "sha256": "b0fa95bf1bdff57bf4a01ec7604912c07b8ba9934c45a2b8d4531727b1486204"
+    },
+    {
+      "path": "raw/capture-bedroom-curtains-v3.cjs.gz",
+      "bytes": 2293,
+      "sha256": "8ecac1d5dab4f733fb32d224feb4d71f8529f5d96b2aed2a846f5ade2a1f8ea7"
+    },
+    {
+      "path": "raw/measure-bedroom-curtain-clearance-v1.mjs.gz",
+      "bytes": 1678,
+      "sha256": "bbbec03bf9d3bc830751944d3835928e16766a9b57ceeb0d880511394f14d130"
+    },
+    {
+      "path": "raw/run-bedroom-privacy-public-v2.py.gz",
+      "bytes": 844,
+      "sha256": "e9f346eb70f679855681743a00be75d1971b9fcd79a476dbdfcc848229229e03"
+    },
+    {
+      "path": "raw/SLEEP-CURTAIN-SURVEY-V1.json.gz",
+      "bytes": 12957,
+      "sha256": "d9fa1bd42ce97bf9f26070b0398e34e438dc4e4712b95b6645571b9a6f28e22d"
+    },
+    {
+      "path": "raw/SLEEP-WINDOW-SECTIONS-V1.json.gz",
+      "bytes": 2419,
+      "sha256": "39eac79b62cec2d3088c1ce20679732c50d336ae662b33bca35353a5fb7572fa"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3375,
+      "sha256": "731b9ba6a64bd6fa6c3a495f30292e91dc213ca90b6e3ce10686552f3b04acc9"
+    },
+    {
+      "path": "REVIEW.json",
+      "bytes": 39271,
+      "sha256": "bc23b47b614d36543575f64b5d6ec9378d278f1a09cf5614636fc06a92e34a43"
+    },
+    {
+      "path": "views/baseline-window.png",
+      "bytes": 2115737,
+      "sha256": "310caff31d05eb6f7d1f4db3cb5185ea0644d0f037f81eaa4a66b2e75326d1fb"
+    },
+    {
+      "path": "views/native-awake.png",
+      "bytes": 2291080,
+      "sha256": "4dd5efb771fd781fd38b00fc168c4f11ab43079ae89e32593b76faec72090568"
+    },
+    {
+      "path": "views/native-bedroom.png",
+      "bytes": 1996243,
+      "sha256": "85ff6570ba8f23e318e564640065e610029559a537c7fa21a203a86fb6b32081"
+    },
+    {
+      "path": "views/native-closed.png",
+      "bytes": 2103307,
+      "sha256": "c92697379478f2036f3775d8a4f29d25a1f713f7e7e09dec44a44e56ce7a28aa"
+    },
+    {
+      "path": "views/rejected-camera.png",
+      "bytes": 358442,
+      "sha256": "852302a3d3da5b6b0998791bf434e3818ffea0d90857fa1b524903283a974193"
+    },
+    {
+      "path": "views/webkit-bedroom.png",
+      "bytes": 286969,
+      "sha256": "45b7d06bb6180432da1d1c8019d0422c5e0beda44866aee0e2a7a62a44ec355e"
+    },
+    {
+      "path": "views/webkit-closed.png",
+      "bytes": 278671,
+      "sha256": "e7ececd6cb31ddf6f162b689177badf42c3662dd1b06bbaa975741640611f514"
+    }
+  ]
+}

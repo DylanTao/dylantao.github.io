@@ -96,3 +96,13 @@ bin/train_coastal_object_field.py text eol=lf
 bin/capture_coastal_object_field.cjs text eol=lf
 bin/measure_coastal_print_field.cjs text eol=lf
 bin/measure_coastal_object_field.cjs text eol=lf
+# Keep the new measured privacy module and immutable review text byte-stable.
+assets/js/home-scene/bedroom-curtains.mjs text eol=lf
+test/coastal-bedroom-curtains.test.mjs text eol=lf
+artwork/coastal-home/reviews/bedroom-privacy-2026-11-03/*.md text eol=lf
+artwork/coastal-home/reviews/bedroom-privacy-2026-11-03/*.json text eol=lf
+# Keep the independent final-validation supplement byte-stable too.
+artwork/coastal-home/reviews/bedroom-privacy-final-2026-11-03/*.md text eol=lf
+artwork/coastal-home/reviews/bedroom-privacy-final-2026-11-03/*.json text eol=lf
+# The pre-publication newline correction retains exact original seal bytes.
+artwork/coastal-home/reviews/bedroom-seal-correction-2026-11-03/*.bin binary

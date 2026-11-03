@@ -95,8 +95,8 @@ export const CURTAIN_TRACKS = Object.freeze([
     ]),
   }),
 ]);
-// The bedroom alcove was considered and left out: the bed fills the alcove up to the cedar screen and
-// the stair wall, so there is no clear line to hang a panel (room-sleep.glb, home-shell.glb).
+// These tracks belong only to the public living facade. The revised bedroom's
+// separate measured privacy pair is fitted by bedroom-curtains.mjs.
 
 // A bay between two pinches bows as a half sine y = A sin(pi x / s) over its chord s, with arc length
 // equal to the fabric in it, L. With m = A pi / s, L / s depends on m alone; this table inverts it.

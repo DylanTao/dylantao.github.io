@@ -1,0 +1,266 @@
+{
+  "at": "2026-11-03T20:18:16.509130+00:00",
+  "scope": "Pre-publication source seal correction only. Python default Windows text I/O produced CRLF in two self-excluded manifests. Their original bytes are retained here; the working files now exactly match the already staged LF blobs and the LF projection used by the successful full build. Every payload and stored digest remains unchanged and every staged payload is independently exact. No sealed payload regenerated, no model/runtime/cache change.",
+  "rows": [
+    {
+      "folder": "bedroom-privacy-2026-11-03",
+      "originalManifestBytes": 7974,
+      "originalManifestSha256": "9fb047d24069178c7782f6156d865a00f4724dcc706eea3c447d73a52d701cc3",
+      "canonicalManifestBytes": 7753,
+      "canonicalManifestSha256": "e1138424227af214098b48c434a7e04607f3c75923263b604d741c7f7a2def7e",
+      "payloads": [
+        {
+          "path": "raw/bake-bedroom-curtains-v1.py.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bake-bedroom-curtains-v2.py.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bake-bedroom-curtains-v3.py.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bake-bedroom-curtains-v4.py.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtain-clearance-v1/REPORT.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-appearance-v1/REPORT.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-appearance-v2/REPORT.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-appearance-v3/REPORT.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-bake-v1/bake.log.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-bake-v1/PROCESS.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-bake-v2/PROCESS.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-bake-v3/PROCESS.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-bake-v4/bake.log.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-bake-v4/PROCESS.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v2/node.log.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v2/PRIVACY-BROWSER.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v2/PRIVACY-BROWSER.log.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v2/python.log.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v2/style.log.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v2/UNIT-GATES.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v3/BUILD-GATES.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v3/POSTPROCESS.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v3/PRIVACY-BROWSER.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v3/PRIVACY-BROWSER.log.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v3/production-build.log.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v3/SOURCE.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-phone-v3/REPORT.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-framing-v3/REPORT.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/capture-bedroom-curtains-phone-v3.cjs.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/capture-bedroom-curtains-v3.cjs.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/measure-bedroom-curtain-clearance-v1.mjs.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/run-bedroom-privacy-public-v2.py.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/SLEEP-CURTAIN-SURVEY-V1.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/SLEEP-WINDOW-SECTIONS-V1.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "README.md",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "REVIEW.json",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "views/baseline-window.png",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "views/native-awake.png",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "views/native-bedroom.png",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "views/native-closed.png",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "views/rejected-camera.png",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "views/webkit-bedroom.png",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "views/webkit-closed.png",
+          "rootAndIndexExact": true
+        }
+      ],
+      "onlySelfManifestNewlinesChanged": true
+    },
+    {
+      "folder": "bedroom-privacy-final-2026-11-03",
+      "originalManifestBytes": 3267,
+      "originalManifestSha256": "4a93da7bb60e447d70ae6fb28b32b33f81b6db23f989dd9c8dc761c90e65632e",
+      "canonicalManifestBytes": 3176,
+      "canonicalManifestSha256": "500b9e77cfe1b9d018313e92e71a968df753f7da89a3a51ef5eb7dae21ce0b77",
+      "payloads": [
+        {
+          "path": "CHECKS.json",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v4/BUILD-GATES.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v4/FAILED-CHECKER-V1.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v4/FINAL-BINDINGS.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v4/POSTPROCESS.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v4/production-build.log.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-curtains-checkpoint-v4/SOURCE.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-final-gates-v1/builder-syntax.log.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-final-gates-v1/GATES.json.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-final-gates-v1/prettier.log.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-final-gates-v1/style.log.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/bedroom-final-gates-v1/targeted-native-physical.log.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/check-bedroom-final-bindings-v1.cjs.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/check-bedroom-final-bindings-v2.cjs.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/prepare-bedroom-bindings-v2.py.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "raw/run-bedroom-final-gates-v1.py.gz",
+          "rootAndIndexExact": true
+        },
+        {
+          "path": "README.md",
+          "rootAndIndexExact": true
+        }
+      ],
+      "onlySelfManifestNewlinesChanged": true
+    }
+  ]
+}

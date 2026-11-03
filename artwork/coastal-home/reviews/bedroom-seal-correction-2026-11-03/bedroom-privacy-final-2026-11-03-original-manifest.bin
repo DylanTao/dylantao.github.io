@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "scope": "Immutable final source/runtime-body-equivalence/format/native checks; publication/CI remains separate.",
+  "files": [
+    {
+      "path": "CHECKS.json",
+      "bytes": 7656,
+      "sha256": "49d41417c374abe59d3217505bde012d11cb98f77dc56d57df2f74a9728d1b94"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v4/BUILD-GATES.json.gz",
+      "bytes": 326,
+      "sha256": "8b20e1fecb6c20533613f6229a6547b2d7292bb05496c2585cee387d9d5f3182"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v4/FAILED-CHECKER-V1.json.gz",
+      "bytes": 468,
+      "sha256": "ece323e1689c3cc3903055ec811980057802ac9995bbf0e5153444a3aab4681c"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v4/FINAL-BINDINGS.json.gz",
+      "bytes": 19103,
+      "sha256": "bdad707008392a7cc394c72cdd060705436009d491d2552abfc7f972e0dff0c5"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v4/POSTPROCESS.json.gz",
+      "bytes": 31420,
+      "sha256": "28b9c3b27b9b5ec384826cfc46ee3a67b041bf5a0257b0098091e1f0c3c15903"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v4/production-build.log.gz",
+      "bytes": 4509,
+      "sha256": "1a644a678b9f68cf33ca67bedd470f2fbc946649483859405bb76ca02bdeb0a6"
+    },
+    {
+      "path": "raw/bedroom-curtains-checkpoint-v4/SOURCE.json.gz",
+      "bytes": 525369,
+      "sha256": "55cc4dfb60c8d5d8ed41ebde878c43f42228c90336d276364c6062b8ac86af3e"
+    },
+    {
+      "path": "raw/bedroom-final-gates-v1/builder-syntax.log.gz",
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "path": "raw/bedroom-final-gates-v1/GATES.json.gz",
+      "bytes": 582,
+      "sha256": "e15fa6f758b947cb3a13e65eea6c1959029a6ca2501a9fd2ca17b79bbb837a5a"
+    },
+    {
+      "path": "raw/bedroom-final-gates-v1/prettier.log.gz",
+      "bytes": 82,
+      "sha256": "6cd316ae8e81df0ff79776205007450fac3d62e1ba8e884e169e326d7955ebe5"
+    },
+    {
+      "path": "raw/bedroom-final-gates-v1/style.log.gz",
+      "bytes": 57,
+      "sha256": "1285c7c023390ffa10b2c143c9c2512cbaa6e4fefe4979514838c789099a94e8"
+    },
+    {
+      "path": "raw/bedroom-final-gates-v1/targeted-native-physical.log.gz",
+      "bytes": 1949,
+      "sha256": "fb0ac9527b6e436ee51528dda22fc9ab3de30d58a32649cb4b7122ffc0bbaf3f"
+    },
+    {
+      "path": "raw/check-bedroom-final-bindings-v1.cjs.gz",
+      "bytes": 1351,
+      "sha256": "5bb4cb13e012f518734f22ef46b3eb12915bc8aedc96a03bd7fb7526012bc4ca"
+    },
+    {
+      "path": "raw/check-bedroom-final-bindings-v2.cjs.gz",
+      "bytes": 1382,
+      "sha256": "1d1837790ba868eaa73aad47fe7fe9fae01b2f6f471c059efe2622176c1b73ff"
+    },
+    {
+      "path": "raw/prepare-bedroom-bindings-v2.py.gz",
+      "bytes": 800,
+      "sha256": "28a346ba9aaa26896a25df8d55d8e19ab5951a4f2e6fcfc1ecdc715ccadf9b7a"
+    },
+    {
+      "path": "raw/run-bedroom-final-gates-v1.py.gz",
+      "bytes": 902,
+      "sha256": "b529dfb76e0b6a1537a60ff2301f2b3095c43833d2e934a8a9c0642228d18e2c"
+    },
+    {
+      "path": "README.md",
+      "bytes": 953,
+      "sha256": "dd77de48671402f3e0e4aac85904969a885db4896a9798ed644d8915e34fc9a4"
+    }
+  ]
+}

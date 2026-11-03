@@ -1,0 +1,908 @@
+{
+  "at": "2026-11-03T19:52:13.849064+00:00",
+  "sourceHead": "530720ef4d4a2f3eb77d9cabceac4ea80addb33c",
+  "scope": "Local qualified bedroom privacy checkpoint only; publication/CI verified separately. Private garden/cliff/entrance/coffee lifecycle remains unadmitted.",
+  "modelsExactToHead": [
+    {
+      "path": "artwork/coastal-home/coastal-home.blend",
+      "bytes": 29092994,
+      "sha256": "cb531e3839358ec96b3da21ea09c3b2b69891e507bcf12d220b9a5e35e503fff"
+    },
+    {
+      "path": "assets/models/home/BrandtsCormorant.glb",
+      "bytes": 31040,
+      "sha256": "1bf0f9cd47a413903472c1dacfe5f8dfd554b6dfddbc668ca80d211cef98829a"
+    },
+    {
+      "path": "assets/models/home/BrownPelican.glb",
+      "bytes": 34440,
+      "sha256": "97ef0286ae9e75740bc05a60726d8321a2c0afe6a1ac60ae0ff38e66fe11749c"
+    },
+    {
+      "path": "assets/models/home/BrushRabbit.glb",
+      "bytes": 51116,
+      "sha256": "9f2c82d3e6d4845f9420395f805bcaaa4ee9ebfba9e1d4bbde21d87433cdd8e4"
+    },
+    {
+      "path": "assets/models/home/CaliforniaSeaLion.glb",
+      "bytes": 34376,
+      "sha256": "42adf172e236ee3be115efc4112b4e2b05389029c5e4518649324162803ae103"
+    },
+    {
+      "path": "assets/models/home/HarborSeal.glb",
+      "bytes": 35632,
+      "sha256": "6e7b70c892d7b8aaa1351c9b16a7e33ba342348ff93012a4af9da368eb1949b6"
+    },
+    {
+      "path": "assets/models/home/Raccoon.glb",
+      "bytes": 49332,
+      "sha256": "52deb93ddfb227b521472adfe5ab2007cdba9903d28b333c8e290b4c2b8d5808"
+    },
+    {
+      "path": "assets/models/home/Sandpiper.glb",
+      "bytes": 20696,
+      "sha256": "0b1868fc7b7840cb3d6a8a822bdbdd053f3cdb73cb3ab69e8d07e6d65628d381"
+    },
+    {
+      "path": "assets/models/home/WesternGull.glb",
+      "bytes": 22912,
+      "sha256": "af06b16e55042d2fe314868703e5cd4edb64ba057fde2e809a628fce95c71a29"
+    },
+    {
+      "path": "assets/models/home/coast.glb",
+      "bytes": 241576,
+      "sha256": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf"
+    },
+    {
+      "path": "assets/models/home/flora.glb",
+      "bytes": 2203180,
+      "sha256": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2"
+    },
+    {
+      "path": "assets/models/home/furniture/aeron-lod0.glb",
+      "bytes": 167488,
+      "sha256": "4807a4756f37bbdc20c419e12d97ce5590b04d4d14799687a7e9e3dc23afe833"
+    },
+    {
+      "path": "assets/models/home/furniture/aeron-lod1.glb",
+      "bytes": 82404,
+      "sha256": "b8426379cae8f3f065f1c35434e9fbce2c2ee8432b1695ce33b977fb21ca4c54"
+    },
+    {
+      "path": "assets/models/home/furniture/banquette-lod0.glb",
+      "bytes": 107644,
+      "sha256": "f19bcd3ec454b652d4f90148e118286cd6a0d0b415a9a5b35de6418aba4f8027"
+    },
+    {
+      "path": "assets/models/home/furniture/banquette-lod1.glb",
+      "bytes": 31432,
+      "sha256": "5ce8f0e210401f8ceff43e18704c0bed407b969a9bf2455a656ca97e09f64708"
+    },
+    {
+      "path": "assets/models/home/furniture/cast-iron-pan-lod0.glb",
+      "bytes": 45100,
+      "sha256": "9fd7d450a35326af81038e78a8ebaf426357ceef82a4c3e653d0011fd2ffd48c"
+    },
+    {
+      "path": "assets/models/home/furniture/cast-iron-pan-lod1.glb",
+      "bytes": 9488,
+      "sha256": "ca767c5adec75521ac90cfe9760927a83515016cc83c9dfe91e83b70d7cc0d5d"
+    },
+    {
+      "path": "assets/models/home/furniture/cloud-sofa-lod0.glb",
+      "bytes": 130840,
+      "sha256": "a6959819fff369b4fea434f149212ab8346e3b1337cff03056464bca1bf83c2e"
+    },
+    {
+      "path": "assets/models/home/furniture/cloud-sofa-lod1.glb",
+      "bytes": 55376,
+      "sha256": "74c1dc6b032f4f8d29d657b6ad129089366deb121008fc3f65d6817c554105b0"
+    },
+    {
+      "path": "assets/models/home/furniture/dining-chair-lod0.glb",
+      "bytes": 45364,
+      "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
+    },
+    {
+      "path": "assets/models/home/furniture/dining-chair-lod1.glb",
+      "bytes": 17196,
+      "sha256": "bb79a676b7bdc24c87ff05e99542bb0ca5d5807adec20886a38c6d02bf1b39f6"
+    },
+    {
+      "path": "assets/models/home/furniture/dining-table-lod0.glb",
+      "bytes": 8932,
+      "sha256": "78a97dbb32aaa76ac76eadc9c8b63a2cc2747eaeaa95fd496ed5693e496dc80a"
+    },
+    {
+      "path": "assets/models/home/furniture/dining-table-lod1.glb",
+      "bytes": 6880,
+      "sha256": "01c35852cbea182878bdbbe67baa4517090005850d9befaff215be0db9cfd884"
+    },
+    {
+      "path": "assets/models/home/furniture/dumbbell-lod0.glb",
+      "bytes": 8564,
+      "sha256": "4bc2e416b9296c3c5d58aada192cef9066fcd7c64d1955054326e4c221551ca4"
+    },
+    {
+      "path": "assets/models/home/furniture/dumbbell-lod1.glb",
+      "bytes": 4676,
+      "sha256": "7dc3be036ca00f584cc87d68fe2ca8db596704215a7439d1b3a6f713f942b92e"
+    },
+    {
+      "path": "assets/models/home/furniture/eames-lounge-lod0.glb",
+      "bytes": 444892,
+      "sha256": "a14817679cc30a7d360006af3c0d7dfd0b07b1d786648a670ad786bf9fb06691"
+    },
+    {
+      "path": "assets/models/home/furniture/eames-lounge-lod1.glb",
+      "bytes": 66616,
+      "sha256": "10028738fd7b5511e8cf7bf78eefd6ee283472a4e3a4f07cd8c426aa7d054ae4"
+    },
+    {
+      "path": "assets/models/home/furniture/floating-fireplace-lod0.glb",
+      "bytes": 17264,
+      "sha256": "337540ca4ae878da0ea9160e0652b8e34ca15616722b92766339696e86d54496"
+    },
+    {
+      "path": "assets/models/home/furniture/floating-fireplace-lod1.glb",
+      "bytes": 12588,
+      "sha256": "a2e4b7ccaa0c94c17bd4d36aa53d652f6babca7c1c7de6916c0311c89983be36"
+    },
+    {
+      "path": "assets/models/home/furniture/glass-fridge-lod0.glb",
+      "bytes": 47092,
+      "sha256": "6f41c93fe08d8519669e47fee42c0a2390143a77019d98d1704b3d3d53fa11a9"
+    },
+    {
+      "path": "assets/models/home/furniture/glass-fridge-lod1.glb",
+      "bytes": 33380,
+      "sha256": "d5aa3c3d41fb8fd1dbfa627bbbb59fb72d36eeb79dc32105d6420c80f5e1c52e"
+    },
+    {
+      "path": "assets/models/home/furniture/italian-range-lod0.glb",
+      "bytes": 49312,
+      "sha256": "a91cd11a8889fa140e543a3471f8ca7b506929ee7ffdb9be8b70a4ce282b976a"
+    },
+    {
+      "path": "assets/models/home/furniture/italian-range-lod1.glb",
+      "bytes": 32936,
+      "sha256": "d0df11d63b14764d755cd73b4b8ecfacc88dc87bd03d88514f048b9af56d776a"
+    },
+    {
+      "path": "assets/models/home/furniture/pot-filler-lod0.glb",
+      "bytes": 7812,
+      "sha256": "a4695554f61f983141a41f1554b4e854562847ba8c66a929003595248ac5088a"
+    },
+    {
+      "path": "assets/models/home/furniture/pot-filler-lod1.glb",
+      "bytes": 7340,
+      "sha256": "f326aa0fbf62e4c5bc3e24789d2314a29b983099b276d941748e5ce506d1560d"
+    },
+    {
+      "path": "assets/models/home/furniture/range-hood-lod0.glb",
+      "bytes": 8944,
+      "sha256": "3413e686faf5ac8e45125c5f59b09560a9ef19c3d347f7257159b5fa2f9db25d"
+    },
+    {
+      "path": "assets/models/home/furniture/range-hood-lod1.glb",
+      "bytes": 7520,
+      "sha256": "3c2c15aeb1d4e666a400d456bfcabeaca3c86c5151c9e694f4429a232f6a4195"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-bottles-lod0.glb",
+      "bytes": 45924,
+      "sha256": "b33a347333fb60c47f18c0df317117a8f94a1c47081af557bc4b99b1d5cb51bd"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-bottles-lod1.glb",
+      "bytes": 31808,
+      "sha256": "55f88df63ac7f7cc1177e7ed87dbd0900563e06b5a86ad66a28a886dc37d09af"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-loveseat-lod0.glb",
+      "bytes": 91396,
+      "sha256": "b6afbf79f015679452a930793ceb81e0c1db2761b80061b5e451b7a610fae8cd"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-loveseat-lod1.glb",
+      "bytes": 14860,
+      "sha256": "8192e15ecfaa11899f7dff5923c582908f673da9d8a62a7f0bff0128628bff4d"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-ottoman-lod0.glb",
+      "bytes": 62492,
+      "sha256": "878367c94474eb41f9cea3e41fcd052d85690f87037840eb6c444769c3037205"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-ottoman-lod1.glb",
+      "bytes": 7924,
+      "sha256": "aec6d5ce339227c32223e4f835977e4801afc26a69ec69736ef2f41f132b8d6e"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-side-table-lod0.glb",
+      "bytes": 52508,
+      "sha256": "ba32afceae5854ba441a22d15157282c218eb16bdc632034d4fdaa5989126b3b"
+    },
+    {
+      "path": "assets/models/home/furniture/whiskey-side-table-lod1.glb",
+      "bytes": 35292,
+      "sha256": "3626132b589e67b5f8a72743497ca3820316fbd3edd6286732118816127eb99e"
+    },
+    {
+      "path": "assets/models/home/hinterland.glb",
+      "bytes": 1463928,
+      "sha256": "93f90372bba71c64b6153372ae3166901aacaa8633277e18f1afbe49e8986832"
+    },
+    {
+      "path": "assets/models/home/home-shell.glb",
+      "bytes": 898704,
+      "sha256": "b51f302da52907dc1d707c14ea3a3c4578da9f43f9147d7917a6bb0e1f99ce72"
+    },
+    {
+      "path": "assets/models/home/room-bath-bedroom.glb",
+      "bytes": 106412,
+      "sha256": "23122cb51c7d2f3d580389eb4ffbf41a8f64f0e12f612ccb12a9f94fe37b2b80"
+    },
+    {
+      "path": "assets/models/home/room-bath-living.glb",
+      "bytes": 104924,
+      "sha256": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72"
+    },
+    {
+      "path": "assets/models/home/room-gym.glb",
+      "bytes": 222576,
+      "sha256": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de"
+    },
+    {
+      "path": "assets/models/home/room-kitchen.glb",
+      "bytes": 253496,
+      "sha256": "6f8ef82b59c58a8a296d5fb795993e8ad599fba51764c56cd82934a8fe1e0697"
+    },
+    {
+      "path": "assets/models/home/room-library-upper.glb",
+      "bytes": 28744,
+      "sha256": "91534441cda1fc3823623a61f979bb5ad9478b222df7de03f26a62202cbdfaaa"
+    },
+    {
+      "path": "assets/models/home/room-library.glb",
+      "bytes": 187788,
+      "sha256": "347ee2f9aa3d293acb33c83cba9e434d81297e8f143ec63bf23f7cfb8987923e"
+    },
+    {
+      "path": "assets/models/home/room-lounge.glb",
+      "bytes": 231436,
+      "sha256": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390"
+    },
+    {
+      "path": "assets/models/home/room-onsen.glb",
+      "bytes": 94408,
+      "sha256": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba"
+    },
+    {
+      "path": "assets/models/home/room-sleep.glb",
+      "bytes": 294448,
+      "sha256": "3e767a1b93f35736eb54d39da60a2fefc92056d296e22ba6a41c2c31a582aa45"
+    },
+    {
+      "path": "assets/models/home/room-study.glb",
+      "bytes": 113472,
+      "sha256": "1de86040cb6c173c72e9f00061d6add31a70e3d6907495413cd7ac21586daf8a"
+    },
+    {
+      "path": "assets/models/home/sirui-ghibli.glb",
+      "bytes": 858356,
+      "sha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db"
+    },
+    {
+      "path": "assets/models/home/sirui-lizard.glb",
+      "bytes": 540496,
+      "sha256": "ca6bac2c2610fdc72d705f144e36a9800f11715198f64d74f4f177034d90ba3d"
+    },
+    {
+      "path": "assets/models/home/sirui-rick-and-morty.glb",
+      "bytes": 661616,
+      "sha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253"
+    },
+    {
+      "path": "assets/models/home/sirui-simpsons.glb",
+      "bytes": 666964,
+      "sha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f"
+    },
+    {
+      "path": "assets/models/home/sirui-south-park.glb",
+      "bytes": 714480,
+      "sha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-avocado-toast-lod0.glb",
+      "bytes": 30136,
+      "sha256": "eb64e7c9e32fec230ae7f09e074c4438767b7e8adf509ef29b49a020472f13bd"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-avocado-toast-lod1.glb",
+      "bytes": 26132,
+      "sha256": "527efe9f7db3a9290536276d4995e56a15ec44388c4e42bc78f5f93aed704a34"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-black-cod-lod0.glb",
+      "bytes": 24332,
+      "sha256": "34e3127fee6ca16db7a0c9b4ca1ca897666f0ae5b5b085e6ab34271981838014"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-black-cod-lod1.glb",
+      "bytes": 18704,
+      "sha256": "85e097053cb040d1aa3ab399ddbe52235f52a381c14f4df654b1a4af5c4d46da"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-burrata-lod0.glb",
+      "bytes": 28020,
+      "sha256": "f4a15190078a942fb653a8ec0d88161ecd722a0ea0795c5e7203fcc1adffa6b5"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-burrata-lod1.glb",
+      "bytes": 18104,
+      "sha256": "c85ed16ef4d3f80fe0a582ed93b663ee38b74682a9ef83cca268456aff4c8a3a"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-cacio-e-pepe-lod0.glb",
+      "bytes": 58060,
+      "sha256": "75d66e0a6e8f19fd4b021db176dd1364b50760f1c13782499428ff421f8bc5e0"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-cacio-e-pepe-lod1.glb",
+      "bytes": 26264,
+      "sha256": "427a75ad1921112a0e7bee227120f8075c79167f59f72e5588e12f270283e636"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-chocolate-fondant-lod0.glb",
+      "bytes": 20816,
+      "sha256": "bf06d7d29b5cb5ba7ca4d0a087f1522c44fd6ba848c33bc963fde002f0278cc6"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-chocolate-fondant-lod1.glb",
+      "bytes": 12784,
+      "sha256": "6291bf9ddf388a5fc1a51f30450f1c6fd696ad098e8b22c3f73afab757cd55d0"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-congee-lod0.glb",
+      "bytes": 61564,
+      "sha256": "64872cd60eff471eabd29db9fa79320c5eb26eaeb627fb0abf0c7caf9f925cbf"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-congee-lod1.glb",
+      "bytes": 40668,
+      "sha256": "94dfd2a407b5d4c0a553a6ef0f834ae19c5dc31fdcd72a2e009421299878487c"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-creme-brulee-lod0.glb",
+      "bytes": 13736,
+      "sha256": "09318e01d5f83468cec2360f4b7ff71e19fee113fe9904376082bf888485bd60"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-creme-brulee-lod1.glb",
+      "bytes": 8840,
+      "sha256": "14dde65e865446e62a326a7519060c0e6fd967998410ad34ddb3e09bc0769289"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-french-toast-lod0.glb",
+      "bytes": 25204,
+      "sha256": "dcc64dbf909d3226718df4e86687218f25f8d096d61d9be2a9ba861c5f993c97"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-french-toast-lod1.glb",
+      "bytes": 16032,
+      "sha256": "ff5ddfdf85e844db8068b5f4021bd48dd8faafa951b84abaa4f67cf11aff3996"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-matcha-cheesecake-lod0.glb",
+      "bytes": 14052,
+      "sha256": "fc8216180d1fd41fb1f509e0c5ae23cdf47f2052ef622ff1ac959c5de9c0ee80"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-matcha-cheesecake-lod1.glb",
+      "bytes": 9672,
+      "sha256": "c3824fd21c6e85932e4fa86c4adaab2e7d8a6f0f977479489006cf69b51aed8e"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-nicoise-lod0.glb",
+      "bytes": 38588,
+      "sha256": "b86eb6221506f2b89bfc4ba2476a089406159a5546708258432bad4966f6ca53"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-nicoise-lod1.glb",
+      "bytes": 23048,
+      "sha256": "5c219e3a5651280c3985cb7f456014922c5ca7c5661b6b3e2a97dc80000b9311"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-panna-cotta-lod0.glb",
+      "bytes": 19084,
+      "sha256": "f8006a559f5c3aff643dc3a3f97409813c364867d9cd30ab57c64fc219e0189f"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-panna-cotta-lod1.glb",
+      "bytes": 12216,
+      "sha256": "5fd8d77623936d0aa7ff8455fab7beed19e6adbd2d5131e9434736799a6b2008"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-poke-bowl-lod0.glb",
+      "bytes": 39232,
+      "sha256": "9532d73a2bbdbac5f9771c5b027a42ca6cd9cf9dd5658d8f948681507ae96ad8"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-poke-bowl-lod1.glb",
+      "bytes": 27408,
+      "sha256": "42f3c96b9a9c01e8599f3d3f5a6073be3931dfb1fc477dd1dc9502694f79a8e7"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-ramen-lod0.glb",
+      "bytes": 61932,
+      "sha256": "338728893743fde155d536dfa2d9859b388f6b8ccbc7649ef411513d42e5b0c1"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-ramen-lod1.glb",
+      "bytes": 34788,
+      "sha256": "ddee759881b24d40375677469d31d1d182cfcf9bf12d4dca8ef8db9647ce251b"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-ribeye-lod0.glb",
+      "bytes": 30980,
+      "sha256": "f265265f916fae4ab2966a0a6d9a202e0d519e69223e1e38435d484eec5f83a1"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-ribeye-lod1.glb",
+      "bytes": 20516,
+      "sha256": "2f7e13327343742917fd62f315d85e70d49eb3a1dcd5335fba320e6726eaa45e"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-ricotta-pancakes-lod0.glb",
+      "bytes": 27632,
+      "sha256": "4dcb7e8b666415a3aecfda2463b6d5f5b4e54e06be955c422a963a8f95d6f28f"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-ricotta-pancakes-lod1.glb",
+      "bytes": 16628,
+      "sha256": "5674da4bc0e982c53c4ef365ebc6a33af643c9c2c0ca717515811e309cc1f41c"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-risotto-lod0.glb",
+      "bytes": 33352,
+      "sha256": "669a03d2dfe80717dde73490576852b7dce69c6d9c17638aec6b0dab5eeecd81"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-risotto-lod1.glb",
+      "bytes": 25824,
+      "sha256": "c673063d68fb6afbb4689dd80dc07ab2470936eb1a1af5a4ceb18f3b3be0052a"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-salmon-lod0.glb",
+      "bytes": 24768,
+      "sha256": "7e7a59e1ef31a8cae0b0db2079339b33bf26d791ecb935a40a16d995788ec9dc"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-salmon-lod1.glb",
+      "bytes": 20948,
+      "sha256": "37e2daf2fb4528a1912a49d0452f6564c2f6926eaafe828087cd58b92567dcbf"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-scallops-lod0.glb",
+      "bytes": 35312,
+      "sha256": "955991970030712e587e9eb62d7b630993eee3f90d0f1ec93c85f0738a61836b"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-scallops-lod1.glb",
+      "bytes": 25076,
+      "sha256": "911d5e7a499cf42919ac178a1d2859bd33c0338349464ee695dbd9e784f9fb8c"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-shakshuka-lod0.glb",
+      "bytes": 26224,
+      "sha256": "50f7cc934817e2ab6f80579984f1800a50f44ccdb7879d945a1a0c8d7e7a3a15"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-shakshuka-lod1.glb",
+      "bytes": 20464,
+      "sha256": "b4eb6be44b4d464b3c0b7404070523412a0ea7149ef0b2eec819b59f36ff03e6"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-shrimp-bowl-lod0.glb",
+      "bytes": 31536,
+      "sha256": "49e675d613b9220d89f3e9a7c1213c6ac79390033a07d584b2e6776176f38a38"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-shrimp-bowl-lod1.glb",
+      "bytes": 26688,
+      "sha256": "c57fc06a3ceb10d5fd1403a210d738a553db8381ac6976e2be50f48b6b440ba6"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-tiramisu-lod0.glb",
+      "bytes": 18068,
+      "sha256": "e14db3109570e7e7434ba7fa832044246342dbf9f65989b87ac2d0b81e250c94"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-tiramisu-lod1.glb",
+      "bytes": 14776,
+      "sha256": "965b517d0447c8ad5df813731f1b0e916786280fbe74f8a5c74d4bd91b9261db"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-xiaolongbao-lod0.glb",
+      "bytes": 31336,
+      "sha256": "1e6b629ba1e26cc86aaff8f2cbf41ac9263a3447d1d9a3f5d9f91e986ce8c34e"
+    },
+    {
+      "path": "assets/models/home/table-setting/dish-xiaolongbao-lod1.glb",
+      "bytes": 19960,
+      "sha256": "2056e41327d935ceb1f6311b3f9e920f136bf3c2fb580ba9337d1d3ef4de0462"
+    },
+    {
+      "path": "assets/models/home/table-setting/tableware-lod0.glb",
+      "bytes": 119736,
+      "sha256": "0a8c3528848e98bd96e84e269d188a45b050d4ec0ad3ea837eb7293bf8560e62"
+    },
+    {
+      "path": "assets/models/home/table-setting/tableware-lod1.glb",
+      "bytes": 84140,
+      "sha256": "ba3dfb80225f3a819ea61e47087b73922d9a815ff7fc1f3d4d18deab4dfbdb41"
+    }
+  ],
+  "cache": {
+    "bytes": 712655,
+    "sha256": "b2f97ed2ebb09f8ca92213a7017e297725f1fdf4d6f7c7db618f081a2aa82783",
+    "signature": "6e218fc1d148ec0be0c967d511d51b61eb9961f111426f8fe62ab98f38d070cd",
+    "transportAndMomentsBitExact": true
+  },
+  "finalCamera": {
+    "radius": 3.0,
+    "yaw": 2.92,
+    "pitch": 0.45,
+    "fov": 60,
+    "envelope": {
+      "yaw": [2.65, 3.6],
+      "pitch": [0.12, 0.62],
+      "radius": [1.8, 3.05]
+    }
+  },
+  "nativeSweep": {
+    "modelCount": 13,
+    "originalFaces": 1039374,
+    "sampledStates": 362,
+    "intersections": 0,
+    "scope": "All refined cloth vertices in their actual sampled sweep; every original face in each listed complete model, including hidden roofs. The scope text in raw v1 says all7rooms, a stale label; the actual manifest-driven inventory has10rooms plus shell/coast/hinterland."
+  },
+  "unit": {
+    "pythonPass": 420,
+    "nodePass": 1075,
+    "nodeExistingSkips": 7,
+    "strengthenedPhysicalAndFinalFramingTargetedPass": 9
+  },
+  "publicWidthsPassed": 4,
+  "registeredSceneCases": 151,
+  "actualNativeBackend": "ANGLE RTX3080Ti D3D11",
+  "phoneFixture": "WebKit27.2,390x1000,actualtrustedtap,authoredclock/comparisoncamera",
+  "physicalPhonePrivacy": "not yet checked",
+  "physicalPhonePriorUserFeedback": {
+    "brandTouchAndReset": "works",
+    "daylight": "brighter; sharp sunlight transition remains"
+  },
+  "limits": [
+    "upper arch remains an open clerestory",
+    "changing cloth occlusion of cached indirect skylight not traced",
+    "no frame-rate or whole-house appearance acceptance",
+    "no experimental coffee venue or native geometry installed"
+  ],
+  "payloads": [
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\SLEEP-CURTAIN-SURVEY-V1.json",
+      "path": "raw/SLEEP-CURTAIN-SURVEY-V1.json.gz",
+      "rawBytes": 88554,
+      "rawSha256": "d7f453071f726aedd74a0e6ed61e987fe5668fcd9902c8a1acc4347ea6597fd9",
+      "bytes": 12957,
+      "sha256": "d9fa1bd42ce97bf9f26070b0398e34e438dc4e4712b95b6645571b9a6f28e22d"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\SLEEP-WINDOW-SECTIONS-V1.json",
+      "path": "raw/SLEEP-WINDOW-SECTIONS-V1.json.gz",
+      "rawBytes": 45563,
+      "rawSha256": "161f368132fa1780c95cde1a4fa647542d0fa44a87a677d0193ee4c3cecfa7dd",
+      "bytes": 2419,
+      "sha256": "39eac79b62cec2d3088c1ce20679732c50d336ae662b33bca35353a5fb7572fa"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtain-clearance-v1\\REPORT.json",
+      "path": "raw/bedroom-curtain-clearance-v1/REPORT.json.gz",
+      "rawBytes": 93859,
+      "rawSha256": "446289f3823c04c5ec50adc952fcbfa679ba3da269cc5fd0a0e3e189c6fdb44a",
+      "bytes": 16067,
+      "sha256": "3a762d6fed0d0a1320dc9d17bf1f37d04169d2b6f0e04de237a1efa89c698872"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v2\\UNIT-GATES.json",
+      "path": "raw/bedroom-curtains-checkpoint-v2/UNIT-GATES.json.gz",
+      "rawBytes": 8121,
+      "rawSha256": "f33effa8811d6b7e46aca86a1bc8734fedaaa1d3ee933ab8047991456a08125d",
+      "bytes": 1624,
+      "sha256": "35ca5aa53dd07944f24ca9b6fe6876ca9f31e5956d3a136f70743cabe3e61d1c"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v2\\python.log",
+      "path": "raw/bedroom-curtains-checkpoint-v2/python.log.gz",
+      "rawBytes": 579,
+      "rawSha256": "368d9683e0d30b2f0da77b444c8b96b63041c8fefaada96e00adb821fe73dddd",
+      "bytes": 117,
+      "sha256": "b34f722268cbbf930db616f005b44d7c28a3a64ea19703409c34233acf130801"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v2\\node.log",
+      "path": "raw/bedroom-curtains-checkpoint-v2/node.log.gz",
+      "rawBytes": 177478,
+      "rawSha256": "8fb2ace09fb82384b3a43dee137ee99eaa42ed2e4878f024050a85e264fcd2ce",
+      "bytes": 48605,
+      "sha256": "f2ca081f8f4787c8739793a01388ed3af7699396518705e9b539115f285ca886"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v2\\style.log",
+      "path": "raw/bedroom-curtains-checkpoint-v2/style.log.gz",
+      "rawBytes": 37,
+      "rawSha256": "e959900fa566355a00b04f8721479609c46d53edf7fe6f232946b5e9a510ff42",
+      "bytes": 57,
+      "sha256": "1285c7c023390ffa10b2c143c9c2512cbaa6e4fefe4979514838c789099a94e8"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v3\\SOURCE.json",
+      "path": "raw/bedroom-curtains-checkpoint-v3/SOURCE.json.gz",
+      "rawBytes": 2227175,
+      "rawSha256": "69f973ba4c2029d24ebb96a7588764209cf6d28e35db3dbe72092b027bf1bf4d",
+      "bytes": 522533,
+      "sha256": "df1f98e1af432c52162909768b2c99697f3944ba51a75e4beade08e4b573bfc4"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v3\\BUILD-GATES.json",
+      "path": "raw/bedroom-curtains-checkpoint-v3/BUILD-GATES.json.gz",
+      "rawBytes": 563,
+      "rawSha256": "ddbd402514f4025ce25a9bc03c89a14e070ffc0530456ee434fccde5e143f1e3",
+      "bytes": 327,
+      "sha256": "742c8a11ff515d149c1608287540202349e79f8e6e290bc473c8cbc2c5540b2e"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v3\\production-build.log",
+      "path": "raw/bedroom-curtains-checkpoint-v3/production-build.log.gz",
+      "rawBytes": 93708,
+      "rawSha256": "305bba3528cfc7d458c6832fa17ed8d8a5af61a4587131f59920b18d8771a4d5",
+      "bytes": 4509,
+      "sha256": "c5083379b85d01e0dfb1cb50866de5d7bc86521c00c867f3a55a5fc180c0f14e"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v3\\POSTPROCESS.json",
+      "path": "raw/bedroom-curtains-checkpoint-v3/POSTPROCESS.json.gz",
+      "rawBytes": 300123,
+      "rawSha256": "4cd7d07d4b09f0241373bdde29e706fd7646b3594a5c838e1aa7a2c3467d196f",
+      "bytes": 31420,
+      "sha256": "be07489263fb2abf066051fe167b0f276f3430238ad45f87c9a95e4bfb2c006f"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v2\\PRIVACY-BROWSER.json",
+      "path": "raw/bedroom-curtains-checkpoint-v2/PRIVACY-BROWSER.json.gz",
+      "rawBytes": 1065,
+      "rawSha256": "d2e9ae5f9453c693d3a5a82bfb5e203c36a286497250edc388b1ccb144b42673",
+      "bytes": 619,
+      "sha256": "7e5e810ae62f8115982dbec0db5d691e3b325b68af05e283941fbde82116106b"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v2\\PRIVACY-BROWSER.log",
+      "path": "raw/bedroom-curtains-checkpoint-v2/PRIVACY-BROWSER.log.gz",
+      "rawBytes": 2096,
+      "rawSha256": "87569551beeecb3eb81a6f11da15ba6b5d7da9d724a0b5c1e01c8af5d014a409",
+      "bytes": 379,
+      "sha256": "a64c1e9efdb001a5c5411d4494d7d76f89908a91da97c416e314f5c0150f8ef8"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v3\\PRIVACY-BROWSER.json",
+      "path": "raw/bedroom-curtains-checkpoint-v3/PRIVACY-BROWSER.json.gz",
+      "rawBytes": 1066,
+      "rawSha256": "c8998edafbc9e10d0ecc0fdaad08d633f5ff7e1d860306475b789edee3154f8c",
+      "bytes": 622,
+      "sha256": "3450af23d739b7f2240f5fc376c6b5a70b41d7cd4010cfbef90bb317bc472948"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-checkpoint-v3\\PRIVACY-BROWSER.log",
+      "path": "raw/bedroom-curtains-checkpoint-v3/PRIVACY-BROWSER.log.gz",
+      "rawBytes": 2098,
+      "rawSha256": "49c587c0b6e51ca3abb7bf76c1091224daa94bf17cab07ee614f0527f0dbf5f0",
+      "bytes": 377,
+      "sha256": "db39bb632987c45a0a2d1df3d94a0761e167a33c1201199e502984ca5f1c5e85"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-appearance-v1\\REPORT.json",
+      "path": "raw/bedroom-curtains-appearance-v1/REPORT.json.gz",
+      "rawBytes": 3090714,
+      "rawSha256": "3bda4abb91c3221fed197931ae7dc517b512c894ede8ce9585149a6cdbe6e274",
+      "bytes": 393594,
+      "sha256": "49b77686db6e2191d704c9dae0a9dfbabbc6d23410dd06a0e3bb7a576e79e001"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-appearance-v2\\REPORT.json",
+      "path": "raw/bedroom-curtains-appearance-v2/REPORT.json.gz",
+      "rawBytes": 1550451,
+      "rawSha256": "d18ba46e00f20b6c72199f845b610e35b0c8d82fed618c7a23b8f5406d79e79a",
+      "bytes": 196441,
+      "sha256": "0a5c46e60ca7cecf2bd6be3cff53cc0bf4a94ecf35e233606e6b09fa2601fd67"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-appearance-v3\\REPORT.json",
+      "path": "raw/bedroom-curtains-appearance-v3/REPORT.json.gz",
+      "rawBytes": 1550723,
+      "rawSha256": "fab36791ee5c235ffe2bea8a9aaf09e51c153c55472a872209df38a95d8dcb95",
+      "bytes": 197021,
+      "sha256": "5b3d0d575357136e37673b73a01783f47a137b0c939d21598d4197c1d7f56d87"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-phone-v3\\REPORT.json",
+      "path": "raw/bedroom-curtains-phone-v3/REPORT.json.gz",
+      "rawBytes": 1563875,
+      "rawSha256": "fbf1e665e5cb480bd6b6e674e326165d804e4aaecb58b0f72958c249ece7571a",
+      "bytes": 200174,
+      "sha256": "4af5c38b287805bc7dbaba66152eae266c273f1b91246ca86d11f6ee9b1ea015"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-framing-v3\\REPORT.json",
+      "path": "raw/bedroom-framing-v3/REPORT.json.gz",
+      "rawBytes": 1134,
+      "rawSha256": "a1cce472c4c54c393eae27110ba823488e5bc6babe6521b6ce5ecf36da49e994",
+      "bytes": 456,
+      "sha256": "c3b6e8126c1d5f9233b7a5aaea94d522e2e8672b75c6143ce480108272e12b0d"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bake-bedroom-curtains-v1.py",
+      "path": "raw/bake-bedroom-curtains-v1.py.gz",
+      "rawBytes": 2640,
+      "rawSha256": "ba8d5ed021481884e7c6cd1f1b81d8a4d9a47186830169d17de90ca72c29ce05",
+      "bytes": 1224,
+      "sha256": "c87752d072523e0082689ea234881f17fc12ae0d857966a69dd5a6857ce5cf89"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bake-bedroom-curtains-v2.py",
+      "path": "raw/bake-bedroom-curtains-v2.py.gz",
+      "rawBytes": 2651,
+      "rawSha256": "5c575ec6549bf10a19d36d8eaeca1ca3b1da12c6b7398ddc44febf99984a8c4b",
+      "bytes": 1230,
+      "sha256": "7d1d211822364259978b555e039228cca3cecfd95fb129ffd911c2ee7cb67cd4"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bake-bedroom-curtains-v3.py",
+      "path": "raw/bake-bedroom-curtains-v3.py.gz",
+      "rawBytes": 2651,
+      "rawSha256": "7102cfc934ea97825c4f2cda6e0355412e8e67dfd9e101c441d9b21f38455ad1",
+      "bytes": 1230,
+      "sha256": "24204663d6de0e522a7aaad068895b8fffb66a94e6290773bf0f236698531d79"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bake-bedroom-curtains-v4.py",
+      "path": "raw/bake-bedroom-curtains-v4.py.gz",
+      "rawBytes": 2651,
+      "rawSha256": "22b6da4c220da5e7f10e8012b0aa3ad63cb7373ca97b20cbcb06861dd918f483",
+      "bytes": 1230,
+      "sha256": "1c4d5a2e91d30cf5d815f1fc0bdd112f2df0816ec86d79c2e1b8016d48514114"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-bake-v1\\PROCESS.json",
+      "path": "raw/bedroom-curtains-bake-v1/PROCESS.json.gz",
+      "rawBytes": 2154,
+      "rawSha256": "a29af14268e07a231f1ae56e240dbf7801484c90f98fd543732a201b53f7756d",
+      "bytes": 938,
+      "sha256": "48dc92ce09568c54867d57fcff16dc9a906a20a80d2982a19d06f3640d6edeb9"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-bake-v1\\bake.log",
+      "path": "raw/bedroom-curtains-bake-v1/bake.log.gz",
+      "rawBytes": 299,
+      "rawSha256": "a9d7861bfaaeac37582a18e1253d0865dbbb8d149025b6417088e6fa0599fc5f",
+      "bytes": 239,
+      "sha256": "d61d5222eec1d8f052da2bda9e66e47b90f51d1bc665e09de343fc41830698bc"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-bake-v2\\PROCESS.json",
+      "path": "raw/bedroom-curtains-bake-v2/PROCESS.json.gz",
+      "rawBytes": 2417,
+      "rawSha256": "c76a8a011ac7ac4649985bb1165e4fe04a967218cf60b590fe2b003a830c7c00",
+      "bytes": 1071,
+      "sha256": "6423ab6d9bb3d3bdb08f2fca80293101661316019001aba04a99a5ab3475e1cd"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-bake-v3\\PROCESS.json",
+      "path": "raw/bedroom-curtains-bake-v3/PROCESS.json.gz",
+      "rawBytes": 2417,
+      "rawSha256": "8ab62eade8a074b679c462f87837ea65abf31cfbf0eb41a764f0eb13e85e23c3",
+      "bytes": 1071,
+      "sha256": "2e28523c5b14fec9f50e325957a575c171985ced0969cd672c10a445d98e51e9"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-bake-v4\\PROCESS.json",
+      "path": "raw/bedroom-curtains-bake-v4/PROCESS.json.gz",
+      "rawBytes": 2418,
+      "rawSha256": "d0b80f2a5e250ce364b70eef97b6c55182cce7826df8709466fa3dbb5212ac43",
+      "bytes": 1072,
+      "sha256": "8ba9a1a2606103efdb2a63f9d134038b8a97922cd000950d226f839e0026d883"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-bake-v4\\bake.log",
+      "path": "raw/bedroom-curtains-bake-v4/bake.log.gz",
+      "rawBytes": 778,
+      "rawSha256": "39047423fb2dc1a5d09462c51f9f4592d6985e0bb7616369a1a85d819472817e",
+      "bytes": 423,
+      "sha256": "a22d0667dd3e96849acb6b2d52bcd881f02dbdb33f1b2e05bbb80a5bda4fc469"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\capture-bedroom-curtains-v3.cjs",
+      "path": "raw/capture-bedroom-curtains-v3.cjs.gz",
+      "rawBytes": 4680,
+      "rawSha256": "5ac77f98e7e1e2ab1b8c68d4195fe034abc684b38c1d321086dd10cf8dc8671a",
+      "bytes": 2293,
+      "sha256": "8ecac1d5dab4f733fb32d224feb4d71f8529f5d96b2aed2a846f5ade2a1f8ea7"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\capture-bedroom-curtains-phone-v3.cjs",
+      "path": "raw/capture-bedroom-curtains-phone-v3.cjs.gz",
+      "rawBytes": 4695,
+      "rawSha256": "73c532f9246c852bf259f86e8e4a89ed60f0324b75815e54fbd3b4ac61a0654b",
+      "bytes": 2295,
+      "sha256": "b0fa95bf1bdff57bf4a01ec7604912c07b8ba9934c45a2b8d4531727b1486204"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\measure-bedroom-curtain-clearance-v1.mjs",
+      "path": "raw/measure-bedroom-curtain-clearance-v1.mjs.gz",
+      "rawBytes": 3481,
+      "rawSha256": "7f164b894c9167d1a66f14576618069f978114cad671fcf3da70348f5a79b548",
+      "bytes": 1678,
+      "sha256": "bbbec03bf9d3bc830751944d3835928e16766a9b57ceeb0d880511394f14d130"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\run-bedroom-privacy-public-v2.py",
+      "path": "raw/run-bedroom-privacy-public-v2.py.gz",
+      "rawBytes": 1438,
+      "rawSha256": "4365671220bf8117c75880c699d4ee482385923ac56bea7d5bab73330914c633",
+      "bytes": 844,
+      "sha256": "e9f346eb70f679855681743a00be75d1971b9fcd79a476dbdfcc848229229e03"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-appearance-v1\\candidate-sleep-morning-inside.png",
+      "path": "views/rejected-camera.png",
+      "bytes": 358442,
+      "sha256": "852302a3d3da5b6b0998791bf434e3818ffea0d90857fa1b524903283a974193"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-appearance-v1\\baseline-sleep-morning-window.png",
+      "path": "views/baseline-window.png",
+      "bytes": 2115737,
+      "sha256": "310caff31d05eb6f7d1f4db3cb5185ea0644d0f037f81eaa4a66b2e75326d1fb"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-appearance-v3\\candidate-sleep-morning-inside.png",
+      "path": "views/native-bedroom.png",
+      "bytes": 1996243,
+      "sha256": "85ff6570ba8f23e318e564640065e610029559a537c7fa21a203a86fb6b32081"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-appearance-v3\\candidate-sleep-morning-window.png",
+      "path": "views/native-closed.png",
+      "bytes": 2103307,
+      "sha256": "c92697379478f2036f3775d8a4f29d25a1f713f7e7e09dec44a44e56ce7a28aa"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-appearance-v3\\candidate-awake-afternoon-window.png",
+      "path": "views/native-awake.png",
+      "bytes": 2291080,
+      "sha256": "4dd5efb771fd781fd38b00fc168c4f11ab43079ae89e32593b76faec72090568"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-phone-v3\\candidate-sleep-morning-inside.png",
+      "path": "views/webkit-bedroom.png",
+      "bytes": 286969,
+      "sha256": "45b7d06bb6180432da1d1c8019d0422c5e0beda44866aee0e2a7a62a44ec355e"
+    },
+    {
+      "source": "C:\\dev\\dylantao.github.io\\.jekyll-cache\\visual-qa\\final-house-integration-20261102\\bedroom-curtains-phone-v3\\candidate-sleep-morning-window.png",
+      "path": "views/webkit-closed.png",
+      "bytes": 278671,
+      "sha256": "e7ececd6cb31ddf6f162b689177badf42c3662dd1b06bbaa975741640611f514"
+    }
+  ]
+}

@@ -2412,6 +2412,50 @@ test("coastal home: public room navigation works in the embed and starts a safe 
   expect(errors).toEqual([]);
 });
 
+test("coastal home: sleeping privacy drapes retain a usable room view and gather after waking", async ({ page }, testInfo) => {
+  test.setTimeout(600000);
+  const errors = collectRuntimeErrors(page);
+  const view = await openClockedHome(page, { lab: false, time: "2026-11-03T10:00:00-08:00" });
+  const { stage, scene, canvas, ui } = view;
+  const places = ui.locator("[data-world-places]");
+  const visit = async () => {
+    await places.locator("summary").click();
+    await sceneInputFrame(page, view, () => places.locator('[data-world-destination="sleep"]').click());
+  };
+  await visit();
+  const asleep = await evidence(scene);
+  expect(asleep.activity).toBe("sleep");
+  expect(asleep.simulation.bedroomCurtains.target).toBe(0);
+  expect(asleep.currentRoom).toBe("sleep");
+  expect(asleep.camera[2]).toBeGreaterThan(3.9);
+  await capture(testInfo, "sleep-privacy-embed", await canvas.screenshot());
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click());
+  await expect(stage).toHaveClass(/is-world-immersive/);
+  const fullscreen = await evidence(scene);
+  expect(fullscreen.simulation.bedroomCurtains.target).toBe(0);
+  expect(fullscreen.camera[2]).toBeGreaterThan(3.9);
+  await capture(testInfo, "sleep-privacy-fullscreen", await canvas.screenshot());
+  await expect.poll(async () => (await evidence(scene)).walk?.ready, { timeout: 90000 }).toBe(true);
+  await sceneInputFrame(page, view, () => page.locator("[data-world-walk]").click());
+  expect((await evidence(scene)).walk).toMatchObject({ active: true, placed: true, destination: "sleep" });
+  await page.locator("[data-world-exit]").click();
+  await expect(stage).not.toHaveClass(/is-world-immersive/);
+  // The ordinary site clock control changes the imagined routine too. No
+  // authoring-only activity selector or visibility replacement is used.
+  const theme = page.locator("[data-theme-toggle]:visible").first();
+  await theme.click();
+  await page.locator('[data-theme-mode-option="noon"]:visible').first().click();
+  await theme.click();
+  await visit();
+  const awake = await evidence(scene);
+  expect(awake.activity).not.toBe("sleep");
+  expect(awake.simulation.bedroomCurtains.target).toBe(1);
+  expect(awake.camera[2]).toBeGreaterThan(3.9);
+  await capture(testInfo, "sleep-privacy-awake", await canvas.screenshot());
+  fs.writeFileSync(testInfo.outputPath("bedroom-privacy.json"), JSON.stringify({ asleep, fullscreen, awake }, null, 2));
+  expect(errors).toEqual([]);
+});
+
 test("coastal home: a public desktop turn continues looking safely after either orbit axis reaches furniture", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "real mouse continuation complements the four-width public navigation case");
   test.setTimeout(600000);

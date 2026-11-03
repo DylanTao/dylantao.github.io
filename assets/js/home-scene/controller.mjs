@@ -65,6 +65,7 @@ import { coastWind, livePacificMinute, COAST_SHELTER } from "./wind-field.mjs";
 import { syncOceanWind } from "./ocean-spectrum.mjs";
 import { SEA_LEVEL } from "./sea-optics.mjs";
 import { createCurtainRig } from "./curtain-rig.mjs";
+import { createBedroomCurtains } from "./bedroom-curtains.mjs";
 import { createWarmPracticals, practicalSourcesFor } from "./warm-practicals.mjs?v=ambience-20261102";
 import { createSteamDensity } from "./steam-density.mjs";
 import { createSteamVolume } from "./steam-volume.mjs";
@@ -807,7 +808,8 @@ export function createCoastalHome(container, records, artifacts) {
   // the scene and holds still with it; an explicit change of time or motion recomposes it. The facade
   // curtains (curtain-rig.mjs) hang in it.
   let windCompose = true,
-    curtainRig = null;
+    curtainRig = null,
+    bedroomCurtains = null;
   function stepWind(moving) {
     if (!moving && !windCompose) return;
     windCompose = false;
@@ -2367,19 +2369,20 @@ export function createCoastalHome(container, records, artifacts) {
   const zoomHint = /Mac|iPhone|iPad/.test(navigator.platform) ? "Hold ⌘ and scroll to zoom" : "Hold Ctrl and scroll to zoom";
 
   function syncCutaway() {
-    // Both tall-library cameras sit inside its enclosure. The stable library-upper ID now
-    // visits the private living floor; older manifests retain their original upper library.
-    const enclosedLibrary = currentRoom === "library" || currentRoom === (config?.retreat?.version ? "study" : "library-upper");
+    // Library and bedroom cameras sit inside their enclosure. The stable
+    // library-upper ID visits the private living floor in the current estate.
+    const enclosedRoom =
+      currentRoom === "sleep" || currentRoom === "library" || currentRoom === (config?.retreat?.version ? "study" : "library-upper");
     world.traverse((object) => {
       // Orbiting opens the section; a visitor inside the house keeps its real enclosing ceiling.
       if (object.userData.caveRoof)
         object.visible =
-          currentRoom === "outside" || (routine?.sequence === "pool" && currentRoom === routine.room) || enclosedLibrary || Boolean(walkMode?.active);
+          currentRoom === "outside" || (routine?.sequence === "pool" && currentRoom === routine.room) || enclosedRoom || Boolean(walkMode?.active);
       // The stacked bath's slab opens only for its lower-room inspection, preserving the upper
       // bathroom's real floor in every other view and throughout first-person exploration.
       else if (object.userData.roomCeilingFor || object.userData.bathroomCeilingFor)
         object.visible =
-          enclosedLibrary || currentRoom !== (object.userData.roomCeilingFor || object.userData.bathroomCeilingFor) || Boolean(walkMode?.active);
+          enclosedRoom || currentRoom !== (object.userData.roomCeilingFor || object.userData.bathroomCeilingFor) || Boolean(walkMode?.active);
     });
     // These plants remain rooted in the real roof. A section view removes that roof, so its
     // exact native leaf islands follow it; mainland planting remains independently visible.
@@ -3612,6 +3615,7 @@ export function createCoastalHome(container, records, artifacts) {
       camera,
       canvasHeight: renderer.domElement.height,
     });
+    bedroomCurtains?.step({ delta, moving, reduced, time: elapsed, routine, camera, canvasHeight: renderer.domElement.height });
     lightInstallations?.tick(elapsed, moving);
     furniture?.update({
       camera,
@@ -4185,6 +4189,17 @@ export function createCoastalHome(container, records, artifacts) {
       ]);
       if (disposed) return;
       warmPracticals.bindModel(rooms.get("sleep"));
+      if (config.retreat && rooms.get("sleep"))
+        bedroomCurtains = createBedroomCurtains({
+          scene,
+          room: rooms.get("sleep"),
+          floor: config.rooms.find((room) => room.id === "sleep").floor,
+          coast: coastWind,
+          reduced,
+          startTime: elapsed,
+          routine,
+          bindMaterial: (material) => (staticLightField?.bindMaterial(material), lightInstallations?.bindMaterial(material)),
+        });
       cameraField?.release();
       progress("room", 1);
       progress("sirui", 1);
@@ -4510,6 +4525,7 @@ export function createCoastalHome(container, records, artifacts) {
         : null,
       wind: coastalWind ? { ...coastalWind.evidence(), coast: coastWind.evidence() } : null,
       curtains: curtainRig?.evidence() ?? null,
+      bedroomCurtains: bedroomCurtains?.evidence() ?? null,
       practicals: warmPracticals?.evidence(),
       installations: lightInstallations?.evidence(),
       interiorReflections: interiorReflections?.evidence(),
@@ -4719,6 +4735,7 @@ export function createCoastalHome(container, records, artifacts) {
       skinDiffusion?.dispose();
       coastalWind?.dispose();
       curtainRig?.dispose();
+      bedroomCurtains?.dispose();
       [...world.children].forEach(release);
       resources.forEach((r) => r.dispose());
       art.dispose();

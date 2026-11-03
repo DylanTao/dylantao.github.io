@@ -386,6 +386,10 @@
     ],
     "scene-rooms": [
       {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: sleeping privacy drapes retain a usable room view and gather after waking"
+      },
+      {
         "file": "architecture-finish.spec.js",
         "title": "finished house: adjacent bedchamber, library patio leaf and composed exterior remain visible through public room visits"
       },

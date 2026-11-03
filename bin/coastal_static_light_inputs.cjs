@@ -24,6 +24,7 @@ async function coastalLightInputs(root) {
     "assets/js/home-scene/interior-exposure.mjs",
     "assets/js/home-scene/light-trace-core.mjs",
     "assets/js/home-scene/controller.mjs",
+    "assets/js/home-scene/bedroom-curtains.mjs",
     "assets/js/home-scene/arrival-rill.mjs",
     "assets/js/home-scene/arrival-view.mjs",
     "assets/js/home-scene/gym-props.mjs",

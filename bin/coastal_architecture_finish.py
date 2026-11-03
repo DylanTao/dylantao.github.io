@@ -1180,8 +1180,8 @@ def adjacent_bedchamber(scene, config):
                  "target": [destination[0], floor + .85, destination[2]], "offset": [0, 0, 0],
                  "egress": study["egress"],
                  "exitPath": [*approach, *private, *study["exitPath"]]})
-    room["camera"] = {"radius": 4.6, "yaw": 2.92, "pitch": .30, "fov": 50,
-                      "envelope": {"yaw": [2.65, 3.60], "pitch": [.12, .62], "radius": [2.6, 5.0]}}
+    room["camera"] = {"radius": 3.0, "yaw": 2.92, "pitch": .45, "fov": 60,
+                      "envelope": {"yaw": [2.65, 3.60], "pitch": [.12, .62], "radius": [1.8, 3.05]}}
     config["terrain"]["contacts"]["sleep"] = {k: room[k] for k in ("actor", "walkActor", "floor", "egress", "exitPath")}
     config["companion"]["perches"]["sleep"] = [[-6.8, floor, 4.6], [-6.6, floor, 4.6]]
     config["companion"]["perches"]["study"] = [[-9.95, 0, 3.90], [-9.90, 0, 3.80]]
@@ -1497,8 +1497,8 @@ def finish_activity_routes(scene, config):
         *copy.deepcopy(config["estateLibrary"]["privateConnection"]),*copy.deepcopy(rooms["study"]["exitPath"])]
     for room_id in ("study","library","sleep"):
         config["terrain"]["contacts"][room_id]["exitPath"]=copy.deepcopy(rooms[room_id]["exitPath"])
-    rooms["sleep"]["camera"] = {"radius":4.6,"yaw":2.92,"pitch":.30,"fov":50,
-        "envelope":{"yaw":[2.65,3.60],"pitch":[.12,.62],"radius":[2.6,5.0]}}
+    rooms["sleep"]["camera"] = {"radius":3.0,"yaw":2.92,"pitch":.45,"fov":60,
+        "envelope":{"yaw":[2.65,3.60],"pitch":[.12,.62],"radius":[1.8,3.05]}}
     pool=config["infinityPool"]["activity"]
     pool["camera"]={"target":[-1.14,-.5,-.15],"radius":6.,"yaw":1.,"pitch":.62,"fov":52}
     pool["egress"]=list(rooms["lounge"]["egress"])
