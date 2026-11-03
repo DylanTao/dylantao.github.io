@@ -129,8 +129,13 @@ for this source and needs a separate memory/startup/benefit experiment; it is
 not silently added to phones for a small study gain. See
 [the field contract](static-light-field.md#november-3-daylight-revision) for the
 implementation limits. Native production day/night and sunset evidence,
-WebKit, quiet frame cost and public verification remain the candidate's
-integration gates.
+WebKit and publication of `116bcc675` are retained with the
+[daylight review](../artwork/coastal-home/reviews/daylight-transport-2026-11-03/README.md)
+and its [publication receipt](../artwork/coastal-home/reviews/daylight-publication-2026-11-03/README.md).
+The subsequent [room-metering correction](../artwork/coastal-home/reviews/room-metering-2026-11-03/README.md)
+keeps every transport bit exact and fixes the bedroom's outside-cage viewing
+camera. Quiet frame cost and a finished-build physical-phone comparison remain
+separate performance gates; these visual results are not a speedup claim.
 
 ## Next bounded hypotheses
 

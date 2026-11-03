@@ -1,5 +1,14 @@
 const clamp = (value, low, high) => Math.min(high, Math.max(low, value));
 
+// A cutaway/orbit view can place its camera outside the room's finite cage.
+// Meter the authored room subject there; first-person and coast views meter
+// the actual eye. No view direction, screen highlight or lamp enters this choice.
+export function exposureMeterPoint(camera, subject, { firstPerson = false, outside = false } = {}) {
+  const valid = (point) => point?.length === 3 && point.every(Number.isFinite);
+  if (!valid(camera)) throw new RangeError("exposure camera must be a finite world point");
+  return !firstPerson && !outside && valid(subject) ? subject : camera;
+}
+
 // Expose for a shaded room using its direction-independent diffuse mean. A lamp
 // entering the view or a turn of the visitor's head cannot change this target.
 // This is bounded camera compensation, separate from the physical light field.

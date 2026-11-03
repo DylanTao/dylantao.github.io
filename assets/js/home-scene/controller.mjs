@@ -69,7 +69,7 @@ import { createWarmPracticals, practicalSourcesFor } from "./warm-practicals.mjs
 import { createSteamDensity } from "./steam-density.mjs";
 import { createSteamVolume } from "./steam-volume.mjs";
 import { createStaticLightField, staticLightRegions } from "./static-light-field.mjs?v=diffuse-20261103";
-import { createInteriorExposure } from "./interior-exposure.mjs";
+import { createInteriorExposure, exposureMeterPoint } from "./interior-exposure.mjs?v=room-subject-20261103";
 import { prepareFramePrograms } from "./program-warmup.mjs";
 import { retireCompiledMaterials } from "./program-lifetime.mjs";
 import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
@@ -126,6 +126,7 @@ export function createCoastalHome(container, records, artifacts) {
   const cameraMotion = createCameraMotion();
   const interiorExposure = createInteriorExposure(),
     exposurePoint = [0, 0, 0];
+  let exposureMeter = exposurePoint;
   // A released drag coasts (orbit in radians, pan in metres); see camera-motion.mjs.
   const inertia = createInertia();
   const { loader, decoder } = createModelLoader();
@@ -3655,7 +3656,12 @@ export function createCoastalHome(container, records, artifacts) {
       lightKey: JSON.stringify([routine?.dateKey, routine?.minute]),
       now,
     });
-    const exposureGain = interiorExposure.update(staticLightField?.ambientAt(camera.position.toArray(exposurePoint)), frameDelta, {
+    const exposureRoom = config?.rooms.find((room) => room.id === currentRoom);
+    exposureMeter = exposureMeterPoint(camera.position.toArray(exposurePoint), exposureRoom?.target, {
+      firstPerson: Boolean(walkMode?.active || freeLook),
+      outside: currentRoom === "outside",
+    });
+    const exposureGain = interiorExposure.update(staticLightField?.ambientAt(exposureMeter), frameDelta, {
       instant: reduced || paused || style !== "realistic",
     });
     renderer.toneMappingExposure = (style === "realistic" ? 1.05 * exposureGain : 1.18) * TONE_EXPOSURE[look.tone];
@@ -4524,7 +4530,10 @@ export function createCoastalHome(container, records, artifacts) {
         })(),
       },
       lightField: staticLightField ? { ...staticLightField.evidence(), error: lightBakeError } : null,
-      interiorExposure: interiorExposure.evidence(),
+      interiorExposure: {
+        ...interiorExposure.evidence(),
+        meter: { mode: exposureMeter === exposurePoint ? "eye" : "room-subject", point: [...exposureMeter] },
+      },
       steam: steamVolume
         ? { ready: steamReady, setupMilliseconds: steamSetupMilliseconds, visible: steamVolume.object.visible, ...steamVolume.evidence() }
         : null,

@@ -2353,6 +2353,10 @@ test("coastal home: public room navigation works in the embed and starts a safe 
   await expect(places).not.toHaveAttribute("open");
   await expect(canvas).toBeFocused();
   expect((await evidence(scene)).currentRoom).toBe("study");
+  expect((await evidence(scene)).simulation.interiorExposure.meter).toEqual({
+    mode: "room-subject",
+    point: homeManifest().rooms.find((room) => room.id === "study").target,
+  });
   await summary.click();
   await summary.press("Escape");
   await expect(places).not.toHaveAttribute("open");
@@ -2367,6 +2371,8 @@ test("coastal home: public room navigation works in the embed and starts a safe 
     const state = await evidence(scene);
     rows.push(state.walk);
     expect(state.walk).toMatchObject({ active: true, ready: true, placed: true, provisional: false, destination: room });
+    expect(state.simulation.interiorExposure.meter.mode).toBe("eye");
+    for (const axis of [0, 1, 2]) expect(state.simulation.interiorExposure.meter.point[axis]).toBeCloseTo(state.camera[axis], 6);
     expect(state.walk.position[1]).toBeCloseTo(homeManifest().rooms.find((r) => r.id === room).floor, 1);
     expect(state.walk.position[1]).toBeLessThan(3, "an interior destination does not restart on the clifftop");
     await expect(canvas).toBeFocused();

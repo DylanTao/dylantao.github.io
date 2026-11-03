@@ -1,0 +1,122 @@
+{
+  "schema": "sirui-review-manifest-v1",
+  "at": "2026-11-03T13:03:29.228532+00:00",
+  "sourceHead": "116bcc675df26fc0e287ce80088d50f1f58ebddc",
+  "pagesHead": "024533714bdf426dc3a7abedee8abd28d04f995c",
+  "scope": "All46green visual jobs,8applicable workflows, exact12body/192module readback and actual public native2Kday/night/drag/cache restore; failed503attempt and producer-accounting corrections retained.",
+  "files": [
+    {
+      "path": "DAYLIGHT-ROOM-RECEIPT-NAME-CORRECTION.json.gz",
+      "bytes": 441,
+      "sha256": "aa3bdc5a8274c8dd5fbd9fd67b6ad92a84ca26af95cc6009fb011a3b5ba4c3bd",
+      "originalSha256": "7e6b9e08157f7c962482605e50daaeac8247b32c28ea7cdb2c99b3b60bb76920",
+      "originalBytes": 815
+    },
+    { "path": "README.md", "bytes": 2633, "sha256": "fc1280653c69d19537902d9e596705eddd811bc6f6b6eba87cb75c7674c1872f" },
+    {
+      "path": "capture-daylight-live-ui-v1.cjs.gz",
+      "bytes": 4541,
+      "sha256": "25aa4135665fc6c96af8f46b9db7a6145da27f3151d76d90ff9641726b8c6dbe",
+      "originalSha256": "7a41a159caf7db26880a0aa006b185bf96fabaaf3308b06238ac3e223bc4846f",
+      "originalBytes": 10879
+    },
+    {
+      "path": "capture-daylight-live-ui-v2.cjs.gz",
+      "bytes": 4627,
+      "sha256": "1da81170f39a7b50e148acb2e7ff18c8654bb554045b120e03c89be3da2c459c",
+      "originalSha256": "b671e9cd94cd4a3a629226ac82017c94ac0a4d01890ccfe224da9e74b0046b6a",
+      "originalBytes": 11154
+    },
+    {
+      "path": "daylight-ci-v1/HISTORY.jsonl.gz",
+      "bytes": 453,
+      "sha256": "af86452164d819a2801988de25e022c6caf2d1afaa8ed3369b94eaa0a7bb0363",
+      "originalSha256": "fd54abe624318d06a20c8f6d155e1924d1170dd7f6da86b14e217c588409ba88",
+      "originalBytes": 3867
+    },
+    {
+      "path": "daylight-ci-v1/OBSERVER-STOP.json.gz",
+      "bytes": 240,
+      "sha256": "680d347e2f63aec803471e9eb9cd47dbdce06a82dc87868a7f37a0f0c55ae527",
+      "originalSha256": "a2d8350ce76677121c3e3a681ab1831f76ce5396dd97168980a7605684a8bc90",
+      "originalBytes": 274
+    },
+    {
+      "path": "daylight-ci-v2/GREEN.json.gz",
+      "bytes": 475,
+      "sha256": "6807e3319279140b0a7504f7e377cf843adc1f2877ff0e713050f12ca5bd86cf",
+      "originalSha256": "6251d1484c6bad60b400731527e96aacd26c47f128b6921d0106be6a86d6c5e0",
+      "originalBytes": 2577
+    },
+    {
+      "path": "daylight-ci-v2/HISTORY.jsonl.gz",
+      "bytes": 377,
+      "sha256": "6a5ca970618f7d5da71e2d6f0fd787efe3a82d46a0bb80e3226731771586f0c3",
+      "originalSha256": "8b5083899414fe5a408e6fe24f7c8029a32fd08a9fda4c9603f39562ad9d6299",
+      "originalBytes": 3612
+    },
+    {
+      "path": "daylight-ci-v2/RUNS.json.gz",
+      "bytes": 376,
+      "sha256": "2693ca3dc744ae0c4b9187b05920fca2b2fbdb3c74da9159a8a51a4f1182a005",
+      "originalSha256": "b885530b4cf2d73acb3e6a4d9ad8e4f46a5e5aaaac39ec1332585858362ec778",
+      "originalBytes": 1873
+    },
+    {
+      "path": "daylight-ci-v2/VISUAL-JOBS.json.gz",
+      "bytes": 6739,
+      "sha256": "455b5819b7adda6d91e7676b4b4ee33d755d0b1a20254ed0e03de27b26050985",
+      "originalSha256": "b7337556c177a9e2320db84cad9e77ff3119142e5d10d003dc5659d62e718b93",
+      "originalBytes": 199702
+    },
+    {
+      "path": "daylight-live-ui-v1-2k/FAILURE.json.gz",
+      "bytes": 6323,
+      "sha256": "a2648963307c5c392e02eebac243a8381e21c332b486e774c67c31dcaaf3c8d4",
+      "originalSha256": "67e67d35fa83d870dd1b7b82e6c93abdff77884c156c9d60fd452a6b712b680b",
+      "originalBytes": 23593
+    },
+    {
+      "path": "daylight-live-ui-v2-2k/CAPTURE.json.gz",
+      "bytes": 276568,
+      "sha256": "f8eeef98365f35ce8dd623d48513ff7927b43ed2bbc7f71a2922be8e19e81e37",
+      "originalSha256": "7b9ada099c1f3a46a86a7543b6e89c5b28f6ba3d908a396f6726c0a802e0941d",
+      "originalBytes": 2124913
+    },
+    {
+      "path": "daylight-live-ui-v2-2k/evening-default-canvas.png",
+      "bytes": 1853962,
+      "sha256": "03ea3c4d2179143d32c473c9c8fff9abd71028c2def5d8cfb18a1102b62908e1",
+      "originalSha256": "03ea3c4d2179143d32c473c9c8fff9abd71028c2def5d8cfb18a1102b62908e1",
+      "originalBytes": 1853962
+    },
+    {
+      "path": "daylight-live-ui-v2-2k/noon-default-canvas.png",
+      "bytes": 2147974,
+      "sha256": "6863e20ae25474e5622899b013d04d03041b99ce85044ee7a23861edbbd11ae3",
+      "originalSha256": "6863e20ae25474e5622899b013d04d03041b99ce85044ee7a23861edbbd11ae3",
+      "originalBytes": 2147974
+    },
+    {
+      "path": "daylight-live-v1/DELIVERY.json.gz",
+      "bytes": 1346,
+      "sha256": "c09c58def10e2864ef69c6114fb9e8d4a1ff97dcfe3926fd277c617b4f3e432b",
+      "originalSha256": "26c796f2f0e77b2eee5b32facd943c8d800cb05fc10f87fe0200a8067391eb58",
+      "originalBytes": 5723
+    },
+    {
+      "path": "readback-daylight-public-v1.py.gz",
+      "bytes": 1304,
+      "sha256": "2460f33f8f35aecf5f65423a026c1abd5bc334af29462687d098adcc3ee107d9",
+      "originalSha256": "92d6872a3b0140a616632e29bc308cc9f034247f183986413120daa90ecd69db",
+      "originalBytes": 2554
+    },
+    {
+      "path": "watch-daylight-ci-v2.py.gz",
+      "bytes": 1126,
+      "sha256": "a3d54f8c537d2add5c297f1e1ffe84f2ddae08a33e0e3101c2056ce8955d2db3",
+      "originalSha256": "0ed2ebaa491738b0cbaabf2f91c8e65b8c733970bec6aa166f34d02b062f6b8b",
+      "originalBytes": 2526
+    }
+  ]
+}

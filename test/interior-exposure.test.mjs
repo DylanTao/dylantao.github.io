@@ -2,9 +2,20 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "../assets/js/three.module.min.js";
 import { createStaticLightField } from "../assets/js/home-scene/static-light-field.mjs";
-import { createInteriorExposure, interiorExposureGain } from "../assets/js/home-scene/interior-exposure.mjs";
+import { createInteriorExposure, exposureMeterPoint, interiorExposureGain } from "../assets/js/home-scene/interior-exposure.mjs";
 
 const ambient = { ready: true, coverage: 1, luminance: 0.1, unoccludedLuminance: 1 };
+
+test("a bedroom cutaway meters its room subject while first-person and coast views retain eye metering", () => {
+  const camera = Object.freeze([-5.83415039943576, 3.7093929506421617, 2.682904788223815]),
+    subject = Object.freeze([-6.8, 2.35, 6.97]);
+  assert.ok(camera[2] < 3.3 && subject[2] >= 3.3, "the observed bedroom camera lies outside its finite sleep cage");
+  assert.strictEqual(exposureMeterPoint(camera, subject), subject);
+  assert.strictEqual(exposureMeterPoint(camera, subject, { firstPerson: true }), camera);
+  assert.strictEqual(exposureMeterPoint(camera, subject, { outside: true }), camera);
+  for (const invalid of [null, [], [0, 1], [0, NaN, 2], [0, 1, 2, 3]]) assert.strictEqual(exposureMeterPoint(camera, invalid), camera);
+  assert.throws(() => exposureMeterPoint([0, Infinity, 0], subject), /finite world point/);
+});
 
 test("camera compensation is bounded, outside-neutral and separate from physical source energy", () => {
   assert.equal(interiorExposureGain(ambient), 1.8);
