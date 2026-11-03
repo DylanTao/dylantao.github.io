@@ -106,3 +106,5 @@ artwork/coastal-home/reviews/bedroom-privacy-final-2026-11-03/*.md text eol=lf
 artwork/coastal-home/reviews/bedroom-privacy-final-2026-11-03/*.json text eol=lf
 # The pre-publication newline correction retains exact original seal bytes.
 artwork/coastal-home/reviews/bedroom-seal-correction-2026-11-03/*.bin binary
+artwork/coastal-home/reviews/bedroom-privacy-clock-2026-11-03/*.md text eol=lf
+artwork/coastal-home/reviews/bedroom-privacy-clock-2026-11-03/*.json text eol=lf

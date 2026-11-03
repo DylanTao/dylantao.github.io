@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "scope": "Immutable test-clock correction, original failures and corrected local gates. CI and deployed verification remain separate.",
+  "files": [
+    {
+      "path": "CHECKS.json",
+      "bytes": 5125,
+      "sha256": "1fb284f0191ea82856bbaae04e71491a0028401614beb2303545c5e68c5ad2b5"
+    },
+    {
+      "path": "raw/BEDROOM-INTEGRATION-FAILURE.log.gz",
+      "bytes": 104652,
+      "sha256": "7cd45d80a3675bcea450b1c794a9e81725dd88d09af3473f50cac39f74d89676"
+    },
+    {
+      "path": "raw/BEDROOM-WEATHER-CORRECTED.log.gz",
+      "bytes": 1033,
+      "sha256": "e8b1da069c057cb0795089f28acfbf3bc799094d7b9ac62dfb33e7e56ef314ee"
+    },
+    {
+      "path": "raw/bedroom-weather-correction-v1--FAILURE.json.gz",
+      "bytes": 285,
+      "sha256": "f2e74e2dbf34681cb44faa127c59ce1ad51d1556a941774fd7edbafe6482afe5"
+    },
+    {
+      "path": "raw/bedroom-weather-correction-v2--BROWSER.log.gz",
+      "bytes": 378,
+      "sha256": "f32d91f839c9fddec58de0f794ca8f4a5aebaed923be5bea5659fc5fd463873b"
+    },
+    {
+      "path": "raw/bedroom-weather-correction-v2--RESULT.json.gz",
+      "bytes": 1165,
+      "sha256": "9c16e7b12360e3719251f36af33c9365e8f867d7fe3f954603a648a0efae1d41"
+    },
+    {
+      "path": "raw/BEDROOM-WEATHER-LOCAL-FAILURE.log.gz",
+      "bytes": 964,
+      "sha256": "9087b0bf443f74c26d55b8da0354ab9f17408f1f1157b8dc6496b8f629dd7413"
+    },
+    {
+      "path": "raw/bedroom-weather-unit-v1--NODE.log.gz",
+      "bytes": 48697,
+      "sha256": "ba7fe207e06f74c0ca43135492356b845bb9831dfe21799f78b1e477453e100a"
+    },
+    {
+      "path": "raw/bedroom-weather-unit-v1--RESULT.json.gz",
+      "bytes": 1648,
+      "sha256": "5f083321a4f4675148fa402ec96bda19c379dc89d502ed4fc41108697c19aaa9"
+    },
+    {
+      "path": "raw/desk-scene-coastal-home-sl-8d662-iew-and-gather-after-waking-desktop-1440.json.gz",
+      "bytes": 96152,
+      "sha256": "f577a95c7a787277c96859790c9edfbc23e9206b7ee30f31625a96a816444f63"
+    },
+    {
+      "path": "raw/desk-scene-coastal-home-sl-8d662-iew-and-gather-after-waking-laptop-1280.json.gz",
+      "bytes": 96192,
+      "sha256": "bbd70808571e394d868059ca17f4c3b17d2cfbb43b9b3406125239463369b31e"
+    },
+    {
+      "path": "raw/desk-scene-coastal-home-sl-8d662-iew-and-gather-after-waking-mobile-390.json.gz",
+      "bytes": 96251,
+      "sha256": "686f5f3a6b0afa0b69f8d4d18afe034d2fb05c727c6bf2c6c198cbd07354de43"
+    },
+    {
+      "path": "raw/desk-scene-coastal-home-sl-8d662-iew-and-gather-after-waking-tablet-768.json.gz",
+      "bytes": 96011,
+      "sha256": "1c81b2ef9eb797695370c6b086af6a1f20869eef9cc8c2a3e8b5705eb54f4824"
+    },
+    {
+      "path": "raw/run-bedroom-weather-correction-v1.py.gz",
+      "bytes": 1329,
+      "sha256": "65ab4a22c6c05061d84ef9bbb332c8b87dca83ed4dc37b2b96396bdd743fe9bd"
+    },
+    {
+      "path": "raw/run-bedroom-weather-correction-v2.py.gz",
+      "bytes": 1327,
+      "sha256": "6ebe38b829bdad8352ba102718602b253b3478048493c34045cd26c69c8e04f6"
+    },
+    {
+      "path": "raw/run-bedroom-weather-unit-v1.py.gz",
+      "bytes": 709,
+      "sha256": "d371fe3927e6d1d58e0bd02b3c72ccc76324fc86e2ea059cda735b155ee53766"
+    },
+    {
+      "path": "README.md",
+      "bytes": 862,
+      "sha256": "6218ddcd8b5d828bb942c57615d7469b368a61360bd8c20fcd4fb1d022cfa022"
+    }
+  ]
+}

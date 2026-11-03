@@ -2415,7 +2415,7 @@ test("coastal home: public room navigation works in the embed and starts a safe 
 test("coastal home: sleeping privacy drapes retain a usable room view and gather after waking", async ({ page }, testInfo) => {
   test.setTimeout(600000);
   const errors = collectRuntimeErrors(page);
-  const view = await openClockedHome(page, { lab: false, time: "2026-11-03T10:00:00-08:00" });
+  const view = await openClockedHome(page, { lab: false, time: "2026-10-23T10:00:00-07:00" });
   const { stage, scene, canvas, ui } = view;
   const places = ui.locator("[data-world-places]");
   const visit = async () => {

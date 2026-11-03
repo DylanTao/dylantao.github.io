@@ -1,0 +1,100 @@
+{
+  "at": "2026-11-03T20:51:21.157457+00:00",
+  "scope": "One browser-test clock correction only. The original1e7adb981 CI integration failure and local reproduction remain failed. Actual historical-date four-width privacy/Walk/Noon checks and complete1075passing/7existing-skipped JavaScript checks pass. Product/cache/model/CSS/compiled module bodies stay unchanged; no physical-phone or quiet-frame performance result is asserted. Fresh CI and public readback remain separate.",
+  "failedSourceHead": "1e7adb9814f11b67411ef43bc1aaf7b0d154c929",
+  "failedRun": 41712904591,
+  "oldNormalizedTestSHA256": "4751b3723e67d9cdbdfd827f9d5c05e9d1b854f25b1c1874f59bcf7b3506549b",
+  "newNormalizedTestSHA256": "1d582c20d33b92430d3b5b74198a2244d34f2c3fb87deb7b4189ee5ae0a61dbb",
+  "rawSources": [
+    {
+      "source": "BEDROOM-INTEGRATION-FAILURE.log",
+      "sourceBytes": 910174,
+      "sourceSHA256": "b9109c442d65ad55fc970c3b289efdc475cf7417474a3cb9f2fed114dabac917",
+      "retained": "raw/BEDROOM-INTEGRATION-FAILURE.log.gz"
+    },
+    {
+      "source": "BEDROOM-WEATHER-LOCAL-FAILURE.log",
+      "sourceBytes": 2041,
+      "sourceSHA256": "98620aecf4e29a621a4e0bc438705ac0ed830ac71ebec85ac584b942a4abf683",
+      "retained": "raw/BEDROOM-WEATHER-LOCAL-FAILURE.log.gz"
+    },
+    {
+      "source": "BEDROOM-WEATHER-CORRECTED.log",
+      "sourceBytes": 1857,
+      "sourceSHA256": "9d187e028ca6726ee2b535216f96affaf51dec8aee6d302dc3bb619c44c04c16",
+      "retained": "raw/BEDROOM-WEATHER-CORRECTED.log.gz"
+    },
+    {
+      "source": "bedroom-weather-correction-v1/FAILURE.json",
+      "sourceBytes": 383,
+      "sourceSHA256": "d452acc3605afae474e5e3f7a8af1c207c1d3bf59696328942b74354b136f999",
+      "retained": "raw/bedroom-weather-correction-v1--FAILURE.json.gz"
+    },
+    {
+      "source": "bedroom-weather-correction-v2/RESULT.json",
+      "sourceBytes": 2282,
+      "sourceSHA256": "b13124a15c7357a194ced15f268c09c17a096e09304b39f2ea672687705bdcaa",
+      "retained": "raw/bedroom-weather-correction-v2--RESULT.json.gz"
+    },
+    {
+      "source": "bedroom-weather-correction-v2/BROWSER.log",
+      "sourceBytes": 2098,
+      "sourceSHA256": "0eb1c89cb545f75798e7fd247c0c88f4347050c974ac6664ecc3ec77eaa49f00",
+      "retained": "raw/bedroom-weather-correction-v2--BROWSER.log.gz"
+    },
+    {
+      "source": "bedroom-weather-unit-v1/RESULT.json",
+      "sourceBytes": 7001,
+      "sourceSHA256": "32699dc828939efe62eb6181bbb7921c0368734ae02bc85f0be34dad106095df",
+      "retained": "raw/bedroom-weather-unit-v1--RESULT.json.gz"
+    },
+    {
+      "source": "bedroom-weather-unit-v1/NODE.log",
+      "sourceBytes": 179780,
+      "sourceSHA256": "42ed98672cf32e11abcae201b7c75325b3ed6eb00c8ceed32888bf0bc55f24a8",
+      "retained": "raw/bedroom-weather-unit-v1--NODE.log.gz"
+    },
+    {
+      "source": "run-bedroom-weather-correction-v1.py",
+      "sourceBytes": 2479,
+      "sourceSHA256": "fd35bcb0c0f43486f61d5f30acd72efce9ef64b49a16467a0bbb087569cd61ed",
+      "retained": "raw/run-bedroom-weather-correction-v1.py.gz"
+    },
+    {
+      "source": "run-bedroom-weather-correction-v2.py",
+      "sourceBytes": 2446,
+      "sourceSHA256": "71a786662382496c880e88619907668a0fbe77c82fe4967871102cf4f5a2674c",
+      "retained": "raw/run-bedroom-weather-correction-v2.py.gz"
+    },
+    {
+      "source": "run-bedroom-weather-unit-v1.py",
+      "sourceBytes": 1146,
+      "sourceSHA256": "a2f03832bf8bf0bef2a815c45b083ab20a4e8b904aad6a1804dd708d0e562df5",
+      "retained": "raw/run-bedroom-weather-unit-v1.py.gz"
+    },
+    {
+      "source": "bedroom-weather-correction-v2\\browser-results\\desk-scene-coastal-home-sl-8d662-iew-and-gather-after-waking-desktop-1440\\bedroom-privacy.json",
+      "sourceBytes": 674908,
+      "sourceSHA256": "b1cb4acb41a95467ce7f8652065c5f746f4710ad121cd4737fa987a6a7b8222d",
+      "retained": "raw/desk-scene-coastal-home-sl-8d662-iew-and-gather-after-waking-desktop-1440.json.gz"
+    },
+    {
+      "source": "bedroom-weather-correction-v2\\browser-results\\desk-scene-coastal-home-sl-8d662-iew-and-gather-after-waking-laptop-1280\\bedroom-privacy.json",
+      "sourceBytes": 676112,
+      "sourceSHA256": "15d07e815c62ae597ba4a39a9220733ae3df9089f9dcaa507fcb24a186a959d1",
+      "retained": "raw/desk-scene-coastal-home-sl-8d662-iew-and-gather-after-waking-laptop-1280.json.gz"
+    },
+    {
+      "source": "bedroom-weather-correction-v2\\browser-results\\desk-scene-coastal-home-sl-8d662-iew-and-gather-after-waking-mobile-390\\bedroom-privacy.json",
+      "sourceBytes": 676073,
+      "sourceSHA256": "3f3385a70b3725aa4abbc538b70c12fb6fefc13d817b30c7c270b17f55ca4c4b",
+      "retained": "raw/desk-scene-coastal-home-sl-8d662-iew-and-gather-after-waking-mobile-390.json.gz"
+    },
+    {
+      "source": "bedroom-weather-correction-v2\\browser-results\\desk-scene-coastal-home-sl-8d662-iew-and-gather-after-waking-tablet-768\\bedroom-privacy.json",
+      "sourceBytes": 674916,
+      "sourceSHA256": "8b25619600aba2a1d632db65ff343861ed4b0abcecc0b3cc4ff92940e24797a4",
+      "retained": "raw/desk-scene-coastal-home-sl-8d662-iew-and-gather-after-waking-tablet-768.json.gz"
+    }
+  ]
+}
