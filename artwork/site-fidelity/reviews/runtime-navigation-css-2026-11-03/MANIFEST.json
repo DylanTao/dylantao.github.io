@@ -1,0 +1,303 @@
+{
+  "schema": "sirui-review-manifest-v1",
+  "at": "2026-11-03T14:04:46.716350+00:00",
+  "scope": "Real production cleanup repair for runtime CV/dock/companion/navigation attributes; unchanged full CSS inputs, original failing controls,420Python1043Nodeplus7skips, four-width route/brand/CV and actual dock focus, modern WebKit trusted touch. CI/publication separate.",
+  "baseHead": "01c95f6be044a95102f902ae883a3866f66a10a0",
+  "files": [
+    { "path": "README.md", "bytes": 3321, "sha256": "14fd1113390b267e4e22806880579da6e7975b3fb4f77c6e37a9978532f0c218" },
+    {
+      "path": "postprocess-runtime-navigation-v2.cjs.gz",
+      "bytes": 1220,
+      "sha256": "f4140863dae769b44fbc239a830e6e09fe15da03832139d6c40978205d0e195e",
+      "originalSha256": "b96791fbf2d4506c3467f36962f4093e7596376a0255e0f32722d39663da046c",
+      "originalBytes": 2519
+    },
+    {
+      "path": "probe-runtime-navigation-after-v1.cjs.gz",
+      "bytes": 1492,
+      "sha256": "c34ab2bbbb77e1b20e42b60ba8b162e5cf65682f68e31333794959986962593b",
+      "originalSha256": "8f2d198b317ba81ac83ccd72759871903af1b9e7eed4dbd64c9def5e905450c1",
+      "originalBytes": 2738
+    },
+    {
+      "path": "probe-runtime-navigation-baseline-v1.cjs.gz",
+      "bytes": 1342,
+      "sha256": "5946611604ddfc639d462f3fa1ab6c82c81082d3b0af658810e01e34309eeddc",
+      "originalSha256": "281fb54d1870e33bc0f3233d333c7de924892e2082c1565491ff0ad22c6b5748",
+      "originalBytes": 2382
+    },
+    {
+      "path": "probe-runtime-navigation-webkit-v1.cjs.gz",
+      "bytes": 1859,
+      "sha256": "da0d5919569e7a2abec407f67215051bd7a90b906b1c9b32a5ffeaf00e30d0b2",
+      "originalSha256": "0ed14e99607c351fa862777aa1b300ac4b653a08dfebd5d16e167f0a40087114",
+      "originalBytes": 4359
+    },
+    {
+      "path": "run-runtime-navigation-dock-v4.py.gz",
+      "bytes": 794,
+      "sha256": "c17c7d67ccdebf5d6f9396073e5ec98110d6467f55d6c2a7da53b4572a46d470",
+      "originalSha256": "eb94abb853115e8381a28ea887e5ffe84dab3a870f7200689156dc1a35903d50",
+      "originalBytes": 1316
+    },
+    {
+      "path": "run-runtime-navigation-visual-v3.py.gz",
+      "bytes": 762,
+      "sha256": "438b7d6b0faa3e87f167200ea821bfce2fe625a816e8adcd641c18c4f26943c4",
+      "originalSha256": "d6c1bc9d0026f2412868ecf556303344715dd6fc6193c20b26a72196a1e78025",
+      "originalBytes": 1241
+    },
+    {
+      "path": "runtime-navigation-after-v1/REPORT.json.gz",
+      "bytes": 848,
+      "sha256": "d55f898ee386e5ce4fef649f01f3c920cd8d531534178048ac5eb5f5fffb2640",
+      "originalSha256": "6e02c80fdff6be5844fb7b990ff7c9d82e0619261014290951dc1ee158f1fd87",
+      "originalBytes": 1960
+    },
+    {
+      "path": "runtime-navigation-after-v1/cv-scrolled.png",
+      "bytes": 92124,
+      "sha256": "d05362219ef16f547d80a6e45bb874cfbb03b0d8c67994a56536c4ed9b7f3c1e",
+      "originalSha256": "d05362219ef16f547d80a6e45bb874cfbb03b0d8c67994a56536c4ed9b7f3c1e",
+      "originalBytes": 92124
+    },
+    {
+      "path": "runtime-navigation-after-v1/project-scrolled.png",
+      "bytes": 150297,
+      "sha256": "590aa13e443d17d47b8b61b9e576a3d6dadbe1c700288b70914dbb5cded6d416",
+      "originalSha256": "590aa13e443d17d47b8b61b9e576a3d6dadbe1c700288b70914dbb5cded6d416",
+      "originalBytes": 150297
+    },
+    {
+      "path": "runtime-navigation-baseline-v1/REPORT.json.gz",
+      "bytes": 708,
+      "sha256": "21c67423aba2c70562185c6495ffca081f1b25d1d497cd9203308bb6144cc128",
+      "originalSha256": "6bdfefe816818977d528f8bfc07e55fcaf8d746ef7555d8574434955da37e985",
+      "originalBytes": 1750
+    },
+    {
+      "path": "runtime-navigation-baseline-v1/cv-scrolled.png",
+      "bytes": 90887,
+      "sha256": "db72e19c23f87167eb11432d7e00a7e7a5c5cfb1ca0f5252200e2299c5fbd8fc",
+      "originalSha256": "db72e19c23f87167eb11432d7e00a7e7a5c5cfb1ca0f5252200e2299c5fbd8fc",
+      "originalBytes": 90887
+    },
+    {
+      "path": "runtime-navigation-baseline-v1/project-scrolled.png",
+      "bytes": 89736,
+      "sha256": "eb4e500fc9caf0a2b4c6f2f48ec43d5e1a3c088e79a54261d2115b30b13f64a7",
+      "originalSha256": "eb4e500fc9caf0a2b4c6f2f48ec43d5e1a3c088e79a54261d2115b30b13f64a7",
+      "originalBytes": 89736
+    },
+    {
+      "path": "runtime-navigation-checkpoint-v1/FAILED-PREPARATION.json.gz",
+      "bytes": 361,
+      "sha256": "18251da53a3af1d2d9d270e8513bfa9377b1f575009016f3f6aecbbb1b6ace5d",
+      "originalSha256": "a857db6f47131653a2bce7dfd11ce9c1ecf0ca1f73e0bac5d405f5ae7c4af1a1",
+      "originalBytes": 515
+    },
+    {
+      "path": "runtime-navigation-checkpoint-v2/BUILD-GATES.json.gz",
+      "bytes": 326,
+      "sha256": "715c47279de855dd668346ea40800294e004709559acfc8a28db10c970ed509a",
+      "originalSha256": "f6eaf7b4676db4c603d7bf18c7f8c9944b8dedbce847ee515165b7d2d7e3e395",
+      "originalBytes": 565
+    },
+    {
+      "path": "runtime-navigation-checkpoint-v2/POSTPROCESS.json.gz",
+      "bytes": 60852,
+      "sha256": "a374016b2b64e800c8d7a948c73e048b2f36b96f22c5f51b6c1cf103ef0b8be6",
+      "originalSha256": "29227b3bb45e565121673cc4a0b4d0df273eba5242f655516380258143586feb",
+      "originalBytes": 654209
+    },
+    {
+      "path": "runtime-navigation-checkpoint-v2/SOURCE.json.gz",
+      "bytes": 539,
+      "sha256": "6cd74803b077c2fb1e310f4f957fe4cdca6e2c08869551e4c24c0cf981c4b391",
+      "originalSha256": "01380fe00e1b4574adefeaaef86285c2314065ca7a2263e2c58d19c540f09bb0",
+      "originalBytes": 919
+    },
+    {
+      "path": "runtime-navigation-checkpoint-v2/UNIT-GATES.json.gz",
+      "bytes": 1596,
+      "sha256": "8f7f8c510425bf43be6cb232eec2d7f43e5d6f337fc553d3f73dff2f60405b0a",
+      "originalSha256": "eb313481e29cb4fe525363b1193c0e2f5c4af99008c0319b2fd594374d757c1f",
+      "originalBytes": 7903
+    },
+    {
+      "path": "runtime-navigation-checkpoint-v2/corrected/main.css.gz",
+      "bytes": 89736,
+      "sha256": "f8a9f776e8f31f5d23bd44f828ec326986452ede61159b96f2ecda0d2ba1fad6",
+      "originalSha256": "f81623d3af019fba253ca5ace091fb4d806251f2098a0b987c9906376f88a1d0",
+      "originalBytes": 544293
+    },
+    {
+      "path": "runtime-navigation-checkpoint-v2/node.log.gz",
+      "bytes": 47205,
+      "sha256": "1279dab8a199e02e67c538b9aa55fc9d47510bb5e1709b90d17f99198dc2e357",
+      "originalSha256": "1ef9dfb55b2cbc0da78e3c6f06e02d85d0d0ca89ae8bf2c6c0d3b4eb30350df0",
+      "originalBytes": 172249
+    },
+    {
+      "path": "runtime-navigation-checkpoint-v2/previous/main.css.gz",
+      "bytes": 88996,
+      "sha256": "93925cbd2f9c043596083b8838cad03934d26b5594a75961d43d9301977dd831",
+      "originalSha256": "44246a541156ca7c0b96238689af5db55a20808a1d5beae02e7fdb9f2d032142",
+      "originalBytes": 540250
+    },
+    {
+      "path": "runtime-navigation-checkpoint-v2/production-build.log.gz",
+      "bytes": 4515,
+      "sha256": "d5d45169201bad1b8885b651d39d39625840f9055efefe4ba6b9fb250df7dcfc",
+      "originalSha256": "d7e92776aafda4e5e05e633696af157499fd20d8419589456156ff80094ebf4d",
+      "originalBytes": 94460
+    },
+    {
+      "path": "runtime-navigation-checkpoint-v2/python.log.gz",
+      "bytes": 118,
+      "sha256": "e7a7516cf37552579dba0e5497ae23f169a79332290fe10d85c58dcb8f3fcb61",
+      "originalSha256": "1fec03aa4bd92a7a7a7c375c9da76eb2e00349fab42c254a5e001d9f4c96e35c",
+      "originalBytes": 580
+    },
+    {
+      "path": "runtime-navigation-checkpoint-v2/style.log.gz",
+      "bytes": 57,
+      "sha256": "1285c7c023390ffa10b2c143c9c2512cbaa6e4fefe4979514838c789099a94e8",
+      "originalSha256": "e959900fa566355a00b04f8721479609c46d53edf7fe6f232946b5e9a510ff42",
+      "originalBytes": 37
+    },
+    {
+      "path": "runtime-navigation-checkpoint.config.cjs.gz",
+      "bytes": 362,
+      "sha256": "54ef9aefa2b82c93112fd6e0eabb911386da37795c6dc092a36be906b58a6e92",
+      "originalSha256": "53484cc9391bf250749b6186da41bf29a3b421d0809502436e786aff3b1f601a",
+      "originalBytes": 538
+    },
+    {
+      "path": "runtime-navigation-dock-v4.config.cjs.gz",
+      "bytes": 288,
+      "sha256": "910ff7a49f7e4f4cf121f6dd6af40893e26801a800e6122917b6d62ca1d2a0c2",
+      "originalSha256": "6b7dba86c510e4978c9d4869cde9d0c7fede716b5fec6f337e8f8f0fa89dd389",
+      "originalBytes": 409
+    },
+    {
+      "path": "runtime-navigation-dock-v4/PROCESS.json.gz",
+      "bytes": 577,
+      "sha256": "73c8aee6570fb1154e1e0824f025f0e494c6d21ff271643532a87c2c075af1b3",
+      "originalSha256": "ea70d05af67adae08a05a7f48fb046ce0a8dc0ad8058a2405f11f4ba97d4914b",
+      "originalBytes": 1078
+    },
+    {
+      "path": "runtime-navigation-dock-v4/VISUAL.json.gz",
+      "bytes": 1470,
+      "sha256": "5181d7ffe8a06a2338c4cc87c134e60b9d5bfce977a253ddfaf3c70df093925f",
+      "originalSha256": "b1fd121a28306e99f930fc35a5511fdf49109dda55a91e3014d1b2518b2b92f0",
+      "originalBytes": 9819
+    },
+    {
+      "path": "runtime-navigation-dock-v4/visual.log.gz",
+      "bytes": 385,
+      "sha256": "e11827ef64eeac8a0c212a7c93796800466a4a7b7623c251942092fd52ce000d",
+      "originalSha256": "b8791ea3e51fa45774e4a3e5a4c0ff2ca6eed7d0707bdd059b1afa03c8a7df75",
+      "originalBytes": 2147
+    },
+    {
+      "path": "runtime-navigation-final-v1/PRODUCER-CORRECTIONS.json.gz",
+      "bytes": 760,
+      "sha256": "fb08f3909d897bfda3a458ec17b9dec846a7a6a9c7b5aa6b2555e634fe857b79",
+      "originalSha256": "81e7728fac0dba94b687e1c98d67854afdaab7104272997a121e7d966fffcaed",
+      "originalBytes": 1291
+    },
+    {
+      "path": "runtime-navigation-final-v1/SOURCE.json.gz",
+      "bytes": 1016,
+      "sha256": "15f174d0f669995da235d5f12db6fedc3dab3b757e0eebdffa1c74cae29781aa",
+      "originalSha256": "4fd886ca7b5556f6b15a1de9b0069f31e86cdbcf7d1618ab5b2cdeefcf8fa6c6",
+      "originalBytes": 2099
+    },
+    {
+      "path": "runtime-navigation-final-v1/sources/purgecss.config.js.gz",
+      "bytes": 1070,
+      "sha256": "aebf17e5289e02ed380a08537ae2ea9401ab9ba95972a396b09cfbd5830b3b2b",
+      "originalSha256": "3cf4a5d24892dcd758db6231dad63e95f245a584f503c7db9256b12e901be826",
+      "originalBytes": 2479
+    },
+    {
+      "path": "runtime-navigation-final-v1/sources/test/brand-production-css.test.mjs.gz",
+      "bytes": 1066,
+      "sha256": "0d07bf6ad9d8e3d7808b4dffc3f071351956bf419c934ef359c3e3d4808f35cb",
+      "originalSha256": "1077781b083a772e1924880d3d8cc1e34523a031fe54b9c1d110c6fa809ff382",
+      "originalBytes": 3076
+    },
+    {
+      "path": "runtime-navigation-final-v1/sources/test/runtime-navigation-css.test.mjs.gz",
+      "bytes": 1043,
+      "sha256": "27b8caeeab12b6d9d3e21baa7f4f9ffcc498202539ab9d958e2b598d2c89d47a",
+      "originalSha256": "12ee0cf2e37c264e6e4cd4f334f436aa2b6f5458ad081611b687b51dfd3694bb",
+      "originalBytes": 2707
+    },
+    {
+      "path": "runtime-navigation-final-v1/sources/test/visual/sitewide.spec.js.gz",
+      "bytes": 36674,
+      "sha256": "e50da05bc3d92cbf86e4651fc9bb8d889cfddbc305626cb5955bf0ae12b217e5",
+      "originalSha256": "d8e05a7bb1c97327e00221582d01be409ae4060a94d9323f72dca04a2a15290b",
+      "originalBytes": 171418
+    },
+    {
+      "path": "runtime-navigation-previous-purgecss.cjs.gz",
+      "bytes": 689,
+      "sha256": "22739b4f7c1f18bae147129d1b636f643e3ab35f41c0265c74673af09704f906",
+      "originalSha256": "16c3b4d5144548a88b541bfd6b0280fbf83363bed2fe5422034d6f68f9266b2f",
+      "originalBytes": 1776
+    },
+    {
+      "path": "runtime-navigation-visual-v3/PROCESS.json.gz",
+      "bytes": 541,
+      "sha256": "311919fffcf52032198bc4d39f001e1d6d792d929f4b8245cc8ed3dcc8d0f686",
+      "originalSha256": "7368071c54006d0c15543fd2d5c1b94ced172fde03492f3adfe1d2cda2009ce3",
+      "originalBytes": 1001
+    },
+    {
+      "path": "runtime-navigation-visual-v3/VISUAL.json.gz",
+      "bytes": 4148,
+      "sha256": "b21eb9ab4fd7318c656f6cf29a3007735b507a82a6c396b86fc67a2672e9a3cb",
+      "originalSha256": "dc81ab4198f1636256aa270c2a80d12d57a311a3ca2081e5f425984ad683020f",
+      "originalBytes": 57542
+    },
+    {
+      "path": "runtime-navigation-visual-v3/visual.log.gz",
+      "bytes": 1574,
+      "sha256": "c66e85dc90f9cd602d1eadfa503ca3c248e486d15f6a0db551cdd6b73d39121f",
+      "originalSha256": "f5d747ab7df7213b0c04f2dd554e912d99accdeaf5194ee47407a639f2491d9b",
+      "originalBytes": 18688
+    },
+    {
+      "path": "runtime-navigation-webkit-v1/REPORT.json.gz",
+      "bytes": 613,
+      "sha256": "5e46343005c1bf03980e8cf7c00905a80c8216d2bf7d0dabac1ea99901e460b3",
+      "originalSha256": "f89bf46899e25b96a6af54c567584eda66663dc1c91fa32916fa14aed5b57cb8",
+      "originalBytes": 1102
+    },
+    {
+      "path": "runtime-navigation-webkit-v1/brand-touch-story.png",
+      "bytes": 9937,
+      "sha256": "6bac075685866a805330383652a275ffae1ca36511a70696fb10b3eb5bcd9a2d",
+      "originalSha256": "6bac075685866a805330383652a275ffae1ca36511a70696fb10b3eb5bcd9a2d",
+      "originalBytes": 9937
+    },
+    {
+      "path": "runtime-navigation-webkit-v1/cv-touch-arrival.png",
+      "bytes": 72751,
+      "sha256": "bb604cd7081a8f39d9a540926f344b519d9d1b1897da8d90f172b4753b09120b",
+      "originalSha256": "bb604cd7081a8f39d9a540926f344b519d9d1b1897da8d90f172b4753b09120b",
+      "originalBytes": 72751
+    },
+    {
+      "path": "runtime-navigation-webkit-v1/project-touch-arrival.png",
+      "bytes": 138413,
+      "sha256": "f24086cabdc8c5974476327e32a99fd58921cd647ae4735d6b34506d12ce4e66",
+      "originalSha256": "f24086cabdc8c5974476327e32a99fd58921cd647ae4735d6b34506d12ce4e66",
+      "originalBytes": 138413
+    }
+  ]
+}

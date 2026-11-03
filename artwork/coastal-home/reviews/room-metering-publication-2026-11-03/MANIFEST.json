@@ -1,0 +1,101 @@
+{
+  "schema": "sirui-review-manifest-v1",
+  "at": "2026-11-03T14:04:42.400936+00:00",
+  "scope": "All46green visual jobs and8applicable workflows, exact12body/192module public delivery and native2Kbedroom day/night/drag/subject-meter/cache restoration. Original label-key locator error retained.",
+  "sourceHead": "01c95f6be044a95102f902ae883a3866f66a10a0",
+  "pagesHead": "3fbe5fa2e27eba7d1946d43c6f08de858738f509",
+  "files": [
+    { "path": "README.md", "bytes": 2190, "sha256": "5d9bc67ddbbeb180c6f6778719ff943fcb559e0e104a644937635768efcfc6e0" },
+    {
+      "path": "capture-subject-live-ui-v1.cjs.gz",
+      "bytes": 4385,
+      "sha256": "2628c43432d038549c0147b2b80998c0d8aec826726b7dbd03956dc5dce16ca7",
+      "originalSha256": "4ff3c4ece7764b0705b7ef2c1e8ab5d916a41a9131950bf7785903b87eb4fed2",
+      "originalBytes": 10657
+    },
+    {
+      "path": "capture-subject-live-ui-v2.cjs.gz",
+      "bytes": 4473,
+      "sha256": "834b44330a56a03b3a256100c727990abcfb857073ea88380b6f46da4d1b9151",
+      "originalSha256": "35c3def5b858917ea21634da5597c9f665aace3fb48c317eea91e1cb0a041777",
+      "originalBytes": 10885
+    },
+    {
+      "path": "readback-subject-public-v1.py.gz",
+      "bytes": 1322,
+      "sha256": "1f301f823d435e1eac56378ca2ee8a67e0faf9385b7aed1cf63d20d7bc1760bb",
+      "originalSha256": "e83d22ed508f3667582f78f29fb37c8d33fd4d01ab3e8646885d44978930efa9",
+      "originalBytes": 2577
+    },
+    {
+      "path": "subject-ci-v1/GREEN.json.gz",
+      "bytes": 476,
+      "sha256": "0863e989a14d743f88467379d04740261e5b8f2bdc6fa735fe59f862441a3bb5",
+      "originalSha256": "e5ea1834bd749e4831514b25e367480e70e80db2f4218e7d1358abc3237bc9fc",
+      "originalBytes": 2577
+    },
+    {
+      "path": "subject-ci-v1/HISTORY.jsonl.gz",
+      "bytes": 699,
+      "sha256": "36b356e8c40458081a56e88cb5cc932304d8f38c7d6332cc26f78ffeffbead7a",
+      "originalSha256": "60e7ae08c652979635c41806968775cd94a7f7de245482ef40e32fc25d0aebb5",
+      "originalBytes": 7215
+    },
+    {
+      "path": "subject-ci-v1/RUNS.json.gz",
+      "bytes": 378,
+      "sha256": "7bd4c803849a7920deaa4224e473f71e8efee0e570c5b11275139adf819e1e7a",
+      "originalSha256": "2e4f34081dbbf8d783af1aad6c6a4b47c38b495b6af890f6b2ffd4ab40ed6bf7",
+      "originalBytes": 1873
+    },
+    {
+      "path": "subject-ci-v1/VISUAL-JOBS.json.gz",
+      "bytes": 6676,
+      "sha256": "a5a863835efc1a27e00905528aef31c7fde6ce7c4a80d5c535599f45b61c9211",
+      "originalSha256": "cb29ba2e15a7dffca4789d1d93304866319575ffe74d7b0809ddea4fe622b9c7",
+      "originalBytes": 199702
+    },
+    {
+      "path": "subject-live-ui-v1-2k/FAILURE.json.gz",
+      "bytes": 11092,
+      "sha256": "7ad72f4f60bc9b3400cbbe30472e93646a99bd016542885fd8daff345766969d",
+      "originalSha256": "7de450d6cdce6f7b308850dbd0d23ca2e06762aa980d4b3be3974e6bbe0a4ef8",
+      "originalBytes": 43296
+    },
+    {
+      "path": "subject-live-ui-v2-2k/CAPTURE.json.gz",
+      "bytes": 276089,
+      "sha256": "4bf7d157de36a7acfeab7180b8f1b1a6553cf3bab8e2be8d79f54964411baa7c",
+      "originalSha256": "5c55cc0672d5ec7f38d62d26410d0499ff821678720d8f1faedbe13ebc83225c",
+      "originalBytes": 2119927
+    },
+    {
+      "path": "subject-live-ui-v2-2k/evening-default-canvas.png",
+      "bytes": 1584653,
+      "sha256": "2ff456ec2987e3dee9f4b647af37eec99cdca33e6973962acb8456ae37eb5959",
+      "originalSha256": "2ff456ec2987e3dee9f4b647af37eec99cdca33e6973962acb8456ae37eb5959",
+      "originalBytes": 1584653
+    },
+    {
+      "path": "subject-live-ui-v2-2k/noon-default-canvas.png",
+      "bytes": 1631286,
+      "sha256": "f8e9f5f4cc6ec847a5774c068d74224a74b11c3e14ba69d0311c9535aff679b1",
+      "originalSha256": "f8e9f5f4cc6ec847a5774c068d74224a74b11c3e14ba69d0311c9535aff679b1",
+      "originalBytes": 1631286
+    },
+    {
+      "path": "subject-live-v1/DELIVERY.json.gz",
+      "bytes": 1347,
+      "sha256": "797550f29b373aa818d8117af21e36c01bf37b6fa1047c10493e6ac81ee38137",
+      "originalSha256": "0e8edeb9531142aeefb75f0c96467166387df108f5995695be88fb28a5a76c79",
+      "originalBytes": 5728
+    },
+    {
+      "path": "watch-subject-ci-v1.py.gz",
+      "bytes": 1125,
+      "sha256": "5923fc5cd2da7f52bb69a3d7c94e31ded23ee35fb5b2c62d937f76ec6d7469c2",
+      "originalSha256": "24d847f28cd12e84e9e7fe4b96f59d87007bc95867de19876f45f223ae86fb77",
+      "originalBytes": 2525
+    }
+  ]
+}

@@ -88,6 +88,12 @@ test("CV preserves semantic sections, native navigation and printable current te
   const compactNavigation = page.viewportSize().width < 992;
   if (compactNavigation) {
     const control = page.locator("[data-cv-mobile-sections]");
+    await expect(control).toHaveAttribute("data-cv-enhanced", "");
+    expect(await control.evaluate((element) => getComputedStyle(element).position)).toBe("sticky");
+    await page.evaluate(() => window.scrollTo({ top: 750, behavior: "instant" }));
+    const controlBounds = await control.boundingBox();
+    expect(controlBounds.y).toBeGreaterThanOrEqual(60);
+    expect(controlBounds.y).toBeLessThan(100);
     await control.locator("summary").focus();
     await page.keyboard.press("Enter");
     await expect(control).toHaveAttribute("open", "");
@@ -155,6 +161,42 @@ test("CV preserves semantic sections, native navigation and printable current te
   } finally {
     await noScriptContext.close();
   }
+});
+
+test("project reading dock stays available while scrolling and returns keyboard focus to the selected section", async ({ page }, testInfo) => {
+  const runtimeErrors = collectRuntimeErrors(page);
+  await preparePage(page);
+  await page.goto(publicRouteUrl("/projects/designweaver/"), { waitUntil: "domcontentloaded" });
+  const dock = page.locator(".section-reading-aid-mobile-dock");
+  await expect(dock).toBeAttached();
+  expect(await dock.evaluate((element) => getComputedStyle(element).position)).toBe("fixed");
+  // The dock intentionally stays quiet over the hero and inline contents.
+  // Crossing an actual body heading supplies the normal navigation cue.
+  await page
+    .locator(".project-detail article > h2")
+    .nth(1)
+    .evaluate((heading) => {
+      window.scrollTo({ top: window.scrollY + heading.getBoundingClientRect().top - 150, behavior: "instant" });
+    });
+  await expect(dock).toBeVisible();
+  const bounds = await dock.boundingBox();
+  expect(bounds.x).toBeGreaterThanOrEqual(0);
+  expect(bounds.y).toBeGreaterThan(60);
+  expect(bounds.x + bounds.width).toBeLessThanOrEqual(page.viewportSize().width + 1);
+  expect(bounds.y + bounds.height).toBeLessThan(page.viewportSize().height);
+  const toggle = dock.locator("button");
+  await toggle.focus();
+  await page.keyboard.press("Enter");
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
+  const destination = dock.locator("a[data-section-id]").nth(1);
+  const target = await destination.getAttribute("data-section-id");
+  await destination.focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator(`[id="${target}"]`)).toBeFocused();
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
+  await expect(page).toHaveURL(new RegExp(`#${target}$`));
+  await attachScreenshot(page, testInfo, "project-reading-dock", { fullPage: false });
+  expect(runtimeErrors).toEqual([]);
 });
 
 // Keep the homepage last: its richer desk surface should not precede the

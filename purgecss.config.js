@@ -1,9 +1,21 @@
+const { defaultOptions } = require("purgecss");
+
 module.exports = {
   // P, the coastal worlds, and reading enhancements mount their UI from ES modules.
   content: ["_site/**/*.html", "_site/**/*.js", "_site/**/*.mjs"],
   css: ["_site/assets/css/*.css"],
   output: "_site/assets/css/",
   skippedContentGlobs: ["_site/assets/**/*.html"],
+  // DOMStringMap creates dashed attributes at runtime. Keep the actual
+  // names used by the shipped scripts as well as the processor's usual tokens.
+  defaultExtractor(content) {
+    const tokens = defaultOptions.defaultExtractor(content);
+    for (const match of content.matchAll(/\bdataset\s*(?:\??\.\s*([A-Za-z_$][\w$]*)|\[\s*["']([A-Za-z_$][\w$]*)["']\s*\])/g)) {
+      const name = match[1] || match[2];
+      tokens.push(`data-${name.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)}`);
+    }
+    return tokens;
+  },
   safelist: {
     standard: [
       /^home-/,
@@ -17,6 +29,8 @@ module.exports = {
       /^cinematic-/,
       /^case-/,
       /^sirui-/,
+      // Inline/dock suffixes are assembled from a template and a variant.
+      /^section-reading-aid-mobile(?:-|$)/,
       "post-header-field",
       "has-spotlight",
       "collapse",

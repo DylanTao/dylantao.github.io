@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import test from "node:test";
-import { PurgeCSS } from "purgecss";
+import { defaultOptions, PurgeCSS } from "purgecss";
 
 const require = createRequire(import.meta.url);
 const configuration = require("../purgecss.config.js");
@@ -28,12 +28,13 @@ const css = `
 @keyframes unused-cleanup-control { to { opacity: 0; } }
 `;
 
-async function process(safelist) {
+async function process(safelist, defaultExtractor = configuration.defaultExtractor) {
   const [result] = await new PurgeCSS().purge({
     ...configuration,
     content,
     css: [{ raw: css }],
     safelist,
+    defaultExtractor,
     keyframes: true,
   });
   return result.css;
@@ -53,9 +54,12 @@ test("production CSS cleanup retains the visitor-created brand animation and its
 });
 
 test("the retained pre-fix cleanup control removes those runtime selectors", async () => {
-  const output = await process({
-    ...configuration.safelist,
-    greedy: configuration.safelist.greedy.filter((pattern) => !pattern.test("data-brand-state")),
-  });
+  const output = await process(
+    {
+      ...configuration.safelist,
+      greedy: configuration.safelist.greedy.filter((pattern) => !pattern.test("data-brand-state")),
+    },
+    defaultOptions.defaultExtractor
+  );
   assert.doesNotMatch(output, /data-brand-state/);
 });
