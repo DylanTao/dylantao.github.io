@@ -1,0 +1,854 @@
+{
+  "schema": "coastal-surface-roles-v1",
+  "scope": "Actual source-bound native/decoded public audit plus distinct private plant, fit, failed-control and geometry-only evidence. README is editorial. Gates appended before first publication.",
+  "files": [
+    {
+      "path": "canonical/native/AUDIT.json.gz",
+      "bytes": 1453044,
+      "sha256": "133f3f23f03e89749204aa371490f8c8c557daf61d8cd952615c07f64ed805f5",
+      "encoding": "gzip",
+      "bodyBytes": 35696932,
+      "bodySha256": "bfdbccbf93bf7c3eb3331369fda957f2410eacda1476719b71e1589988b7e3e5"
+    },
+    {
+      "path": "canonical/native/AUDIT.log.gz",
+      "bytes": 2816,
+      "sha256": "dac7187997f1adf1d108eec993c6fa336fed0908566b49e3ccf47adf0035ab61",
+      "encoding": "gzip",
+      "bodyBytes": 23461,
+      "bodySha256": "b7496b8dc33f45b991d9baf95090a984c60491368c49a62be654594275709d87"
+    },
+    {
+      "path": "canonical/native/PROCESS.json.gz",
+      "bytes": 2225,
+      "sha256": "33acac31c2b68c6d7c5940a36f5358ac1a2043c1cd467361d241320a8e2a2b8c",
+      "encoding": "gzip",
+      "bodyBytes": 5650,
+      "bodySha256": "814ce40da50f5a305ff94c3f37f17933a9f9642068db2edd0728e42ba82e2b3b"
+    },
+    {
+      "path": "canonical/native/INVOCATION.json.gz",
+      "bytes": 2148,
+      "sha256": "344f6be16c1714817acefe027110f8209f48d466df2dcfef499365eccc152323",
+      "encoding": "gzip",
+      "bodyBytes": 5509,
+      "bodySha256": "00e3a37c068c8d6aaaec6b7b725ae532b4a3a9c28f4c3bc0693b0cb120fdc114"
+    },
+    {
+      "path": "canonical/decoded/AUDIT.json.gz",
+      "bytes": 1525284,
+      "sha256": "1e5352ff46a637244157781d96339a6b11a93f48a063402be58359478d04919c",
+      "encoding": "gzip",
+      "bodyBytes": 38278660,
+      "bodySha256": "ba0b8de54f4d954990888770e056f5bcd236a45ae136d4555d3ed40240c87e9c"
+    },
+    {
+      "path": "canonical/decoded/AUDIT.log.gz",
+      "bytes": 11579,
+      "sha256": "d05dad9b0cfa566509aab7ad071f64bf7f91c1da0ea549d33d19f08b8748d175",
+      "encoding": "gzip",
+      "bodyBytes": 128386,
+      "bodySha256": "b47869163da33ef316e85a6be718966307cc4b9446686815ca7b96012521a104"
+    },
+    {
+      "path": "canonical/decoded/PROCESS.json.gz",
+      "bytes": 2230,
+      "sha256": "c6f5b3732ae689b132a0ecb927467cca4937bfc76ea801bc4ab14c7c3aec25e8",
+      "encoding": "gzip",
+      "bodyBytes": 5674,
+      "bodySha256": "d3043551541cf7b4f851cc8026d71c10eb66eec2559a5a087b51711c24ee31cb"
+    },
+    {
+      "path": "canonical/decoded/INVOCATION.json.gz",
+      "bytes": 2154,
+      "sha256": "c441f26a776355843269683be4aaf5af5f23a62a1641836dd2fd9eaadc1fb454",
+      "encoding": "gzip",
+      "bodyBytes": 5533,
+      "bodySha256": "9922f7baf2ca4beb4c69ce37d5b1800f1b2092b0584a95c4b2747d721ae70235"
+    },
+    {
+      "path": "initial-gates/prior-overlap-audit.json.gz",
+      "bytes": 10708,
+      "sha256": "0cd915f33eb4514d2a9fc686467abb15aaafdeb2047da226afb5ed1aa5e7bc6e",
+      "encoding": "gzip",
+      "bodyBytes": 60383,
+      "bodySha256": "1a12847ce94c789d81c6b70bf2c50a9738b55a797e7d733997315df112df1e54"
+    },
+    {
+      "path": "initial-gates/TARGETED.json.gz",
+      "bytes": 492,
+      "sha256": "9f6421a86caffaa0bd7b2396a3248b10d5c226968f6f608dc68380928426051e",
+      "encoding": "gzip",
+      "bodyBytes": 1001,
+      "bodySha256": "9f3447822dd055977a096a5617edce5da897dfbc4d6be0780448c2b3a0576880"
+    },
+    {
+      "path": "initial-gates/targeted.log.gz",
+      "bytes": 379,
+      "sha256": "6968d4108979d9e5a49d559307e43de676bb93f88c9d0244d02a11b34683cf6b",
+      "encoding": "gzip",
+      "bodyBytes": 975,
+      "bodySha256": "d7136993933c612e2f07b1a4ab9b567f0c3bfa9f7843e20ea23c2a3cae75a9de"
+    },
+    {
+      "path": "private-controls/garden-bench-open-plant-v2/OPEN-BENCH.json.gz",
+      "bytes": 2114,
+      "sha256": "5da653d0e3f0adbd74add756f35734809878f7909fc872f6a83f4e0932e22d54",
+      "encoding": "gzip",
+      "bodyBytes": 8937,
+      "bodySha256": "b818988c2d65c501b7caabe705a3585572ade8c670745b09c102dab097f67338"
+    },
+    {
+      "path": "private-controls/garden-bench-open-plant-ao-v2/OWNED-GARDEN-BENCH-AO.json.gz",
+      "bytes": 1301,
+      "sha256": "97979eb2c157439153ceef11f37df025b639e9f6c33b8730c4e20bda785ad31c",
+      "encoding": "gzip",
+      "bodyBytes": 3973,
+      "bodySha256": "b523571a9bd4c6bbe59e54d3635711ca4407a2e483e07b4f53eacd873b247678"
+    },
+    {
+      "path": "private-controls/garden-bench-open-plant-ao-v2/BAKE.json.gz",
+      "bytes": 379,
+      "sha256": "770a7170768939542d1206ec9f9070be4455caccd59297b709efc199bc1f4efb",
+      "encoding": "gzip",
+      "bodyBytes": 1175,
+      "bodySha256": "f2d40c11d335c3a58e4d89acde8252f3909baba9d4de2949ac74b1187a4493c2"
+    },
+    {
+      "path": "private-controls/garden-bench-open-plant-export-v2/PROCESS.json.gz",
+      "bytes": 479,
+      "sha256": "436823336922b2742c43be5c2c348ab35a9b2b15abc83f4476c2609301e7bc81",
+      "encoding": "gzip",
+      "bodyBytes": 829,
+      "bodySha256": "3b8c5591071ff5e39a12051cf4e2fcf34625c8e997306752c0b9d3d99f26fe93"
+    },
+    {
+      "path": "private-controls/garden-bench-open-plant-export-v2/command.json.gz",
+      "bytes": 6799,
+      "sha256": "065e516ca67bc6e47d9a008d9af8aeefc73ba865abafd4d9c8f0686706ec8906",
+      "encoding": "gzip",
+      "bodyBytes": 15511,
+      "bodySha256": "a7519a4e99557682f2d9878570d739ff5fd901522d9c2237c9c291b08436c1bd"
+    },
+    {
+      "path": "private-controls/garden-bench-open-plant-export-v2/export.json.gz",
+      "bytes": 13405,
+      "sha256": "ad98f47aa7af703e007da0f022e042dbabaec5151de0dd688851b245a1b71a6b",
+      "encoding": "gzip",
+      "bodyBytes": 149974,
+      "bodySha256": "973d1b499c40eba791529f9b44c11494ac6be44f4a21d145173082c3a4a636f0"
+    },
+    {
+      "path": "private-controls/garden-bench-open-plant-body-v2/PROCESS.json.gz",
+      "bytes": 606,
+      "sha256": "e161a02f6c82824bcceb26c9505b945e0a9712fdaffa33ade6ab7afc9505770b",
+      "encoding": "gzip",
+      "bodyBytes": 1667,
+      "bodySha256": "439d090efcb3110fd67caf159d40a7e1aa2e1fd7d8413c31b0ae04f20b450e4d"
+    },
+    {
+      "path": "private-controls/garden-bench-open-plant-body-v2/COMPOSED-NATIVE-BODY-SUMMARY.json.gz",
+      "bytes": 157,
+      "sha256": "5ddcd1f2a9c2a8c3984a7f49e56b2cba4300e698784e2369e112b7c01193772a",
+      "encoding": "gzip",
+      "bodyBytes": 181,
+      "bodySha256": "1eb5b8885529a9164144f5085ea437f07f463690ced02feb13eab43f7281edb2"
+    },
+    {
+      "path": "private-controls/garden-bench-open-plant-body-v2/STANDING-HEAD-QUALIFICATION.json.gz",
+      "bytes": 3596,
+      "sha256": "fb3cdba1c6ca5f1ade86133372e67af481f34decd029124992c8295d17906aaa",
+      "encoding": "gzip",
+      "bodyBytes": 120881,
+      "bodySha256": "594493c5c53ea8f972b38bc3764350e8aa8e55fd30adb454416c90dbea0c096e"
+    },
+    {
+      "path": "private-controls/garden-bench-open-plant-body-v2/COMPOSED-NATIVE-PORTAL-WIDTH.json.gz",
+      "bytes": 1309,
+      "sha256": "e87cf12e0d478d4ec78060e528cb4ea51d25c0b6a096919e6c3c635df6244d19",
+      "encoding": "gzip",
+      "bodyBytes": 13667,
+      "bodySha256": "24bc5386c44c041632fb90567547875c68ce33774225b430e968e6c2edfff58d"
+    },
+    {
+      "path": "private-controls/garden-bench-open-plant-body-v2/legacy-body.log.gz",
+      "bytes": 828,
+      "sha256": "f3b5a663ae21fba9d84a18ad2d8e4257101344081062795197d672c95e9bdc04",
+      "encoding": "gzip",
+      "bodyBytes": 2374,
+      "bodySha256": "99cf53bce0f79670cebd40861da215280c71e7ed3a068615c7b5eb0fafe3c616"
+    },
+    {
+      "path": "private-controls/garden-roof-combined-v1/FAILED-PREFLIGHT.json.gz",
+      "bytes": 228,
+      "sha256": "39afa8747ef9cd6f91a2af42f3d488f458fe800a79d51fc44d48c70079fa504d",
+      "encoding": "gzip",
+      "bodyBytes": 311,
+      "bodySha256": "fd7061f34cbb31814fd3bcb04a7e72133914f7e01655b8aa46c5098631b3b7d8"
+    },
+    {
+      "path": "private-controls/garden-roof-combined-v2/GUARDED-REPLAY.json.gz",
+      "bytes": 5298,
+      "sha256": "9d7d20b4287bee64f8ab75fb798cff33e4320c3e27377c74ad1e99581b774d7b",
+      "encoding": "gzip",
+      "bodyBytes": 41925,
+      "bodySha256": "169312802a894778bab6b48e3b6a69bcc800a9047494eb628f6883fced7e1712"
+    },
+    {
+      "path": "private-controls/garden-roof-combined-v2/COMMAND.json.gz",
+      "bytes": 467,
+      "sha256": "ecb46104b57cb78f2042388d50a365a7607503572ffe5d8b9fe0b7d33d8c82a2",
+      "encoding": "gzip",
+      "bodyBytes": 1065,
+      "bodySha256": "6412f9b066abd2b8bf12b6c1c98a4874f560fee694ebbca1daa6e90be71af2ac"
+    },
+    {
+      "path": "private-controls/garden-roof-combined-v2/OWNED-LOCAL-AO-MASKS.json.gz",
+      "bytes": 10428,
+      "sha256": "8c1546efd3081972e0cc861792d77a149fa7a14086aea1e8035aea59925f422f",
+      "encoding": "gzip",
+      "bodyBytes": 63247,
+      "bodySha256": "bf3856601b3980ae1de8a80e896f7e070f693401098039dedfd53493d91a14b0"
+    },
+    {
+      "path": "private-controls/garden-roof-owning-ao-v1/BAKE.json.gz",
+      "bytes": 190,
+      "sha256": "059333d3405e30e5d5a8ac4bf2612c87db20e6df27867cc3842b788ac7b35a04",
+      "encoding": "gzip",
+      "bodyBytes": 243,
+      "bodySha256": "3fb0f05942bbf30f0b27955bc6597eb672a3b0edd5853aee4086e1b659b15c8f"
+    },
+    {
+      "path": "private-controls/garden-roof-owning-ao-v2/OWNING-ROOF-AO.json.gz",
+      "bytes": 3400,
+      "sha256": "c04d59d762d1726ffb52c85339d5d2b80ecdb9ad6bccb9b09d086c1963fdfa8f",
+      "encoding": "gzip",
+      "bodyBytes": 18585,
+      "bodySha256": "822f283b8cacfd16f616b9fe06906232db43b6733ae179b137f23f9d29c6b18e"
+    },
+    {
+      "path": "private-controls/garden-roof-export-v1/PROCESS.json.gz",
+      "bytes": 471,
+      "sha256": "3db00ac4ba8792d3223bcf8cf0a7f582a91230345310a9e9a9c8e94a6da9bab3",
+      "encoding": "gzip",
+      "bodyBytes": 791,
+      "bodySha256": "5bed812e3d02c2230e71fa06f31e688dfb0142fa243df87ab40536e1fb880b50"
+    },
+    {
+      "path": "private-controls/garden-roof-export-v1/command.json.gz",
+      "bytes": 6765,
+      "sha256": "4245340a48c402ef47238fc9126d247b5274db431085e4159f99ed1304ac18b5",
+      "encoding": "gzip",
+      "bodyBytes": 15411,
+      "bodySha256": "a13acafdb02173e6db0afc206facef7456c38b8725cba6b1a55680c93edc83e2"
+    },
+    {
+      "path": "private-controls/garden-roof-export-v1/export.json.gz",
+      "bytes": 13405,
+      "sha256": "8d08ec3ae74eb2392cfbae90449b165317eda6fa5e51624fe3590c56cd32ad2f",
+      "encoding": "gzip",
+      "bodyBytes": 149974,
+      "bodySha256": "88c4ff3457a4838eff041c8c3f5eec142e366e60763e3605c6e1641ccda8e909"
+    },
+    {
+      "path": "private-controls/geometry-inspection-v1/CAPACITY-AND-CUSTODY.json.gz",
+      "bytes": 578,
+      "sha256": "2c1b40b9a65a473b3cb123456c3ace7ba34cbcc7e327894eff9fdd7d87942dd9",
+      "encoding": "gzip",
+      "bodyBytes": 906,
+      "bodySha256": "9262220af914e30ffd1a1d63d14033247c7e37e1518073c614447aecfd1a06e3"
+    },
+    {
+      "path": "private-controls/geometry-inspection-v1/PROCESS.json.gz",
+      "bytes": 416,
+      "sha256": "edf34427e19acb651e45e293f1198e5fc5614b29cf2fec4e80475192feec9e9c",
+      "encoding": "gzip",
+      "bodyBytes": 1097,
+      "bodySha256": "d0c06e94639d6ce07cb7f6a1b99b24dba7654b59ba938f6328a1ce078f8db936"
+    },
+    {
+      "path": "private-controls/geometry-inspection-v1/SOURCE-SNAPSHOT.json.gz",
+      "bytes": 22401,
+      "sha256": "7b1a458e6052c31add09a5121ac7e988e0420f283460eacca0da3ff0965a8282",
+      "encoding": "gzip",
+      "bodyBytes": 52270,
+      "bodySha256": "b3756e9d3fa03bb5a379c0233957678bf1aa3a4f68aae50fde60ed1a2861764b"
+    },
+    {
+      "path": "private-controls/geometry-inspection-v1/native-paused-geometry-views-v1/CAPTURE.json.gz",
+      "bytes": 359304,
+      "sha256": "320962048f4c974db8a90dee026de2afcd2f9bfd3660baaae3028d7e5e206042",
+      "encoding": "gzip",
+      "bodyBytes": 2719771,
+      "bodySha256": "a57fb997c8a756a27ac6761698442c0eea4529e9df6ae015671f39ad0715f6f2"
+    },
+    {
+      "path": "private-controls/geometry-inspection-v1/native-paused-geometry-views-v1/outside-default.png.gz",
+      "bytes": 3549818,
+      "sha256": "9474f898107a8d3c3af5609773c3241d1e7c0c83cc8866e0b237816cad4040d5",
+      "encoding": "gzip",
+      "bodyBytes": 3548720,
+      "bodySha256": "8fee08d287ca1733a32eb17c26b79f07360a2a172a4fb26df11c21bb1ac272d0"
+    },
+    {
+      "path": "private-controls/geometry-inspection-v1/native-paused-geometry-views-v1/entrance-default.png.gz",
+      "bytes": 2259548,
+      "sha256": "4e912a1d9b267b98984aaad3817ec3d0219ea223977a323b1a75bc84666b5f17",
+      "encoding": "gzip",
+      "bodyBytes": 2258880,
+      "bodySha256": "f45d9c0b4048b1a89f9beeeed7f92cddd30b2f92ce833bdf66d2d2a45290e6a2"
+    },
+    {
+      "path": "private-controls/geometry-inspection-v1/native-paused-geometry-views-v1/kitchen-default.png.gz",
+      "bytes": 1329425,
+      "sha256": "92e548db794da1c38e879ecd80e9403c2c9764ba514786b456df9c4b10ee8738",
+      "encoding": "gzip",
+      "bodyBytes": 1329017,
+      "bodySha256": "0e1f8533300d9c49ccb57dc207d0feb165ef0414b63c139b14930cb029a21e71"
+    },
+    {
+      "path": "private-audits/final-overlap-v11-roof-plant-native/AUDIT.json.gz",
+      "bytes": 1479404,
+      "sha256": "bb05cdce1b6f9203bfaf8833407f9d3f81f23289944470c139b3fc6ac244138b",
+      "encoding": "gzip",
+      "bodyBytes": 31018064,
+      "bodySha256": "54e73196c20b42b9d4d6b0463b037819039d8d8633bf129716a475599b0f3650"
+    },
+    {
+      "path": "private-audits/final-overlap-v11-roof-plant-native/PROCESS.json.gz",
+      "bytes": 2244,
+      "sha256": "5537a8592424213dbd9ac1783229023861fccbab24c60fb069fd2ea1633ecf3a",
+      "encoding": "gzip",
+      "bodyBytes": 8281,
+      "bodySha256": "de15e1ae1649fc3d5d6759d57db2c7defd044e5f015399f69149d616bf624d9f"
+    },
+    {
+      "path": "private-audits/final-overlap-v12-surface-roof-native/AUDIT.json.gz",
+      "bytes": 1581247,
+      "sha256": "be340ad9970eb3a508036b3012b47c5986614c35a4d3ebc88e0920533f914c60",
+      "encoding": "gzip",
+      "bodyBytes": 38518449,
+      "bodySha256": "b0b2e2d87969f6d80977854b04b16dd63f9f746c68b1dc3949aa5abb2658cdf9"
+    },
+    {
+      "path": "private-audits/final-overlap-v12-surface-roof-native/PROCESS.json.gz",
+      "bytes": 2247,
+      "sha256": "f916f0dd6f1eb161f9c6417a407d86d67b793eff244ea42c2dc2bf36d2b0d6c2",
+      "encoding": "gzip",
+      "bodyBytes": 8283,
+      "bodySha256": "ec97c7a2d5aa3a9f0c567e56d9f73016b0a951f95b91f06143443851c0d32fab"
+    },
+    {
+      "path": "private-audits/final-overlap-v13-measured-roof-native/AUDIT.json.gz",
+      "bytes": 1577780,
+      "sha256": "7ca477f48503b5f0161a6d1271a4f57e89f7344866668499c9d541e61157ef6c",
+      "encoding": "gzip",
+      "bodyBytes": 38518465,
+      "bodySha256": "646c1cd23b71f7969a7f3607bab9228eb67a38855f91b5e2a2efc3f373907fbd"
+    },
+    {
+      "path": "private-audits/final-overlap-v13-measured-roof-native/PROCESS.json.gz",
+      "bytes": 2248,
+      "sha256": "99bd724923bec1c0d47eb0ad25f6173880fb9f7fd02f2c3580838f1c9c73d798",
+      "encoding": "gzip",
+      "bodyBytes": 8284,
+      "bodySha256": "bcbfc1f28cceeb590cf3301b8b66153c1a73f825b1faa25b3457aa433f84cb37"
+    },
+    {
+      "path": "private-controls/GARDEN-PLANT-V2-SUPPORT-POINTS.json.gz",
+      "bytes": 1902,
+      "sha256": "f8e3df1c8caeec3f101aee6b28562139b177a76329b935bf5a6befe04500d6ab",
+      "encoding": "gzip",
+      "bodyBytes": 36312,
+      "bodySha256": "8957de890d59b3deabd70d58b172d888a89e609f6fcca60187f809f7332e29c4"
+    },
+    {
+      "path": "private-controls/GEOMETRY-INSPECTION-V1-CRITIQUE.json.gz",
+      "bytes": 1165,
+      "sha256": "d4143ccc2f6a57ecb701b00530df8628d54ee2f1ac68e5b1c81ab3130a3e61da",
+      "encoding": "gzip",
+      "bodyBytes": 2200,
+      "bodySha256": "866ad581f2db63246044f2f0b20b6d1c6604c88b3aaa304382a0c4df3e6bc0da"
+    },
+    {
+      "path": "private-controls/bake-local-roof-plant.log.gz",
+      "bytes": 13993,
+      "sha256": "4357ad3b5c306b9e24718da408650c89a306a66dfbe5c990b8ac1959bbbe7a86",
+      "encoding": "gzip",
+      "bodyBytes": 276712,
+      "bodySha256": "ba9746ba30f2b8d8db37ab144d664ee51fda7ba180cb094ddb0c0a68fc872126"
+    },
+    {
+      "path": "private-controls/bake-local-roof-plant-v2.log.gz",
+      "bytes": 443,
+      "sha256": "5ea8a588071d6ad2ee3ce02b548a9eac088483bdbf46c3fd6058d7c2af25a739",
+      "encoding": "gzip",
+      "bodyBytes": 1628,
+      "bodySha256": "8473445d287d84c85298855a801691a28683e091b41a67b111643414253aeebf"
+    },
+    {
+      "path": "independent-pot-repeat/lizard-implemented-motion.json.gz.gz",
+      "bytes": 3200048,
+      "sha256": "006cae0d1a2d847873ff947e46a981417cbc5b8a217e75a4823a4ff6da2fc1da",
+      "encoding": "gzip",
+      "bodyBytes": 3225965,
+      "bodySha256": "4bec48b954cf18f8f38bc86740f28973cf48f8c028f578fe6c4fcb4799f3e35e"
+    },
+    {
+      "path": "independent-pot-repeat/lizard-LATEST-QUERY.json.gz.gz",
+      "bytes": 13291,
+      "sha256": "8c880d42879d1bab02448c2fd756e0d776f8aefae0f64abe928b50a1b5123ead",
+      "encoding": "gzip",
+      "bodyBytes": 13377,
+      "bodySha256": "155138e211da2eba25925ed740cf23e909f50738fe44ef8435560a113811ee81"
+    },
+    {
+      "path": "independent-pot-repeat/PROGRESS.json.gz",
+      "bytes": 729,
+      "sha256": "e3ae31e4d3e1ce3ee8a9198d74e1edacc599177ffc7ed0b4d3d307bc351bba1f",
+      "encoding": "gzip",
+      "bodyBytes": 1574,
+      "bodySha256": "b3df8b27c29296115eb171a61b43d70c8bf71f6dd5d5d84dfe58d56941f16fa9"
+    },
+    {
+      "path": "independent-pot-repeat/RESULT.json.gz",
+      "bytes": 38571,
+      "sha256": "7caeb29ee2fbd727b2b0f327b9c1529cf258ed61d84328aeee5e1038fc90082b",
+      "encoding": "gzip",
+      "bodyBytes": 320947,
+      "bodySha256": "d0dd01678b81c34e73781324d6d31bdb9670f21b0deb0a24141d6c328c1a91eb"
+    },
+    {
+      "path": "selected-source/bin/audit_coastal_overlaps.py.gz",
+      "bytes": 15574,
+      "sha256": "430fcbfa923dc7a4ec6d445d0ec39bbdaa885893a54c221bfc7b84860d78079b",
+      "encoding": "gzip",
+      "bodyBytes": 46767,
+      "bodySha256": "9d2aa0ba31916e1f99c2180ac6639fd23693bae0ecce82f23df70ab4ff9fc6f4"
+    },
+    {
+      "path": "selected-source/bin/coastal_breakfast_nook.py.gz",
+      "bytes": 18327,
+      "sha256": "ea120ff17e20eaf0512fb424cdc09d5a137ece7d93b4f0e07c9298c93e7d6851",
+      "encoding": "gzip",
+      "bodyBytes": 61135,
+      "bodySha256": "8a229a5f312d165fca85b79c1725abdbef2fb9fd983f54dd4f844d7f58c490dc"
+    },
+    {
+      "path": "selected-source/bin/coastal_garden_bench.py.gz",
+      "bytes": 3181,
+      "sha256": "68693a1cc72db62fbd95da4f5e2ef22817cfe3fa3cfbc01a6e3baf98df602fa2",
+      "encoding": "gzip",
+      "bodyBytes": 8379,
+      "bodySha256": "1088f9b02c0b82bf81fc28101311339da81f0b138aa7d55e24f43b1bf7050aae"
+    },
+    {
+      "path": "selected-source/bin/replay_coastal_f6_patch.py.gz",
+      "bytes": 4692,
+      "sha256": "28de66d7218ddb08f5832bafc455e2ba1b30a1253cad1fc576ed388a7b6633d2",
+      "encoding": "gzip",
+      "bodyBytes": 15298,
+      "bodySha256": "ddefae0c0a7b71c032d65b9bb7cae643be9ac42ab397914fd3c14204acb14e99"
+    },
+    {
+      "path": "selected-source/test/test_coastal_overlap_surface_role.py.gz",
+      "bytes": 1086,
+      "sha256": "aa283748edc5117cdec76cf2ea99c54f6ac5823a40363169462232fb7890729f",
+      "encoding": "gzip",
+      "bodyBytes": 3036,
+      "bodySha256": "5ed562a0d9b1e9daa8586fa31d1e983ab300b59234b141327b42c9d16f9ffd69"
+    },
+    {
+      "path": "selected-source/test/test_resting_review_custody.py.gz",
+      "bytes": 1577,
+      "sha256": "ad244527c054af609997f1608c066a75d4bf0dce13823aac4a7989610e8378b8",
+      "encoding": "gzip",
+      "bodyBytes": 6069,
+      "bodySha256": "abe300ec599de8d3ad28004376a0115295d0e778b366322b4805541e0263cd45"
+    },
+    {
+      "path": "selected-source/artwork/coastal-home/reviews/house-2026-10-24/overlap-audit.json.gz",
+      "bytes": 10696,
+      "sha256": "58d585720e8d00df3006ce511c74369aaf3ee9fc3c2bff2f81c7e46efdb13284",
+      "encoding": "gzip",
+      "bodyBytes": 60268,
+      "bodySha256": "01195ea3798f26e1b70d161b9627290453c9daea13af407fa05062305952fcc4"
+    },
+    {
+      "path": "selected-source/artwork/coastal-home/reviews/house-2026-10-24/overlap-verdicts.json.gz",
+      "bytes": 8336,
+      "sha256": "ad16ee2516810cc6b6d3df186a98c0da6844ebdd7d745cd1afa4bc2667f1991d",
+      "encoding": "gzip",
+      "bodyBytes": 38375,
+      "bodySha256": "b8780928ad171ba06a637d537a60e896aa34c8e0c8e124368d118c876a7f27ec"
+    },
+    {
+      "path": "selected-source/docs/october-2026-handoff.md.gz",
+      "bytes": 52696,
+      "sha256": "3b5fa978d9ff033cfa5fed9095821b50d51b4e995b1390d6faeee2a27bc36191",
+      "encoding": "gzip",
+      "bodyBytes": 151035,
+      "bodySha256": "74df42af2b4976343e0a69081eaff4e8f68e8d33e096e922ec56947c322442af"
+    },
+    {
+      "path": "producers/launch-final-audit.py.gz",
+      "bytes": 1436,
+      "sha256": "6caa0502f5e8e285f5d11d6b85c08bae5ea3e9009e10313d9cd90ac9a006b2e3",
+      "encoding": "gzip",
+      "bodyBytes": 3042,
+      "bodySha256": "b186e3e3ff1e4542efb0451576c92815fc520d0a95a822728b01394d9a862f9d"
+    },
+    {
+      "path": "producers/prepare-surface-role-checkpoint.py.gz",
+      "bytes": 880,
+      "sha256": "d29ad89a3a090962219e4f469a65d6c66018591547a2332eb3ab65a81341a3ce",
+      "encoding": "gzip",
+      "bodyBytes": 1820,
+      "bodySha256": "a2dd619ed2d9c04954f687bbae1ded883f849ea04750167d6f208bd595379953"
+    },
+    {
+      "path": "producers/summarize-roof-plant-v11.py.gz",
+      "bytes": 588,
+      "sha256": "ad687f8b1f0fcb1bba0ce063a92d03b143fbc38f7bcbd254fe9b83b86657047c",
+      "encoding": "gzip",
+      "bodyBytes": 980,
+      "bodySha256": "ac46d8d3d908b2369e630b2f02103f1528df8c73840e9b8d31636b7294992aae"
+    },
+    {
+      "path": "producers/prepare-open-garden-plant-v2.py.gz",
+      "bytes": 1061,
+      "sha256": "0be862d7e2c4b013e877b38f4ec5c1ea33c1906bdd44fd69ed0c9fd40cc88c25",
+      "encoding": "gzip",
+      "bodyBytes": 2433,
+      "bodySha256": "6eb3e6130671ec6fa751bb882a123b38e8e96a617ccfee19ff01e3130eddb702"
+    },
+    {
+      "path": "producers/build-open-garden-plant-v2.py.gz",
+      "bytes": 1091,
+      "sha256": "42659c9d8dbcd6316026d249e5180e8b54b88bc12b162f5280ba11910638689a",
+      "encoding": "gzip",
+      "bodyBytes": 2192,
+      "bodySha256": "2446065309d476e3210ca7eb8e0dea9fced1e23ce7fa12e026ac0cd08878c61a"
+    },
+    {
+      "path": "producers/bake-open-garden-plant-v2.py.gz",
+      "bytes": 2055,
+      "sha256": "780e6f63b6a870944f35908bb6747721b90937be08b73cfa1a7ec24362f4b303",
+      "encoding": "gzip",
+      "bodyBytes": 4656,
+      "bodySha256": "3432b0f95e0e784c1aa40c57f06df9c826e849756184c6853a8c490be9a20e20"
+    },
+    {
+      "path": "producers/export-open-garden-plant-v2.py.gz",
+      "bytes": 1887,
+      "sha256": "0878b56f209b4fa4fb70a8048cff8129fd8fc92a68c2306c4702f3c127b0a69f",
+      "encoding": "gzip",
+      "bodyBytes": 4550,
+      "bodySha256": "68b1b1127827c2f190e6a0bee34fc3b3f942959d846f7ba7b7e1ee4e22ae05ba"
+    },
+    {
+      "path": "producers/check-open-garden-plant-v2.py.gz",
+      "bytes": 681,
+      "sha256": "3941fba51a57a098abef388158581564cc5c745c592e0c81fa9ecbacf07c5654",
+      "encoding": "gzip",
+      "bodyBytes": 1645,
+      "bodySha256": "71fd99e994f7465fde0dbe384733a95da6d957c9d4ff255eeea0e0b3327f51ba"
+    },
+    {
+      "path": "producers/check-open-garden-plant-body-v2.py.gz",
+      "bytes": 1114,
+      "sha256": "75cf4ed344bf7003c2318e5cacae3fad2b68b6c3b9e17596ab66e9bfef638e8e",
+      "encoding": "gzip",
+      "bodyBytes": 2195,
+      "bodySha256": "613c34fc2e60cc67c2726a9c9bfc586519ac6e96a88e1492aad88e7c2f85f865"
+    },
+    {
+      "path": "producers/inspect-garden-plant-v2-support.py.gz",
+      "bytes": 1148,
+      "sha256": "f4a869451108022ab78ab99ddfd7e37e1f1d890fbf8d7f784da63ee389dc1dd7",
+      "encoding": "gzip",
+      "bodyBytes": 2224,
+      "bodySha256": "7734b9d546a7106978b48044f4253b335aa3cabf8502cfd66bae7d966637141a"
+    },
+    {
+      "path": "producers/merge-local-roof-plant.py.gz",
+      "bytes": 1288,
+      "sha256": "1e7393e925eab17593063c32bee6d480e00f27bf851fb1d4f1169f24edc907ec",
+      "encoding": "gzip",
+      "bodyBytes": 2497,
+      "bodySha256": "6512b0d6c3860dbdc9de7353190dc64cf6a5f517e6cb0b11e079628619385888"
+    },
+    {
+      "path": "producers/bake-local-roof-plant.py.gz",
+      "bytes": 2172,
+      "sha256": "3f508f2fc2aaadea0f6f2e499b190ec8dd53e1b1a8a59161224b1fd32096cca8",
+      "encoding": "gzip",
+      "bodyBytes": 4642,
+      "bodySha256": "27f9af4ec8c93f83e9d634356de86cf606b3b3f6cf6895313835b7e16be3aeaf"
+    },
+    {
+      "path": "producers/qualify-local-roof-ao-v2.py.gz",
+      "bytes": 933,
+      "sha256": "6d00204cecb6931f81a59914adb59b3bf79b43e820f0c5c7251ce6371ec61853",
+      "encoding": "gzip",
+      "bodyBytes": 1966,
+      "bodySha256": "09f6478048f76e2b803ae318fa41c8e4e9dd366fb496d983feac1ac4891067ef"
+    },
+    {
+      "path": "producers/bake-local-roof-plant-v2.py.gz",
+      "bytes": 2347,
+      "sha256": "349293b3ba65b21198a6129cdbadaeb1b61892f56cf9fddd35bbe8b695d95004",
+      "encoding": "gzip",
+      "bodyBytes": 5170,
+      "bodySha256": "658d873a142ef790f9a5ab7d86a843fe62bb295893b33b03abaa6013069e992c"
+    },
+    {
+      "path": "producers/prepare-roof-export-v1.py.gz",
+      "bytes": 549,
+      "sha256": "6567b0ab784204b4faecf6cdea52dd523e8239e394b52b2a97619eb1c9ba93b4",
+      "encoding": "gzip",
+      "bodyBytes": 957,
+      "bodySha256": "3852fb0d1cbeaf1f87645c1082c096dd23fdae7c60946360494f433682e1dce6"
+    },
+    {
+      "path": "producers/export-roof-plant-v1.py.gz",
+      "bytes": 1877,
+      "sha256": "a8c67404e1741f9d1a65e556ecace67f42aeec085ad10df7430598c9943ac6ce",
+      "encoding": "gzip",
+      "bodyBytes": 4513,
+      "bodySha256": "9421fbef5ac360281ff6bdf632b187509a6c39554a2878afc6f96585fbd48bf4"
+    },
+    {
+      "path": "producers/prepare-geometry-inspection-v1.py.gz",
+      "bytes": 1859,
+      "sha256": "9b3d7a07c9b6cbb467259f0a28e164ab01e4b386afdd574d06d80d0cfca3f8b3",
+      "encoding": "gzip",
+      "bodyBytes": 4269,
+      "bodySha256": "b8580c84eed681287955d880d4922df6df96bbca57554e42dfbd29ca317debd4"
+    },
+    {
+      "path": "producers/prepare-geometry-capture-v1.py.gz",
+      "bytes": 468,
+      "sha256": "ae14205b439517012b11d09323a170f5ef663584ee80e5862347f42960a0e7c4",
+      "encoding": "gzip",
+      "bodyBytes": 777,
+      "bodySha256": "eb2fd59991f0c0cbe422ce9d4a5615a0486b1c72423ebfb05193dfa55934c6e2"
+    },
+    {
+      "path": "producers/capture-geometry-inspection-v1.cjs.gz",
+      "bytes": 2309,
+      "sha256": "cd47f74d9da8b166c7e02cfef96a5834404601dd0f283254b0b234bd8e34df4b",
+      "encoding": "gzip",
+      "bodyBytes": 5006,
+      "bodySha256": "ec59f513df7f6d2800e07e5b7aed67dac6b78215736838cb5151b723761206d7"
+    },
+    {
+      "path": "producers/archive-surface-role-checkpoint.py.gz",
+      "bytes": 2117,
+      "sha256": "86a846fdf28e45b41b683867d68e8ec2fdf6a20e13942515e383c46181287d18",
+      "encoding": "gzip",
+      "bodyBytes": 4906,
+      "bodySha256": "2f36a0e4435f54e272b0c174cf38d0093d0f3e897b296f81acf08a8efbdbd3bc"
+    },
+    {
+      "path": "SOURCE.json.gz",
+      "bytes": 891,
+      "sha256": "8d70617cdb004a4a1adb225007b09b85006ea1d8880df0f3f26d81e2cf0b8115",
+      "encoding": "gzip",
+      "bodyBytes": 1866,
+      "bodySha256": "417c56cdaa031ae1d0121082a3c78f52b96af6f8d629bde9c504ddc993ecbda9"
+    },
+    {
+      "path": "gates/UNIT-GATES.json.gz",
+      "bytes": 1507,
+      "sha256": "d5be91e1af48dc73cc3ee41d79b86a4160ba913ab9bcb0ed3611b28bd42f7065",
+      "encoding": "gzip",
+      "bodyBytes": 7586,
+      "bodySha256": "9cda6cbffca2e406a2a05f0afa8c110c26bb5d1a7eb0246ac9a08a9a0872f084"
+    },
+    {
+      "path": "gates/BUILD-GATES.json.gz",
+      "bytes": 290,
+      "sha256": "1de4c4f203c9743c3564c757a7e05bcc6357395f9b2921a869bfc0358edb1807",
+      "encoding": "gzip",
+      "bodyBytes": 510,
+      "bodySha256": "885e77807e959026f6825433d5a9dbc1af449f08a07955dfd7b3d480526788c7"
+    },
+    {
+      "path": "gates/python.log.gz",
+      "bytes": 117,
+      "sha256": "2b0a406f6de0159b9c0cff7085f2e8dfa6ad45e3b8bad99a19894003b94d5e63",
+      "encoding": "gzip",
+      "bodyBytes": 569,
+      "bodySha256": "1dd203bae65c590746d63986f2046cc2fcde2df9fd7d3963b14891b6002cafe1"
+    },
+    {
+      "path": "gates/node.log.gz",
+      "bytes": 45792,
+      "sha256": "44e2b3bbefeccb82f2e9555e9cad52068384b818697ca4e10eff3c71b566fe36",
+      "encoding": "gzip",
+      "bodyBytes": 167009,
+      "bodySha256": "bd535c7e546a016d165d823a0b3097217c56afcd921b066b3d1cfca5b96753c1"
+    },
+    {
+      "path": "gates/style.log.gz",
+      "bytes": 57,
+      "sha256": "1285c7c023390ffa10b2c143c9c2512cbaa6e4fefe4979514838c789099a94e8",
+      "encoding": "gzip",
+      "bodyBytes": 37,
+      "bodySha256": "e959900fa566355a00b04f8721479609c46d53edf7fe6f232946b5e9a510ff42"
+    },
+    {
+      "path": "gates/production-build.log.gz",
+      "bytes": 5925,
+      "sha256": "05c348ed8dc620d19ee7f9d19cb9aaf01fda28f3b124e297eff0ef05693c8937",
+      "encoding": "gzip",
+      "bodyBytes": 172561,
+      "bodySha256": "d3fd73434a9500e0996e66044f62920692fec87a1be604f23509f8ae7dd6b2e8"
+    },
+    {
+      "path": "gates/COMPILED-CUSTODY.json.gz",
+      "bytes": 24606,
+      "sha256": "5d9252b84fefe993abaeb474884dd741b422d142b97c0e5e81d8d968e80451e9",
+      "encoding": "gzip",
+      "bodyBytes": 84279,
+      "bodySha256": "c833788624295feb6cc508183065f7db63c27bc426e61cd64981ac4442d00644"
+    },
+    {
+      "path": "gates/VALIDATION-SOURCE.json.gz",
+      "bytes": 24333,
+      "sha256": "7882f02e95dded6e5a1bf761f3b9aa3d73e1d349277198978ee412c6dfe7834b",
+      "encoding": "gzip",
+      "bodyBytes": 98571,
+      "bodySha256": "c5ed023483d648f7384c351cab333fc365abe90cc3143ff106a9ad6f61f5af54"
+    },
+    {
+      "path": "producers/prepare-surface-role-validation.py.gz",
+      "bytes": 316,
+      "sha256": "9d48248a7333fa4bc93af75b991336c2cfd5a3f6399e4987976cb8b8a3d82998",
+      "encoding": "gzip",
+      "bodyBytes": 717,
+      "bodySha256": "952b91c996c72a909a6f0dce905321b4a647a913592e2f1535dca5030bc50efc"
+    },
+    {
+      "path": "producers/run-surface-role-validation.py.gz",
+      "bytes": 879,
+      "sha256": "66162d2619b971ee08b17ac7654d8120bbb58736e7aecb5b4bf4758151808d85",
+      "encoding": "gzip",
+      "bodyBytes": 1526,
+      "bodySha256": "2d30bed725d5727dfb7dd370d293eea3be34cc0c58edd058feff052afbe13eea"
+    },
+    {
+      "path": "producers/verify-surface-role-built.py.gz",
+      "bytes": 886,
+      "sha256": "7fba9b4ac0a2bd56df2ae0bb7e62533254b13dd0da5e8875bda58e2574bd5e2e",
+      "encoding": "gzip",
+      "bodyBytes": 1786,
+      "bodySha256": "2d636969c220e826e7495092461b082c12549fc6971367537fb9a8e23d554a0d"
+    },
+    {
+      "path": "producers/append-surface-role-gates.py.gz",
+      "bytes": 797,
+      "sha256": "f091d87643dfef9c8a9929cebf60cbb4319c031026d86cc901555c1a861c1d43",
+      "encoding": "gzip",
+      "bodyBytes": 1465,
+      "bodySha256": "f62ce2632b93e9c9efff3a109cd3271176f12e2acb22f79bd20ca6f5b828a36b"
+    },
+    {
+      "path": "gates/FAILED-BUILT-CUSTODY-V1.json.gz",
+      "bytes": 382,
+      "sha256": "89ceae2ffdb7c04b54aa6bbd291f799e1b4b4ce286b3555c1dd7a6d0aadb1c70",
+      "encoding": "gzip",
+      "bodyBytes": 644,
+      "bodySha256": "171dcb22d64d6fd63bd43b89a41ad68ac25f003c0f8a6f1588a89cb007febcaf"
+    },
+    {
+      "path": "gates/HTML-DIFFERENCE.json.gz",
+      "bytes": 446,
+      "sha256": "cf3348c2c69a55ef16486754ffb84a987d4253ea4f1cf7c0cbb4d769a194fa9e",
+      "encoding": "gzip",
+      "bodyBytes": 1349,
+      "bodySha256": "361dae36323b0c1a18aef36b8f4565b649988fe36e4ded91023795eaf0754168"
+    },
+    {
+      "path": "gates/HTML-QUALIFICATION.json.gz",
+      "bytes": 264,
+      "sha256": "fa646f3c43d9e34a82fc8fe5ecf4351580ad387abca9b5c1fd4c4b0d3bdd6082",
+      "encoding": "gzip",
+      "bodyBytes": 367,
+      "bodySha256": "db838d9063d92b4595c49375d7ed54d4247b0e0703f4ad9de28ade3132ab711b"
+    },
+    {
+      "path": "gates/ITERATION.json.gz",
+      "bytes": 381,
+      "sha256": "5c20f9ea00f6280f8ad485486a9ed87001772ba21db758a087b94fa84f435c32",
+      "encoding": "gzip",
+      "bodyBytes": 583,
+      "bodySha256": "a51cb639acf8c4ada81a0bba5a64432ec10e60d7a67f84f3ecaaacb471addd45"
+    },
+    {
+      "path": "gates/iteration.log.gz",
+      "bytes": 387,
+      "sha256": "7b02bd16a046479bd955d4f9bf07a6e5507994c9c5e0a6e15b6aae657e04edaa",
+      "encoding": "gzip",
+      "bodyBytes": 816,
+      "bodySha256": "0ce491fa5784574229357ae8bb5fbc67a5c2b71d0837c5d255257cc307b2ac6b"
+    },
+    {
+      "path": "gates/SERVER-CUSTODY.json.gz",
+      "bytes": 306,
+      "sha256": "810772adff3e533b46296d8b4b6a0b615d06ea0959392031a23f9e4f76a53b5a",
+      "encoding": "gzip",
+      "bodyBytes": 468,
+      "bodySha256": "421adc0861b7147d60f33d437dc7f79039f585109ec298e86816f7218c6a5c17"
+    },
+    {
+      "path": "producers/diagnose-surface-role-html.py.gz",
+      "bytes": 596,
+      "sha256": "316ddeead41dce092bf66ffe4aee3df98bd65774a25733f3a81af9411a80f782",
+      "encoding": "gzip",
+      "bodyBytes": 1047,
+      "bodySha256": "a384447e647b031d6fd594402b7b4dd39badbf2458a9b59cd7c1b106bd3ecbe7"
+    },
+    {
+      "path": "producers/prepare-surface-role-preview.py.gz",
+      "bytes": 228,
+      "sha256": "8e08dc951b1d4dddea44c5b4750e2e1fbdb4c2545c5cf932df34579472572560",
+      "encoding": "gzip",
+      "bodyBytes": 326,
+      "bodySha256": "d52b89c22f07789ca043b3d636492122e5283b5e355fd65ceef05ffb33a72c84"
+    },
+    {
+      "path": "producers/serve-surface-role-checkpoint.py.gz",
+      "bytes": 821,
+      "sha256": "d84f0d76e15dc94b4897cea60692287cc55795885032ae512f4180ddb1d8368b",
+      "encoding": "gzip",
+      "bodyBytes": 1632,
+      "bodySha256": "ac72ef4031169268c5bd2ad083160d637d54b9d20e7dccb041c1811415ccbf3b"
+    },
+    {
+      "path": "producers/run-surface-role-iteration.py.gz",
+      "bytes": 565,
+      "sha256": "52d28e6b29871d4eaf2c25577ef796cf1ed35a2c8c616fd915d386218ce0cd8f",
+      "encoding": "gzip",
+      "bodyBytes": 873,
+      "bodySha256": "d702c114030dcb10d88e622118087c1338b992c992664f046d08c4fd4e304d3c"
+    },
+    {
+      "path": "producers/finish-surface-role-evidence.py.gz",
+      "bytes": 1233,
+      "sha256": "2c8feda7d8c9f26da0e18c32b85af6e11659e632f7be73c19865083e8520278c",
+      "encoding": "gzip",
+      "bodyBytes": 2486,
+      "bodySha256": "c0ecbde1803cb4a5aa457ba649e738eb82ed0dec058d18957cf19e72f0e3bc52"
+    },
+    {
+      "path": "render/home-top-light-1440x1000-still.png.gz",
+      "bytes": 418573,
+      "sha256": "40ca9a179633c0f1f8f7bf9c5de89794b94a7aafe8c5ffa20d97464a2aca2222",
+      "encoding": "gzip",
+      "bodyBytes": 422503,
+      "bodySha256": "a8ae37c54ea22c02dfe1bdef12684ac5c6a3fa55817633a3facf5ecbe40c9c4f"
+    }
+  ]
+}

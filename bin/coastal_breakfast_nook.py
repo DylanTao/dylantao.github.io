@@ -6,7 +6,7 @@ The coordinator composes this delta after F6/arrival and requalifies exports.
 """
 import copy
 
-VERSION = 12
+VERSION = 13
 FLOOR = -1.02
 SIDE_NATIVE_Y = (-5.2690815925598145, -3.9715962409973145)
 # Two source-bound grounded returns retained from the ORIGINAL rock, not added

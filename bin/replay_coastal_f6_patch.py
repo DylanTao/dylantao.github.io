@@ -239,8 +239,8 @@ def replay(manifest_path, source, expected_sha, output, report_path):
             mesh.polygons.foreach_get("material_index", material_indices)
             mesh.materials.clear()
             for material_name in target["materialNames"]:
-                assert material_name in existing_materials, (name, "Missing accepted material", material_name)
-                mesh.materials.append(existing_materials[material_name])
+                assert material_name is None or material_name in existing_materials, (name, "Missing accepted material", material_name)
+                mesh.materials.append(None if material_name is None else existing_materials[material_name])
             if had_material_attribute:
                 mesh.polygons.foreach_set("material_index", material_indices)
             else:

@@ -1,9 +1,9 @@
 {
   "tool": "bin/audit_coastal_overlaps.py",
-  "toolSha256": "7f1728a116fddda5fe1878e9d95e1b927308ba184c6d12ad8f0cf570a5aa85ed",
+  "toolSha256": "e96b9f3b136bf8a3f189aada7ce279b3fc61224dc34e6b146ca3821c4d9830cb",
   "source": "artwork/coastal-home/coastal-home.blend",
   "sourceSha256": "1e10b25d5cf0eec87d7001acbf9d938d65ba33af6076380d5a8e5d45cf3d23e7",
-  "manifestSha256": "558a97b2a91e6a71c46bd1ad2a271d753a9f631a87f2c454affdbcffb494e593",
+  "manifestSha256": "30c0f32fe7025588e3a9f45d85dd1c4b1452d1cab7a8d484744af27a1c718888",
   "exportsSha256": {
     "coast.glb": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
     "flora.glb": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2",
@@ -244,20 +244,20 @@
     "pairsTested": 4064,
     "crossingPairs": 902,
     "sites": 17630,
-    "offenders": 928,
+    "offenders": 939,
     "coplanarPairs": 363,
     "zFightingPairs": 32,
     "coplanarTrianglePairsTested": 77537
   },
   "ruleCounts": {
-    "unclassified": 928,
-    "one-sided-embed": 2324,
+    "unclassified": 939,
+    "one-sided-embed": 2334,
     "support-rest": 176,
     "shallow-seam": 9517,
     "water-in-basin": 187,
     "structural-joint": 106,
-    "planting-root": 1888,
-    "terrain-landform": 2504
+    "planting-root": 1890,
+    "terrain-landform": 2481
   },
   "foliageOverlap": {
     "pairs": 80,
@@ -266,11 +266,11 @@
   "totals": {
     "zFightingPairs": 32,
     "zFightingVisibleAreaM2": 0.7686,
-    "grazingSites": 25,
-    "grazingSeamM": 3.257,
-    "deepSites": 903,
-    "deepSitesOver5cm": 294,
-    "deepSeverity": 34767.9,
+    "grazingSites": 24,
+    "grazingSeamM": 3.621,
+    "deepSites": 915,
+    "deepSitesOver5cm": 306,
+    "deepSeverity": 37938.9,
     "maxDeepSeverity": 1338.8
   },
   "before": {
@@ -287,8 +287,8 @@
     }
   },
   "beforeProvenance": {
-    "file": ".jekyll-cache\\visual-qa\\final-house-integration-20261102\\overlap-tool-checkpoint\\prior-overlap-audit.json",
-    "sha256": "a9937196046c4a75fee22de3e1c3e15c0951f2a8b0565a02f0f61f50d8a6a730",
+    "file": ".jekyll-cache\\visual-qa\\final-house-integration-20261102\\surface-role-checkpoint\\prior-overlap-audit.json",
+    "sha256": "1a12847ce94c789d81c6b70bf2c50a9738b55a797e7d733997315df112df1e54",
     "kind": "retained-before-record-in-compact-audit"
   },
   "delivered": {
@@ -310,11 +310,11 @@
     "totals": {
       "zFightingPairs": 34,
       "zFightingVisibleAreaM2": 1.0794,
-      "grazingSites": 25,
-      "grazingSeamM": 3.408,
-      "deepSites": 790,
-      "deepSitesOver5cm": 135,
-      "deepSeverity": 21783.1,
+      "grazingSites": 27,
+      "grazingSeamM": 4.226,
+      "deepSites": 826,
+      "deepSitesOver5cm": 157,
+      "deepSeverity": 25584.3,
       "maxDeepSeverity": 1379.9
     },
     "zFighting": [
@@ -550,7 +550,7 @@
       "areaM2": 0.124349,
       "at": [4.903, -1.401, 7.237],
       "normal": [-0.908, -0.414, 0.059],
-      "verdict": null
+      "verdict": "follow-up"
     },
     {
       "pair": "lounge__woven jute | lounge_refined_botanical__honed travertine",
@@ -577,7 +577,7 @@
       "areaM2": 0.023803,
       "at": [-11.749, -16.1, 10.984],
       "normal": [0.0, -1.0, 0.0],
-      "verdict": null
+      "verdict": "follow-up"
     },
     {
       "pair": "core_estate_pool__sea glass pool mosaic | core_infinity_water",
@@ -649,7 +649,7 @@
       "areaM2": 0.004787,
       "at": [-12.539, 1.286, 11.499],
       "normal": [0.985, -0.003, 0.171],
-      "verdict": null
+      "verdict": "follow-up"
     },
     {
       "pair": "core_estate_library_liftaway_roof | core_retreat_liftaway_roof",
@@ -730,7 +730,7 @@
       "areaM2": 0.00173,
       "at": [-11.572, 13.851, 8.449],
       "normal": [-0.233, 0.895, -0.381],
-      "verdict": null
+      "verdict": "follow-up"
     },
     {
       "pair": "core__golden coastal sandstone | core_facade__dark_bronze",
@@ -802,7 +802,7 @@
       "areaM2": 0.00019,
       "at": [-8.42, -6.45, 9.875],
       "normal": [0.0, 1.0, 0.0],
-      "verdict": null
+      "verdict": "follow-up"
     },
     {
       "pair": "core_finish_bedchamber_floor__pale oak | core_finish_bedroom_spiral_landing__pale oak",
@@ -816,6 +816,20 @@
   ],
   "grazing": [
     {
+      "pair": "core_bathwing_liftaway_roof | core_flora_iceplant",
+      "grazingSeamM": 0.5539,
+      "depthM": 0.1097,
+      "center": [-7.204, -1.626, 9.429],
+      "verdict": null
+    },
+    {
+      "pair": "core_bathwing_liftaway_roof | core_estate_library_liftaway_roof",
+      "grazingSeamM": 0.2197,
+      "depthM": 0.0528,
+      "center": [-8.015, -1.177, 6.215],
+      "verdict": "follow-up"
+    },
+    {
       "pair": "core__golden coastal sandstone | core_facade__warm_cut_stone",
       "grazingSeamM": 0.2121,
       "depthM": 0.043,
@@ -828,20 +842,6 @@
       "depthM": 0.0367,
       "center": [-0.989, -6.071, -0.031],
       "verdict": "follow-up"
-    },
-    {
-      "pair": "core_flora_sage | core_liftaway_cave_ceiling_rear",
-      "grazingSeamM": 0.136,
-      "depthM": 0.0384,
-      "center": [3.255, -7.201, 7.056],
-      "verdict": null
-    },
-    {
-      "pair": "core_flora_sage | core_liftaway_cave_ceiling_rear",
-      "grazingSeamM": 0.1835,
-      "depthM": 0.0254,
-      "center": [-0.827, -6.908, 7.159],
-      "verdict": null
     },
     {
       "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
@@ -935,13 +935,6 @@
       "verdict": null
     },
     {
-      "pair": "core_flora_sage | core_liftaway_cave_ceiling_rear",
-      "grazingSeamM": 0.0902,
-      "depthM": 0.0051,
-      "center": [3.054, -7.289, 7.001],
-      "verdict": null
-    },
-    {
       "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
       "grazingSeamM": 0.0897,
       "depthM": 0.0047,
@@ -1003,6 +996,16 @@
       "verdict": "planting"
     },
     {
+      "pair": "core__golden coastal sandstone | core_retreat_liftaway_roof",
+      "sites": 20,
+      "seamM": 16.321,
+      "maxDepthM": 0.3331,
+      "severity": 4372.7,
+      "worstSite": [6.472, -1.116, 8.034],
+      "categories": ["rock", "shell"],
+      "verdict": "follow-up"
+    },
+    {
       "pair": "core__golden coastal sandstone | core_arrival_court__warm cut stone",
       "sites": 5,
       "seamM": 30.304,
@@ -1011,26 +1014,6 @@
       "worstSite": [-0.95, -19.05, 8.24],
       "categories": ["rock", "shell"],
       "verdict": "built-into-rock"
-    },
-    {
-      "pair": "core_bathwing_liftaway_roof | core_liftaway_cave_ceiling",
-      "sites": 11,
-      "seamM": 9.127,
-      "maxDepthM": 0.2783,
-      "severity": 2045.1,
-      "worstSite": [-5.433, -2.473, 6.462],
-      "categories": ["rock", "shell"],
-      "verdict": "hidden"
-    },
-    {
-      "pair": "core_liftaway_cave_ceiling | core_retreat_liftaway_roof",
-      "sites": 16,
-      "seamM": 7.835,
-      "maxDepthM": 0.2803,
-      "severity": 2021.5,
-      "worstSite": [4.783, -1.281, 7.545],
-      "categories": ["rock", "shell"],
-      "verdict": "hidden"
     },
     {
       "pair": "core_estate_library_liftaway_roof | core_flora_lemonade_berry_shade",
@@ -1083,6 +1066,16 @@
       "verdict": "built-into-rock"
     },
     {
+      "pair": "core_bathwing_liftaway_roof | core_liftaway_cave_ceiling",
+      "sites": 5,
+      "seamM": 4.371,
+      "maxDepthM": 0.2575,
+      "severity": 1054.0,
+      "worstSite": [-5.433, -2.473, 6.462],
+      "categories": ["shell"],
+      "verdict": "hidden"
+    },
+    {
       "pair": "bath-living__chalk limestone | bath-living__honed travertine",
       "sites": 102,
       "seamM": 75.104,
@@ -1101,6 +1094,26 @@
       "worstSite": [-5.991, -9.845, 3.36],
       "categories": ["room"],
       "verdict": "designed"
+    },
+    {
+      "pair": "core__golden coastal sandstone | core_estate_library_liftaway_roof",
+      "sites": 4,
+      "seamM": 1.237,
+      "maxDepthM": 0.3187,
+      "severity": 695.6,
+      "worstSite": [-12.793, -6.955, 11.242],
+      "categories": ["rock", "shell"],
+      "verdict": "follow-up"
+    },
+    {
+      "pair": "core_liftaway_cave_ceiling | core_retreat_liftaway_roof",
+      "sites": 6,
+      "seamM": 3.339,
+      "maxDepthM": 0.2803,
+      "severity": 641.3,
+      "worstSite": [5.358, -2.494, 6.527],
+      "categories": ["rock", "shell"],
+      "verdict": "hidden"
     },
     {
       "pair": "coast_shared_golden coastal sandstone | kitchen__chalk limestone",
@@ -1363,6 +1376,26 @@
       "verdict": "designed"
     },
     {
+      "pair": "core_bathwing_liftaway_roof | core_estate_library_liftaway_roof",
+      "sites": 2,
+      "seamM": 0.445,
+      "maxDepthM": 0.1912,
+      "severity": 180.0,
+      "worstSite": [-6.732, 0.465, 8.456],
+      "categories": ["shell"],
+      "verdict": "follow-up"
+    },
+    {
+      "pair": "core_fireplace_cap__blackened steel flue | core_fireplace_cap__golden coastal sandstone",
+      "sites": 1,
+      "seamM": 4.576,
+      "maxDepthM": 0.0837,
+      "severity": 179.1,
+      "worstSite": [0.95, -6.85, 7.462],
+      "categories": ["rock", "shell"],
+      "verdict": "follow-up"
+    },
+    {
       "pair": "core_estate_pavilion__brushed brass | core_estate_pavilion__warm cut stone",
       "sites": 2,
       "seamM": 0.698,
@@ -1511,6 +1544,16 @@
       "worstSite": [4.643, -15.535, 2.469],
       "categories": ["shell"],
       "verdict": "designed"
+    },
+    {
+      "pair": "core_lightwell_rim | core_retreat_liftaway_roof",
+      "sites": 1,
+      "seamM": 2.6,
+      "maxDepthM": 0.0713,
+      "severity": 115.0,
+      "worstSite": [2.055, -11.216, 6.968],
+      "categories": ["rock", "shell"],
+      "verdict": "follow-up"
     },
     {
       "pair": "core_estate_pavilion__honey ash | core_estate_pavilion__pale oak",
@@ -1740,56 +1783,6 @@
       "severity": 61.5,
       "worstSite": [5.001, -20.25, 7.887],
       "categories": ["shell"],
-      "verdict": null
-    },
-    {
-      "pair": "core_arrival_hall__warm cut stone | core_reno_floorboards_lower",
-      "sites": 4,
-      "seamM": 2.659,
-      "maxDepthM": 0.0192,
-      "severity": 60.5,
-      "worstSite": [-0.132, -15.619, -0.01],
-      "categories": ["shell"],
-      "verdict": null
-    },
-    {
-      "pair": "furniture:nook-banquette/banquette.lod0__honey ash | kitchen__chalk limestone",
-      "sites": 2,
-      "seamM": 2.792,
-      "maxDepthM": 0.0285,
-      "severity": 56.9,
-      "worstSite": [-4.875, -4.833, -0.405],
-      "categories": ["furniture", "room"],
-      "verdict": null
-    },
-    {
-      "pair": "core_estate_garden__brushed brass | core_estate_garden__honey ash",
-      "sites": 2,
-      "seamM": 1.132,
-      "maxDepthM": 0.0375,
-      "severity": 56.4,
-      "worstSite": [-3.85, -16.72, 8.994],
-      "categories": ["shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "bath-living__chalk limestone | core_arrival_living__chalk limestone",
-      "sites": 4,
-      "seamM": 0.729,
-      "maxDepthM": 0.0375,
-      "severity": 54.7,
-      "worstSite": [-4.74, -14.24, 2.311],
-      "categories": ["room", "shell"],
-      "verdict": null
-    },
-    {
-      "pair": "core_estate_library_liftaway_roof | core_flora_sage",
-      "sites": 2,
-      "seamM": 0.288,
-      "maxDepthM": 0.085,
-      "severity": 52.8,
-      "worstSite": [-11.234, -2.736, 11.076],
-      "categories": ["plant", "rock"],
       "verdict": null
     }
   ]

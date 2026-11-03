@@ -673,6 +673,41 @@
       "maxDepthM": 0.101,
       "maxSeamM": 2.553
     },
+    "core__golden coastal sandstone | core_retreat_liftaway_roof": {
+      "verdict": "follow-up",
+      "reason": "Finite crossed-material inspection exposes twenty retained finish/rock crossings in the unchanged1e10 public native source. The roof owner's rock-like name no longer exempts its actual non-mineral crossed faces. All sites and severity remain counted; inspect the actual roof/finish fit during the pending exterior composition. This records a bounded existing defect, not an intentional joint or repair.",
+      "maxDepthM": 0.3331,
+      "maxSeamM": 16.321,
+      "evidence": "artwork/coastal-home/reviews/surface-roles-2026-11-02/README.md"
+    },
+    "core__golden coastal sandstone | core_estate_library_liftaway_roof": {
+      "verdict": "follow-up",
+      "reason": "Four retained mixed-finish/rock sites become measurable under actual crossed-face material roles. The public native source and models are unchanged; maximum sampled depth0.3187m and full seam1.237m remain in the totals. Review the library roof/finish fit with its pending shoulder. No whole-owner exclusion or designed-contact claim is applied.",
+      "maxDepthM": 0.3187,
+      "maxSeamM": 1.237,
+      "evidence": "artwork/coastal-home/reviews/surface-roles-2026-11-02/README.md"
+    },
+    "core_bathwing_liftaway_roof | core_estate_library_liftaway_roof": {
+      "verdict": "follow-up",
+      "reason": "Two existing crossed finish sites, depth0.1912m and seam0.445m, are retained when the mixed roofs are classified by their crossed materials rather than owner names. This is a finite current-public-source follow-up; the private repaired rock interface has separate source/volume evidence and is not admitted by this report.",
+      "maxDepthM": 0.1912,
+      "maxSeamM": 0.445,
+      "evidence": "artwork/coastal-home/reviews/surface-roles-2026-11-02/README.md"
+    },
+    "core_fireplace_cap__blackened steel flue | core_fireplace_cap__golden coastal sandstone": {
+      "verdict": "follow-up",
+      "reason": "The real steel flue faces remain a shell contact despite the cap's caveRoof role. One retained site measures0.0837m depth and4.576m seam in the unchanged public source. Keep this chimney/cap fit explicit for the next native revision; it is not exempted as terrain.",
+      "maxDepthM": 0.0837,
+      "maxSeamM": 4.576,
+      "evidence": "artwork/coastal-home/reviews/surface-roles-2026-11-02/README.md"
+    },
+    "core_lightwell_rim | core_retreat_liftaway_roof": {
+      "verdict": "follow-up",
+      "reason": "The finite roof-finish/lightwell-rim crossing remains counted:0.0713m maximum sampled depth and2.6m seam, current public native1e10. Material-role inspection removes a blanket mineral assumption; it does not demonstrate an intentional joint or correct the geometry.",
+      "maxDepthM": 0.0713,
+      "maxSeamM": 2.6,
+      "evidence": "artwork/coastal-home/reviews/surface-roles-2026-11-02/README.md"
+    },
     "furniture:kitchen-glass-fridge/glass-fridge.lod0::fridge door_ | furniture:kitchen-glass-fridge/glass-fridge.lod0__furniture pol": {
       "verdict": "follow-up",
       "reason": "Four existing lower glass-fridge door/frame crossings become measurable with exact-position closure. The unchanged delivered component pair and worst low hinge/threshold site remain in the raw report. Review the owning door/frame fit at the next furniture export; no contact-rule exemption or repair is inferred.",

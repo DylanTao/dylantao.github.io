@@ -125,12 +125,12 @@ def finish_garden_bench(scene):
     # Move the complete plant, including all foliage/branches/pot, without editing its local data.
     for name in olive:
         obj=bpy.data.objects[name];original=data_fingerprint(obj);old=world_bounds(obj)
-        obj.matrix_world=Matrix.Translation((.15,0,0))@obj.matrix_world
+        obj.matrix_world=Matrix.Translation((.20,0,0))@obj.matrix_world
         bpy.context.view_layer.update()
         actual=world_bounds(obj)
         assert data_fingerprint(obj)==original
-        assert all(abs(actual[side][k]-old[side][k]-(.15 if k==0 else 0))<1e-6 for side in (0,1)for k in range(3))
-        changes.append({'owner':name,'action':'rigid-whole-olive','deltaWorld':[.15,0,0],'localDataSha256':original,'beforeNativeBounds':old,'afterNativeBounds':world_bounds(obj)})
+        assert all(abs(actual[side][k]-old[side][k]-(.20 if k==0 else 0))<1e-6 for side in (0,1)for k in range(3))
+        changes.append({'owner':name,'action':'rigid-whole-olive','deltaWorld':[.20,0,0],'localDataSha256':original,'beforeNativeBounds':old,'afterNativeBounds':world_bounds(obj)})
 
     # Turn the small pillow into a supported west armrest, clear of the central seat.
     obj=bpy.data.objects[pillow];original=data_fingerprint(obj);old=world_bounds(obj)
@@ -143,5 +143,5 @@ def finish_garden_bench(scene):
     bpy.context.view_layer.update()
     for obj in new: valid_parts(obj)
 
-    return {"version": 2, "scope": "NEW bench open backrest relief with continuous base/front bearing and two independently supported cushion lobes; whole olive rigid150mm east move and rigid west-end pillow. Body motion, support, bake and export verification remain separate.",
+    return {"version": 3, "scope": "NEW bench open backrest relief with continuous base/front bearing and two independently supported cushion lobes; whole olive rigid200mm east move and rigid west-end pillow. Body motion, support, bake and export verification remain separate.",
             "owned": sorted(owned), "newObjects": new_names, "newBoxes": new_bounds, "changes": changes}

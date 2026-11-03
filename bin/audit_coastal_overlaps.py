@@ -692,6 +692,31 @@ def build_trees(meshes):
     return [BVHTree.FromPolygons([Vector(q) for q in m["co"]], m["tri"].tolist(), all_triangles=True) for m in meshes]
 
 
+def crossed_surface_role(mesh, triangles):
+    """Classify a mixed cave roof by its actual crossed faces, never its owner name.
+
+    A rock-only finite site can join a landform under the existing depth rule.
+    Chalk/unknown faces and open or unqualified solids remain shell contacts.
+    This measures material/role evidence; it does not prove a new roof fit or
+    excuse excess overlap volume, which has its own source-bound audit.
+    """
+    materials = sorted({mesh["mats"][int(mesh["mat"][i])] for i in triangles})
+    props = mesh.get("props", {})
+    role = mesh["category"]
+    qualified = False
+    if props.get("caveRoof") is True:
+        known = {"golden coastal sandstone", "La Jolla stratified sandstone"}
+        # Blender adds a numeric suffix when importing repeated glTF materials.
+        # No substring matching or unknown material alias admits a finish.
+        def mineral(name):
+            stem, dot, suffix = name.rpartition(".")
+            return name in known or bool(dot and suffix.isdigit() and len(suffix) == 3 and stem in known)
+        qualified = bool(materials and mesh["closed"] and all(mineral(name) for name in materials))
+        role = "rock" if qualified else "shell"
+    return {"category": role, "materials": materials, "qualifiedCaveRock": qualified,
+            "caveRoof": props.get("caveRoof") is True, "closedSolid": props.get("closedSolid") is True}
+
+
 def interpenetration(meshes, trees):
     lo = np.array([m["lo"] for m in meshes])
     hi = np.array([m["hi"] for m in meshes])
@@ -732,7 +757,9 @@ def interpenetration(meshes, trees):
                 hi_s = np.maximum(s0[sel], s1[sel]).max(0)
                 ta = np.unique(ij[sel, 0])
                 tb = np.unique(ij[sel, 1])
-                rec = {"a": a["name"], "b": b["name"], "categoryA": a["category"], "categoryB": b["category"],
+                role_a, role_b = crossed_surface_role(a, ta), crossed_surface_role(b, tb)
+                rec = {"a": a["name"], "b": b["name"], "categoryA": role_a["category"], "categoryB": role_b["category"],
+                       "crossedSurfaceA": role_a, "crossedSurfaceB": role_b,
                        "roomA": a["room"], "roomB": b["room"], "closedA": a["closed"], "closedB": b["closed"],
                        "seamM": round(seam, 4), "crossings": int(sel.sum()),
                        "grazingSeamM": round(float(length[sel & grazing].sum()), 4),
@@ -748,7 +775,7 @@ def interpenetration(meshes, trees):
                     rec["parts" + side] = int(len(ids))
                 gsel = sel & grazing
                 gseam = float(length[gsel].sum())
-                terrain_only = {a["category"], b["category"]} <= {"plant", "rock", "coast", "soil"}
+                terrain_only = {rec["categoryA"], rec["categoryB"]} <= {"plant", "rock", "coast", "soil"}
                 if gsel.any() and gseam > 0.002 and gseam >= GRAZING_SHARE * seam and not terrain_only:
                     mids = ((s0[gsel] + s1[gsel]) / 2)
                     nrm = a["normal"][ij[gsel, 0]] + b["normal"][ij[gsel, 1]]

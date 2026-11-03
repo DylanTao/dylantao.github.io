@@ -151,6 +151,18 @@ The owning bench recipe now has an open tail channel after the closed bridge
 failed actual seated-turn contacts. Constructor/field evidence is separate
 from the still-open complete coffee motion and final native integration gates.
 
+The [finite-surface and garden-clearance checkpoint](../artwork/coastal-home/reviews/surface-roles-2026-11-02/README.md)
+uses actual crossed materials and measured closure for mixed cave-roof contacts.
+Fresh public native/decoded audits retain every global limit; five newly ranked
+finish/roof pairs remain counted bounded follow-ups. The owning whole-olive move
+now totals 200 millimeters, with exact local data and an independent decoded
+repeat removing the measured pot collision. This does not admit the rejected
+garden-coffee choreography. Keep that space as Sirui's calm visitor refuge and
+qualify breakfast at the existing open-ocean pavilion. The combined private
+product passes the 749,753-triangle lighting budget, but its deep-contact count
+and cliff silhouette still fail admission. The squared-return profile trial
+also remains rejected; the remaining crown/shoulder needs a real shape correction.
+
 The [paper/limewash material checkpoint](../artwork/coastal-home/reviews/washi-material-2026-11-02/README.md)
 corrects an actual substring matcher: washi diffusers and incoming limewash were
 being treated as ash wood. Twelve native views per version verify the two public
