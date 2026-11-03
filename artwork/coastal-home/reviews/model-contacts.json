@@ -1,5 +1,9 @@
 {
   "method": "Actual Blender pose vertices and named wrists; five authored key times per clip",
+  "scope": "Original five immutable native rig sources; final character-finish delivered skin is an independent gate",
+  "houseSourceSha256": "cb531e3839358ec96b3da21ea09c3b2b69891e507bcf12d220b9a5e35e503fff",
+  "houseManifestSha256": "58291c6095e4302be12564e0536469bbc05f147908064d267cb14c3dc1d2c83f",
+  "sleepActor": [-6.8, 1.5, 6.97],
   "coordinateSystem": "Blender Z-up, meters",
   "avatars": [
     {
@@ -436,8 +440,8 @@
                 "max": [0.3869999647140503, 1.4104206562042236, 1.1650266647338867]
               },
               "headBounds": {
-                "min": [-0.24920083582401276, 0.7060737609863281, 0.6149999499320984],
-                "max": [0.24922333657741547, 1.4104206562042236, 1.1650266647338867]
+                "min": [-0.24888689815998077, 0.7060737609863281, 0.6149999499320984],
+                "max": [0.24894772469997406, 1.4104206562042236, 1.1650266647338867]
               }
             },
             {
@@ -452,8 +456,8 @@
                 "max": [0.3869999647140503, 1.4082000255584717, 1.1720380783081055]
               },
               "headBounds": {
-                "min": [-0.24920083582401276, 0.706595242023468, 0.6183521151542664],
-                "max": [0.24922333657741547, 1.4082000255584717, 1.1720380783081055]
+                "min": [-0.24888689815998077, 0.706595242023468, 0.6183521151542664],
+                "max": [0.24894772469997406, 1.4082000255584717, 1.1720380783081055]
               }
             },
             {
@@ -468,8 +472,8 @@
                 "max": [0.3869999647140503, 1.4104206562042236, 1.1650266647338867]
               },
               "headBounds": {
-                "min": [-0.24920083582401276, 0.7060737609863281, 0.6149999499320984],
-                "max": [0.24922333657741547, 1.4104206562042236, 1.1650266647338867]
+                "min": [-0.24888689815998077, 0.7060737609863281, 0.6149999499320984],
+                "max": [0.24894772469997406, 1.4104206562042236, 1.1650266647338867]
               }
             },
             {
@@ -484,8 +488,8 @@
                 "max": [0.3869999647140503, 1.4125113487243652, 1.157943844795227]
               },
               "headBounds": {
-                "min": [-0.24920083582401276, 0.7055191993713379, 0.6116556525230408],
-                "max": [0.24922333657741547, 1.4125113487243652, 1.157943844795227]
+                "min": [-0.24888689815998077, 0.7055191993713379, 0.6116556525230408],
+                "max": [0.24894772469997406, 1.4125113487243652, 1.157943844795227]
               }
             },
             {
@@ -500,8 +504,8 @@
                 "max": [0.3869999647140503, 1.4104206562042236, 1.1650266647338867]
               },
               "headBounds": {
-                "min": [-0.24920083582401276, 0.7060737609863281, 0.6149999499320984],
-                "max": [0.24922333657741547, 1.4104206562042236, 1.1650266647338867]
+                "min": [-0.24888689815998077, 0.7060737609863281, 0.6149999499320984],
+                "max": [0.24894772469997406, 1.4104206562042236, 1.1650266647338867]
               }
             }
           ]
@@ -3026,27 +3030,27 @@
   "sleepCover": [
     {
       "avatar": "lizard",
-      "maximumFootAboveDuvetMeters": -0.027161836624145508,
+      "maximumFootAboveDuvetMeters": -0.028911828994750977,
       "method": "Actual weighted foot vertices raycast against the avatar's own draped duvet"
     },
     {
       "avatar": "south-park",
-      "maximumFootAboveDuvetMeters": -0.02210521697998047,
+      "maximumFootAboveDuvetMeters": -0.02360391616821289,
       "method": "Actual weighted foot vertices raycast against the avatar's own draped duvet"
     },
     {
       "avatar": "simpsons",
-      "maximumFootAboveDuvetMeters": -0.02131032943725586,
+      "maximumFootAboveDuvetMeters": -0.028412342071533203,
       "method": "Actual weighted foot vertices raycast against the avatar's own draped duvet"
     },
     {
       "avatar": "ghibli",
-      "maximumFootAboveDuvetMeters": -0.016963481903076172,
+      "maximumFootAboveDuvetMeters": -0.03192543983459473,
       "method": "Actual weighted foot vertices raycast against the avatar's own draped duvet"
     },
     {
       "avatar": "rick-and-morty",
-      "maximumFootAboveDuvetMeters": -0.02887439727783203,
+      "maximumFootAboveDuvetMeters": -0.029560089111328125,
       "method": "Actual weighted foot vertices raycast against the avatar's own draped duvet"
     }
   ],
@@ -3089,19 +3093,29 @@
     },
     {
       "file": "coast.glb",
-      "bytes": 169708,
-      "gzipBytes": 137305,
-      "triangles": 99884,
-      "sha256": "02e7d5d93233b62b0902ebb89743061c087aec4ff5ce343577c8e10d136960ae",
-      "materials": ["golden coastal sandstone", "warm sandstone bedding", "dry beach sand", "wet tideline sand", "tide pool sea glass"],
+      "bytes": 241576,
+      "gzipBytes": 194268,
+      "triangles": 128826,
+      "sha256": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
+      "materials": [
+        "golden coastal sandstone",
+        "warm cut stone",
+        "La Jolla bluff sandstone",
+        "golden coastal sandstone.001",
+        "warm sandstone bedding.001",
+        "chalk limestone.001",
+        "dry beach sand",
+        "wet tideline sand",
+        "tide pool sea glass"
+      ],
       "animations": []
     },
     {
       "file": "flora.glb",
-      "bytes": 2206972,
-      "gzipBytes": 2080045,
-      "triangles": 184309,
-      "sha256": "763713c1501deaac02cabad8bd4a4f659a39bd14d5baab5cc1c2c682beddb88b",
+      "bytes": 2203180,
+      "gzipBytes": 2046297,
+      "triangles": 197162,
+      "sha256": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2",
       "materials": [
         "coastal sage leaf",
         "dark sage leaf",
@@ -3140,10 +3154,10 @@
     },
     {
       "file": "hinterland.glb",
-      "bytes": 1355068,
-      "gzipBytes": 1171173,
-      "triangles": 205889,
-      "sha256": "6fdad43f9b9839d30b781c8af1bed7ba8efa85bdf471bc1e36a0d8695ad91132",
+      "bytes": 1463928,
+      "gzipBytes": 1272530,
+      "triangles": 217158,
+      "sha256": "93f90372bba71c64b6153372ae3166901aacaa8633277e18f1afbe49e8986832",
       "materials": [
         "hinterland sandy loam",
         "golden coastal sandstone",
@@ -3179,43 +3193,57 @@
         "glider helmet yellow",
         "glider frame aluminium",
         "hang glider sail",
-        "hang glider sail trim"
+        "hang glider sail trim",
+        "garden translucent celadon",
+        "garden smooth river sandstone"
       ],
       "animations": []
     },
     {
       "file": "home-shell.glb",
-      "bytes": 591192,
-      "gzipBytes": 470000,
-      "triangles": 178126,
-      "sha256": "6642c65747451fd09ef88867118cf2c72d19e22895a36f6cb5babe2a5529fec9",
+      "bytes": 898704,
+      "gzipBytes": 615214,
+      "triangles": 242573,
+      "sha256": "b51f302da52907dc1d707c14ea3a3c4578da9f43f9147d7917a6bb0e1f99ce72",
       "materials": [
-        "warm cut stone",
         "chalk limestone",
-        "pale oak",
         "honey ash",
         "brushed brass",
-        "sage textile",
         "terracotta",
         "charcoal",
         "olive leaf",
         "golden coastal sandstone",
-        "warm sandstone bedding",
+        "La Jolla bluff sandstone",
         "blue sage agave leaf",
+        "warm cut stone",
         "dark bronze",
         "facade low-iron glass",
         "travertine paving stone",
-        "festoon cable",
-        "festoon bulb glass",
         "weathered teak wood",
         "outdoor canvas cotton",
         "aged copper",
         "charred oak wood",
-        "olive bark wood",
-        "rosemary leaf",
         "fire bowl embers",
         "gym polished concrete",
-        "cedar wood"
+        "pale oak",
+        "cedar wood",
+        "blackened steel flue",
+        "warm board-formed concrete",
+        "sea glass pool mosaic",
+        "ivory pool chaise ceramic",
+        "infinity pool water",
+        "polished nickel",
+        "festoon bulb glass",
+        "linen",
+        "garden mineral mulch",
+        "coastal sage leaf",
+        "sage stem wood",
+        "dry coastal grass leaf",
+        "daisy flower",
+        "estate warm opal diffuser",
+        "honed travertine",
+        "pavilion mineral roof soil",
+        "pavilion native succulent leaf"
       ],
       "animations": []
     },
@@ -3229,11 +3257,73 @@
       "animations": []
     },
     {
+      "file": "room-bath-bedroom.glb",
+      "bytes": 106412,
+      "gzipBytes": 58619,
+      "triangles": 29976,
+      "sha256": "23122cb51c7d2f3d580389eb4ffbf41a8f64f0e12f612ccb12a9f94fe37b2b80",
+      "materials": [
+        "honed travertine",
+        "warm cut stone",
+        "bathroom warm mineral grout",
+        "bathroom honed travertine oat",
+        "bathroom honed travertine sand",
+        "bathroom honed travertine ivory",
+        "chalk limestone",
+        "pale oak",
+        "brushed brass",
+        "bathroom porcelain glaze",
+        "polished nickel",
+        "linen",
+        "honey ash",
+        "bathroom satin mirror",
+        "bathroom warm diffuser",
+        "bathroom celadon ceramic",
+        "bathroom clear shower glass",
+        "charcoal",
+        "interior botanical mineral soil",
+        "interior botanical leaf stem",
+        "interior Asplenium fern leaf"
+      ],
+      "animations": []
+    },
+    {
+      "file": "room-bath-living.glb",
+      "bytes": 104924,
+      "gzipBytes": 57231,
+      "triangles": 29976,
+      "sha256": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72",
+      "materials": [
+        "honed travertine",
+        "warm cut stone",
+        "bathroom warm mineral grout",
+        "bathroom honed travertine ivory",
+        "bathroom honed travertine oat",
+        "bathroom honed travertine sand",
+        "chalk limestone",
+        "pale oak",
+        "brushed brass",
+        "bathroom porcelain glaze",
+        "polished nickel",
+        "linen",
+        "honey ash",
+        "bathroom satin mirror",
+        "bathroom warm diffuser",
+        "bathroom celadon ceramic",
+        "bathroom clear shower glass",
+        "charcoal",
+        "interior botanical mineral soil",
+        "interior botanical leaf stem",
+        "interior Asplenium fern leaf"
+      ],
+      "animations": []
+    },
+    {
       "file": "room-gym.glb",
-      "bytes": 201388,
-      "gzipBytes": 138208,
-      "triangles": 77256,
-      "sha256": "3a1b2e00024d6d254c2de27f1d1bdc349f47c7082c40edaa571c560ab0ee99de",
+      "bytes": 222576,
+      "gzipBytes": 144802,
+      "triangles": 78352,
+      "sha256": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
       "materials": [
         "gym rubber",
         "powder coated gym steel",
@@ -3253,16 +3343,17 @@
         "linen",
         "gym light diffuser",
         "saddle bench upholstery",
-        "whiteboard enamel"
+        "whiteboard enamel",
+        "matte black device"
       ],
       "animations": []
     },
     {
       "file": "room-kitchen.glb",
-      "bytes": 166284,
-      "gzipBytes": 117192,
-      "triangles": 43756,
-      "sha256": "0fb957fb9b4e22b81831814e939aa68e0a66a96b74bf0495adf8ce68bdfaa8e6",
+      "bytes": 253496,
+      "gzipBytes": 148089,
+      "triangles": 64632,
+      "sha256": "6f8ef82b59c58a8a296d5fb795993e8ad599fba51764c56cd82934a8fe1e0697",
       "materials": [
         "warm glazed porcelain",
         "espresso crema",
@@ -3270,10 +3361,10 @@
         "honey ash",
         "milky veined marble",
         "polished nickel",
-        "induction black glass",
-        "charcoal",
-        "chalk limestone",
+        "honed travertine",
+        "brushed brass",
         "satin appliance stainless",
+        "charcoal",
         "celadon glaze",
         "oatmeal glaze",
         "tenmoku glaze",
@@ -3283,21 +3374,71 @@
         "espresso enamel",
         "coffee hopper glass",
         "roasted coffee beans",
-        "brushed brass",
-        "honed travertine",
         "meyer lemon",
-        "woven jute",
+        "warm cut stone",
+        "chalk limestone",
+        "linen",
         "dining lantern paper",
-        "olive leaf"
+        "olive leaf",
+        "oatmeal wool textile",
+        "range placeholder enamel",
+        "induction black glass",
+        "fridge placeholder glass",
+        "dining walnut wood",
+        "rust boucle textile"
+      ],
+      "animations": []
+    },
+    {
+      "file": "room-library-upper.glb",
+      "bytes": 28744,
+      "gzipBytes": 11366,
+      "triangles": 2264,
+      "sha256": "91534441cda1fc3823623a61f979bb5ad9478b222df7de03f26a62202cbdfaaa",
+      "materials": [
+        "honey ash",
+        "linen",
+        "honed travertine",
+        "library warm paper edges",
+        "private living washi diffuser",
+        "brushed brass",
+        "charcoal"
+      ],
+      "animations": []
+    },
+    {
+      "file": "room-library.glb",
+      "bytes": 187788,
+      "gzipBytes": 120026,
+      "triangles": 55975,
+      "sha256": "347ee2f9aa3d293acb33c83cba9e434d81297e8f143ec63bf23f7cfb8987923e",
+      "materials": [
+        "pale oak",
+        "honey ash",
+        "brushed brass",
+        "library warm paper edges",
+        "library slate cloth",
+        "library ochre cloth",
+        "library olive cloth",
+        "library clay cloth",
+        "interior botanical mineral soil",
+        "interior botanical leaf stem",
+        "interior Epipremnum leaf",
+        "honed travertine",
+        "library hearth blackened steel",
+        "library hearth ember glow",
+        "library hearth warm flame",
+        "estate warm opal diffuser",
+        "linen"
       ],
       "animations": []
     },
     {
       "file": "room-lounge.glb",
-      "bytes": 155144,
-      "gzipBytes": 108702,
-      "triangles": 34664,
-      "sha256": "651eb93b9c891bca627d2e032f49a4ee73cb18ea0e95917602ae3c500c2d566f",
+      "bytes": 231436,
+      "gzipBytes": 152666,
+      "triangles": 47828,
+      "sha256": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390",
       "materials": [
         "woven jute",
         "terracotta",
@@ -3305,34 +3446,40 @@
         "celadon glaze",
         "tenmoku glaze",
         "oatmeal glaze",
-        "cloud boucle textile",
+        "honey ash",
+        "charcoal",
+        "olive leaf",
+        "warm cut stone",
+        "chalk limestone",
         "indigo textile",
         "ochre textile",
-        "linen",
         "ochre knit textile",
-        "honed travertine",
-        "sage textile",
-        "charcoal",
-        "honey ash",
-        "olive leaf",
         "oatmeal wool textile",
-        "chalk limestone",
+        "linen",
+        "washi lantern paper",
         "matte black device",
         "tv black glass",
         "polished nickel",
         "record sleeve card",
         "brushed brass",
-        "washi lantern paper",
-        "olive bark wood"
+        "honed travertine",
+        "blackened steel flue",
+        "dark bronze",
+        "cognac saddle leather",
+        "dining walnut wood",
+        "interior botanical mineral soil",
+        "interior botanical leaf stem",
+        "interior Strelitzia broadleaf",
+        "cloud boucle textile"
       ],
       "animations": []
     },
     {
       "file": "room-onsen.glb",
-      "bytes": 83940,
-      "gzipBytes": 62456,
-      "triangles": 18992,
-      "sha256": "fee8d9cc86e02b8b9d8f1e225d839153a725c367558accff1d044f7ea9edc9ad",
+      "bytes": 94408,
+      "gzipBytes": 64203,
+      "triangles": 16604,
+      "sha256": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
       "materials": [
         "onsen turquoise",
         "linen",
@@ -3350,13 +3497,14 @@
     },
     {
       "file": "room-sleep.glb",
-      "bytes": 268052,
-      "gzipBytes": 230889,
-      "triangles": 94226,
-      "sha256": "1b5f85a2fb78e1ffe728e9d2838eb6c1256471182685951876cc42e0aa0836af",
+      "bytes": 294448,
+      "gzipBytes": 244191,
+      "triangles": 96058,
+      "sha256": "3e767a1b93f35736eb54d39da60a2fefc92056d296e22ba6a41c2c31a582aa45",
       "materials": [
         "honey ash",
         "linen",
+        "sleep bedside linen diffuser",
         "pale oak",
         "terracotta",
         "charcoal",
@@ -3365,19 +3513,20 @@
         "linen canvas sea",
         "linen canvas sand",
         "linen canvas sun",
-        "sage textile",
-        "polished nickel"
+        "polished nickel",
+        "brushed brass",
+        "facade low-iron glass",
+        "sage textile"
       ],
       "animations": []
     },
     {
       "file": "room-study.glb",
-      "bytes": 173640,
-      "gzipBytes": 120757,
-      "triangles": 67288,
-      "sha256": "ffb27c05309b2cbfc9019fab5b82e3f3ce71b0428a2c3fc7abc1b46ecda473df",
+      "bytes": 113472,
+      "gzipBytes": 62792,
+      "triangles": 29152,
+      "sha256": "1de86040cb6c173c72e9f00061d6add31a70e3d6907495413cd7ac21586daf8a",
       "materials": [
-        "milky veined marble",
         "pale oak",
         "honey ash",
         "polished nickel",
@@ -3396,13 +3545,10 @@
         "pc tempered glass",
         "pc rgb glow",
         "rtx graphite shroud",
-        "graphite chair textile",
         "linen",
-        "terracotta",
-        "sage textile",
-        "olive leaf",
         "cork board",
-        "sketch paper"
+        "sketch paper",
+        "milky veined marble"
       ],
       "animations": []
     },
@@ -3417,10 +3563,10 @@
     },
     {
       "file": "sirui-ghibli.glb",
-      "bytes": 861208,
-      "gzipBytes": 511390,
+      "bytes": 858356,
+      "gzipBytes": 508216,
       "triangles": 174776,
-      "sha256": "47167029b02671063a509aa9f1c0bd36a7ea1b18ac37a5884a9365377615c7ce",
+      "sha256": "5db49ac607a1d6b87f1f3f2d990a847f9907849d712c6533275914e1dbffc1db",
       "materials": [
         "skin",
         "warm white",
@@ -3453,10 +3599,10 @@
     },
     {
       "file": "sirui-lizard.glb",
-      "bytes": 499996,
-      "gzipBytes": 303088,
-      "triangles": 98750,
-      "sha256": "3ac88825c77493b6e00bd5721cba51b166d8051d8585eef583e75a73093caac6",
+      "bytes": 540496,
+      "gzipBytes": 340156,
+      "triangles": 112428,
+      "sha256": "ca6bac2c2610fdc72d705f144e36a9800f11715198f64d74f4f177034d90ba3d",
       "materials": ["skin", "warm white", "ink details", "wire spectacles", "mouth", "tongue", "charcoal shorts", "long black hair", "Sirui shirt"],
       "animations": [
         "idle",
@@ -3477,10 +3623,10 @@
     },
     {
       "file": "sirui-rick-and-morty.glb",
-      "bytes": 663812,
-      "gzipBytes": 462252,
+      "bytes": 661616,
+      "gzipBytes": 459785,
       "triangles": 162646,
-      "sha256": "06d8f41e0740929fef63a90e71a2bca8976ac2adb7c54bb69992eedc58a88e91",
+      "sha256": "48e2d1d0d3ea6e7d6ff42ac78a175bce6afa859813f9c4acc398bf092f02e253",
       "materials": [
         "skin",
         "warm white",
@@ -3512,10 +3658,10 @@
     },
     {
       "file": "sirui-simpsons.glb",
-      "bytes": 669956,
-      "gzipBytes": 469328,
+      "bytes": 666964,
+      "gzipBytes": 466326,
       "triangles": 166988,
-      "sha256": "6214fae6762b2257cd3060ac64f7eb4b662a1bb672e663385f676d9f132634f4",
+      "sha256": "181868b8a5f9dc31742587a9326359ec455c691c035ac35d00ad009aa2cb025f",
       "materials": [
         "skin",
         "warm white",
@@ -3546,10 +3692,10 @@
     },
     {
       "file": "sirui-south-park.glb",
-      "bytes": 716452,
-      "gzipBytes": 513930,
+      "bytes": 714480,
+      "gzipBytes": 511803,
       "triangles": 189396,
-      "sha256": "8a94d3f20fbd8fa52520b4035b01f736a72a6fd013fc6583d839f8b7f8ee3324",
+      "sha256": "6cda20b799ff237bcc9ffddf3d3e2f60c8115be7f87c75928d116e3905905e63",
       "materials": [
         "skin",
         "warm white",
@@ -3588,5 +3734,5 @@
       "animations": []
     }
   ],
-  "totalGlbBytes": 9062356
+  "totalGlbBytes": 10166548
 }

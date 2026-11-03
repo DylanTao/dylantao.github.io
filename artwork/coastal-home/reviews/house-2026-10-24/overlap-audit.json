@@ -2,8 +2,8 @@
   "tool": "bin/audit_coastal_overlaps.py",
   "toolSha256": "e96b9f3b136bf8a3f189aada7ce279b3fc61224dc34e6b146ca3821c4d9830cb",
   "source": "artwork/coastal-home/coastal-home.blend",
-  "sourceSha256": "1e10b25d5cf0eec87d7001acbf9d938d65ba33af6076380d5a8e5d45cf3d23e7",
-  "manifestSha256": "30c0f32fe7025588e3a9f45d85dd1c4b1452d1cab7a8d484744af27a1c718888",
+  "sourceSha256": "cb531e3839358ec96b3da21ea09c3b2b69891e507bcf12d220b9a5e35e503fff",
+  "manifestSha256": "58291c6095e4302be12564e0536469bbc05f147908064d267cb14c3dc1d2c83f",
   "exportsSha256": {
     "coast.glb": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
     "flora.glb": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2",
@@ -11,7 +11,7 @@
     "room-bath-bedroom.glb": "23122cb51c7d2f3d580389eb4ffbf41a8f64f0e12f612ccb12a9f94fe37b2b80",
     "room-bath-living.glb": "da8ba8efb0780dd5bca6d374049f9526654a7ccfac08dbdf9898129383153c72",
     "room-gym.glb": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
-    "room-kitchen.glb": "ff670de9f0f4b10d93873d644d9d3f9deedd0bd2c373ece627734f2295762a07",
+    "room-kitchen.glb": "6f8ef82b59c58a8a296d5fb795993e8ad599fba51764c56cd82934a8fe1e0697",
     "room-library-upper.glb": "91534441cda1fc3823623a61f979bb5ad9478b222df7de03f26a62202cbdfaaa",
     "room-library.glb": "347ee2f9aa3d293acb33c83cba9e434d81297e8f143ec63bf23f7cfb8987923e",
     "room-lounge.glb": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390",
@@ -238,12 +238,12 @@
     "never-drawn": 1
   },
   "counts": {
-    "meshes": 512,
+    "meshes": 514,
     "triangles": 1281623,
-    "closedMeshes": 430,
-    "pairsTested": 4064,
+    "closedMeshes": 432,
+    "pairsTested": 4063,
     "crossingPairs": 902,
-    "sites": 17630,
+    "sites": 17620,
     "offenders": 939,
     "coplanarPairs": 363,
     "zFightingPairs": 32,
@@ -253,7 +253,7 @@
     "unclassified": 939,
     "one-sided-embed": 2334,
     "support-rest": 176,
-    "shallow-seam": 9517,
+    "shallow-seam": 9507,
     "water-in-basin": 187,
     "structural-joint": 106,
     "planting-root": 1890,
@@ -287,8 +287,8 @@
     }
   },
   "beforeProvenance": {
-    "file": ".jekyll-cache\\visual-qa\\final-house-integration-20261102\\surface-role-checkpoint\\prior-overlap-audit.json",
-    "sha256": "1a12847ce94c789d81c6b70bf2c50a9738b55a797e7d733997315df112df1e54",
+    "file": ".jekyll-cache\\visual-qa\\final-house-integration-20261102\\public-island-install-v1\\before\\artwork\\coastal-home\\reviews\\house-2026-10-24\\overlap-audit.json",
+    "sha256": "01195ea3798f26e1b70d161b9627290453c9daea13af407fa05062305952fcc4",
     "kind": "retained-before-record-in-compact-audit"
   },
   "delivered": {
@@ -297,7 +297,7 @@
       "coast.glb": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
       "flora.glb": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2",
       "room-study.glb": "1de86040cb6c173c72e9f00061d6add31a70e3d6907495413cd7ac21586daf8a",
-      "room-kitchen.glb": "ff670de9f0f4b10d93873d644d9d3f9deedd0bd2c373ece627734f2295762a07",
+      "room-kitchen.glb": "6f8ef82b59c58a8a296d5fb795993e8ad599fba51764c56cd82934a8fe1e0697",
       "room-gym.glb": "9121b36218b961697c5a927238505bde804a6c83f03d3454321b5b65a748b7de",
       "room-onsen.glb": "ed8da9d9b776c61f34d49e5ec2aa7a14fe65eb61d0a2954d81b01e7dce685eba",
       "room-lounge.glb": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390",
@@ -314,7 +314,7 @@
       "grazingSeamM": 4.226,
       "deepSites": 826,
       "deepSitesOver5cm": 157,
-      "deepSeverity": 25584.3,
+      "deepSeverity": 25584.2,
       "maxDeepSeverity": 1379.9
     },
     "zFighting": [
@@ -445,15 +445,15 @@
         "normal": [0.0, 1.0, 0.0]
       },
       {
-        "pair": "bath-bedroom__bathroom clear shower glass | bath-bedroom__pale oak",
-        "visibleAreaM2": 0.002376,
-        "at": [-7.693, -11.014, 3.274],
-        "normal": [-0.0, 1.0, 0.0]
-      },
-      {
         "pair": "bath-living__bathroom clear shower glass | bath-living__pale oak",
         "visibleAreaM2": 0.002376,
         "at": [-7.693, -11.014, 0.674],
+        "normal": [-0.0, 1.0, 0.0]
+      },
+      {
+        "pair": "bath-bedroom__bathroom clear shower glass | bath-bedroom__pale oak",
+        "visibleAreaM2": 0.002376,
+        "at": [-7.693, -11.014, 3.274],
         "normal": [-0.0, 1.0, 0.0]
       },
       {
@@ -1785,5 +1785,11 @@
       "categories": ["shell"],
       "verdict": null
     }
-  ]
+  ],
+  "installation": {
+    "auditedSource": ".jekyll-cache/visual-qa/final-house-integration-20261102/public-island-owning-ao-v1/candidate.blend",
+    "canonicalSource": "artwork/coastal-home/coastal-home.blend",
+    "exactBytesInstalled": true,
+    "evidence": "artwork/coastal-home/reviews/kitchen-island-delivery-2026-11-03/README.md"
+  }
 }

@@ -1,0 +1,138 @@
+{
+  "at": "2026-11-03T06:44:34.936260+00:00",
+  "scope": "Current canonical source/assets and exact producers. Text also records normalized Git-LF digest for portable checkout verification. Actual build/served body and native-source digests stay raw bytes in their own receipts.",
+  "files": [
+    {
+      "path": "artwork/coastal-home/coastal-home.blend",
+      "bytes": 29092994,
+      "sha256": "cb531e3839358ec96b3da21ea09c3b2b69891e507bcf12d220b9a5e35e503fff",
+      "gitLfSha256": "cb531e3839358ec96b3da21ea09c3b2b69891e507bcf12d220b9a5e35e503fff"
+    },
+    {
+      "path": "artwork/coastal-home/PROVENANCE.md",
+      "bytes": 67930,
+      "sha256": "988c27216a25ce359df8f5d678d7d142a99928c30353263861d66f1713108bcc",
+      "gitLfSha256": "988c27216a25ce359df8f5d678d7d142a99928c30353263861d66f1713108bcc"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/model-contacts.json",
+      "bytes": 137326,
+      "sha256": "bdebfee70fd1c8bab1be4340f9cfe81ef3640c75dfa681c9f7f553291dd6105e",
+      "gitLfSha256": "bdebfee70fd1c8bab1be4340f9cfe81ef3640c75dfa681c9f7f553291dd6105e"
+    },
+    {
+      "path": "artwork/coastal-home/reviews/house-2026-10-24/overlap-audit.json",
+      "bytes": 60661,
+      "sha256": "952de86ee21e28076de866b01bfb4a57b397de46639e74465091adbf5c5ed494",
+      "gitLfSha256": "952de86ee21e28076de866b01bfb4a57b397de46639e74465091adbf5c5ed494"
+    },
+    {
+      "path": "docs/homepage-desk-scene-brief.md",
+      "bytes": 79173,
+      "sha256": "544084c383c73ba2410323f81a58c24eb7699834b2fd571aa8bfbb8463bf7f6c",
+      "gitLfSha256": "544084c383c73ba2410323f81a58c24eb7699834b2fd571aa8bfbb8463bf7f6c"
+    },
+    {
+      "path": "docs/october-2026-handoff.md",
+      "bytes": 154133,
+      "sha256": "9044e68c76d79894594a6a3baef2aa60a9fec4d50bef153be7ec78e042da9cb3",
+      "gitLfSha256": "9044e68c76d79894594a6a3baef2aa60a9fec4d50bef153be7ec78e042da9cb3"
+    },
+    {
+      "path": "bin/coastal_kitchen.py",
+      "bytes": 39497,
+      "sha256": "11c97585edd90cb2bfc70bc4f014d546cfe189aaf19561ca8b78b23330c8ff34",
+      "gitLfSha256": "11c97585edd90cb2bfc70bc4f014d546cfe189aaf19561ca8b78b23330c8ff34"
+    },
+    {
+      "path": "bin/coastal_kitchen_island.py",
+      "bytes": 11275,
+      "sha256": "1fb82fdea5c60541e83bc200baefdddc4226ac2d6a915b9b7b4b53b0d7b7fcfa",
+      "gitLfSha256": "1fb82fdea5c60541e83bc200baefdddc4226ac2d6a915b9b7b4b53b0d7b7fcfa"
+    },
+    {
+      "path": "bin/refresh_coastal_kitchen_island.py",
+      "bytes": 2940,
+      "sha256": "c1786bd986651f86edb76943aae9f061dc4a1cb2caa9054e3b38229c03adee75",
+      "gitLfSha256": "c1786bd986651f86edb76943aae9f061dc4a1cb2caa9054e3b38229c03adee75"
+    },
+    {
+      "path": "test/test_kitchen_island.py",
+      "bytes": 3916,
+      "sha256": "16f9b52528a4660e178507adb17413c5df3254c44866a5948c55cafe4233e69a",
+      "gitLfSha256": "16f9b52528a4660e178507adb17413c5df3254c44866a5948c55cafe4233e69a"
+    },
+    {
+      "path": "bin/audit_coastal_overlaps.py",
+      "bytes": 46767,
+      "sha256": "9d2aa0ba31916e1f99c2180ac6639fd23693bae0ecce82f23df70ab4ff9fc6f4",
+      "gitLfSha256": "e96b9f3b136bf8a3f189aada7ce279b3fc61224dc34e6b146ca3821c4d9830cb"
+    },
+    {
+      "path": "bin/summarize_coastal_overlaps.py",
+      "bytes": 9403,
+      "sha256": "f7e3a30fcdf8f3637d2c1657fc636e42bedfa96912c346796ee7c90dda080faf",
+      "gitLfSha256": "44109f9029dbb695b0bee3025a28131546b8253688e4c0c10bb7025ae939e8f7"
+    },
+    {
+      "path": "bin/bake_coastal_light.py",
+      "bytes": 6393,
+      "sha256": "dd778bad3b248a6426d6d92f8aa626cdc810c05b8be16aeedb94c2effae5e96a",
+      "gitLfSha256": "615ce3e1d0e04006cf4bff8e417fa149c23c947d06625126b471e690092af676"
+    },
+    {
+      "path": "bin/build_coastal_perch_support.py",
+      "bytes": 10042,
+      "sha256": "04e5b52b1404cb4db6528ae27d8a8314fcc1c823130b334a253d4fc3564ad9ef",
+      "gitLfSha256": "4d845d605183fa7a165af684c050388f9d18fa1cea1d3a256196207242f93c1d"
+    },
+    {
+      "path": "bin/build_loading_sketch.cjs",
+      "bytes": 37415,
+      "sha256": "f7bdf173f4bb11b0608292734b4ea6ec9caffeff551619214c279f8703db7408",
+      "gitLfSha256": "f7bdf173f4bb11b0608292734b4ea6ec9caffeff551619214c279f8703db7408"
+    },
+    {
+      "path": "assets/models/home/manifest.json",
+      "bytes": 331879,
+      "sha256": "58291c6095e4302be12564e0536469bbc05f147908064d267cb14c3dc1d2c83f",
+      "gitLfSha256": "58291c6095e4302be12564e0536469bbc05f147908064d267cb14c3dc1d2c83f"
+    },
+    {
+      "path": "assets/models/home/static-light-field.json",
+      "bytes": 712173,
+      "sha256": "5afc0e8dcdb40185ad2283555dd57cdd66f05892e06bc6f3ff84ecc86f820d8a",
+      "gitLfSha256": "5afc0e8dcdb40185ad2283555dd57cdd66f05892e06bc6f3ff84ecc86f820d8a"
+    },
+    {
+      "path": "assets/models/home/wildlife-perch-support.json",
+      "bytes": 37636,
+      "sha256": "75d49743cd6f52c5f6054401764db9f04812071fab01ce5be23a03b9f8bfcbd8",
+      "gitLfSha256": "75d49743cd6f52c5f6054401764db9f04812071fab01ce5be23a03b9f8bfcbd8"
+    },
+    {
+      "path": "assets/models/home/room-kitchen.glb",
+      "bytes": 253496,
+      "sha256": "6f8ef82b59c58a8a296d5fb795993e8ad599fba51764c56cd82934a8fe1e0697",
+      "gitLfSha256": "6f8ef82b59c58a8a296d5fb795993e8ad599fba51764c56cd82934a8fe1e0697"
+    },
+    {
+      "path": "assets/models/home/loading-sketch.json",
+      "bytes": 39750,
+      "sha256": "9fc1c3a62f57561f7b89d29579d7e780552b6887a2e8d233d4725872658f7dd4",
+      "gitLfSha256": "9fc1c3a62f57561f7b89d29579d7e780552b6887a2e8d233d4725872658f7dd4"
+    },
+    {
+      "path": "assets/models/home/loading-sketch/kitchen.json",
+      "bytes": 16865,
+      "sha256": "fd5d7215fd3d2230fd2c5dfc1a94420eed3eb3b89fed5fff0e9b1d70e13ac752",
+      "gitLfSha256": "fd5d7215fd3d2230fd2c5dfc1a94420eed3eb3b89fed5fff0e9b1d70e13ac752"
+    },
+    {
+      "path": "assets/models/home/loading-sketch/sleep.json",
+      "bytes": 15895,
+      "sha256": "842f7ef0f9559476db09efcbebf8763d36ac165475dd82e331c2e03bfe8e579d",
+      "gitLfSha256": "842f7ef0f9559476db09efcbebf8763d36ac165475dd82e331c2e03bfe8e579d"
+    }
+  ]
+}

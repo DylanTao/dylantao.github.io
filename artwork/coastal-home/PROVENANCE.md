@@ -1,5 +1,20 @@
 # Coastal home asset provenance
 
+## November 3 UTC: a wider kitchen aisle
+
+The [island delivery](reviews/kitchen-island-delivery-2026-11-03/README.md)
+installs the guarded west-side reduction, preserving the living-side edge and
+moving the board, bowl and lemons together. The current native master is
+`cb531e3839358ec96b3da21ea09c3b2b69891e507bcf12d220b9a5e35e503fff`.
+Only the six island receivers receive the owning 24-sample contact/indirect
+bake; other floor, room, material and mesh fields remain exact. The kitchen
+export, official runtime light cache, source-bound perch contacts and loading
+drawings are regenerated. Independent native/decoded overlap checks and an
+11.3 m public-control walk around both aisles pass. Native 2K/4K and phone-size
+WebKit views are visual evidence, with performance and physical-device checks
+kept separate. The experimental breakfast venue remains disabled; cliff,
+arrival and garden work still have their own gates.
+
 ## November 2: source-bound entrance planting clearance
 
 The [entrance inspection](reviews/entrance-inspection-2026-11-02/README.md)
@@ -14,7 +29,7 @@ metadata, garden and fin source require their separate final integration.
 
 The [ambience integration](reviews/ambience-integration-2026-11-02/README.md)
 replays the qualified bedside practical/region and olive recipes onto the
-retained native source in Blender 4.5.9. The current master is
+retained native source in Blender 4.5.9. That checkpoint's master is
 `1e10b25d5cf0eec87d7001acbf9d938d65ba33af6076380d5a8e5d45cf3d23e7`.
 All 459 unowned original meshes retain their native geometry and fields. Only
 the forty replacement leaves and six new branches receive the owning native
