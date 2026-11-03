@@ -1,0 +1,786 @@
+{
+  "schemaVersion": 1,
+  "seal": "Exact raw and Git bytes required; gzip payloads immutable; no ignored interpreter cache or native/cache replacement. Manifest excludes itself.",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 108,
+      "sha256": "ba2a67b5b91eddb9b85a478dbbb70a1536e734adb8918f6ec747e0785541c88b"
+    },
+    {
+      "path": "checkpoint-source/48979c119__assets__js__home-scene__coffee-chair.mjs.gz",
+      "bytes": 8923,
+      "sha256": "4942e2798cffadd89a4aa8f61e041af7f405f2a69648eae355c86659aef6d6d6"
+    },
+    {
+      "path": "checkpoint-source/48979c119__bin__produce_coastal_coffee_chair.mjs.gz",
+      "bytes": 5702,
+      "sha256": "6972516b8cc0ece5a9067254d1976be82065fcbae634c891b08d6b855601329e"
+    },
+    {
+      "path": "checkpoint-source/48979c119__test__coastal-coffee-chair-producer.test.mjs.gz",
+      "bytes": 3240,
+      "sha256": "fd4321ea69213093187d9fb6dee788ee7b26fd6a1859a415fdf74a3e03804317"
+    },
+    {
+      "path": "checkpoint-source/b08a26f42__assets__js__home-scene__coffee-chair.mjs.gz",
+      "bytes": 8856,
+      "sha256": "38449bef1154f538d8f4ef7fa70732f347120d2e0b5f0b8da2c10db5e386defd"
+    },
+    {
+      "path": "checkpoint-source/b08a26f42__test__coastal-coffee-chair.test.mjs.gz",
+      "bytes": 4420,
+      "sha256": "4c8fa054623f59f65b4379aeb1cbcfb777824b1a79e7195d1969b25880ca06d6"
+    },
+    {
+      "path": "controls/BEARING-V40-REJECTED.json.gz",
+      "bytes": 414,
+      "sha256": "8cc0cf2417a00e4b4b6c279f21a293c804ec5246003206154f6368e9a94080db"
+    },
+    {
+      "path": "controls/coastal-coffee-chair.test.mjs.unit-v1.gz",
+      "bytes": 3682,
+      "sha256": "62720ff15ef53c3792cabb3dfe1a633f2a8d03e60f148c58dad5f4f48a06e977"
+    },
+    {
+      "path": "controls/coastal-coffee-chair.test.mjs.unit-v2.gz",
+      "bytes": 3692,
+      "sha256": "6c60cec065199f8de56b5f697d949a7a1a384e23b69235f6117affcc794e0876"
+    },
+    {
+      "path": "controls/COFFEE-CHAIR-UNIT-V1-REJECTED.json.gz",
+      "bytes": 341,
+      "sha256": "9fce7b673bd96863474493c1f43718b0902b90e089b4ae0e6e478817dd8f2560"
+    },
+    {
+      "path": "controls/COFFEE-CHAIR-UNIT-V2-REJECTED.json.gz",
+      "bytes": 305,
+      "sha256": "7475bcb36ea7fe711edca9ef3c4a995909b464127e676f161dacada8b31b5314"
+    },
+    {
+      "path": "controls/coffee-chair.mjs.unit-v1.gz",
+      "bytes": 8298,
+      "sha256": "5e9de3d6e2d658f80657749e9cba4afdc04cd744fc5557d26042bb91796e07b3"
+    },
+    {
+      "path": "controls/coffee-chair.mjs.unit-v2.gz",
+      "bytes": 8298,
+      "sha256": "96ba053cff98635cdbe3a59979d49725125355fbf24af2865ab117149dca3220"
+    },
+    {
+      "path": "controls/EXACT-FLOOR-INTERVAL-CONTROLS-V1.json.gz",
+      "bytes": 441,
+      "sha256": "51d53b31013b4912b3f9c7062892a5947bf7798e3bf0c044b1309b4ac9f78f95"
+    },
+    {
+      "path": "controls/EXACT-SKIN-READER-CONTROL-V2.json.gz",
+      "bytes": 872,
+      "sha256": "c66b61c0465621c889b15dcb394bafad2e3ce5e8aa9b5b2d899b2ca56a448956"
+    },
+    {
+      "path": "controls/EXACT-SWEEP-LAZY-EXACT-CONTROL-V4.json.gz",
+      "bytes": 16578,
+      "sha256": "0baed5f89ed6a00e080ba8c6648791f9a4f8e93429b9c28d3593124adafbebaf"
+    },
+    {
+      "path": "controls/EXACT-SWEEP-REAL-REFERENCE-V3.json.gz",
+      "bytes": 10844,
+      "sha256": "9c3c81d5ada5efcd5d624b1ecf5ca81dcf7372c8a5eb47eac54aaed1365842a9"
+    },
+    {
+      "path": "controls/EXACT-SWEPT-TRIANGLE-CONTROLS-V1.json.gz",
+      "bytes": 601,
+      "sha256": "7b2dde3970cea6df5e902562e890a3c25622a530c533344f5d8d80fbb76a364f"
+    },
+    {
+      "path": "controls/EXACT-SWEPT-TRIANGLE-CONTROLS-V2.json.gz",
+      "bytes": 641,
+      "sha256": "a7036e3ca817840d888000b15b686180bade842dfdc63852cedafe890d9c835c"
+    },
+    {
+      "path": "controls/HELD-CUP-ANATOMY-V14-LIZARD.json.gz",
+      "bytes": 648530,
+      "sha256": "0f08c47877c79ef27aa2efebd62fee4ef79b43888f8789548e58128ef0fb0189"
+    },
+    {
+      "path": "controls/HELD-CUP-ANATOMY-V18-LIZARD.json.gz",
+      "bytes": 466177,
+      "sha256": "e9a7c610abde361c2c997f017e1e81334fdad543449dea3491807624e81dc35a"
+    },
+    {
+      "path": "controls/HELD-CUP-ARM-PAIR-CLASSES-V15.json.gz",
+      "bytes": 2222,
+      "sha256": "930d4b7e5707584d6afdd8167e25162ea9a425354c28d6ac28e20a4852d82d4a"
+    },
+    {
+      "path": "controls/HELD-CUP-ARM-PAIR-CLASSES-V19.json.gz",
+      "bytes": 1299,
+      "sha256": "76ab5e6ff37a2391500da0089dc9dcafcdce60d68b34af1976c53e4a0b082295"
+    },
+    {
+      "path": "controls/NATIVE-ARM-FRAMES-V17.json.gz",
+      "bytes": 710,
+      "sha256": "c9937b69b336b1d26f87335cd254de0d2295dd3c8736fec02ed0e5d77608b55a"
+    },
+    {
+      "path": "controls/PULLBACK-ENTRY-CUP-DENSE-V9-LIZARD.json.gz",
+      "bytes": 7972998,
+      "sha256": "54d616c072e5082b3f297433577ee24f285fde3e7ce0b913bdac4ebbf087dda5"
+    },
+    {
+      "path": "controls/RIGID-DRAW-V20-STOP.json.gz",
+      "bytes": 392,
+      "sha256": "aaa602cc1a5f31e6c9596fe86b37ad0d47d9a62ad4b1e78533cddcdd87f9fe66"
+    },
+    {
+      "path": "controls/RIGID-DRAW-V22-STOP.json.gz",
+      "bytes": 391,
+      "sha256": "7c8ca9cc46f3ae2443dfb2c8b670af71acf327fc9cf45fef21e1c89bc460048e"
+    },
+    {
+      "path": "git-source/assets__js__home-scene__activities.mjs.gz",
+      "bytes": 3054,
+      "sha256": "416186ae23feaf2f58c59998dd6e24a28036aa5c0a3e3606edb73bc0174dbf55"
+    },
+    {
+      "path": "git-source/assets__js__home-scene__character-performance.mjs.gz",
+      "bytes": 3356,
+      "sha256": "ac8701572b18247fc308c770935fea0b37cad7fe4a9f9c2b2e288f4e51060df3"
+    },
+    {
+      "path": "git-source/assets__js__home-scene__grip-targets.mjs.gz",
+      "bytes": 389,
+      "sha256": "62cd568d3e258b761e4697f98699c9a4cda90bbaa787a51b10771c93fb71d63b"
+    },
+    {
+      "path": "git-source/assets__js__home-scene__locomotion.mjs.gz",
+      "bytes": 1077,
+      "sha256": "efa829b5834823c0ade568757a4d370e8897c85c79313662b2350c0e69fc7551"
+    },
+    {
+      "path": "git-source/assets__js__home-scene__shore.mjs.gz",
+      "bytes": 847,
+      "sha256": "45cddc013bfd62be6cf27957c05611bae58398d4ee872d58aa4ef6b3c579b698"
+    },
+    {
+      "path": "git-source/assets__js__three.module.min.js.gz",
+      "bytes": 166606,
+      "sha256": "c286d69e1028556835a388ddfbe8bd4b0abd076f6a99b3982ad490053be093e1"
+    },
+    {
+      "path": "git-source/test__helpers__coastal-native-avatar.mjs.gz",
+      "bytes": 1261,
+      "sha256": "7a93b37410ea7858c1fafcae71aaca8feb1474007f5a609cf650b91bf05f2555"
+    },
+    {
+      "path": "git-source/test__helpers__coastal-triangle-parity.mjs.gz",
+      "bytes": 993,
+      "sha256": "96cc172c5e95e2862387ad0f3bdae354d5a5c2cc0b2dcba0bc61546359c38220"
+    },
+    {
+      "path": "inputs/CHAIR-TYPED-CENSUS-V1.json.gz",
+      "bytes": 13706,
+      "sha256": "23aef5fd0222076f989ef217ce511244808ef8a4643270f682e55fafb33eb8d5"
+    },
+    {
+      "path": "inputs/CURRENT-PAVILION-MODELS-V28.json.gz",
+      "bytes": 6943,
+      "sha256": "cffdb70e5b514a51e2b38ce30b5a01fcf4ebad5414ac987c688c5e21ebf36e00"
+    },
+    {
+      "path": "inputs/PAVILION-COFFEE-ROUTE-ONLY-LOW-CARRY-V5.json.gz",
+      "bytes": 73412,
+      "sha256": "5e15052f616aadf9ec94eb7fbb66ab4f2d32b6ea47026514961004a23f6112fc"
+    },
+    {
+      "path": "inputs/PULLBACK-ENTRY-CUP-DENSE-V12-LIZARD.json.gz",
+      "bytes": 7978252,
+      "sha256": "36a1fd61567cd2722b7291c70a03735656c0e685321d47587dc29b505c911060"
+    },
+    {
+      "path": "inputs/PULLBACK-ENTRY-CUP-DENSE-V13-GHIBLI.json.gz",
+      "bytes": 643919,
+      "sha256": "634227b4ac11c67a7bb952502936ffaa97e271a997fac28e0f018424c365fc7e"
+    },
+    {
+      "path": "inputs/PULLBACK-ENTRY-CUP-DENSE-V13-RICK-AND-MORTY.json.gz",
+      "bytes": 633850,
+      "sha256": "4f3c7c62dd296a6eea12cc8e86d73be71b100b1e208ed0c86119b93c4b7dce04"
+    },
+    {
+      "path": "inputs/PULLBACK-ENTRY-CUP-DENSE-V13-SIMPSONS.json.gz",
+      "bytes": 643630,
+      "sha256": "5c74a103942814bc8c0b79629159536b486d4d4eeefc898091fa3ff32678db50"
+    },
+    {
+      "path": "inputs/PULLBACK-ENTRY-CUP-DENSE-V13-SOUTH-PARK.json.gz",
+      "bytes": 643833,
+      "sha256": "bd86737c6585e1957010d7183f7af5d6c262cbf0b907133250f54595854f94eb"
+    },
+    {
+      "path": "inputs/PULLBACK-ENTRY-STAGES-V7.json.gz",
+      "bytes": 2430,
+      "sha256": "4b4d47ab9ab725b338c8ac806c16ac8337be2011a50edd3d71a02a7ef98979b9"
+    },
+    {
+      "path": "inputs/PULLBACK-ENTRY-STAGES-V8.json.gz",
+      "bytes": 2403,
+      "sha256": "1103f6c24f868004e420a29125e99d0f0a19eb70890fa24829a82c7fd2935a82"
+    },
+    {
+      "path": "inputs/sampler-manifest.json.gz",
+      "bytes": 66621,
+      "sha256": "5a02f37ce72d352a8ca04618283832d5c22b493c2efee5591d6e8d42a9c1c8f1"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-CONTINUOUS-V34-LIZARD-PROCESS.json.gz",
+      "bytes": 96,
+      "sha256": "ec1f904476b311975508274ab86d0ef7b518ac86f6eae3db24fe1024375b20bd"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-CONTINUOUS-V34-LIZARD.log.gz",
+      "bytes": 1048,
+      "sha256": "20285eacce8d3aefa32c1bde1d5c70391dbe234e3c16ce04552c97db03e6a5b5"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-CONTINUOUS-V35-LIZARD-PROCESS.json.gz",
+      "bytes": 101,
+      "sha256": "0d9d6f63d81b575259895822837659fe429dee43adb6816013096b1690da9f53"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-CONTINUOUS-V35-LIZARD.log.gz",
+      "bytes": 1208,
+      "sha256": "36afbe2a217e609a6b30585230099fc74519c20b57905def14607991fa8f78c0"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-CONTINUOUS-V36-LIZARD-PROCESS.json.gz",
+      "bytes": 101,
+      "sha256": "7118a92aa2b16472b8464370a26b0c92e22035ea747a78e9e80258ccfb798f9f"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-CONTINUOUS-V36-LIZARD.log.gz",
+      "bytes": 697,
+      "sha256": "76855128b1ccda72ad5dcb284376ed2e2ec17e9c610499580230492d11e9c56f"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-ERGONOMIC-V37-ALL5-PROCESS.json.gz",
+      "bytes": 103,
+      "sha256": "65d68d753f6d5648f477af2eadf47165ae5b42968b75f906c955322cacddfacb"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-ERGONOMIC-V37-ALL5.log.gz",
+      "bytes": 1112,
+      "sha256": "1978499433c74f088e52a1f9fec95aa882df510a4f0498c3f2bfa3c4735385e3"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-GHIBLI-PROCESS.json.gz",
+      "bytes": 103,
+      "sha256": "1386ae16b2ab7bbdd6f045041117512d4a422a4a24a3206bda4adb6eb643a560"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-GHIBLI.log.gz",
+      "bytes": 733,
+      "sha256": "623910b68b7ac2be53e9ea98ebce40bb86043849548e3157f1a6983c38656e98"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-LIZARD-PROCESS.json.gz",
+      "bytes": 103,
+      "sha256": "7f2997d5c67bc51c7563879ff4443902590512490253393050e12fb53056c715"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-LIZARD.log.gz",
+      "bytes": 729,
+      "sha256": "bc114daca29a73ee222914e7630662544ddbbfe41e003e303881464dcdf57c4c"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-RICK-AND-MORTY-PROCESS.json.gz",
+      "bytes": 103,
+      "sha256": "4a0cf2c2fcd3f0449dd62e73759dd58011ad1bb439dd5c4c773757583481a484"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-RICK-AND-MORTY.log.gz",
+      "bytes": 730,
+      "sha256": "4767764aa8d3ccc69a787a2e99881f188a5483b4e4a4a8f06bc25f92f541c8d8"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-SIMPSONS-PROCESS.json.gz",
+      "bytes": 103,
+      "sha256": "0242c6623c8a452efb3f770ab837a32fbb525b447eb72f737ef83b8fbb4c9963"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-SIMPSONS.log.gz",
+      "bytes": 721,
+      "sha256": "5587a7c5d72a1795e73bf3fbe0d9730e4491f98bd91309ce9533c2cc8fa31ea6"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-SOUTH-PARK-PROCESS.json.gz",
+      "bytes": 103,
+      "sha256": "ecd4ddb3bf68762dcec5f67bc555950ab7786b74a5c0296b986a2a0ddadfb466"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-SOUTH-PARK.log.gz",
+      "bytes": 722,
+      "sha256": "5a27e4377d56522c42828d48557d50060ce28fea0d8b0c7b73893b4c277e2978"
+    },
+    {
+      "path": "processes/RIGID-CHAIR-DRAW-SWEEP-V20-PROCESS.json.gz",
+      "bytes": 138,
+      "sha256": "50f537c9c7f836d07365cc78329540093d294bdbe1cac0fb27c11c9f9c90ba81"
+    },
+    {
+      "path": "processes/RIGID-CHAIR-DRAW-SWEEP-V22-LIZARD-PROCESS.json.gz",
+      "bytes": 113,
+      "sha256": "6517712a382f538efa611400c1f293c15c7fbc9617ac607832a4524c6c39661d"
+    },
+    {
+      "path": "processes/RIGID-CHAIR-DRAW-V39-COMPLETE-CUP-ALL5-PROCESS.json.gz",
+      "bytes": 103,
+      "sha256": "d34a0d2397f4e6e62ed32a2998ff898d9407baf2db3d6d0e3b36f6c24103a5f3"
+    },
+    {
+      "path": "processes/RIGID-CHAIR-DRAW-V39-COMPLETE-CUP-ALL5.log.gz",
+      "bytes": 829,
+      "sha256": "0650c47a6e876be80bff00d1aa0eae7ad16c390b4c4a2a11d4388a6613ceaa65"
+    },
+    {
+      "path": "producer-smoke/census.json.gz",
+      "bytes": 5807,
+      "sha256": "7be6f04973ff8f961303648b6585c7c29ae71c8bbe62da2b927d1b7b77a5206b"
+    },
+    {
+      "path": "producer-smoke/coffee-chair.candidate.mjs.gz",
+      "bytes": 9010,
+      "sha256": "154be437ba3318988f75ef01400313c6e9f17113237b28ac12e27a057814bbad"
+    },
+    {
+      "path": "producer-smoke/definition.json.gz",
+      "bytes": 3290,
+      "sha256": "647b3a9b0cc693e16d332ef44c43ee48eeb93ea881292cbcd433a975427e7f56"
+    },
+    {
+      "path": "producer-smoke/RECEIPT.json.gz",
+      "bytes": 10467,
+      "sha256": "20ba06af75f43ee3651dea333ab11cf3e8878a0b3dec7e4b8a631c392a197e06"
+    },
+    {
+      "path": "producers/audit-actual-coffee-chair-v43.mjs.gz",
+      "bytes": 2802,
+      "sha256": "2ac579395c1de1845bf82e3e25a567678ef7af909dc660b9f23069c3bb427fee"
+    },
+    {
+      "path": "producers/audit-actual-coffee-chair-v44.mjs.gz",
+      "bytes": 2801,
+      "sha256": "0e2b3fe8ad1a7fa34857158b84bfa1b6255e15e26e6392e4d03bcc810f28638f"
+    },
+    {
+      "path": "producers/audit-actual-coffee-chair-v46.mjs.gz",
+      "bytes": 2803,
+      "sha256": "13d3291978381fbb1ac6a7672c3de88b1d99584e8fc5dcea242ebf2859e77631"
+    },
+    {
+      "path": "producers/audit-ergonomic-right-world-v38.mjs.gz",
+      "bytes": 10378,
+      "sha256": "13ce7a5e79554bcaee802e01989c1daa0d9cc4bb689c4ccb32d220e86b118bb4"
+    },
+    {
+      "path": "producers/audit-fixture-roster-v30.mjs.gz",
+      "bytes": 1544,
+      "sha256": "f6ec411b9d9a99476f393a99a0fc644dba1798f467625c4fd66ad1f2d19d0c77"
+    },
+    {
+      "path": "producers/audit-furniture-bearing-v40.mjs.gz",
+      "bytes": 2513,
+      "sha256": "57b16495a8940d11aa8c1aa1145f904fb2d29763c4ca2f0136e7a8156d9bdd5c"
+    },
+    {
+      "path": "producers/audit-furniture-bearing-v41.mjs.gz",
+      "bytes": 2712,
+      "sha256": "cc57e5e6ea53079b8dac297d20a10726ab42bf18559f9591042bb9b2c6cc5547"
+    },
+    {
+      "path": "producers/audit-held-cup-anatomy-v14.mjs.gz",
+      "bytes": 8253,
+      "sha256": "4909cf20a5159377346e8622e8b10d836b6846cb0c6c5db87c817e0de64aefec"
+    },
+    {
+      "path": "producers/audit-held-cup-anatomy-v18.mjs.gz",
+      "bytes": 8299,
+      "sha256": "780889932cb05a0ee94a253fc0de8d7a4955f84ae47e0bfa15352afb6ccf6bd8"
+    },
+    {
+      "path": "producers/audit-kitchen-role-exclusion-v49.mjs.gz",
+      "bytes": 1248,
+      "sha256": "70a26026e3bb5e94e3ed6376c9cdb8c7b5d195180b9369561937d831f94ce658"
+    },
+    {
+      "path": "producers/audit-pullback-cup-only-v34.mjs.gz",
+      "bytes": 9063,
+      "sha256": "9022c1f84679865ae31ca1ad95700c03a3b45f839d5e021b258605f49032ec93"
+    },
+    {
+      "path": "producers/audit-pullback-cup-only-v35.mjs.gz",
+      "bytes": 9090,
+      "sha256": "e8264d78cdee6b0fcedf1973109fe982a439a27e70dae15dfdaa7dcab426cdaf"
+    },
+    {
+      "path": "producers/audit-pullback-cup-only-v36.mjs.gz",
+      "bytes": 9093,
+      "sha256": "171266b0913a72f3c8a635c0fe3d2e1241e644da49fd3a079fd2b00704e033fa"
+    },
+    {
+      "path": "producers/audit-pullback-cup-only-v37.mjs.gz",
+      "bytes": 9196,
+      "sha256": "d41b5b39b086b6b62dcbcb490f9c77a025ad4b9b14f53ab37cee9fd2da53e1e0"
+    },
+    {
+      "path": "producers/audit-pullback-cup-real-v31.mjs.gz",
+      "bytes": 8033,
+      "sha256": "68922199619f3b9e2b0b45fce8e72450be0a1fc1a21a2b5090a2f7180769bf5d"
+    },
+    {
+      "path": "producers/audit-pullback-entry-cup-v12.mjs.gz",
+      "bytes": 7872,
+      "sha256": "920d1f9d9e9515326002e95b3e2cfe3a9610b55a820a3853357c952fc174c9fa"
+    },
+    {
+      "path": "producers/audit-pullback-entry-cup-v13.mjs.gz",
+      "bytes": 7872,
+      "sha256": "7e054f49bc9d46152268b8ee5caeac0c747e35fe8c645d2a74dc15506408d678"
+    },
+    {
+      "path": "producers/audit-pullback-entry-cup-v9.mjs.gz",
+      "bytes": 7749,
+      "sha256": "2a6adb116380056256b4210ceac96b4ae8d0ccb2d4b7ec76f03ed338faa0187c"
+    },
+    {
+      "path": "producers/audit-rigid-chair-draw-v20.mjs.gz",
+      "bytes": 9024,
+      "sha256": "93797d9b32080bf6464d7dec6bacea66215965c46aa77607c31fc3716a5dc5d4"
+    },
+    {
+      "path": "producers/audit-rigid-chair-draw-v22.mjs.gz",
+      "bytes": 9165,
+      "sha256": "e115d3595ab0b1ebc184708f7d21f77e5145007311b058aae79fd87672f493f5"
+    },
+    {
+      "path": "producers/audit-rigid-chair-draw-v39-corrected-cup.mjs.gz",
+      "bytes": 9587,
+      "sha256": "0e35ca736921081b64e2dc4b5881d474fdec370fc384d9d62e257299b9c91f97"
+    },
+    {
+      "path": "producers/audit-target-equivalence-v47.mjs.gz",
+      "bytes": 983,
+      "sha256": "e01584293902292e04ac1fe20fe5e5efd8c7a744b901a2c0993d8414a1d39774"
+    },
+    {
+      "path": "producers/audit-target-equivalence-v48.mjs.gz",
+      "bytes": 1502,
+      "sha256": "426771df5cf84cab0c6083ac99fa46f13c09b11c017beebad1a445287cdacd06"
+    },
+    {
+      "path": "producers/classify-held-cup-arm-pairs-v15.mjs.gz",
+      "bytes": 1230,
+      "sha256": "8db9c2f5813c5c22a3736c70336c1423a2c91c5b25a251d89085f72e18a5416a"
+    },
+    {
+      "path": "producers/classify-held-cup-arm-pairs-v19.mjs.gz",
+      "bytes": 1230,
+      "sha256": "4a3297f44ed3e29247b5320ee27161dba18d535698978e1c297e461093040814"
+    },
+    {
+      "path": "producers/compare-exact-sweep-lazy-v4.mjs.gz",
+      "bytes": 720,
+      "sha256": "4c9f238230aa29f71a0e4d5dc3505340f47a6962d9a8ad5d994302c36e2324ed"
+    },
+    {
+      "path": "producers/compare-exact-sweep-real-v3.mjs.gz",
+      "bytes": 1090,
+      "sha256": "963965d3dddd8594c18329237ae70fb811e8a3fe95c3a3747417b563522963bf"
+    },
+    {
+      "path": "producers/exact-floor-interval-v1.mjs.gz",
+      "bytes": 920,
+      "sha256": "616fe9ca5b7a296131d335ded01a02d8dc8bb82edfd17b60a0a4089a1f4a5733"
+    },
+    {
+      "path": "producers/exact-skin-reader-v1.mjs.gz",
+      "bytes": 710,
+      "sha256": "915188887800b440e0495ca76ab14ebcd3f1380281ca9a53ce1fc31fa90eb345"
+    },
+    {
+      "path": "producers/exact-swept-triangle-v1.mjs.gz",
+      "bytes": 1175,
+      "sha256": "0881928b87f9c0d4719624048ba062cc23ed3c464041817f24da620bd6e191da"
+    },
+    {
+      "path": "producers/exact-swept-triangle-v2.mjs.gz",
+      "bytes": 1261,
+      "sha256": "8d76885916d27dcdd970a10e9eadd2cd1af395210ec2cd81e5ba1c5c3ab0f1f4"
+    },
+    {
+      "path": "producers/exact-swept-triangle-v3.mjs.gz",
+      "bytes": 1272,
+      "sha256": "db12a95344d9d6b656df7468365c333def95dbd986c768178eee3fd457c48ffe"
+    },
+    {
+      "path": "producers/inventory-chair-typed-v1.mjs.gz",
+      "bytes": 2104,
+      "sha256": "294b1a83cf1a5032b585fc929f00ddb3ebf4939490451a45bbca4ed38f9ae99d"
+    },
+    {
+      "path": "producers/inventory-cup-region-v27.mjs.gz",
+      "bytes": 644,
+      "sha256": "2c048ef25768a9f6825e5d9025c18b3967bd53c005994662b40f4ed03214d43c"
+    },
+    {
+      "path": "producers/pavilion-contact-geometry-v28-current-cup.mjs.gz",
+      "bytes": 1830,
+      "sha256": "be7602d3a03e751201691c8835a8ca48c7f3cfe6cd1728c90f9a1a1b3f94ff30"
+    },
+    {
+      "path": "producers/pavilion-contact-geometry-v29-pullback-cup.mjs.gz",
+      "bytes": 772,
+      "sha256": "c096c848f2c461036f1722e61783e398e40d76329aae39458b427817f62a3c4b"
+    },
+    {
+      "path": "producers/pavilion-contact-geometry-v4-final312.mjs.gz",
+      "bytes": 1843,
+      "sha256": "0a011f6cff6be86e73fcdc6a400fadb137b9e0ece7e2c45706f18e268c65291d"
+    },
+    {
+      "path": "producers/pavilion-contact-geometry-v8-pullback-whole312.mjs.gz",
+      "bytes": 768,
+      "sha256": "f8f91dc26586ebd076c11083f14983bc17f4217ce38643e4086bbb40a0b05be1"
+    },
+    {
+      "path": "producers/test-exact-floor-interval-v1.mjs.gz",
+      "bytes": 708,
+      "sha256": "33ea7a1876abcdced3b0afb9d00941e0f472dbef94c5535edb174f725f8d6c99"
+    },
+    {
+      "path": "producers/test-exact-swept-triangle-v1.mjs.gz",
+      "bytes": 999,
+      "sha256": "95a4b3cbe7745237c7617909e98e58cee0b19891037631af084b1e4e23aace9d"
+    },
+    {
+      "path": "producers/test-exact-swept-triangle-v2.mjs.gz",
+      "bytes": 1053,
+      "sha256": "4cc0ed26d5aedfcfdab68084159ca48fba5aedab85b2c467ef9f68fb94b5c304"
+    },
+    {
+      "path": "reader-helpers/bound-native-avatar-v1.mjs.gz",
+      "bytes": 1392,
+      "sha256": "a7ca700d178854110986d4666d44e5e11a441ab8a8ccd02d1ace97ac0949dd71"
+    },
+    {
+      "path": "reader-helpers/bound-native-geometry-v1.mjs.gz",
+      "bytes": 2028,
+      "sha256": "84c4f626681edea96b853c6551c09083501b2880aa37ae698adefcb6d0472c78"
+    },
+    {
+      "path": "reader-helpers/bound-native-inputs-v1.mjs.gz",
+      "bytes": 226,
+      "sha256": "319c6012aae7104a4c3a070b8fc6d340328a9a765dcd566a7c19c713bdcd5ac4"
+    },
+    {
+      "path": "reader-helpers/finite-triangle-distance.mjs.gz",
+      "bytes": 1161,
+      "sha256": "f616424f5850081d193c7ccf60e1172744cf9ea463d93a0befcbda211fe07473"
+    },
+    {
+      "path": "reader-helpers/posed-self-contact-v2.mjs.gz",
+      "bytes": 1420,
+      "sha256": "fcef6b14db9ec5bb1932fbc11fd54aea01172b0274005a9e55216c6c42f841cc"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6022,
+      "sha256": "03356b606028c0bddabcef16371fe7ea12ba978efb94f8311e5f3ad3fc3637d7"
+    },
+    {
+      "path": "results/ACTUAL-312-COFFEE-CHAIR-TYPED-LIFECYCLE-V44.json.gz",
+      "bytes": 2150,
+      "sha256": "afe1808bb0418852513cf4b6f8526246382cf71cfac90cc28936ede3da8a113b"
+    },
+    {
+      "path": "results/ACTUAL-312-COFFEE-CHAIR-TYPED-LIFECYCLE-V46.json.gz",
+      "bytes": 2149,
+      "sha256": "d9c592d96150cf062a3d22a41eeaa96448a9683ba3306a9253c5c69ff66d82a4"
+    },
+    {
+      "path": "results/ACTUAL-CUP-CONTINUOUS-V36-LIZARD.json.gz",
+      "bytes": 1009705,
+      "sha256": "0f725df8825e29fedbcdfa3ea8611aa72e56d168ddf51e20d5a9f1e2b0b62b24"
+    },
+    {
+      "path": "results/ACTUAL-CUP-ENCODED-CUSTODY-V32.json.gz",
+      "bytes": 1642,
+      "sha256": "2ab2db9cda252fede0bf8c5c6c724a525779b7ea146777de54be81e485baa73e"
+    },
+    {
+      "path": "results/ACTUAL-CUP-ERGONOMIC-V37-ALL5.json.gz",
+      "bytes": 1928014,
+      "sha256": "9af99b32d29917f5b7051e0b323c76cf2a9ddaf51d56637ab59a294514b79bdc"
+    },
+    {
+      "path": "results/CHAIR-PRODUCER-ACTUAL-V45-PROCESS.json.gz",
+      "bytes": 554,
+      "sha256": "7f0f2a41073621675855e2df617dc761ec15cc34dfd4a5143cc47e982c11303b"
+    },
+    {
+      "path": "results/CHAIR-PRODUCER-ACTUAL-V45.log.gz",
+      "bytes": 531,
+      "sha256": "4c408434a0650f510c56c1ca250589f135a988942910601874209167456ffd08"
+    },
+    {
+      "path": "results/COMPLETE-NONCUP-TARGET-MULTISET-EQUIVALENCE-V48.json.gz",
+      "bytes": 15780,
+      "sha256": "020cb593ee25efd225f0bbc6299a6dcd7d6b233f4c79f7559f97a11f5cbc82b3"
+    },
+    {
+      "path": "results/CUP-REGION-CUSTODY-CORRECTION-V27.json.gz",
+      "bytes": 405,
+      "sha256": "763ab61ce5b48433260edd476ac33d350b5f6d0b2c42a93d809b202b372a5104"
+    },
+    {
+      "path": "results/CURRENT-KITCHEN-ROLE-AND-TYPED-INHERITANCE-V49.json.gz",
+      "bytes": 1780,
+      "sha256": "c77cb147bf28cef92bc0d53364b6fc2f61e62862248640740f7307bfad9b41f0"
+    },
+    {
+      "path": "results/ERGONOMIC-ENTRY-CORRECTED-COVERAGE-SUMMARY-V42.json.gz",
+      "bytes": 888,
+      "sha256": "c8136eee40a357597fe1a2cc8f4ae1b6399a6d3b758df22196afd47bf949507c"
+    },
+    {
+      "path": "results/ERGONOMIC-RIGHT-WORLD-V38-GHIBLI.json.gz",
+      "bytes": 388498,
+      "sha256": "515e33daaf7963cf00717ab60c0b34f0eeabde73992f03be93568130cd60732d"
+    },
+    {
+      "path": "results/ERGONOMIC-RIGHT-WORLD-V38-LIZARD.json.gz",
+      "bytes": 8070200,
+      "sha256": "ee9c1f8ea3cfa5262640435b427250a372da5bbaa92d08133f59ec14a6ebbadb"
+    },
+    {
+      "path": "results/ERGONOMIC-RIGHT-WORLD-V38-RICK-AND-MORTY.json.gz",
+      "bytes": 387664,
+      "sha256": "cc64789785969a21c9dd4bb55df098d553d26ae0125adefb9368272edb1fc02b"
+    },
+    {
+      "path": "results/ERGONOMIC-RIGHT-WORLD-V38-SIMPSONS.json.gz",
+      "bytes": 387550,
+      "sha256": "b87efa04c92428ce199c175e0f72889e53c73279e119d6d307ca7bb06945d1e4"
+    },
+    {
+      "path": "results/ERGONOMIC-RIGHT-WORLD-V38-SOUTH-PARK.json.gz",
+      "bytes": 387488,
+      "sha256": "631b0e8da2b37426ec84ad64555d10bb89d64248f06a3ba7b607302d923143a0"
+    },
+    {
+      "path": "results/FIXTURE-ROSTER-AND-CUP-CUSTODY-V30.json.gz",
+      "bytes": 4329,
+      "sha256": "3ecd66967521b929838bfb3afbd262256e09af97913c28fde03ede17eb0261ab"
+    },
+    {
+      "path": "results/FURNITURE-CONTINUOUS-BEARING-V41.json.gz",
+      "bytes": 17622,
+      "sha256": "4bfad0cf17fb17e1762f3c0247e49d33e959da0805ed32d60ae658ce7dafb37e"
+    },
+    {
+      "path": "results/RIGID-CHAIR-DRAW-V39-COMPLETE-CUP-ALL5.json.gz",
+      "bytes": 1711083,
+      "sha256": "99607ee550de0b4687724ee4ac6c200228902e1129e4d33592e42508bc805b75"
+    },
+    {
+      "path": "results/WITHDRAWAL-CUP-COVERAGE-20261103.json.gz",
+      "bytes": 1629,
+      "sha256": "7364051b5b5469933f30c8b838649e1807ad31553b49f55e4bda21defe08d881"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__activities.mjs.gz",
+      "bytes": 10585,
+      "sha256": "41c52a3c0b88f3c40295ed4885c45eccd1125d4f8422285a0dc08580b2e076c7"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__character-performance.mjs.gz",
+      "bytes": 3371,
+      "sha256": "053f17e5e32094902b34ed0e1e5155612b0d76e62296ed9518335380152d893a"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__coffee-cup-contact.mjs.gz",
+      "bytes": 2653,
+      "sha256": "3cdcaa7575e872ef91916fe49de620da756fbae972c48d081e885551c76b131a"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__coffee-cup-handoff.mjs.gz",
+      "bytes": 3991,
+      "sha256": "56daea0c2050fb16bef02eb6abd3e4c1699dfe655a86cd3adb94a00ce9e1058d"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__coffee-tail-contact.mjs.gz",
+      "bytes": 2253,
+      "sha256": "5585f766cb0a49f5480e4e100a2e55838a149a34c7815fa34614028c8c15e5f4"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__coffee-venue.mjs.gz",
+      "bytes": 1970,
+      "sha256": "a382881ba68e32237b5e108edbadf4c5d68a4f125159db4d5ba753d281875733"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__grip-targets.mjs.gz",
+      "bytes": 391,
+      "sha256": "92d85993889a10fc47870ccaa2d3237fe9b0661a5965af761c83b3d1b81bbb7e"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__locomotion.mjs.gz",
+      "bytes": 6811,
+      "sha256": "71ff4a72ad35ae7b729b98d4843006cf7254728ea6596a148cc4e680d060bbbb"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__shore.mjs.gz",
+      "bytes": 851,
+      "sha256": "18d7c657d62a7667838838aaa053da6d8876aca0c718be40c9c911ed227547bf"
+    },
+    {
+      "path": "sampler-source/assets__js__three.module.min.js.gz",
+      "bytes": 166615,
+      "sha256": "01adbcced4507cd38339b149e63e2dd879aa2855adc314a4c2de70ac9cab77b8"
+    },
+    {
+      "path": "sampler-source/assets__js__vendor__three-r164__libs__draco__draco_decoder.wasm.gz",
+      "bytes": 63164,
+      "sha256": "4c40f196cb74101f924b5ac0edff4865f0e252354f206d5d9d88f4c1d9017ad8"
+    },
+    {
+      "path": "sampler-source/assets__js__vendor__three-r164__libs__draco__draco_wasm_wrapper.js.gz",
+      "bytes": 11612,
+      "sha256": "89b3cbecad0a2f7104f6bd96ccff36855cefa4c7b72e10c4ad4f89a380a820da"
+    },
+    {
+      "path": "sampler-source/assets__js__vendor__three-r164__loaders__GLTFLoader.js.gz",
+      "bytes": 23479,
+      "sha256": "0d4837b7f9621ee23168c90162e8ab4cba319a89a89ab700964798946f42d043"
+    },
+    {
+      "path": "sampler-source/assets__js__vendor__three-r164__utils__BufferGeometryUtils.js.gz",
+      "bytes": 6851,
+      "sha256": "5bb4d5708a85c9b2b66dd609feabbabc8bfc8c95f4825991475bf11e74eeb9aa"
+    },
+    {
+      "path": "sampler-source/test__helpers__coastal-native-avatar.mjs.gz",
+      "bytes": 1267,
+      "sha256": "7a245f37ed2989ddbb9aa13c60f03cb63546842177ee1c8c4f5397c5a5d11a10"
+    },
+    {
+      "path": "sampler-source/test__helpers__coastal-triangle-parity.mjs.gz",
+      "bytes": 1000,
+      "sha256": "ce142b7a9e732ec1576e72a530ffa0da22726ba126a7c36ac4c512b453f28c80"
+    },
+    {
+      "path": "SUMMARY.json",
+      "bytes": 87143,
+      "sha256": "c6cd140e58ab1694bfb72548099f3a7f2dc60dea82cbba8cd1922c507e044619"
+    }
+  ]
+}

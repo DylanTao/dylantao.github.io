@@ -1,0 +1,1460 @@
+{
+  "status": "disabled-source-checkpoint; not final coffee/renderer admission",
+  "sourceCommits": ["b08a26f42", "48979c119"],
+  "publicBehaviorChanged": false,
+  "qualifiedModule": {
+    "actualGLB": "312bf6d04189051a00c1e1c57d9e4afd17a6b0ced234cdc6f4bbd8a59ffad7a4",
+    "parts": 14,
+    "triangles": 680,
+    "completeOriginalMeshes": 202,
+    "parkedGraphTypedIndexMaterialReferencesExact": true,
+    "maxCPUWorldTransformResidualM": 6.661338147750939e-16,
+    "newCPUBufferBytes": 140160,
+    "activeVisiblePrimitiveCandidateDelta": 7,
+    "actualGPUDrawCostMeasured": false
+  },
+  "tests": {
+    "module": 14,
+    "producer": 8,
+    "totalPass": 22,
+    "targetedPrettier": true
+  },
+  "physicalSampling": {
+    "styles": 5,
+    "posesPerStyle": 421,
+    "evaluationSpacingHz": 60,
+    "measuredFPS": false,
+    "realCupParts": 3,
+    "realCupFacesEachPose": 1628,
+    "realCupVerticesEachPose": 1023,
+    "nonHandCupBodyContacts": 0,
+    "cupWorldContacts": 0,
+    "fullRightWorldRigidContacts": 0,
+    "unaffectedVertexComparisons": 157487680,
+    "lizardNewOrLostTailPairs": 0
+  },
+  "targetReuse": {
+    "noncupSurfacesOriginal": 153,
+    "noncupSurfacesCurrent": 153,
+    "noncupClosedSolidsEach": 139,
+    "wholeSurfaceMultisetsExact": true,
+    "nativeInputRolesFreshlyMatched": 14,
+    "changedInput": "room-kitchen ff670 to6f8 only; none of52old/54new kitchen primitive boxes intersects pavilion domain;3cup streams separately exact",
+    "v47WrongIdentityAssertion": "149unique owner/island keys represent153primitive occurrences; no real old149/current153 roster difference"
+  },
+  "withdrawals": [
+    "Pre-V30 cup groups were empty: all old actual-cup coverage claims remain withdrawn. Body/sole/Tail old scopes retained only through the separately qualified exact reuse proof.",
+    "V39 first message mistook tile bevel-side upperedge -0.0018441677 for load top; actual flat top is+0.0011761579663.",
+    "V40 convex-hull exact material-section assumption failed; V41 verifies each actual interior witness by closed-source parity and positive boundary distance.",
+    "UnitV1 invalid grouped BoxGeometry fixture made negative tests vacuous; corrected fixture and grouped rejection retained. UnitV2 found actual async snapshot and duplicate ownership bugs; fixed."
+  ],
+  "bearing": {
+    "actualFlatPavingTopY": 0.0011761579662561417,
+    "oldLegEmbedM": 0.003198618069291115,
+    "newUBaseEmbedM": 0.004176157992333174,
+    "all6BasesContinuous3NoncollinearInteriorWitnesses": true,
+    "wholeFootprintCOMFrictionJoineryClaim": false
+  },
+  "openGates": [
+    "normal walking arrival/settle and natural weight/hand action",
+    "runtime reversible chair + actor/cup integration",
+    "ordinary public Pause/Walk/routine/avatar lifecycle",
+    "complete bar withdrawal/carry/entry/meal/return route and supported cadence",
+    "actual GPU uploads/draw cost and 2K/4K/phone/WebKit appearance",
+    "current combined export/material/pose repeat and official light-input registration/cache bake before enabling"
+  ],
+  "externalInputRequirement": "No GLB/master/cache binary is committed in this packet. Replay needs the exact SHA-bound external model bundle retained by coordinator; required complete input inventory is included. Reader helpers preserve original PC paths; relocation must produce a new bound invocation, not rewrite sealed originals. Numeric fixtures are not partial-site visual evidence.",
+  "dependencies": [
+    {
+      "path": "assets/js/vendor/three-r164/libs/draco/draco_decoder.wasm",
+      "workingSHA256": "a680d927bed9cb864ddbd63521868891af2bfbe755092761b4837487618df8ac",
+      "workingBytes": 192420,
+      "gitBlobSHA256": "a680d927bed9cb864ddbd63521868891af2bfbe755092761b4837487618df8ac",
+      "workingBytesEqualGit": true,
+      "workingLFEqualGit": null
+    },
+    {
+      "path": "assets/js/vendor/three-r164/libs/draco/draco_wasm_wrapper.js",
+      "workingSHA256": "8bb2952d2ba7d67e1414f8df819410cb0434a666be53f671fff75f68843d76f6",
+      "workingBytes": 58456,
+      "gitBlobSHA256": "8bb2952d2ba7d67e1414f8df819410cb0434a666be53f671fff75f68843d76f6",
+      "workingBytesEqualGit": true,
+      "workingLFEqualGit": true
+    },
+    {
+      "path": "assets/js/vendor/three-r164/loaders/GLTFLoader.js",
+      "workingSHA256": "45c7282acb680a1799920810f1da8a2f2bd8ac09827c66600f7315eb94a6c46e",
+      "workingBytes": 109805,
+      "gitBlobSHA256": "45c7282acb680a1799920810f1da8a2f2bd8ac09827c66600f7315eb94a6c46e",
+      "workingBytesEqualGit": true,
+      "workingLFEqualGit": true
+    },
+    {
+      "path": "assets/js/vendor/three-r164/utils/BufferGeometryUtils.js",
+      "workingSHA256": "cb90892109217645ee8524c3c155c1a1f5b52ee33cac7c79579b83d3c1d7150e",
+      "workingBytes": 31578,
+      "gitBlobSHA256": "cb90892109217645ee8524c3c155c1a1f5b52ee33cac7c79579b83d3c1d7150e",
+      "workingBytesEqualGit": true,
+      "workingLFEqualGit": true
+    },
+    {
+      "path": "assets/js/three.module.min.js",
+      "workingSHA256": "d08334115492bd88100491499f9dc9c830759154e524ec536739d1dacb2bce18",
+      "workingBytes": 674428,
+      "gitBlobSHA256": "6c2bfdf07626404916f34aef8cf57992926d849526bc6eb4556da96a3ba4e78c",
+      "workingBytesEqualGit": false,
+      "workingLFEqualGit": true
+    },
+    {
+      "path": "test/helpers/coastal-native-avatar.mjs",
+      "workingSHA256": "f2771a829e512cbc4e5b1b8ed767531d336fdf9d0ab1ed2ad7472c29cd0afad0",
+      "workingBytes": 3277,
+      "gitBlobSHA256": "fed95eab70e72ebd9ee9bf7f145c5f84f8365b406540705cb5251d982d23f3ea",
+      "workingBytesEqualGit": false,
+      "workingLFEqualGit": true
+    },
+    {
+      "path": "test/helpers/coastal-triangle-parity.mjs",
+      "workingSHA256": "10ca94f8cdf6a5436ab8283d62a16917b1707ea11069b8ab23f70a67b0776386",
+      "workingBytes": 2372,
+      "gitBlobSHA256": "c382ba79cda617d9baf642247980baa714a844199085c62e717fc6e339909be6",
+      "workingBytesEqualGit": false,
+      "workingLFEqualGit": true
+    },
+    {
+      "path": "assets/js/home-scene/shore.mjs",
+      "workingSHA256": "3872a5c53af372451b048ed7f0667d66fa0359e26a4b9770f2152e96fbef043f",
+      "workingBytes": 2060,
+      "gitBlobSHA256": "b79050a2604f52b38c6c940cfbaca14ecd26d5c4a6ace6ab37b0890e758f19f9",
+      "workingBytesEqualGit": false,
+      "workingLFEqualGit": true
+    },
+    {
+      "path": "assets/js/home-scene/grip-targets.mjs",
+      "workingSHA256": "b8bbfc150f4a8187998d09d442b55bb6a8523ba1fa3fe93f481843f231a149eb",
+      "workingBytes": 716,
+      "gitBlobSHA256": "048cc2f10a01353e0245bb28b5f4dacfd9e311a6bd7ab50206fc356d02fb7416",
+      "workingBytesEqualGit": false,
+      "workingLFEqualGit": true
+    },
+    {
+      "path": "assets/js/home-scene/character-performance.mjs",
+      "workingSHA256": "ca4ead9aac7ab222436befbd7cbc8f409571f46ae060019dac4a288de582b7ff",
+      "workingBytes": 10042,
+      "gitBlobSHA256": "af535a365da0ff52dcdf0252caa2f011eadd29dd430e0c792ae155bff437103c",
+      "workingBytesEqualGit": false,
+      "workingLFEqualGit": true
+    },
+    {
+      "path": "assets/js/home-scene/coffee-cup-handoff.mjs",
+      "workingSHA256": "6ac3ad9e0f38903608bf93a6b76529bdcff0a5269818b727bef6606acc074f0a",
+      "workingBytes": 13405,
+      "gitBlobSHA256": null,
+      "workingBytesEqualGit": null,
+      "workingLFEqualGit": null
+    },
+    {
+      "path": "assets/js/home-scene/coffee-cup-contact.mjs",
+      "workingSHA256": "be51724657bc58b3387d2cb6c5a31f8c666a9c427f9333bbd002ec52cd5e2e83",
+      "workingBytes": 9422,
+      "gitBlobSHA256": null,
+      "workingBytesEqualGit": null,
+      "workingLFEqualGit": null
+    },
+    {
+      "path": "assets/js/home-scene/coffee-tail-contact.mjs",
+      "workingSHA256": "c72086d7b3f95952b61c92715956f85023cef38c03a5d3d8c4dc80d2b5967aee",
+      "workingBytes": 6530,
+      "gitBlobSHA256": null,
+      "workingBytesEqualGit": null,
+      "workingLFEqualGit": null
+    },
+    {
+      "path": "assets/js/home-scene/locomotion.mjs",
+      "workingSHA256": "bff6892b70dd6181809cfde9e07e154c84636bfac48436389d0757b4070e4af1",
+      "workingBytes": 23824,
+      "gitBlobSHA256": "4653d3ae89f81e4c1276e695673d7dd5c597b3210bbc2e86da26cd5ac1415883",
+      "workingBytesEqualGit": false,
+      "workingLFEqualGit": false
+    },
+    {
+      "path": "assets/js/home-scene/activities.mjs",
+      "workingSHA256": "aa7d67f09b616241417af34fdf1148a0509e5f877d66572d0a250fd1020798c0",
+      "workingBytes": 41394,
+      "gitBlobSHA256": "c0b14c70ef8f795bd379a1e3c1b1547857bf46b67bbed702bdbbdc0467df18db",
+      "workingBytesEqualGit": false,
+      "workingLFEqualGit": false
+    },
+    {
+      "path": "assets/js/home-scene/coffee-venue.mjs",
+      "workingSHA256": "b3ec9c2e265e563053c131165b80a5ba77ed37232831f3a7a3ab17f482ecda06",
+      "workingBytes": 5789,
+      "gitBlobSHA256": null,
+      "workingBytesEqualGit": null,
+      "workingLFEqualGit": null
+    }
+  ],
+  "unavailableNamedPredecessorScripts": [],
+  "payloads": [
+    {
+      "path": "results/WITHDRAWAL-CUP-COVERAGE-20261103.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\WITHDRAWAL-CUP-COVERAGE-20261103.json",
+      "sourceSHA256": "d0ac3b522a9668880406edbf45c9a1ec2f5ebab63b924f73fdcf32080ad8a093",
+      "sourceBytes": 3556,
+      "storedSHA256": "7364051b5b5469933f30c8b838649e1807ad31553b49f55e4bda21defe08d881",
+      "storedBytes": 1629,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "results/CUP-REGION-CUSTODY-CORRECTION-V27.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\CUP-REGION-CUSTODY-CORRECTION-V27.json",
+      "sourceSHA256": "ed0b6cadb055bae5c21a748f774e6578f9a77045c78ef048707a2ef5e0fea1f4",
+      "sourceBytes": 1531,
+      "storedSHA256": "763ab61ce5b48433260edd476ac33d350b5f6d0b2c42a93d809b202b372a5104",
+      "storedBytes": 405,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "results/FIXTURE-ROSTER-AND-CUP-CUSTODY-V30.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\FIXTURE-ROSTER-AND-CUP-CUSTODY-V30.json",
+      "sourceSHA256": "76fad0c0da6fe38aed339d6c96a57e5a5ae5a723517cc85da615452d4c205ed9",
+      "sourceBytes": 25901,
+      "storedSHA256": "3ecd66967521b929838bfb3afbd262256e09af97913c28fde03ede17eb0261ab",
+      "storedBytes": 4329,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "results/ACTUAL-CUP-ENCODED-CUSTODY-V32.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ACTUAL-CUP-ENCODED-CUSTODY-V32.json",
+      "sourceSHA256": "1577fc0dfb1905343966c95c7b41dab4c0626e70082b9456e816af7e7c645bfb",
+      "sourceBytes": 15812,
+      "storedSHA256": "2ab2db9cda252fede0bf8c5c6c724a525779b7ea146777de54be81e485baa73e",
+      "storedBytes": 1642,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "results/ACTUAL-CUP-CONTINUOUS-V36-LIZARD.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ACTUAL-CUP-CONTINUOUS-V36-LIZARD.json.gz",
+      "sourceSHA256": "0f725df8825e29fedbcdfa3ea8611aa72e56d168ddf51e20d5a9f1e2b0b62b24",
+      "sourceBytes": 1009705,
+      "storedSHA256": "0f725df8825e29fedbcdfa3ea8611aa72e56d168ddf51e20d5a9f1e2b0b62b24",
+      "storedBytes": 1009705,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "results/ACTUAL-CUP-ERGONOMIC-V37-ALL5.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ACTUAL-CUP-ERGONOMIC-V37-ALL5.json.gz",
+      "sourceSHA256": "9af99b32d29917f5b7051e0b323c76cf2a9ddaf51d56637ab59a294514b79bdc",
+      "sourceBytes": 1928014,
+      "storedSHA256": "9af99b32d29917f5b7051e0b323c76cf2a9ddaf51d56637ab59a294514b79bdc",
+      "storedBytes": 1928014,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "results/RIGID-CHAIR-DRAW-V39-COMPLETE-CUP-ALL5.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\RIGID-CHAIR-DRAW-V39-COMPLETE-CUP-ALL5.json.gz",
+      "sourceSHA256": "99607ee550de0b4687724ee4ac6c200228902e1129e4d33592e42508bc805b75",
+      "sourceBytes": 1711083,
+      "storedSHA256": "99607ee550de0b4687724ee4ac6c200228902e1129e4d33592e42508bc805b75",
+      "storedBytes": 1711083,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "results/FURNITURE-CONTINUOUS-BEARING-V41.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\FURNITURE-CONTINUOUS-BEARING-V41.json",
+      "sourceSHA256": "035a80e84782a11a6a2ca4440a3cd53610187af45d1ecf6598759745238efc65",
+      "sourceBytes": 224333,
+      "storedSHA256": "4bfad0cf17fb17e1762f3c0247e49d33e959da0805ed32d60ae658ce7dafb37e",
+      "storedBytes": 17622,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "results/ERGONOMIC-ENTRY-CORRECTED-COVERAGE-SUMMARY-V42.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-ENTRY-CORRECTED-COVERAGE-SUMMARY-V42.json",
+      "sourceSHA256": "d9d93c0469cf4835e804d4caa3722be0e41bf8e3c1decc939070622f18f7babc",
+      "sourceBytes": 2342,
+      "storedSHA256": "c8136eee40a357597fe1a2cc8f4ae1b6399a6d3b758df22196afd47bf949507c",
+      "storedBytes": 888,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "results/ACTUAL-312-COFFEE-CHAIR-TYPED-LIFECYCLE-V44.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ACTUAL-312-COFFEE-CHAIR-TYPED-LIFECYCLE-V44.json",
+      "sourceSHA256": "e8f788bf1e76d82d7c0af655d4c199dbe25edd8d246c1d5ad4892aa8d118bebd",
+      "sourceBytes": 30095,
+      "storedSHA256": "afe1808bb0418852513cf4b6f8526246382cf71cfac90cc28936ede3da8a113b",
+      "storedBytes": 2150,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "results/ACTUAL-312-COFFEE-CHAIR-TYPED-LIFECYCLE-V46.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ACTUAL-312-COFFEE-CHAIR-TYPED-LIFECYCLE-V46.json",
+      "sourceSHA256": "490ca1796dfc01e037aaf0d25af8f064a1d0a16d39d3b08247a8efb4044e5937",
+      "sourceBytes": 30095,
+      "storedSHA256": "d9c592d96150cf062a3d22a41eeaa96448a9683ba3306a9253c5c69ff66d82a4",
+      "storedBytes": 2149,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "results/COMPLETE-NONCUP-TARGET-MULTISET-EQUIVALENCE-V48.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\COMPLETE-NONCUP-TARGET-MULTISET-EQUIVALENCE-V48.json",
+      "sourceSHA256": "56b64dd721c1165dd406b5b871764f8456f5e07de014377f57f17cd812993ef7",
+      "sourceBytes": 92503,
+      "storedSHA256": "020cb593ee25efd225f0bbc6299a6dcd7d6b233f4c79f7559f97a11f5cbc82b3",
+      "storedBytes": 15780,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "results/CURRENT-KITCHEN-ROLE-AND-TYPED-INHERITANCE-V49.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\CURRENT-KITCHEN-ROLE-AND-TYPED-INHERITANCE-V49.json",
+      "sourceSHA256": "6c38176d42c200d1ed37032234a948ea5606b7f4e353b2cf4690670d265da89c",
+      "sourceBytes": 12745,
+      "storedSHA256": "c77cb147bf28cef92bc0d53364b6fc2f61e62862248640740f7307bfad9b41f0",
+      "storedBytes": 1780,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "results/CHAIR-PRODUCER-ACTUAL-V45-PROCESS.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\CHAIR-PRODUCER-ACTUAL-V45-PROCESS.json",
+      "sourceSHA256": "72f5d2667a78d8dc0b84d8a64cd1b82ef010425e5365d2d48250076207d110b4",
+      "sourceBytes": 1665,
+      "storedSHA256": "7f0f2a41073621675855e2df617dc761ec15cc34dfd4a5143cc47e982c11303b",
+      "storedBytes": 554,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "results/CHAIR-PRODUCER-ACTUAL-V45.log.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\CHAIR-PRODUCER-ACTUAL-V45.log",
+      "sourceSHA256": "dba982f8d16132343c284dc34f7fb0e04f26827a4350a461f6b22d56ab0d900d",
+      "sourceBytes": 789,
+      "storedSHA256": "4c408434a0650f510c56c1ca250589f135a988942910601874209167456ffd08",
+      "storedBytes": 531,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "results/ERGONOMIC-RIGHT-WORLD-V38-LIZARD.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-RIGHT-WORLD-V38-LIZARD.json.gz",
+      "sourceSHA256": "ee9c1f8ea3cfa5262640435b427250a372da5bbaa92d08133f59ec14a6ebbadb",
+      "sourceBytes": 8070200,
+      "storedSHA256": "ee9c1f8ea3cfa5262640435b427250a372da5bbaa92d08133f59ec14a6ebbadb",
+      "storedBytes": 8070200,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "results/ERGONOMIC-RIGHT-WORLD-V38-SOUTH-PARK.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-RIGHT-WORLD-V38-SOUTH-PARK.json.gz",
+      "sourceSHA256": "631b0e8da2b37426ec84ad64555d10bb89d64248f06a3ba7b607302d923143a0",
+      "sourceBytes": 387488,
+      "storedSHA256": "631b0e8da2b37426ec84ad64555d10bb89d64248f06a3ba7b607302d923143a0",
+      "storedBytes": 387488,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "results/ERGONOMIC-RIGHT-WORLD-V38-SIMPSONS.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-RIGHT-WORLD-V38-SIMPSONS.json.gz",
+      "sourceSHA256": "b87efa04c92428ce199c175e0f72889e53c73279e119d6d307ca7bb06945d1e4",
+      "sourceBytes": 387550,
+      "storedSHA256": "b87efa04c92428ce199c175e0f72889e53c73279e119d6d307ca7bb06945d1e4",
+      "storedBytes": 387550,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "results/ERGONOMIC-RIGHT-WORLD-V38-GHIBLI.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-RIGHT-WORLD-V38-GHIBLI.json.gz",
+      "sourceSHA256": "515e33daaf7963cf00717ab60c0b34f0eeabde73992f03be93568130cd60732d",
+      "sourceBytes": 388498,
+      "storedSHA256": "515e33daaf7963cf00717ab60c0b34f0eeabde73992f03be93568130cd60732d",
+      "storedBytes": 388498,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "results/ERGONOMIC-RIGHT-WORLD-V38-RICK-AND-MORTY.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-RIGHT-WORLD-V38-RICK-AND-MORTY.json.gz",
+      "sourceSHA256": "cc64789785969a21c9dd4bb55df098d553d26ae0125adefb9368272edb1fc02b",
+      "sourceBytes": 387664,
+      "storedSHA256": "cc64789785969a21c9dd4bb55df098d553d26ae0125adefb9368272edb1fc02b",
+      "storedBytes": 387664,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "inputs/PULLBACK-ENTRY-CUP-DENSE-V12-LIZARD.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\PULLBACK-ENTRY-CUP-DENSE-V12-LIZARD.json.gz",
+      "sourceSHA256": "36a1fd61567cd2722b7291c70a03735656c0e685321d47587dc29b505c911060",
+      "sourceBytes": 7978252,
+      "storedSHA256": "36a1fd61567cd2722b7291c70a03735656c0e685321d47587dc29b505c911060",
+      "storedBytes": 7978252,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "inputs/PULLBACK-ENTRY-CUP-DENSE-V13-SOUTH-PARK.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\PULLBACK-ENTRY-CUP-DENSE-V13-SOUTH-PARK.json.gz",
+      "sourceSHA256": "bd86737c6585e1957010d7183f7af5d6c262cbf0b907133250f54595854f94eb",
+      "sourceBytes": 643833,
+      "storedSHA256": "bd86737c6585e1957010d7183f7af5d6c262cbf0b907133250f54595854f94eb",
+      "storedBytes": 643833,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "inputs/PULLBACK-ENTRY-CUP-DENSE-V13-SIMPSONS.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\PULLBACK-ENTRY-CUP-DENSE-V13-SIMPSONS.json.gz",
+      "sourceSHA256": "5c74a103942814bc8c0b79629159536b486d4d4eeefc898091fa3ff32678db50",
+      "sourceBytes": 643630,
+      "storedSHA256": "5c74a103942814bc8c0b79629159536b486d4d4eeefc898091fa3ff32678db50",
+      "storedBytes": 643630,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "inputs/PULLBACK-ENTRY-CUP-DENSE-V13-GHIBLI.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\PULLBACK-ENTRY-CUP-DENSE-V13-GHIBLI.json.gz",
+      "sourceSHA256": "634227b4ac11c67a7bb952502936ffaa97e271a997fac28e0f018424c365fc7e",
+      "sourceBytes": 643919,
+      "storedSHA256": "634227b4ac11c67a7bb952502936ffaa97e271a997fac28e0f018424c365fc7e",
+      "storedBytes": 643919,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "inputs/PULLBACK-ENTRY-CUP-DENSE-V13-RICK-AND-MORTY.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\PULLBACK-ENTRY-CUP-DENSE-V13-RICK-AND-MORTY.json.gz",
+      "sourceSHA256": "4f3c7c62dd296a6eea12cc8e86d73be71b100b1e208ed0c86119b93c4b7dce04",
+      "sourceBytes": 633850,
+      "storedSHA256": "4f3c7c62dd296a6eea12cc8e86d73be71b100b1e208ed0c86119b93c4b7dce04",
+      "storedBytes": 633850,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "inputs/PULLBACK-ENTRY-STAGES-V7.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\PULLBACK-ENTRY-STAGES-V7.json",
+      "sourceSHA256": "df081c2ba9db179020cb51c850674152680fb7cde2f8be8800d79e89ab11be73",
+      "sourceBytes": 81756,
+      "storedSHA256": "4b4d47ab9ab725b338c8ac806c16ac8337be2011a50edd3d71a02a7ef98979b9",
+      "storedBytes": 2430,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "inputs/PULLBACK-ENTRY-STAGES-V8.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\PULLBACK-ENTRY-STAGES-V8.json",
+      "sourceSHA256": "c9838bf4cc80e292ccfa688f02148f217a4a8501ced2c09ba525f8c04fa36da4",
+      "sourceBytes": 81899,
+      "storedSHA256": "1103f6c24f868004e420a29125e99d0f0a19eb70890fa24829a82c7fd2935a82",
+      "storedBytes": 2403,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "inputs/PAVILION-COFFEE-ROUTE-ONLY-LOW-CARRY-V5.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\PAVILION-COFFEE-ROUTE-ONLY-LOW-CARRY-V5.json",
+      "sourceSHA256": "666f5c453705c1e3175fc4d25220da0b21370f8db9da5d455a6fe92e427f92b4",
+      "sourceBytes": 605191,
+      "storedSHA256": "5e15052f616aadf9ec94eb7fbb66ab4f2d32b6ea47026514961004a23f6112fc",
+      "storedBytes": 73412,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "inputs/CHAIR-TYPED-CENSUS-V1.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\CHAIR-TYPED-CENSUS-V1.json",
+      "sourceSHA256": "7fdd0324772f07e5c0b61aad7cda13e66d8947ba18ee7f22657296bfe814a444",
+      "sourceBytes": 123675,
+      "storedSHA256": "23aef5fd0222076f989ef217ce511244808ef8a4643270f682e55fafb33eb8d5",
+      "storedBytes": 13706,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "inputs/CURRENT-PAVILION-MODELS-V28.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\CURRENT-PAVILION-MODELS-V28.json",
+      "sourceSHA256": "e9b162bc7ffb7b3664114b5f81e72bdc2e53aa420edab7ea973263317bb46190",
+      "sourceBytes": 20683,
+      "storedSHA256": "cffdb70e5b514a51e2b38ce30b5a01fcf4ebad5414ac987c688c5e21ebf36e00",
+      "storedBytes": 6943,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "inputs/sampler-manifest.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\current-pavilion-models-v28\\manifest.json",
+      "sourceSHA256": "58291c6095e4302be12564e0536469bbc05f147908064d267cb14c3dc1d2c83f",
+      "sourceBytes": 331879,
+      "storedSHA256": "5a02f37ce72d352a8ca04618283832d5c22b493c2efee5591d6e8d42a9c1c8f1",
+      "storedBytes": 66621,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "controls/PULLBACK-ENTRY-CUP-DENSE-V9-LIZARD.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\PULLBACK-ENTRY-CUP-DENSE-V9-LIZARD.json.gz",
+      "sourceSHA256": "54d616c072e5082b3f297433577ee24f285fde3e7ce0b913bdac4ebbf087dda5",
+      "sourceBytes": 7972998,
+      "storedSHA256": "54d616c072e5082b3f297433577ee24f285fde3e7ce0b913bdac4ebbf087dda5",
+      "storedBytes": 7972998,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "controls/HELD-CUP-ANATOMY-V14-LIZARD.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\HELD-CUP-ANATOMY-V14-LIZARD.json.gz",
+      "sourceSHA256": "0f08c47877c79ef27aa2efebd62fee4ef79b43888f8789548e58128ef0fb0189",
+      "sourceBytes": 648530,
+      "storedSHA256": "0f08c47877c79ef27aa2efebd62fee4ef79b43888f8789548e58128ef0fb0189",
+      "storedBytes": 648530,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "controls/HELD-CUP-ANATOMY-V18-LIZARD.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\HELD-CUP-ANATOMY-V18-LIZARD.json.gz",
+      "sourceSHA256": "e9a7c610abde361c2c997f017e1e81334fdad543449dea3491807624e81dc35a",
+      "sourceBytes": 466177,
+      "storedSHA256": "e9a7c610abde361c2c997f017e1e81334fdad543449dea3491807624e81dc35a",
+      "storedBytes": 466177,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "controls/HELD-CUP-ARM-PAIR-CLASSES-V15.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\HELD-CUP-ARM-PAIR-CLASSES-V15.json",
+      "sourceSHA256": "808260337228917d63e1a4d4b4bd4a311c725a4289c0069087716672d9fa3bee",
+      "sourceBytes": 31894,
+      "storedSHA256": "930d4b7e5707584d6afdd8167e25162ea9a425354c28d6ac28e20a4852d82d4a",
+      "storedBytes": 2222,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "controls/HELD-CUP-ARM-PAIR-CLASSES-V19.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\HELD-CUP-ARM-PAIR-CLASSES-V19.json",
+      "sourceSHA256": "f3b07025f53911f4d9da4a83132e86a427514d4af9f0a0ccf8053ae1608de4f9",
+      "sourceBytes": 9890,
+      "storedSHA256": "76ab5e6ff37a2391500da0089dc9dcafcdce60d68b34af1976c53e4a0b082295",
+      "storedBytes": 1299,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "controls/NATIVE-ARM-FRAMES-V17.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\NATIVE-ARM-FRAMES-V17.json",
+      "sourceSHA256": "4d86425fb646790efe0e3ad298a05cf4906d4a8dbd824e82ab7927b5f8acadea",
+      "sourceBytes": 4344,
+      "storedSHA256": "c9937b69b336b1d26f87335cd254de0d2295dd3c8736fec02ed0e5d77608b55a",
+      "storedBytes": 710,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "controls/RIGID-DRAW-V20-STOP.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\RIGID-DRAW-V20-STOP.json",
+      "sourceSHA256": "7de4439b259a8860385bbe9dee2d0e53559b1befc3296429e1b9fd9d8a3726c8",
+      "sourceBytes": 554,
+      "storedSHA256": "aaa602cc1a5f31e6c9596fe86b37ad0d47d9a62ad4b1e78533cddcdd87f9fe66",
+      "storedBytes": 392,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "controls/RIGID-DRAW-V22-STOP.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\RIGID-DRAW-V22-STOP.json",
+      "sourceSHA256": "fe5606fb62b9faef2e6b9241a6de3a7c1c6b4c2eadf53b7fccca0760f69f41b0",
+      "sourceBytes": 546,
+      "storedSHA256": "7c8ca9cc46f3ae2443dfb2c8b670af71acf327fc9cf45fef21e1c89bc460048e",
+      "storedBytes": 391,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "controls/BEARING-V40-REJECTED.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\BEARING-V40-REJECTED.json",
+      "sourceSHA256": "f4d65f29b1f3d15fa1925d67ce78edd15660bc2fd2e17fe36b9adcf6c09eb8e4",
+      "sourceBytes": 608,
+      "storedSHA256": "8cc0cf2417a00e4b4b6c279f21a293c804ec5246003206154f6368e9a94080db",
+      "storedBytes": 414,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "controls/COFFEE-CHAIR-UNIT-V1-REJECTED.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\COFFEE-CHAIR-UNIT-V1-REJECTED.json",
+      "sourceSHA256": "3913c46c7e6a6e82ee9cbf6b51a4d8f5f5445e29f699f6cf6165df1a2ade5fff",
+      "sourceBytes": 508,
+      "storedSHA256": "9fce7b673bd96863474493c1f43718b0902b90e089b4ae0e6e478817dd8f2560",
+      "storedBytes": 341,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "controls/COFFEE-CHAIR-UNIT-V2-REJECTED.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\COFFEE-CHAIR-UNIT-V2-REJECTED.json",
+      "sourceSHA256": "0f963eec002d59a457a08e13379c66f44e6233958a536711c13fb1eefc233ceb",
+      "sourceBytes": 469,
+      "storedSHA256": "7475bcb36ea7fe711edca9ef3c4a995909b464127e676f161dacada8b31b5314",
+      "storedBytes": 305,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "controls/coffee-chair.mjs.unit-v1.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\coffee-chair.mjs.unit-v1.gz",
+      "sourceSHA256": "5e9de3d6e2d658f80657749e9cba4afdc04cd744fc5557d26042bb91796e07b3",
+      "sourceBytes": 8298,
+      "storedSHA256": "5e9de3d6e2d658f80657749e9cba4afdc04cd744fc5557d26042bb91796e07b3",
+      "storedBytes": 8298,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "controls/coffee-chair.mjs.unit-v2.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\coffee-chair.mjs.unit-v2.gz",
+      "sourceSHA256": "96ba053cff98635cdbe3a59979d49725125355fbf24af2865ab117149dca3220",
+      "sourceBytes": 8298,
+      "storedSHA256": "96ba053cff98635cdbe3a59979d49725125355fbf24af2865ab117149dca3220",
+      "storedBytes": 8298,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "controls/coastal-coffee-chair.test.mjs.unit-v1.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\coastal-coffee-chair.test.mjs.unit-v1.gz",
+      "sourceSHA256": "62720ff15ef53c3792cabb3dfe1a633f2a8d03e60f148c58dad5f4f48a06e977",
+      "sourceBytes": 3682,
+      "storedSHA256": "62720ff15ef53c3792cabb3dfe1a633f2a8d03e60f148c58dad5f4f48a06e977",
+      "storedBytes": 3682,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "controls/coastal-coffee-chair.test.mjs.unit-v2.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\coastal-coffee-chair.test.mjs.unit-v2.gz",
+      "sourceSHA256": "6c60cec065199f8de56b5f697d949a7a1a384e23b69235f6117affcc794e0876",
+      "sourceBytes": 3692,
+      "storedSHA256": "6c60cec065199f8de56b5f697d949a7a1a384e23b69235f6117affcc794e0876",
+      "storedBytes": 3692,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "controls/EXACT-SWEPT-TRIANGLE-CONTROLS-V1.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\EXACT-SWEPT-TRIANGLE-CONTROLS-V1.json",
+      "sourceSHA256": "185a9fdd13e488a17fc94432fa35daca2c4c38ae6db9ec20a9da6571e8c044df",
+      "sourceBytes": 3542,
+      "storedSHA256": "7b2dde3970cea6df5e902562e890a3c25622a530c533344f5d8d80fbb76a364f",
+      "storedBytes": 601,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "controls/EXACT-SWEPT-TRIANGLE-CONTROLS-V2.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\EXACT-SWEPT-TRIANGLE-CONTROLS-V2.json",
+      "sourceSHA256": "15a551501cbb1d5c3b896efae434ba66ecfb7d37a4831a363a6466b425077b8f",
+      "sourceBytes": 4312,
+      "storedSHA256": "a7036e3ca817840d888000b15b686180bade842dfdc63852cedafe890d9c835c",
+      "storedBytes": 641,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "controls/EXACT-SWEEP-LAZY-EXACT-CONTROL-V4.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\EXACT-SWEEP-LAZY-EXACT-CONTROL-V4.json",
+      "sourceSHA256": "37cf7f0250eab2b17410151df74792fd860f71db0f35c8fb83066d5ebed07ff5",
+      "sourceBytes": 364385,
+      "storedSHA256": "0baed5f89ed6a00e080ba8c6648791f9a4f8e93429b9c28d3593124adafbebaf",
+      "storedBytes": 16578,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "controls/EXACT-SWEEP-REAL-REFERENCE-V3.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\EXACT-SWEEP-REAL-REFERENCE-V3.json.gz",
+      "sourceSHA256": "9c3c81d5ada5efcd5d624b1ecf5ca81dcf7372c8a5eb47eac54aaed1365842a9",
+      "sourceBytes": 10844,
+      "storedSHA256": "9c3c81d5ada5efcd5d624b1ecf5ca81dcf7372c8a5eb47eac54aaed1365842a9",
+      "storedBytes": 10844,
+      "compression": "original-gzip-preserved"
+    },
+    {
+      "path": "controls/EXACT-FLOOR-INTERVAL-CONTROLS-V1.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\EXACT-FLOOR-INTERVAL-CONTROLS-V1.json",
+      "sourceSHA256": "eadb3483bf6649b7b8353af7cfb1f281eec6067cdd56d3eb7d17c2cab07cde19",
+      "sourceBytes": 1614,
+      "storedSHA256": "51d53b31013b4912b3f9c7062892a5947bf7798e3bf0c044b1309b4ac9f78f95",
+      "storedBytes": 441,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "controls/EXACT-SKIN-READER-CONTROL-V2.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\EXACT-SKIN-READER-CONTROL-V2.json",
+      "sourceSHA256": "7f2483efb94414fc33f9ab9b1cbbb570d77f5d9e892e9c34983c9ed1d35c0921",
+      "sourceBytes": 4053,
+      "storedSHA256": "c66b61c0465621c889b15dcb394bafad2e3ce5e8aa9b5b2d899b2ca56a448956",
+      "storedBytes": 872,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-pullback-entry-cup-v12.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-pullback-entry-cup-v12.mjs",
+      "sourceSHA256": "aaf7cf1a199d155a30fd3815fadec9b00dbf1afb8acc707c13a0b64f893f3dee",
+      "sourceBytes": 26099,
+      "storedSHA256": "920d1f9d9e9515326002e95b3e2cfe3a9610b55a820a3853357c952fc174c9fa",
+      "storedBytes": 7872,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-pullback-entry-cup-v13.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-pullback-entry-cup-v13.mjs",
+      "sourceSHA256": "fc9b3a4bc3134b082ddf7d62562e00d24bf7499476a8f415fd6274d4f2a0c30d",
+      "sourceBytes": 26099,
+      "storedSHA256": "7e054f49bc9d46152268b8ee5caeac0c747e35fe8c645d2a74dc15506408d678",
+      "storedBytes": 7872,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-pullback-entry-cup-v9.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-pullback-entry-cup-v9.mjs",
+      "sourceSHA256": "2ad98ee5203584ac9d6d56ca68967df92f26d21e6b72bb3c8466ff904ae8189e",
+      "sourceBytes": 25773,
+      "storedSHA256": "2a6adb116380056256b4210ceac96b4ae8d0ccb2d4b7ec76f03ed338faa0187c",
+      "storedBytes": 7749,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-held-cup-anatomy-v14.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-held-cup-anatomy-v14.mjs",
+      "sourceSHA256": "7fabb9695865b33b81bd8d710c1b75469f739dcce3a442afb182f80833964734",
+      "sourceBytes": 27911,
+      "storedSHA256": "4909cf20a5159377346e8622e8b10d836b6846cb0c6c5db87c817e0de64aefec",
+      "storedBytes": 8253,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-held-cup-anatomy-v18.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-held-cup-anatomy-v18.mjs",
+      "sourceSHA256": "b71aadfb54a115d05f8ce902280468e8b4c7d515a73eb77d2c41fb665c244ff4",
+      "sourceBytes": 28092,
+      "storedSHA256": "780889932cb05a0ee94a253fc0de8d7a4955f84ae47e0bfa15352afb6ccf6bd8",
+      "storedBytes": 8299,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/classify-held-cup-arm-pairs-v15.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\classify-held-cup-arm-pairs-v15.mjs",
+      "sourceSHA256": "a6621fa56f744260a8bdad3ca79cba541eef0c8ced747361e27dce41e61dddbc",
+      "sourceBytes": 2233,
+      "storedSHA256": "8db9c2f5813c5c22a3736c70336c1423a2c91c5b25a251d89085f72e18a5416a",
+      "storedBytes": 1230,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/classify-held-cup-arm-pairs-v19.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\classify-held-cup-arm-pairs-v19.mjs",
+      "sourceSHA256": "c0ef25d494316062e5096b20b957c822de28f3b31d2e0ad3b0063b9f9eff2996",
+      "sourceBytes": 2233,
+      "storedSHA256": "4a3297f44ed3e29247b5320ee27161dba18d535698978e1c297e461093040814",
+      "storedBytes": 1230,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-pullback-cup-real-v31.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-pullback-cup-real-v31.mjs",
+      "sourceSHA256": "11cbad037a84f06a4f4e553b239b6140028351f21d87096fc0c0dfdb28cf0fb9",
+      "sourceBytes": 26567,
+      "storedSHA256": "68922199619f3b9e2b0b45fce8e72450be0a1fc1a21a2b5090a2f7180769bf5d",
+      "storedBytes": 8033,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-pullback-cup-only-v34.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-pullback-cup-only-v34.mjs",
+      "sourceSHA256": "b3397b3c4e87e6ce82903f4c6010c1bded38bf208cc9314b176b103457fd579d",
+      "sourceBytes": 31468,
+      "storedSHA256": "9022c1f84679865ae31ca1ad95700c03a3b45f839d5e021b258605f49032ec93",
+      "storedBytes": 9063,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-pullback-cup-only-v35.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-pullback-cup-only-v35.mjs",
+      "sourceSHA256": "6dccc046b94a6056d4b70ae1463d99be8fb503b0390c68cf40115ee4e73e8a48",
+      "sourceBytes": 31574,
+      "storedSHA256": "e8264d78cdee6b0fcedf1973109fe982a439a27e70dae15dfdaa7dcab426cdaf",
+      "storedBytes": 9090,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-pullback-cup-only-v36.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-pullback-cup-only-v36.mjs",
+      "sourceSHA256": "f2d60cc8f1cb6b2a502ad178894c090ea0629619e8e34b4bd78547f8949c64bb",
+      "sourceBytes": 31609,
+      "storedSHA256": "171266b0913a72f3c8a635c0fe3d2e1241e644da49fd3a079fd2b00704e033fa",
+      "storedBytes": 9093,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-pullback-cup-only-v37.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-pullback-cup-only-v37.mjs",
+      "sourceSHA256": "d1c96e21e57425e2382749992244670200ff3dfb1be0df16201b7ee3755194a1",
+      "sourceBytes": 31848,
+      "storedSHA256": "d41b5b39b086b6b62dcbcb490f9c77a025ad4b9b14f53ab37cee9fd2da53e1e0",
+      "storedBytes": 9196,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-ergonomic-right-world-v38.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-ergonomic-right-world-v38.mjs",
+      "sourceSHA256": "97b82c8d40667b03f24d31394c2b895b8247e67ad37326fd804eddc74fddefd3",
+      "sourceBytes": 39846,
+      "storedSHA256": "13ce7a5e79554bcaee802e01989c1daa0d9cc4bb689c4ccb32d220e86b118bb4",
+      "storedBytes": 10378,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-rigid-chair-draw-v20.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-rigid-chair-draw-v20.mjs",
+      "sourceSHA256": "0fdad898ddd2da743d7e27de34de2f8c12b61ae986c04adf00187d113ddbaa58",
+      "sourceBytes": 32844,
+      "storedSHA256": "93797d9b32080bf6464d7dec6bacea66215965c46aa77607c31fc3716a5dc5d4",
+      "storedBytes": 9024,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-rigid-chair-draw-v22.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-rigid-chair-draw-v22.mjs",
+      "sourceSHA256": "b8adddba942e0f1d9d401f305c69f21cfd5a30514f3240d813597244554b50fd",
+      "sourceBytes": 33213,
+      "storedSHA256": "e115d3595ab0b1ebc184708f7d21f77e5145007311b058aae79fd87672f493f5",
+      "storedBytes": 9165,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-rigid-chair-draw-v39-corrected-cup.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-rigid-chair-draw-v39-corrected-cup.mjs",
+      "sourceSHA256": "9f32565f99949c2d27a78e6f36ed2d75145e2602451c1d3e0474b3c01990e2f3",
+      "sourceBytes": 34970,
+      "storedSHA256": "0e35ca736921081b64e2dc4b5881d474fdec370fc384d9d62e257299b9c91f97",
+      "storedBytes": 9587,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-furniture-bearing-v40.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-furniture-bearing-v40.mjs",
+      "sourceSHA256": "645086164c87acc0a93f60c849b57f8df81508a1d92138b6cbd3c0cbb2d070e0",
+      "sourceBytes": 5850,
+      "storedSHA256": "57b16495a8940d11aa8c1aa1145f904fb2d29763c4ca2f0136e7a8156d9bdd5c",
+      "storedBytes": 2513,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-furniture-bearing-v41.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-furniture-bearing-v41.mjs",
+      "sourceSHA256": "9d3357d0c4df0ab6db28d3c34a56078a1377a6e0e6a718d12314579623ff30b0",
+      "sourceBytes": 6315,
+      "storedSHA256": "cc57e5e6ea53079b8dac297d20a10726ab42bf18559f9591042bb9b2c6cc5547",
+      "storedBytes": 2712,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-actual-coffee-chair-v43.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-actual-coffee-chair-v43.mjs",
+      "sourceSHA256": "e97393272176493fda228c5efa26fd4a806c6b08a4eca23a7fb7d82b3e4f2468",
+      "sourceBytes": 7270,
+      "storedSHA256": "2ac579395c1de1845bf82e3e25a567678ef7af909dc660b9f23069c3bb427fee",
+      "storedBytes": 2802,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-actual-coffee-chair-v44.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-actual-coffee-chair-v44.mjs",
+      "sourceSHA256": "fa846684c5e50ddbcb05de3b7a370a11c7d084317eb34c00b0bf475380e06054",
+      "sourceBytes": 7270,
+      "storedSHA256": "0e2b3fe8ad1a7fa34857158b84bfa1b6255e15e26e6392e4d03bcc810f28638f",
+      "storedBytes": 2801,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-actual-coffee-chair-v46.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-actual-coffee-chair-v46.mjs",
+      "sourceSHA256": "db1198e419c648b104da4f1528dd54faffa01b7fdc601b020086a5350d82c1eb",
+      "sourceBytes": 7270,
+      "storedSHA256": "13d3291978381fbb1ac6a7672c3de88b1d99584e8fc5dcea242ebf2859e77631",
+      "storedBytes": 2803,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-target-equivalence-v47.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-target-equivalence-v47.mjs",
+      "sourceSHA256": "49cc1282f7d67a497aff5d63320c9ec92ac0352a53b77bf116bbd844f3352521",
+      "sourceBytes": 2107,
+      "storedSHA256": "e01584293902292e04ac1fe20fe5e5efd8c7a744b901a2c0993d8414a1d39774",
+      "storedBytes": 983,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-target-equivalence-v48.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-target-equivalence-v48.mjs",
+      "sourceSHA256": "d9c834da6500c295370c8fb4c2c6ddb5e19d99529c1fffdc973582dadf39b734",
+      "sourceBytes": 2982,
+      "storedSHA256": "426771df5cf84cab0c6083ac99fa46f13c09b11c017beebad1a445287cdacd06",
+      "storedBytes": 1502,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-kitchen-role-exclusion-v49.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-kitchen-role-exclusion-v49.mjs",
+      "sourceSHA256": "397cc38583079f0b84f08ee8734fea941567728ccb4469f033c3532f4b984c18",
+      "sourceBytes": 2413,
+      "storedSHA256": "70a26026e3bb5e94e3ed6376c9cdb8c7b5d195180b9369561937d831f94ce658",
+      "storedBytes": 1248,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/audit-fixture-roster-v30.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\audit-fixture-roster-v30.mjs",
+      "sourceSHA256": "4ae5c393e737ca1cf1d4a967619cad8d73f5fcf05b3c23dd7db512c2cbf782c3",
+      "sourceBytes": 3339,
+      "storedSHA256": "f6ec411b9d9a99476f393a99a0fc644dba1798f467625c4fd66ad1f2d19d0c77",
+      "storedBytes": 1544,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/inventory-cup-region-v27.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\inventory-cup-region-v27.mjs",
+      "sourceSHA256": "9fc416982b072ea0ee7d1edeb6aa7b89c29a0a369eb5dc41f152d87199decd57",
+      "sourceBytes": 1147,
+      "storedSHA256": "2c048ef25768a9f6825e5d9025c18b3967bd53c005994662b40f4ed03214d43c",
+      "storedBytes": 644,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/inventory-chair-typed-v1.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\inventory-chair-typed-v1.mjs",
+      "sourceSHA256": "a5cf59988979c62929facc7a44f657af1eed2a13de2badb06a00167990fb1385",
+      "sourceBytes": 4839,
+      "storedSHA256": "294b1a83cf1a5032b585fc929f00ddb3ebf4939490451a45bbca4ed38f9ae99d",
+      "storedBytes": 2104,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/exact-skin-reader-v1.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\exact-skin-reader-v1.mjs",
+      "sourceSHA256": "5f23f08483acae8d4c707099aa3496dd88c4f0fe6edc22aad1978d7d4fe090f9",
+      "sourceBytes": 1497,
+      "storedSHA256": "915188887800b440e0495ca76ab14ebcd3f1380281ca9a53ce1fc31fa90eb345",
+      "storedBytes": 710,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/exact-swept-triangle-v1.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\exact-swept-triangle-v1.mjs",
+      "sourceSHA256": "9d46bf8dd4598eaaccb2b0a0644efced78bd0de6f3406a3c358432bdf7b53bff",
+      "sourceBytes": 2380,
+      "storedSHA256": "0881928b87f9c0d4719624048ba062cc23ed3c464041817f24da620bd6e191da",
+      "storedBytes": 1175,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/exact-swept-triangle-v2.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\exact-swept-triangle-v2.mjs",
+      "sourceSHA256": "e4e408632782389b3b1cddf9a93b8015ef3adf3ff92efe0d0cc54f943d157206",
+      "sourceBytes": 2653,
+      "storedSHA256": "8d76885916d27dcdd970a10e9eadd2cd1af395210ec2cd81e5ba1c5c3ab0f1f4",
+      "storedBytes": 1261,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/exact-swept-triangle-v3.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\exact-swept-triangle-v3.mjs",
+      "sourceSHA256": "03d068cfcd8a4f276c114bc09bf237a4c15ce6eb64e4e36a68e8931921cdba6d",
+      "sourceBytes": 2752,
+      "storedSHA256": "db12a95344d9d6b656df7468365c333def95dbd986c768178eee3fd457c48ffe",
+      "storedBytes": 1272,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/test-exact-swept-triangle-v1.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\test-exact-swept-triangle-v1.mjs",
+      "sourceSHA256": "df023779f14611a05dd0d69ddd28b15a1b0557efdd33e8d342150dd4ff99c135",
+      "sourceBytes": 2145,
+      "storedSHA256": "95a4b3cbe7745237c7617909e98e58cee0b19891037631af084b1e4e23aace9d",
+      "storedBytes": 999,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/test-exact-swept-triangle-v2.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\test-exact-swept-triangle-v2.mjs",
+      "sourceSHA256": "fbc8e3937aacdbd3f696147cc593a6e3cef0969824ff0f0272656467d3f2a0e6",
+      "sourceBytes": 2421,
+      "storedSHA256": "4cc0ed26d5aedfcfdab68084159ca48fba5aedab85b2c467ef9f68fb94b5c304",
+      "storedBytes": 1053,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/compare-exact-sweep-lazy-v4.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\compare-exact-sweep-lazy-v4.mjs",
+      "sourceSHA256": "4135d8c40181c960d4a00c9a609270823513a662205e7243bcb730ae57559c43",
+      "sourceBytes": 1287,
+      "storedSHA256": "4c9f238230aa29f71a0e4d5dc3505340f47a6962d9a8ad5d994302c36e2324ed",
+      "storedBytes": 720,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/compare-exact-sweep-real-v3.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\compare-exact-sweep-real-v3.mjs",
+      "sourceSHA256": "f25b9b7136456df66f2ef7a80782aaf43a583f9fc6cf33b51dbb5c42048af443",
+      "sourceBytes": 2182,
+      "storedSHA256": "963965d3dddd8594c18329237ae70fb811e8a3fe95c3a3747417b563522963bf",
+      "storedBytes": 1090,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/exact-floor-interval-v1.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\exact-floor-interval-v1.mjs",
+      "sourceSHA256": "dd5d9f38d63bfd2a47c0e5baa5b3ed78275ae4d4bbb21c054f300990dd762ee7",
+      "sourceBytes": 1691,
+      "storedSHA256": "616fe9ca5b7a296131d335ded01a02d8dc8bb82edfd17b60a0a4089a1f4a5733",
+      "storedBytes": 920,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/test-exact-floor-interval-v1.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\test-exact-floor-interval-v1.mjs",
+      "sourceSHA256": "04285a851a00357e14e6877821e2b7d425c14081850aabcb821edd0194a0f160",
+      "sourceBytes": 1341,
+      "storedSHA256": "33ea7a1876abcdced3b0afb9d00941e0f472dbef94c5535edb174f725f8d6c99",
+      "storedBytes": 708,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/pavilion-contact-geometry-v4-final312.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\pavilion-contact-geometry-v4-final312.mjs",
+      "sourceSHA256": "b628268d815d3f59fa5f264ba1b6b28b59bf6b8eec3e5ec93084d805b2a5fd79",
+      "sourceBytes": 4180,
+      "storedSHA256": "0a011f6cff6be86e73fcdc6a400fadb137b9e0ece7e2c45706f18e268c65291d",
+      "storedBytes": 1843,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/pavilion-contact-geometry-v8-pullback-whole312.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\pavilion-contact-geometry-v8-pullback-whole312.mjs",
+      "sourceSHA256": "e243d24d09a394b4ba9dc6da7f7cc3f04c9bd837bc0853420e8e532c0c90309f",
+      "sourceBytes": 1881,
+      "storedSHA256": "f8f91dc26586ebd076c11083f14983bc17f4217ce38643e4086bbb40a0b05be1",
+      "storedBytes": 768,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/pavilion-contact-geometry-v28-current-cup.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\pavilion-contact-geometry-v28-current-cup.mjs",
+      "sourceSHA256": "ace6f918829c474ab0f8aa6f049c776d647bc7f8be530afdc7859b5c305094ef",
+      "sourceBytes": 4128,
+      "storedSHA256": "be7602d3a03e751201691c8835a8ca48c7f3cfe6cd1728c90f9a1a1b3f94ff30",
+      "storedBytes": 1830,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producers/pavilion-contact-geometry-v29-pullback-cup.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\pavilion-contact-geometry-v29-pullback-cup.mjs",
+      "sourceSHA256": "252943fe1d013ffedd8961a7364c0e21a556f2af6df6756e52c2f08b4742f54b",
+      "sourceBytes": 1885,
+      "storedSHA256": "c096c848f2c461036f1722e61783e398e40d76329aae39458b427817f62a3c4b",
+      "storedBytes": 772,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "reader-helpers/bound-native-avatar-v1.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\bound-native-avatar-v1.mjs",
+      "sourceSHA256": "ac6bc837318600686822a9f13b6cc8ab3f93d4ff450fe1b7c0ce475505830f35",
+      "sourceBytes": 3530,
+      "storedSHA256": "a7ca700d178854110986d4666d44e5e11a441ab8a8ccd02d1ace97ac0949dd71",
+      "storedBytes": 1392,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "reader-helpers/bound-native-geometry-v1.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\bound-native-geometry-v1.mjs",
+      "sourceSHA256": "6a0ae3a9b426cfdf734539b3090a0e2a61b0291b577978adfa47f20838b1bca4",
+      "sourceBytes": 5328,
+      "storedSHA256": "84c4f626681edea96b853c6551c09083501b2880aa37ae698adefcb6d0472c78",
+      "storedBytes": 2028,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "reader-helpers/bound-native-inputs-v1.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\bound-native-inputs-v1.mjs",
+      "sourceSHA256": "3271563ff89445175e834646219dde2ad325d03bbc6025fbfb59814c9087ddff",
+      "sourceBytes": 314,
+      "storedSHA256": "319c6012aae7104a4c3a070b8fc6d340328a9a765dcd566a7c19c713bdcd5ac4",
+      "storedBytes": 226,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "reader-helpers/finite-triangle-distance.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\finite-triangle-distance.mjs",
+      "sourceSHA256": "6400a7428a353844be27ccbf458b2f74319a7f96759f9cce597b4280b95e0fd4",
+      "sourceBytes": 2557,
+      "storedSHA256": "f616424f5850081d193c7ccf60e1172744cf9ea463d93a0befcbda211fe07473",
+      "storedBytes": 1161,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "reader-helpers/posed-self-contact-v2.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\posed-self-contact-v2.mjs",
+      "sourceSHA256": "5c42ad359283e02edf026c7a5713f1f36f1b710b4900520c90904f3dd57fdcce",
+      "sourceBytes": 3113,
+      "storedSHA256": "fcef6b14db9ec5bb1932fbc11fd54aea01172b0274005a9e55216c6c42f841cc",
+      "storedBytes": 1420,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-CONTINUOUS-V34-LIZARD-PROCESS.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ACTUAL-CUP-CONTINUOUS-V34-LIZARD-PROCESS.json",
+      "sourceSHA256": "912b69a74830147d6264f5e031449a0cc5483af2b7c5bf194a2890f7bcb550f0",
+      "sourceBytes": 121,
+      "storedSHA256": "ec1f904476b311975508274ab86d0ef7b518ac86f6eae3db24fe1024375b20bd",
+      "storedBytes": 96,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-CONTINUOUS-V35-LIZARD-PROCESS.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ACTUAL-CUP-CONTINUOUS-V35-LIZARD-PROCESS.json",
+      "sourceSHA256": "0ebf5121186c6af403687050eb5e6359d71c6390be8689e5a3ac711f57be179a",
+      "sourceBytes": 121,
+      "storedSHA256": "0d9d6f63d81b575259895822837659fe429dee43adb6816013096b1690da9f53",
+      "storedBytes": 101,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-CONTINUOUS-V36-LIZARD-PROCESS.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ACTUAL-CUP-CONTINUOUS-V36-LIZARD-PROCESS.json",
+      "sourceSHA256": "b4dbafe4d3b5144e4944c8ff6240e51586db7ff549e2845104e4fe4e3c0807dd",
+      "sourceBytes": 121,
+      "storedSHA256": "7118a92aa2b16472b8464370a26b0c92e22035ea747a78e9e80258ccfb798f9f",
+      "storedBytes": 101,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-ERGONOMIC-V37-ALL5-PROCESS.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ACTUAL-CUP-ERGONOMIC-V37-ALL5-PROCESS.json",
+      "sourceSHA256": "5e64b86fe6c08a41067e686bd6a7d9cfc5ce1aaabbb675f546e3b3ec453c117d",
+      "sourceBytes": 121,
+      "storedSHA256": "65d68d753f6d5648f477af2eadf47165ae5b42968b75f906c955322cacddfacb",
+      "storedBytes": 103,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-GHIBLI-PROCESS.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-RIGHT-WORLD-V38-GHIBLI-PROCESS.json",
+      "sourceSHA256": "c3a38aa2e6c2a1f593e3d5982d22aebdfca00d37166dad700ad1863ce03e9a0b",
+      "sourceBytes": 121,
+      "storedSHA256": "1386ae16b2ab7bbdd6f045041117512d4a422a4a24a3206bda4adb6eb643a560",
+      "storedBytes": 103,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-LIZARD-PROCESS.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-RIGHT-WORLD-V38-LIZARD-PROCESS.json",
+      "sourceSHA256": "5006749b3271ffb933c3c486221e1ed679ffe67e1758631b5b61f8fff2822d10",
+      "sourceBytes": 121,
+      "storedSHA256": "7f2997d5c67bc51c7563879ff4443902590512490253393050e12fb53056c715",
+      "storedBytes": 103,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-RICK-AND-MORTY-PROCESS.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-RIGHT-WORLD-V38-RICK-AND-MORTY-PROCESS.json",
+      "sourceSHA256": "ed22f997ff675250fa48c2c5d1e8180f9bce08cd1a1fe6fd9139a71e5e70ee5a",
+      "sourceBytes": 121,
+      "storedSHA256": "4a0cf2c2fcd3f0449dd62e73759dd58011ad1bb439dd5c4c773757583481a484",
+      "storedBytes": 103,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-SIMPSONS-PROCESS.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-RIGHT-WORLD-V38-SIMPSONS-PROCESS.json",
+      "sourceSHA256": "6bd342472e7b862da87c4285fe32e56255cc539a5ddf0c0bc7cd19651e3d1b25",
+      "sourceBytes": 121,
+      "storedSHA256": "0242c6623c8a452efb3f770ab837a32fbb525b447eb72f737ef83b8fbb4c9963",
+      "storedBytes": 103,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-SOUTH-PARK-PROCESS.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-RIGHT-WORLD-V38-SOUTH-PARK-PROCESS.json",
+      "sourceSHA256": "bcda21b6edf41a2bdfdff986fd3e0f2868d9296747315f7f65f67e333aa070ab",
+      "sourceBytes": 121,
+      "storedSHA256": "ecd4ddb3bf68762dcec5f67bc555950ab7786b74a5c0296b986a2a0ddadfb466",
+      "storedBytes": 103,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/RIGID-CHAIR-DRAW-SWEEP-V20-PROCESS.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\RIGID-CHAIR-DRAW-SWEEP-V20-PROCESS.json",
+      "sourceSHA256": "c072b25dd482989c28795a97baa847e165047d6bb80a347db773c2abec7b5683",
+      "sourceBytes": 174,
+      "storedSHA256": "50f537c9c7f836d07365cc78329540093d294bdbe1cac0fb27c11c9f9c90ba81",
+      "storedBytes": 138,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/RIGID-CHAIR-DRAW-SWEEP-V22-LIZARD-PROCESS.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\RIGID-CHAIR-DRAW-SWEEP-V22-LIZARD-PROCESS.json",
+      "sourceSHA256": "b065b16e8159443a7ae981a97e0f134811ec33cdd2ceea0085142e87fae86848",
+      "sourceBytes": 130,
+      "storedSHA256": "6517712a382f538efa611400c1f293c15c7fbc9617ac607832a4524c6c39661d",
+      "storedBytes": 113,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/RIGID-CHAIR-DRAW-V39-COMPLETE-CUP-ALL5-PROCESS.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\RIGID-CHAIR-DRAW-V39-COMPLETE-CUP-ALL5-PROCESS.json",
+      "sourceSHA256": "dade761bf202cfd6520f149dcac605faa22d8b879ebe5b1e4f83188b1d827699",
+      "sourceBytes": 121,
+      "storedSHA256": "d34a0d2397f4e6e62ed32a2998ff898d9407baf2db3d6d0e3b36f6c24103a5f3",
+      "storedBytes": 103,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-CONTINUOUS-V34-LIZARD.log.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ACTUAL-CUP-CONTINUOUS-V34-LIZARD.log",
+      "sourceSHA256": "b2ef27fbd296c96e268c9fc2baa9c875e19d95a2bd6c7573077384fc3ae2cd93",
+      "sourceBytes": 2330,
+      "storedSHA256": "20285eacce8d3aefa32c1bde1d5c70391dbe234e3c16ce04552c97db03e6a5b5",
+      "storedBytes": 1048,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-CONTINUOUS-V35-LIZARD.log.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ACTUAL-CUP-CONTINUOUS-V35-LIZARD.log",
+      "sourceSHA256": "d9ddf409b8eeffba4a0ad1f7b6bfdf7c7cc3be701b17df0b9317c73c12b1a3c6",
+      "sourceBytes": 3083,
+      "storedSHA256": "36afbe2a217e609a6b30585230099fc74519c20b57905def14607991fa8f78c0",
+      "storedBytes": 1208,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-CONTINUOUS-V36-LIZARD.log.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ACTUAL-CUP-CONTINUOUS-V36-LIZARD.log",
+      "sourceSHA256": "6edd2753f22d1dd63ce9603fd4590fa5a5540ad1b8a9e942a1f1e0f326e57b9e",
+      "sourceBytes": 2002,
+      "storedSHA256": "76855128b1ccda72ad5dcb284376ed2e2ec17e9c610499580230492d11e9c56f",
+      "storedBytes": 697,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ACTUAL-CUP-ERGONOMIC-V37-ALL5.log.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ACTUAL-CUP-ERGONOMIC-V37-ALL5.log",
+      "sourceSHA256": "8713840fa279330002f0d017ea733981eb20dda7a5603ca2b47f2c4bd278ef07",
+      "sourceBytes": 8084,
+      "storedSHA256": "1978499433c74f088e52a1f9fec95aa882df510a4f0498c3f2bfa3c4735385e3",
+      "storedBytes": 1112,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/RIGID-CHAIR-DRAW-V39-COMPLETE-CUP-ALL5.log.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\RIGID-CHAIR-DRAW-V39-COMPLETE-CUP-ALL5.log",
+      "sourceSHA256": "0782f4defb1b2d9e552400d6d7e341a1b3b1ff88bac950dc048b1dd18e7367d1",
+      "sourceBytes": 3694,
+      "storedSHA256": "0650c47a6e876be80bff00d1aa0eae7ad16c390b4c4a2a11d4388a6613ceaa65",
+      "storedBytes": 829,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-LIZARD.log.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-RIGHT-WORLD-V38-LIZARD.log",
+      "sourceSHA256": "d09a0d058f3ee6a736094723d5a2932a393f13f0126334f640cc996e6e2ff824",
+      "sourceBytes": 2107,
+      "storedSHA256": "bc114daca29a73ee222914e7630662544ddbbfe41e003e303881464dcdf57c4c",
+      "storedBytes": 729,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-SOUTH-PARK.log.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-RIGHT-WORLD-V38-SOUTH-PARK.log",
+      "sourceSHA256": "b6c313a74ac970b912c486d071e854aa70dc65b24a98eb8d4e7d687015b41ee2",
+      "sourceBytes": 2146,
+      "storedSHA256": "5a27e4377d56522c42828d48557d50060ce28fea0d8b0c7b73893b4c277e2978",
+      "storedBytes": 722,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-SIMPSONS.log.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-RIGHT-WORLD-V38-SIMPSONS.log",
+      "sourceSHA256": "0148d54bca392312158e36235b8d0cb8548ad7068bd54509a3971f760a1ed844",
+      "sourceBytes": 2129,
+      "storedSHA256": "5587a7c5d72a1795e73bf3fbe0d9730e4491f98bd91309ce9533c2cc8fa31ea6",
+      "storedBytes": 721,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-GHIBLI.log.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-RIGHT-WORLD-V38-GHIBLI.log",
+      "sourceSHA256": "9aface4273392bf6efe47ee9e2a8c1ae63d6b04c4e62df7ce0eda85150b67035",
+      "sourceBytes": 2108,
+      "storedSHA256": "623910b68b7ac2be53e9ea98ebce40bb86043849548e3157f1a6983c38656e98",
+      "storedBytes": 733,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "processes/ERGONOMIC-RIGHT-WORLD-V38-RICK-AND-MORTY.log.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\breakfast-nook-20261101\\coffee-contact-v6\\pavilion-breakfast-v1\\ERGONOMIC-RIGHT-WORLD-V38-RICK-AND-MORTY.log",
+      "sourceSHA256": "e7401a9041b13fd2edf2898a562d49cc6ca862ad21530c9f50b247c4481c22c7",
+      "sourceBytes": 2182,
+      "storedSHA256": "4767764aa8d3ccc69a787a2e99881f188a5483b4e4a4a8f06bc25f92f541c8d8",
+      "storedBytes": 730,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/assets__js__vendor__three-r164__libs__draco__draco_decoder.wasm.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\vendor\\three-r164\\libs\\draco\\draco_decoder.wasm",
+      "sourceSHA256": "a680d927bed9cb864ddbd63521868891af2bfbe755092761b4837487618df8ac",
+      "sourceBytes": 192420,
+      "storedSHA256": "4c40f196cb74101f924b5ac0edff4865f0e252354f206d5d9d88f4c1d9017ad8",
+      "storedBytes": 63164,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/assets__js__vendor__three-r164__libs__draco__draco_wasm_wrapper.js.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\vendor\\three-r164\\libs\\draco\\draco_wasm_wrapper.js",
+      "sourceSHA256": "8bb2952d2ba7d67e1414f8df819410cb0434a666be53f671fff75f68843d76f6",
+      "sourceBytes": 58456,
+      "storedSHA256": "89b3cbecad0a2f7104f6bd96ccff36855cefa4c7b72e10c4ad4f89a380a820da",
+      "storedBytes": 11612,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/assets__js__vendor__three-r164__loaders__GLTFLoader.js.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\vendor\\three-r164\\loaders\\GLTFLoader.js",
+      "sourceSHA256": "45c7282acb680a1799920810f1da8a2f2bd8ac09827c66600f7315eb94a6c46e",
+      "sourceBytes": 109805,
+      "storedSHA256": "0d4837b7f9621ee23168c90162e8ab4cba319a89a89ab700964798946f42d043",
+      "storedBytes": 23479,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/assets__js__vendor__three-r164__utils__BufferGeometryUtils.js.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\vendor\\three-r164\\utils\\BufferGeometryUtils.js",
+      "sourceSHA256": "cb90892109217645ee8524c3c155c1a1f5b52ee33cac7c79579b83d3c1d7150e",
+      "sourceBytes": 31578,
+      "storedSHA256": "5bb4d5708a85c9b2b66dd609feabbabc8bfc8c95f4825991475bf11e74eeb9aa",
+      "storedBytes": 6851,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/assets__js__three.module.min.js.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\three.module.min.js",
+      "sourceSHA256": "d08334115492bd88100491499f9dc9c830759154e524ec536739d1dacb2bce18",
+      "sourceBytes": 674428,
+      "storedSHA256": "01adbcced4507cd38339b149e63e2dd879aa2855adc314a4c2de70ac9cab77b8",
+      "storedBytes": 166615,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/test__helpers__coastal-native-avatar.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\test\\helpers\\coastal-native-avatar.mjs",
+      "sourceSHA256": "f2771a829e512cbc4e5b1b8ed767531d336fdf9d0ab1ed2ad7472c29cd0afad0",
+      "sourceBytes": 3277,
+      "storedSHA256": "7a245f37ed2989ddbb9aa13c60f03cb63546842177ee1c8c4f5397c5a5d11a10",
+      "storedBytes": 1267,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/test__helpers__coastal-triangle-parity.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\test\\helpers\\coastal-triangle-parity.mjs",
+      "sourceSHA256": "10ca94f8cdf6a5436ab8283d62a16917b1707ea11069b8ab23f70a67b0776386",
+      "sourceBytes": 2372,
+      "storedSHA256": "ce142b7a9e732ec1576e72a530ffa0da22726ba126a7c36ac4c512b453f28c80",
+      "storedBytes": 1000,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__shore.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\home-scene\\shore.mjs",
+      "sourceSHA256": "3872a5c53af372451b048ed7f0667d66fa0359e26a4b9770f2152e96fbef043f",
+      "sourceBytes": 2060,
+      "storedSHA256": "18d7c657d62a7667838838aaa053da6d8876aca0c718be40c9c911ed227547bf",
+      "storedBytes": 851,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__grip-targets.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\home-scene\\grip-targets.mjs",
+      "sourceSHA256": "b8bbfc150f4a8187998d09d442b55bb6a8523ba1fa3fe93f481843f231a149eb",
+      "sourceBytes": 716,
+      "storedSHA256": "92d85993889a10fc47870ccaa2d3237fe9b0661a5965af761c83b3d1b81bbb7e",
+      "storedBytes": 391,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__character-performance.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\home-scene\\character-performance.mjs",
+      "sourceSHA256": "ca4ead9aac7ab222436befbd7cbc8f409571f46ae060019dac4a288de582b7ff",
+      "sourceBytes": 10042,
+      "storedSHA256": "053f17e5e32094902b34ed0e1e5155612b0d76e62296ed9518335380152d893a",
+      "storedBytes": 3371,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__coffee-cup-handoff.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\home-scene\\coffee-cup-handoff.mjs",
+      "sourceSHA256": "6ac3ad9e0f38903608bf93a6b76529bdcff0a5269818b727bef6606acc074f0a",
+      "sourceBytes": 13405,
+      "storedSHA256": "56daea0c2050fb16bef02eb6abd3e4c1699dfe655a86cd3adb94a00ce9e1058d",
+      "storedBytes": 3991,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__coffee-cup-contact.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\home-scene\\coffee-cup-contact.mjs",
+      "sourceSHA256": "be51724657bc58b3387d2cb6c5a31f8c666a9c427f9333bbd002ec52cd5e2e83",
+      "sourceBytes": 9422,
+      "storedSHA256": "3cdcaa7575e872ef91916fe49de620da756fbae972c48d081e885551c76b131a",
+      "storedBytes": 2653,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__coffee-tail-contact.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\home-scene\\coffee-tail-contact.mjs",
+      "sourceSHA256": "c72086d7b3f95952b61c92715956f85023cef38c03a5d3d8c4dc80d2b5967aee",
+      "sourceBytes": 6530,
+      "storedSHA256": "5585f766cb0a49f5480e4e100a2e55838a149a34c7815fa34614028c8c15e5f4",
+      "storedBytes": 2253,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__locomotion.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\home-scene\\locomotion.mjs",
+      "sourceSHA256": "bff6892b70dd6181809cfde9e07e154c84636bfac48436389d0757b4070e4af1",
+      "sourceBytes": 23824,
+      "storedSHA256": "71ff4a72ad35ae7b729b98d4843006cf7254728ea6596a148cc4e680d060bbbb",
+      "storedBytes": 6811,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__activities.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\home-scene\\activities.mjs",
+      "sourceSHA256": "aa7d67f09b616241417af34fdf1148a0509e5f877d66572d0a250fd1020798c0",
+      "sourceBytes": 41394,
+      "storedSHA256": "41c52a3c0b88f3c40295ed4885c45eccd1125d4f8422285a0dc08580b2e076c7",
+      "storedBytes": 10585,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "sampler-source/assets__js__home-scene__coffee-venue.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\assets\\js\\home-scene\\coffee-venue.mjs",
+      "sourceSHA256": "b3ec9c2e265e563053c131165b80a5ba77ed37232831f3a7a3ab17f482ecda06",
+      "sourceBytes": 5789,
+      "storedSHA256": "a382881ba68e32237b5e108edbadf4c5d68a4f125159db4d5ba753d281875733",
+      "storedBytes": 1970,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producer-smoke/RECEIPT.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\coffee-chair-producer-smoke-20261103-v1\\RECEIPT.json",
+      "sourceSHA256": "6ffdbcdc55170ae44f147f519cead5cde4b56c239c442fb94b390c35211c89f5",
+      "sourceBytes": 95634,
+      "storedSHA256": "20ba06af75f43ee3651dea333ab11cf3e8878a0b3dec7e4b8a631c392a197e06",
+      "storedBytes": 10467,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producer-smoke/census.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\coffee-chair-producer-smoke-20261103-v1\\census.json",
+      "sourceSHA256": "e2266058c46db95b3c1062328a23d36e18af9b22741529535b8e4ff118ceab02",
+      "sourceBytes": 54113,
+      "storedSHA256": "7be6f04973ff8f961303648b6585c7c29ae71c8bbe62da2b927d1b7b77a5206b",
+      "storedBytes": 5807,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producer-smoke/definition.json.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\coffee-chair-producer-smoke-20261103-v1\\definition.json",
+      "sourceSHA256": "12a4c987ca6eeeb061b551f1351133b6e282a25bcbdacfa5c74f70ca34e997bc",
+      "sourceBytes": 24331,
+      "storedSHA256": "647b3a9b0cc693e16d332ef44c43ee48eeb93ea881292cbcd433a975427e7f56",
+      "storedBytes": 3290,
+      "compression": "gzip-of-exact-raw-bytes"
+    },
+    {
+      "path": "producer-smoke/coffee-chair.candidate.mjs.gz",
+      "source": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\coffee-chair-producer-smoke-20261103-v1\\coffee-chair.candidate.mjs",
+      "sourceSHA256": "3edb9774b5b4600eb9b1d26d7470db4b80699db744c8302f244483da7a3f456b",
+      "sourceBytes": 43791,
+      "storedSHA256": "154be437ba3318988f75ef01400313c6e9f17113237b28ac12e27a057814bbad",
+      "storedBytes": 9010,
+      "compression": "gzip-of-exact-raw-bytes"
+    }
+  ]
+}
