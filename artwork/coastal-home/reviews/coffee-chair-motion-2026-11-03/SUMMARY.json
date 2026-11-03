@@ -1,0 +1,66 @@
+{
+  "sourceCommit": "d461c553f",
+  "status": "Disabled bounded pull checkpoint; no venue activation",
+  "moduleSHA256": "cf6a61d8bb1042ed3380e88862ea41fb569b43a9557f22667f5bb81ed6e1cb1d",
+  "focusedTestSHA256": "c00eafafd63e20a44259c85ebac6324cceb989751370b07e806ee1af8d68bd48",
+  "moduleBytes": 21452,
+  "moduleGzipBytes": 6456,
+  "focusedTests": {
+    "pass": 7,
+    "fail": 0,
+    "actualNodeExit": 0
+  },
+  "sourceEquivalence": {
+    "actualPoses": 965,
+    "completePosedSkinFloat64ByteHashes": "exact",
+    "everyBoneWorldMatrixByteHashes": "exact",
+    "savedBoneSoleLegCupValues": "exact",
+    "mismatches": 0
+  },
+  "physicalPull": {
+    "avatars": 5,
+    "posesEach": 193,
+    "allWorldInside": 0,
+    "allWorldFiniteCrossings": 0,
+    "heldCupParts": 3,
+    "heldCupFacesEveryPose": 1628,
+    "heldCupVerticesEveryPose": 1023,
+    "sourceGuard": true,
+    "note": "Retained old Ghibli broad guard failed on an edited unimported new module; fresh frozen Ghibli rerun accepted instead."
+  },
+  "support": "Exact finite paver/narrow-joint/3D-bevel support every965pose, plus fixed actual sole points during stance and source foot orientation. Authored3.5mm clearance is not zero-gap contact.",
+  "sourceImportCustody": {
+    "resolvedRows": 74,
+    "uniqueESMFiles": 31,
+    "sourceArchiveFiles": 45,
+    "completeFrozenModelFiles": 121
+  },
+  "rawRetention": {
+    "files": 102,
+    "bytes": 427386498,
+    "index": "raw/RETAINED-RAW-INDEX.json.gz",
+    "portableAppendOnlyIndex": "raw/PORTABLE-RETAINED-INDEX-V122.json.gz",
+    "portableFiles": 407,
+    "portableBytes": 173808817
+  },
+  "remainingGates": [
+    "pull-to-around-chair route with real outgoing clip and correct 7s entry endpoints",
+    "2s draw-in, standing/push-back, return route and physically legible independently authored footrest motion",
+    "seated actual Dining, real cup/utensil ownership/grip and full handoff",
+    "cold/prior-room entry, interruption/avatar/routine/Pause/Walk/fullscreen/dispose public lifecycle",
+    "final current native/GLB source signature, actual dynamic-chair collision/GI ownership, official cache and GPU/upload/browser appearance",
+    "all-body/self naturalness: left elbow/shoulder/hair pair census remains measured, not a zero-self claim",
+    "runtime/phone performance and force balance unmeasured"
+  ],
+  "portableControls": {
+    "V118": "277-character Windows model copy stopped before Node; partial output retained; short-name preflight added.",
+    "V119": "Retained original QA absolute imports and missing declared read-only input failed before any physical pass; exact old source archive/tool reconstructed only after matching recorded bytes, retained with receipt.",
+    "accepted": "V120 fresh private original/candidate Node exits 0; source unchanged; all965 complete skin/matrix hashes exact. V121 four rejection guards pass; actual resolved/read bytes remain in private fixture."
+  },
+  "portableReplay": {
+    "result": "raw/PORTABLE-QUALIFICATION-V122.json.gz",
+    "bootstrapFailuresRetained": ["V118", "V119"],
+    "freshFixture": "C:\\dev\\site-takeover-worktrees\\breakfast-nook-20261101\\.jekyll-cache\\visual-qa\\p120",
+    "rejectionGuards": 4
+  }
+}

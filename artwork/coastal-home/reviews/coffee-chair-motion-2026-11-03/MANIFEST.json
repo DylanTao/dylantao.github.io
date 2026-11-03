@@ -1,0 +1,362 @@
+{
+  "version": 1,
+  "sourceCommit": "d461c553f",
+  "scope": "Immutable disabled chair-pull checkpoint. Members are exact bytes; raw compressed receipts preserve originals. This index excludes itself.",
+  "files": [
+    {
+      "path": "figures/native-left-control-2.6-whole-body-quarter.png",
+      "bytes": 1996235,
+      "sha256": "f082cc3f69ffbd0ed26102cf02cf3d182b092a133da2d2898310f6edb788c7d6"
+    },
+    {
+      "path": "figures/two-step-native-wrist-1.6-whole-body-quarter.png",
+      "bytes": 1988740,
+      "sha256": "4b2ed65112d17760e731f30c1eb43a434f84103a1774650199d6cd122c9614ae"
+    },
+    {
+      "path": "figures/two-step-native-wrist-2.6-whole-body-quarter.png",
+      "bytes": 1979748,
+      "sha256": "95044dbe3b59393b11f4dcdcc749287f6b4e27b609c15d57c2f600efde68755e"
+    },
+    {
+      "path": "raw/COFFEE-CHAIR-MOTION-V107-LIZARD-REPLAY-PROCESS.json.gz",
+      "bytes": 8069,
+      "sha256": "9e0f5f7169fe3dfdc94bd189fe54ee36aa5fe93781913f97be21e81803de90a2"
+    },
+    {
+      "path": "raw/COFFEE-CHAIR-MOTION-V108-LIZARD-DIAGNOSTIC-PROCESS.json.gz",
+      "bytes": 8074,
+      "sha256": "bdf55a61a143ca8ddb28b8de5651211268473d62a63701edca818495c465074e"
+    },
+    {
+      "path": "raw/COFFEE-CHAIR-MOTION-V108-ROOT-EULER-FAILED-SOURCE.mjs.gz",
+      "bytes": 6136,
+      "sha256": "83ce900c08ddd9ca503d275ed103a7253a2b2869b3830ce4094f48766fc5c691"
+    },
+    {
+      "path": "raw/COFFEE-CHAIR-MOTION-V108-ROOT-EULER-FAILURE.json.gz",
+      "bytes": 797,
+      "sha256": "62717d6d769363a9bfa7947a2ec1ed9eb98e3f2cef668690ba29c1fbabce7454"
+    },
+    {
+      "path": "raw/COFFEE-CHAIR-MOTION-V110-FOCUSED-TESTS-PROCESS.json.gz",
+      "bytes": 398,
+      "sha256": "da445085202a5483157943f2b8efde8e8094ef66f62ee4d1e1d5eb0ce3af33f5"
+    },
+    {
+      "path": "raw/COFFEE-CHAIR-MOTION-V110-FOCUSED-TESTS.log.gz",
+      "bytes": 1213,
+      "sha256": "dd86dcf66859da43a904fa4aa43597a48b455010433a705e276f53d1656b4339"
+    },
+    {
+      "path": "raw/COFFEE-CHAIR-MOTION-V110-TEST-UNDEFINED-DEFAULT-CONTROL.mjs.gz",
+      "bytes": 3668,
+      "sha256": "5c70253b6e5d55175c302fe26459d11cf4a5bff03855f46c09579859e7336b99"
+    },
+    {
+      "path": "raw/COFFEE-CHAIR-MOTION-V111-FOCUSED-TESTS-PROCESS.json.gz",
+      "bytes": 400,
+      "sha256": "6f75aa73a1ea9a2454325f2d69985d6f077299077706310620e0e1f23ded61d3"
+    },
+    {
+      "path": "raw/COFFEE-CHAIR-MOTION-V111-FOCUSED-TESTS.log.gz",
+      "bytes": 828,
+      "sha256": "e89d0942a48ccae39e935030bc13960b4e0d676ad324b780b87ba58b2f4958ac"
+    },
+    {
+      "path": "raw/COFFEE-CHAIR-MOTION-V112-ALL5-REPLAY-PROCESS.json.gz",
+      "bytes": 8105,
+      "sha256": "30ddabf9d7b4c9c9902468b4216bfe054b760ed06ed745d22241a1881c5aed04"
+    },
+    {
+      "path": "raw/COFFEE-CHAIR-MOTION-V112-ALL5-REPLAY-SAVED-REFERENCE-COMPARISON.json.gz",
+      "bytes": 301,
+      "sha256": "502d4d1724f814f963761f52b7f3c5415c1c0a02ed07ef38d7585fffdea07187"
+    },
+    {
+      "path": "raw/COFFEE-CHAIR-MOTION-V114-ALL5-ORIGINAL-REFERENCE-FULL-SKIN-MATRIX-COMPARISON.json.gz",
+      "bytes": 343,
+      "sha256": "7d139c75a8a9f4e208cec8eb74169902b7088438556b3ec95defb6a292984b38"
+    },
+    {
+      "path": "raw/COFFEE-CHAIR-MOTION-V114-ALL5-ORIGINAL-REFERENCE-PROCESS.json.gz",
+      "bytes": 8055,
+      "sha256": "cb9e53c18d7378e71b959f5abcca6190d79f554b9389b91a05b5c89974f07455"
+    },
+    {
+      "path": "raw/COFFEE-CHAIR-MOTION-V116-IMPORT-CUSTODY-PROCESS.json.gz",
+      "bytes": 8122,
+      "sha256": "ab597519c854e8c7106d0acd55bf6ffaa01375a75ea6c31c6096ec4c40cd1e88"
+    },
+    {
+      "path": "raw/IMPORT-CUSTODY-V116.jsonl.gz",
+      "bytes": 2967,
+      "sha256": "b8a408f0c52e66b3666e7da91a67f5604e66644d5ee113933188c52e345530c0"
+    },
+    {
+      "path": "raw/PAVILION-CHAIR-PULL-V104-INPUT-FRAME-CLARIFICATION.json.gz",
+      "bytes": 1087,
+      "sha256": "4d365c48bcd4e9b05f9ed1922f34299646b36f2f66102031bd35eaec1de7e9d5"
+    },
+    {
+      "path": "raw/PAVILION-CHAIR-PULL-V104-MEASURED-PARAMETERS.json.gz",
+      "bytes": 4366,
+      "sha256": "f80e7a7eebea146d2d4ada85d15cc565b807da237ccc30317a89105ac309b10e"
+    },
+    {
+      "path": "raw/PAVILION-CHAIR-PULL-V106-UNEXECUTED-ARITHMETIC-DRAFT.json.gz",
+      "bytes": 613,
+      "sha256": "8fdf17a901a03d69b3100fe3927b8de13562d3ed2b722f2c6b253fea4a8033d1"
+    },
+    {
+      "path": "raw/PAVILION-FURNITURE-SEPARATION-V115.json.gz",
+      "bytes": 5382,
+      "sha256": "4e1e07250a820d3a1b0ddb797ae170096f0cfcf3c955d9b396a5f6c905718bba"
+    },
+    {
+      "path": "raw/PORTABLE-GUARD-V121-existing-target.log.gz",
+      "bytes": 320,
+      "sha256": "e69ce476be831886b5bdb55d0ffae318bed4da81c89432610809f0dbe37722eb"
+    },
+    {
+      "path": "raw/PORTABLE-GUARD-V121-golden-input.log.gz",
+      "bytes": 324,
+      "sha256": "c4898139ca2def3e33826f5760c09945247ad0faffdc9b6f1be0b2e87c2cc37e"
+    },
+    {
+      "path": "raw/PORTABLE-GUARD-V121-long-copy-path.log.gz",
+      "bytes": 343,
+      "sha256": "bd95ec9a2d00fe59481a8e1e5fd225333ee2632f5bec4eea96f7171be4562f5c"
+    },
+    {
+      "path": "raw/PORTABLE-GUARD-V121-model-roster.log.gz",
+      "bytes": 301,
+      "sha256": "3b0fe158402104432e6fd8997c20ec84ffabed5c99ba173ea5da1e750b6b5bab"
+    },
+    {
+      "path": "raw/PORTABLE-GUARDS-V121.json.gz",
+      "bytes": 743,
+      "sha256": "3f9469647263503c9c8f4d7c7956eae5386ea598b18827f469d1e446c74a3f0d"
+    },
+    {
+      "path": "raw/PORTABLE-QUALIFICATION-V122.json.gz",
+      "bytes": 1753,
+      "sha256": "ed4f8420952d32b9d782eb158866d61b7ea5101810e0a05e5ff4b3495bc8765c"
+    },
+    {
+      "path": "raw/PORTABLE-REPRODUCTION-V118-PROCESS.json.gz",
+      "bytes": 509,
+      "sha256": "5a1417b419765a7281bb99a75dcae48c0b6c5bece71712b54515d5fe659e0fe8"
+    },
+    {
+      "path": "raw/PORTABLE-REPRODUCTION-V118.log.gz",
+      "bytes": 487,
+      "sha256": "2cef993e3746a88749fef39685a21c63a715190822834f013735988b6f8fbbc5"
+    },
+    {
+      "path": "raw/PORTABLE-REPRODUCTION-V120-PROCESS.json.gz",
+      "bytes": 500,
+      "sha256": "c44be9b5cb1051bda85eb7151f543266a08b00414a2f6b1003637c062d57c5c2"
+    },
+    {
+      "path": "raw/PORTABLE-REPRODUCTION-V120.log.gz",
+      "bytes": 435,
+      "sha256": "b3bafc91403fcd1628edb8a010d606add76e65bbbeef2baf002e12a71575b3de"
+    },
+    {
+      "path": "raw/PORTABLE-RETAINED-INDEX-V122.json.gz",
+      "bytes": 23013,
+      "sha256": "8fbc91aa3e5281c3b0f1643712da3754f437d7d2f973aa088cbd5fc2dd79ddd1"
+    },
+    {
+      "path": "raw/PORTABLE-V118-BOOTSTRAP-MANIFEST.json.gz",
+      "bytes": 2996,
+      "sha256": "f15c9e2ea734600c51e761cf377c872f9edfba1f06d9f8dcc62a2848e1290423"
+    },
+    {
+      "path": "raw/PORTABLE-V118-LONG-PATH-FAILED-TOOL.py.gz",
+      "bytes": 2792,
+      "sha256": "3b7340c4ecfad1e67db68892d27f3516c79c1d4c0a0afe20d5a7cf2d3da9e77b"
+    },
+    {
+      "path": "raw/PORTABLE-V119-BOOTSTRAP-MANIFEST.json.gz",
+      "bytes": 3242,
+      "sha256": "d1df5389bf261fb9d5283ca176fd856c354a48516f772a1f46c022d901006d7c"
+    },
+    {
+      "path": "raw/PORTABLE-V119-FAILED-TOOL.py.gz",
+      "bytes": 2940,
+      "sha256": "2a686394679412dcce141f93e2c1355cb40e6993604fe0a1083d6ca60b985dc1"
+    },
+    {
+      "path": "raw/PORTABLE-V119-NODE.log.gz",
+      "bytes": 689,
+      "sha256": "731bc244ca0a0541842224be3ce8172294318115db26806755bace7831523fbf"
+    },
+    {
+      "path": "raw/PORTABLE-V119-REPRODUCTION.json.gz",
+      "bytes": 786,
+      "sha256": "509eac754bb6d41d74e34b7a8e76341dd0dcaba40091781ec431013d3bfecc88"
+    },
+    {
+      "path": "raw/PORTABLE-V120-BOOTSTRAP-MANIFEST.json.gz",
+      "bytes": 3619,
+      "sha256": "e73fbdcb3fcb7bc8d8247dcc506063449fa5c8e03998609d6e6bc3165b37e316"
+    },
+    {
+      "path": "raw/PORTABLE-V120-COFFEE-CHAIR-MOTION-V112-ALL5-REPLAY-SAVED-REFERENCE-COMPARISON.json.gz",
+      "bytes": 301,
+      "sha256": "502d4d1724f814f963761f52b7f3c5415c1c0a02ed07ef38d7585fffdea07187"
+    },
+    {
+      "path": "raw/PORTABLE-V120-COFFEE-CHAIR-MOTION-V112-ALL5-REPLAY.log.gz",
+      "bytes": 1512,
+      "sha256": "4f5c7fef55a824340829c853a6a40944beb117000ecd9364621f960fc5877fd3"
+    },
+    {
+      "path": "raw/PORTABLE-V120-COFFEE-CHAIR-MOTION-V114-ALL5-ORIGINAL-REFERENCE-FULL-SKIN-MATRIX-COMPARISON.json.gz",
+      "bytes": 343,
+      "sha256": "7d139c75a8a9f4e208cec8eb74169902b7088438556b3ec95defb6a292984b38"
+    },
+    {
+      "path": "raw/PORTABLE-V120-COFFEE-CHAIR-MOTION-V114-ALL5-ORIGINAL-REFERENCE.log.gz",
+      "bytes": 1283,
+      "sha256": "ac1652f1becc95662ff8b10d79a676e98b4e68fa0e7468220a941cce764e054e"
+    },
+    {
+      "path": "raw/PORTABLE-V120-REPRODUCTION.json.gz",
+      "bytes": 914,
+      "sha256": "08e2490989c2a948b4d3ea94615d9e7e2b895b9233c2538c4b580b9c2e7741db"
+    },
+    {
+      "path": "raw/PORTABLE-V120-RESOLVED-INPUTS.jsonl.gz",
+      "bytes": 8916,
+      "sha256": "dc35f6ef4fc65418ac5885b2773a20583cca128e5f1dbf49085f8b166b3f9aad"
+    },
+    {
+      "path": "raw/PULL-BOUNDARY-WITNESSES-V117.json.gz",
+      "bytes": 64923,
+      "sha256": "c4f92a16a90ed15b27ea0ff1c2ac58179b1016b2939ba945c46ab5c7d0862343"
+    },
+    {
+      "path": "raw/PULL-QUALIFICATION-V117.json.gz",
+      "bytes": 5167,
+      "sha256": "87561e6b938830ef754f428ded70e2a7d7e57fdefb0ae2764c69f00f3315f81c"
+    },
+    {
+      "path": "raw/RETAINED-RAW-INDEX.json.gz",
+      "bytes": 6524,
+      "sha256": "0e37deb3b46564a8cb66410f30826897748831ca1de624e095d47ee5e60d0f5e"
+    },
+    {
+      "path": "raw/source-fixture-v119-incomplete-control.tar.gz",
+      "bytes": 481746,
+      "sha256": "053fd98003c7c5f2ad8dac512bdce91046cbf35a15525ac0dcd5a28bb40bec80"
+    },
+    {
+      "path": "raw/source-fixture.tar.gz",
+      "bytes": 486136,
+      "sha256": "0c08fcf3aabf58075b591bded2a70e240917a5bc4aaced629ca3ef3b23d651f7"
+    },
+    {
+      "path": "raw/V101-CAPTURE.json.gz",
+      "bytes": 1078,
+      "sha256": "ddbe97a7f1f93966bf6b84d8f541abfeb002cc34cd8c5d3f68b37e24f212464d"
+    },
+    {
+      "path": "raw/V101-INPUTS.json.gz",
+      "bytes": 2385,
+      "sha256": "658cc0d45940b210b66d5b2b467dd6819fbdb4109ecf2e30ebd32c051ee89d96"
+    },
+    {
+      "path": "raw/V101-RENDER-V101-PROCESS.json.gz",
+      "bytes": 1044,
+      "sha256": "673734219a1ce2ac05bd640acbcbed02ca8ab9455f64e4636e1c0887b3142304"
+    },
+    {
+      "path": "raw/WEST-PULL-V102-LIZARD-ACTUAL-DINING-PROCESS.json.gz",
+      "bytes": 7971,
+      "sha256": "6a8a93d758afbb71861e9719224f4717c0d7f290d952517cbac6c0b0bc4e2185"
+    },
+    {
+      "path": "raw/WEST-PULL-V103-GHIBLI-DENSE-ACTUAL-DINING-PROCESS.json.gz",
+      "bytes": 8057,
+      "sha256": "3719bd85e99166a0e7e5532d9cfdc4a2b77e4d7050d18ed4ba0dc37fc326b312"
+    },
+    {
+      "path": "raw/WEST-PULL-V103-LIZARD-DENSE-ACTUAL-DINING-PROCESS.json.gz",
+      "bytes": 7946,
+      "sha256": "feed196117d789e949048144b550c4be8027b78f23f6a6d78afe3375fa4561c5"
+    },
+    {
+      "path": "raw/WEST-PULL-V103-SIMPSONS-DENSE-ACTUAL-DINING-PROCESS.json.gz",
+      "bytes": 7965,
+      "sha256": "065dc9f4fba68a0f00268217e9e9c7f620240019aba06869f86e99a5970832b0"
+    },
+    {
+      "path": "raw/WEST-PULL-V103-SOUTH-PARK-DENSE-ACTUAL-DINING-PROCESS.json.gz",
+      "bytes": 7967,
+      "sha256": "6c7bc4dcf54c1123747062abec02ebbb00a5502df8dcfc6de49613d7d13cbeda"
+    },
+    {
+      "path": "raw/WEST-PULL-V105-ALL5-STANCE-CADENCE-CUSTODY.json.gz",
+      "bytes": 1723,
+      "sha256": "48491fa2de9920dc6fc5c40c4466725e8ef99a38a3e0ddda698337a12a404f18"
+    },
+    {
+      "path": "raw/WEST-PULL-V113-GHIBLI-DENSE-ACTUAL-DINING-PROCESS.json.gz",
+      "bytes": 8013,
+      "sha256": "1d21239a5a3e3604be8bf2768615984c6d1ae585b1e3bc24e0dcc48bba423914"
+    },
+    {
+      "path": "raw/WEST-PULL-V113-RICK-AND-MORTY-DENSE-ACTUAL-DINING-PROCESS.json.gz",
+      "bytes": 8027,
+      "sha256": "fc64cda97253e64b2741c1ff2de8fe7f5dcf3dd8ffa738f9c1185a26595a3d7c"
+    },
+    {
+      "path": "raw/WEST-PULL-V97-LEG-QUALIFICATION-WITHDRAWAL.json.gz",
+      "bytes": 826,
+      "sha256": "f5a02e4e1cc9cb8eb31212c649de6ab16e1349fca42ae69f41ee2cccdaf222d3"
+    },
+    {
+      "path": "raw/WEST-PULL-V98-ALL5-STRICT-LEG-BACKSTEPS-PROCESS.json.gz",
+      "bytes": 7960,
+      "sha256": "aa05aa86e16edf4cfe66e50c7012625fe94946241db00d034fbba86d320e1620"
+    },
+    {
+      "path": "raw/WEST-PULL-V99-ALL5-EXACT-SUPPORT-PROCESS.json.gz",
+      "bytes": 494,
+      "sha256": "3ee8e54346410997b761787ec9455903565c07f8328c16bc0db9565f9a285ad7"
+    },
+    {
+      "path": "README.md",
+      "bytes": 11214,
+      "sha256": "ca3682a3b42567c135a233f0d3bd9c7db8ec708989fc4a36da36151f0c2debb4"
+    },
+    {
+      "path": "REPLAY-INPUTS.json",
+      "bytes": 31087,
+      "sha256": "83039479218fb9ab7e74271fd0cac7599c507b4036182213d8b4d3a6763b487b"
+    },
+    {
+      "path": "SUMMARY.json",
+      "bytes": 3193,
+      "sha256": "81f0b548452bfb0f22b2d9352c913e7f7d2c72ae01b2deb48dd72b453871779e"
+    },
+    {
+      "path": "tools/path-map-loader.mjs",
+      "bytes": 436,
+      "sha256": "5a0b71d6181aafd25a8507aad98a3d1a49003b1b9367d5a4661491c824fd3851"
+    },
+    {
+      "path": "tools/path-map.cjs",
+      "bytes": 3208,
+      "sha256": "5053d66a4e3be87383e877d186b73f79085273a81e88bc41d7b2326fd2be56f2"
+    },
+    {
+      "path": "tools/reproduce.py",
+      "bytes": 8978,
+      "sha256": "e2279b2ec74d62ca599a9df5fdfba8c584eac45fe860b04337305e33d3510f29"
+    }
+  ]
+}
