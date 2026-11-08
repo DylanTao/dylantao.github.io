@@ -17,12 +17,12 @@
     "lastModified": "Sat, 03 Oct 2026 18:32:01 GMT"
   },
   "points.json.gz": {
-    "retrieved": "2026-11-07T16:33:56Z",
-    "httpDate": "Sat, 07 Nov 2026 16:33:56 GMT"
+    "retrieved": "2026-11-08T16:44:52Z",
+    "httpDate": "Sun, 08 Nov 2026 16:44:52 GMT"
   },
   "forecast-hourly.json.gz": {
-    "retrieved": "2026-11-07T16:33:56Z",
-    "httpDate": "Sat, 07 Nov 2026 16:33:57 GMT",
-    "lastModified": "Sat, 07 Nov 2026 15:59:58 GMT"
+    "retrieved": "2026-11-08T16:44:52Z",
+    "httpDate": "Sun, 08 Nov 2026 16:44:53 GMT",
+    "lastModified": "Sun, 08 Nov 2026 15:59:58 GMT"
   }
 }
