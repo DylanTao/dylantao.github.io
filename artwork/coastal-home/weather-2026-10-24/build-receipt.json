@@ -42,18 +42,18 @@
       "file": "source/points.json.gz",
       "url": "https://api.weather.gov/points/32.8328,-117.2713",
       "decodedBytes": 3926,
-      "decodedSha256": "678eae1f313212cf9555471f8a74eb1faa449f6e323c8f152796b238735f1d4d",
-      "retrieved": "2026-11-08T16:44:52Z",
-      "httpDate": "Sun, 08 Nov 2026 16:44:52 GMT"
+      "decodedSha256": "ca9402cec367b77581721dc87138157fdea9886e0dc6988fa063cd3f766a67c6",
+      "retrieved": "2026-11-09T20:52:57Z",
+      "httpDate": "Mon, 09 Nov 2026 20:52:57 GMT"
     },
     {
       "file": "source/forecast-hourly.json.gz",
       "url": "https://api.weather.gov/gridpoints/SGX/53,20/forecast/hourly",
-      "decodedBytes": 162695,
-      "decodedSha256": "a2ac87ad60f535405fc91a9837718ce2782c8ea48e50b878997d424b36fea7fc",
-      "retrieved": "2026-11-08T16:44:52Z",
-      "httpDate": "Sun, 08 Nov 2026 16:44:53 GMT",
-      "lastModified": "Sun, 08 Nov 2026 15:59:58 GMT"
+      "decodedBytes": 163680,
+      "decodedSha256": "08a055c7c46a29b4972f4c99bf36b16374911a228cc929cc862c82b286688983",
+      "retrieved": "2026-11-09T20:52:57Z",
+      "httpDate": "Mon, 09 Nov 2026 20:52:57 GMT",
+      "lastModified": "Mon, 09 Nov 2026 20:09:05 GMT"
     }
   ],
   "station": {
@@ -295,15 +295,15 @@
   },
   "forecast": {
     "source": "NWS SGX/53,20 hourly",
-    "issued": "2026-11-08T08:21:19+00:00",
-    "generated": "2026-11-08T16:44:52+00:00",
-    "retrieved": "2026-11-08T16:44:52Z",
-    "validFrom": "2026-11-08T08:00:00-08:00",
-    "validThrough": "2026-11-14T20:00:00-08:00",
+    "issued": "2026-11-09T20:09:05+00:00",
+    "generated": "2026-11-09T20:52:57+00:00",
+    "retrieved": "2026-11-09T20:52:57Z",
+    "validFrom": "2026-11-09T12:00:00-08:00",
+    "validThrough": "2026-11-16T00:00:00-08:00",
     "hours": 156,
-    "rainHours": 0,
-    "maximumPrecipitationChance": 0.27
+    "rainHours": 14,
+    "maximumPrecipitationChance": 0.5
   },
-  "runtimeBytes": 13619,
-  "runtimeCanonicalLfSha256": "e2cffe46aea8fe4f741bec5e7ec9e70e7ff7bf9171cac70d8bc9d4532fef1536"
+  "runtimeBytes": 13704,
+  "runtimeCanonicalLfSha256": "4b56f65626c9b1ff5f1e0c3e27770e6554c03bb9949c044d8066258288d22046"
 }
