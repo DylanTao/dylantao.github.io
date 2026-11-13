@@ -23,10 +23,13 @@
         </p>
       {% endif %}
       {% if recruiting.growth %}
-        <div class="home-recruiting-growth" aria-label="Research skills students can grow here">
-          {% for item in recruiting.growth %}
-            <span>{{ item }}</span>
-          {% endfor %}
+        <div class="home-recruiting-growth">
+          <p class="home-recruiting-growth-label" id="home-recruiting-growth-label">Skills you can grow here</p>
+          <ul aria-labelledby="home-recruiting-growth-label">
+            {% for item in recruiting.growth %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
         </div>
       {% endif %}
     </div>

@@ -2990,7 +2990,8 @@ html[data-theme="dark"] .home-artifact-mark {
   border-left: 1px solid color-mix(in srgb, var(--home-line) 74%, transparent);
 }
 
-.home-motion-detail-note-label {
+.home-motion-detail-note-label,
+.home-recruiting-grid .home-recruiting-growth-label {
   color: var(--home-accent-strong);
   font-family: var(--font-mono);
   font-size: 0.68rem;
@@ -3241,24 +3242,33 @@ html[data-theme="dark"] .home-artifact-mark {
   line-height: 1.75;
 }
 
+// A labelled line of plain words. These were outlined pills, the shape the paper links two
+// sections up use for things you can press; a word that goes nowhere should not look pressable.
 .home-recruiting-growth {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
   max-width: 46rem;
-  margin-top: 1rem;
+  margin-top: 1.15rem;
 }
 
-.home-recruiting-growth span {
-  padding: 0.34rem 0.55rem;
-  border: 1px solid var(--home-card-border);
-  border-radius: 999px;
-  background: var(--home-surface);
+.home-recruiting-grid .home-recruiting-growth-label {
+  margin: 0 0 0.3rem;
+}
+
+.home-recruiting-growth ul {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
   color: var(--home-muted);
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  font-weight: 600;
-  line-height: 1.2;
+  font-size: var(--type-compact);
+  line-height: 1.6;
+}
+
+// The dot trails its word, so a wrapped line never starts with one.
+.home-recruiting-growth li:not(:last-child)::after {
+  content: "·";
+  margin-inline: 0.5rem;
+  color: var(--home-muted);
 }
 
 .home-recruiting-steps {

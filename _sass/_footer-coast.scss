@@ -283,12 +283,16 @@ body:has(.coastal-page-footer) #back-to-top:not(.hidden) {
   width: 100%;
   margin-top: 1.5rem;
 }
-.home-connect-copy .contact-icons {
+// Three classes, so this size wins over _home.scss's `.home-social .contact-icons` (3.2rem, and
+// 2.7rem on phones), which loads later and had been overriding it since October 24: the icons drew
+// at 51 px, heavier than any heading on the page, instead of the 36 px set here.
+.home-connect-copy .home-social .contact-icons {
   font-size: 2.25rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  gap: 1rem;
+  // Seven icons stay on one row down to a 360 px phone.
+  gap: clamp(0.5rem, 2.6vw, 1rem);
 }
 .home-connect-copy .home-social,
 .home-connect-copy .home-connect-note {

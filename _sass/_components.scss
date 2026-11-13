@@ -506,6 +506,12 @@ html.site-motion-ready .hoverable.site-visible:hover {
       grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
     }
 
+    // A wide strip beside its story left most of that column empty (HotSpot's five bunnies drew
+    // 335 px wide over a 300 px hole). It opens across the card instead, twice the size.
+    &.is-expanded.project-card--wide-media .project-card-preview {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
     // Open, the picture hugs its own proportions at the top of its column instead of
     // stretching a white well down to the height of the story beside it.
     &.is-expanded .project-card-media {

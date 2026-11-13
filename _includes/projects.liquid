@@ -7,6 +7,16 @@
 {% if project.card_image_fit == 'cover' %}
   {% assign project_media_classes = project_media_classes | append: ' project-card-media-cover' %}
 {% endif %}
+{% comment %} A figure at least twice as wide as it is tall opens above its story, not beside it. {% endcomment %}
+{% assign project_wide_media = false %}
+{% if project.image_aspect %}
+  {% assign project_aspect_parts = project.image_aspect | split: '/' %}
+  {% assign project_aspect_width = project_aspect_parts[0] | strip | times: 1.0 %}
+  {% assign project_aspect_height = project_aspect_parts[1] | strip | times: 2.0 %}
+  {% if project_aspect_height > 0 and project_aspect_width >= project_aspect_height %}
+    {% assign project_wide_media = true %}
+  {% endif %}
+{% endif %}
 {% if project.redirect %}
   {% assign project_href = project.redirect %}
   {% assign project_cta_label = 'Visit project site' %}
@@ -176,7 +186,7 @@
   {% assign project_deck_id = project_file_slug | prepend: 'deck-' %}
   {% capture project_deck_label %}{% if project_deck_record %}{{ project_deck_experiments }} experiments{% elsif project_deck_size == 1 %}{{ project_deck_kids.first.title }}{% else %}{{ project_deck_size }} inside{% endif %}{% endcapture %}
   <article
-    class="project-card{% if project_deck_size > 0 %} project-deck{% if include.deck_feature %} project-deck--feature{% endif %}{% endif %}"
+    class="project-card{% if project_deck_size > 0 %} project-deck{% if include.deck_feature %} project-deck--feature{% endif %}{% endif %}{% if project_wide_media %} project-card--wide-media{% endif %}"
     data-project-card
     data-entry
     {% if project_deck_size > 0 %}
