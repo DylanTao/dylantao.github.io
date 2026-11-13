@@ -37,7 +37,7 @@ record_url: /projects/graphics-lab/record/
 json_url: /assets/json/design-records/graphics-lab.json
 repository: https://github.com/DylanTao/dylantao.github.io
 branch: main
-updated: "2026-10-23"
+updated: "2026-11-13"
 summary: >-
   The rendering and simulation experiments behind the homepage's coastal home, one technique at a time: what each does
   in the scene now and which files and functions hold it, the papers it adapts, what it cannot do yet, and newer papers
@@ -1443,7 +1443,10 @@ systems:
           before an edge reaches it, and `steerOrbit` refuses steps that would leave the arm under 40 % of the requested
           distance. `farView` lets the haze, the clip planes and the sun's shadow follow the coast's orbit out to 160 m. Since
           October 18 the gym's camera works like a tripod, turning to each station from its authored place (`tripodLook`),
-          and full screen on a portrait screen widens the lens to hold a room's width (`portraitFov`).
+          and full screen on a portrait screen widens the lens to hold a room's width (`portraitFov`). Since November 13
+          the whole-house view turns all the way round only from 0.95 rad of pitch or more; lower down it is held to the
+          71° arc that faces the sea (`frontEnvelope`), because the cliff stands on the other three sides and a low camera
+          there stood inside it.
         files:
           - path: assets/js/home-scene/camera-field.mjs
             role: Voxelizes the loaded meshes and decides what may hold the camera back.
@@ -1452,7 +1455,7 @@ systems:
             role: Voxelizes off the main thread.
           - path: assets/js/home-scene/camera.mjs
             role: Classifies the cells, walks rays, steers the arm and frames the gym and portrait screens.
-            functions: [createCollisionGrid, cameraArm, steerOrbit, farView, outsideClearance, tripodLook, portraitFov]
+            functions: [createCollisionGrid, cameraArm, steerOrbit, frontEnvelope, farView, outsideClearance, tripodLook, portraitFov]
         tests:
           - test/coastal-camera.test.mjs
           - test/coastal-camera-motion.test.mjs
@@ -1464,6 +1467,7 @@ systems:
         limits:
           - Ready about 3.3 s after the rooms stream in. Characters, P, the animals and the clifftop planting are not in the field.
           - Nothing scores the composition, and one 40 % threshold serves every room.
+          - The whole-house view's seaward arc and its height threshold were chosen from frames at nine yaws and three pitches, not derived from the field.
         watchlist:
           - source: oskam2009visibility
             effort: medium
@@ -1528,8 +1532,9 @@ systems:
   - id: drawing
     name: Drawing
     summary: >-
-      The house drawn in pen while it loads, traced offline from the authored views' geometry and morphed from drawing to
-      drawing as each piece arrives.
+      The house as a drawing: a pen sketch while it loads, traced offline from the authored views' geometry and morphed
+      from drawing to drawing as each piece arrives; the rock under the lifted roof inked the way an architect inks a
+      section; and an experimental print of the live frame in key lines and flat colour.
     techniques:
       - id: loading-sketch
         name: A pen sketch while the house loads
@@ -1587,6 +1592,98 @@ systems:
             effort: small
             adds: Measures where artists draw lines on the same models, a test for which lines the tracer keeps.
         next: []
+
+      - id: section-cut
+        name: The lifted roof's seats, drawn as hatched cut material
+        status: shipped
+        since: "2026-11-13"
+        thumbnail:
+          path: assets/img/project_pics/graphics-lab/section-cut.webp
+          alt: The house seen from above with its roof lifted, the rock the roof sat on drawn in one muted umber crossed by fine diagonal hatching, so the lit rooms are the brightest thing in the view
+          frame: Whole-home view at 12:00 on November 3, 2026 (page clock fixed), reduced motion, 1600 × 900, centre crop, controls hidden.
+        what: Orbiting the house lifts its roof so the rooms show. The rock the roof sat on now prints in one flat, hatched tone, the way an architect draws the cut walls of a section, instead of standing as the brightest surface in the picture.
+        how: >-
+          The fourteen lift-away roof pieces are closed solids cut from the cliff. At load their triangles are merged, in
+          world space, into one mesh. While the section is open that mesh is drawn once per frame, back faces only, with
+          no depth test; a fragment is kept only where its own view depth equals the depth the frame already holds, within
+          3.5 cm plus 2 mm per metre of distance. Those pixels are exactly the surfaces a lifted solid was resting on:
+          ledges, wall tops and the tall wall beside the library. The haze composite, which already reads the frame's
+          depth, mixes them nine-tenths toward a flat umber lit by the hour's sun and open sky, and one-tenth toward the
+          lit rock multiplied down, so a trace of the real shadows remains. Hatch lines half as light again cross the
+          tone every 42 cm. They are the planes x + y + z = constant, reconstructed from the pixel's depth, so they cross
+          level and upright faces alike at 45°, stay fixed to the rock as the view turns, and fade out where they would
+          fall closer than a few pixels. With the roof on, nothing is drawn and the composite's strength is zero.
+          `?section=0` keeps the bare rock for comparison.
+        files:
+          - path: assets/js/home-scene/section-cut.mjs
+            role: Merges the lifted solids, draws the contact mask and holds the tone and the hatch.
+            functions: [createSectionCut, worldTriangles, hatchLine]
+          - path: assets/js/home-scene/haze.mjs
+            role: Prints the tone on the surface before any air is added.
+          - path: assets/js/home-scene/controller.mjs
+            role: Tells the mask which pieces exist and whether the view has lifted them.
+            functions: [syncCutaway]
+        tests:
+          - test/section-cut.test.mjs
+          - test/visual/desk-scene.spec.js
+        sources: [saito1990comprehensible]
+        limits:
+          - Rock outside the lifted solids, the sheet beside the library and the lump beside the gym, still stands above the cut. Removing it is an authoring change to the house file, not a shader.
+          - The roof vanishes when the section opens; it does not lift visibly yet.
+          - The tone was chosen from four matched noon frames, and the hatch from one plan view and two oblique ones, by Claude; Sirui has not reviewed either.
+          - From far away the hatch on the most distant rock is close to its fade-out and reads as a faint texture.
+          - One extra draw of 18,446 triangles and one byte target at the frame's size while the section is open. Its frame cost has not been measured on a quiet machine.
+        next:
+          - move: Split the cliff above the cut, inside the house's plan, into a lift-away crown piece so the leftover rock lifts with the roof.
+            readiness: needs-decision
+          - move: Raise and fade the roof over about 400 ms when the section opens, and settle it back on the way out.
+            readiness: ready
+      - id: print-treatment
+        name: The home printed in key lines and flat colour
+        status: experimental
+        since: "2026-11-13"
+        thumbnail:
+          path: assets/img/project_pics/graphics-lab/print-treatment.webp
+          alt: The cliff house drawn with ink key lines and flat colour, sandstone strata outlined, the pool a flat turquoise and shadows leaning blue
+          frame: Coast view at 12:00 on November 3, 2026 (page clock fixed), reduced motion, 1600 × 900, centre crop, controls hidden, with ?print=1.
+        what: A second reading of the finished frame, off unless `?print=1` or the lab's toggle asks for it. One pass redraws the realistic render with key lines, flattened colour and a colourway chosen by the hour.
+        how: >-
+          The pass takes the output pass's place and tone-maps the frame itself, because a multisampled target discards
+          its depth once resolved and a second resolve would overwrite it. Key lines come from the second difference of
+          the depth buffer, which is zero across any flat surface and jumps at a fold or an edge; scaled by distance and
+          pixel size it is the change of slope across the line, so one threshold serves near and far. Taps sit on texel
+          centres a whole number of texels apart, since the depth texture is unfiltered. Outlines print darker than folds,
+          and where all four directions break at once (leaves, grass) the line thins to a stipple. Colour is averaged
+          inside each surface by twelve taps weighted by distance in OKLab, settled into five soft value steps, with
+          shadows leaning toward one blue and the green-to-magenta axis muted. The home's minute interpolates between
+          seven colourways of paper, ink, shadow blue and sky band (night, dawn, morning, noon, afternoon, dusk, evening),
+          after Hiroshi Yoshida, who printed one set of blocks as morning, afternoon, mist, evening and night. Paper tooth
+          and uneven pressure are fixed to the sheet. While printed, the people step at twelve poses a second and the
+          camera stays smooth.
+        files:
+          - path: assets/js/home-scene/print-look.mjs
+            role: The pass, its shader, the colourways and the dials.
+            functions: [createPrintLook, colourwayAt, readPrintLook, linearToOklab, oklabToLinear]
+          - path: assets/js/home-scene/realism.mjs
+            role: Adds the pass after the output pass and switches between them.
+            functions: [createFinish]
+          - path: assets/js/home-scene/controller.mjs
+            role: Reads the flag, feeds the camera and the hour, and steps the people on twos.
+        tests:
+          - test/print-look.test.mjs
+          - test/visual/desk-scene.spec.js
+        sources: [saito1990comprehensible, winnemoller2006abstraction, ottosson2020oklab]
+        limits:
+          - The frames so far read closer to a line-and-wash illustration than to a woodblock print; the name states the aim, not a match to any printmaker.
+          - Lines come from depth only, so a rug on a floor or a painting on a wall gets none, and a low-polygon curve can show its facets as folds.
+          - Lines are one unfiltered sample per pixel and alias on thin geometry. Line shifting between frames has not been judged in motion.
+          - Judged by Claude on noon frames of three views. Dusk, night, a phone and Sirui's eye are all still missing.
+          - 23 texture reads per pixel (13 colour, 10 depth) in one full-screen draw; its frame cost has not been measured.
+        next:
+          - move: Judge dusk and night frames against Kawase Hasui's lit windows, and a phone, before offering visitors a control.
+            readiness: needs-measurement
+          - move: Add a hidden dial panel so line weight, value steps and shadow blue can be tuned by hand.
+            readiness: ready
 
   # These comparisons stay in the technical record until actual study stills are selected for public rows.
   - id: bounded-studies
@@ -2299,7 +2396,6 @@ open_problems:
       - A lighter sea mirror, without interiors or redrawn every other frame while the camera is still; up to half its ~400 draws, in hours (13 of 108 sampled stills changed, median 126 px).
       - BatchedMesh with multi-draw for the hinterland's 156 static primitives and the planting's 23, with each piece's transform baked into its geometry; 100 to 150 fewer draws per pass outside, in a day.
       - Meshopt instead of Draco as a post-process, with quantization matched to the Draco settings and custom attributes kept (the default prune strips the planting's TEXCOORD_0 and COLOR_1); about 0.3 to 0.5 s less decoding on a first view for about 0.9 MB more, in half a day.
-      - Minify the ES modules, which jekyll-terser skips; the 3D modules would go from 330 to 201 KB gzipped and the site's other 31 from 110 to 72 KB, in hours, keeping `bin/profile_coastal_startup.cjs` able to find the frame callback.
       - A content-hashed Service Worker cache, because GitHub Pages serves every file with max-age=600 and re-sends about 10 MB of unchanged models after each deploy; a day.
       - Room-level occlusion culling from the coast, by one-frame-late queries with hysteresis, two-phase culling or a CPU depth test against real room hulls; up to 130 draws per pass, in two to three days (pop-in while moving needs a decision).
       - Level of detail for distant planting, simplified chunks with `THREE.LOD` and then impostors; a large triangle cut at distance, in one to two days and three to five for impostors.
@@ -2814,6 +2910,14 @@ sources:
     url: https://doi.org/10.1145/2516971.2516976
     venue: ACM TOG 32(5), SIGGRAPH 2014
     year: 2013
+  - id: winnemoller2006abstraction
+    label: Winnemöller et al. 2006
+    citation: Holger Winnemöller, Sven C. Olsen and Bruce Gooch. *Real-Time Video Abstraction*. ACM Transactions on Graphics 25(3), 1221–1226, SIGGRAPH 2006.
+    url: https://doi.org/10.1145/1141911.1142018
+  - id: ottosson2020oklab
+    label: Ottosson 2020
+    citation: Björn Ottosson. *A perceptual color space for image processing*, 2020.
+    url: https://bottosson.github.io/posts/oklab/
   - id: saito1990comprehensible
     label: Saito and Takahashi 1990
     citation: Takafumi Saito and Tokiichiro Takahashi. *Comprehensible Rendering of 3-D Shapes*. Computer Graphics 24(4), 197–206, SIGGRAPH 1990.

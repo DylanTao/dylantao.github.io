@@ -16,7 +16,7 @@ record_url: /projects/website-revamp/record/
 json_url: /assets/json/design-records/website-revamp.json
 repository: https://github.com/DylanTao/dylantao.github.io
 branch: main
-updated: "2026-10-19"
+updated: "2026-11-13"
 summary: >-
   How the redesign of this site works underneath, and how it changed from February to October 2026: the type and
   reading column, the time-of-day palettes and tokens, the motion rules, the structure of the homepage and projects,
@@ -1680,15 +1680,6 @@ open_problems:
       - A first generated or authored asset reviewed at four viewports, with its prompt, model, date and license recorded first.
     sources: [pear-no]
     readiness: needs-decision
-  - id: sidenotes
-    title: Margin notes for long posts
-    system: type-reading
-    why_hard: >-
-      No post or project uses footnotes yet, so margin notes have nothing to show.
-    candidate_moves:
-      - Build sidenotes with the first post that needs footnotes.
-    sources: []
-    readiness: blocked
   - id: homepage-tokens
     title: Bring the homepage onto the shared tokens
     system: color-themes
@@ -1718,7 +1709,6 @@ open_problems:
       - Load the icon stylesheets without blocking, or replace them with inline SVG.
       - Find DesignWeaver's layout shift and reserve its space.
       - Give the portrait `fetchpriority="high"`, turn animated GIFs into video and serve responsive AVIF or WebP with intrinsic sizes and lazy loading below the fold.
-      - Minify the ES modules, which jekyll-terser skips (the site's 31 non-3D modules would go from 110 to 72 KB gzipped).
       - A content-hashed Service Worker cache, since GitHub Pages' cache lifetime cannot be configured.
     sources: [web-vitals, web-dev-fetch-priority, web-dev-gif-video, jekyll-terser, gh-pages-cache-discussion]
     readiness: needs-decision

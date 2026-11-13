@@ -1,6 +1,8 @@
 # October 2026 handoff: resume here
 
-**Current resume point: [Opus continuation checklist](#opus-continuation-checklist-started-2026-10-24).** Work it top to bottom; then read the [October 24 retreat revision](#october-24-retreat-revision) and the earlier sitewide goals and unresolved queue below it.
+**From November 13, 2026, the running todo list, notebook and ideas ledger are in [november-2026-takeover.md](november-2026-takeover.md).** Start there; this file remains the record of intent and conventions up to that date.
+
+**Resume point before the takeover: [Opus continuation checklist](#opus-continuation-checklist-started-2026-10-24).** Work it top to bottom; then read the [October 24 retreat revision](#october-24-retreat-revision) and the earlier sitewide goals and unresolved queue below it.
 The dated queues, assignments and parked WIPs below it preserve history and custody; they are not a new implementation checklist.
 `main`, the canonical briefs and current rendered evidence take precedence over an older plan.
 
