@@ -3176,6 +3176,81 @@ test("coastal home: navigation keeps the camera out of walls, screens and rock, 
   expect(errors).toEqual([]);
 });
 
+test("coastal home: dinner waits at the served plate before moving dessert", async ({ page }, testInfo) => {
+  test.setTimeout(600000);
+  const errors = collectRuntimeErrors(page);
+  const date = "2026-10-23";
+  const minute = 1230;
+  const home = path.resolve(__dirname, "../../assets/js/home-scene");
+  const { menuFor, courseFor } = await import(pathToFileURL(path.join(home, "dining-menu.mjs")).href);
+  const { planMeal, remainingAt, hashString } = await import(pathToFileURL(path.join(home, "dining-motion.mjs")).href);
+  const index = JSON.parse(fs.readFileSync(path.resolve(__dirname, "../../assets/models/home/table-setting/index.json"), "utf8"));
+  const course = courseFor(menuFor(date), "dinner");
+  const plan = planMeal({
+    meal: "dinner",
+    seed: hashString(`${date}|dinner|${minute}`),
+    progress: 0,
+    bites: { main: index.dishes[course.dish.id].bites.length, dessert: index.dishes[course.dessert.id].bites.length },
+    utensil: course.dish.utensil || "fork",
+    dessertUtensil: course.dessert.utensil || "spoon",
+    knife: course.dish.side === "knife",
+    vessel: "glass",
+  });
+  const pause = plan.actions.find((action) => {
+    const left = remainingAt(plan, (action.start + action.end) / 2);
+    return action.type === "pause" && !left.main && !left.swapped && left.dessert > 0;
+  });
+  expect(pause).toBeTruthy();
+  const target = (pause.start + pause.end) / 2;
+  const view = await openClockedHome(page, { time: "2026-10-23T20:30:00-07:00" });
+  const { stage, scene, canvas, ui } = view;
+  await explore(ui);
+  await ui.locator("[data-world-avatar]").selectOption("ghibli");
+  await settleAvatarLoad(ui, page);
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-room="kitchen"]').click());
+  await expect
+    .poll(
+      async () => {
+        await page.clock.runFor(100);
+        return (await evidence(scene)).dining?.ready;
+      },
+      { timeout: 120000 }
+    )
+    .toBe(true);
+  await beginClockedMotion(page, canvas);
+  const started = await evidence(scene);
+  expect(started.activity).toBe("dinner");
+  expect(started.dining.meal).toBe("dinner");
+  expect(started.dining.planSeconds).toBeLessThan(target);
+  // Compose the real meal at its retained pre-swap pause. This is a phase
+  // regression, rather than a claim about intervening motion or frame cost.
+  await page.clock.fastForward((target - started.dining.planSeconds) * 1000);
+  await page.clock.runFor(100);
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-pause]").click());
+  // Closing the menu uncovers the canvas. A paused scene owes no new frame for that.
+  await ui.locator("[data-world-lab] > summary").click();
+  expect(await ui.locator("[data-world-lab]").evaluate((element) => element.open)).toBe(false);
+  const paused = await evidence(scene);
+  expect(paused.dining.phase).toBe("a pause");
+  expect(paused.dining.remaining.main).toBe(0);
+  expect(paused.dining.remaining.dessert).toBeGreaterThan(0);
+  expect(paused.dining.contacts.L.mode).toBe("rest");
+  for (const hand of Object.values(paused.dining.contacts)) expect(hand.wristDrift).toBeLessThan(0.003);
+  const embed = await canvas.screenshot();
+  expect(screenshotMetrics(embed).uniqueColors).toBeGreaterThan(60);
+  await capture(testInfo, "dinner-served-plate-embed", embed);
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click());
+  await expect(stage).toHaveClass(/is-world-immersive/);
+  await expect.poll(async () => (await evidence(scene)).dining?.ready, { timeout: 120000 }).toBe(true);
+  await page.clock.runFor(100);
+  const fullscreen = await evidence(scene);
+  expect(fullscreen.dining.phase).toBe("a pause");
+  for (const hand of Object.values(fullscreen.dining.contacts)) expect(hand.wristDrift).toBeLessThan(0.003);
+  await capture(testInfo, "dinner-served-plate-fullscreen", await canvas.screenshot());
+  fs.writeFileSync(testInfo.outputPath("dinner-served-plate.json"), JSON.stringify({ date, minute, target, started, paused, fullscreen }, null, 2));
+  expect(errors).toEqual([]);
+});
+
 test("coastal home: composed activities and previews survive clock changes until Now", async ({ page }, testInfo) => {
   const view = await openClockedHome(page);
   const { scene, canvas, ui } = view;

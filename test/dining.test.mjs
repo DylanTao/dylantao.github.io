@@ -153,6 +153,21 @@ test("a resting hand keeps 13 cm onto the table from its measured near edge", ()
   for (const side of ["R", "L"]) if (free.hands[side]?.mode === "rest") assert.ok(held.hands[side].palm[2] >= free.hands[side].palm[2]);
 });
 
+test("a dinner pause keeps both hands at the served plate until dessert is brought forward", () => {
+  const plan = planMeal({ meal: "dinner", seed: 1, progress: 0.2, bites: { main: 10, dessert: 6 } });
+  const pause = plan.actions.find((action) => {
+    const left = remainingAt(plan, (action.start + action.end) / 2);
+    return action.type === "pause" && !left.main && !left.swapped && left.dessert > 0;
+  });
+  assert.ok(pause, "the retained dinner has a pause before moving the dessert plate");
+  const pose = mealPose(plan, (pause.start + pause.end) / 2, anchors, layout);
+  assert.deepEqual(pose.plates.main, layout.plate);
+  assert.deepEqual(pose.plates.dessert, layout.dessert);
+  assert.equal(pose.hands.L.mode, "rest");
+  assert.ok(pose.hands.L.palm[2] < layout.plate[1] + 0.1, "the free hand rests beside the served plate");
+  assert.ok(pose.hands.R.tip[2] < layout.plate[1] + 0.1, "the held utensil waits beside the served plate");
+});
+
 test("a sip tips the glass to the lips and lowers the level; the still is the same every time", () => {
   const plan = planMeal({ meal: "dinner", seed: 3, progress: 0.2, bites: { main: 10, dessert: 6 } });
   const sip = plan.actions.find((a) => a.type === "sip");

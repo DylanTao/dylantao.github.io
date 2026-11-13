@@ -454,7 +454,8 @@ export function mealPose(plan, t, anchors, layout) {
   };
   const h = homes(layout, plates);
   const action = findAction(plan, t);
-  const course = action?.type === "bite" ? action.plate : left.swapped ? "dessert" : left.main || !plan.start.dessert ? "main" : "dessert";
+  // The main plate stays in front through the pause before the actual swap.
+  const course = action?.type === "bite" ? action.plate : left.swapped ? "dessert" : "main";
   const finished = !left.main && !left.dessert && !left.onUtensil && !(action?.type === "bite" && t < action.end);
   const mouth = anchors.mouth;
   const lips = vadd(mouth, [0, -0.006, 0.016]);
