@@ -491,7 +491,7 @@ export function createPrintLook({ enabled = false, settings = {} } = {}) {
       sync();
     },
     evidence() {
-      return { enabled: pass.enabled, colourway: way.name, minute, draws, textureReads: 22, renderTargets: 0, dials: { ...dials } };
+      return { enabled: pass.enabled, colourway: way.name, minute, draws, textureReads: 23, renderTargets: 0, dials: { ...dials } };
     },
     dispose() {
       quad.dispose();

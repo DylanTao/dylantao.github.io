@@ -5911,8 +5911,8 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "49206e44cfe2ca2fe6799676c14a31b803da175991404dc7a7ec669f0bf69c46",
-    "sha256": "6b8ba70c14cb389581f102a5be00feb032dcf28c8da28e775ab9442a0e5029fe"
+    "signature": "5246d48362451d31f9c0371a03b76ae192acc3c6d4682fa143d951bb3c20a7ab",
+    "sha256": "425acffeff33147be93712f8a35d9c5366bd951f10c05d21964572f73d604eee"
   },
   "estateDoors": [
     {
@@ -7788,6 +7788,20 @@
         "min": [-3.45, -0.1, 16.14],
         "max": [3.35, 7.3, 23.2]
       }
+    },
+    {
+      "id": "tea-garden-lantern",
+      "schedule": "steps",
+      "position": [-7.27, 0.491, 4.63],
+      "intensity": 1.2,
+      "color": [1, 0.62, 0.34],
+      "region": {
+        "min": [-8.45, -0.25, 2.6],
+        "max": [-5.42, 1.36, 6.35]
+      },
+      "transport": false,
+      "emitterRadius": 0.1,
+      "glowTag": "tea-garden"
     }
   ],
   "clifftopLounge": {

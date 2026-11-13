@@ -2683,6 +2683,102 @@
       "corners": 1872,
       "min": 0.68,
       "max": 0.7769056438406309
+    },
+    {
+      "mesh": "kitchen_garden__bathroom celadon ceramic",
+      "corners": 156,
+      "min": 0.68,
+      "max": 0.705688589947919
+    },
+    {
+      "mesh": "kitchen_garden__celadon glaze",
+      "corners": 456,
+      "min": 0.68,
+      "max": 0.751922327131033
+    },
+    {
+      "mesh": "kitchen_garden__dark sage leaf",
+      "corners": 360,
+      "min": 0.68,
+      "max": 0.7431165035814048
+    },
+    {
+      "mesh": "kitchen_garden__garden lantern paper",
+      "corners": 36,
+      "min": 0.6801683496142505,
+      "max": 0.7172235363597672
+    },
+    {
+      "mesh": "kitchen_garden__honed travertine",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.7053230349719525
+    },
+    {
+      "mesh": "kitchen_garden__honey ash",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7519333012774587
+    },
+    {
+      "mesh": "kitchen_garden__indigo textile",
+      "corners": 564,
+      "min": 0.68,
+      "max": 0.7516123534242313
+    },
+    {
+      "mesh": "kitchen_garden__interior Asplenium fern leaf",
+      "corners": 3888,
+      "min": 0.68,
+      "max": 0.7262790623493492
+    },
+    {
+      "mesh": "kitchen_garden__interior Epipremnum leaf",
+      "corners": 480,
+      "min": 0.68,
+      "max": 0.7637707176804542
+    },
+    {
+      "mesh": "kitchen_garden__interior Strelitzia broadleaf",
+      "corners": 1296,
+      "min": 0.68,
+      "max": 0.7176052400345605
+    },
+    {
+      "mesh": "kitchen_garden__linen",
+      "corners": 564,
+      "min": 0.68,
+      "max": 0.7502669606109461
+    },
+    {
+      "mesh": "kitchen_garden__linen canvas sun",
+      "corners": 852,
+      "min": 0.68,
+      "max": 0.7157365021109582
+    },
+    {
+      "mesh": "kitchen_garden__pale oak",
+      "corners": 1200,
+      "min": 0.68,
+      "max": 0.775442849000295
+    },
+    {
+      "mesh": "kitchen_garden__sage textile",
+      "corners": 852,
+      "min": 0.68,
+      "max": 0.7655231835196415
+    },
+    {
+      "mesh": "kitchen_garden__terracotta",
+      "corners": 564,
+      "min": 0.68,
+      "max": 0.727550118577977
+    },
+    {
+      "mesh": "kitchen_garden__warm cut stone",
+      "corners": 1116,
+      "min": 0.68,
+      "max": 0.7546468945592643
     }
   ]
 }

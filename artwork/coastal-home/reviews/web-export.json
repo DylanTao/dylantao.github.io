@@ -1,7 +1,7 @@
 {
   "bakedColorQuantization": "32 grayscale steps, shared per vertex",
   "dracoColorBits": 6,
-  "sourceSha256": "92c06962eabe924b1e4cd91b32d06f23fa6407b63d83e64828c8309c03ce51ca",
+  "sourceSha256": "5aa3486a9e8f682f91a4ab1c85901eb61c8aff5e71a758a4d2b84b988e0eb275",
   "activeStaticGeologyAO": true,
   "constantPlanarCompaction": [
     {
@@ -12,18 +12,2820 @@
         "triangles": 115376
       },
       "after": {
-        "vertices": 47792,
-        "triangles": 95604
+        "vertices": 48110,
+        "triangles": 96240
       },
-      "removedVertices": 9886,
-      "removedVertexIdsSha256": "a2cafcea655999a138dcf2f82ccde0528efb37cba445ecad27ffffbd219af1c5",
-      "starPlanarityBoundM": 1e-6,
-      "splitNormalBound": 1e-7,
+      "removedVertices": 9568,
+      "removedVertexIdsSha256": "967f7b444a9618307a84e6b34ea811b3bc51cd6f9909be0d3912b250f328e16e",
+      "coverageComponents": [
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 73.02487441762241,
+          "triangles": 180,
+          "maximumPlaneErrorM": 0.0,
+          "component": 1096,
+          "candidateVertices": 61,
+          "sourceFaces": 167,
+          "constantNormalDiameterUpperBound": 1.6417220788773135e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 73.02487441762241,
+            "triangles": 58,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1889.9313213567534,
+          "triangles": 4437,
+          "maximumPlaneErrorM": 0.0,
+          "component": 8134,
+          "candidateVertices": 2074,
+          "sourceFaces": 4238,
+          "constantNormalDiameterUpperBound": 1.6116321207065756e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1889.9313213567534,
+            "triangles": 289,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 5622.882417657307,
+          "triangles": 12793,
+          "maximumPlaneErrorM": 0.0,
+          "component": 8267,
+          "candidateVertices": 5995,
+          "sourceFaces": 12283,
+          "constantNormalDiameterUpperBound": 2.2774656878670612e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 5622.882417657307,
+            "triangles": 803,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.04479299085778621,
+          "triangles": 4,
+          "maximumPlaneErrorM": 0.0,
+          "component": 47281,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 2.2911831097777463e-08,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.04479299085778621,
+            "triangles": 2,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.13259805433654037,
+          "triangles": 8,
+          "maximumPlaneErrorM": 0.0,
+          "component": 47299,
+          "candidateVertices": 2,
+          "sourceFaces": 6,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.13259805433654037,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.04320802086158437,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 47302,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.04320802086158437,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.39396067055531603,
+          "triangles": 11,
+          "maximumPlaneErrorM": 0.0,
+          "component": 47433,
+          "candidateVertices": 2,
+          "sourceFaces": 8,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.39396067055531603,
+            "triangles": 7,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.22606189602799986,
+          "triangles": 7,
+          "maximumPlaneErrorM": 0.0,
+          "component": 47439,
+          "candidateVertices": 2,
+          "sourceFaces": 7,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.22606189602799986,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.07436114351867218,
+          "triangles": 5,
+          "maximumPlaneErrorM": 0.0,
+          "component": 47444,
+          "candidateVertices": 1,
+          "sourceFaces": 5,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.07436114351867218,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.0027747455228421813,
+          "triangles": 4,
+          "maximumPlaneErrorM": 0.0,
+          "component": 47449,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.0027747455228421813,
+            "triangles": 2,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.15883986583708065,
+          "triangles": 5,
+          "maximumPlaneErrorM": 0.0,
+          "component": 47465,
+          "candidateVertices": 1,
+          "sourceFaces": 5,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.15883986583708065,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.1459998741149775,
+          "triangles": 11,
+          "maximumPlaneErrorM": 0.0,
+          "component": 47468,
+          "candidateVertices": 3,
+          "sourceFaces": 8,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.1459998741149775,
+            "triangles": 5,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.02052174911685256,
+          "triangles": 4,
+          "maximumPlaneErrorM": 0.0,
+          "component": 47469,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.02052174911685256,
+            "triangles": 2,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.3933483682769747,
+          "triangles": 5,
+          "maximumPlaneErrorM": 0.0,
+          "component": 47473,
+          "candidateVertices": 1,
+          "sourceFaces": 5,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.3933483682769747,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 3.2343231912122974,
+          "triangles": 7,
+          "maximumPlaneErrorM": 0.0,
+          "component": 47476,
+          "candidateVertices": 2,
+          "sourceFaces": 7,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 3.2343231912122974,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 4.4952648400794715,
+          "triangles": 4,
+          "maximumPlaneErrorM": 0.0,
+          "component": 47481,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 4.4952648400794715,
+            "triangles": 2,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.3127096320240526,
+          "triangles": 12,
+          "maximumPlaneErrorM": 0.0,
+          "component": 48060,
+          "candidateVertices": 3,
+          "sourceFaces": 12,
+          "constantNormalDiameterUpperBound": 5.016969206160665e-08,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.3127096320240526,
+            "triangles": 6,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.7888142762717507,
+          "triangles": 4,
+          "maximumPlaneErrorM": 0.0,
+          "component": 48314,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.7888142762717507,
+            "triangles": 2,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 2.766699183784908,
+          "triangles": 13,
+          "maximumPlaneErrorM": 0.0,
+          "component": 48402,
+          "candidateVertices": 2,
+          "sourceFaces": 8,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 2.766699183784908,
+            "triangles": 9,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 2.3379994697565962,
+          "triangles": 8,
+          "maximumPlaneErrorM": 0.0,
+          "component": 48413,
+          "candidateVertices": 2,
+          "sourceFaces": 8,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 2.3379994697565962,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 2.313161337091856,
+          "triangles": 5,
+          "maximumPlaneErrorM": 0.0,
+          "component": 48420,
+          "candidateVertices": 1,
+          "sourceFaces": 5,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 2.313161337091856,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 63.42464879760655,
+          "triangles": 5,
+          "maximumPlaneErrorM": 0.0,
+          "component": 48421,
+          "candidateVertices": 1,
+          "sourceFaces": 5,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 63.42464879760655,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 12.618368884741358,
+          "triangles": 5,
+          "maximumPlaneErrorM": 0.0,
+          "component": 48424,
+          "candidateVertices": 1,
+          "sourceFaces": 5,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 12.618368884741358,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.4859134154667117,
+          "triangles": 8,
+          "maximumPlaneErrorM": 0.0,
+          "component": 48437,
+          "candidateVertices": 2,
+          "sourceFaces": 8,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.4859134154667117,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.9648311814585213,
+          "triangles": 5,
+          "maximumPlaneErrorM": 0.0,
+          "component": 48444,
+          "candidateVertices": 1,
+          "sourceFaces": 5,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.9648311814585213,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.8417438083633897,
+          "triangles": 5,
+          "maximumPlaneErrorM": 0.0,
+          "component": 48447,
+          "candidateVertices": 1,
+          "sourceFaces": 5,
+          "constantNormalDiameterUpperBound": 1.902822768999564e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.8417438083633897,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.9942450993876264,
+          "triangles": 5,
+          "maximumPlaneErrorM": 0.0,
+          "component": 48449,
+          "candidateVertices": 1,
+          "sourceFaces": 5,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.9942450993876264,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.2609941228001844,
+          "triangles": 4,
+          "maximumPlaneErrorM": 0.0,
+          "component": 48453,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.2609941228001844,
+            "triangles": 2,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 64.46256828481353,
+          "triangles": 57,
+          "maximumPlaneErrorM": 0.0,
+          "component": 48459,
+          "candidateVertices": 23,
+          "sourceFaces": 37,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 64.46256828481353,
+            "triangles": 11,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 3.920623696337401,
+          "triangles": 22,
+          "maximumPlaneErrorM": 0.0,
+          "component": 50670,
+          "candidateVertices": 5,
+          "sourceFaces": 16,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 3.920623696337401,
+            "triangles": 12,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 9.59877090088844,
+          "triangles": 5,
+          "maximumPlaneErrorM": 0.0,
+          "component": 50703,
+          "candidateVertices": 1,
+          "sourceFaces": 5,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 9.59877090088844,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 14.937988457319534,
+          "triangles": 5,
+          "maximumPlaneErrorM": 0.0,
+          "component": 50711,
+          "candidateVertices": 1,
+          "sourceFaces": 5,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 14.937988457319534,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.2756338271985896,
+          "triangles": 7,
+          "maximumPlaneErrorM": 0.0,
+          "component": 50713,
+          "candidateVertices": 2,
+          "sourceFaces": 7,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.2756338271985896,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.5925041343546127,
+          "triangles": 5,
+          "maximumPlaneErrorM": 0.0,
+          "component": 50720,
+          "candidateVertices": 1,
+          "sourceFaces": 5,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.5925041343546127,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 10.938074455422111,
+          "triangles": 4,
+          "maximumPlaneErrorM": 0.0,
+          "component": 50724,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 1.4003507406608427e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 10.938074455422111,
+            "triangles": 2,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.0860235736706727,
+          "triangles": 4,
+          "maximumPlaneErrorM": 0.0,
+          "component": 50931,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.0860235736706727,
+            "triangles": 2,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.0153969120819433,
+          "triangles": 5,
+          "maximumPlaneErrorM": 0.0,
+          "component": 50932,
+          "candidateVertices": 1,
+          "sourceFaces": 5,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.0153969120819433,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 9.287126681524342,
+          "triangles": 18,
+          "maximumPlaneErrorM": 0.0,
+          "component": 50935,
+          "candidateVertices": 5,
+          "sourceFaces": 16,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 9.287126681524342,
+            "triangles": 8,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 4.615000813721679,
+          "triangles": 5,
+          "maximumPlaneErrorM": 0.0,
+          "component": 50945,
+          "candidateVertices": 1,
+          "sourceFaces": 5,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 4.615000813721679,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 5.330008896718482,
+          "triangles": 5,
+          "maximumPlaneErrorM": 0.0,
+          "component": 50953,
+          "candidateVertices": 1,
+          "sourceFaces": 5,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 5.330008896718482,
+            "triangles": 3,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 7.070515449395771,
+          "triangles": 14,
+          "maximumPlaneErrorM": 0.0,
+          "component": 51585,
+          "candidateVertices": 3,
+          "sourceFaces": 10,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 7.070515449395771,
+            "triangles": 8,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 6.805651900763678,
+          "triangles": 14,
+          "maximumPlaneErrorM": 0.0,
+          "component": 51587,
+          "candidateVertices": 3,
+          "sourceFaces": 10,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 6.805651900763678,
+            "triangles": 8,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 2.2844075882981087,
+          "triangles": 31,
+          "maximumPlaneErrorM": 0.0,
+          "component": 52203,
+          "candidateVertices": 8,
+          "sourceFaces": 19,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 2.2844075882981087,
+            "triangles": 15,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.0223830944967176,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 52296,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.0223830944967176,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 3.120159153473651,
+          "triangles": 30,
+          "maximumPlaneErrorM": 0.0,
+          "component": 52783,
+          "candidateVertices": 8,
+          "sourceFaces": 22,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 3.120159153473651,
+            "triangles": 14,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.0708113439959561,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 52890,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 1.5809899887803466e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.0708113439959561,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.9395743483466958,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 52937,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.9395743483466958,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.0992152153617383,
+          "triangles": 9,
+          "maximumPlaneErrorM": 0.0,
+          "component": 52940,
+          "candidateVertices": 2,
+          "sourceFaces": 6,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.0992152153617383,
+            "triangles": 5,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 25.572837662457914,
+          "triangles": 22,
+          "maximumPlaneErrorM": 0.0,
+          "component": 52944,
+          "candidateVertices": 6,
+          "sourceFaces": 15,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 25.572837662457914,
+            "triangles": 10,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1948.7654030496838,
+          "triangles": 2953,
+          "maximumPlaneErrorM": 0.0,
+          "component": 52954,
+          "candidateVertices": 1135,
+          "sourceFaces": 2266,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1948.7654030496838,
+            "triangles": 683,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 32.52720466811206,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 52965,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 32.52720466811206,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.9953707459644647,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53028,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 8.471255185686407e-08,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.9953707459644647,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.3914724240562464,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53071,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.3914724240562464,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.10850913572207332,
+          "triangles": 9,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53080,
+          "candidateVertices": 2,
+          "sourceFaces": 6,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.10850913572207332,
+            "triangles": 5,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 4.7229013868332,
+          "triangles": 7,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53083,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 4.7229013868332,
+            "triangles": 5,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 23.875012742621493,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53094,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 8.042632518799614e-08,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 23.875012742621493,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.1036428669522422,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53103,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.1036428669522422,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 7.175247447225047,
+          "triangles": 17,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53105,
+          "candidateVertices": 4,
+          "sourceFaces": 13,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 7.175247447225047,
+            "triangles": 9,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.6597346722194288,
+          "triangles": 10,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53115,
+          "candidateVertices": 2,
+          "sourceFaces": 6,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.6597346722194288,
+            "triangles": 6,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 7.404911475598055,
+          "triangles": 9,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53116,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 7.404911475598055,
+            "triangles": 7,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 8.003197171019565,
+          "triangles": 23,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53120,
+          "candidateVertices": 8,
+          "sourceFaces": 16,
+          "constantNormalDiameterUpperBound": 1.345050378098634e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 8.003197171019565,
+            "triangles": 7,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 4.464400687562829,
+          "triangles": 7,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53127,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 4.464400687562829,
+            "triangles": 5,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 13.034037362872368,
+          "triangles": 9,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53133,
+          "candidateVertices": 2,
+          "sourceFaces": 6,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 13.034037362872368,
+            "triangles": 5,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.07171791580185527,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53152,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.07171791580185527,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.004886750774403481,
+          "triangles": 7,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53154,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.004886750774403481,
+            "triangles": 5,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.2623123243199501,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53157,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.2623123243199501,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.6039523985200503,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53692,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 4.46987984909311e-08,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.6039523985200503,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 7.78757290196836,
+          "triangles": 15,
+          "maximumPlaneErrorM": 0.0,
+          "component": 53980,
+          "candidateVertices": 3,
+          "sourceFaces": 8,
+          "constantNormalDiameterUpperBound": 1.3188142582031215e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 7.78757290196836,
+            "triangles": 9,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.7416432606240733,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 54030,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.7416432606240733,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.6339006511809657,
+          "triangles": 30,
+          "maximumPlaneErrorM": 0.0,
+          "component": 54097,
+          "candidateVertices": 10,
+          "sourceFaces": 19,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.6339006511809657,
+            "triangles": 10,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.1346988227842303,
+          "triangles": 11,
+          "maximumPlaneErrorM": 0.0,
+          "component": 54101,
+          "candidateVertices": 3,
+          "sourceFaces": 8,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.1346988227842303,
+            "triangles": 5,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 17.973806030103788,
+          "triangles": 97,
+          "maximumPlaneErrorM": 0.0,
+          "component": 54696,
+          "candidateVertices": 33,
+          "sourceFaces": 71,
+          "constantNormalDiameterUpperBound": 8.857354300548785e-08,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 17.973806030103788,
+            "triangles": 31,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.5400008383128352,
+          "triangles": 15,
+          "maximumPlaneErrorM": 0.0,
+          "component": 54726,
+          "candidateVertices": 4,
+          "sourceFaces": 11,
+          "constantNormalDiameterUpperBound": 1.4734516021417405e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.5400008383128352,
+            "triangles": 7,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 4.888352832877672,
+          "triangles": 18,
+          "maximumPlaneErrorM": 0.0,
+          "component": 54925,
+          "candidateVertices": 5,
+          "sourceFaces": 12,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 4.888352832877672,
+            "triangles": 8,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 54.319995336532656,
+          "triangles": 13,
+          "maximumPlaneErrorM": 0.0,
+          "component": 54953,
+          "candidateVertices": 3,
+          "sourceFaces": 8,
+          "constantNormalDiameterUpperBound": 1.5437608027577657e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 54.319995336532656,
+            "triangles": 7,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 16.79265953515616,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 54985,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 16.79265953515616,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 4.798878026217338,
+          "triangles": 10,
+          "maximumPlaneErrorM": 0.0,
+          "component": 55012,
+          "candidateVertices": 2,
+          "sourceFaces": 6,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 4.798878026217338,
+            "triangles": 6,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.7568978840620275,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 55019,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.7568978840620275,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.6532494098191819,
+          "triangles": 17,
+          "maximumPlaneErrorM": 0.0,
+          "component": 55027,
+          "candidateVertices": 4,
+          "sourceFaces": 10,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.6532494098191819,
+            "triangles": 9,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.0008730589256629173,
+          "triangles": 10,
+          "maximumPlaneErrorM": 0.0,
+          "component": 55068,
+          "candidateVertices": 2,
+          "sourceFaces": 6,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.0008730589256629173,
+            "triangles": 6,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.8986766782602444,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 55367,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.8986766782602444,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 10.265161428553938,
+          "triangles": 23,
+          "maximumPlaneErrorM": 0.0,
+          "component": 55437,
+          "candidateVertices": 7,
+          "sourceFaces": 16,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 10.265161428553938,
+            "triangles": 9,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 5.529722609214446,
+          "triangles": 15,
+          "maximumPlaneErrorM": 0.0,
+          "component": 55446,
+          "candidateVertices": 4,
+          "sourceFaces": 10,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 5.529722609214446,
+            "triangles": 7,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.5044784016408812,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 56121,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.5044784016408812,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 0.6279341119725359,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 56165,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 0.6279341119725359,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.8669504945546578,
+          "triangles": 9,
+          "maximumPlaneErrorM": 0.0,
+          "component": 56620,
+          "candidateVertices": 2,
+          "sourceFaces": 6,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.8669504945546578,
+            "triangles": 5,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 16.98339378059609,
+          "triangles": 27,
+          "maximumPlaneErrorM": 0.0,
+          "component": 56859,
+          "candidateVertices": 8,
+          "sourceFaces": 18,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 16.98339378059609,
+            "triangles": 11,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 3.8848946942625844,
+          "triangles": 12,
+          "maximumPlaneErrorM": 0.0,
+          "component": 56866,
+          "candidateVertices": 3,
+          "sourceFaces": 8,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 3.8848946942625844,
+            "triangles": 6,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 10.333125637069315,
+          "triangles": 15,
+          "maximumPlaneErrorM": 0.0,
+          "component": 56901,
+          "candidateVertices": 4,
+          "sourceFaces": 10,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 10.333125637069315,
+            "triangles": 7,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 22.1674415022228,
+          "triangles": 30,
+          "maximumPlaneErrorM": 0.0,
+          "component": 56905,
+          "candidateVertices": 9,
+          "sourceFaces": 22,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 22.1674415022228,
+            "triangles": 12,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 20.005352575792244,
+          "triangles": 26,
+          "maximumPlaneErrorM": 0.0,
+          "component": 56908,
+          "candidateVertices": 8,
+          "sourceFaces": 19,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 20.005352575792244,
+            "triangles": 10,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 4.82620187628163,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 56919,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 4.82620187628163,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 4.555979972245382,
+          "triangles": 12,
+          "maximumPlaneErrorM": 0.0,
+          "component": 56931,
+          "candidateVertices": 3,
+          "sourceFaces": 8,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 4.555979972245382,
+            "triangles": 6,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 8.720140443811943,
+          "triangles": 12,
+          "maximumPlaneErrorM": 0.0,
+          "component": 56937,
+          "candidateVertices": 3,
+          "sourceFaces": 8,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 8.720140443811943,
+            "triangles": 6,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 14.518870424421948,
+          "triangles": 27,
+          "maximumPlaneErrorM": 0.0,
+          "component": 56954,
+          "candidateVertices": 8,
+          "sourceFaces": 18,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 14.518870424421948,
+            "triangles": 11,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.9925814208218071,
+          "triangles": 9,
+          "maximumPlaneErrorM": 0.0,
+          "component": 57017,
+          "candidateVertices": 2,
+          "sourceFaces": 6,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.9925814208218071,
+            "triangles": 5,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 6.46358192290927,
+          "triangles": 15,
+          "maximumPlaneErrorM": 0.0,
+          "component": 57387,
+          "candidateVertices": 4,
+          "sourceFaces": 10,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 6.46358192290927,
+            "triangles": 7,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 4.429619225926217,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 57418,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 4.429619225926217,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 4.329185478426552,
+          "triangles": 6,
+          "maximumPlaneErrorM": 0.0,
+          "component": 57469,
+          "candidateVertices": 1,
+          "sourceFaces": 4,
+          "constantNormalDiameterUpperBound": 0.0,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 4.329185478426552,
+            "triangles": 4,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 2.596799056243981,
+          "triangles": 15,
+          "maximumPlaneErrorM": 0.0,
+          "component": 57573,
+          "candidateVertices": 4,
+          "sourceFaces": 9,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 2.596799056243981,
+            "triangles": 7,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 3.9623781765753847,
+          "triangles": 13,
+          "maximumPlaneErrorM": 0.0,
+          "component": 57581,
+          "candidateVertices": 3,
+          "sourceFaces": 7,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 3.9623781765753847,
+            "triangles": 7,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 9.111803006736007,
+          "triangles": 27,
+          "maximumPlaneErrorM": 0.0,
+          "component": 57644,
+          "candidateVertices": 8,
+          "sourceFaces": 19,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 9.111803006736007,
+            "triangles": 11,
+            "maximumPlaneErrorM": 0.0
+          }
+        },
+        {
+          "passed": true,
+          "boundaryLoops": 1,
+          "boundaryArea2": 1.672050622087454,
+          "triangles": 15,
+          "maximumPlaneErrorM": 0.0,
+          "component": 57671,
+          "candidateVertices": 3,
+          "sourceFaces": 8,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "proposedCoverage": {
+            "passed": true,
+            "boundaryLoops": 1,
+            "boundaryArea2": 1.672050622087454,
+            "triangles": 9,
+            "maximumPlaneErrorM": 0.0
+          }
+        }
+      ],
+      "retainedOriginalCoverageCorridors": [
+        {
+          "component": 1096,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            11137,
+            11583,
+            11586
+          ],
+          "retainedCandidateVertexIds": [
+            3572
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original faces at boundary pinches",
+          "originalFaceIds": [
+            20544,
+            20546,
+            20899,
+            20901
+          ],
+          "retainedCandidateVertexIds": [
+            8207,
+            8209
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8116,
+          "reason": "original faces at boundary pinches",
+          "originalFaceIds": [
+            11119,
+            11122,
+            11567,
+            11570,
+            13363,
+            13765,
+            94022,
+            94043
+          ],
+          "retainedCandidateVertexIds": [
+            3339,
+            3789,
+            4661,
+            52867,
+            52908
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 33207,
+          "reason": "original faces at boundary pinches",
+          "originalFaceIds": [
+            202
+          ],
+          "retainedCandidateVertexIds": [
+            33207
+          ],
+          "nonpositiveRenderFaceIds": [
+            202
+          ]
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            19926,
+            19929,
+            20278,
+            20281,
+            20630,
+            20633,
+            20982,
+            20985
+          ],
+          "retainedCandidateVertexIds": [
+            7896,
+            7897,
+            8073,
+            8074,
+            8250,
+            8251
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8116,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            8435,
+            8436
+          ],
+          "retainedCandidateVertexIds": [
+            52896
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            6059,
+            6060,
+            6507,
+            6508,
+            6955,
+            6956,
+            7403,
+            7404,
+            7851,
+            7852
+          ],
+          "retainedCandidateVertexIds": [
+            1021,
+            1022,
+            1246,
+            1247,
+            1471,
+            1472,
+            1696,
+            1697
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8116,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            16390,
+            16391,
+            16392,
+            16393,
+            16395,
+            104163
+          ],
+          "retainedCandidateVertexIds": [
+            5961,
+            5962,
+            53510,
+            53562,
+            53759,
+            53760,
+            53761
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            7401,
+            7847,
+            7850,
+            8293,
+            8296,
+            8739,
+            8742,
+            9188
+          ],
+          "retainedCandidateVertexIds": [
+            1695,
+            1919,
+            1920,
+            2143,
+            2144,
+            2368
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8116,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            17558,
+            17561,
+            17920,
+            17923,
+            18276,
+            18279,
+            18632,
+            18635,
+            18986,
+            18989,
+            19338,
+            19341,
+            19690,
+            19693,
+            20042,
+            20045,
+            20394,
+            20397,
+            20746,
+            20749
+          ],
+          "retainedCandidateVertexIds": [
+            6717,
+            6718,
+            6894,
+            6895,
+            7071,
+            7072,
+            7247,
+            7248,
+            7424,
+            7425,
+            7601,
+            7602,
+            7778,
+            7779,
+            7955,
+            7956,
+            8132,
+            8133
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            19604,
+            19607,
+            19956,
+            19959,
+            20308,
+            20311,
+            20660,
+            20663,
+            21012,
+            21015
+          ],
+          "retainedCandidateVertexIds": [
+            7734,
+            7735,
+            7911,
+            7912,
+            8088,
+            8089,
+            8265,
+            8266
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            18186,
+            18187,
+            18544,
+            18545,
+            18898,
+            18901
+          ],
+          "retainedCandidateVertexIds": [
+            7025,
+            7026,
+            7202,
+            7203
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            18858,
+            18860,
+            18861,
+            18862,
+            18863,
+            18864,
+            18865,
+            18866,
+            18867,
+            19220,
+            19221
+          ],
+          "retainedCandidateVertexIds": [
+            7183,
+            7184,
+            7185,
+            7186,
+            7360,
+            7361,
+            7362,
+            7363,
+            7364
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            18924,
+            18926,
+            18927,
+            18928,
+            18929,
+            18930,
+            18931,
+            18932,
+            18933,
+            18934,
+            18935,
+            18936,
+            18937
+          ],
+          "retainedCandidateVertexIds": [
+            7216,
+            7217,
+            7218,
+            7219,
+            7220,
+            7221,
+            7393,
+            7394,
+            7395,
+            7396,
+            7397
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            17706,
+            17707,
+            18064,
+            18065,
+            18422,
+            18423,
+            18778,
+            18779,
+            19132,
+            19133,
+            19486,
+            19487,
+            103343
+          ],
+          "retainedCandidateVertexIds": [
+            6609,
+            6786,
+            6787,
+            6964,
+            6965,
+            7141,
+            7142,
+            7319,
+            7320,
+            7497,
+            7498
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            11131,
+            16973,
+            16974,
+            16975,
+            16976,
+            16977,
+            16978,
+            32315,
+            33697,
+            33751
+          ],
+          "retainedCandidateVertexIds": [
+            6247,
+            6248,
+            6249,
+            6431,
+            6432,
+            6433,
+            6434,
+            54449,
+            54508,
+            54669,
+            54670
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            15854,
+            15855,
+            16240,
+            16243,
+            16611,
+            16614,
+            56316
+          ],
+          "retainedCandidateVertexIds": [
+            5885,
+            5886,
+            6068,
+            6069,
+            53282,
+            53339,
+            53705
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            15138,
+            16985,
+            16987,
+            16988,
+            16989,
+            16990,
+            16991,
+            16992,
+            17364,
+            106256
+          ],
+          "retainedCandidateVertexIds": [
+            6253,
+            6254,
+            6255,
+            6256,
+            6437,
+            6438,
+            6439,
+            49068,
+            54183
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            18524,
+            18868,
+            18869,
+            18870,
+            18871,
+            18872,
+            18873,
+            18874,
+            18875,
+            18876,
+            18877,
+            18878,
+            18879,
+            18881
+          ],
+          "retainedCandidateVertexIds": [
+            7187,
+            7188,
+            7189,
+            7190,
+            7191,
+            7192,
+            7365,
+            7366,
+            7367,
+            7368,
+            7369,
+            7370
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            3011,
+            17812,
+            17815,
+            18168,
+            18171,
+            103112,
+            106264,
+            106265
+          ],
+          "retainedCandidateVertexIds": [
+            6662,
+            6663,
+            6839,
+            6840,
+            48494,
+            49073
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            15944,
+            15945,
+            15946,
+            15947,
+            16334,
+            16335,
+            16707,
+            16708,
+            42561
+          ],
+          "retainedCandidateVertexIds": [
+            5740,
+            5931,
+            5932,
+            6115,
+            6116,
+            53180,
+            53231,
+            53556,
+            53713,
+            53714,
+            54124,
+            54659
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8267,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            16955,
+            16957,
+            16958,
+            17330,
+            17331,
+            17332,
+            17333,
+            17334,
+            17335,
+            17336,
+            17337,
+            17338,
+            17339,
+            17340,
+            17341
+          ],
+          "retainedCandidateVertexIds": [
+            6239,
+            6422,
+            6423,
+            6424,
+            6425,
+            6426,
+            6427,
+            6602,
+            6603,
+            6604,
+            6605,
+            6606,
+            6607
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8267,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            16951,
+            17320,
+            17322,
+            17323,
+            17325
+          ],
+          "retainedCandidateVertexIds": [
+            6419,
+            6598,
+            6599
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8267,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            16573,
+            16575,
+            16576,
+            16947,
+            16948
+          ],
+          "retainedCandidateVertexIds": [
+            6050,
+            6233,
+            6234
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8267,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            3609,
+            15027,
+            15028,
+            15420,
+            15421,
+            15817,
+            33507,
+            33509,
+            67631,
+            103780,
+            106092,
+            106093
+          ],
+          "retainedCandidateVertexIds": [
+            5479,
+            5480,
+            5674,
+            5675,
+            5865,
+            5866,
+            48807,
+            48992,
+            53440,
+            53634,
+            54497,
+            54585,
+            54586
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8267,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            17412,
+            17414,
+            17415,
+            17416,
+            17417,
+            17418,
+            17419,
+            17420,
+            17421,
+            17422,
+            17423,
+            17786,
+            17787,
+            18144,
+            18145,
+            18502,
+            18503
+          ],
+          "retainedCandidateVertexIds": [
+            6465,
+            6466,
+            6467,
+            6468,
+            6469,
+            6644,
+            6645,
+            6646,
+            6647,
+            6648,
+            6649,
+            6826,
+            6827,
+            7004,
+            7005
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8267,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            3529,
+            15910,
+            15913,
+            16299,
+            17037,
+            17040,
+            32234,
+            32235,
+            103694,
+            106146,
+            106147
+          ],
+          "retainedCandidateVertexIds": [
+            5913,
+            5914,
+            6096,
+            6097,
+            6279,
+            6280,
+            48764,
+            49015,
+            54444,
+            54614,
+            54615
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8267,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            3350,
+            16735,
+            17105,
+            17108,
+            17468,
+            17469,
+            17470,
+            17471,
+            17472,
+            17473,
+            17474,
+            17475,
+            17479,
+            30537,
+            31659,
+            31661,
+            106278,
+            106279
+          ],
+          "retainedCandidateVertexIds": [
+            6313,
+            6491,
+            6492,
+            6493,
+            6494,
+            6495,
+            6496,
+            6497,
+            6671,
+            6672,
+            6673,
+            6674,
+            6675,
+            6676,
+            49080,
+            54349,
+            54403,
+            54699,
+            54700
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8267,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            4162,
+            12786,
+            13231,
+            13234,
+            13629,
+            13632,
+            14024,
+            14027,
+            14409,
+            14412,
+            14785,
+            14788,
+            15167,
+            15170,
+            15948,
+            15949,
+            15950,
+            15951,
+            15952,
+            15953,
+            15955,
+            104395,
+            105944,
+            105945
+          ],
+          "retainedCandidateVertexIds": [
+            4395,
+            4594,
+            4595,
+            4790,
+            4791,
+            4982,
+            4983,
+            5170,
+            5171,
+            5358,
+            5359,
+            5549,
+            5550,
+            5741,
+            5742,
+            5743,
+            5744,
+            47624,
+            48077,
+            53283,
+            53340,
+            53399,
+            53715,
+            53716,
+            53717,
+            53718
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8267,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            8905,
+            9339,
+            15094,
+            15142,
+            15144,
+            15485,
+            15876,
+            15879,
+            15995,
+            15997,
+            16262,
+            16265,
+            16636,
+            16993,
+            16996,
+            17453,
+            17455,
+            30247,
+            30249,
+            33691,
+            33693,
+            67332,
+            67334,
+            104739,
+            104748
+          ],
+          "retainedCandidateVertexIds": [
+            5511,
+            5512,
+            5705,
+            5706,
+            5896,
+            5897,
+            6079,
+            6080,
+            6257,
+            6258,
+            6259,
+            6260,
+            6261,
+            6262,
+            6263,
+            47794,
+            53392,
+            53668,
+            53669,
+            54122,
+            54184,
+            54233,
+            54291,
+            54342,
+            54506,
+            54643,
+            54644,
+            54645,
+            54646,
+            54647,
+            54648,
+            54649
+          ],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8267,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [
+            3412,
+            16162,
+            16165,
+            16533,
+            16536,
+            16903,
+            16906,
+            17274,
+            17277,
+            17636,
+            17639,
+            17992,
+            17995,
+            18348,
+            18351,
+            18702,
+            18705,
+            19054,
+            19057,
+            19406,
+            19409,
+            19758,
+            19761,
+            20110,
+            20113,
+            20462,
+            20465,
+            20814,
+            20817,
+            103562
+          ],
+          "retainedCandidateVertexIds": [
+            5846,
+            5847,
+            6029,
+            6030,
+            6212,
+            6213,
+            6395,
+            6396,
+            6574,
+            6575,
+            6751,
+            6752,
+            6928,
+            6929,
+            7104,
+            7105,
+            7281,
+            7282,
+            7458,
+            7459,
+            7635,
+            7636,
+            7812,
+            7813,
+            7989,
+            7990,
+            8166,
+            8167
+          ],
+          "nonpositiveRenderFaceIds": []
+        }
+      ],
+      "retainedInvalidCoverageComponents": 0,
+      "starPlanarityBoundM": 1e-06,
+      "splitNormalBound": 1e-07,
       "emittedSplitNormalField": "Export exact split normal",
       "nonmanifoldEdges": 0,
       "contract": "No quantization or LOD change. Independent whole-surface3um and decoded/rendered controls remain required."
     }
   ],
+  "transparentWaterPrecision": [],
   "meshes": [
     {
       "mesh": "sleep__honey ash",
@@ -162,8 +2964,8 @@
     },
     {
       "mesh": "core__golden coastal sandstone",
-      "facesBefore": 90031,
-      "facesExported": 90031
+      "facesBefore": 90390,
+      "facesExported": 90390
     },
     {
       "mesh": "coast_shared_dry beach sand",
@@ -307,8 +3109,8 @@
     },
     {
       "mesh": "core_facade__weathered_teak_wood",
-      "facesBefore": 162,
-      "facesExported": 162
+      "facesBefore": 54,
+      "facesExported": 54
     },
     {
       "mesh": "core_facade__outdoor_canvas_cotton",
@@ -627,8 +3429,8 @@
     },
     {
       "mesh": "kitchen__honey ash",
-      "facesBefore": 2490,
-      "facesExported": 2490
+      "facesBefore": 2392,
+      "facesExported": 2392
     },
     {
       "mesh": "kitchen__milky veined marble",
@@ -667,8 +3469,8 @@
     },
     {
       "mesh": "kitchen__oatmeal glaze",
-      "facesBefore": 1074,
-      "facesExported": 1074
+      "facesBefore": 832,
+      "facesExported": 832
     },
     {
       "mesh": "kitchen__tenmoku glaze",
@@ -742,8 +3544,8 @@
     },
     {
       "mesh": "kitchen__olive leaf",
-      "facesBefore": 40,
-      "facesExported": 40
+      "facesBefore": 480,
+      "facesExported": 480
     },
     {
       "mesh": "kitchen__oatmeal wool textile",
@@ -1057,13 +3859,13 @@
     },
     {
       "mesh": "core_estate_pavilion__pale oak",
-      "facesBefore": 4066,
-      "facesExported": 4066
+      "facesBefore": 3958,
+      "facesExported": 3958
     },
     {
       "mesh": "core_estate_pavilion__brushed brass",
-      "facesBefore": 356,
-      "facesExported": 356
+      "facesBefore": 336,
+      "facesExported": 336
     },
     {
       "mesh": "core_estate_pavilion__warm cut stone",
@@ -1072,8 +3874,8 @@
     },
     {
       "mesh": "core_estate_pavilion__honey ash",
-      "facesBefore": 790,
-      "facesExported": 790
+      "facesBefore": 1851,
+      "facesExported": 1851
     },
     {
       "mesh": "core_estate_pavilion__festoon bulb glass",
@@ -1082,8 +3884,8 @@
     },
     {
       "mesh": "core_estate_pavilion__travertine paving stone",
-      "facesBefore": 236,
-      "facesExported": 236
+      "facesBefore": 575,
+      "facesExported": 575
     },
     {
       "mesh": "core_estate_pavilion__polished nickel",
@@ -1587,8 +4389,8 @@
     },
     {
       "mesh": "library_refined_botanical__interior Epipremnum leaf",
-      "facesBefore": 30,
-      "facesExported": 30
+      "facesBefore": 300,
+      "facesExported": 300
     },
     {
       "mesh": "library_refined_hearth__honed travertine",
@@ -2309,6 +5111,126 @@
       "mesh": "core_laundry_frame_posts",
       "facesBefore": 172,
       "facesExported": 172
+    },
+    {
+      "mesh": "core_walkflow_pavilion_cabinet__pale oak",
+      "facesBefore": 54,
+      "facesExported": 54
+    },
+    {
+      "mesh": "core_walkflow_pavilion_cabinet__brushed brass",
+      "facesBefore": 10,
+      "facesExported": 10
+    },
+    {
+      "mesh": "library-upper_reading_lantern__private living washi diffuser",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "library-upper_reading_lantern__brushed brass",
+      "facesBefore": 158,
+      "facesExported": 158
+    },
+    {
+      "mesh": "library-upper_reading_lantern__charcoal",
+      "facesBefore": 8,
+      "facesExported": 8
+    },
+    {
+      "mesh": "kitchen_nook_olive__honey ash",
+      "facesBefore": 48,
+      "facesExported": 48
+    },
+    {
+      "mesh": "kitchen_island_chopping_board__honey ash",
+      "facesBefore": 98,
+      "facesExported": 98
+    },
+    {
+      "mesh": "kitchen_island_fruit_bowl__oatmeal glaze",
+      "facesBefore": 242,
+      "facesExported": 242
+    },
+    {
+      "mesh": "kitchen_garden__bathroom celadon ceramic",
+      "facesBefore": 52,
+      "facesExported": 52
+    },
+    {
+      "mesh": "kitchen_garden__celadon glaze",
+      "facesBefore": 152,
+      "facesExported": 152
+    },
+    {
+      "mesh": "kitchen_garden__dark sage leaf",
+      "facesBefore": 120,
+      "facesExported": 120
+    },
+    {
+      "mesh": "kitchen_garden__garden lantern paper",
+      "facesBefore": 12,
+      "facesExported": 12
+    },
+    {
+      "mesh": "kitchen_garden__honed travertine",
+      "facesBefore": 24,
+      "facesExported": 24
+    },
+    {
+      "mesh": "kitchen_garden__honey ash",
+      "facesBefore": 128,
+      "facesExported": 128
+    },
+    {
+      "mesh": "kitchen_garden__indigo textile",
+      "facesBefore": 188,
+      "facesExported": 188
+    },
+    {
+      "mesh": "kitchen_garden__interior Asplenium fern leaf",
+      "facesBefore": 1296,
+      "facesExported": 1296
+    },
+    {
+      "mesh": "kitchen_garden__interior Epipremnum leaf",
+      "facesBefore": 160,
+      "facesExported": 160
+    },
+    {
+      "mesh": "kitchen_garden__interior Strelitzia broadleaf",
+      "facesBefore": 432,
+      "facesExported": 432
+    },
+    {
+      "mesh": "kitchen_garden__linen",
+      "facesBefore": 188,
+      "facesExported": 188
+    },
+    {
+      "mesh": "kitchen_garden__linen canvas sun",
+      "facesBefore": 284,
+      "facesExported": 284
+    },
+    {
+      "mesh": "kitchen_garden__pale oak",
+      "facesBefore": 400,
+      "facesExported": 400
+    },
+    {
+      "mesh": "kitchen_garden__sage textile",
+      "facesBefore": 284,
+      "facesExported": 284
+    },
+    {
+      "mesh": "kitchen_garden__terracotta",
+      "facesBefore": 188,
+      "facesExported": 188
+    },
+    {
+      "mesh": "kitchen_garden__warm cut stone",
+      "facesBefore": 372,
+      "facesExported": 372
     }
   ]
 }
