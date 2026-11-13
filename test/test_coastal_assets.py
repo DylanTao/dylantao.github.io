@@ -176,7 +176,14 @@ class CoastalAssetsTest(unittest.TestCase):
         )
         # The loading sketch's index carries the coast view; a load adds only its arrival room's drawing.
         auxiliary += max(transfer_size(path) for path in (ASSETS / "loading-sketch").glob("*.json"))
-        self.assertLess(base + all_rooms + largest_actor + defaults + auxiliary, 4 * 1024 * 1024)
+        # Pages serves each scene module after the site's Terser step (_plugins/site_module_assets.rb),
+        # not the source counted above. The credit is a floor on that saving, not an estimate:
+        # test/site_module_assets_test.rb compiles every module and fails if the real saving is smaller.
+        credit = json.loads((ROOT / "test/fixtures/first-scene-transfer.json").read_text(encoding="utf-8"))[
+            "compiledSceneModuleCreditBytes"
+        ]
+        self.assertGreater(credit, 0)
+        self.assertLess(base + all_rooms + largest_actor + defaults + auxiliary - credit, 4 * 1024 * 1024)
 
     def test_mesh_compression_is_shipped_and_has_a_local_decoder(self):
         for entry in MANIFEST["rooms"] + MANIFEST["avatars"]:

@@ -2,6 +2,7 @@ require "minitest/autorun"
 require "jekyll"
 require "base64"
 require "open3"
+require "zlib"
 require_relative "../_plugins/site_module_assets"
 
 class SiteModuleAssetsTest < Minitest::Test
@@ -31,6 +32,23 @@ class SiteModuleAssetsTest < Minitest::Test
     JS
     _, stderr, status = Open3.capture3("node", "--input-type=module", "-e", script)
     assert status.success?, stderr
+  end
+
+  # test_coastal_assets.py subtracts this credit from the source bytes it counts toward the 4 MiB
+  # first-scene transfer. Compile every scene module with the build's own compiler so the credit
+  # can never exceed what Pages actually saves.
+  def test_compiled_scene_modules_save_at_least_the_first_scene_credit
+    credit = JSON.parse(File.read(File.expand_path("fixtures/first-scene-transfer.json", __dir__)))["compiledSceneModuleCreditBytes"]
+    transfer = ->(bytes) { Zlib.gzip(bytes, level: 6).bytesize }
+    paths = Dir[File.expand_path("../assets/js/home-scene/*.mjs", __dir__)]
+    refute_empty paths
+    source = compiled = 0
+    paths.each do |path|
+      raw = File.binread(path)
+      source += transfer.call(raw)
+      compiled += transfer.call(SiruiSite::ModuleAssets.compile(raw.force_encoding("UTF-8").gsub("\r\n", "\n")).b)
+    end
+    assert_operator source - compiled, :>=, credit, "compiled scene modules save #{source - compiled} gzip bytes; the budget credits #{credit}"
   end
 
   def test_parse_failure_is_not_silently_returned_as_an_empty_asset
