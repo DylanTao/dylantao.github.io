@@ -1,6 +1,6 @@
 {
   "schema": 6,
-  "updated_on": "2026-11-11",
+  "updated_on": "2026-11-12",
   "date_basis": "source_reported_calendar",
   "scope": "code_activity",
   "sources": [
@@ -11,7 +11,7 @@
       "date_basis": "github_profile_author_date",
       "completion_timezone": "America/Los_Angeles",
       "starts_on": "2017-08-31",
-      "complete_through": "2026-11-11"
+      "complete_through": "2026-11-12"
     },
     {
       "id": "intern",
@@ -25,7 +25,7 @@
   ],
   "coverage": {
     "starts_on": "2017-08-31",
-    "complete_through": "2026-11-11",
+    "complete_through": "2026-11-12",
     "status": "complete"
   },
   "points": [
@@ -23873,8 +23873,15 @@
     {
       "date": "2026-11-11",
       "personal": {
-        "commits": 283,
-        "authored_commits": 261
+        "commits": 287,
+        "authored_commits": 265
+      }
+    },
+    {
+      "date": "2026-11-12",
+      "personal": {
+        "commits": 310,
+        "authored_commits": 302
       }
     }
   ]
