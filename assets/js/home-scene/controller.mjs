@@ -5,6 +5,7 @@ import { createPacific } from "./environment.mjs?v=rain-contact-20261102";
 import { createFinish, physicalTime, surfaceLook } from "./realism.mjs";
 import { readLook } from "./look.mjs";
 import { createPrintLook, readPrintLook, writePrintLook } from "./print-look.mjs";
+import { createSectionCut } from "./section-cut.mjs";
 import { createExplorationState, resolveRoutine, routineRoom, formatMinute, chooseArrivalAvatar, pacificClock } from "./routine.mjs";
 
 import { createFootContacts } from "./locomotion.mjs";
@@ -142,6 +143,8 @@ export function createCoastalHome(container, records, artifacts) {
   const look = readLook(location.search, lookStorage);
   // The woodblock-print experiment (print-look.mjs): ?print=1, or the lab's toggle.
   const printLook = createPrintLook({ enabled: readPrintLook(location.search, lookStorage) });
+  // The lifted roof's seats read as cut material (section-cut.mjs). ?section=0 keeps the bare rock.
+  const sectionCut = new URLSearchParams(location.search).get("section") === "0" ? null : createSectionCut();
   const scene = new THREE.Scene();
   const world = new THREE.Group();
   scene.add(world);
@@ -2376,11 +2379,16 @@ export function createCoastalHome(container, records, artifacts) {
     // library-upper ID visits the private living floor in the current estate.
     const enclosedRoom =
       currentRoom === "sleep" || currentRoom === "library" || currentRoom === (config?.retreat?.version ? "study" : "library-upper");
+    const roofs = [];
+    let lifted = false;
     world.traverse((object) => {
       // Orbiting opens the section; a visitor inside the house keeps its real enclosing ceiling.
-      if (object.userData.caveRoof)
+      if (object.userData.caveRoof) {
         object.visible =
           currentRoom === "outside" || (routine?.sequence === "pool" && currentRoom === routine.room) || enclosedRoom || Boolean(walkMode?.active);
+        roofs.push(object);
+        lifted ||= !object.visible;
+      }
       // The stacked bath's slab opens only for its lower-room inspection, preserving the upper
       // bathroom's real floor in every other view and throughout first-person exploration.
       else if (object.userData.roomCeilingFor || object.userData.bathroomCeilingFor)
@@ -2390,6 +2398,7 @@ export function createCoastalHome(container, records, artifacts) {
     // These plants remain rooted in the real roof. A section view removes that roof, so its
     // exact native leaf islands follow it; mainland planting remains independently visible.
     for (const { plant, support } of cutawayPlantSupports) plant.visible = support.visible;
+    sectionCut?.sync(roofs, lifted);
   }
 
   function focusObject(o) {
@@ -3929,7 +3938,7 @@ export function createCoastalHome(container, records, artifacts) {
         // 1.6 sits above sunlit walls (no bloom at midday) and below the lamps and sconces.
         bloom: bloom && { Pass: bloom.UnrealBloomPass, strength: 0.28, radius: 0.42, threshold: 1.6 },
         // ?light-air=0 keeps the haze analytic (no march for shafts, marine fog or sunbeams).
-        haze: flags.get("haze") === "0" ? null : createHaze(atmosphere, scene, sun, { volume: flags.get("light-air") !== "0" }),
+        haze: flags.get("haze") === "0" ? null : createHaze(atmosphere, scene, sun, { volume: flags.get("light-air") !== "0", section: sectionCut }),
       });
       applyTierDetail();
       skinDiffusion = createSkinDiffusion();
@@ -4324,6 +4333,7 @@ export function createCoastalHome(container, records, artifacts) {
       }
     };
     container.labScene.printLook = printLook;
+    container.labScene.sectionCut = sectionCut;
     const printToggle = ui.querySelector("[data-world-print]");
     if (printToggle) {
       const showPrint = () => {
@@ -4510,6 +4520,7 @@ export function createCoastalHome(container, records, artifacts) {
     companion: worldCompanion?.evidence(),
     ecology: pacific?.evidence(),
     rendering: finish?.evidence,
+    section: sectionCut?.evidence() ?? null,
     simulation: {
       arrivalRill: arrivalRill?.evidence(),
       rain: { ...coastalRain?.evidence(), ocean: pacific?.rainEvidence() },
@@ -4762,6 +4773,7 @@ export function createCoastalHome(container, records, artifacts) {
       art.dispose();
       pacific?.dispose();
       finish?.dispose();
+      sectionCut?.dispose();
       decoder.dispose();
       renderer?.dispose();
       renderer?.domElement.remove();

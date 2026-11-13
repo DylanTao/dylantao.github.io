@@ -3290,6 +3290,54 @@ test("coastal home: the woodblock print redraws the live frame and hands the rea
   expect(errors).toEqual([]);
 });
 
+test("coastal home: the lifted roof's seats print as one cut tone, only while the section is open", async ({ page }, testInfo) => {
+  if (process.platform === "linux") test.setTimeout(600000);
+  const errors = collectRuntimeErrors(page);
+  const view = await openClockedHome(page, { time: "2026-10-23T12:00:00-07:00" });
+  const { scene, canvas, ui } = view;
+  const visit = async (destination) => {
+    const places = ui.locator("[data-world-places]");
+    if (!(await places.evaluate((element) => element.open))) await places.locator("summary").click();
+    await sceneInputFrame(page, view, () => ui.locator(`[data-world-destination="${destination}"]`).click());
+    if (await places.evaluate((element) => element.open)) await places.locator("summary").click();
+    await page.clock.runFor(2000);
+  };
+  const lab = (change) =>
+    sceneInputFrame(page, view, () =>
+      page.evaluate((strength) => {
+        const labScene = document.querySelector("[data-home-desk-scene]").labScene;
+        if (strength !== null) labScene.sectionCut.dials.strength = strength;
+        labScene.requestFrame();
+      }, change)
+    );
+
+  await visit("overview");
+  const opened = await evidence(scene);
+  expect(opened.section.open).toBe(true);
+  expect(opened.section.pieces).toBeGreaterThanOrEqual(10);
+  expect(opened.section.drawCalls).toBe(1);
+  expect(opened.section.draws).toBeGreaterThan(0);
+  const strength = opened.section.dials.strength;
+  await lab(null);
+  const cut = await canvas.screenshot();
+  await lab(0);
+  const bare = await canvas.screenshot();
+  // The seats are a visible share of the section, and the tone is not a tint within noise.
+  expect(screenshotDiffRatio(cut, bare)).toBeGreaterThan(0.01);
+  await capture(testInfo, "section-bare-rock", bare);
+  await capture(testInfo, "section-cut-tone", cut);
+  await lab(strength);
+  expect(screenshotDiffRatio(await canvas.screenshot(), cut)).toBeLessThan(0.001);
+
+  // Outside, the roof is on: nothing is marked and nothing extra is drawn.
+  await visit("outside");
+  const closed = await evidence(scene);
+  expect(closed.section.open).toBe(false);
+  await lab(null);
+  expect((await evidence(scene)).section.draws).toBe(closed.section.draws);
+  expect(errors).toEqual([]);
+});
+
 test("coastal home: composed activities and previews survive clock changes until Now", async ({ page }, testInfo) => {
   const view = await openClockedHome(page);
   const { scene, canvas, ui } = view;

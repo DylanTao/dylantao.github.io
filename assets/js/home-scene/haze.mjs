@@ -3,6 +3,7 @@ import { Pass, FullScreenQuad } from "../vendor/three-r164/postprocessing/Pass.j
 import { SEA_LEVEL, atmosphereConstantsGLSL, atmosphereSkyGLSL } from "./atmosphere.mjs";
 import { fogNoiseVolume } from "./atmosphere-model.mjs";
 import { SEA_PLANE } from "./sea-optics.mjs";
+import { sectionGLSL } from "./section-cut.mjs";
 
 // The coast's air between the eye and every surface, after the beauty pass, from its depth.
 //
@@ -142,6 +143,7 @@ varying vec2 vUv;
 ${atmosphereConstantsGLSL}
 ${atmosphereSkyGLSL}
 ${mediaGLSL}
+${sectionGLSL}
 float hazeLinearDepth(vec2 uv) {
   return -perspectiveDepthToViewZ(texture2D(tDepth, uv).r, hazeClip.x, hazeClip.y);
 }
@@ -175,7 +177,8 @@ void main() {
   vec4 volume = vec4(1.0, 1.0, 0.0, 0.0);
   if (hazeVolumeEnabled > 0.5) volume = hazeVolumeAt(vUv, sky ? hazeClip.y : hazeLinearDepth(vUv));
   float cosine = dot(d, hazeLight);
-  vec3 c = color.rgb;
+  // The section's cut faces take their tone on the surface, before any air (section-cut.mjs).
+  vec3 c = sky ? color.rgb : sectionCut(color.rgb, vUv, hazeKeyLight * max(hazeLight.y, 0.0) * 0.3183 + atmoAmbient);
   // The marine fog: its own transmittance, sky-lit and sunlit (a forward lobe plus the isotropic
   // glow of the light it has scattered many times, which makes a thick bank white).
   c = c * volume.y + (1.0 - volume.y) * 0.92 * atmoAmbient * 1.15
@@ -201,7 +204,7 @@ void main() {
 
 // `atmosphere` is atmosphere.mjs's createAtmosphere, `light` the key DirectionalLight with its
 // shadow; `scene.fog` holds the far view's fog distances.
-export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = true } = {}) {
+export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = true, section = null } = {}) {
   const noiseSize = 32,
     noise = new THREE.Data3DTexture(fogNoiseVolume(noiseSize), noiseSize, noiseSize, noiseSize);
   noise.format = THREE.RedFormat;
@@ -252,7 +255,14 @@ export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = t
     hazeVolumeSize: { value: new THREE.Vector2(1, 1) },
     hazeVolumeEnabled: { value: 0 },
     hazeKeyLight: { value: new THREE.Vector3() },
+    tSection: { value: null },
+    sectionTone: { value: new THREE.Vector4(1, 1, 1, 0) },
+    sectionFlat: { value: new THREE.Vector4(0, 0, 0, 0) },
   };
+  // With no section given, the mask stays one black texel and the tone's strength zero.
+  const noSection = section ? null : new THREE.DataTexture(new Uint8Array(4), 1, 1);
+  if (noSection) noSection.needsUpdate = true;
+  compositeUniforms.tSection.value = section?.none ?? noSection;
   const volumeMaterial = new THREE.ShaderMaterial({
       name: "Coastal light in the air",
       uniforms: volumeUniforms,
@@ -325,6 +335,13 @@ export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = t
       volumeQuad.render(renderer);
       volumeDraws++;
     }
+    // An open section marks the roof's seats against this frame's depth before the composite reads it.
+    const cut = camera ? section?.render(renderer, readBuffer.depthTexture, camera) : null;
+    compositeUniforms.tSection.value = cut ?? section?.none ?? noSection;
+    if (cut) {
+      compositeUniforms.sectionTone.value.set(...section.dials.tone, section.dials.strength);
+      compositeUniforms.sectionFlat.value.set(...section.dials.flat, section.dials.flatten);
+    } else compositeUniforms.sectionTone.value.w = 0;
     renderer.setRenderTarget(pass.renderToScreen ? null : writeBuffer);
     quad.render(renderer);
     draws++;
@@ -403,6 +420,7 @@ export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = t
       volumeMaterial.dispose();
       volumeTarget.dispose();
       noise.dispose();
+      noSection?.dispose();
     },
   };
 }
