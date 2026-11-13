@@ -92,6 +92,8 @@ if interiors_only:exports=[e for e in exports if e[0]!='coast']
 # --only=home-shell,room-kitchen re-exports just those files, so unchanged ones keep their bytes.
 only=next((a.split('=',1)[1].split(',') for a in sys.argv if a.startswith('--only=')),None)
 if only:exports=[e for e in exports if e[0] in only]
+from coastal_water_export_precision import install_water_precision
+water_precision_report=install_water_precision()
 for name,prefix in exports:
     bpy.ops.object.select_all(action='DESELECT')
     for o in scene.objects:
@@ -105,4 +107,5 @@ elif interiors_only and output.exists():
     report=[m for m in json.loads(output.read_text(encoding='utf-8'))['meshes'] if m['mesh'].startswith('coast_')]+report
 output.write_text(json.dumps({'bakedColorQuantization':'32 grayscale steps, shared per vertex','dracoColorBits':6,
     'sourceSha256':hashlib.sha256(source.read_bytes()).hexdigest(),
-    'activeStaticGeologyAO':'--active-geology-ao' in sys.argv,'constantPlanarCompaction':planar_report,'meshes':report},indent=2)+'\n',encoding='utf-8',newline='\n')
+    'activeStaticGeologyAO':'--active-geology-ao' in sys.argv,'constantPlanarCompaction':planar_report,
+    'transparentWaterPrecision':water_precision_report,'meshes':report},indent=2)+'\n',encoding='utf-8',newline='\n')
