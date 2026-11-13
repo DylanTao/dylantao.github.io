@@ -178,7 +178,7 @@ void main() {
   if (hazeVolumeEnabled > 0.5) volume = hazeVolumeAt(vUv, sky ? hazeClip.y : hazeLinearDepth(vUv));
   float cosine = dot(d, hazeLight);
   // The section's cut faces take their tone on the surface, before any air (section-cut.mjs).
-  vec3 c = sky ? color.rgb : sectionCut(color.rgb, vUv, hazeKeyLight * max(hazeLight.y, 0.0) * 0.3183 + atmoAmbient);
+  vec3 c = sky ? color.rgb : sectionCut(color.rgb, vUv, hazeKeyLight * max(hazeLight.y, 0.0) * 0.3183 + atmoAmbient, eye + d * dist);
   // The marine fog: its own transmittance, sky-lit and sunlit (a forward lobe plus the isotropic
   // glow of the light it has scattered many times, which makes a thick bank white).
   c = c * volume.y + (1.0 - volume.y) * 0.92 * atmoAmbient * 1.15
@@ -258,6 +258,7 @@ export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = t
     tSection: { value: null },
     sectionTone: { value: new THREE.Vector4(1, 1, 1, 0) },
     sectionFlat: { value: new THREE.Vector4(0, 0, 0, 0) },
+    sectionHatch: { value: new THREE.Vector3(1, 0, 0) },
   };
   // With no section given, the mask stays one black texel and the tone's strength zero.
   const noSection = section ? null : new THREE.DataTexture(new Uint8Array(4), 1, 1);
@@ -341,6 +342,7 @@ export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = t
     if (cut) {
       compositeUniforms.sectionTone.value.set(...section.dials.tone, section.dials.strength);
       compositeUniforms.sectionFlat.value.set(...section.dials.flat, section.dials.flatten);
+      compositeUniforms.sectionHatch.value.set(...section.dials.hatch);
     } else compositeUniforms.sectionTone.value.w = 0;
     renderer.setRenderTarget(pass.renderToScreen ? null : writeBuffer);
     quad.render(renderer);

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import * as THREE from "../assets/js/three.module.min.js";
-import { SECTION_DEFAULTS, createSectionCut, sectionGLSL, worldTriangles } from "../assets/js/home-scene/section-cut.mjs";
+import { SECTION_DEFAULTS, createSectionCut, hatchLine, sectionGLSL, worldTriangles } from "../assets/js/home-scene/section-cut.mjs";
 
 function slab({ indexed = true, at = [0, 0, 0], quantized = false } = {}) {
   const geometry = new THREE.BoxGeometry(2, 1, 4);
@@ -97,11 +97,42 @@ test("the cut is marked only while the roof is lifted, and rebuilt only when the
 });
 
 test("with the roof on, the tone's strength is zero and the frame's colour passes through", () => {
-  assert.match(sectionGLSL, /return mix\(colour, cut, texture2D\(tSection, uv\)\.r \* sectionTone\.a\)/);
+  assert.match(sectionGLSL, /float mask = texture2D\(tSection, uv\)\.r \* sectionTone\.a;\s+if \(mask <= 0\.0\) return colour;/);
+  assert.match(sectionGLSL, /return mix\(colour, cut, mask\)/);
   assert.ok(
     SECTION_DEFAULTS.tone.every((value) => value > 0 && value < 1),
     "the tone darkens and never inverts"
   );
   assert.ok(SECTION_DEFAULTS.tolerance <= 0.05, "contact means centimetres");
   assert.equal(new Uint8Array(createSectionCut().none.image.data)[0], 0);
+});
+
+test("the hatch is fixed to the rock, crosses level and upright faces alike, and fades before it can shimmer", () => {
+  const hatch = SECTION_DEFAULTS.hatch,
+    [period, share, lighter] = hatch,
+    fine = 0.02; // a pixel covering a fiftieth of the spacing
+  assert.ok(period > 0.2 && period < 1 && share > 0.02 && share < 0.3 && lighter > 0 && lighter < 1, "lines, not stripes, and lighter, not white");
+  // A line lies on every plane x + y + z = a whole number of spacings, whichever axis carries it.
+  for (const point of [
+    [period, 0, 0],
+    [0, 3 * period, 0],
+    [0, 0, -2 * period],
+    [0.3 * period, 0.5 * period, 0.2 * period],
+  ])
+    assert.ok(hatchLine(point, hatch, fine) > 0.99, `on a line: ${point}`);
+  // Half way between lines there is none, and a line is as wide as its share says.
+  assert.equal(hatchLine([0.5 * period, 0, 0], hatch, fine), 0);
+  assert.ok(hatchLine([0.4 * share * period, 0, 0], hatch, fine) > 0.9, "inside the line");
+  assert.equal(hatchLine([(0.5 * share + fine + 0.01) * period, 0, 0], hatch, fine), 0, "just outside it");
+  // Moving along a line changes nothing: (1, -1, 0) and (0, 1, -1) lie in its plane.
+  const along = hatchLine([0.03, 0.01, 0.0], hatch, fine);
+  assert.ok(Math.abs(hatchLine([0.03 + 7, 0.01 - 7, 0.0], hatch, fine) - along) < 1e-9);
+  assert.ok(Math.abs(hatchLine([0.03, 0.01 + 4, 0.0 - 4], hatch, fine) - along) < 1e-9);
+  // When lines would be closer than a few pixels they are gone, even at a line's centre.
+  assert.equal(hatchLine([period, 0, 0], hatch, 0.4), 0);
+  assert.ok(hatchLine([period, 0, 0], hatch, 0.3) < hatchLine([period, 0, 0], hatch, 0.2));
+  // The shader states the same rule.
+  assert.match(sectionGLSL, /float t = \(world\.x \+ world\.y \+ world\.z\) \/ sectionHatch\.x;/);
+  assert.match(sectionGLSL, /abs\(fract\(t - 0\.5\) - 0\.5\)/);
+  assert.match(sectionGLSL, /1\.0 - smoothstep\(0\.18, 0\.4, width\)/);
 });

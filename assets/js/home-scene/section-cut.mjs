@@ -3,7 +3,7 @@ import * as THREE from "../three.module.min.js";
 // Orbiting the house lifts its roof so the rooms can be seen (controller.mjs syncCutaway). The roof
 // pieces are closed solids cut from the cliff, and lifting them leaves their seats showing: flat
 // ledges and tall walls of rock that were never meant to be surfaces. An architect's section tells
-// the eye which material was sliced by filling it with one tone, the poché.
+// the eye which material was sliced by filling it with one tone, the poché, and hatching it.
 //
 // The cut faces are found exactly, per pixel, without touching the models: wherever the far side of
 // a lifted solid lies on the surface the frame shows, that surface was in contact with the roof.
@@ -22,7 +22,23 @@ export const SECTION_DEFAULTS = Object.freeze({
   // rooms are the brightest thing in the section.
   flatten: 0.9,
   flat: [0.072, 0.06, 0.052],
+  // The hatch: lines this many metres apart, this share of the spacing wide, this much lighter
+  // than the tone they cross. Without it the cut rock is a large flat shape, and from above it is
+  // most of the picture.
+  hatch: [0.42, 0.1, 0.5],
 });
+
+// The hatch as the shader draws it, for tests and for anyone tuning it: how much of a line covers
+// a point, given the pixel's footprint in spacings (`width`, the shader's fwidth).
+export function hatchLine(world, [period, share], width) {
+  const t = (world[0] + world[1] + world[2]) / period,
+    fromLine = Math.abs(((((t - 0.5) % 1) + 1) % 1) - 0.5),
+    smooth = (a, b, x) => {
+      const u = Math.min(1, Math.max(0, (x - a) / (b - a)));
+      return u * u * (3 - 2 * u);
+    };
+  return (1 - smooth(share * 0.5, share * 0.5 + width, fromLine)) * (1 - smooth(0.18, 0.4, width));
+}
 
 // Every triangle of the given meshes in world space, as one flat position array. Quantized or
 // indexed attributes are read through three's accessors, so a compressed export needs no special case.
@@ -74,10 +90,23 @@ export const sectionGLSL = /* glsl */ `
 uniform sampler2D tSection;
 uniform vec4 sectionTone;
 uniform vec4 sectionFlat;
+uniform vec3 sectionHatch; // period in metres, line share of the period, strength
+// A drawn section hatches what it cut. The lines are the planes x + y + z = constant, so they
+// cross every level or upright face at 45 degrees and stay fixed to the rock as the view turns.
+// Where they would fall closer than a few pixels they fade out instead of shimmering.
+float sectionHatchLine(vec3 world) {
+  float t = (world.x + world.y + world.z) / sectionHatch.x;
+  float width = fwidth(t);
+  float line = 1.0 - smoothstep(sectionHatch.y * 0.5, sectionHatch.y * 0.5 + width, abs(fract(t - 0.5) - 0.5));
+  return line * (1.0 - smoothstep(0.18, 0.4, width));
+}
 // daylight: the radiance a white, level, unshadowed surface would send back at this hour.
-vec3 sectionCut(vec3 colour, vec2 uv, vec3 daylight) {
+vec3 sectionCut(vec3 colour, vec2 uv, vec3 daylight, vec3 world) {
+  float mask = texture2D(tSection, uv).r * sectionTone.a;
+  if (mask <= 0.0) return colour;
   vec3 cut = mix(colour * sectionTone.rgb, sectionFlat.rgb * daylight, sectionFlat.a);
-  return mix(colour, cut, texture2D(tSection, uv).r * sectionTone.a);
+  cut *= 1.0 + sectionHatch.z * sectionHatchLine(world);
+  return mix(colour, cut, mask);
 }`;
 
 export function createSectionCut({ settings = {} } = {}) {
