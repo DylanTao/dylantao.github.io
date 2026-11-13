@@ -825,3 +825,14 @@ figure.cover {
 mjx-container[jax="CHTML"][display="true"] {
   overflow-x: auto;
 }
+
+// A row a mouse can take hold of (assets/js/shelf.mjs sets the state; touch never sees these).
+[data-shelf="idle"],
+[data-shelf="pressed"],
+[data-shelf="flying"] {
+  cursor: grab;
+}
+
+[data-shelf="dragging"] {
+  cursor: grabbing;
+}

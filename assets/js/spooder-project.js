@@ -1,4 +1,5 @@
 (function () {
+  const shelfModule = document.currentScript?.src ? new URL("shelf.mjs", document.currentScript.src).href : null;
   const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   const prefersReducedMotion = () => reduceMotionQuery.matches;
 
@@ -304,6 +305,17 @@
 
     if (slides.length > 0) {
       setActiveSlide(0, { scroll: false });
+    }
+
+    // A mouse can take hold of the row and throw it (shelf.mjs). Touch and trackpads scroll it
+    // natively, so the module is fetched only where there is a fine pointer. Like a trackpad
+    // scroll, a throw moves the row and leaves the open card alone; a click still chooses one.
+    if (track && shelfModule && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      import(shelfModule)
+        .then(({ createShelf }) => createShelf(track))
+        .catch(() => {
+          /* The row still scrolls natively and by its arrows. */
+        });
     }
   }
 })();

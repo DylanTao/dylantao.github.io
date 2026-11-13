@@ -184,3 +184,95 @@ test("sidenotes preserve one copy and native reference links across widths", asy
   await expect(page).toHaveURL(/#fn:schon$/);
   expect(await page.locator("[data-sidenotes]").count()).toBe(1);
 });
+
+test("the video row can be thrown with a mouse and yields at once to any other input", async ({ page, isMobile }) => {
+  const errors = collectRuntimeErrors(page);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await preparePage(page, "light");
+  await page.goto(publicRouteUrl("/projects/hci-spooder-man/"), { waitUntil: "load" });
+  const track = page.locator("[data-spooder-track]");
+  await track.scrollIntoViewIfNeeded();
+  const state = () =>
+    track.evaluate((row) => ({
+      left: Math.round(row.scrollLeft),
+      phase: row.getAttribute("data-shelf"),
+      snap: row.style.scrollSnapType,
+      lean: row.style.translate,
+      open: [...row.children].findIndex((card) => card.classList.contains("is-active")),
+    }));
+  if (isMobile) {
+    // Touch already scrolls and snaps the row natively; the module is never fetched.
+    await page.waitForTimeout(500);
+    expect((await state()).phase).toBe(null);
+    expect(errors).toEqual([]);
+    return;
+  }
+  await expect(track).toHaveAttribute("data-shelf", "idle");
+  const stops = await page.evaluate(async () => {
+    const { snapStops } = await import(new URL("shelf.mjs", document.querySelector('script[src*="spooder-project"]').src).href);
+    return snapStops(document.querySelector("[data-spooder-track]"));
+  });
+  expect(stops.length).toBeGreaterThan(3);
+  const onStop = (left) => stops.some((stop) => Math.abs(stop - left) <= 1);
+  const box = await track.boundingBox(),
+    y = box.y + box.height * 0.4,
+    x = box.x + box.width * 0.7;
+  const press = async (distance, steps) => {
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    for (let i = 1; i <= steps; i++) {
+      await page.mouse.move(x + (distance * i) / steps, y);
+      await page.waitForTimeout(8);
+    }
+  };
+
+  // The row follows the hand one to one; let go at rest and it settles on the nearest stop.
+  const from = (await state()).left;
+  await press(-240, 24);
+  const held = await state();
+  expect(held).toMatchObject({ phase: "dragging", snap: "none" });
+  expect(Math.abs(held.left - from - 240)).toBeLessThanOrEqual(1);
+  await page.waitForTimeout(250);
+  await page.mouse.up();
+  await expect.poll(async () => (await state()).phase).toBe("idle");
+  const rested = await state();
+  expect(onStop(rested.left)).toBe(true);
+  expect(rested).toMatchObject({ snap: "", lean: "", open: 0 });
+
+  // A throw carries on past where the hand let go and lands on a stop.
+  await press(-270, 8);
+  const letGo = (await state()).left;
+  await page.mouse.up();
+  expect((await state()).phase).toBe("flying");
+  await expect.poll(async () => (await state()).phase).toBe("idle");
+  const thrown = await state();
+  expect(thrown.left).toBeGreaterThan(letGo + 100);
+  expect(onStop(thrown.left)).toBe(true);
+  expect(thrown.open).toBe(0);
+
+  // The wheel takes over mid-flight, well before the spring would have landed.
+  await press(-270, 8);
+  await page.mouse.up();
+  expect((await state()).phase).toBe("flying");
+  await page.mouse.wheel(0, 30);
+  await expect.poll(async () => (await state()).phase, { timeout: 250, intervals: [20] }).toBe("idle");
+
+  // Pulled past its start the row only leans, and comes back.
+  await track.evaluate((row) => row.scrollTo({ left: 0, behavior: "instant" }));
+  await page.waitForTimeout(200);
+  await press(160, 12);
+  const pulled = await state();
+  expect(pulled.left).toBe(0);
+  expect(parseFloat(pulled.lean)).toBeGreaterThan(20);
+  expect(parseFloat(pulled.lean)).toBeLessThan(160);
+  await page.mouse.up();
+  await expect.poll(async () => (await state()).phase).toBe("idle");
+  expect((await state()).lean).toBe("");
+
+  // With reduced motion a drag still works and nothing flies.
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await press(-270, 8);
+  await page.mouse.up();
+  expect((await state()).phase).toBe("idle");
+  expect(errors).toEqual([]);
+});
