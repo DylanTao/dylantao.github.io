@@ -81,7 +81,8 @@ concurrency:
 jobs:
   comments-integration-tests:
     runs-on: ubuntu-24.04 # Keep the pinned Ruby patch on its supported runner image.
-    timeout-minutes: 20
+    # Retain the complete source checkout and enough time for every check.
+    timeout-minutes: 45
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
