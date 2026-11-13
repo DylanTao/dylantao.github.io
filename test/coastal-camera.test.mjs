@@ -12,6 +12,7 @@ import {
   orbitDrag,
   wildlifeEnvelope,
   constrainOrbit,
+  frontEnvelope,
   keepCameraClear,
   cameraTerrainHeight,
   createCollisionGrid,
@@ -298,6 +299,54 @@ test("a cushioned envelope edge slows input and never passes the limit", () => {
   assert.ok(near > 0.95 && near <= 1 && near < 1.05, `near the edge the step shrinks: ${near}`);
   assert.equal(cushion(1, 0.3, [-1, 1]), 1);
   assert.equal(cushion(0.5, 0.2, null), 0.7, "a free axis is untouched");
+});
+
+test("the whole-house view turns freely only from high enough to look down past the cliff", () => {
+  const authored = c.views.overview.envelope,
+    { yaw: arc, above } = authored.front;
+  // The authored arrival faces the open side, low, with room to turn both ways.
+  assert.ok(c.views.overview.yaw > arc[0] + 0.3 && c.views.overview.yaw < arc[1] - 0.3 && c.views.overview.pitch < above);
+  assert.ok(above > authored.pitch[0] && above < authored.pitch[1]);
+  const at = (yaw, pitch) => frontEnvelope(authored, yaw, pitch);
+  // Inside the arc and low, yaw is held to the arc and pitch keeps its whole range.
+  assert.deepEqual(at(3.3, 0.43).yaw, arc);
+  assert.deepEqual(at(3.3, 0.43).pitch, authored.pitch);
+  assert.equal(at(3.3, 0.43), at(arc[1], above - 0.01), "one envelope object serves the whole case, so no frame allocates");
+  // Inside the arc and high, nothing is added: the visitor may turn out of it.
+  assert.equal(at(3.3, above), authored);
+  // Outside the arc, pitch is held above the threshold and yaw is free.
+  for (const yaw of [0.2, 1.7, 4.9, arc[0] - 0.01, arc[1] + 0.01]) {
+    const envelope = at(yaw, 1.2);
+    assert.equal(envelope.yaw, null);
+    assert.deepEqual(envelope.pitch, [above, authored.pitch[1]]);
+    assert.equal(constrainOrbit({ yaw, pitch: 0.2, radius: 18.5 }, at(yaw, 0.2)).pitch, above, "a low view behind the house is lifted, never shown");
+  }
+  // Every legal orbit is unchanged by its own envelope, so the limit never moves the camera by itself.
+  for (const [yaw, pitch] of [
+    [3.3, 0.05],
+    [arc[0], 0.43],
+    [arc[1], above - 0.001],
+    [3.3, 1.35],
+    [0.2, above],
+    [5.9, 1.35],
+  ]) {
+    const kept = constrainOrbit({ yaw, pitch, radius: 18.5 }, at(yaw, pitch));
+    assert.ok(Math.abs(kept.yaw - yaw) < 1e-12 && Math.abs(kept.pitch - pitch) < 1e-12, `${yaw}, ${pitch}`);
+  }
+  // A drag is cushioned at the arc's ends and at the height threshold like any other envelope edge.
+  assert.equal(cushion(arc[1] - 0.01, 0.5, at(arc[1] - 0.01, 0.43).yaw), arc[1]);
+  assert.equal(cushion(above + 0.01, -0.5, at(0.2, above + 0.01).pitch), above);
+  // After whole turns made from above, the arc follows the unwrapped yaw.
+  const turned = at(3.3 + 4 * Math.PI, 0.43);
+  assert.ok(Math.abs(turned.yaw[0] - (arc[0] + 4 * Math.PI)) < 1e-12 && Math.abs(turned.yaw[1] - (arc[1] + 4 * Math.PI)) < 1e-12);
+  assert.ok(
+    Math.abs(cushion(3.3 + 4 * Math.PI, 0.05, turned.yaw) - (3.35 + 4 * Math.PI)) < 1e-12,
+    "a drag far from the turned arc's ends is untouched"
+  );
+  // Views without a front arc, and malformed input, pass through.
+  assert.equal(frontEnvelope(c.views.outside.envelope, 0.2, 0.2), c.views.outside.envelope);
+  assert.equal(frontEnvelope(null, 0, 0), null);
+  assert.equal(frontEnvelope(authored, NaN, 0.2), authored);
 });
 
 test("the far view keeps the authored haze to 48 m and hides the sea plane's edge at 160 m", () => {

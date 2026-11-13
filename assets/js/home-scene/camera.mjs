@@ -40,6 +40,36 @@ export function constrainOrbit(orbit, envelope) {
   }
   return { yaw, pitch, radius: clamp(orbit.radius, envelope.radius[0], Math.max(envelope.radius[0], maxRadius)) };
 }
+// The whole-house view looks into a house that stands inside a cliff. From the open, seaward
+// side it can be seen from any height. From the sides and from behind, a low camera stands in
+// rock or looks at the back of it, so those directions open only from high enough to look down
+// past the rock: `front.above` radians of pitch. `front.yaw` is the seaward arc.
+//
+// The envelope returned is the authored one with whichever limit the current orbit owes, so the
+// drag cushion, the clamp and the settling camera all read it the usual way: inside the arc and
+// low, yaw is held to the arc; outside the arc, pitch is held above the threshold; inside the arc
+// and high, nothing is added. Every legal orbit stays legal under its own envelope, so nothing
+// jumps when the limit changes. The arc follows the orbit's unwrapped yaw by whole turns.
+const frontVariants = new WeakMap();
+export function frontEnvelope(envelope, yaw, pitch) {
+  const front = envelope?.front;
+  if (!front || !Array.isArray(front.yaw) || !Number.isFinite(front.above) || !Number.isFinite(yaw) || !Number.isFinite(pitch)) return envelope;
+  const [from, to] = front.yaw,
+    turns = Math.round((yaw - (from + to) / 2) / (2 * Math.PI)),
+    inside = yaw >= from + turns * 2 * Math.PI && yaw <= to + turns * 2 * Math.PI;
+  if (inside && pitch >= front.above) return envelope;
+  let variants = frontVariants.get(envelope);
+  if (!variants) frontVariants.set(envelope, (variants = new Map()));
+  const key = inside ? turns : "high";
+  let variant = variants.get(key);
+  if (!variant) {
+    variant = inside
+      ? { ...envelope, yaw: [from + turns * 2 * Math.PI, to + turns * 2 * Math.PI] }
+      : { ...envelope, pitch: [Math.max(envelope.pitch[0], Math.min(front.above, envelope.pitch[1])), envelope.pitch[1]] };
+    variants.set(key, variant);
+  }
+  return variant;
+}
 export function cameraTerrainHeight(x, z, collision, surfaceFloor = -Infinity) {
   if (!collision) return surfaceFloor;
   const u = (x - collision.origin[0]) / collision.step,

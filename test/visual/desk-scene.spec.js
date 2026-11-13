@@ -3096,11 +3096,12 @@ test("coastal home: navigation keeps the camera out of walls, screens and rock, 
   const rows = [],
     setback = homeManifest().retreat?.setbackMetres ?? 0;
   // Delivered-mesh obstruction witnesses: the fitted library desk aisle, the lounge bay,
-  // and cave-mouth rock. The arm holds each camera on the visible side in open air.
+  // and the headland beside the cave mouth, met by a long low arm at the western end of the
+  // whole-home view's seaward arc. The arm holds each camera on the visible side in open air.
   for (const [room, yaw, pitch, radius, target] of [
     ["study", 2.5, 0.3, 3.3, [-10.8, 1.4, 4.75]],
     ["lounge", 2.75, 0.12, 4.72, [3.17, 0.96, -2.5 + setback]],
-    ["overview", 0, 0.2, 9.1, [0, 1.65, 0.2 + setback]],
+    ["overview", homeManifest().views.overview.envelope.front.yaw[1], 0.05, 32, [0, 1.65, 0.2 + setback]],
   ]) {
     await sceneInputFrame(page, view, () => ui.locator(`[data-world-room="${room}"]`).first().click());
     await sceneInputFrame(page, view, () => scene.evaluate((e, orbit) => e.setLabCamera({ ...orbit, free: false }), { target, yaw, pitch, radius }));
@@ -3335,6 +3336,95 @@ test("coastal home: the lifted roof's seats print as one cut tone, only while th
   expect(closed.section.open).toBe(false);
   await lab(null);
   expect((await evidence(scene)).section.draws).toBe(closed.section.draws);
+  expect(errors).toEqual([]);
+});
+
+test("coastal home: the whole-home view stops at the ends of its seaward arc and turns freely only from above", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "the orbit envelope is shared by every width; one real mouse proves it");
+  test.setTimeout(600000);
+  const errors = collectRuntimeErrors(page);
+  const view = await openClockedHome(page, { time: "2026-10-23T12:00:00-07:00" });
+  const { scene, canvas, ui } = view;
+  const { yaw: arc, above } = homeManifest().views.overview.envelope.front,
+    middle = (arc[0] + arc[1]) / 2;
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click(), { clockStep: 100 });
+  const places = ui.locator("[data-world-places]");
+  if (!(await places.evaluate((element) => element.open))) await places.locator("summary").click();
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-destination="overview"]').click());
+  if (await places.evaluate((element) => element.open)) await places.locator("summary").click();
+  await page.clock.runFor(2000);
+  await expect.poll(async () => (await evidence(scene)).cameraCollision?.ready, { timeout: 60000 }).toBe(true);
+  const bounds = await canvas.boundingBox(),
+    centre = [bounds.x + bounds.width / 2, bounds.y + bounds.height * 0.45];
+  // One real drag from the middle of the canvas, as fractions of its size, composed once.
+  const drag = (dx, dy) =>
+    sceneInputFrame(page, view, async () => {
+      await page.mouse.move(...centre);
+      await page.mouse.down();
+      await page.mouse.move(centre[0] + bounds.width * dx, centre[1] + bounds.height * dy, { steps: 12 });
+      await page.mouse.up();
+    });
+  // The orbit keeps whole turns; measure it against the arc's middle.
+  const orbit = async () => {
+    const state = await evidence(scene);
+    return {
+      yaw: middle + Math.atan2(Math.sin(state.cameraOrbit.yaw - middle), Math.cos(state.cameraOrbit.yaw - middle)),
+      pitch: state.cameraOrbit.pitch,
+    };
+  };
+  const rows = [];
+  const stop = async (label) => {
+    const at = await orbit();
+    rows.push({ label, ...at });
+    // Wherever the visitor is allowed to stop, the camera stands in open air.
+    expect((await cameraCell(scene)) & 5, label).toBe(0);
+    return at;
+  };
+
+  const arrival = await stop("arrival");
+  expect(arrival.yaw).toBeGreaterThan(arc[0]);
+  expect(arrival.yaw).toBeLessThan(arc[1]);
+  expect(arrival.pitch).toBeLessThan(above);
+
+  // Low, a sweep either way ends at the arc: the sides and the back of the house are rock.
+  await drag(-0.4, 0);
+  await drag(-0.4, 0);
+  const west = await stop("western end");
+  expect(Math.abs(west.yaw - arc[1])).toBeLessThan(0.02);
+  expect(west.pitch).toBeCloseTo(arrival.pitch, 3);
+  await capture(testInfo, "whole-home-western-end", await canvas.screenshot());
+  for (let i = 0; i < 3; i++) await drag(0.4, 0);
+  const east = await stop("eastern end");
+  expect(Math.abs(east.yaw - arc[0])).toBeLessThan(0.02);
+  await capture(testInfo, "whole-home-eastern-end", await canvas.screenshot());
+
+  // From above, the same sweep carries on round the back.
+  await drag(0, 0.4);
+  expect((await stop("raised")).pitch).toBeGreaterThan(above);
+  await drag(0.4, 0);
+  const behind = await stop("behind, from above");
+  expect(Math.abs(behind.yaw - middle)).toBeGreaterThan((arc[1] - arc[0]) / 2 + 0.5);
+  await capture(testInfo, "whole-home-behind-from-above", await canvas.screenshot());
+
+  // Behind the house the view cannot be lowered into the cliff.
+  await drag(0, -0.4);
+  await drag(0, -0.4);
+  const held = await stop("behind, lowered");
+  expect(Math.abs(held.pitch - above)).toBeLessThan(0.02);
+  expect(Math.abs(held.yaw - behind.yaw)).toBeLessThan(0.02);
+  await capture(testInfo, "whole-home-behind-held", await canvas.screenshot());
+
+  // Back on the open side it lowers all the way, and the arc holds again.
+  await drag(-0.5, 0);
+  const returned = await stop("returned");
+  expect(returned.yaw).toBeGreaterThan(arc[0]);
+  expect(returned.yaw).toBeLessThan(arc[1]);
+  await drag(0, -0.4);
+  expect((await stop("lowered")).pitch).toBeLessThan(above - 0.5);
+  await drag(-0.4, 0);
+  await drag(-0.4, 0);
+  expect(Math.abs((await stop("western end again")).yaw - arc[1])).toBeLessThan(0.02);
+  await testInfo.attach("whole-home-orbit", { body: JSON.stringify({ arc, above, rows }, null, 2), contentType: "application/json" });
   expect(errors).toEqual([]);
 });
 

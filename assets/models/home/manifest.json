@@ -1848,7 +1848,11 @@
       "envelope": {
         "yaw": null,
         "pitch": [0.05, 1.35],
-        "radius": [13, 32]
+        "radius": [13, 32],
+        "front": {
+          "yaw": [2.68, 3.92],
+          "above": 0.95
+        }
       }
     }
   },
@@ -5911,8 +5915,8 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "5246d48362451d31f9c0371a03b76ae192acc3c6d4682fa143d951bb3c20a7ab",
-    "sha256": "425acffeff33147be93712f8a35d9c5366bd951f10c05d21964572f73d604eee"
+    "signature": "0eb405f8c2f2f365883e95c4c17919922d9656a1e6ab7f5f21f0f7bcb3031494",
+    "sha256": "d981e8ac57e33b45aadc6037c881e8820b6eebb514d1426c2e252e22f41d62d1"
   },
   "estateDoors": [
     {

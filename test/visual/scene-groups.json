@@ -476,6 +476,10 @@
       {
         "file": "coastal-finish.spec.js",
         "title": "coastal quality: a lost graphics context returns to the desk and retries a complete lower tier"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: the whole-home view stops at the ends of its seaward arc and turns freely only from above"
       }
     ],
     "scene-journey": [

@@ -20,6 +20,7 @@ import {
   orbitDrag,
   wildlifeEnvelope,
   constrainOrbit,
+  frontEnvelope,
   keepCameraClear,
   cameraTerrainHeight,
   cameraArm,
@@ -2053,7 +2054,9 @@ export function createCoastalHome(container, records, artifacts) {
   // the orbit instead of a hand-set arc. Every room gets this, including ones added later; a room
   // can bound it with camera.explore ({ yaw, pitch, radius }).
   const exploringEnvelopes = new WeakMap();
-  function cameraEnvelope() {
+  // `orbitYaw` and `orbitPitch` say which orbit the envelope is for: the requested one by default,
+  // or the shown, still-settling one (the whole-house view's limits depend on where the orbit is).
+  function cameraEnvelope(orbitYaw = yaw, orbitPitch = pitch) {
     if (labFreeCamera) return null;
     if (animalFocus) return wildlifeEnvelope(animalFocus.radius);
     const authored = envelopeFor(config, currentRoom);
@@ -2065,7 +2068,8 @@ export function createCoastalHome(container, records, artifacts) {
       envelope = { ...authored, radius: [near, authored.radius[1]] };
       nearerEnvelopes.set(authored, envelope);
     }
-    if (currentRoom === "outside" || currentRoom === "overview" || !cameraField?.ready) return envelope;
+    if (currentRoom === "overview") return frontEnvelope(envelope, orbitYaw, orbitPitch);
+    if (currentRoom === "outside" || !cameraField?.ready) return envelope;
     let open = exploringEnvelopes.get(envelope);
     if (!open) {
       const camera = config.rooms.find((r) => r.id === currentRoom)?.camera || {},
@@ -3271,7 +3275,7 @@ export function createCoastalHome(container, records, artifacts) {
     const yawDelta = Math.atan2(Math.sin(yaw - cameraYaw), Math.cos(yaw - cameraYaw));
     cameraYaw = cameraMotion.step("yaw", cameraYaw, cameraYaw + yawDelta, frameDelta, stillCamera, 20);
     cameraPitch = cameraMotion.step("pitch", cameraPitch, pitch, frameDelta, stillCamera, 20);
-    const safeOrbit = constrainOrbit({ yaw: cameraYaw, pitch: cameraPitch, radius }, cameraEnvelope());
+    const safeOrbit = constrainOrbit({ yaw: cameraYaw, pitch: cameraPitch, radius }, cameraEnvelope(cameraYaw, cameraPitch));
     if (safeOrbit.yaw !== cameraYaw) cameraMotion.stop("yaw");
     if (safeOrbit.pitch !== cameraPitch) cameraMotion.stop("pitch");
     if (safeOrbit.radius !== radius) cameraMotion.stop("radius");
