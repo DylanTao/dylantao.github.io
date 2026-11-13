@@ -4,6 +4,7 @@ import { createArtDirection } from "./materials.mjs";
 import { createPacific } from "./environment.mjs?v=rain-contact-20261102";
 import { createFinish, physicalTime, surfaceLook } from "./realism.mjs";
 import { readLook } from "./look.mjs";
+import { createPrintLook, readPrintLook, writePrintLook } from "./print-look.mjs";
 import { createExplorationState, resolveRoutine, routineRoom, formatMinute, chooseArrivalAvatar, pacificClock } from "./routine.mjs";
 
 import { createFootContacts } from "./locomotion.mjs";
@@ -139,6 +140,8 @@ export function createCoastalHome(container, records, artifacts) {
     /* Storage can be blocked; the URL flags still apply. */
   }
   const look = readLook(location.search, lookStorage);
+  // The woodblock-print experiment (print-look.mjs): ?print=1, or the lab's toggle.
+  const printLook = createPrintLook({ enabled: readPrintLook(location.search, lookStorage) });
   const scene = new THREE.Scene();
   const world = new THREE.Group();
   scene.add(world);
@@ -3369,7 +3372,8 @@ export function createCoastalHome(container, records, artifacts) {
       liftActive = false;
     }
     if (moving && mixer) {
-      if (style === "illustrated") {
+      // Printed, the people move on twos (twelve poses a second) while the camera stays smooth.
+      if (style === "illustrated" || printLook.enabled) {
         const step = Math.floor(elapsed * 12) / 12;
         const previous = mixer.userDataStep ?? step;
         mixer.update(Math.max(0, step - previous));
@@ -3669,6 +3673,7 @@ export function createCoastalHome(container, records, artifacts) {
       instant: reduced || paused || style !== "realistic",
     });
     renderer.toneMappingExposure = (style === "realistic" ? 1.05 * exposureGain : 1.18) * TONE_EXPOSURE[look.tone];
+    printLook.prepare(camera, { minute: routine?.minute, seconds: elapsed, still: reduced || paused });
     walkPresence?.withoutHead(() => {
       if (style === "realistic" && finish)
         finish.render(
@@ -3920,6 +3925,7 @@ export function createCoastalHome(container, records, artifacts) {
         // The GPU timer samples one frame in eight; it also decides whether a device earns high.
         profileGPU: labEnabled || perfRequested || (quality.evidence().canPromote && !qualityPinned),
         temporalFactory: temporal?.createTemporalAA,
+        print: printLook,
         // 1.6 sits above sunlit walls (no bloom at midday) and below the lamps and sconces.
         bloom: bloom && { Pass: bloom.UnrealBloomPass, strength: 0.28, radius: 0.42, threshold: 1.6 },
         // ?light-air=0 keeps the haze analytic (no march for shafts, marine fog or sunbeams).
@@ -4317,6 +4323,21 @@ export function createCoastalHome(container, records, artifacts) {
         finish?.resetTemporal("still photo");
       }
     };
+    container.labScene.printLook = printLook;
+    const printToggle = ui.querySelector("[data-world-print]");
+    if (printToggle) {
+      const showPrint = () => {
+        printToggle.setAttribute("aria-pressed", String(printLook.enabled));
+        printToggle.textContent = printLook.enabled ? "Back to the realistic render" : "Print it as a woodblock";
+      };
+      showPrint();
+      listen(printToggle, "click", () => {
+        printLook.enabled = !printLook.enabled;
+        writePrintLook(printLook.enabled, lookStorage);
+        showPrint();
+        requestFrame();
+      });
+    }
     container.labScene.setTemporalEnabled = (value) => {
       finish?.setTemporalEnabled(value);
       requestFrame();

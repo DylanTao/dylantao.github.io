@@ -650,13 +650,14 @@ export function createFinish(
   renderer,
   scene,
   camera,
-  { transparentOutput = false, profileGPU = false, bloom: bloomLook = null, haze = null, temporalFactory = null } = {}
+  { transparentOutput = false, profileGPU = false, bloom: bloomLook = null, haze = null, temporalFactory = null, print = null } = {}
 ) {
   if (transparentOutput) return createLegacyFinish(renderer, scene, camera, { transparentOutput });
   const target = new THREE.WebGLRenderTarget(1, 1, {
     type: THREE.HalfFloatType,
     samples: 4,
-    depthTexture: haze ? new THREE.DepthTexture(1, 1) : null,
+    // The haze and the print treatment (print-look.mjs) both read the scene's depth.
+    depthTexture: haze || print ? new THREE.DepthTexture(1, 1) : null,
   });
   const composer = new EffectComposer(renderer, target);
   // The composer's second target is a clone, and a cloned DepthTexture shares its source, so both
@@ -709,10 +710,13 @@ export function createFinish(
   };
   composer.addPass(contact);
   composer.addPass(beauty);
+  if (print) composer.addPass(print.tap);
   if (temporal) composer.addPass(temporal.pass);
   if (haze) composer.addPass(haze.pass);
   if (bloom) composer.addPass(bloom);
   composer.addPass(output);
+  // The print treatment takes the output pass's place while it is on; off, nothing changes.
+  if (print) composer.addPass(print.pass);
   let width = 1,
     height = 1,
     // Full screen (resolution.mjs detailFor) trades multisampling for pixels on large buffers and
@@ -789,6 +793,7 @@ export function createFinish(
         contact.ssaoMaterial.uniforms.cameraProjectionMatrix.value.copy(activeCamera.projectionMatrix);
         contact.ssaoMaterial.uniforms.cameraInverseProjectionMatrix.value.copy(activeCamera.projectionMatrixInverse);
         contact.blurMaterial.uniforms.cameraInverseProjectionMatrix.value.copy(activeCamera.projectionMatrixInverse);
+        output.enabled = !print?.enabled;
         gpuTimer.begin();
         haze?.prepare(activeCamera, exterior);
         if (volume?.object.visible) volumeDepth.render(activeCamera, volume);
@@ -824,12 +829,14 @@ export function createFinish(
         bloom: bloom ? { strength: bloom.strength, radius: bloom.radius, threshold: bloom.threshold } : null,
         haze: haze ? haze.evidence() : null,
         temporal: temporal?.evidence ?? null,
+        print: print?.evidence() ?? null,
       };
     },
     dispose() {
       lighting.contactEnabled.value = false;
       gpuTimer.dispose();
       temporal?.dispose();
+      print?.dispose();
       volumeDepth.dispose();
       haze?.dispose();
       beauty.dispose();

@@ -3251,6 +3251,45 @@ test("coastal home: dinner waits at the served plate before moving dessert", asy
   expect(errors).toEqual([]);
 });
 
+test("coastal home: the woodblock print redraws the live frame and hands the realistic one back", async ({ page }, testInfo) => {
+  if (process.platform === "linux") test.setTimeout(600000);
+  const errors = collectRuntimeErrors(page);
+  const view = await openClockedHome(page, { time: "2026-10-23T12:00:00-07:00" });
+  const { scene, canvas, ui } = view;
+  await explore(ui);
+  const toggle = ui.locator("[data-world-print]");
+  await ui.locator("details.home-world-objects:has([data-world-print]) > summary").click();
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  const before = await evidence(scene);
+  expect(before.rendering.print.enabled).toBe(false);
+  expect(before.rendering.print.draws).toBe(0);
+  const realistic = await canvas.screenshot();
+
+  await sceneInputFrame(page, view, () => toggle.click());
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
+  await expect(toggle).toHaveText("Back to the realistic render");
+  const printed = await evidence(scene);
+  expect(printed.rendering.print.enabled).toBe(true);
+  expect(printed.rendering.print.colourway).toBe("noon");
+  expect(printed.rendering.print.draws).toBeGreaterThan(0);
+  expect(printed.rendering.print.renderTargets).toBe(0);
+  expect(await page.evaluate(() => sessionStorage.getItem("scene-print"))).toBe("1");
+  const print = await canvas.screenshot();
+  expect(screenshotMetrics(print).uniqueColors).toBeGreaterThan(60);
+  // Paper, flattened colour and key lines move most of the picture; a blank or untouched frame would not.
+  expect(screenshotDiffRatio(print, realistic)).toBeGreaterThan(0.05);
+  await capture(testInfo, "print-realistic", realistic);
+  await capture(testInfo, "print-woodblock", print);
+
+  // Off again, the output pass draws the same frame it drew before.
+  await sceneInputFrame(page, view, () => toggle.click());
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  expect((await evidence(scene)).rendering.print.enabled).toBe(false);
+  expect(await page.evaluate(() => sessionStorage.getItem("scene-print"))).toBe(null);
+  expect(screenshotDiffRatio(await canvas.screenshot(), realistic)).toBeLessThan(0.001);
+  expect(errors).toEqual([]);
+});
+
 test("coastal home: composed activities and previews survive clock changes until Now", async ({ page }, testInfo) => {
   const view = await openClockedHome(page);
   const { scene, canvas, ui } = view;
