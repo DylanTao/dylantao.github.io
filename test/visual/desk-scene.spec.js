@@ -2269,7 +2269,10 @@ test("coastal home: every Rooms destination receives pointer input above followi
   // Keep the full 2K desktop and every destination on software WebGL too. The
   // original 10-minute CI trace completes 22 selections before its total budget
   // expires; this is functional input proof, not a frame-rate measurement.
-  test.setTimeout(process.env.VISUAL_SCENE_BACKEND === "llvmpipe" ? 1200000 : 600000);
+  // Hosted runners differ by a factor of two or more: the same 26 selections took 6.7 minutes
+  // on November 8, and over 20 and then 12.3 minutes on two runners for one commit on
+  // November 13, while the other three widths ran that commit faster than before.
+  test.setTimeout(process.env.VISUAL_SCENE_BACKEND === "llvmpipe" ? 1800000 : 600000);
   if (testInfo.project.name === "desktop-1440") await page.setViewportSize({ width: 2560, height: 1440 });
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
