@@ -88,7 +88,11 @@
         <p>Pause motion and choose a preview hour for a still photo. Ink studies render the static geometry separately.</p>
         <button type="button" data-world-photo>Take an 8-sample photo</button>
         <button type="button" data-world-ink>Compare ink studies</button>
-        <button type="button" data-world-print aria-pressed="false">Print it as a woodblock</button>
+        <div class="home-world-looks" role="group" aria-label="Look">
+          <button type="button" data-world-drawing="realistic" aria-pressed="true">Realistic</button>
+          <button type="button" data-world-drawing="toon" aria-pressed="false">Cartoon</button>
+          <button type="button" data-world-drawing="print" aria-pressed="false">Woodblock</button>
+        </div>
         <p data-world-study-status role="status" aria-live="polite"></p>
         <div data-world-study-output></div>
       </details>

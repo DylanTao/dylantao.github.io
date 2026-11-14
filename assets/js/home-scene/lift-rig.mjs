@@ -362,8 +362,21 @@ export function createLiftRig(actor) {
       const lockout = dims.hip + dims.torso - dims.reach + 0.03;
       const shoulderAt = (hy, hz, l) => [hy + dims.spine + dims.arm * Math.cos(l), hz + dims.arm * Math.sin(l)];
       const barY = rest.y + e * (lockout - rest.y);
-      const hipY = startHip + e * (dims.hip - startHip),
-        hipZ = (1 - e) * (sumo ? -0.13 : -0.22);
+      // The bar goes straight up, so the legs have to be out of its way: the knees straighten
+      // first, with the hips still back, and the hips come through once the bar is past the
+      // knees. Raising hips and bar together (the earlier motion) kept the knees in front of the
+      // bar's line: on the test skeleton the bar was behind the leg in 25 of 37 sampled frames of
+      // a repetition and up to 8.5 cm inside the thigh (Sirui, November 13: "there are still
+      // geometry intersection like bar and my leg"). The feet stand a little behind the bar and
+      // the hips finish a little behind it, so the shins meet the bar at the start and the thighs
+      // at the top. The values come from a sweep that also kept the hands on the bar.
+      const legsUp = smooth(clamp(e / 0.5)),
+        hipsThrough = smooth(clamp((e - 0.3) / 0.7));
+      const startBack = sumo ? -0.18 : -0.27,
+        endBack = -0.025,
+        feetBack = -0.07;
+      const hipY = startHip + legsUp * (dims.hip - startHip),
+        hipZ = startBack + hipsThrough * (endBack - startBack);
       // The lean that lets straight arms hang from the shoulders to the grip; the bar travels
       // straight up over mid-foot.
       const reach = Math.sqrt(Math.max(0.01, dims.reach * dims.reach - (grip - dims.shoulderHalf) ** 2));
@@ -377,7 +390,7 @@ export function createLiftRig(actor) {
       // Walking up to the bar and standing away from it: from a tall stance into the start.
       const a = smooth(approach);
       body({ hips: V(0, lerp(dims.hip - 0.005, hipY, a), lerp(0, hipZ, a)), lean: lerp(0.03, lean, a), head: -lerp(0.03, lean, a) * 0.55 });
-      legs(stance(lerp(0.13, half, a), -0.02), hintsOut(sumo ? 1 : 0.25, 0.1, 1), sumo ? [-0.6, 0.6] : [-0.15, 0.15]);
+      legs(stance(lerp(0.13, half, a), lerp(-0.02, feetBack, a)), hintsOut(sumo ? 1 : 0.25, 0.1, 1), sumo ? [-0.6, 0.6] : [-0.15, 0.15]);
       const bar = V(rest.x, barY, rest.z);
       const grips = sideways(grip, bar.clone().add(V(0, 0.03, 0)));
       const sides = atSides();

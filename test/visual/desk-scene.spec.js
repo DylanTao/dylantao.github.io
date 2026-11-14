@@ -3261,33 +3261,49 @@ test("coastal home: the woodblock print redraws the live frame and hands the rea
   const view = await openClockedHome(page, { time: "2026-10-23T12:00:00-07:00" });
   const { scene, canvas, ui } = view;
   await explore(ui);
-  const toggle = ui.locator("[data-world-print]");
-  await ui.locator("details.home-world-objects:has([data-world-print]) > summary").click();
-  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  const look = (name) => ui.locator(`[data-world-drawing="${name}"]`);
+  await ui.locator("details.home-world-objects:has([data-world-drawing]) > summary").click();
+  await expect(look("realistic")).toHaveAttribute("aria-pressed", "true");
+  await expect(look("toon")).toHaveAttribute("aria-pressed", "false");
   const before = await evidence(scene);
   expect(before.rendering.print.enabled).toBe(false);
+  expect(before.rendering.print.look).toBe("realistic");
   expect(before.rendering.print.draws).toBe(0);
   const realistic = await canvas.screenshot();
 
-  await sceneInputFrame(page, view, () => toggle.click());
-  await expect(toggle).toHaveAttribute("aria-pressed", "true");
-  await expect(toggle).toHaveText("Back to the realistic render");
-  const printed = await evidence(scene);
-  expect(printed.rendering.print.enabled).toBe(true);
-  expect(printed.rendering.print.colourway).toBe("noon");
-  expect(printed.rendering.print.draws).toBeGreaterThan(0);
-  expect(printed.rendering.print.renderTargets).toBe(0);
-  expect(await page.evaluate(() => sessionStorage.getItem("scene-print"))).toBe("1");
+  // The cartoon: the same frame in lifted flat colour with an even outline.
+  await sceneInputFrame(page, view, () => look("toon").click());
+  await expect(look("toon")).toHaveAttribute("aria-pressed", "true");
+  await expect(look("realistic")).toHaveAttribute("aria-pressed", "false");
+  const drawn = await evidence(scene);
+  expect(drawn.rendering.print.enabled).toBe(true);
+  expect(drawn.rendering.print.look).toBe("toon");
+  expect(drawn.rendering.print.colourway).toBe("noon");
+  expect(drawn.rendering.print.draws).toBeGreaterThan(0);
+  expect(drawn.rendering.print.renderTargets).toBe(0);
+  expect(await page.evaluate(() => sessionStorage.getItem("scene-print"))).toBe("toon");
+  const cartoon = await canvas.screenshot();
+  expect(screenshotMetrics(cartoon).uniqueColors).toBeGreaterThan(60);
+  // Flattened colour and key lines move most of the picture; a blank or untouched frame would not.
+  expect(screenshotDiffRatio(cartoon, realistic)).toBeGreaterThan(0.05);
+
+  // The woodblock: the same pass with its own settings, a different picture again.
+  await sceneInputFrame(page, view, () => look("print").click());
+  await expect(look("print")).toHaveAttribute("aria-pressed", "true");
+  await expect(look("toon")).toHaveAttribute("aria-pressed", "false");
+  expect((await evidence(scene)).rendering.print.look).toBe("print");
+  expect(await page.evaluate(() => sessionStorage.getItem("scene-print"))).toBe("print");
   const print = await canvas.screenshot();
   expect(screenshotMetrics(print).uniqueColors).toBeGreaterThan(60);
-  // Paper, flattened colour and key lines move most of the picture; a blank or untouched frame would not.
   expect(screenshotDiffRatio(print, realistic)).toBeGreaterThan(0.05);
+  expect(screenshotDiffRatio(print, cartoon)).toBeGreaterThan(0.02);
   await capture(testInfo, "print-realistic", realistic);
+  await capture(testInfo, "print-cartoon", cartoon);
   await capture(testInfo, "print-woodblock", print);
 
   // Off again, the output pass draws the same frame it drew before.
-  await sceneInputFrame(page, view, () => toggle.click());
-  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  await sceneInputFrame(page, view, () => look("realistic").click());
+  await expect(look("realistic")).toHaveAttribute("aria-pressed", "true");
   expect((await evidence(scene)).rendering.print.enabled).toBe(false);
   expect(await page.evaluate(() => sessionStorage.getItem("scene-print"))).toBe(null);
   expect(screenshotDiffRatio(await canvas.screenshot(), realistic)).toBeLessThan(0.001);

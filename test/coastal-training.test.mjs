@@ -2,6 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import {
+  BUMPERS,
+  BUMPER_STATIONS,
+  CLAMPED_STATIONS,
   platesFor,
   plateLoad,
   roundWeight,
@@ -31,12 +34,22 @@ test("plates load a 45 lb bar per side, heaviest first, and weights round to 5 l
   assert.equal(roundWeight(20), 45, "never lighter than the empty bar");
 });
 
-test("the platform loads coloured bumpers and the rack and bench load black plates", () => {
+test("leg lifts load blue 45 bumpers and the bench loads clamped black plates", () => {
   const side = (weight, station) => plateLoad(weight, station).map((p) => `${p.lb}${p.kind === "bumper" ? "B" : ""}`);
-  assert.deepEqual(side(295, "platform"), ["55B", "55B", "10B", "5"], "bumpers first, black change plates for the rest");
-  assert.deepEqual(side(155, "platform"), ["55B"]);
-  assert.deepEqual(side(235, "rack"), ["45", "45", "5"]);
+  // Sirui's own description: two blue 45s for leg lifts, the black 45 with a clamp on the bench.
+  assert.deepEqual(side(225, "platform"), ["45B", "45B"]);
+  assert.deepEqual(side(225, "rack"), ["45B", "45B"]);
+  assert.deepEqual(side(135, "bench"), ["45"]);
+  assert.deepEqual(side(295, "platform"), ["45B", "45B", "35B"], "bumpers first, and no red 55s");
+  assert.deepEqual(side(235, "rack"), ["45B", "45B", "5"], "black change plates make up the rest");
+  assert.deepEqual(side(155, "platform"), ["45B", "10B"]);
   assert.deepEqual(side(220, "bench"), ["45", "35", "5", "2.5"]);
+  assert.ok(!BUMPERS.includes(55) && BUMPERS[0] === 45);
+  assert.deepEqual([...BUMPER_STATIONS].sort(), ["platform", "rack"]);
+  assert.deepEqual([...CLAMPED_STATIONS], ["bench"]);
+  // Every working set of the current squat and deadlift cycles carries two blue 45s a side or fewer.
+  for (const weight of [205, 225, 235, 250, 265, 280, 300])
+    assert.ok(plateLoad(weight, "rack").filter((p) => p.kind === "bumper" && p.lb === 45).length <= 2, `${weight}`);
   for (const [weight, station] of [
     [315, "platform"],
     [300, "rack"],

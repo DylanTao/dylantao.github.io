@@ -1,9 +1,15 @@
 import * as THREE from "../three.module.min.js";
 import { Pass, FullScreenQuad } from "../vendor/three-r164/postprocessing/Pass.js";
 
-// A woodblock-print reading of the finished frame: an experiment, off unless ?print=1 or the lab's
-// toggle asks for it. The realistic render stays the source; this pass redraws it the way a
-// shin-hanga printer would cut it into blocks.
+// Drawn readings of the finished frame: experiments, off unless ?look=toon, ?look=print, ?print=1
+// or the lab's switch asks for one. The realistic render stays the source; this pass redraws it.
+// Two looks share the pass and differ only in their settings (LOOKS below), so changing look
+// compiles nothing:
+//
+//   print  the way a shin-hanga printer would cut the frame into blocks
+//   toon   a television cartoon: white paper, lifted flat colour, one even dark outline
+//
+// The blocks, as the woodblock uses them:
 //
 //   keyblock  one line block, cut where the depth buffer creases or breaks
 //   colour    flat areas: texture is averaged away inside each surface, values settle into a few
@@ -18,24 +24,36 @@ import { Pass, FullScreenQuad } from "../vendor/three-r164/postprocessing/Pass.j
 // draw with 22 texture reads and adds no render target.
 
 export const PRINT_KEY = "scene-print";
+// "realistic" is the render itself; these redraw it.
+export const DRAWN_LOOKS = Object.freeze(["toon", "print"]);
+// Sirui, November 13, on the woodblock: "a bit too grim", "maybe a bit more rick and morty vibe".
+// The cartoon is what ?print=1 now means; ?look=print keeps the woodblock.
+export const DEFAULT_DRAWN_LOOK = "toon";
 
-// ?print=1|0 for the session, like the look lab's flags (look.mjs).
-export function readPrintLook(search = "", storage = null) {
+// The look for this session: ?look=toon|print|realistic, or the older ?print=1|0, which asks for the
+// drawn look last used (the cartoon if none). The choice is remembered like the look lab's flags.
+export function readDrawnLook(search = "", storage = null) {
   const params = new URLSearchParams(search);
-  let saved = false;
+  let saved = null;
   try {
-    saved = storage?.getItem(PRINT_KEY) === "1";
+    saved = storage?.getItem(PRINT_KEY) ?? null;
   } catch {
-    saved = false;
+    saved = null;
   }
-  const enabled = params.has("print") ? params.get("print") !== "0" : saved;
-  writePrintLook(enabled, storage);
-  return enabled;
+  // A session that switched the print on before the looks had names stored "1".
+  if (saved === "1") saved = DEFAULT_DRAWN_LOOK;
+  if (!DRAWN_LOOKS.includes(saved)) saved = null;
+  const asked = params.get("look");
+  let look = saved || "realistic";
+  if (asked === "realistic" || DRAWN_LOOKS.includes(asked)) look = asked;
+  else if (params.has("print")) look = params.get("print") === "0" ? "realistic" : saved || DEFAULT_DRAWN_LOOK;
+  writeDrawnLook(look, storage);
+  return look;
 }
 
-export function writePrintLook(enabled, storage = null) {
+export function writeDrawnLook(look, storage = null) {
   try {
-    if (enabled) storage?.setItem(PRINT_KEY, "1");
+    if (DRAWN_LOOKS.includes(look)) storage?.setItem(PRINT_KEY, look);
     else storage?.removeItem(PRINT_KEY);
   } catch {
     /* Private browsing may refuse storage; the URL still applies. */
@@ -208,6 +226,44 @@ export const PRINT_DEFAULTS = Object.freeze({
   baren: 0.05,
   inkFloor: 0.17, // the darkest block is ink on paper, not black
   shadowPivot: 0.62,
+  lift: 1, // exponent on lightness before it is stepped: below 1 opens the darks
+});
+
+// What each drawn look changes: its settings, and what it does to the hour's colourway.
+export const LOOKS = Object.freeze({
+  print: Object.freeze({ label: "Woodblock", dials: Object.freeze({}), way: (way) => way }),
+  // A cartoon keeps the hour (a dusk is still a dusk) but not the paper: near-white ground, darks
+  // opened and held off black, four hard flat steps, every hue kept (greens stay green), shadows that
+  // darken more than they turn blue, no grain, and an even outline inside forms as well as round them.
+  toon: Object.freeze({
+    label: "Cartoon",
+    dials: Object.freeze({
+      lineRadius: 1.5,
+      lineStrength: 0.95,
+      foldStrength: 0.85,
+      clutterStrength: 0.14,
+      crossHue: 1,
+      bands: 4,
+      bandSoftness: 0.05,
+      bandMix: 0.8,
+      flatRadius: 5.5,
+      flatRange: 0.085,
+      misregister: Object.freeze([0, 0]),
+      paperGrain: 0,
+      baren: 0,
+      inkFloor: 0.3,
+      shadowPivot: 0.5,
+      lift: 0.8,
+    }),
+    way: (way) => ({
+      ...way,
+      paper: way.paper.map((value) => value + (1 - value) * 0.8),
+      ink: [0.1, 0.085, 0.13],
+      shadow: [way.shadow[0], way.shadow[1], way.shadow[2] * 0.35],
+      chroma: way.chroma * 1.4,
+      sky: [...way.sky.slice(0, 3).map((value, i) => value + ([0.3, 0.62, 0.92][i] - value) * 0.3), way.sky[3] * 0.7],
+    }),
+  }),
 });
 
 const glslMatrix = (m) => `mat3(${[0, 1, 2].flatMap((column) => m.map((row) => row[column].toFixed(10))).join(", ")})`;
@@ -250,6 +306,7 @@ uniform vec3 printInk;
 uniform vec4 printShadow;   // OKLab a, b, amount, pivot lightness
 uniform vec4 printSky;      // rgb, amount
 uniform vec4 printGrain;    // paper, baren, ink floor, boil seed
+uniform float printLift;    // exponent on lightness before it is stepped
 varying vec2 vUv;
 
 #include <tonemapping_pars_fragment>
@@ -312,9 +369,10 @@ void main() {
   vec3 block = sum / weight;
 
   // Values settle into a few printed steps; the mix keeps some of the render's gradation (bokashi).
-  float stepped = block.x * printTone.x;
+  float lifted = pow(max(block.x, 0.0), printLift);
+  float stepped = lifted * printTone.x;
   stepped = (floor(stepped) + smoothstep(0.5 - printTone.y, 0.5 + printTone.y, fract(stepped))) / printTone.x;
-  float value = mix(block.x, stepped, printTone.z);
+  float value = mix(lifted, stepped, printTone.z);
 
   // Shadows lean toward the colourway's blue instead of losing their colour.
   float shade = pow(clamp(1.0 - value / printShadow.w, 0.0, 1.0), 1.4) * printShadow.z;
@@ -372,8 +430,11 @@ void main() {
   gl_FragColor = vec4(colour, 1.0);
 }`;
 
-export function createPrintLook({ enabled = false, settings = {} } = {}) {
-  const dials = { ...PRINT_DEFAULTS, ...settings };
+export function createPrintLook({ look: startLook = "realistic", enabled = false, settings = {} } = {}) {
+  // `enabled` is the older switch: on means the default drawn look.
+  let look = DRAWN_LOOKS.includes(startLook) ? startLook : enabled ? DEFAULT_DRAWN_LOOK : "realistic",
+    drawn = look === "realistic" ? DEFAULT_DRAWN_LOOK : look;
+  const dials = { ...PRINT_DEFAULTS, ...LOOKS[drawn].dials, ...settings };
   const uniforms = {
     tDiffuse: { value: null },
     tDepth: { value: null },
@@ -389,10 +450,11 @@ export function createPrintLook({ enabled = false, settings = {} } = {}) {
     printShadow: { value: new THREE.Vector4() },
     printSky: { value: new THREE.Vector4() },
     printGrain: { value: new THREE.Vector4() },
+    printLift: { value: 1 },
     toneMappingExposure: { value: 1 },
   };
   const material = new THREE.ShaderMaterial({
-    name: "Woodblock print",
+    name: "Drawn look",
     uniforms,
     vertexShader,
     fragmentShader,
@@ -411,8 +473,8 @@ export function createPrintLook({ enabled = false, settings = {} } = {}) {
   };
   let sceneDepth = null,
     tone = null,
-    way = colourwayAt(780),
     minute = 780,
+    way = LOOKS[drawn].way(colourwayAt(minute)),
     // The view's full height in radians (perspective) or metres (orthographic); divided by the
     // drawn buffer's height it is one pixel's share.
     extent = 1,
@@ -436,6 +498,7 @@ export function createPrintLook({ enabled = false, settings = {} } = {}) {
     uniforms.printShadow.value.set(way.shadow[0], way.shadow[1], way.shadow[2], dials.shadowPivot);
     uniforms.printSky.value.set(...way.sky);
     uniforms.printGrain.value.set(dials.paperGrain, dials.baren, dials.inkFloor, uniforms.printGrain.value.w);
+    uniforms.printLift.value = dials.lift;
   }
   sync();
 
@@ -444,7 +507,7 @@ export function createPrintLook({ enabled = false, settings = {} } = {}) {
   // once resolved, so a second resolve would overwrite the scene's depth with nothing.)
   const pass = new Pass();
   pass.needsSwap = false;
-  pass.enabled = Boolean(enabled);
+  pass.enabled = look !== "realistic";
   pass.render = (renderer, _writeBuffer, readBuffer) => {
     if (tone !== renderer.toneMapping) {
       tone = renderer.toneMapping;
@@ -469,8 +532,24 @@ export function createPrintLook({ enabled = false, settings = {} } = {}) {
     get enabled() {
       return pass.enabled;
     },
+    // The older switch: on returns to the drawn look last shown.
     set enabled(value) {
-      pass.enabled = Boolean(value);
+      this.setLook(value ? drawn : "realistic");
+    },
+    get look() {
+      return look;
+    },
+    // "realistic", or one of DRAWN_LOOKS. Only uniforms change, so nothing compiles.
+    setLook(next) {
+      look = DRAWN_LOOKS.includes(next) ? next : "realistic";
+      pass.enabled = look !== "realistic";
+      if (pass.enabled && look !== drawn) {
+        drawn = look;
+        Object.assign(dials, PRINT_DEFAULTS, LOOKS[drawn].dials, settings);
+        way = LOOKS[drawn].way(colourwayAt(minute));
+        sync();
+      }
+      return look;
     },
     // Each frame: the camera that drew it, the home's minute, and whether lines may shift (they hold
     // still when motion is reduced or paused).
@@ -480,7 +559,7 @@ export function createPrintLook({ enabled = false, settings = {} } = {}) {
       uniforms.printCamera.value.set(camera.near, camera.far, perspective ? 1 : 0, uniforms.printCamera.value.w);
       if (Number.isFinite(nextMinute) && nextMinute !== minute) {
         minute = nextMinute;
-        way = colourwayAt(minute);
+        way = LOOKS[drawn].way(colourwayAt(minute));
         sync();
       }
       // The cutter's hand: lines resettle six times a second, never continuously.
@@ -491,7 +570,7 @@ export function createPrintLook({ enabled = false, settings = {} } = {}) {
       sync();
     },
     evidence() {
-      return { enabled: pass.enabled, colourway: way.name, minute, draws, textureReads: 23, renderTargets: 0, dials: { ...dials } };
+      return { enabled: pass.enabled, look, colourway: way.name, minute, draws, textureReads: 23, renderTargets: 0, dials: { ...dials } };
     },
     dispose() {
       quad.dispose();

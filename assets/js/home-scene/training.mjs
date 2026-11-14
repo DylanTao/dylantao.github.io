@@ -86,13 +86,18 @@ export function roundWeight(weight, step = 5) {
   return Math.max(45, Math.round(weight / step) * step);
 }
 
-// The gym's two plate sets (Sirui's gym): coloured pound bumpers on the deadlift platform, 55 lb red
-// to 10 lb gray, and black plates on the rack and the bench, 45 lb down to 2.5 lb.
-export const BUMPERS = [55, 45, 35, 25, 10];
+// The gym's two plate sets, loaded the way Sirui loads them (his correction, November 13, 2026: "I
+// normally add two blue 45 plate for leg things and for bench, I do the 45lbs black one with weight
+// holder"). Leg lifts, in the rack and on the deadlift platform, take coloured pound bumpers from the
+// blue 45 down to the gray 10; the red 55s stay on the tree. The bench takes the black plates, 45 lb
+// down to 2.5 lb, held by a clamp collar.
+export const BUMPERS = [45, 35, 25, 10];
 export const IRON = [45, 35, 25, 10, 5, 2.5];
+export const BUMPER_STATIONS = Object.freeze(["platform", "rack"]);
+export const CLAMPED_STATIONS = Object.freeze(["bench"]);
 
 // The plates per side for a total on a 45 lb bar at a station, heaviest first, each with its set:
-// bumpers on the platform (black change plates make up the rest), black plates elsewhere.
+// bumpers where the leg lifts happen (black change plates make up the rest), black plates on the bench.
 export function plateLoad(weight, station = "rack") {
   let side = Math.max(0, (weight - 45) / 2);
   const out = [];
@@ -103,7 +108,7 @@ export function plateLoad(weight, station = "rack") {
         side -= lb;
       }
   };
-  if (station === "platform") take(BUMPERS, "bumper");
+  if (BUMPER_STATIONS.includes(station)) take(BUMPERS, "bumper");
   take(IRON, "iron");
   return out;
 }

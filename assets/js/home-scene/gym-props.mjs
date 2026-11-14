@@ -1,5 +1,5 @@
 import * as THREE from "../three.module.min.js";
-import { plateLoad } from "./training.mjs";
+import { plateLoad, CLAMPED_STATIONS } from "./training.mjs";
 import { drawTrainingScreen, trainingSessionKey, trainingDashboardModel } from "./gym-dashboard.mjs?v=gym-close-20261101";
 
 // The gym's moving equipment (Sirui, 2026-10-15): three barbells (in the rack, on the bench's
@@ -148,6 +148,12 @@ export function createGymProps({ room, world, gym, training, material: makeMater
   const plateGeometry = { bumper: geometry("bumper", "plate"), iron: geometry("iron", "plate") };
   const hubGeometry = { bumper: geometry("bumper", "hub"), iron: geometry("iron", "hub") };
   const plateMaterial = (kind, lb) => (kind === "bumper" ? bumper[lb] : iron);
+  // A clamp collar: a flange against the last plate and a body gripping the sleeve, in the same
+  // matte black as the plates' rubber hubs (a plastic lock collar; no eleventh equipment material).
+  const CLAMP_FLANGE = 0.008,
+    CLAMP_BODY = 0.034;
+  const clampFlange = cylinder(0.05, CLAMP_FLANGE, 20),
+    clampBody = cylinder(0.04, CLAMP_BODY, 20);
   const shaft = cylinder(0.0145, 2 * COLLAR, 14),
     sleeve = cylinder(0.025, HALF - SLEEVE, 18),
     collar = cylinder(0.036, 0.03, 18);
@@ -191,6 +197,11 @@ export function createGymProps({ room, world, gym, training, material: makeMater
         add(bar.plates, plateGeometry[kind][lb], plateMaterial(kind, lb), side * (offset + t / 2));
         add(bar.plates, hubGeometry[kind][lb], kind === "bumper" ? insert : rubber, side * (offset + t / 2));
         offset += t + 0.003;
+      }
+      // Sirui clamps the bench's plates ("with weight holder"). An empty bar needs no clamp.
+      if (offset > SLEEVE + 0.004 && CLAMPED_STATIONS.includes(bar.station)) {
+        add(bar.plates, clampFlange, rubber, side * (offset + CLAMP_FLANGE / 2));
+        add(bar.plates, clampBody, rubber, side * (offset + CLAMP_FLANGE + CLAMP_BODY / 2));
       }
     }
   }

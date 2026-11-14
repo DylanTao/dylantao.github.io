@@ -141,3 +141,45 @@ test("releasing hands every bone back to its bind pose", () => {
     if (o.isBone) assert.ok(o.quaternion.angleTo(before[i++]) < 1e-9, o.name);
   });
 });
+
+test("the deadlift bar stays in front of the shins and thighs through a whole repetition", () => {
+  // The bar's centre against each leg's centre line, in the plane the bar crosses (height, forward).
+  // Radii: the bar's shaft, a shin and a thigh of this skeleton's build.
+  const BAR = 0.0145,
+    SHIN = 0.05,
+    THIGH = 0.075;
+  const forward = new THREE.Vector3(0, 0, -1); // the figure faces -z
+  const toLimb = (bar, a, b) => {
+    const p = [bar.y, bar.dot(forward)],
+      u = [a.y, a.dot(forward)],
+      d = [b.y - a.y, b.dot(forward) - a.dot(forward)],
+      k = Math.max(0, Math.min(1, ((p[0] - u[0]) * d[0] + (p[1] - u[1]) * d[1]) / (d[0] * d[0] + d[1] * d[1])));
+    return { distance: Math.hypot(p[0] - u[0] - d[0] * k, p[1] - u[1] - d[1] * k), ahead: p[1] - (u[1] + d[1] * k) };
+  };
+  for (const name of ["deadlift", "sumo-deadlift"]) {
+    const { actor } = figure();
+    const rig = createLiftRig(actor);
+    let closest = Infinity,
+      top = -Infinity;
+    for (let i = 0; i <= 36; i++) {
+      const u = (i / 36) * 0.9;
+      rig.release();
+      const out = rig.apply(name, u, { bar: [8.8, 0.225, 0.28] });
+      assert.ok(out?.center, `${name} at ${u.toFixed(3)} reports its bar`);
+      top = Math.max(top, out.center.y);
+      for (const side of ["L", "R"]) {
+        const hip = joint(actor, `Thigh${side}`),
+          knee = joint(actor, `Shin${side}`),
+          ankle = joint(actor, `Foot${side}`);
+        const shin = toLimb(out.center, knee, ankle),
+          thigh = toLimb(out.center, hip, knee);
+        assert.ok(shin.ahead > 0 && thigh.ahead > 0, `${name} at ${u.toFixed(3)}: the bar is behind the ${side} leg`);
+        closest = Math.min(closest, shin.distance - BAR - SHIN, thigh.distance - BAR - THIGH);
+      }
+    }
+    // Never inside the leg (2 mm of slack for the radii), and close to it: shins at the start, thighs at the top.
+    assert.ok(closest > -0.002, `${name}: the bar is ${(-closest * 1000).toFixed(1)} mm inside a leg`);
+    assert.ok(closest < 0.03, `${name}: the bar never comes within 3 cm of the legs (${closest.toFixed(3)})`);
+    assert.ok(top > 0.65, `${name}: the bar reaches lockout (${top.toFixed(3)} m)`);
+  }
+});

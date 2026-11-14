@@ -4,7 +4,7 @@ import { createArtDirection } from "./materials.mjs";
 import { createPacific } from "./environment.mjs?v=rain-contact-20261102";
 import { createFinish, physicalTime, surfaceLook } from "./realism.mjs";
 import { readLook } from "./look.mjs";
-import { createPrintLook, readPrintLook, writePrintLook } from "./print-look.mjs";
+import { createPrintLook, readDrawnLook, writeDrawnLook } from "./print-look.mjs";
 import { createSectionCut } from "./section-cut.mjs";
 import { createExplorationState, resolveRoutine, routineRoom, formatMinute, chooseArrivalAvatar, pacificClock } from "./routine.mjs";
 
@@ -143,7 +143,7 @@ export function createCoastalHome(container, records, artifacts) {
   }
   const look = readLook(location.search, lookStorage);
   // The woodblock-print experiment (print-look.mjs): ?print=1, or the lab's toggle.
-  const printLook = createPrintLook({ enabled: readPrintLook(location.search, lookStorage) });
+  const printLook = createPrintLook({ look: readDrawnLook(location.search, lookStorage) });
   // The lifted roof's seats read as cut material (section-cut.mjs). ?section=0 keeps the bare rock.
   const sectionCut = new URLSearchParams(location.search).get("section") === "0" ? null : createSectionCut();
   const scene = new THREE.Scene();
@@ -4338,20 +4338,18 @@ export function createCoastalHome(container, records, artifacts) {
     };
     container.labScene.printLook = printLook;
     container.labScene.sectionCut = sectionCut;
-    const printToggle = ui.querySelector("[data-world-print]");
-    if (printToggle) {
-      const showPrint = () => {
-        printToggle.setAttribute("aria-pressed", String(printLook.enabled));
-        printToggle.textContent = printLook.enabled ? "Back to the realistic render" : "Print it as a woodblock";
-      };
-      showPrint();
-      listen(printToggle, "click", () => {
-        printLook.enabled = !printLook.enabled;
-        writePrintLook(printLook.enabled, lookStorage);
-        showPrint();
+    // The look switch: the realistic render, or one of the drawn looks (print-look.mjs).
+    const lookButtons = [...ui.querySelectorAll("[data-world-drawing]")];
+    const showLook = () => {
+      for (const button of lookButtons) button.setAttribute("aria-pressed", String(button.dataset.worldDrawing === printLook.look));
+    };
+    showLook();
+    for (const button of lookButtons)
+      listen(button, "click", () => {
+        writeDrawnLook(printLook.setLook(button.dataset.worldDrawing), lookStorage);
+        showLook();
         requestFrame();
       });
-    }
     container.labScene.setTemporalEnabled = (value) => {
       finish?.setTemporalEnabled(value);
       requestFrame();
