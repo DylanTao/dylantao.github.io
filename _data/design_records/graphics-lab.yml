@@ -1639,14 +1639,14 @@ systems:
           - move: Raise and fade the roof over about 400 ms when the section opens, and settle it back on the way out.
             readiness: ready
       - id: print-treatment
-        name: The home printed in key lines and flat colour
+        name: The home drawn as a cartoon or a woodblock print
         status: experimental
         since: "2026-11-13"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/print-treatment.webp
           alt: The cliff house drawn with ink key lines and flat colour, sandstone strata outlined, the pool a flat turquoise and shadows leaning blue
           frame: Coast view at 12:00 on November 3, 2026 (page clock fixed), reduced motion, 1600 × 900, centre crop, controls hidden, with ?print=1.
-        what: A second reading of the finished frame, off unless `?print=1` or the lab's toggle asks for it. One pass redraws the realistic render with key lines, flattened colour and a colourway chosen by the hour.
+        what: Two drawn readings of the finished frame, off unless `?look=toon`, `?look=print`, `?print=1` or the lab's switch asks for one. One pass redraws the realistic render with key lines, flattened colour and a colourway chosen by the hour; the cartoon and the woodblock are two sets of settings for it.
         how: >-
           The pass takes the output pass's place and tone-maps the frame itself, because a multisampled target discards
           its depth once resolved and a second resolve would overwrite it. Key lines come from the second difference of
@@ -1659,11 +1659,15 @@ systems:
           seven colourways of paper, ink, shadow blue and sky band (night, dawn, morning, noon, afternoon, dusk, evening),
           after Hiroshi Yoshida, who printed one set of blocks as morning, afternoon, mist, evening and night. Paper tooth
           and uneven pressure are fixed to the sheet. While printed, the people step at twelve poses a second and the
-          camera stays smooth.
+          camera stays smooth. The cartoon (`LOOKS.toon`, added November 13 after Sirui found the woodblock "a bit too
+          grim" and asked for "a bit more Rick and Morty vibe") is the same pass with other settings: near-white paper,
+          lightness raised to the power 0.8 and held further off black, four hard steps, every hue kept so greens stay
+          green, shadows that darken more than they turn blue, no grain, and one heavier outline inside forms as well
+          as round them. Changing look sets uniforms only, so nothing compiles.
         files:
           - path: assets/js/home-scene/print-look.mjs
-            role: The pass, its shader, the colourways and the dials.
-            functions: [createPrintLook, colourwayAt, readPrintLook, linearToOklab, oklabToLinear]
+            role: The pass, its shader, the colourways, the two looks and the dials.
+            functions: [createPrintLook, colourwayAt, readDrawnLook, linearToOklab, oklabToLinear]
           - path: assets/js/home-scene/realism.mjs
             role: Adds the pass after the output pass and switches between them.
             functions: [createFinish]
@@ -1677,11 +1681,15 @@ systems:
           - The frames so far read closer to a line-and-wash illustration than to a woodblock print; the name states the aim, not a match to any printmaker.
           - Lines come from depth only, so a rug on a floor or a painting on a wall gets none, and a low-polygon curve can show its facets as folds.
           - Lines are one unfiltered sample per pixel and alias on thin geometry. Line shifting between frames has not been judged in motion.
-          - Judged by Claude on noon frames of three views. Dusk, night, a phone and Sirui's eye are all still missing.
+          - The cartoon borrows the manner of television animation in general (flat fills, even outlines); it copies no show's designs, and the house's forms are still the realistic model's.
+          - Sirui has seen the woodblock once and not yet the cartoon. Claude judged the cartoon on two noon views and one evening view; night and a phone are still missing.
+          - The switch lives in the lab menu (`?scene-lab=1`). Visitors have no control yet.
           - 23 texture reads per pixel (13 colour, 10 depth) in one full-screen draw; its frame cost has not been measured.
         next:
-          - move: Judge dusk and night frames against Kawase Hasui's lit windows, and a phone, before offering visitors a control.
+          - move: Judge dusk and night frames of both looks, and a phone, before offering visitors a control.
             readiness: needs-measurement
+          - move: Offer visitors the look as one labelled choice beside Rooms (Realistic, Cartoon, Woodblock), remembered for the session.
+            readiness: needs-decision
           - move: Add a hidden dial panel so line weight, value steps and shadow blue can be tuned by hand.
             readiness: ready
 

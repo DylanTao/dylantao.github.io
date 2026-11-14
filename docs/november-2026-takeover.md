@@ -26,7 +26,7 @@ Sirui asked for a wrap-up to save tokens. Everything below is committed and push
 
 1. CI for the last push. The visual workflow takes about an hour over 46 jobs. If only desktop-1440 `scene-rooms` fails on time, re-run that job (section G).
 2. Sirui has seen none of this session's visual work. His eye is the open gate on the garden (day, night and a phone), the hatched section, the orbit limits and the print treatment. `?print=1` on the homepage, then 3D, shows the print.
-3. The code-activity refresh was 16 hours old at the wrap-up and was not run locally, because the scan takes two hours. The scheduled refresh will catch it.
+3. The code-activity refresh: the scheduled refresh landed just before the first push, so nothing was owed.
 
 **Next, in the order I would take them**
 
@@ -35,6 +35,14 @@ Sirui asked for a wrap-up to save tokens. Everything below is committed and push
 3. The rock above the cut, only if Sirui still sees leftover masses now that the orbit keeps to the open side (B2 step 2). It is the largest item: a split of the cliff mesh and a full shell export.
 4. Lift the lid (B2 step 3). A first try at drawing the lifted roof as a floating outline read as scratches, not as a roof: the roof solids are cliff-shaped, so their rims are ragged. A plain rise-and-fade of the real pieces is the remaining idea.
 5. The transmission copy experiment (E1), and the sun-bounce measurement (R2).
+
+## Second session (November 13, evening)
+
+Sirui looked at the print and wrote back: "a bit too grim", "maybe a bit more Rick and Morty vibe"; the bar's plates did not match what he loads; the deadlift was better but the bar still passed through his leg. He asked what "quantized water" and "sun-bounce network" meant, for simulated experts to grill the ideas, for a research and rollout pipeline that keeps improving the 3D without hurting what else he cares about, and for a good way to switch between drawn styles. "Finish some of the easy ones and record other ones."
+
+Done and pushed (section H has the detail): a cartoon look beside the woodblock, the bars loaded his way, a deadlift whose bar stays in front of the legs, and the formatter failure from the first push (two generated reports). The first push's 46 visual jobs all passed.
+
+Recorded, not built: the visitor-facing look switch, the expert panel as separate agents, the research loop, and Sirui's larger direction of several drawn worlds with their own materials, physics, avatar and companion, including a watercolour world of his own (sections H, I and J, and the notebook cards "Looks are settings, not renderers", "A research loop for this house" and "A world is more than a filter").
 
 ## State at takeover (November 13, 00:10 Pacific)
 
@@ -86,7 +94,7 @@ Observed on the local build at 1440 × 1000, light theme:
 
 - [x] **R1. Fixed-point water.** Parked after checking what it would buy: see section S.
 - [ ] **R2. A small network for the sun's bounce.** Read Codex's result before starting: a traced grid of 289 sun directions at the 128 probes failed both ways. It was inaccurate at held-out directions around the study's apertures (normalized RMS error about 7.85 against a reference whose maximum was only 0.00417 in unit-illuminance irradiance) and too large (834,743 bytes against the cache's 800,000-byte ceiling). The signal itself is small in the study. So the first step is a measurement, not a network: the exact one-bounce solar term at every probe through a day, as a share of the sky and lamp light already there. If it is under a few percent everywhere, drop this. If the sea-facing rooms show a real term in the afternoon, a network conditioned on sun direction is the candidate, and the 289-direction table is the baseline to beat on error and bytes.
-- [x] **R3. A woodblock-print treatment** for the home, version 1. `?print=1`, or the lab's "Print it as a woodblock". See the notebook card "Same blocks, different hours". Commit `e5ed6da82`; unit tests 4 of 4, browser case at four widths, full suites 420 Python and 1,080 Node passing. Sirui has not seen it yet. Open: a visible control for visitors, the paper margin and seal, night and dusk frames, phone cost.
+- [x] **R3. A woodblock-print treatment** for the home, version 1. `?look=print` (at first `?print=1` and a lab toggle; the woodblock is now one of two drawn looks, see H1). See the notebook card "Same blocks, different hours". Commit `e5ed6da82`; unit tests 4 of 4, browser case at four widths, full suites 420 Python and 1,080 Node passing. Sirui has not seen it yet. Open: a visible control for visitors, the paper margin and seal, night and dusk frames, phone cost.
 
 ### E. Performance
 
@@ -115,7 +123,38 @@ The record pages listed these as open; the code says otherwise.
 
 - The first push of this takeover (`bd3fc9ea6`) failed one of 46 visual jobs: desktop-1440 `scene-rooms` hit the 20-minute limit of "every Rooms destination receives pointer input", which renders at 2560 × 1440 on software WebGL. A re-run of that job passed (that case took 12.3 minutes), so the run is green.
 - The commit did not slow the scene in general: the same nine cases on the other three viewports ran as fast as or faster than the last green run before the takeover (laptop: 64 s, 3.9 min and 2.8 min for the first three cases, against 104 s, 7.5 min and 5.3 min). On this machine a forced still frame of the whole-home view takes the same time with the section cut on or off.
+- A second, rarer flake, seen once in six local runs on November 13: "the gym frames the face and full exercise poses" collects `GL_INVALID_VALUE: glGetProgramiv: Program object expected` (a retired shader program polled once more; `program-lifetime.mjs` exists to prevent it). It passed four of four on repeat. Re-run before investigating.
 - The desktop job itself has now been slow twice (6.7 minutes for that case on November 8; over 20 and then 12.3 on November 13). Hosted runners vary by a factor of two between jobs of one run, and this case has no slack for a slow one. If it fails again on a commit that passes elsewhere, re-run the job before reading anything into it; if it keeps taking over 12 minutes, the limit is the thing to look at.
+
+### H. Sirui's November 13 evening note
+
+- [x] **H1. A cartoon look.** `?look=toon` (and now `?print=1`): the same pass as the woodblock with other settings: near-white paper, lifted values in four hard steps, full colour, shadows that darken more than they turn blue, no grain, one heavier even outline. `?look=print` keeps the woodblock. The lab's Graphics studies has a three-way switch. Unit tests 5 of 5; the browser case walks realistic, cartoon, woodblock and back. Sirui has not seen it; night and a phone have not been looked at.
+- [x] **H2. The bars carry what Sirui loads.** Leg lifts (rack and platform) take blue 45 bumpers, two a side at his working weights, and the red 55s stay on the tree. The bench takes black plates with a clamp collar. `training.mjs` (`BUMPERS`, `BUMPER_STATIONS`, `CLAMPED_STATIONS`), `gym-props.mjs`. The weights themselves still come from his program in the manifest (training maxes: bench 235, press 130, squat 315, deadlift 310, as of October 15). If the numbers on the bar are still wrong, those maxes are what to correct.
+- [x] **H3. The deadlift bar no longer passes through the legs.** Measured first: on the test skeleton the bar was behind the leg's line in 25 of 37 sampled frames of a repetition, up to 8.5 cm inside the thigh, because hips and bar rose together and the knees were still forward when the bar passed them. Now the knees straighten first with the hips back, and the hips come through after the bar is past the knees; the feet stand 7 cm behind the bar's line and the hips finish 2.5 cm behind it. Zero frames behind, 2 mm clear at the closest for the conventional lift and 6 mm for sumo, hands still on the bar. `test/coastal-lift-rig.test.mjs` holds it. Not checked: each avatar's own leg thickness (the test uses one build), and the squat, bench and press for the same fault.
+- [ ] **H4. A look switch for visitors.** Design in the notebook card "Looks are settings, not renderers". Needs Sirui's yes on the cartoon first.
+- [ ] **H5. The same audit for the other lifts.** The probe that measured the deadlift (bar against limb centre lines, in the plane the bar crosses) works for the squat's bar against the neck and the bench's against the chest and face.
+
+### I. A research loop, and a panel to grill it
+
+- [ ] **I1. Run the panel as separate agents** on the next proposal before building it (the roles and their standing questions are in the notebook card "A research loop for this house"). This session's panel was one model arguing each role in turn, which is cheaper and weaker.
+- [ ] **I2. One command that reports the numbers Sirui cares about** for a candidate against `main`: frame time outside and in a room at 2K, first-scene bytes, time to ready, draws, and three fixed frames per look. Most pieces exist (`bin/measure_coastal_views.cjs`, `bin/compare_coastal_stills.cjs`, the asset budget test); they are not yet one report.
+
+### J. Worlds: one house, several ways of drawing it
+
+Sirui, November 13, after seeing the first cartoon frames (with a poster of _Common Side Effects_ attached): render the house in the drawn styles he likes: the television cartoon already named, the _Common Side Effects_ manner, the _Spider-Verse_ manner ("the new Sony bold color", high resolution "yet still micro"), pencil ("black and white with different gray", "truly floaty feeling"), and one that is "uniquely Sirui": "illustration like water color crazy world with vibrant color and wacky physics and expressive stroke". They "should not just cheaply do a trivial shitty transform": each needs its own material texture and rendering, and "even physics can be different". Each world gets its own version of him and its own companion. Study art history, develop the style gradually, and record the process.
+
+Nothing below is built. It is the plan, in the order I would take it. The notebook card "A world is more than a filter" has the reasoning.
+
+- [ ] **J1. Give the looks something to read.** Today a drawn look sees finished colour and depth. Every style below needs the surface's direction, which object and material a pixel belongs to, and the light separated from the surface colour, so that it can draw a shadow as a shape and a material as an area. That is one more colour attachment on the beauty pass. Measure its cost at 2K and on a phone before anything is built on it.
+- [ ] **J2. The cartoon, done properly.** Flat colour taken from the material, not from lit pixels. One shadow step cut from the real light, its edge cleaned so it reads as a drawn shape. Outlines from object edges at one even weight. Version 1 (H1) posterises the finished frame, which is the cheap transform.
+- [ ] **J3. Sirui's own: watercolour.** The one to spend the most on. First a page of rules with their sources (see the card), then one room, the kitchen nook and garden, before the whole house.
+- [ ] **J4. Pencil.** Greys only, hatching that stays on the surface and keeps its stroke width at any distance, contours drawn two or three times a little apart, paper showing through, the picture fading out toward the edge of the sheet. Lighter gravity for cloth, steam and hair; slow settling.
+- [ ] **J5. Comic print** (the _Spider-Verse_ manner). Halftone dots carry the mid-tones and hatching the darks; colour plates printed out of register stand in for focus blur; line weight varies; people move on twos while the camera moves on ones; colour is bold and complementary. Snappy motion with overshoot and holds.
+- [ ] **J6. Field guide** (the _Common Side Effects_ manner, from the poster): one thin, slightly irregular black line; flat dusty natural colour with a single darker shadow shape; off-white ground; marks only where they explain a texture; one or two saturated glowing accents (here the lantern, the fire, the pool). Deadpan timing: ordinary physics, long holds.
+- [ ] **J7. A Sirui and a companion for each world.** Five manners of avatar exist (`manifest.avatars`). A world chooses one; a new world gets designs drawn for it. The companion has one design today.
+- [ ] **J8. A page per world before any shader:** five to seven rules that can each be checked on a frame, three fixed frames, what the physics and timing are, and what it is named. Then the panel, then a flag, then the lab, then Sirui's eye (the research loop).
+
+Naming and sources: on the site a world is named for how it is made (Cartoon, Field guide, Comic print, Pencil, Watercolour), and its record row credits what it learned from. No show's characters, logos or frames are copied; what is taken is technique.
 
 ## Ideas ledger
 
@@ -204,3 +243,63 @@ The fix is a statement about the building, not a better collision test. From the
 - **Check the public controls, not the lab camera.** A lab camera can be placed anywhere, and my first "views from the side" were inside the rock for that reason. The broken views a visitor could actually reach only showed up when I dragged the real canvas in steps.
 - **One state, one envelope.** The envelope depends on where the orbit is (inside the arc and low, inside and high, outside). Every legal orbit is unchanged by its own envelope, so crossing from one case to another never moves the camera. The shown, still-settling orbit is clamped by its own case rather than the requested one, so it cannot be snapped across a corner.
 - **What it does not fix.** At the arc's western end the bedroom wing's cut face is a large dark shape on the right of the frame. From above, the cut seats cover 40 to 60 percent of the picture; the hatch (step 1c) is what keeps that from reading as empty.
+
+### Looks are settings, not renderers
+
+Sirui asked how best to switch between drawn styles. The cartoon was the test: it took no new shader, only a second set of numbers for the pass the woodblock uses, plus one new dial (a lift on lightness). That is the rule worth keeping.
+
+- **One pass, many looks.** A look is a name, a set of dials and a function on the hour's colourway (`LOOKS` in `print-look.mjs`). Switching sets uniforms, so it is instant, compiles nothing and cannot hitch. A new look earns a new shader feature only when no setting of the existing ones gets there (halftone dots, hatching by tone, a wet edge), and then every look can use the feature.
+- **One name everywhere.** `?look=toon` in the URL, the same word in session storage, in the lab's switch and in the evidence. `?print=1` stays as "the drawn look I last used".
+- **What a look may change, and what it may not.** It may change colour, line and the people's frame rate (drawn looks step them on twos). It may not change geometry, camera, what is clickable or what the hour is: a dusk is a dusk in every look, so the looks stay comparable frame for frame.
+- **For visitors:** one labelled choice beside Rooms, not a toggle that changes its own label: Realistic, Cartoon, Woodblock. Remembered for the session, never forced, and absent on the low tier until a phone has been measured. A 250 ms blend between two looks is possible because they are numbers, and is worth doing only if the cut feels abrupt.
+- **Judging a look:** the same three frames each time (coast at noon, the section at dusk, a room at night), a phone, and Sirui's eye. Numbers that catch accidents, not taste: unique colours, share of pixels that are line, mean lightness.
+
+### What "quantized water" and "a sun-bounce network" meant
+
+Both were shorthand in the first session's notes, and Sirui rightly asked.
+
+- **Quantized water.** The onsen's water is simulated on a small grid of numbers with fractions. "Quantized" would mean doing the same sums with whole numbers only, which is exactly repeatable and can be smaller and faster on weak devices. Checked: this grid is 40 by 40, already costs almost nothing and already repeats exactly. Nothing to gain. Parked.
+- **A sun-bounce network.** Sunlight that lands on a floor lights the room around it by bouncing. The house's stored lighting includes bounce from the sky and the lamps but not from direct sun, because the sun moves all day and storing every position is too big (Codex tried a table of 289 sun positions; it was both too large and inaccurate). A small neural network could learn "sun direction in, bounce at each probe out" and stand in for the table. Checked: in the study the missing bounce is tiny. So the first step is to measure it in the sea-facing rooms in the afternoon; if it is tiny there too, drop the idea.
+
+### A research loop for this house
+
+What Sirui asked for: keep improving the 3D's quality, speed, look and fun without hurting the other things he cares about. The lesson of both sessions is that the cheap step is a measurement and the expensive step is building the wrong thing: two of the first session's research ideas died in an hour of checking, and the two fixes that started from a probe (the orbit, the deadlift) turned a complaint into a number first.
+
+1. **Start from a complaint or a number.** "It looks grim", "the bar goes through my leg", "15.6 frames a second outside". Not from a technique.
+2. **Measure before building.** Write the smallest probe that turns it into a number on this scene (37 frames of a repetition; nine yaws of an orbit; draws by size on screen). Many ideas end here.
+3. **Grill it.** Each role gets one standing question, and the proposal has to answer all of them in writing:
+   - _Rendering engineer:_ what does it cost per frame at 2K and on a phone, and what does it do when the roof is on, the print is on, or the context is lost?
+   - _Lighting artist:_ what does it look like at dusk and at night, not only at noon?
+   - _Animator:_ does anything pass through anything, and does the motion start and stop like a body with weight?
+   - _Architect:_ does the drawing still say what is cut, what is beyond, and where you are?
+   - _Product designer:_ what does a first-time visitor see without being told, and what is the one control?
+   - _Performance engineer:_ which existing budget does it spend (4 MiB first scene, 750,000 bake triangles, ten lights per receiver), and what gives it back?
+   - _Sirui:_ is it more fun, and is it still his house?
+4. **Build behind a flag, with a test that would have failed before.** `?look=`, `?section=0`; a unit test on the rule and one real-input browser case.
+5. **Roll out in steps:** flag, then the lab menu, then an opt-in control, then the default. Each step needs the fixed frames, a phone and Sirui's eye. Anything can stop at any step and stay there.
+6. **Write down what was rejected and why,** in the public record's limits and in this notebook. Nothing is "state of the art" here unless a like-for-like measurement against a named method says so.
+
+The panel this session was one model taking each role in turn on the cartoon look and the deadlift. It caught two things: the cartoon turned bushes into black scribble (the lighting and architect questions; foliage lines were cut back), and the first deadlift fix let the hands drift 4 cm off the bar (the animator's question; a sweep found values that keep both). Running the roles as separate agents is I1.
+
+### A world is more than a filter
+
+Sirui's warning was against "a trivial shitty transform". The first cartoon (H1) is one: it re-colours the finished picture. It was the right first step because it was nearly free and answered "is brighter and flatter the right direction?", but it cannot become any of the worlds he described. What separates a world from a filter:
+
+- **It draws from the scene's structure, not from its pixels.** A drawn shadow is a shape with an edge someone chose. That needs the light as its own quantity. A flat colour is the material's colour, not an average of lit texture. A line belongs to an object's edge, not to a jump in depth. Hence J1.
+- **It has its own materials.** Pencil is graphite on tooth; watercolour is pigment that pools at an edge and thins in the middle; a comic is ink dots on newsprint. These are properties of the medium and they live on the sheet or on the surface, never floating between the two (a pattern fixed to the screen slides over moving objects, the "shower door" effect; a pattern fixed to the surface shrinks with distance; the published answers blend scales, as in tonal art maps).
+- **It has its own time.** Twos or ones, holds, how fast a thing settles. The house already steps its people at twelve poses a second in drawn looks.
+- **It has its own physics, within reason.** The cloth, water, steam and springs all have dials (stiffness, damping, gravity). A pencil world can be lighter and slower; a watercolour world can overshoot and wobble. One dial at a time, and nothing a visitor has to learn.
+- **It has its own cast.** A person drawn for that world, not a model from another world pushed through its shader.
+
+What to read before the watercolour, and what each is for:
+
+- Curtis, Anderson, Seims, Fleischer and Salesin, _Computer-Generated Watercolor_ (SIGGRAPH 1997): what the medium physically does: dark edges where a wash dries, backruns, granulation in the paper's valleys, glazes that mix like filters.
+- Bousseau, Kaplan, Thollot and Sillion, _Interactive Watercolor Rendering with Temporal Coherence and Abstraction_ (NPAR 2006): how to get those effects in real time and keep them from swimming when things move.
+- Montesdeoca, Seah, Rall and Benvenuti, _Art-Directed Watercolor Stylization of 3D Animations in Real-Time_ (Computers & Graphics, 2017): colour bleeding, and "gaps and overlaps" where the wash misses the line, placed by an artist rather than everywhere.
+- Meier, _Painterly Rendering for Animation_ (SIGGRAPH 1996), and Hertzmann, _Painterly Rendering with Curved Brush Strokes of Multiple Sizes_ (SIGGRAPH 1998): strokes that follow form and stay put from frame to frame.
+- For pencil: Praun, Hoppe, Webb and Finkelstein, _Real-Time Hatching_ (SIGGRAPH 2001, already in the Graphics Lab's sources), and Lee, Kwon and Lee, _Real-Time Pencil Rendering_ (NPAR 2006).
+- For the comic print: Sony Pictures Imageworks' own published accounts of the two _Spider-Verse_ films (halftones, hatching, misregistration in place of blur, mixed frame rates). Read them before writing a rule; I have not verified details against them yet.
+
+Painters to look at before deciding what "uniquely Sirui" means, each for one thing: Raoul Dufy, for colour laid in loose patches that deliberately miss the drawn line; the Fauves (Matisse, Derain), for colour chosen for feeling rather than for the object; Paul Klee's watercolours, for stepped glazes; John Singer Sargent's, for light made by leaving the paper white; Chinese freehand ink painting, for few strokes and deliberate empty space; Hiroshi Yoshida and Kawase Hasui, already behind the woodblock, for one drawing printed as many hours. The first exercise is to pick three parents and write one sentence for what is taken from each. That page is J8 for the watercolour.
+
+Not verified, and to check before any of it is quoted publicly: the page numbers and exact titles above are from memory.
