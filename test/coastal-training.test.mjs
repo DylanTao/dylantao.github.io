@@ -5,6 +5,8 @@ import {
   BUMPERS,
   BUMPER_STATIONS,
   CLAMPED_STATIONS,
+  ONE_PLATE,
+  warmupWeight,
   platesFor,
   plateLoad,
   roundWeight,
@@ -56,6 +58,31 @@ test("leg lifts load blue 45 bumpers and the bench loads clamped black plates", 
     [185, "bench"],
   ])
     assert.equal(45 + 2 * plateLoad(weight, station).reduce((sum, p) => sum + p.lb, 0), weight, `${weight} adds up`);
+});
+
+test("the warm-up is the empty bar, then one plate a side when the day's lift is heavier than that", () => {
+  assert.equal(ONE_PLATE, 135);
+  assert.equal(warmupWeight(235), 135);
+  assert.equal(warmupWeight(155), 135);
+  assert.equal(warmupWeight(135), 80, "a first set at one plate warms up lighter, at 60 %");
+  assert.equal(warmupWeight(100), 60);
+  assert.equal(warmupWeight(65), 45, "never lighter than the bar");
+  // The squat day in the manifest: bar, then a blue 45 a side, then the working sets.
+  const info = trainingAt(config.training, "2026-11-02", 18 * 60 + 2, 0);
+  const warmups = info.timeline.segments.filter((segment) => segment.kind === "set" && segment.warmup);
+  assert.deepEqual(
+    warmups.map((segment) => [segment.lift, segment.weight, segment.reps]),
+    [
+      ["squat", 45, 10],
+      ["squat", 135, 5],
+    ]
+  );
+  assert.deepEqual(
+    plateLoad(135, LIFT_STATION.squat).map((plate) => [plate.lb, plate.kind]),
+    [[45, "bumper"]]
+  );
+  const firstWorking = info.timeline.segments.find((segment) => segment.kind === "set" && !segment.warmup);
+  assert.ok(firstWorking.weight > 135 && plateLoad(firstWorking.weight, "rack").filter((plate) => plate.lb === 45).length === 2);
 });
 
 test("every week has Sunday off and four to six sessions, with rest days never back to back", () => {

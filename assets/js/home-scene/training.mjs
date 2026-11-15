@@ -113,6 +113,14 @@ export function plateLoad(weight, station = "rack") {
   return out;
 }
 
+// The second warm-up set, after the empty bar. Sirui, November 13, 2026: "I normally start warm up
+// with bar and then 1 plate": one 45 a side, 135 lb, when the day's first working set is heavier
+// than that; a lighter lift (a press, an incline) warms up at 60 % as before.
+export const ONE_PLATE = 135;
+export function warmupWeight(firstWorkingSet) {
+  return firstWorkingSet > ONE_PLATE ? ONE_PLATE : roundWeight(firstWorkingSet * 0.6);
+}
+
 // Plates per side for a total on a 45 lb bar, heaviest first (the black set).
 export function platesFor(weight) {
   let side = Math.max(0, (weight - 45) / 2);
@@ -249,8 +257,9 @@ export function sessionTimeline(plan) {
   push("board", 50, { note: "plan" });
   const first = plan.lifts[0];
   const station = (lift) => LIFT_STATION[lift];
+  const warmup = warmupWeight(first.sets[0].weight);
   for (let k = 0; k < 2; k++) {
-    const weight = k === 0 ? 45 : roundWeight(first.sets[0].weight * 0.6);
+    const weight = k === 0 ? 45 : warmup;
     if (k === 1) push("load", 16, { lift: first.lift, weight, from: 45, station: station(first.lift) });
     push("setup", SETUP_SECONDS[first.lift], { lift: first.lift, weight, station: station(first.lift), warmup: true });
     const reps = k === 0 ? 10 : 5;
@@ -258,7 +267,7 @@ export function sessionTimeline(plan) {
     push("rerack", RERACK_SECONDS[first.lift], { lift: first.lift, weight, station: station(first.lift), warmup: true });
     push("rest", 75, { after: first.lift, warmup: true });
   }
-  let loaded = { [station(first.lift)]: roundWeight(first.sets[0].weight * 0.6) };
+  let loaded = { [station(first.lift)]: warmup };
   for (const entry of plan.lifts) {
     const block = entry.tier === 1 ? 300 : 245;
     const where = station(entry.lift);
