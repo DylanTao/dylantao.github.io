@@ -6,6 +6,7 @@ Sirui's request, in his words: finish the unfinished todos, check the site's own
 
 ## How to read this file
 
+- **The list** is the whole plan on one screen, and **What Sirui has asked for** keeps his requests in his own words. Read both first; update the list whenever a section changes.
 - **Todo** is the live checklist. `[x]` means verified with the evidence named beside it. `[ ]` with a **Best effort** note means a real attempt fell short; the note says why and what to try next.
 - **Notebook** holds the lessons, in the October studio log's card format (frame, dimensions, move, backtalk, reframe).
 - Nothing here claims "photoreal" or "state of the art" unless a measurement on this scene says so.
@@ -35,6 +36,103 @@ Sirui asked for a wrap-up to save tokens. Everything below is committed and push
 3. The rock above the cut, only if Sirui still sees leftover masses now that the orbit keeps to the open side (B2 step 2). It is the largest item: a split of the cliff mesh and a full shell export.
 4. Lift the lid (B2 step 3). A first try at drawing the lifted roof as a floating outline read as scratches, not as a roof: the roof solids are cliff-shaped, so their rims are ragged. A plain rise-and-fade of the real pieces is the remaining idea.
 5. The transmission copy experiment (E1), and the sun-bounce measurement (R2).
+
+## The list
+
+Sirui, November 14: "show me a high level list of the todos ... so we can align that you didn't forget anything or lost anything between session change ... it is ok that the task is hard ... as long as we write that down, we can just keep pushing with every week's token ... but i don't want to keep re-explain myself."
+
+This is that list. It is the first thing to read and the first thing to update. Letters point to the sections under "Todo"; the detail and the evidence live there. Nothing here needs to finish in one session.
+
+**Waiting on Sirui** (his eye or one answer)
+
+1. Look at what shipped and say what is wrong: the cartoon (`?look=toon`) and the woodblock (`?look=print`); the garden by day, at night and on a phone; the hatched section and the whole-home orbit; the plates, the warm-up and the deadlift; lamps easing between rooms.
+2. Flashing: if it still happens, where and when (H7).
+3. The thermal look he liked: a screenshot of the reel, or three words about it (J9).
+4. Publications on a phone opens with the Wall of Rejection, not a paper. Intended? (C8)
+
+**The house**
+
+| What                                                                             | State                                     | Where         |
+| -------------------------------------------------------------------------------- | ----------------------------------------- | ------------- |
+| Garden under the bedroom, with its lantern                                       | shipped                                   | B1            |
+| Cut rock drawn as hatched section; whole-home orbit kept out of the cliff        | shipped                                   | B2            |
+| Bars loaded his way, his warm-up, deadlift clear of the legs                     | shipped                                   | H2, H3, H6    |
+| Lamps ease between rooms                                                         | shipped                                   | H7            |
+| **The arrival: a stair that leads into the living room and reveals the sea**     | **next big piece; options to mass first** | K             |
+| The stair hall as its own place; shadow refit at doorways; curtain over the lens | open                                      | H7            |
+| The same bar-through-body audit for squat, bench and press, on every avatar      | open                                      | H5            |
+| Leftover rock above the cut; a roof that visibly lifts                           | open, only if he still sees it            | B2 steps 2, 3 |
+| Hard sunlit edge in the study                                                    | not found twice; closed unless seen again | B3            |
+| Light bake at 736,041 of 750,000 triangles                                       | watch before adding geometry              | B1            |
+
+**Looks and worlds**
+
+| What                                                                                   | State                                  | Where  |
+| -------------------------------------------------------------------------------------- | -------------------------------------- | ------ |
+| Cartoon and woodblock as two settings of one pass, switch in the lab menu              | shipped, version 1 (a filter)          | H1, R3 |
+| Give looks the scene's structure: surface direction, object identity, light on its own | next; measure its cost first           | J1     |
+| The cartoon done properly, with the craft list                                         | next                                   | J2     |
+| A one-page rule sheet per world before any shader                                      | next                                   | J8     |
+| Watercolour: the one that is uniquely his; one room first                              | open; starts with choosing its parents | J3     |
+| Pencil; comic print; field guide                                                       | open                                   | J4-J6  |
+| Heat: a thermal camera's house, with a real heat model                                 | designed, not built                    | J9     |
+| His own figure and a companion for each world; physics and timing per world            | open                                   | J7     |
+| A look switch for visitors; dusk, night and phone checks                               | after he approves a look               | H4, R3 |
+| Worlds across the whole site: tokens, skins, behaviours, states                        | later; one world on one page first     | M      |
+
+**Sound**
+
+| What                                                                           | State | Where |
+| ------------------------------------------------------------------------------ | ----- | ----- |
+| An engine and a switch, off until asked; six interface notes                   | open  | L1    |
+| The key of the hour; the house's own sounds; a timbre per world; sonifications | open  | L2-L4 |
+
+**The site's pages**
+
+| What                                                                               | State                                   | Where |
+| ---------------------------------------------------------------------------------- | --------------------------------------- | ----- |
+| Homepage and project-card fixes; a row a mouse can throw                           | shipped                                 | C1-C7 |
+| Every page read against the video's lessons (one thing per section, motion, story) | homepage and first screens only         | C     |
+| The throwable row on other rows; one style and feel across the site                | open                                    | C7    |
+| The open-problem lists on the public record pages, worked through                  | two stale entries left; the rest unread | F     |
+
+**Research and speed**
+
+| What                                                                             | State                         | Where  |
+| -------------------------------------------------------------------------------- | ----------------------------- | ------ |
+| The outside view at 2K (about 15 frames a second): the passes, not small objects | one experiment named, not run | E1     |
+| The sun's bounce: measure it in the sea-facing rooms before any network          | open                          | R2     |
+| Fixed-point water                                                                | parked: nothing to gain       | R1, S  |
+| The panel as separate agents; one command that reports his numbers               | open                          | I1, I2 |
+| A smaller light cache from a small quantized network                             | idea                          | S      |
+
+**Keeping the record**
+
+- This file first, then the memory notes, then the Graphics Lab record when something ships.
+- Every push: watch all CI jobs; section G lists the known flakes.
+
+## What Sirui has asked for, in his words
+
+So he does not have to say it twice. Dated; newest last. The list above says where each stands.
+
+- **November 3 (phone review, via Codex):** the study "looks brighter, still a tiny bit sharp divide of where sun is shining"; "some weird geometry curving"; "when i am sleeping, my bedroom should maybe have curtain"; "breakfast nook can be extended and fill the space under the bedroom with some nice and comfy plant surrounding"; screenshots of "sharp big empty curving or geometry removal".
+- **November 13, first message:** finish Codex's todos; check "the unfinished todo list on website"; "site critique and improvement" from the Design Review video, where "each section of the page should be about one thing" and "even subtle motions are well designed"; "try the auto-research task in the graphics lab to see if you can beat sota and also make the 3d scene we have even better in quality and more performant"; "be fun and record todos and notes as you go along".
+- **November 13:** use Blender, the browser, Docker, the 3080 Ti, local models: "unlimited electricity ... limited weekly token"; "animation things like disney or sony spiderverse quality"; non-photoreal rendering done well this time; better design "everywhere in my website, in the 3d scene and beyond" from graphics, art history, illustration, 2D animation, architecture, film, UX and storytelling; "record and iterative and improve and write ideas down as you go"; "you are sorta like an auto-evolving agent of sirui's creative ideas".
+- **November 13:** study the Blossom carousel, "make sure ours is even better", leave room for "our own effects and motions"; "make the whole website sync and coherent in style and vibe".
+- **November 13, after the print:** "maybe a bit more rick and morty vibe, it is a bit too grim"; the plates: "two blue 45 plate for leg things and for bench, i do the 45lbs black one with weight holder"; "there are still geometry intersection like bar and my leg"; "use graphics experts in the domain as simulated experts to grill the idea and study the best auto-research pipeline and 3d technique and product rollout so we have continuously improving and sota performance and quality for our website 3d, aesthetic, and funness, and other good metric i care without hurting other ones i also care about"; "think how we best switch between different stylistic rendering".
+- **November 13, the worlds:** the ones he likes: Rick and Morty, _Common Side Effects_, _Spider-Verse_ ("the new sony bold color"), pencil ("black and white with different gray ... truly floaty feeling"); "they should not just cheaply do a trivial shitty transform"; "super high quality and unique art style and material texture, render, even physics can be different"; "a version of me that is different for each world and a different companion"; and "a sirui-style that is uniquely sirui ... illustration like water color crazy world with vibrant color and wacky physics and expressive stroke"; "study art history"; "gradually develop our own artistic style and iterate and record this process".
+- **November 14:** warm-up "with bar and then 1 plate", then his working plates with "smaller plates for later sets"; the cartoon: "check and improve, lots of animation technique you can learn"; the entrance "is a weird squarely resolving stairs ... it can lead into the main living room area better and the main entrance at the lower floor living should also be better designed so we can see sea view and get the wow moment"; "the 3d scene sometimes has weird flashing issue, should be fixed".
+- **November 14, heat:** "the thermal camera view ... really good heat simulation and temperature prediction ... for different material, like water, solid, human, light, fire spot, food, when lifting"; "we have to make it really aesthetic"; later, "those style can be globally applied to my whole site ... truly changing the whole ui and ux properly before we launch".
+- **November 14, sound:** "make some music to go along with my website's different theme etc. and different effect ... really adaptive and customized, like click, scroll, and where there would be delightful interaction moment".
+- **November 14, how to work:** keep the list; hard and slow is fine "as long as we write that down"; "we can even wait for later better, more capable model like we did".
+
+## Third round (November 14)
+
+Sirui's notes, in order: his warm-up is the empty bar and then one plate; the cartoon can be improved with real animation and illustration craft; he could not say where the hard sunlit edge in the study was ("maybe you fixed it"); the entrance is "a weird squarely resolving stairs" that should lead into the living room and give "the wow moment" of the sea; "the 3d scene sometimes has weird flashing issue"; a thermal-camera world with real heat simulation; later, the worlds applied to the whole site, changing its interface and behaviour properly; and adaptive music and interaction sound.
+
+Done and pushed: the warm-up (H6) and a dimmer for the house's lamps (H7), which is the one cause of flashing I could measure. Everything else is recorded as a plan: the arrival (K), the thermal world (J9), sound (L), worlds for the whole site (M), and the craft list for the cartoon (under J2).
+
+Two things I could not do: watch the Instagram reel he linked for the thermal look (the page needs a login), and reproduce a flash while standing still (there is none: 259 frames in the stair hall changed by nothing).
 
 ## Second session (November 13, evening)
 
@@ -134,6 +232,16 @@ The record pages listed these as open; the code says otherwise.
 - [ ] **H4. A look switch for visitors.** Design in the notebook card "Looks are settings, not renderers". Needs Sirui's yes on the cartoon first.
 - [ ] **H5. The same audit for the other lifts.** The probe that measured the deadlift (bar against limb centre lines, in the plane the bar crosses) works for the squat's bar against the neck and the bench's against the chest and face.
 
+- [x] **H6. Warm-up as Sirui does it.** The empty bar for ten, then one plate a side (135 lb) for five, then the working sets. A first working set at or under 135 lb warms up at 60 % as before. `warmupWeight` in `training.mjs`; a unit test walks the squat day in the manifest.
+- [ ] **H7. "The 3d scene sometimes has weird flashing issue."** Measured with a frame recorder that keeps every drawn frame as a small luma image (`bin/record_coastal_flashes.cjs`, new; the repository's own `bin/measure_coastal_flicker.cjs` gave the first lead).
+  - [x] **Lamps snapped when the visitor changed room.** The schedules depend on the room the visitor is in. Walking past the kitchen at night took the dining lights from 30 % to 100 % and the downlights and shelf from 20 % to 100 % in one frame, and back 1.8 s later. They now ease like a dimmer (`dimmer.mjs`: 0.3 s up, 0.8 s down; stills and paused scenes still arrive at once). Unit tests 3 of 3; in the live scene the levels pass through intermediate values and the settling flag clears.
+  - [ ] **The sun's shadow is refitted on every room change during a walk** (`walkRoomChanged` calls `fitSunShadow(true)`), so shadow edges can jump at a doorway. Not measured yet.
+  - [ ] **On the entrance stairs the walker belongs to rooms behind the walls.** `roomAt` picks the nearest room on the walker's storey, and the stair hall is not a room: descending it reads outside, then the private living floor, then a bathroom. Each change moves light levels and refits the shadow. The hall should be its own place; it goes with the arrival redesign (K).
+  - [ ] **At the glass front a curtain can cover the lens for one frame** while walking (one white frame in a recording). Curtains should give way to the walker's head, or the near plane should fade them.
+  - [ ] **Orbiting a room can pass a thin post in front of the lens** (one flagged frame in the study). The camera's arm ignores pieces under 45 cm.
+  - Not seen: the adaptive quality steps (none in 47 s of the coast view at 2560 × 1440 with `?quality=auto`), and any flicker while standing still.
+  - Ask Sirui for where and when: walking or orbiting, which room, which hour. A ten-second screen recording would settle it.
+
 ### I. A research loop, and a panel to grill it
 
 - [ ] **I1. Run the panel as separate agents** on the next proposal before building it (the roles and their standing questions are in the notebook card "A research loop for this house"). This session's panel was one model arguing each role in turn, which is cheaper and weaker.
@@ -147,6 +255,7 @@ Nothing below is built. It is the plan, in the order I would take it. The notebo
 
 - [ ] **J1. Give the looks something to read.** Today a drawn look sees finished colour and depth. Every style below needs the surface's direction, which object and material a pixel belongs to, and the light separated from the surface colour, so that it can draw a shadow as a shape and a material as an area. That is one more colour attachment on the beauty pass. Measure its cost at 2K and on a phone before anything is built on it.
 - [ ] **J2. The cartoon, done properly.** Flat colour taken from the material, not from lit pixels. One shadow step cut from the real light, its edge cleaned so it reads as a drawn shape. Outlines from object edges at one even weight. Version 1 (H1) posterises the finished frame, which is the cheap transform.
+  - Craft to bring in (Sirui, November 14: "lots of animation technique you can learn"): a line-weight hierarchy, heavier on the silhouette than inside the form, with interior lines in a darker shade of the fill rather than black; one designed shadow shape per form plus a rim light, instead of stepped gradients; saturated shadows; a colour key for each hour with one accent; people crisp and flat over a softer, painted house, the way cel characters sit on a painted background; drawn effects for water, steam and fire that boil at eight to twelve drawings a second. For motion, the principles in Thomas and Johnston's _The Illusion of Life_ that the procedural rigs do not have yet: anticipation before a lift, overshoot and settle on arrival, held poses, a smear on the fastest moves, overlap in hair and cloth.
 - [ ] **J3. Sirui's own: watercolour.** The one to spend the most on. First a page of rules with their sources (see the card), then one room, the kitchen nook and garden, before the whole house.
 - [ ] **J4. Pencil.** Greys only, hatching that stays on the surface and keeps its stroke width at any distance, contours drawn two or three times a little apart, paper showing through, the picture fading out toward the edge of the sheet. Lighter gravity for cloth, steam and hair; slow settling.
 - [ ] **J5. Comic print** (the _Spider-Verse_ manner). Halftone dots carry the mid-tones and hatching the darks; colour plates printed out of register stand in for focus blur; line weight varies; people move on twos while the camera moves on ones; colour is bold and complementary. Snappy motion with overshoot and holds.
@@ -154,7 +263,36 @@ Nothing below is built. It is the plan, in the order I would take it. The notebo
 - [ ] **J7. A Sirui and a companion for each world.** Five manners of avatar exist (`manifest.avatars`). A world chooses one; a new world gets designs drawn for it. The companion has one design today.
 - [ ] **J8. A page per world before any shader:** five to seven rules that can each be checked on a frame, three fixed frames, what the physics and timing are, and what it is named. Then the panel, then a flag, then the lab, then Sirui's eye (the research loop).
 
+- [ ] **J9. Heat: a thermal camera's house.** Sirui, November 14: a thermal-camera view with "really good heat simulation and temperature prediction" for water, solids, people, lights, the fire, food, lifting; and "we have to make it really aesthetic". The design is the notebook card "Heat: what a thermal camera would see here". Order of work: (0) get the look he liked: the reel needs a login, so a screenshot or three words about its palette; (1) a temperature pass that replaces the lit render in this world, with a temperature and an emissivity per material, automatic gain, a palette and a legend; (2) time: the cliff's thermal mass through the day, and the things the routine heats (coffee, stove, fire, lamps, bed); (3) bodies; (4) prints that fade: feet, hands, seats; the pointer as a spot meter; (5) the sensor's character and sound.
+
 Naming and sources: on the site a world is named for how it is made (Cartoon, Field guide, Comic print, Pencil, Watercolour), and its record row credits what it learned from. No show's characters, logos or frames are copied; what is taken is technique.
+
+### K. The arrival
+
+Sirui, November 14: "the current entrance to house is a weird squarely resolving stairs which is not a great design, i feel it can lead into the main living room area better and the main entrance at the lower floor living should also be better designed so we can see sea view and get the wow moment". He says he asked for this before.
+
+- What is there: from the clifftop portal (8.3 m up) three flights turn round a square core in a windowless shaft and land in a foyer at the back of the living floor, about ten metres behind the glass front, facing a wall. His screenshot of the hall also shows a ceiling whose baked light fans out in triangles, three downlight discs that float under the ceiling, and a boxy glow round one fitting.
+- What exists already: Codex built a straight arrival privately and never enabled it (`artwork/coastal-home/reviews/entrance-inspection-2026-11-02/README.md`, the handoff's "straight-arrival v14" and "direct-arrival v5" entries, and the worktree `C:/dev/site-takeover-worktrees/straight-arrival-20261101`). Read those and open its house file before drawing anything new.
+- [ ] **K1. Decide the sequence on paper,** with three massing options rendered in Blender's workbench before any export. The notebook card "An arrival that earns the sea" has the brief, the precedents and a test for the wow.
+- [ ] **K2. Build it** as a shell delivery like the garden's, with the hall as its own place for the walker and the lights (H7), fittings recessed, and a ceiling fine enough for its baked light.
+- [ ] **K3. A first-visit arrival:** the walk from the portal as the way the house is first shown, once, skippable, still under reduced motion.
+
+### L. Sound
+
+Sirui, November 14: "make some music to go along with my website's different theme etc. and different effect ... really adaptive and customized, like click, scroll, and where there would be delightful interaction moment".
+
+- [ ] **L1. An engine and a switch.** Sound is off until asked for. One small module on the Web Audio API that synthesises everything (no audio files), with a limiter, and silence when the tab is hidden. Six interface sounds on the homepage behind `?sound=1`.
+- [ ] **L2. The key of the hour.** The hour already picks the palette; it also picks the scale, the tempo and a quiet bed, so every click is a note that fits.
+- [ ] **L3. The house.** The sea, room tone, the fire, and sounds on the simulation's own events: the bamboo drip, a plate going on the bar, a step on stone or oak.
+- [ ] **L4. A timbre per world,** and the sonifications: the Build Rhythm chart played as a rhythm, the paper constellation as notes, the thermal pointer as pitch.
+- The reasoning and the list of moments are in the notebook card "Sound made of the site".
+
+### M. Worlds for the whole site (later)
+
+Sirui, November 14: "later I am thinking if those style can be globally applied to my whole site ... make sure it truly changing the whole ui and ux properly before we launch, like many interaction behavior would change, layout, as well as the basic ui and ux".
+
+- [ ] **M1. One world, one page, end to end** behind `?world=`, before any second world or page. The notebook card "A world is a contract" says what a world must supply and what must not change.
+- [ ] **M2. The checklist that falls out of M1,** then the visual harness sampled across worlds.
 
 ## Ideas ledger
 
@@ -303,3 +441,83 @@ What to read before the watercolour, and what each is for:
 Painters to look at before deciding what "uniquely Sirui" means, each for one thing: Raoul Dufy, for colour laid in loose patches that deliberately miss the drawn line; the Fauves (Matisse, Derain), for colour chosen for feeling rather than for the object; Paul Klee's watercolours, for stepped glazes; John Singer Sargent's, for light made by leaving the paper white; Chinese freehand ink painting, for few strokes and deliberate empty space; Hiroshi Yoshida and Kawase Hasui, already behind the woodblock, for one drawing printed as many hours. The first exercise is to pick three parents and write one sentence for what is taken from each. That page is J8 for the watercolour.
 
 Not verified, and to check before any of it is quoted publicly: the page numbers and exact titles above are from memory.
+
+### Heat: what a thermal camera would see here
+
+Sirui wants a thermal-camera world that simulates heat and is beautiful. The cheap version, a colour map over the lit picture, is wrong in ways anyone who has used such a camera would feel: it would show sunlight as heat and let you see through glass. The design starts from what the instrument measures.
+
+**What the camera sees.** A long-wave infrared camera reads what a surface emits and what it reflects: emissivity times the glow of its own temperature, plus the rest as a mirror of its surroundings. So:
+
+- Light does not count; temperature does. A sunlit wall is bright because it has been warming for hours, and it stays bright after the sun leaves it. A shadow that has just moved leaves a cool patch behind.
+- Glass is opaque and mirror-like. The glass front shows the sky and the sea, not the rooms. Sirui's spectacles are two dark discs.
+- Polished metal is a mirror too: the brass rails and the bar's chrome read as the cold sky even when warm. Blackened steel and rubber read true.
+- Water shows only its skin: the onsen bright at about 41 °C, the pool middling, the sea dark by day. Wet things read cool, so wet footprints from the pool are dark and fade as they dry.
+- People: face and neck warmest, nose and fingers cooler, hair and clothes cooler still. The working muscles warm over a set and fade in the rest. After the onsen the whole figure glows.
+- Things touched keep the touch: a handprint on the bar, a warm seat after standing, the shape of a sleeper in the bed.
+- By day the rock is warmer than the sea; at night it is the other way round. Twice a day they match and the picture goes flat (the thermal crossover). The clear night sky is the coldest thing in view.
+- The instrument has a character: few pixels, a soft lens, a little noise, a faint trail behind anything hot that moves, and a shutter that clicks and freezes the picture for a moment when it recalibrates. Its picture always spans the coldest to the hottest thing in view, with a scale down the side.
+
+**The model, small enough to run every frame.**
+
+- A temperature and an emissivity for each material, from a table keyed by the material names the house already uses.
+- The day: outside air from the site's own forecast, the sea from the season (the pier at Scripps has a daily record that could be fetched like the forecast), and two thermal masses, a quick one (timber, leaves, cloth) and a slow one (rock), each a first-order lag behind the sun. The baked sky-visibility in the vertex colours says how exposed a surface is.
+- Things with their own heat, driven by the routine that already runs the house: the coffee cools on Newton's curve from the minute it was made, the stove and the fire heat and cool, lamps warm when lit, the bed holds the night.
+- Bodies as regions with their own temperatures, plus exertion per lift and wetness after water.
+- Memory: a top-down texture of the floors that feet stamp and time fades, and a scalar per seat and per grip.
+- What reaches the camera: emissivity times the surface, plus the rest reflecting the sky outdoors or the room indoors.
+
+**How it is drawn.** In this world the lit render is not needed at all. One pass draws every object with one small material that writes apparent temperature, at the sensor's low resolution; a second maps it through the palette with the automatic span, the lens, the noise and the trail. That is far less work than the realistic frame, so this world should be the fastest one. The pointer is a spot meter that reads the true value under it and says what the thing is. A click leaves a handprint.
+
+**The look.** Palettes designed in OKLab so they do not band. Three to try: the classic ironbow; one built on the site's own colours, with body temperature landing on the brand orange and the night sea on indigo; and white-hot with grain. Sirui's reference is a reel I could not open, so the first frames are a question to him.
+
+**Checks, so "prediction" means something.** The coffee against a measured cooling curve; skin regions against published thermography; the rock's daily swing against measured sandstone; the sea against the pier.
+
+**What to read first.** Emissivity tables in a heat-transfer text (Incropera and DeWitt). Vickers, "Plateau equalization algorithm for real-time display of high-quality infrared imagery" (Optical Engineering, 1996), for the automatic span. Berdahl and Martin on clear-sky emissivity (1984) for the night sky. Ring and Ammer, "Infrared thermal imaging in medicine" (2012), and the exercise thermography reviews, for bodies. The synthetic infrared scene generators (DIRSIG at RIT) for how the full problem is posed. All from memory: check each before it is cited publicly.
+
+**Honest limits to state when it ships.** Air is invisible to such a camera, so warm plumes over the fire would be a labelled extra, not the instrument. The temperatures are a model of a house that does not exist.
+
+### What flashes
+
+"The 3d scene sometimes has weird flashing issue" had no place or time attached, and under automation the scene pins its quality tier, so the first captures could not show what a visitor's machine does. The method that worked: keep every drawn frame as a 192 × 108 luma image inside the page, in the same task that drew it, then look for frames whose change reverses on the next frame or whose mean brightness jumps, and log the room and the light levels beside them.
+
+- Standing still in the stair hall: 259 frames, no change at all. Nothing flickers by itself.
+- Walking: every change of room moved lamps in one frame and refitted the sun's shadow. On the entrance stairs the "room" changes three times because the hall is not a room.
+- The lamps now ease (H7). The rest is listed there.
+- The lesson for next time: when a complaint has no coordinates, record everything and let the numbers say where to look, and say plainly which cause was found and which was not.
+
+### An arrival that earns the sea
+
+The house's best view is the Pacific through the cave mouth. The present entrance spends three flights in a square shaft and delivers the visitor to a wall. The brief:
+
+- **Hide, then show.** Japanese stroll gardens call it _miegakure_; Wright called his version compression and release. The stair should be narrow, low and dim, in the rock, and the first sight of the sea should come at a chosen step, not gradually.
+- **An axis to the horizon.** The local precedent is two miles up the coast: at Kahn's Salk Institute a line of water in the court runs straight at the Pacific. This house already has a rill at its arrival (`arrival-rill.mjs`). The last flight should come down on the living room's centre line, facing the glass front, with the horizon appearing under a lintel set for that purpose.
+- **A threshold at the bottom.** A place to stop: the bench and hooks that are there, a change of floor, then the room.
+- **Options to mass before building:** (A) keep the upper flights and replace the last with a straight run on the axis; (B) one straight stair in a rock-cut slot beside the rill, which is what Codex's private candidate appears to be; (C) a path down the outside of the cliff, with the sea in view the whole way and therefore no reveal.
+- **A test for the wow,** so it is not a matter of taste alone: from the portal to the last landing, sea and sky are under 2 % of a 60° view; within two steps they pass a third of it, with the horizon in the middle third of the frame.
+- **What the hall must not repeat:** a ceiling too coarse for its baked light, fittings that float, lamps whose glow is a box.
+
+### Sound made of the site
+
+Sirui asked for music that adapts to the theme and to what the visitor does. The honest constraints first: I cannot record or compose audio files, browsers refuse sound before a gesture, and unasked-for sound on a personal site is hostile. Within them there is a good answer: synthesise everything in the page.
+
+- **Off until asked.** One switch, remembered. Nothing plays, and no audio engine is created, before the visitor turns it on. Quiet, limited, silent when the tab is hidden.
+- **One instrument, tuned by the hour.** The hour picks a scale and a tempo the way it picks the palette: open and sparse at dawn, bright at noon, minor and slow at night. A bed of two or three slow voices sits under everything, very low.
+- **Every interface sound is a note in that scale,** so nothing clashes. The five navigation links are five notes, left to right. A switch going on rises; going off falls. A card opening plays an arpeggio as long as its spring. The thrown video row is air whose pitch follows its speed, with a soft knock when it lands. Scrolling is nearly silent, with one tone as each section arrives.
+- **The house makes its own sound** from the simulation's events, so it can never drift out of step: the bamboo drips when the simulated drop lands, a plate rings when it goes on the bar, steps change from stone to oak, the sea is filtered noise shaped by the same wind the forecast gives the waves.
+- **Each world has a timbre:** struck wood and plucked strings for the woodblock, slide whistles and xylophone for the cartoon, graphite on paper for pencil, drops and bowed glass for watercolour, a hum and a shutter click for heat, where the pointer's temperature is a pitch.
+- **Moments worth a sound:** P noticing the pointer, the orange on the missing-page, a badge on the Wall of Rejection, the Build Rhythm chart played as the rhythm it is, the paper constellation as notes.
+- **Cost and checks:** a few kilobytes, no files. A browser test that no audio context exists before the switch, and an offline render of each sound measured for peak level.
+
+### A world is a contract
+
+Applying a world to the whole site means more than colours. Before any of it launches, a world has to supply, and be tested for:
+
+- **Tokens:** colour, type, radius, shadow, motion curves, sound. Layered so the hour's palette still works inside the world.
+- **Skins** for the handful of components the site is made of: navigation, card, button, tag, figure, table, footer.
+- **Three signature behaviours** that only this world has, each replacing a default rather than adding to it. In heat, what the pointer touches warms and the warmth fades; visited links are still warm. In pencil, a hover is a drawn underline that redraws itself. In the comic, a page change is a panel turn. In watercolour, colour bleeds past the edge of a pressed button.
+- **Its states:** loading, empty, error, focus, print.
+- **The 3D home's look and its sound set,** so the site and the house agree.
+
+And what a world may never change: the words, the reading order, what is a link, contrast and focus that pass in every world, reduced motion, and the default world's page weight (a world's assets load only when it is chosen).
+
+How to get there without breaking the site: one world on one page behind a flag; write down everything that broke; turn that list into the checklist for the next; sample the visual harness across worlds rather than multiplying 46 jobs by five.
