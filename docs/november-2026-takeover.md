@@ -85,10 +85,10 @@ I look myself, every session, before reporting: contact sheets of each look in t
 
 **Sound**
 
-| What                                                                           | State                           | Where |
-| ------------------------------------------------------------------------------ | ------------------------------- | ----- |
-| An engine and a switch, off until asked; six interface notes                   | open; raised in priority by him | L1    |
-| The key of the hour; the house's own sounds; a timbre per world; sonifications | open                            | L2-L4 |
+| What                                                                                           | State                                                      | Where  |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------ |
+| An engine and a switch, off until asked; eight interface sounds; a key and a bed for each hour | built and pushed behind `?sound=1`; **waits for his ears** | L1, L2 |
+| The house's own sounds; a timbre per world; sonifications                                      | open                                                       | L3, L4 |
 
 **The site's pages**
 
@@ -137,6 +137,18 @@ So he does not have to say it twice. Dated; newest last. The list above says whe
 - **November 14, the standard:** the styles "feel sloppy and fuzzy, like you just apply a cheap filter ... i want a well crafted experience, where details are crisp but just give a whole new different vibe and physics, aesthetics etc, and ui ux all adapt the new style, as well my character"; the example and bottom line: "a hand painted style game built in under an hour, runs in a browser" (a painted autumn wood, a small figure in a blue cloak and straw hat, brushed leaves, dappled light).
 - **November 15:** moved the work into the Claude app "so you can have more access to things, feel free to use docker, browser, blender whatever you need"; if music is still hard, "we can wait till next model update".
 - **November 14, how to work:** keep the list; hard and slow is fine "as long as we write that down"; "we can even wait for later better, more capable model like we did".
+
+## Fifth round (November 15, in the Claude app)
+
+Sirui moved the work into the Claude app: "feel free to use docker, browser, blender whatever you need, if it is still hard for you to make music, we can wait till next model update".
+
+Done and pushed:
+
+- **The footer's reflection (P1).** Four causes, each measured; a browser case and a capture tool keep it.
+- **CI repaired.** The flash fix's push had failed three visual jobs. Both causes were in that change and both show only under CI's slow frame clock; section G says how to run that clock here before pushing.
+- **Sound (L1, L2), behind `?sound=1`.** A key for each hour, a bed, and eight interface sounds, all synthesised. I cannot hear it; the notebook card "Sound an agent can check" says how it was checked. **It waits for his ears:** open `https://dylantao.github.io/?sound=1`, open the theme panel (the sun in the navigation) and turn on Sound; or run `node bin/render_site_sound.cjs` and play `.jekyll-cache/sound/day.wav`, the four hours in 90 seconds.
+
+Next, in this order unless he says otherwise: the rock above the cut that he still sees (B2 step 2); the looks rebuilt on the scene's structure so they are crisp (J1, J2); the arrival (K).
 
 ## Fourth round (November 14 to 15)
 
@@ -303,8 +315,8 @@ Sirui, November 14: "the current entrance to house is a weird squarely resolving
 
 Sirui, November 14: "make some music to go along with my website's different theme etc. and different effect ... really adaptive and customized, like click, scroll, and where there would be delightful interaction moment".
 
-- [ ] **L1. An engine and a switch.** Sound is off until asked for. One small module on the Web Audio API that synthesises everything (no audio files), with a limiter, and silence when the tab is hidden. Six interface sounds on the homepage behind `?sound=1`.
-- [ ] **L2. The key of the hour.** The hour already picks the palette; it also picks the scale, the tempo and a quiet bed, so every click is a note that fits.
+- [x] **L1. An engine and a switch.** Pushed November 15, behind `?sound=1` (withdrawn by `?sound=0`). The switch sits in the theme panel beside Pause motion and is hidden from everyone who has not been offered it. An ordinary visitor loads one small script that does nothing; an offered visitor fetches the instrument when the switch is shown, and the audio context is made inside the click that turns it on. Everything is synthesised (`assets/js/sound/engine.mjs`: a plucked string, a struck bar, a knock, a pad), goes through a generated room and one limiter, and a hidden tab is suspended. Eight interface sounds (`score.mjs` `EVENTS`): a press, pointing along the navigation (a rising scale, placed left to right between the speakers), a switch (up for on, down for off), opening and closing, a homepage section arriving, the hour changing, a thrown row landing. Browser cases: nothing is fetched or made without the offer; one context, running, after the click; what the visitor does is played; hidden is silent; off is remembered; every sound's level.
+- [x] **L2. The key of the hour.** Morning D major, noon G major, afternoon E minor, evening A minor, all pentatonic, neighbours sharing four or five notes, the evening lowest and slowest. Every interface sound is a note of the hour's key. The bed is six loops, one note each, with periods that share no common measure (Eno's tape loops), so no minute repeats another: 12 to 18 notes a minute, mostly one to three voices, never more than five. Rendered offline: a switch peaks near -15 dBFS, a pointed-at link near -25, the bed averages near -38. **Not yet judged by ear.** If he likes the direction, the next steps are L3 and L4; if not, the keys, the bed's loops and every voice are a few numbers each in `score.mjs` and `engine.mjs`.
 - [ ] **L3. The house.** The sea, room tone, the fire, and sounds on the simulation's own events: the bamboo drip, a plate going on the bar, a step on stone or oak.
 - [ ] **L4. A timbre per world,** and the sonifications: the Build Rhythm chart played as a rhythm, the paper constellation as notes, the thermal pointer as pitch.
 - The reasoning and the list of moments are in the notebook card "Sound made of the site".
@@ -558,6 +570,16 @@ Sirui asked for music that adapts to the theme and to what the visitor does. The
 - **Each world has a timbre:** struck wood and plucked strings for the woodblock, slide whistles and xylophone for the cartoon, graphite on paper for pencil, drops and bowed glass for watercolour, a hum and a shutter click for heat, where the pointer's temperature is a pitch.
 - **Moments worth a sound:** P noticing the pointer, the orange on the missing-page, a badge on the Wall of Rejection, the Build Rhythm chart played as the rhythm it is, the paper constellation as notes.
 - **Cost and checks:** a few kilobytes, no files. A browser test that no audio context exists before the switch, and an offline render of each sound measured for peak level.
+
+### Sound an agent can check
+
+I cannot hear. That does not make sound unverifiable; it changes what is checked, and it leaves taste to Sirui's ears.
+
+- **Keep the music as numbers.** `score.mjs` has no audio in it: keys, notes, times, levels. Arithmetic can then be tested: every interface note is in the hour's key, a row of links rises, on rises and off falls, the bed never piles above five voices or rests longer than twelve beats, no minute repeats.
+- **Render without a speaker.** The engine's voices take any audio context, so the same code renders offline. `node bin/render_site_sound.cjs` writes a WAV file, a spectrogram and a row of measurements for every sound, each hour's bed and a 90-second day.
+- **Look at it.** A spectrogram on a pitch axis shows what a listener would notice first: the note and its overtones, how hard the attack is, how long the tail rings, whether the room smears it. Looking found two faults before anyone had to hear them: the pad's two detuned oscillators cancelled completely once a second (a pulsing organ), and a sub-octave put most of the bed's energy between 55 and 100 Hz, where it is rumble on headphones and nothing on a laptop.
+- **Measure it.** Peak and RMS in dBFS for every sound, the strongest pitch against the note the score asked for (within a few cents), and how long each sound stays audible.
+- **Say what was not checked.** Whether it is pleasant, whether the bed is music or wallpaper, whether a knock on every press is charming or tiring by the tenth. Those need ears, and the record says so.
 
 ### A world is a contract
 

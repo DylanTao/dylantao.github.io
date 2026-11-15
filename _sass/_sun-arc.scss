@@ -211,10 +211,16 @@ html[data-theme-mode="evening"] {
 
 .sun-arc-actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
   padding-top: 0.1rem;
+
+  // The Sound switch is offered to few visitors (site-sound.mjs); the rule below would show it.
+  button[hidden] {
+    display: none;
+  }
 
   button {
     display: inline-flex;

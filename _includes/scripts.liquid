@@ -88,6 +88,8 @@
   ></script>
 {% endif %}
 
+<!-- The Sound switch: does nothing unless the visitor has been offered sound with ?sound=1 (site-sound.mjs) -->
+<script type="module" src="{{ '/assets/js/site-sound.mjs' | relative_url | bust_file_cache }}"></script>
 <!-- Shared springs for scripted motion (site-motion.mjs); module scripts run in order with the deferred ones below -->
 <script type="module" src="{{ '/assets/js/site-motion.mjs' | relative_url | bust_file_cache }}"></script>
 {% unless page.ai_profile %}

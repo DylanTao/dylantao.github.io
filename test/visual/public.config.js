@@ -47,6 +47,7 @@ module.exports = {
     "brand-finish.spec.js",
     "reading-effects.spec.js",
     "navigation-motion.spec.js",
+    "site-sound.spec.js",
   ],
   timeout: 300000,
   expect: {

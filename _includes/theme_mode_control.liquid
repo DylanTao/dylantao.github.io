@@ -4,7 +4,8 @@
 {% comment %}
   The time-of-day control. The sun-arc slider (assets/js/sun-arc.mjs) chooses any hour; the four
   stops stay as quick choices and as the contrast-checked theme modes the hour maps to. The panel
-  also holds "Now" (follow the clock) and the sitewide Pause motion switch (assets/js/theme.js).
+  also holds "Now" (follow the clock), the sitewide Pause motion switch (assets/js/theme.js) and the
+  Sound switch, which stays hidden unless the visitor has been offered sound (assets/js/site-sound.mjs).
 {% endcomment %}
 <div class="theme-mode-control {{ theme_control_class }}" data-theme-control>
   <button
@@ -75,6 +76,10 @@
       <button type="button" class="sun-arc-motion" role="switch" aria-checked="false" data-motion-toggle>
         <span class="sun-arc-motion-track" aria-hidden="true"></span>
         Pause motion
+      </button>
+      <button type="button" class="sun-arc-motion sun-arc-sound" role="switch" aria-checked="false" data-sound-toggle hidden>
+        <span class="sun-arc-motion-track" aria-hidden="true"></span>
+        Sound
       </button>
     </div>
   </div>

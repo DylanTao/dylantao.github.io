@@ -320,7 +320,52 @@ systems:
           date: "2026-09-28"
           commit: "1e0e67dbf"
           reason: Mixed grayscale and color thumbnails made the project index inconsistent. All thumbnails now keep their original color in every state.
-
+      - id: site-sound
+        name: A key for the hour
+        status: experimental
+        since: "2026-11-15"
+        what: Behind `?sound=1`, a Sound switch in the theme panel turns the page into a quiet instrument. The hour that picks the palette also picks a five-note key, a slow bed plays in it, and what a visitor does (pointing along the navigation, flipping a switch, opening a panel, changing the hour, a thrown row landing, a homepage section arriving) is played as notes of that key.
+        how: >-
+          `assets/js/sound/score.mjs` holds the music as numbers and no audio: one pentatonic key per theme mode (D major, G
+          major, E minor, A minor; neighbours share four or five of their notes), what each interface event plays, and a bed
+          of six loops whose periods share no common measure, after Brian Eno's tape loops, so no minute repeats another.
+          `engine.mjs` synthesises everything with the Web Audio API (a plucked string, a struck bar whose first instant is
+          brightened by frequency modulation, a knock, a pad of three detuned triangles), sends it through a generated room
+          and one limiter, and can render the same notes without a speaker. `site.mjs` listens to the page.
+          `site-sound.mjs` is the only script an ordinary visitor loads: it does nothing without the offer, fetches the
+          instrument only when the switch is shown, and makes the audio context inside the click that turns the switch. A
+          hidden tab is suspended. There are no audio files. Rendered offline, a switch peaks near -15 dBFS, a pointed-at
+          link near -25, and the bed averages near -38.
+        files:
+          - path: assets/js/site-sound.mjs
+            role: The offer (`?sound=1`, withdrawn by `?sound=0`), the switch and the remembered choice.
+          - path: assets/js/sound/score.mjs
+            role: Keys, interface events and the bed, as notes.
+            functions: [step, play, bedNotes, pitchClasses]
+          - path: assets/js/sound/engine.mjs
+            role: Voices, room, limiter, the bed's scheduler and the offline render.
+            functions: [createSound, buildGraph, schedule, render]
+          - path: assets/js/sound/site.mjs
+            role: What the visitor does, turned into events.
+            functions: [createSiteSound]
+          - path: _includes/theme_mode_control.liquid
+            role: The Sound switch, hidden unless offered.
+          - path: bin/render_site_sound.cjs
+            role: Renders every sound, each hour's bed and a 90-second day to WAV files, spectrograms and level measurements.
+        tests:
+          - test/site-sound-score.test.mjs
+          - test/visual/site-sound.spec.js
+        sources: [eno1978airports, chowning1973fm, web-audio-api, autoplay-policy]
+        limits:
+          - "Nobody has listened to it yet. It was composed and checked by an agent that cannot hear: by the notes' arithmetic, by level measurements and by spectrograms of offline renders. Whether it is pleasant is for Sirui's ears."
+          - Levels are measured as peak and RMS in dBFS, not as perceived loudness.
+          - Pointing plays only for a mouse; touch gets presses, switches and arrivals.
+          - A visitor who left sound on hears it again only after their first press or key on the next page, because browsers start audio only from a gesture.
+        next:
+          - move: Sirui listens to the rendered day and to the live switch, and says what to keep.
+            readiness: needs-decision
+          - move: The house's own sounds from the simulation's events, a timbre for each world, and the charts played as rhythm.
+            readiness: needs-decision
   - id: motion
     name: Motion
     summary: >-
@@ -1839,6 +1884,22 @@ sources:
     label: Wood, Bruner and Ross 1976
     citation: David Wood, Jerome S. Bruner and Gail Ross. *The Role of Tutoring in Problem Solving*. Journal of Child Psychology and Psychiatry 17(2), 1976.
     url: https://doi.org/10.1111/j.1469-7610.1976.tb00381.x
+  - id: eno1978airports
+    label: Eno 1978
+    citation: "Brian Eno. *Ambient 1: Music for Airports*. Polydor, 1978. Built from tape loops of unequal length, so the parts drift against each other and do not repeat."
+    url: https://en.wikipedia.org/wiki/Ambient_1:_Music_for_Airports
+  - id: chowning1973fm
+    label: Chowning 1973
+    citation: 'John M. Chowning. "The Synthesis of Complex Audio Spectra by Means of Frequency Modulation." *Journal of the Audio Engineering Society* 21(7), 1973, 526-534.'
+    url: https://www.aes.org/e-lib/browse.cfm?elib=1954
+  - id: web-audio-api
+    label: Web Audio API
+    citation: W3C. *Web Audio API*, W3C Recommendation.
+    url: https://www.w3.org/TR/webaudio/
+  - id: autoplay-policy
+    label: MDN, autoplay
+    citation: MDN Web Docs. *Autoplay guide for media and Web Audio APIs*.
+    url: https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Autoplay
   - id: mq5-reduced-motion
     label: Media Queries 5, reduced motion
     citation: W3C. *Media Queries Level 5*, the `prefers-reduced-motion` feature.

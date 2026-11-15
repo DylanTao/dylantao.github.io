@@ -21,6 +21,18 @@ Use this alongside [`WEBSITE_DESIGN_HEURISTICS.md`](../WEBSITE_DESIGN_HEURISTICS
 
 ## Current And Deferred Experiments
 
+### November 15: a key for the hour
+
+- **Hypothesis:** Sound that follows the hour and the visitor's own gestures makes the site feel made rather than assembled, the way its motion does, provided it is asked for, quiet, and never out of tune with itself.
+- **Route:** Every human page, behind `?sound=1` (withdrawn by `?sound=0`). The switch is in the theme panel, beside Pause motion, and is hidden from visitors who have not been offered it.
+- **Reference and licensing:** Brian Eno's _Music for Airports_ (1978) for the bed's method: loops of unequal length that never line up again. John Chowning's frequency modulation (1973) for the struck bar's first instant. The W3C Web Audio API and the browsers' autoplay rule. All notes, voices and code are original; there are no audio files and no samples.
+- **Visitor benefit:** A switch answers with a rising or falling pair, the navigation is a scale under the pointer, a panel opens on an arpeggio, the hour changes key with the palette, and a slow bed sits under the page. Sirui, November 14: "a senior game designers told me sound is soul of game and animation".
+- **Budget:** An ordinary visitor loads one script of about a kilobyte that does nothing. An offered visitor fetches about eleven kilobytes of minified modules when the switch is shown. No audio context exists before the click that turns the switch on; a hidden tab is suspended; one limiter; a switch peaks near -15 dBFS, a pointed-at link near -25, the bed averages near -38. Pointing plays only for a mouse.
+- **Status:** Prototype, pushed behind the flag on November 15.
+- **Evidence:** `test/site-sound-score.test.mjs` (the notes' arithmetic), `test/visual/site-sound.spec.js` (nothing fetched or made without the offer; one running context after the click; hidden is silent; every sound's level), and `node bin/render_site_sound.cjs`, which writes a WAV file, a spectrogram and measurements for every sound, each hour's bed and a 90-second day. It was composed and checked by an agent that cannot hear.
+- **Sirui decision:** Open. He asked for it and has not heard it. Listen to `day.wav` or turn the switch on with `?sound=1`, then keep, revise or remove.
+- **Revisit trigger:** His first listen; any report that a sound is tiring by its tenth repetition; a page where gestures and bed clash; a browser that plays before the switch.
+
 ### October 28: daylight coast and optional phone tilt
 
 - **Hypothesis:** A pale atmospheric horizon and terrain-colored distance will read as daylight more clearly than the gray backdrop. A small shared camera movement will make the coast respond coherently to mouse movement or an explicitly enabled phone tilt.
