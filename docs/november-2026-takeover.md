@@ -43,49 +43,52 @@ Sirui, November 14: "show me a high level list of the todos ... so we can align 
 
 This is that list. It is the first thing to read and the first thing to update. Letters point to the sections under "Todo"; the detail and the evidence live there. Nothing here needs to finish in one session.
 
-**Waiting on Sirui** (his eye or one answer)
+**How this is checked** (Sirui, November 14: "could you do more automated testing in browser instead of asking me a lot, could be more autonomous")
 
-1. Look at what shipped and say what is wrong: the cartoon (`?look=toon`) and the woodblock (`?look=print`); the garden by day, at night and on a phone; the hatched section and the whole-home orbit; the plates, the warm-up and the deadlift; lamps easing between rooms.
-2. Flashing: if it still happens, where and when (H7).
-3. The thermal look he liked: a screenshot of the reel, or three words about it (J9).
-4. Publications on a phone opens with the Wall of Rejection, not a paper. Intended? (C8)
+I look myself, every session, before reporting: contact sheets of each look in the coast, section and room views at noon, dusk and night, at desktop and phone sizes; the flash recorder with the visitor's adaptive quality on (`bin/record_coastal_flashes.cjs --query=quality=auto`); the browser cases. Sirui is asked only for taste once something is worth his time, and for facts only he has. Nothing is "waiting on him" to be verified.
+
+**The standard** (Sirui, November 14, with a hand-painted browser game as the bottom line): "now your work in different styles feel sloppy and fuzzy, like you just apply a cheap filter ... i want a well crafted experience, where details are crisp but just give a whole new different vibe and physics, aesthetics etc, and ui ux all adapt the new style, as well my character". Version 1 of the cartoon and the woodblock do not meet it. Nothing in "Looks and worlds" counts as shipped until it does.
 
 **The house**
 
-| What                                                                             | State                                     | Where         |
-| -------------------------------------------------------------------------------- | ----------------------------------------- | ------------- |
-| Garden under the bedroom, with its lantern                                       | shipped                                   | B1            |
-| Cut rock drawn as hatched section; whole-home orbit kept out of the cliff        | shipped                                   | B2            |
-| Bars loaded his way, his warm-up, deadlift clear of the legs                     | shipped                                   | H2, H3, H6    |
-| Lamps ease between rooms                                                         | shipped                                   | H7            |
-| **The arrival: a stair that leads into the living room and reveals the sea**     | **next big piece; options to mass first** | K             |
-| The stair hall as its own place; shadow refit at doorways; curtain over the lens | open                                      | H7            |
-| The same bar-through-body audit for squat, bench and press, on every avatar      | open                                      | H5            |
-| Leftover rock above the cut; a roof that visibly lifts                           | open, only if he still sees it            | B2 steps 2, 3 |
-| Hard sunlit edge in the study                                                    | not found twice; closed unless seen again | B3            |
-| Light bake at 736,041 of 750,000 triangles                                       | watch before adding geometry              | B1            |
+| What                                                                                               | State                                     | Where      |
+| -------------------------------------------------------------------------------------------------- | ----------------------------------------- | ---------- |
+| Garden under the bedroom, with its lantern                                                         | shipped                                   | B1         |
+| Cut rock drawn as hatched section; whole-home orbit kept out of the cliff                          | shipped                                   | B2         |
+| Bars loaded his way, his warm-up, deadlift clear of the legs                                       | shipped                                   | H2, H3, H6 |
+| Lamps ease between rooms; no blank frame when the resolution adapts (the flash)                    | shipped                                   | H7         |
+| **Leftover rock above the cut: he still sees it ("weird geometry issue you still haven't fixed")** | **next**                                  | B2 step 2  |
+| The top floor: its subtle lighting and its garden                                                  | open: a design pass                       | O          |
+| Under the pool: structure that looks designed and engineered                                       | open: a design pass                       | O          |
+| **The arrival: a stair that leads into the living room and reveals the sea**                       | **next big piece; options to mass first** | K          |
+| The stair hall as its own place; shadow refit at doorways; curtain over the lens                   | open                                      | H7         |
+| The same bar-through-body audit for squat, bench and press, on every avatar                        | open                                      | H5         |
+| A roof that visibly lifts                                                                          | open                                      | B2 step 3  |
+| Hard sunlit edge in the study                                                                      | not found twice; closed unless seen again | B3         |
+| Light bake at 736,041 of 750,000 triangles                                                         | watch before adding geometry              | B1         |
 
 **Looks and worlds**
 
-| What                                                                                   | State                                  | Where  |
-| -------------------------------------------------------------------------------------- | -------------------------------------- | ------ |
-| Cartoon and woodblock as two settings of one pass, switch in the lab menu              | shipped, version 1 (a filter)          | H1, R3 |
-| Give looks the scene's structure: surface direction, object identity, light on its own | next; measure its cost first           | J1     |
-| The cartoon done properly, with the craft list                                         | next                                   | J2     |
-| A one-page rule sheet per world before any shader                                      | next                                   | J8     |
-| Watercolour: the one that is uniquely his; one room first                              | open; starts with choosing its parents | J3     |
-| Pencil; comic print; field guide                                                       | open                                   | J4-J6  |
-| Heat: a thermal camera's house, with a real heat model                                 | designed, not built                    | J9     |
-| His own figure and a companion for each world; physics and timing per world            | open                                   | J7     |
-| A look switch for visitors; dusk, night and phone checks                               | after he approves a look               | H4, R3 |
-| Worlds across the whole site: tokens, skins, behaviours, states                        | later; one world on one page first     | M      |
+| What                                                                                   | State                                                     | Where  |
+| -------------------------------------------------------------------------------------- | --------------------------------------------------------- | ------ |
+| Cartoon and woodblock as two settings of one pass, switch in the lab menu              | version 1, judged by him: "fuzzy", "vague", "too similar" | H1, R3 |
+| Give looks the scene's structure: surface direction, object identity, light on its own | next; measure its cost first                              | J1     |
+| The cartoon done properly, with the craft list                                         | next                                                      | J2     |
+| A one-page rule sheet per world before any shader                                      | next                                                      | J8     |
+| Watercolour: the one that is uniquely his; one room first                              | open; starts with choosing its parents                    | J3     |
+| Pencil; comic print; field guide                                                       | open                                                      | J4-J6  |
+| Heat: a thermal camera's house, with a real heat model                                 | designed, not built                                       | J9     |
+| His own figure and a companion for each world; physics and timing per world            | open                                                      | J7     |
+| A look switch for visitors; dusk, night and phone checks                               | after he approves a look                                  | H4, R3 |
+| Worlds across the whole site: tokens, skins, behaviours, states                        | later; one world on one page first                        | M      |
+| The film: a choreographed tour of the house, any look, with music                      | designed on paper                                         | N      |
 
 **Sound**
 
-| What                                                                           | State | Where |
-| ------------------------------------------------------------------------------ | ----- | ----- |
-| An engine and a switch, off until asked; six interface notes                   | open  | L1    |
-| The key of the hour; the house's own sounds; a timbre per world; sonifications | open  | L2-L4 |
+| What                                                                           | State                           | Where |
+| ------------------------------------------------------------------------------ | ------------------------------- | ----- |
+| An engine and a switch, off until asked; six interface notes                   | open; raised in priority by him | L1    |
+| The key of the hour; the house's own sounds; a timbre per world; sonifications | open                            | L2-L4 |
 
 **The site's pages**
 
@@ -94,9 +97,10 @@ This is that list. It is the first thing to read and the first thing to update. 
 | Homepage and project-card fixes; a row a mouse can throw                           | shipped                                 | C1-C7 |
 | Every page read against the video's lessons (one thing per section, motion, story) | homepage and first screens only         | C     |
 | The throwable row on other rows; one style and feel across the site                | open                                    | C7    |
+| The footer: the lit building's reflection in the water does not match it           | open                                    | P     |
 | The open-problem lists on the public record pages, worked through                  | two stale entries left; the rest unread | F     |
 
-**Research and speed**
+**Research and speed** (Sirui, November 14: "focus on those that will auto-research process improve our 3d quality and performance and also how to make the website great and enhance the whole experience. prioritize those first, like music is also part of those")
 
 | What                                                                             | State                         | Where  |
 | -------------------------------------------------------------------------------- | ----------------------------- | ------ |
@@ -124,7 +128,23 @@ So he does not have to say it twice. Dated; newest last. The list above says whe
 - **November 14:** warm-up "with bar and then 1 plate", then his working plates with "smaller plates for later sets"; the cartoon: "check and improve, lots of animation technique you can learn"; the entrance "is a weird squarely resolving stairs ... it can lead into the main living room area better and the main entrance at the lower floor living should also be better designed so we can see sea view and get the wow moment"; "the 3d scene sometimes has weird flashing issue, should be fixed".
 - **November 14, heat:** "the thermal camera view ... really good heat simulation and temperature prediction ... for different material, like water, solid, human, light, fire spot, food, when lifting"; "we have to make it really aesthetic"; later, "those style can be globally applied to my whole site ... truly changing the whole ui and ux properly before we launch".
 - **November 14, sound:** "make some music to go along with my website's different theme etc. and different effect ... really adaptive and customized, like click, scroll, and where there would be delightful interaction moment".
+- **November 14, autonomy:** "could you do more automated testing in browser instead of asking me a lot, could be more autonomous".
+- **November 14, the thermal reference** (screenshots of a stop-motion film shot through a thermal camera: a miniature reef set, props warmed under heat lamps, a tiny white-hot figure on deep indigo, corals and fish in orange): "dude is using stop motion ... you can maybe do a better job in our physics world where you control everything and you can see the dude also using many great scene composition like it is a movie and composition and layout in the scene matter".
+- **November 14, the film:** "could you also be more intentional when designing the walk through experience or have fly over drone short things; people can switch to different non-photoreal render or the most photoreal one in the beginning and they can freely switch when in our well choreographed experience ... a better mini-movie like experience; now we can also add our own music".
+- **November 14, on what shipped:** the cartoon "is not bad, but feel like it can be better, and some weird geometry issue you still haven't fixed. also the toon version feel too fuzzy and too vague, not crisp artistic identity and not interesting"; the print "feel too similar to toon"; "i see flash again"; the house: "some part of house is not well designed. such as the top floor subtle lighting and gardening, and also part under the pool, though it is just structural part, feel like better design and engineering can also go there"; "footer building lighting reflection in water is not really matching".
+- **November 14, priority:** research that improves "our 3d quality and performance" and "how to make the website great and enhance the whole experience" comes first; "music is also part of those".
+- **November 14, sound again:** "can you not make music ... i can give you access to many tools you need ... a senior game designers told me sound is soul of game and animation".
+- **November 14, the standard:** the styles "feel sloppy and fuzzy, like you just apply a cheap filter ... i want a well crafted experience, where details are crisp but just give a whole new different vibe and physics, aesthetics etc, and ui ux all adapt the new style, as well my character"; the example and bottom line: "a hand painted style game built in under an hour, runs in a browser" (a painted autumn wood, a small figure in a blue cloak and straw hat, brushed leaves, dappled light).
+- **November 15:** moved the work into the Claude app "so you can have more access to things, feel free to use docker, browser, blender whatever you need"; if music is still hard, "we can wait till next model update".
 - **November 14, how to work:** keep the list; hard and slow is fine "as long as we write that down"; "we can even wait for later better, more capable model like we did".
+
+## Fourth round (November 14 to 15)
+
+Sirui looked at the cartoon, the print and the house, sent the thermal film he had been inspired by, and raised the bar: crisp, crafted worlds, not filters; a choreographed film of the house; sound; more autonomy and fewer questions.
+
+Done and pushed: the flash he kept seeing. It was a blank frame every time the adaptive resolution or the quality tier changed (H7). Found only after turning on what automation normally pins and after fixing a recorder that could not see a transparent frame.
+
+Recorded, not built: the film (N), house design passes for the top floor and under the pool (O), the footer's reflection (P), the thermal reference now that I have seen it (J9), and the standard that version 1 of the looks fails. My answer on music: yes, as code. I can write the notes, the harmony and the instruments and have the page synthesise them, and I can render files offline; what I cannot do is hear the result, so analysis guards the levels and his ears judge the music.
 
 ## Third round (November 14)
 
@@ -239,8 +259,7 @@ The record pages listed these as open; the code says otherwise.
   - [ ] **On the entrance stairs the walker belongs to rooms behind the walls.** `roomAt` picks the nearest room on the walker's storey, and the stair hall is not a room: descending it reads outside, then the private living floor, then a bathroom. Each change moves light levels and refits the shadow. The hall should be its own place; it goes with the arrival redesign (K).
   - [ ] **At the glass front a curtain can cover the lens for one frame** while walking (one white frame in a recording). Curtains should give way to the walker's head, or the near plane should fade them.
   - [ ] **Orbiting a room can pass a thin post in front of the lens** (one flagged frame in the study). The camera's arm ignores pieces under 45 cm.
-  - Not seen: the adaptive quality steps (none in 47 s of the coast view at 2560 × 1440 with `?quality=auto`), and any flicker while standing still.
-  - Ask Sirui for where and when: walking or orbiting, which room, which hour. A ten-second screen recording would settle it.
+  - [x] **A blank frame at every adaptive step: this was the flash.** He saw it "again" while holding still to take a screenshot in the print look. Resizing a canvas clears it, and the frame loop resized at the end of the frame, after drawing, whenever the adaptive resolution or the quality tier changed; a ResizeObserver callback did the same. On a 3840 × 2160 buffer at rest in the cartoon look: three blank frames in 40 s, at exactly the two steps and the tier switch. Now the resize waits for the start of the next frame and is drawn in the same task: five steps and a tier switch, no blank frame. A browser case steps the resolution through the governor's own path and reads every drawn frame over white. Why it took three tries: under automation the governor is pinned unless `?quality=auto` and the frame is GPU-bound, and my recorder drew each copy over the last one, so a transparent frame was invisible to it.
 
 ### I. A research loop, and a panel to grill it
 
@@ -293,6 +312,27 @@ Sirui, November 14: "later I am thinking if those style can be globally applied 
 
 - [ ] **M1. One world, one page, end to end** behind `?world=`, before any second world or page. The notebook card "A world is a contract" says what a world must supply and what must not change.
 - [ ] **M2. The checklist that falls out of M1,** then the visual harness sampled across worlds.
+
+### N. The film
+
+Sirui, November 14: a walk-through or drone fly-over designed like a film, where the visitor can switch look at any moment, starting from the most photoreal, with the site's own music.
+
+- [ ] **N1. A shot list on one page** before any code: six to eight shots, each with what it is for, its lens, its move, its length and the hour. The notebook card "A film of the house" has the first draft.
+- [ ] **N2. A camera on rails:** a small module that plays keyed shots (position, target, lens, easing) over the live scene, pausable, scrubbable, skippable, still under reduced motion (it becomes a set of stills).
+- [ ] **N3. Looks during the film:** the switch stays live; a cut may also change look on purpose.
+- [ ] **N4. Sound to picture** once the engine exists (L).
+
+### O. The house, designed further
+
+Sirui, November 14: "some part of house is not well designed. such as the top floor subtle lighting and gardening, and also part under the pool, though it is just structural part".
+
+- [ ] **O1. The top floor and the clifftop garden at night.** Seen from the sea at night the top of the house is black with a few agave shapes. Needs low, warm, shielded light (path markers, a wash on the garden wall, light under the pergola) and planting with a plan: groups, heights, a path, not scatter. The lantern taught the method: authored installation points that only their neighbours pay for.
+- [ ] **O2. Under the pool.** The cantilever's underside is an undesigned dark mass. It should read as engineering: ribs or a tapered slab, a visible bearing on the rock, a drip edge, a maintenance stair or a ladder, and one line of light under the lip so the pool floats at night.
+- [ ] **O3. The arrival (K)** and **the rock above the cut (B2 step 2)** belong to the same pass over the house's architecture.
+
+### P. The footer
+
+- [ ] **P1. The lit building's reflection.** Sirui, November 14: "footer building lighting reflection in water is not really matching". The footer is its own small 3D scene with a mirrored coast in the water (`assets/js/footer-coast/water.mjs`). On a wide screen the building stands back from the water and only the fire and the pier lamps reflect; his screenshot is the phone layout, where the building is at the water's edge. Reproduce at phone width on an evening when the office light is on (two days in five), then compare the streak with the windows.
 
 ## Ideas ledger
 
@@ -521,3 +561,39 @@ Applying a world to the whole site means more than colours. Before any of it lau
 And what a world may never change: the words, the reading order, what is a link, contrast and focus that pass in every world, reduced motion, and the default world's page weight (a world's assets load only when it is chosen).
 
 How to get there without breaking the site: one world on one page behind a flag; write down everything that broke; turn that list into the checklist for the next; sample the visual harness across worlds rather than multiplying 46 jobs by five.
+
+### The flash that only a visitor could see
+
+Three rounds to find one blank frame. What hid it:
+
+- **Automation is not a visitor.** The scene pins its quality tier under `navigator.webdriver`, and even with `?quality=auto` the governor acts only when frames are slow because of the GPU, not the page's script. A headless run at an ordinary size never met that condition. A 4K buffer in the costliest look did, within ten seconds.
+- **The instrument was blind to the fault.** The recorder copied each frame onto a 2D canvas without clearing it. A cleared WebGL canvas is transparent, so copying it changed nothing and the recorder reported a still picture. Drawing over white made the blank frame the loudest thing in the log.
+- **His description was exact.** "I screenshot ... and i see flash again": the governor waits until the camera has rested 0.6 s. Holding still to take a screenshot is the trigger.
+
+The rule that comes out of it: a canvas is only resized at the start of a frame that will draw it. And for the method: when an instrument reports "nothing", test it against a fault made on purpose before believing it.
+
+### A film of the house
+
+The thermal film Sirui sent is a lesson in staging more than in thermal imaging. Its maker controls three things: what is warm (so what the eye goes to), where the camera stands, and how long each picture lasts. The house has all three under program control, plus the hour.
+
+A first shot list, to argue with:
+
+1. **The coast, far and high, at dawn.** The house is a small warm mark in a cliff. Slow push in. This is the establishing shot, in the realistic look.
+2. **Down the arrival stair** (when K exists): dark, close, the sound of water; then the room and the horizon. The reveal.
+3. **The living floor, one slow lateral move** at standing height: fire, kitchen, the garden under the bedroom.
+4. **A day in four cuts,** the same framing at breakfast, at the desk, in the gym, in the onsen: the house as a routine. This is where a cut can change look on purpose.
+5. **The section:** rise through the roof until the house is a plan, hatched rock around lit rooms.
+6. **Dusk from the sea:** the lamps come up on their dimmer, the pool glows, pull back to the first frame.
+
+Rules for it: every shot is about one thing; no move without a reason; cuts on action or on the hour; the visitor can leave the rails at any moment and is standing exactly where the camera was; any look can be chosen at any time and the film does not restart. Reduced motion gets the same shots as stills with captions.
+
+### What the thermal film is made of
+
+Now seen (seven screenshots Sirui sent, November 14). It is stop motion on a miniature reef set, shot through a real thermal camera, with props warmed under heat lamps so that heat does the job of light:
+
+- **Palette:** deep indigo for cold, through blue and teal, to red-orange, yellow and white for hot. Two complementary families and nothing else.
+- **The figure is the hottest thing** in every frame, a small white shape; the set glows orange where the maker warmed it; the water is the indigo ground.
+- **Softness is the medium:** low resolution, glow round hot things, gradients across the floor where a lamp fell. But silhouettes stay readable because the temperature differences are staged.
+- **Composition carries it:** a diagonal of warm coral against a cold field, a small figure placed on a third, a spiral of warm fish round a centre, a top-down shot. Each frame would work as a poster.
+
+What it changes in the plan for J9: the heat model is still the base (it is what makes the picture truthful), but the art direction is "heat as light": decide for each shot what should be warm, and let the routine supply it honestly (a body after the onsen, the fire, the coffee, sun-warmed rock at dusk against a cold sea). The palette is this one. And it belongs in the film (N) as much as in free roaming.
