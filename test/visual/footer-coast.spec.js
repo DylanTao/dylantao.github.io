@@ -3,6 +3,7 @@ const { writeFile } = require("node:fs/promises");
 const { PNG } = require("pngjs");
 const { preparePage, collectRuntimeErrors, attachScreenshot, screenshotMetrics, screenshotDiffRatio } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
+const { streakOf } = require("./coast-streak.cjs");
 const evidence = (host) => host.evaluate((e) => e.getCoastEvidence());
 const coastModels = /\/models\/la-jolla\/[^/?]+\.glb(?:\?.*)?$/;
 
@@ -315,6 +316,38 @@ test("coastal sea: a mirror drawn on demand, night glitter from the fire and pie
   await page.waitForTimeout(800);
   expect((await evidence(host)).water.reflection.renders).toBe(night.reflection.renders);
   await attachScreenshot(page, testInfo, "coast-sea-night", { locator: page.locator("footer") });
+  expect(errors).toEqual([]);
+});
+test("coastal sea: the studio window's reflection hangs straight below it, in its own colour", async ({ page }, testInfo) => {
+  // The phone's camera is the turned one, and its building stands at the water's edge.
+  test.skip(testInfo.project.name !== "mobile-390");
+  const errors = collectRuntimeErrors(page);
+  // The studio light is on two evenings in five (scene.mjs); this is one of them.
+  await page.clock.setFixedTime(new Date("2026-11-13T21:00:00-08:00"));
+  const host = await open(page, "evening");
+  await page.waitForTimeout(800);
+  const { studioLight } = await host.evaluate((e) => e.getCoastEvidence({ projectLandmarks: true }));
+  expect(studioLight.on).toBe(true);
+  // A level sea mirrors the window straight below it on screen, inside the phone's frame.
+  expect(Math.abs(studioLight.reflection[0] - studioLight.window[0])).toBeLessThan(1e-6);
+  expect(studioLight.reflection[1]).toBeGreaterThan(studioLight.window[1] + 0.2);
+  expect(studioLight.reflection[1]).toBeLessThan(0.9);
+  // The sea keeps moving: read three frames and judge the middle one of each measure.
+  const canvas = host.locator("canvas"),
+    readings = [];
+  for (let i = 0; i < 3; i++) {
+    readings.push(streakOf(PNG.sync.read(await canvas.screenshot()), studioLight.reflection));
+    await page.waitForTimeout(700);
+  }
+  await testInfo.attach("studio-streak", { body: JSON.stringify({ studioLight, readings }, null, 2), contentType: "application/json" });
+  const middle = (key) => readings.map((reading) => reading[key]).sort((a, b) => a - b)[1];
+  expect(middle("strength"), "the lit window shows in the water").toBeGreaterThan(0.0003);
+  expect(Math.abs(middle("column")), "under the window").toBeLessThan(0.012);
+  // Stretched along the world's z axis the streak leaned by about -0.3 on this turned camera.
+  expect(Math.abs(middle("lean")), "hanging straight down, toward the viewer").toBeLessThan(0.15);
+  // A threshold taken off each channel left 18 to 45 % of the streak orange under a pale yellow pane.
+  expect(middle("orange"), "in the pane's pale gold").toBeLessThan(0.08);
+  await attachScreenshot(page, testInfo, "coast-studio-streak", { locator: page.locator("footer") });
   expect(errors).toEqual([]);
 });
 test("coastal sea: refracted bottom and volumetric light use the current relief", async ({ page }, testInfo) => {

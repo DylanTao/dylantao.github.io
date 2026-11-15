@@ -840,7 +840,10 @@ systems:
           camera's mirror image below the water covers only the band where water shows and is redrawn on demand, like the
           shadow map, so steady frames cost no extra draws (`aimMirror`, `createReflectionSchedule`); ripples sway it, and
           only light above a theme threshold streaks far. Three pier lamps and the fire lay glitter paths at night
-          (`createPierLamps`). Fog fades the farthest hills into the page colour, and the credit over the water carries a
+          (`createPierLamps`). Since November 15 the sway, the streaks and the glitter follow the view, toward the viewer
+          and across it, instead of the world's axes (`viewAxes`), so a reflection hangs straight below its light on the
+          phone's turned camera; a streak keeps its lamp's hue and eases as the display eases the lamp (`streakLight`), and
+          a phone's mirror is drawn at the canvas's full density (`mirrorDensity`). Fog fades the farthest hills into the page colour, and the credit over the water carries a
           halo of page colour. Since October 19 the sea's light and sky come from the coast's sunset sky and marine layer.
         files:
           - path: assets/js/footer-coast/water.mjs
@@ -859,6 +862,10 @@ systems:
                 breaking,
                 wakeArm,
                 mirrorPoint,
+                viewAxes,
+                afloat,
+                streakLight,
+                mirrorDensity,
                 shoreline,
                 shorelineStrip,
                 sampleStrip,
@@ -897,6 +904,7 @@ systems:
         limits:
           - The seabed is analytic, not geometry; nothing under the water casts or receives shadows, and the mirror omits people, boards and the sea itself.
           - While the camera moves (pointer parallax, phone panning) or the buildings rise, the mirror redraws at most every other frame, and each redraw costs one more pass of the coast's draws (about 150 at 1440 px).
+          - On a wide screen the studio window's mirror point sits at the frame's bottom edge, so only the head of its streak shows there; the phone's taller frame shows all of it.
           - The shader compiles level with the old water program on ANGLE's Direct3D path only after its restructure; inlined noise, loops with constant bounds or a long branch chain bring back cold compiles of several seconds.
           - There are no pier lamps in the Blender model; they are runtime meshes placed from the pier's bounds.
         next: []
