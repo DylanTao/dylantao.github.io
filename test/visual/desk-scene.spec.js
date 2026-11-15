@@ -3455,7 +3455,15 @@ test("coastal home: an adaptive resolution step is drawn in the frame that makes
   const { scene, canvas, ui } = view;
   await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click(), { clockStep: 100 });
   await beginClockedMotion(page, canvas);
-  expect((await evidence(scene)).resolution).toMatchObject({ profile: "fullscreen", adaptive: true, factor: 1 });
+  expect((await evidence(scene)).resolution).toMatchObject({ profile: "fullscreen", adaptive: true });
+  const advance = async (milliseconds = 1200) => {
+    for (let elapsed = 0; elapsed < milliseconds; elapsed += 200) await page.clock.runFor(200);
+  };
+  // The lab holds the factor from its first request. On a slow machine the governor finds slow
+  // frames and steps down by itself; this case needs every step to be one it asked for.
+  await scene.evaluate((element) => element.labScene.stepResolution(1));
+  await advance();
+  expect((await evidence(scene)).resolution.factor).toBe(1);
   // After every frame the scene draws, copy its canvas over white in the same task. Resizing a
   // canvas clears it, so a resize made after the frame's drawing reads here as pure white, which
   // is what the browser would go on to show.
@@ -3487,9 +3495,6 @@ test("coastal home: an adaptive resolution step is drawn in the frame that makes
         if (probe.sizes.at(-1) !== size) probe.sizes.push(size);
       });
   });
-  const advance = async (milliseconds = 1200) => {
-    for (let elapsed = 0; elapsed < milliseconds; elapsed += 200) await page.clock.runFor(200);
-  };
   await advance();
   const full = await canvas.evaluate((element) => [element.width, element.height]);
   // Down a step and back, each asked for the way the governor asks: at the end of a moving frame.

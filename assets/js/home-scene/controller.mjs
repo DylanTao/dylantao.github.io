@@ -2990,12 +2990,15 @@ export function createCoastalHome(container, records, artifacts) {
   // 2026; Sirui: "i see flash again"). Those callers ask for the resize instead, and the next
   // frame makes it in the same task that draws the new size.
   let resizePending = false,
-    labFactor = null;
+    labFactor = null,
+    labHolds = false;
   function resizeBeforeNextFrame() {
     resizePending = true;
     requestFrame();
   }
-  function resize() {
+  // `redraw: false` is for the frame that is about to draw the new size: asking for another frame
+  // from inside one would hold the next input's frame behind it.
+  function resize({ redraw = true } = {}) {
     resizePending = false;
     if (!renderer) return;
     const rect = container.getBoundingClientRect();
@@ -3010,7 +3013,7 @@ export function createCoastalHome(container, records, artifacts) {
     perspective.updateProjectionMatrix();
     applyDetail();
     finish?.resize(size.width, size.height);
-    requestFrame();
+    if (redraw) requestFrame();
   }
 
   // Detail that follows the drawing buffer (resolution.mjs detailFor): multisampling and the contact
@@ -3256,7 +3259,7 @@ export function createCoastalHome(container, records, artifacts) {
     const frameDelta = Math.min(delta, 1);
     lastFrame = now;
     const moving = !reduced && !paused;
-    if (resizePending) resize();
+    if (resizePending) resize({ redraw: false });
     if (!moving && resolution?.restore()) resize();
     if (moving) elapsed += delta;
     physicalTime.value = elapsed;
@@ -3749,10 +3752,11 @@ export function createCoastalHome(container, records, artifacts) {
         quality?.reset();
       } else {
         const holding = now - lastCameraMove < 600;
-        // The lab's requested factor takes the governor's own path, here at the end of a frame.
+        // The lab's requested factor takes the governor's own path, here at the end of a frame, and
+        // holds: once the lab has asked, the governor's own measurements no longer move the factor.
         const forced = labFactor !== null && resolution?.force(labFactor);
         labFactor = null;
-        if (forced || resolution?.observe(delta * 1000, submit, { holding })) resizeBeforeNextFrame();
+        if (forced || (!labHolds && resolution?.observe(delta * 1000, submit, { holding }))) resizeBeforeNextFrame();
         // The GPU's time is read only when the tier governor is ready to decide.
         const tier = quality?.observe(delta * 1000, () => finish?.evidence.gpu.medianMs, { holding, submitMs: submit });
         if (tier) applyQuality(tier, { afterFrame: true });
@@ -4372,8 +4376,10 @@ export function createCoastalHome(container, records, artifacts) {
       }
     };
     container.labScene.printLook = printLook;
-    // Ask for an adaptive-resolution factor as the governor would, at the end of the next moving frame.
+    // Ask for an adaptive-resolution factor as the governor would, at the end of the next moving
+    // frame. The lab then holds that factor; `null` hands it back to the governor.
     container.labScene.stepResolution = (factor) => {
+      labHolds = factor !== null;
       labFactor = factor;
       requestFrame();
     };
