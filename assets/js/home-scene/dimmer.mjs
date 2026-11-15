@@ -1,0 +1,1 @@
+export const DIMMER=Object.freeze({rise:.3,fall:.8,epsilon:.004});export function dimmerStep(e,t,M,n=1){const r=t-e;if(Math.abs(r)<=DIMMER.epsilon*n)return t;const s=e+r*(1-Math.exp(-M/(r>0?DIMMER.rise:DIMMER.fall)));return Math.abs(t-s)<=DIMMER.epsilon*n?t:s}
