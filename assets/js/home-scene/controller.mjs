@@ -1415,16 +1415,31 @@ export function createCoastalHome(container, records, artifacts) {
   // The key light follows the sky (atmosphere.mjs): the sun through the coast's air, gold and dim
   // when low, or once its light is gone the moon at its true place and phase.
   const keyColor = new THREE.Color();
-  function updateInstallations(visit = currentRoom, lightDaylight = daylight?.daylight) {
+  // `ease`: the visitor moved to another room, so the lamps come up and go down like a dimmer
+  // (dimmer.mjs) while the scene is live. A change already on its way keeps easing when the clock
+  // ticks a minute under it. A still, a paused scene and `snap` (a mirror being prepared with its
+  // room lit) get the new levels at once.
+  function updateInstallations(visit = currentRoom, lightDaylight = daylight?.daylight, { ease = false, snap = false } = {}) {
     if (routine && daylight) {
-      warmPracticals?.update(lightDaylight, { ...routine, schedule: routine.weekend ? config.weekend : config.weekday }, visit);
-      const levels = lightInstallations?.update({ minute: routine.minute, daylight: lightDaylight, activity: routine.id, visit });
+      const eased = !snap && !reduced && !paused && (ease || Boolean(lightInstallations?.settling || warmPracticals?.settling));
+      warmPracticals?.update(lightDaylight, { ...routine, schedule: routine.weekend ? config.weekend : config.weekday }, visit, { ease: eased });
+      const levels = lightInstallations?.update({ minute: routine.minute, daylight: lightDaylight, activity: routine.id, visit, ease: eased });
       staticLightField?.setPracticalPowers([
         ...warmPracticals.lights.map((light) => light.intensity),
         ...(lightInstallations?.indirectPowers() || []),
       ]);
       interiorReflections?.bind(levels);
     }
+  }
+  // One frame of the dimmer: the lamps, the bounce they send into the light field, and, once they
+  // have arrived, the mirrors that show them.
+  function settleInstallations(seconds) {
+    if (!lightInstallations?.settling && !warmPracticals?.settling) return false;
+    lightInstallations?.settle(seconds);
+    warmPracticals?.settle(seconds);
+    staticLightField?.setPracticalPowers([...warmPracticals.lights.map((light) => light.intensity), ...(lightInstallations?.indirectPowers() || [])]);
+    if (!lightInstallations?.settling && !warmPracticals?.settling) interiorReflections?.bind(lightInstallations?.evidence().levels);
+    return true;
   }
   function updateLight() {
     if (!routine) return;
@@ -2447,7 +2462,7 @@ export function createCoastalHome(container, records, artifacts) {
       followClock = false;
     }
     currentRoom = id;
-    updateInstallations();
+    updateInstallations(undefined, undefined, { ease: true });
     desiredFov = 38;
     fitSunShadow(true);
     if ((id === "outside" || (routine?.sequence === "pool" && id === routine.room)) && compositionReady) loadFlora();
@@ -3030,7 +3045,7 @@ export function createCoastalHome(container, records, artifacts) {
   function walkRoomChanged(id) {
     if (!id || id === currentRoom) return;
     currentRoom = id;
-    updateInstallations();
+    updateInstallations(undefined, undefined, { ease: true });
     container.dataset.room = id;
     container.dataset.deskView = id === "outside" ? "outside" : "room";
     fitSunShadow(true);
@@ -3634,6 +3649,7 @@ export function createCoastalHome(container, records, artifacts) {
     });
     bedroomCurtains?.step({ delta, moving, reduced, time: elapsed, routine, camera, canvasHeight: renderer.domElement.height });
     lightInstallations?.tick(elapsed, moving);
+    if (settleInstallations(moving ? Math.min(delta, 0.1) : Infinity)) requestFrame();
     furniture?.update({
       camera,
       bufferHeight: renderer.domElement.height,
@@ -4252,7 +4268,7 @@ export function createCoastalHome(container, records, artifacts) {
       if (disposed) return;
       await interiorReflections.prepare({
         camera,
-        lightRoom: (id) => updateInstallations(id, 0),
+        lightRoom: (id) => updateInstallations(id, 0, { snap: true }),
         restoreLight: updateLight,
         shouldContinue: () => !disposed,
       });

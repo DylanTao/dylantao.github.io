@@ -1,5 +1,6 @@
 import * as THREE from "../three.module.min.js";
 import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.js";
+import { DIMMER, dimmerStep } from "./dimmer.mjs";
 
 // Light installations that switch with the time of day (Sirui, 2026-10-14). Each fixture is an
 // emitter shaded analytically in every material, bounded by a box so it cannot light rooms
@@ -577,7 +578,11 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     poolMesh.lookAt(center[0], lamp.position.y, center[1]);
   }
 
+  // `levels` is what the fixtures show; `targets` is what the schedules ask for. They are the same
+  // except while a change is being eased (dimmer.mjs).
   const levels = Object.fromEntries([...Object.keys(SCHEDULES), ...[...roomLighting.values()].map((room) => room.id)].map((id) => [id, 0]));
+  const targets = { ...levels };
+  let settling = false;
   let flicker = 1;
   function apply() {
     for (const pack of packs.values()) {
@@ -706,21 +711,42 @@ ${LINE_GLSL}`
       transportSources.map((source) => source.intensity * (source.position ? 1 : source.a.distanceTo(source.b)) * levels[source.id]),
     bindModel,
     setPool,
-    // minute after midnight, daylight 0..1, the routine's activity id.
-    update({ minute, daylight, activity, visit = null }) {
+    // minute after midnight, daylight 0..1, the routine's activity id. With `ease`, the fixtures
+    // keep what they show and settle() carries them to the new levels; without it they arrive at once.
+    update({ minute, daylight, activity, visit = null, ease = false }) {
       const dark = darkness(daylight);
       for (const [id, schedule] of Object.entries(SCHEDULES))
-        levels[id] = THREE.MathUtils.clamp(schedule({ minute, dark, activity, visit, sheltered: Boolean(config.retreat?.version) }), 0, 1);
+        targets[id] = THREE.MathUtils.clamp(schedule({ minute, dark, activity, visit, sheltered: Boolean(config.retreat?.version) }), 0, 1);
       // A low wayfinding level remains while walking between room visits. It
       // uses the authored coves rather than adding unbounded fill lights.
-      for (const room of roomLighting.values()) levels[room.id] = room.visits.has(visit) ? Math.max(0.75, dark.inside) : 0.26 * dark.inside;
+      for (const room of roomLighting.values()) targets[room.id] = room.visits.has(visit) ? Math.max(0.75, dark.inside) : 0.26 * dark.inside;
       if (!interior?.entrance?.positions?.length && ![...additional.lines, ...additional.points].some((source) => source.id === "entrance"))
-        levels.entrance = 0;
-      if (!interior?.dining?.length && ![...additional.lines, ...additional.points].some((source) => source.id === "dining")) levels.dining = 0;
+        targets.entrance = 0;
+      if (!interior?.dining?.length && ![...additional.lines, ...additional.points].some((source) => source.id === "dining")) targets.dining = 0;
       desk = deskLevel(activity);
       lantern = lanternLevel({ dark, activity });
+      if (ease) settling = Object.keys(targets).some((id) => Math.abs(targets[id] - levels[id]) > DIMMER.epsilon);
+      else {
+        Object.assign(levels, targets);
+        settling = false;
+      }
       apply();
       return levels;
+    },
+    // Whether an eased change is still on its way.
+    get settling() {
+      return settling;
+    },
+    // Carries an eased change forward by `seconds` (Infinity finishes it). Returns whether anything moved.
+    settle(seconds) {
+      if (!settling) return false;
+      settling = false;
+      for (const id of Object.keys(targets)) {
+        levels[id] = dimmerStep(levels[id], targets[id], seconds);
+        if (levels[id] !== targets[id]) settling = true;
+      }
+      apply();
+      return true;
     },
     // Two incommensurate sines and a faster ripple: a fire never repeats on a visible period. The
     // PC's RGB drifts only while the scene moves; a still (reduced motion, pause) keeps its hue.
@@ -768,6 +794,7 @@ ${LINE_GLSL}`
     evidence() {
       return {
         levels: { ...levels },
+        settling,
         lines: lines.length,
         points: points.length,
         receiverPacks: Object.fromEntries(

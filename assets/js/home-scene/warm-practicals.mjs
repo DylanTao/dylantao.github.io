@@ -1,6 +1,7 @@
 import * as THREE from "../three.module.min.js";
 import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.js";
 import { normalizeEmission } from "./light-trace-core.mjs";
+import { dimmerStep } from "./dimmer.mjs";
 
 // World-space anchors: the study's task lamp, the bedside lamp, the kitchen's brass picture light over
 // the capybara print, the living room's paper floor lantern, then the bath ledge, the gym (over its
@@ -200,6 +201,9 @@ export function createWarmPracticals(scene, bind = (m) => m, { sources = PRACTIC
   scene.add(root);
   let nightMix = 0;
   const levels = Object.fromEntries(sources.map((s) => [s.id, 1]));
+  // What each lamp is heading for while a change is eased (dimmer.mjs).
+  const wanted = lights.map((light) => light.intensity);
+  let settling = false;
   return {
     root,
     lights,
@@ -211,19 +215,38 @@ export function createWarmPracticals(scene, bind = (m) => m, { sources = PRACTIC
       updateNativeDiffusers();
       return nativeDiffusers.size;
     },
-    // routine: { minute, id, schedule }. Without one, every lamp follows daylight alone.
-    update(daylight, routine = null, visit = null) {
+    // routine: { minute, id, schedule }. Without one, every lamp follows daylight alone. With
+    // `ease`, each lamp keeps its power and settle() carries it to the new one.
+    update(daylight, routine = null, visit = null, { ease = false } = {}) {
       const t = THREE.MathUtils.clamp((0.3 - daylight) / 0.3, 0, 1);
       nightMix = t * t * (3 - 2 * t);
       const state = routine && { minute: routine.minute, activity: routine.id, visit, ...sleepWindow(routine.schedule || []) };
+      settling = false;
       lights.forEach((light, i) => {
         const source = sources[i];
         const level = state ? PRACTICAL_SCHEDULES[source.id](state) : 1;
         levels[source.id] = level;
-        light.intensity = source.day + (source.night - source.day) * level * (source.anyHour ? 1 : nightMix);
+        wanted[i] = source.day + (source.night - source.day) * level * (source.anyHour ? 1 : nightMix);
+        if (!ease) light.intensity = wanted[i];
+        else if (light.intensity !== wanted[i]) settling = true;
       });
       diffuser.emissiveIntensity = THREE.MathUtils.lerp(0.22, 1.1, nightMix);
       updateNativeDiffusers();
+    },
+    get settling() {
+      return settling;
+    },
+    // Carries an eased change forward by `seconds` (Infinity finishes it). Returns whether anything moved.
+    settle(seconds) {
+      if (!settling) return false;
+      settling = false;
+      lights.forEach((light, i) => {
+        // A lamp's power is in its own units; the dimmer's tolerance is a share of its night power.
+        light.intensity = dimmerStep(light.intensity, wanted[i], seconds, Math.max(1, sources[i].night));
+        if (light.intensity !== wanted[i]) settling = true;
+      });
+      updateNativeDiffusers();
+      return true;
     },
     evidence() {
       return {
