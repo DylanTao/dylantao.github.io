@@ -5,11 +5,14 @@ import * as THREE from "../assets/js/three.module.min.js";
 import {
   CANYON,
   KELVIN_HALF_ANGLE,
+  STREAK,
   SURF,
   WATER_IOR,
   WATER_LEVEL,
+  afloat,
   breaking,
   createReflectionSchedule,
+  mirrorDensity,
   mirrorPoint,
   reefAmount,
   refract,
@@ -19,8 +22,10 @@ import {
   seabedOffset,
   shoreline,
   shorelineStrip,
+  streakLight,
   surfPhase,
   transmittance,
+  viewAxes,
   wakeArm,
 } from "../assets/js/footer-coast/water-optics.mjs";
 import { aimMirror, mirrorMatrix } from "../assets/js/footer-coast/water.mjs";
@@ -166,6 +171,134 @@ test("the sea's mirror samples, at each water point, the reflection of the point
   }
   // The texture covers only the band of the view where water shows, not the sky above the coast.
   assert.ok(mirror.top - mirror.bottom < (camera.top - camera.bottom) * 0.6);
+});
+
+// The phone's footer camera stands 5 units to the side of its target (scene.mjs resize), so it looks
+// inland about 7.5 degrees off the world's z axis.
+function phoneCamera() {
+  const camera = new THREE.OrthographicCamera(-10.5, 10.5, 8.9, -8.9, 0.1, 150);
+  camera.position.set(10.1, 18, 38);
+  camera.lookAt(5.1, 2, 0);
+  camera.updateMatrixWorld();
+  return camera;
+}
+
+test("a reflection hangs straight below its light on screen, however the camera is turned", () => {
+  assert.deepEqual(viewAxes(view.map((v) => -v)).toward, [0, 1], "facing inland, toward the viewer is the world's z");
+  assert.deepEqual(viewAxes([0, -1, 0]).toward, [0, 1], "a plan view keeps a direction");
+  const camera = phoneCamera();
+  const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion).toArray();
+  const { toward, across } = viewAxes(forward);
+  assert.ok(Math.abs(Math.hypot(...toward) - 1) < 1e-12 && Math.abs(toward[0] * across[0] + toward[1] * across[1]) < 1e-12);
+  assert.ok(toward[0] > 0.1 && toward[1] > 0.9, "toward this camera, to the right and seaward");
+  const screen = (x, y, z) => new THREE.Vector3(x, y, z).project(camera);
+  // The studio window (manifest.office) and the water point that mirrors it share a screen column.
+  const [ox, oy, oz] = manifest.office;
+  const [mx, mz] = mirrorPoint(ox, oy, oz, forward);
+  const light = screen(ox, oy, oz),
+    image = screen(mx, WATER_LEVEL, mz);
+  assert.ok(Math.abs(image.x - light.x) < 1e-9, "the mirror point lies straight below the window");
+  assert.ok(image.y < light.y && image.y > -1, "below it, inside the phone's frame");
+  // A streak runs along `toward`: straight down the screen. Along the world's z it would lean.
+  const reach = STREAK.reach * 4;
+  const tail = screen(mx + toward[0] * reach, WATER_LEVEL, mz + toward[1] * reach);
+  assert.ok(Math.abs(tail.x - image.x) < 1e-9 && tail.y < image.y, "the streak's tail is straight below its head");
+  const lean = screen(mx, WATER_LEVEL, mz + reach);
+  assert.ok(Math.abs(lean.x - image.x) > 0.03, "a streak along world z leans on a turned camera");
+  // The mirror's texture is stepped the same way: toward the viewer runs along one of its axes and
+  // across the view along the other.
+  const mirror = new THREE.OrthographicCamera();
+  aimMirror(camera, mirror, profile);
+  const e = mirrorMatrix(mirror).elements;
+  const step = ([x, z]) => [e[0] * x + e[8] * z, e[1] * x + e[9] * z];
+  const [uToward, vToward] = step(toward),
+    [uAcross, vAcross] = step(across);
+  assert.ok(Math.abs(uToward) < 1e-9 && Math.abs(vToward) > 0.01, `toward the viewer: ${uToward}, ${vToward}`);
+  assert.ok(Math.abs(vAcross) < 1e-9 && Math.abs(uAcross) > 0.01, `across the view: ${uAcross}, ${vAcross}`);
+});
+
+test("a streak reaches farther toward the viewer than back toward its light", () => {
+  // Facets tilted by t reflect a light h above the water to the eye from h / tan(elevation -+ 2t) away:
+  // for the footer's view and gentle ripples the near side is about six tenths of the far side.
+  const elevation = Math.asin(view[1]),
+    tilt = 0.05;
+  const level = 1 / Math.tan(elevation),
+    near = level - 1 / Math.tan(elevation + 2 * tilt),
+    far = 1 / Math.tan(elevation - 2 * tilt) - level;
+  assert.ok(far > near && near > 0);
+  assert.ok(STREAK.back < 1 && Math.abs(STREAK.back - near / far) < 0.1, `back ${STREAK.back} against ${(near / far).toFixed(3)}`);
+});
+
+test("a streak keeps its lamp's hue, and a lamp that shows pale draws a pale streak", () => {
+  const night = 0.45;
+  assert.deepEqual(streakLight([0.4, 0.3, 0.2], night), [0, 0, 0], "nothing below the hour's threshold streaks");
+  // A village window: warm, a little over the threshold. A threshold taken off each channel would
+  // leave no blue and little green: a red streak under a yellow window.
+  const lamp = [1.2, 0.72, 0.3];
+  const streak = streakLight(lamp, night);
+  assert.ok(
+    streak.every((c) => c > 0),
+    "every channel of the lamp reaches the water"
+  );
+  assert.ok(streak[0] > streak[1] && streak[1] > streak[2], "still warm");
+  for (const k of [1, 2]) {
+    const hue = streak[k] / streak[0],
+      source = lamp[k] / lamp[0];
+    assert.ok(hue >= source && hue < source * 1.2, `channel ${k}: ${hue.toFixed(3)} against the lamp's ${source.toFixed(3)}`);
+  }
+  // What barely outshines the hour barely streaks.
+  const faint = streakLight([0.5, 0.3, 0.125], night);
+  assert.ok(faint[0] > 0 && faint[0] < 0.01);
+  // The studio pane beside its lamp is some 16 times white. On screen it shows pale yellow; its streak
+  // is pale too, and bounded.
+  const pale = streakLight([16, 8, 1.5], night);
+  assert.ok(pale[1] / pale[0] > 0.8 && pale[2] / pale[0] > 0.35, `pale: ${pale.map((c) => c.toFixed(2))}`);
+  assert.ok(pale.every((c) => c < 1 / STREAK.ease));
+  // Brighter lamps never draw dimmer streaks.
+  let last = [0, 0, 0];
+  for (let scale = 0.25; scale <= 16; scale *= 2) {
+    const next = streakLight(
+      lamp.map((c) => c * scale),
+      night
+    );
+    assert.ok(
+      next.every((c, k) => c >= last[k]),
+      `at ${scale}`
+    );
+    last = next;
+  }
+  // The shader builds its streak from these numbers.
+  const source = readFileSync(new URL("../assets/js/footer-coast/water.mjs", import.meta.url), "utf8");
+  for (const name of ["reach", "back", "ease", "gain"]) assert.ok(source.includes("${f(STREAK." + name + ")}"), `water.mjs uses STREAK.${name}`);
+  assert.match(source, /vec3 lit = c \* share \* share;/);
+});
+
+test("a light behind the beach glitters from the water's edge, toward the viewer", () => {
+  const shore = (x) => shoreline(x, profile);
+  // Facing inland the mirror point slides straight out to the waterline, as it always did.
+  const [x, z] = afloat(-5, 0.5, [0, 1], shore);
+  assert.equal(x, -5);
+  assert.ok(Math.abs(z - (shore(-5) + 0.25)) < 1e-9);
+  assert.deepEqual(afloat(3, 9, [0, 1], shore), [3, 9], "a mirror point already afloat stays");
+  // On a turned camera it slides along the view, so the glitter stays below its light on screen.
+  const { toward } = viewAxes(new THREE.Vector3(0, 0, -1).applyQuaternion(phoneCamera().quaternion).toArray());
+  const [tx, tz] = afloat(-5, 0.5, toward, shore);
+  assert.ok(tz >= shore(tx) + 0.25 - 1e-6, "afloat");
+  assert.ok(Math.abs((tx + 5) * toward[1] - (tz - 0.5) * toward[0]) < 1e-9, "moved only along the view");
+  assert.ok(tz - shore(tx) < 0.3, "and no farther than the water's edge");
+});
+
+test("the mirror is sharper on a phone's small canvas and no larger on a wide one", () => {
+  assert.equal(mirrorDensity(585), 1, "a 390 px phone at its capped density");
+  assert.equal(mirrorDensity(2160), 0.5, "a 1440 px desktop at 1.5");
+  assert.equal(mirrorDensity(3840), 0.5);
+  let last = Infinity;
+  for (let width = 300; width <= 4000; width += 50) {
+    const density = mirrorDensity(width);
+    assert.ok(density <= last && density >= 0.5 && density <= 1);
+    assert.ok(density * width <= Math.max(1080, 0.5 * width) + 1e-9, "full density only while the mirror stays small");
+    last = density;
+  }
 });
 
 test("the mirror redraws on demand: at once when still, spaced while the coast animates", () => {

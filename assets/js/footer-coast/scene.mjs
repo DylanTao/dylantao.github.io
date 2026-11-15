@@ -5,9 +5,9 @@ import { createCameraMotion } from "../home-scene/camera-motion.mjs";
 import { sampleCoastWave } from "./wave-motion.mjs";
 import { sampleSurferRide, sampleRideShoulder, surferBoardFrame, surferRideTrail } from "./surfer-motion.mjs?v=hollan-20261028";
 import { createPeople } from "./people.mjs?v=hollan-20261028";
-import { createCoastWater } from "./water.mjs?v=coast-daylight-20261028";
+import { createCoastWater } from "./water.mjs?v=coast-streaks-20261115";
 import { createSky, loadRelief, sceneColor } from "./sky.mjs?v=coast-depth-20261029";
-import { createMarineLayer } from "./marine-layer.mjs?v=coast-sky-20261019";
+import { createMarineLayer } from "./marine-layer.mjs?v=coast-streaks-20261115";
 import { DAY_KEY, anchorLook, creditHalo, keyDirection, lookAt, mixHex } from "./sky-look.mjs?v=coast-daylight-20261028";
 import { createViewTilt } from "./view-tilt.mjs?v=coast-touch-20261029";
 import { localDateKey, sunState } from "../la-jolla-sun.mjs?v=coast-sky-20261019";
@@ -929,6 +929,10 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     }
     return { left: projected.min.x, top: projected.min.y, right: projected.max.x, bottom: projected.max.y };
   }
+  const canvasPoint = (world) => {
+    const point = world.clone().project(camera);
+    return [(point.x + 1) / 2, (1 - point.y) / 2];
+  };
   host.getCoastEvidence = ({ projectLandmarks = false } = {}) => ({
     miniature,
     selectedPlace: host.dataset.selectedPlace || null,
@@ -959,6 +963,14 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     resources: renderer.info.memory,
     framing: { width: cameraWidth, height: camera.top - camera.bottom, center: target.toArray() },
     viewMotion: { x: currentX, y: currentY, camera: camera.position.toArray(), up: camera.up.toArray(), tilt: tilt?.evidence() ?? null },
+    // Where the studio window and its reflection in a level sea show, as fractions of the canvas.
+    studioLight: projectLandmarks
+      ? {
+          on: lightOn,
+          window: canvasPoint(officePosition),
+          reflection: canvasPoint(water.mirrorOf(officePosition, camera)),
+        }
+      : undefined,
     landmarkFrames: projectLandmarks
       ? Object.fromEntries(
           ["GeiselCoast", "SalkCoast", "BrocktonVilla", "LaValencia", "ChildrensPool", "Surfer1"].map((name) => [name, landmarkFrame(name)])

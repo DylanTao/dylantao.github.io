@@ -1,7 +1,7 @@
 // Authored underwater relief for the compressed La Jolla miniature, not surveyed bathymetry.
 // The shoreline, canyon head and reef locations follow the existing scene. Sand ripples and low
 // rock shelves add actual relief; the same sampled height field supplies geometry and ray hits.
-import { SHELF, WATER_LEVEL } from "./water-optics.mjs?v=coast-water-20261026";
+import { SHELF, WATER_LEVEL } from "./water-optics.mjs?v=coast-streaks-20261115";
 
 export function bottomDepth(sea, x, z) {
   const d = Math.max(z - sea.shore(x), 0);

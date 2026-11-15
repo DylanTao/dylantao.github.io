@@ -92,13 +92,13 @@ I look myself, every session, before reporting: contact sheets of each look in t
 
 **The site's pages**
 
-| What                                                                               | State                                   | Where |
-| ---------------------------------------------------------------------------------- | --------------------------------------- | ----- |
-| Homepage and project-card fixes; a row a mouse can throw                           | shipped                                 | C1-C7 |
-| Every page read against the video's lessons (one thing per section, motion, story) | homepage and first screens only         | C     |
-| The throwable row on other rows; one style and feel across the site                | open                                    | C7    |
-| The footer: the lit building's reflection in the water does not match it           | open                                    | P     |
-| The open-problem lists on the public record pages, worked through                  | two stale entries left; the rest unread | F     |
+| What                                                                               | State                                                                                      | Where |
+| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ----- |
+| Homepage and project-card fixes; a row a mouse can throw                           | shipped                                                                                    | C1-C7 |
+| Every page read against the video's lessons (one thing per section, motion, story) | homepage and first screens only                                                            | C     |
+| The throwable row on other rows; one style and feel across the site                | open                                                                                       | C7    |
+| The footer: the lit building's reflection in the water does not match it           | fixed and committed locally on November 15; not pushed: the browser spec has not run on it | P     |
+| The open-problem lists on the public record pages, worked through                  | two stale entries left; the rest unread                                                    | F     |
 
 **Research and speed** (Sirui, November 14: "focus on those that will auto-research process improve our 3d quality and performance and also how to make the website great and enhance the whole experience. prioritize those first, like music is also part of those")
 
@@ -143,6 +143,8 @@ So he does not have to say it twice. Dated; newest last. The list above says whe
 Sirui looked at the cartoon, the print and the house, sent the thermal film he had been inspired by, and raised the bar: crisp, crafted worlds, not filters; a choreographed film of the house; sound; more autonomy and fewer questions.
 
 Done and pushed: the flash he kept seeing. It was a blank frame every time the adaptive resolution or the quality tier changed (H7). Found only after turning on what automation normally pins and after fixing a recorder that could not see a transparent frame.
+
+Done and committed, not pushed: the footer's reflection (P1). CI for the flash fix (`11ae22c09`) was still running when this was written; read its result first.
 
 Recorded, not built: the film (N), house design passes for the top floor and under the pool (O), the footer's reflection (P), the thermal reference now that I have seen it (J9), and the standard that version 1 of the looks fails. My answer on music: yes, as code. I can write the notes, the harmony and the instruments and have the page synthesise them, and I can render files offline; what I cannot do is hear the result, so analysis guards the levels and his ears judge the music.
 
@@ -332,7 +334,10 @@ Sirui, November 14: "some part of house is not well designed. such as the top fl
 
 ### P. The footer
 
-- [ ] **P1. The lit building's reflection.** Sirui, November 14: "footer building lighting reflection in water is not really matching". The footer is its own small 3D scene with a mirrored coast in the water (`assets/js/footer-coast/water.mjs`). On a wide screen the building stands back from the water and only the fire and the pier lamps reflect; his screenshot is the phone layout, where the building is at the water's edge. Reproduce at phone width on an evening when the office light is on (two days in five), then compare the streak with the windows.
+- [ ] **P1. The lit building's reflection.** Sirui, November 14: "footer building lighting reflection in water is not really matching". **Fixed and committed locally on November 15. Not pushed.** His screenshot is the phone layout, where the building stands at the water's edge. Measured there at 21:00 on an evening the studio light is on (two in five), four things were wrong. (1) Streaks ran along the world's z axis, so on the phone's turned camera they leaned about 19 degrees instead of hanging below their light: lean -0.27 to -0.38 before, within 0.07 now. (2) The long side of a streak pointed at the shore; it now points at the viewer, as the pier lamps' glitter always did. (3) The threshold was taken off each channel, which reddened the streak. The pane is about 16 times white beside its lamp and shows pale yellow; its streak was a deep orange flame. Green over red of the streak: 0.65 before, 0.76 to 0.78 now, against the pane's 0.93. (4) The phone's mirror was 363 by 119 pixels, so the building's reflection was a blocky dark box; it is 725 by 237 now and the glazing bars show. The maths is in `assets/js/footer-coast/water-optics.mjs` (`viewAxes`, `afloat`, `STREAK`, `streakLight`, `mirrorDensity`) and the shader in `water.mjs`; the fire's and pier lamps' glitter follow the same view axis. Looked at by me at phone and desktop widths at noon, late afternoon, dusk and night, and on the homepage miniature; day frames are unchanged. `test/coast-water.test.mjs` has five new cases (14 pass).
+  - **Left before pushing:** rebuild the preview and run `test/visual/footer-coast.spec.js` (it has not run on this change); add a browser case at phone width that measures the streak from `getCoastEvidence({ projectLandmarks: true }).studioLight` (window and mirror point as canvas fractions): warm pixels (red minus blue) in a box around the mirror point, lean of x on y under 0.15, green over red above 0.71; fix the clock to `2026-11-13T21:00:00-08:00` so the light is on; update `docs/la-jolla-footer.md` ("A mirrored coast" and the sentence about half the canvas density) and the `coast-sea` entry in `_data/design_records/website-revamp.yml`; then push and watch CI.
+  - On a wide screen the window's mirror point sits at the frame's bottom edge, so only the streak's head shows there. That is where a level sea puts it.
+  - The studio pane's 16-times-white value comes from the point light 0.12 units in front of it, not from its emission. It looks right on screen; left alone.
 
 ## Ideas ledger
 

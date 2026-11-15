@@ -7,7 +7,7 @@
 // the sun. Its density and color come from the hour's look (sky-look.mjs fog, fogColor); the four
 // theme anchors carry none, so their stills are unchanged. Time stands still with the scene.
 import * as THREE from "../three.module.min.js";
-import { shorelineStrip } from "./water-optics.mjs?v=coast-water-20261018";
+import { shorelineStrip } from "./water-optics.mjs?v=coast-streaks-20261115";
 
 const SPAN = 95,
   TEXELS = 512;

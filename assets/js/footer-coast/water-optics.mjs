@@ -44,6 +44,49 @@ export function mirrorPoint(x, y, z, forward) {
   return [x - forward[0] * run, z - forward[2] * run];
 }
 
+// The two directions on the water that a reflection follows, from the camera's `forward`: toward the
+// viewer and across the view. Ripples draw a light's reflection out toward the viewer and sway it
+// across, so on screen a streak hangs straight below its light however the camera is turned.
+export function viewAxes(forward) {
+  const run = Math.hypot(forward[0], forward[2]);
+  const toward = run > 1e-6 ? [-forward[0] / run, -forward[2] / run] : [0, 1];
+  return { toward, across: [toward[1], -toward[0]] };
+}
+
+// A light behind the beach glitters from the water's edge outward: its mirror point slides toward the
+// viewer until it is afloat, `clear` past the waterline `shore(x)`.
+export function afloat(x, z, toward, shore, clear = 0.25) {
+  for (let i = 0; i < 12 && z < shore(x) + clear - 1e-6; i++) {
+    const step = (shore(x) + clear - z) / Math.max(toward[1], 0.2);
+    x += toward[0] * step;
+    z += toward[1] * step;
+  }
+  return [x, z];
+}
+
+// How far a reflected light streaks along the view, in world units per tap, and how much shorter the
+// streak is on the light's side of its mirror point: the facets that can turn a light to the eye reach
+// farther toward the viewer than back toward the light. `ease` and `gain` shape its light (streakLight).
+export const STREAK = { reach: 0.85, back: 0.55, ease: 0.5, gain: 0.6 };
+
+// The part of a mirrored light that streaks across rippled water. Only what outshines the hour's
+// `threshold` streaks, and it keeps the light's hue: taking the threshold off each channel would turn
+// the dim rim of a warm lamp red. Each channel then eases toward a ceiling much as the display eases
+// the lamp itself, so a lamp bright enough to show pale on screen draws a pale streak, not the deep
+// colour of its light turned down.
+export function streakLight(rgb, threshold, ease = STREAK.ease) {
+  const peak = Math.max(rgb[0], rgb[1], rgb[2]);
+  const share = Math.max(peak - threshold, 0) / Math.max(peak, 1e-4);
+  return rgb.map((c) => (c * share * share) / (1 + c * share * share * ease));
+}
+
+// Mirror texels per canvas pixel. The mirror is rippled and streaked, so half the canvas's density is
+// enough on a wide canvas; a phone's canvas is small enough that half leaves a facade's glazing bars a
+// few blocky texels, so narrow canvases get up to their full density.
+export function mirrorDensity(canvasWidth) {
+  return Math.min(Math.max(1080 / Math.max(canvasWidth, 1), 0.5), 1);
+}
+
 // The seabed below the surface at a distance d seaward of the waterline: a sandy shelf that deepens
 // quickly and then slowly. Off Scripps Pier the head of the La Jolla Canyon brings deep water close
 // to the beach, as it does at La Jolla Shores.

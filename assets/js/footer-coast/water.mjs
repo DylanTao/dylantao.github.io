@@ -12,13 +12,17 @@ import {
   REEFS,
   SCATTER,
   SURF,
+  STREAK,
   WATER_IOR,
   WATER_LEVEL,
+  afloat,
   createReflectionSchedule,
+  mirrorDensity,
   mirrorPoint,
   shoreline,
-} from "./water-optics.mjs?v=coast-water-20261026";
-import { buildBottomRelief } from "./bed-relief.mjs?v=coast-water-20261026";
+  viewAxes,
+} from "./water-optics.mjs?v=coast-streaks-20261115";
+import { buildBottomRelief } from "./bed-relief.mjs?v=coast-streaks-20261115";
 import { RIDE, SHOULDER } from "./surfer-motion.mjs?v=hollan-20261028";
 
 const f = (value) => {
@@ -163,7 +167,8 @@ function seaShader(material, uniforms) {
     uniform float coastRays;
     uniform sampler2D coastReflection;
     uniform mat4 coastReflectMatrix;
-    uniform vec4 coastReflectAxes;
+    uniform vec4 coastReflectAxes;  // the mirror's uv per world unit across the view (xy) and toward the viewer (zw)
+    uniform vec2 coastToward;  // on the water, toward the viewer (water-optics.mjs viewAxes)
     uniform sampler2D coastBottom;
     uniform sampler2D coastBottomDepth;
     uniform sampler2D coastBottomRelief;
@@ -189,6 +194,14 @@ function seaShader(material, uniforms) {
     // a long chain of profile segments, which kept the shader slow to compile.
     float coastShore(float x) {
       return textureLod(coastShoreline, vec2(x * coastShoreMap.x + coastShoreMap.y, .5), 0.).r;
+    }
+    // The part of a mirrored light that streaks (water-optics.mjs streakLight): what outshines the hour,
+    // in the light's own hue, eased as the display eases the lamp itself.
+    vec3 coastStreak(vec3 c) {
+      float peak = max(c.r, max(c.g, c.b));
+      float share = max(peak - coastHot, 0.) / max(peak, 1e-4);
+      vec3 lit = c * share * share;
+      return lit / (1. + lit * ${f(STREAK.ease)});
     }
     // Reefs as [x, 1 / half-width]; the loop bound is a uniform, so the compiler keeps the loop.
     float coastReef(float x) {
@@ -389,41 +402,51 @@ function seaShader(material, uniforms) {
       .replace(
         "#include <opaque_fragment>",
         `{
-          // The mirrored coast. A slope across the view sways it; a slope along the view draws lights into
-          // the long streaks rippled water makes, and a few taps along the view soften the rest.
+          // The mirrored coast. Reflections follow two directions on the water: toward the viewer and
+          // across the view. A slope across the view sways the mirror; a slope toward the viewer draws
+          // lights into the long streaks rippled water makes, and a few taps along it soften the rest.
+          float slopeToward = dot(coastSlope, coastToward);
+          float slopeAcross = coastSlope.x * coastToward.y - coastSlope.y * coastToward.x;
           vec4 rc = coastReflectMatrix * vec4(coastPosition.x, ${f(WATER_LEVEL)}, coastPosition.z, 1.);
-          vec2 ruv = rc.xy / rc.w + coastReflectAxes.xy * coastSlope.x * 1.8 + coastReflectAxes.zw * coastSlope.y * 3.2;
+          vec2 ruv = rc.xy / rc.w + coastReflectAxes.xy * slopeAcross * 1.8 + coastReflectAxes.zw * slopeToward * 3.2;
           vec2 along = coastReflectAxes.zw;
           // The mirror leaves the sky clear: water near the beach mirrors the low sky, nearer water the
           // sky higher up, as a perspective view would.
           vec4 m = textureLod(coastReflection, ruv, 0.) * .5
             + (textureLod(coastReflection, ruv + along * .4, 0.) + textureLod(coastReflection, ruv - along * .4, 0.)) * .25;
-          vec3 mirrored = m.rgb + mix(coastSkyFar, coastSkyNear, smoothstep(.6, 7., coastDepth)) * (1. - m.a);
-          // Only bright lights streak far on rippled water: the long taps keep what exceeds the theme's threshold.
+          // A lamp's own image is eased like its streak: the mirror keeps what the hour's threshold
+          // allows, in the lamp's hue, and the rest joins it as the streak's head.
+          vec3 mirrored = m.rgb * min(1., coastHot / max(max(m.r, max(m.g, m.b)), 1e-4)) + coastStreak(m.rgb)
+            + mix(coastSkyFar, coastSkyNear, smoothstep(.6, 7., coastDepth)) * (1. - m.a);
+          // Only bright lights streak far on rippled water, and farther toward the viewer than back toward
+          // the light: the long taps keep what outshines the hour (coastStreak).
           // Loop bounds are uniforms, so the compiler keeps loops (quick to compile) instead of unrolling them.
+          // Streaks and glitter light the ripple facets tilted back toward their light.
+          float facet = .3 + .7 * smoothstep(-.02, .09, slopeToward + .025 * sin(coastPosition.x * 23. + coastTime * 2.6));
           vec3 hot = vec3(0.);
           for (int i = 1; i <= coastHotTaps; i++) {
-            float reach = float(i) * .85;
-            hot += max(textureLod(coastReflection, ruv + along * reach, 0.).rgb - coastHot, 0.) * (1.1 - float(i) * .2);
-            hot += max(textureLod(coastReflection, ruv - along * reach * .55, 0.).rgb - coastHot, 0.) * (1. - float(i) * .2);
+            float reach = float(i) * ${f(STREAK.reach)};
+            hot += coastStreak(textureLod(coastReflection, ruv - along * reach, 0.).rgb) * (1.1 - float(i) * .2);
+            hot += coastStreak(textureLod(coastReflection, ruv + along * reach * ${f(STREAK.back)}, 0.).rgb) * (1. - float(i) * .2);
           }
           // A dielectric surface reflects about 2% head-on and more at grazing angles. The
           // previous view-normalized boost made most of the water a 90%-strength mirror.
           const float f0 = ${f(((WATER_IOR - 1) / (WATER_IOR + 1)) ** 2)};
           float facing = (f0 + (1. - f0) * pow(1. - clamp(dot(coastNormal, coastView), 0., 1.), 5.)) * (1. - coastFoamAmount) * coastProof.z;
           outgoingLight = mix(coastTransmission, outgoingLight, coastFoamAmount);
-          outgoingLight = mix(outgoingLight, mirrored, facing) + hot * coastGlow * .22 * facing;
+          outgoingLight = mix(outgoingLight, mirrored, facing) + hot * coastGlow * ${f(STREAK.gain)} * facing * facet;
           // Glitter paths of the fire and the pier lamps: each light's mirror point stretched into a long
           // streak toward the viewer, lit only on ripple facets tilted back toward the light.
           float glitter = 0.;
           for (int i = 0; i < coastGlintCount; i++) {
             vec4 g = coastGlints[i];
             if (g.z < .001) continue;
-            float dz = coastPosition.z - g.y;
-            float dx = (coastPosition.x - g.x) / (g.w * (1. + .22 * abs(dz)));
+            vec2 from = coastPosition.xz - g.xy;
+            float dz = dot(from, coastToward);
+            float dx = (from.x * coastToward.y - from.y * coastToward.x) / (g.w * (1. + .22 * abs(dz)));
             if (abs(dx) > 3.) continue;
             float path = exp(-dx * dx) * exp(-dz * dz / (dz > 0. ? 3.2 : .45));
-            glitter += path * g.z * (.3 + .7 * smoothstep(-.02, .09, coastSlope.y + .025 * sin(coastPosition.x * 23. + coastTime * 2.6)));
+            glitter += path * g.z * facet;
           }
           outgoingLight += coastGlintColor * glitter * (1. - coastFoamAmount) * smoothstep(.15, .45, coastDepth) * coastProof.z;
           // The setting sun's glitter path: a column of sparkle beneath it that broadens toward the viewer,
@@ -432,7 +455,7 @@ function seaShader(material, uniforms) {
           if (coastSun.z > .001) {
             float spread = .012 + .042 * (1. - frag.y);
             float dx = (frag.x - coastSun.x) / spread;
-            float facets = smoothstep(.02, .11, coastSlope.y + .03 * sin(coastPosition.x * 31. + coastTime * 3.1) + .02 * sin(coastPosition.z * 17. - coastTime * 2.3));
+            float facets = smoothstep(.02, .11, slopeToward + .03 * sin(coastPosition.x * 31. + coastTime * 3.1) + .02 * sin(coastPosition.z * 17. - coastTime * 2.3));
             // A soft sheen under the sparkle, so the path reads as one road of light.
             outgoingLight += coastSunColor * (exp(-dx * dx) * (.22 + 1.7 * facets) + exp(-dx * dx * .1) * .1) * coastSun.z * smoothstep(.15, .9, coastDepth) * (1. - coastFoamAmount) * coastProof.z;
           }
@@ -557,6 +580,7 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
     coastReflection: { value: target.texture },
     coastReflectMatrix: { value: new THREE.Matrix4() },
     coastReflectAxes: { value: new THREE.Vector4() },
+    coastToward: { value: new THREE.Vector2(0, 1) },
     coastBottom: { value: bottom.target.texture },
     coastBottomDepth: { value: bottom.target.depthTexture },
     coastBottomRelief: { value: bottom.heights },
@@ -607,13 +631,21 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
 
   function renderReflection(scene, camera, size) {
     const margin = aimMirror(camera, mirror, sea.shore, sea.span);
-    // About half the canvas's density: the mirror is rippled and streaked anyway.
-    const density = (0.5 * size.x) / Math.max(camera.right - camera.left, 1);
+    // Half the canvas's density on a wide canvas (the mirror is rippled and streaked anyway), up to
+    // the full density on a phone's small one.
+    const density = (mirrorDensity(size.x) * size.x) / Math.max(camera.right - camera.left, 1);
     const width = Math.round(THREE.MathUtils.clamp((mirror.right - mirror.left) * density, 32, 1600));
     const height = Math.round(THREE.MathUtils.clamp((mirror.top - mirror.bottom) * density, 16, 900));
     if (target.width !== width || target.height !== height) target.setSize(width, height);
+    // The shader steps through the mirror across the view and toward the viewer, not along world axes.
     const e = mirrorMatrix(mirror, uniforms.coastReflectMatrix.value).elements;
-    uniforms.coastReflectAxes.value.set(e[0], e[1], e[8], e[9]);
+    const { toward, across } = viewAxes(forward.set(0, 0, -1).applyQuaternion(camera.quaternion).toArray());
+    uniforms.coastReflectAxes.value.set(
+      e[0] * across[0] + e[8] * across[1],
+      e[1] * across[0] + e[9] * across[1],
+      e[0] * toward[0] + e[8] * toward[1],
+      e[1] * toward[0] + e[9] * toward[1]
+    );
     // People, boards and the sea itself stay out of the mirror: it is redrawn only on demand, and
     // moving figures would leave stale reflections behind.
     const hidden = [];
@@ -738,12 +770,18 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
     setLights(list, camera) {
       glints.fill(0);
       const view = forward.set(0, 0, -1).applyQuaternion(camera.quaternion).toArray();
+      const { toward } = viewAxes(view);
       list.slice(0, 4).forEach((light, i) => {
-        const [x, z] = mirrorPoint(light.x, light.y, light.z, view);
         // A light behind the beach glitters from the water's edge outward.
-        glints.set([x, Math.max(z, sea.shore(light.x) + 0.25), light.power, light.spread], i * 4);
+        const [x, z] = afloat(...mirrorPoint(light.x, light.y, light.z, view), toward, sea.shore);
+        glints.set([x, z, light.power, light.spread], i * 4);
       });
       uniforms.coastGlintCount.value = Math.min(list.length, 4);
+    },
+    // The water point where `camera` sees a world point's reflection in a level sea.
+    mirrorOf(point, camera) {
+      const [x, z] = mirrorPoint(point.x, point.y, point.z, forward.set(0, 0, -1).applyQuaternion(camera.quaternion).toArray());
+      return new THREE.Vector3(x, WATER_LEVEL, z);
     },
     invalidate() {
       schedule.invalidate();
@@ -752,6 +790,9 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
     update(scene, camera, { size, live = false }) {
       camera.updateMatrixWorld();
       uniforms.coastView.value.setFromMatrixColumn(camera.matrixWorld, 2).normalize();
+      // coastView points from the scene to the camera: the reverse of the camera's forward.
+      const { x, y, z } = uniforms.coastView.value;
+      uniforms.coastToward.value.fromArray(viewAxes([-x, -y, -z]).toward);
       uniforms.coastResolution.value.copy(size);
       if (changed(camera, size)) schedule.invalidate();
       if (schedule.due(live)) {
