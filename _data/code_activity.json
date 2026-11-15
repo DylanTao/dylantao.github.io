@@ -1,6 +1,6 @@
 {
   "schema": 6,
-  "updated_on": "2026-11-13",
+  "updated_on": "2026-11-14",
   "date_basis": "source_reported_calendar",
   "scope": "code_activity",
   "sources": [
@@ -11,7 +11,7 @@
       "date_basis": "github_profile_author_date",
       "completion_timezone": "America/Los_Angeles",
       "starts_on": "2017-08-31",
-      "complete_through": "2026-11-13"
+      "complete_through": "2026-11-14"
     },
     {
       "id": "intern",
@@ -25,7 +25,7 @@
   ],
   "coverage": {
     "starts_on": "2017-08-31",
-    "complete_through": "2026-11-13",
+    "complete_through": "2026-11-14",
     "status": "complete"
   },
   "points": [
@@ -23754,8 +23754,8 @@
     {
       "date": "2026-10-25",
       "personal": {
-        "commits": 401,
-        "authored_commits": 390
+        "commits": 396,
+        "authored_commits": 385
       }
     },
     {
@@ -23782,15 +23782,15 @@
     {
       "date": "2026-10-29",
       "personal": {
-        "commits": 260,
-        "authored_commits": 246
+        "commits": 252,
+        "authored_commits": 239
       }
     },
     {
       "date": "2026-10-30",
       "personal": {
-        "commits": 393,
-        "authored_commits": 387
+        "commits": 392,
+        "authored_commits": 386
       }
     },
     {
@@ -23810,15 +23810,15 @@
     {
       "date": "2026-11-02",
       "personal": {
-        "commits": 907,
-        "authored_commits": 868
+        "commits": 891,
+        "authored_commits": 852
       }
     },
     {
       "date": "2026-11-03",
       "personal": {
-        "commits": 560,
-        "authored_commits": 544
+        "commits": 553,
+        "authored_commits": 537
       }
     },
     {
@@ -23887,8 +23887,15 @@
     {
       "date": "2026-11-13",
       "personal": {
-        "commits": 187,
-        "authored_commits": 182
+        "commits": 188,
+        "authored_commits": 183
+      }
+    },
+    {
+      "date": "2026-11-14",
+      "personal": {
+        "commits": 231,
+        "authored_commits": 229
       }
     }
   ]
