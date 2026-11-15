@@ -2983,7 +2983,20 @@ export function createCoastalHome(container, records, artifacts) {
     });
   }
 
+  // Resizing a canvas clears it. A resize made after a frame has been drawn (an adaptive
+  // resolution step or a quality switch at the end of a frame, a ResizeObserver callback, which
+  // runs after the frame's drawing) left that cleared canvas on screen until the next frame: one
+  // blank flash, measured three times in 40 s at rest in a drawn look on a 4K buffer (November 14,
+  // 2026; Sirui: "i see flash again"). Those callers ask for the resize instead, and the next
+  // frame makes it in the same task that draws the new size.
+  let resizePending = false,
+    labFactor = null;
+  function resizeBeforeNextFrame() {
+    resizePending = true;
+    requestFrame();
+  }
   function resize() {
+    resizePending = false;
     if (!renderer) return;
     const rect = container.getBoundingClientRect();
     if (!rect.width || !rect.height) return;
@@ -3147,10 +3160,12 @@ export function createCoastalHome(container, records, artifacts) {
   }
   // A tier change reallocates the drawing buffer and what follows it, once and while the view rests.
   // The first frame drawn after it, and the interval to the next, are kept as what the change cost.
-  function applyQuality(tier) {
+  // `afterFrame`: the governor decides at the end of a frame, so its resize waits for the next one.
+  function applyQuality(tier, { afterFrame = false } = {}) {
     qualitySwitch = { tier, at: performance.now(), frame: frames, firstFrameMs: null, nextIntervalMs: null };
     resolution?.setTier(QUALITY_TIERS[tier]);
-    resize();
+    if (afterFrame) resizeBeforeNextFrame();
+    else resize();
   }
   function qualityMemory() {
     if (!renderer || !detail) return null;
@@ -3241,6 +3256,7 @@ export function createCoastalHome(container, records, artifacts) {
     const frameDelta = Math.min(delta, 1);
     lastFrame = now;
     const moving = !reduced && !paused;
+    if (resizePending) resize();
     if (!moving && resolution?.restore()) resize();
     if (moving) elapsed += delta;
     physicalTime.value = elapsed;
@@ -3733,10 +3749,13 @@ export function createCoastalHome(container, records, artifacts) {
         quality?.reset();
       } else {
         const holding = now - lastCameraMove < 600;
-        if (resolution?.observe(delta * 1000, submit, { holding })) resize();
+        // The lab's requested factor takes the governor's own path, here at the end of a frame.
+        const forced = labFactor !== null && resolution?.force(labFactor);
+        labFactor = null;
+        if (forced || resolution?.observe(delta * 1000, submit, { holding })) resizeBeforeNextFrame();
         // The GPU's time is read only when the tier governor is ready to decide.
         const tier = quality?.observe(delta * 1000, () => finish?.evidence.gpu.medianMs, { holding, submitMs: submit });
-        if (tier) applyQuality(tier);
+        if (tier) applyQuality(tier, { afterFrame: true });
       }
     }
     if (qualitySwitch && frames > qualitySwitch.frame) {
@@ -4182,7 +4201,7 @@ export function createCoastalHome(container, records, artifacts) {
         gymDashboard.setAvailable(currentRoom === "gym");
       }
       bindControls();
-      const resizeObserver = new ResizeObserver(resize);
+      const resizeObserver = new ResizeObserver(resizeBeforeNextFrame);
       resizeObserver.observe(container);
       cleanup.push(() => resizeObserver.disconnect());
       const viewportObserver = new IntersectionObserver((entries) => {
@@ -4353,6 +4372,11 @@ export function createCoastalHome(container, records, artifacts) {
       }
     };
     container.labScene.printLook = printLook;
+    // Ask for an adaptive-resolution factor as the governor would, at the end of the next moving frame.
+    container.labScene.stepResolution = (factor) => {
+      labFactor = factor;
+      requestFrame();
+    };
     container.labScene.sectionCut = sectionCut;
     // The look switch: the realistic render, or one of the drawn looks (print-look.mjs).
     const lookButtons = [...ui.querySelectorAll("[data-world-drawing]")];

@@ -270,3 +270,29 @@ test("a moving view holds the density; the frames it saw decide once the view re
   assert.equal(g.observe(40, 4), true, "the held slow window steps down at the first resting frame");
   assert.equal(g.evidence().factor, 0.85);
 });
+
+test("the lab can ask for a factor through the same door as a measured step", () => {
+  const { g, state } = governor();
+  // The page embed is under the adaptive threshold: nothing to force.
+  g.size(900, 480);
+  assert.equal(g.force(0.8), false);
+  assert.equal(g.evidence().factor, 1);
+  // Full screen at 1440 x 1000 is adaptive.
+  g.setProfile("fullscreen");
+  const full = g.size(1440, 1000);
+  assert.equal(full.adaptive, true);
+  state.time = 5000;
+  assert.equal(g.force(0.8), true, "a new factor means the caller resizes");
+  const smaller = g.size(1440, 1000);
+  assert.ok(Math.abs(smaller.width - 1440 * 0.8) < 1e-6 && Math.abs(smaller.height - 1000 * 0.8) < 1e-6);
+  assert.deepEqual(g.evidence().history.at(-1), { at: 5000, from: 1, to: 0.8, reason: "lab", p75: null });
+  assert.equal(g.force(0.8), false, "the same factor again changes nothing");
+  // Bounded like a measured step: never under the profile's floor, never over full density.
+  assert.equal(g.force(0.1), false, "already at the fullscreen floor of 0.8");
+  assert.equal(g.force(3), true);
+  assert.equal(g.evidence().factor, 1);
+  assert.equal(g.force(Number.NaN), false);
+  // A forced step starts a clean measuring window, so the governor does not undo it on stale frames.
+  g.force(0.8);
+  assert.equal(feed(g, state, { interval: 10, frames: 5 }), false);
+});

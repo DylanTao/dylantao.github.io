@@ -247,6 +247,22 @@ export function createResolutionGovernor({
       } else fastStreak = 0;
       return false;
     },
+    // The authoring lab asks for a factor directly. It goes through the same door as a measured
+    // step (the caller resizes when this returns true), so a test can watch what a step does to
+    // the picture without waiting for a slow GPU.
+    force(next, reason = "lab") {
+      if (!current?.adaptive || !Number.isFinite(next)) return false;
+      next = Math.round(Math.min(1, Math.max(minFactor, next)) * 1e6) / 1e6;
+      if (next === factor) return false;
+      history.push({ at: Math.round(now()), from: factor, to: next, reason, p75: null });
+      if (history.length > 12) history.shift();
+      factor = next;
+      probe = null;
+      fastStreak = 0;
+      clear();
+      if (cssWidth && cssHeight) current = layout(cssWidth, cssHeight);
+      return true;
+    },
     // Visibility, pause and view changes restart the frame window (not the factor).
     reset() {
       clear();

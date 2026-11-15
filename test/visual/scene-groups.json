@@ -480,6 +480,10 @@
       {
         "file": "desk-scene.spec.js",
         "title": "coastal home: the whole-home view stops at the ends of its seaward arc and turns freely only from above"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "coastal home: an adaptive resolution step is drawn in the frame that makes it, never as a blank canvas"
       }
     ],
     "scene-journey": [

@@ -62,6 +62,9 @@ const ROOT = path.resolve(__dirname, "..");
       const raf = window.requestAnimationFrame.bind(window);
       window.requestAnimationFrame = (cb) =>
         raf((now) => {
+          // Only the callback that drew the frame can read it: a WebGL canvas read from any other
+          // task has already gone to the compositor and reads as empty.
+          const drawnBefore = document.querySelector("[data-home-desk-scene]")?.getSceneEvidence?.().frames;
           cb(now);
           if (!cap.recording) return;
           const source = document.querySelector("[data-home-desk-scene] canvas");
@@ -72,9 +75,11 @@ const ROOT = path.resolve(__dirname, "..");
             cap.canvas.height = H;
             cap.ctx = cap.canvas.getContext("2d", { willReadFrequently: true });
           }
-          const frames = document.querySelector("[data-home-desk-scene]").getSceneEvidence?.().frames;
-          if (frames === cap.lastFrames) return; // the scene drew nothing new in this callback
-          cap.lastFrames = frames;
+          if (document.querySelector("[data-home-desk-scene]").getSceneEvidence?.().frames === drawnBefore) return; // this callback drew nothing
+          // The page shows through a cleared (transparent) canvas, so draw each frame over white:
+          // without this a blank frame would leave the previous copy in place and go unseen.
+          cap.ctx.fillStyle = "#fff";
+          cap.ctx.fillRect(0, 0, W, H);
           cap.ctx.drawImage(source, 0, 0, W, H);
           const d = cap.ctx.getImageData(0, 0, W, H).data;
           const luma = new Uint8Array(W * H);

@@ -3447,6 +3447,70 @@ test("coastal home: the whole-home view stops at the ends of its seaward arc and
   expect(errors).toEqual([]);
 });
 
+test("coastal home: an adaptive resolution step is drawn in the frame that makes it, never as a blank canvas", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "the frame loop is shared by every width; one proves it");
+  test.setTimeout(600000);
+  const errors = collectRuntimeErrors(page);
+  const view = await openClockedHome(page, { time: "2026-10-23T12:00:00-07:00" });
+  const { scene, canvas, ui } = view;
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click(), { clockStep: 100 });
+  await beginClockedMotion(page, canvas);
+  expect((await evidence(scene)).resolution).toMatchObject({ profile: "fullscreen", adaptive: true, factor: 1 });
+  // After every frame the scene draws, copy its canvas over white in the same task. Resizing a
+  // canvas clears it, so a resize made after the frame's drawing reads here as pure white, which
+  // is what the browser would go on to show.
+  await page.evaluate(() => {
+    const raf = window.requestAnimationFrame.bind(window),
+      element = document.querySelector("[data-home-desk-scene]"),
+      probe = (window.__blankProbe = { frames: 0, blank: 0, sizes: [] }),
+      copy = document.createElement("canvas");
+    copy.width = 32;
+    copy.height = 18;
+    const context = copy.getContext("2d", { willReadFrequently: true });
+    window.requestAnimationFrame = (callback) =>
+      raf((now) => {
+        // Only the callback that drew the frame can read it: a WebGL canvas read from any other
+        // task has already been handed to the compositor and reads as empty.
+        const before = element.getSceneEvidence().frames;
+        callback(now);
+        if (element.getSceneEvidence().frames === before) return;
+        const source = element.querySelector("canvas");
+        context.fillStyle = "#fff";
+        context.fillRect(0, 0, 32, 18);
+        context.drawImage(source, 0, 0, 32, 18);
+        const data = context.getImageData(0, 0, 32, 18).data;
+        let white = 0;
+        for (let i = 0; i < data.length; i += 4) if (data[i] === 255 && data[i + 1] === 255 && data[i + 2] === 255) white++;
+        probe.frames++;
+        if (white === 32 * 18) probe.blank++;
+        const size = `${source.width}x${source.height}`;
+        if (probe.sizes.at(-1) !== size) probe.sizes.push(size);
+      });
+  });
+  const advance = async (milliseconds = 1200) => {
+    for (let elapsed = 0; elapsed < milliseconds; elapsed += 200) await page.clock.runFor(200);
+  };
+  await advance();
+  const full = await canvas.evaluate((element) => [element.width, element.height]);
+  // Down a step and back, each asked for the way the governor asks: at the end of a moving frame.
+  for (const factor of [0.8, 1, 0.8, 1]) {
+    await scene.evaluate((element, value) => element.labScene.stepResolution(value), factor);
+    await advance();
+    const state = await evidence(scene);
+    expect(state.resolution.factor).toBe(factor);
+    expect(state.resolution.history.at(-1)).toMatchObject({ to: factor, reason: "lab" });
+    const size = await canvas.evaluate((element) => [element.width, element.height]);
+    expect(size[0]).toBeCloseTo(full[0] * factor, -1);
+    expect(size[1]).toBeCloseTo(full[1] * factor, -1);
+  }
+  const probe = await page.evaluate(() => window.__blankProbe);
+  await testInfo.attach("resolution-steps", { body: JSON.stringify(probe, null, 2), contentType: "application/json" });
+  expect(probe.frames).toBeGreaterThan(8);
+  expect(probe.sizes.length, `the canvas changed size four times: ${probe.sizes}`).toBe(5);
+  expect(probe.blank, "frames whose canvas was cleared after it was drawn").toBe(0);
+  expect(errors).toEqual([]);
+});
+
 test("coastal home: composed activities and previews survive clock changes until Now", async ({ page }, testInfo) => {
   const view = await openClockedHome(page);
   const { scene, canvas, ui } = view;
