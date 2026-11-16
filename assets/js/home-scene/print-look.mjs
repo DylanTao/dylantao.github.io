@@ -237,22 +237,27 @@ export function colourwayAt(minute = 780) {
 //   shade  display sRGB of the hour's shadow, then how far a shaded surface leans to it and the
 //          share of its lightness it keeps
 //   sky    display sRGB at the top of the sky and at the horizon
-//   moon   display sRGB of moonlight, then how far a moonlit surface leans to it and the share
-//          of its lightness it keeps (used while the key light is the moon)
+//   moon   display sRGB of moonlight, then how far a moonlit surface leans to it, the share of
+//          its lightness it keeps, and how much the moon shows at this hour: nothing while the
+//          sky is still light (at dusk its shadows only broke the cliff into islands), all of it
+//          at night
 //   sea    display sRGB of the sea where it is shallow over sand and where it is deep
 //
 // Warm light against a cool shade by day; at night the lamps are the light and everything else
-// sinks into indigo.
+// sinks into indigo. A night room is a lit room, though: warm pools under the lamps, its own
+// colours around them, and blue only where the light gives out (`nightShare`, `deepNight`). A
+// first try at a low key, seven tenths of a room in deep shade after a painting of an empty stage,
+// read as eerie in a home (Sirui, November 16: "a bit eerie instead of calming and beautiful").
 const srgbToLinear = (c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
 export const displayToOklab = (rgb) => linearToOklab(rgb.map(srgbToLinear));
-const MOON = [0.42, 0.62, 0.95, 0.65, 0.8];
+const MOON = [0.42, 0.62, 0.95, 0.65, 0.8, 0];
 const NIGHT_HOUR = {
   name: "night",
-  light: [1.0, 0.8, 0.5, 0.45, 0.3],
-  shade: [0.16, 0.2, 0.6, 0.72, 0.55],
+  light: [1.0, 0.8, 0.5, 0.5, 0.32],
+  shade: [0.14, 0.17, 0.52, 0.76, 0.56],
   skyTop: [0.03, 0.04, 0.18],
   skyLow: [0.1, 0.12, 0.36],
-  moon: MOON,
+  moon: [...MOON.slice(0, 5), 1],
   seaShallow: [0.1, 0.24, 0.44],
   seaDeep: [0.03, 0.07, 0.22],
 };
@@ -318,10 +323,10 @@ export const TOON_HOURS = Object.freeze([
     at: 1140,
     name: "evening",
     light: [1.0, 0.78, 0.48, 0.5, 0.3],
-    shade: [0.2, 0.22, 0.62, 0.7, 0.56],
+    shade: [0.18, 0.2, 0.58, 0.72, 0.56],
     skyTop: [0.06, 0.08, 0.3],
     skyLow: [0.36, 0.24, 0.54],
-    moon: MOON,
+    moon: [...MOON.slice(0, 5), 0.6],
     seaShallow: [0.2, 0.26, 0.52],
     seaDeep: [0.06, 0.08, 0.3],
   },
@@ -389,7 +394,8 @@ export const PRINT_DEFAULTS = Object.freeze({
   // times a second and sets both (roomShare), inside these limits. Under the open sky whatever
   // the sun does not reach is shade (openStops). By day only a lamp or a glare counts as light
   // without the sun (strongStops).
-  roomShare: [0.22, 0.86, 0.97], // the share of a room's unlit surfaces that prints as shade, the share below a lamp's pool, and the first again when most of the view is outdoors
+  roomShare: [0.22, 0.86], // the share of a room's unlit surfaces that prints as shade, and the share below a lamp's pool
+  nightShare: [0.4, 0.9], // the same two shares by night: more of a room is shade then, and fewer of its surfaces are a lamp's pool
   roomStops: [-5, -0.6], // the limits of where shade may begin in a room
   poolStops: [-3, 0.3], // the limits of where a lamp's pool may begin, and it is never less than 0.9 stops above the room's middle
   strongStops: 0.3,
@@ -402,6 +408,7 @@ export const PRINT_DEFAULTS = Object.freeze({
   shadeKeep: 0.62, // the share of its own chroma a surface keeps in shade
   roomLean: [0.2, 0.66], // how far shade leans to the hour's shade colour in a room, by day and by night (under the open sky the hour says)
   formShade: 0.07, // lightness per stop inside one mix: how much the light still models a form
+  deepNight: [0.6, 1.8, 0.5, 0.5], // the same by night, when it begins a little sooner and leans a little further
   deepShade: [0.8, 1.8, 0.55, 0.4], // stops below the start of shade where deep shade begins, stops to arrive, the lightness it keeps, its lean to the shade's colour
   hour: null, // the lab's override of the hour's light, shade or sky (the fields of TOON_HOURS)
   // Brush strokes fixed to the scene's surfaces, over the coat (paint-strokes.mjs). Off for the
@@ -410,9 +417,10 @@ export const PRINT_DEFAULTS = Object.freeze({
   strokePixels: [6, 170], // the fewest and the most pixels a stroke may be long, at any frame height
   strokeOpacity: 1,
   strokeSpill: 0.1, // how far from its middle (0 to 0.5) a stroke may lie over what is behind its own thing
-  strokeImpasto: 0.32, // how much a stroke's thickness lightens and darkens it
-  strokeVary: [0.06, 0.1, 0.45], // how far one stroke's lightness and chroma stray from the mix, and how far it wanders along its ramp of light (stops)
+  strokeImpasto: 0.2, // how much a stroke's thickness lightens and darkens it
+  strokeVary: [0.04, 0.08, 0.25], // how far one stroke's lightness and chroma stray from the mix, and how far it wanders along its ramp of light (stops)
   strokeScatter: 12, // milliseconds a frame spent scattering strokes until the scene is covered
+  shadowMass: 0, // radians of the view: a cast shadow narrower than this is left out, the way a painter masses shadows
   lineOver: 0, // the strength of lines drawn over the paint
   // The sea is designed too: its colour goes from the hour's shallow to its deep by how much water
   // lies over the sand, foam lies where it thins at the shore, and strokes are fixed to the water.
@@ -453,6 +461,7 @@ const TOON_LOOK = Object.freeze({
     structure: 1,
     localColour: 1,
     brushwork: 0.3,
+    shadowMass: 0.005,
   }),
   way: (way, minute) => ({
     ...way,
@@ -471,7 +480,18 @@ export const LOOKS = Object.freeze({
   // strokes fixed to the scene's surfaces. Figures are not painted and stay cels.
   paint: Object.freeze({
     label: "Painted",
-    dials: Object.freeze({ ...TOON_LOOK.dials, lineStrength: 0, inkRadius: 1.5, paint: 1, lineOver: 0.8, brushwork: 1 }),
+    // Calm before busy (Sirui, November 16: "a bit eerie instead of calming and beautiful"):
+    // folds inside a form are mostly left to the paint, and shadows are massed more broadly.
+    dials: Object.freeze({
+      ...TOON_LOOK.dials,
+      lineStrength: 0,
+      inkRadius: 1.5,
+      foldStrength: 0.35,
+      paint: 1,
+      lineOver: 0.72,
+      brushwork: 1,
+      shadowMass: 0.008,
+    }),
     way: TOON_LOOK.way,
   }),
 });
@@ -513,6 +533,13 @@ export function structureKind(material) {
   return glow?.isColor && Math.max(glow.r, glow.g, glow.b) * (material.emissiveIntensity ?? 1) > STRUCTURE_GLOW ? 0.25 : 0;
 }
 
+// The land itself: ground, cliff, beach and rock. Whether one spot of rough rock sees the sky is
+// a noisy thing to ask of a map, and by dusk the answer decides the spot's tone: a cliff came out
+// as a mosaic, eerie where it should be calm (Sirui, November 16). Seen from outdoors the land is
+// under the open sky, all of it. A room keeps its own answer, so its light stays its own.
+const LAND = /hinterland|coast_|mainland|cliff|bluff|beach|terrain|boulder|sandstone/i;
+export const isLand = (object, material) => LAND.test(`${object?.name || ""} ${material?.name || ""}`);
+
 // The scene drawn once more with one small material, into two targets the size of the frame:
 // view normal (xy), object id and view depth in metres, as half floats; and, as bytes, the
 // surface's own colour with its kind (structureKind), whether it lies under the open sky and
@@ -551,9 +578,12 @@ uniform vec3 structureTint;   // the material's own colour, linear
 uniform vec4 structureKey;    // the key light's direction in view space; w 1 when its shadow map can be read
 uniform sampler2D structureShadowMap;
 uniform vec3 structureShadowBias; // depth bias, normal bias (vertex stage), one texel
+uniform vec2 structureKeyEdge;    // how squarely a surface must face the key light before it counts as lit (from, to)
 uniform sampler2D structureSkyMap;  // in w: how far below the sky camera the topmost surface lies, in metres
 uniform mat4 structureSkyMatrix;    // world to the sky map
 uniform vec4 structureSky;          // the sky camera's height, metres of slack, metres per texel, 1 when the map can be read
+uniform float structureLand;        // 1 for the land itself in a view that stands outdoors
+uniform vec2 structureMass;         // how wide a cast shadow must be to be kept, in radians of the view, and the shadow map's width per metre
 varying float vStructureDepth;
 varying vec4 vStructureShadow;
 varying vec3 vStructureWorld;
@@ -567,27 +597,37 @@ varying vec3 vStructureWorld;
 #include <clipping_planes_pars_fragment>
 layout(location = 1) out highp vec4 structureColour;
 // Does the key light reach this spot? A drawn shadow has an edge, so this is a yes or a no: the
-// surface faces the light, and nothing stands between them in the light's own shadow map. Four
-// taps half a texel out leave the edge about a pixel wide.
+// surface faces the light, and nothing stands between them in the light's own shadow map.
+//
+// A painter masses shadows: the shadow of a cliff is one shape, and the shadow of every bump on
+// it is left out. Eight taps are spread over a disc as wide as the narrowest shadow worth
+// keeping (structureMass, which grows with distance, so a chair leg's shadow at arm's length
+// stays), and the look keeps what more than half of them agree on. A tap beside this spot is
+// compared with the surface as it lies there, found from the surface's own slope in the
+// light's view, so a slope does not shadow itself.
+const vec2 MASS[8] = vec2[8](vec2(1.0, 0.0), vec2(0.31, 0.95), vec2(-0.81, 0.59), vec2(-0.81, -0.59), vec2(0.31, -0.95), vec2(0.4, 0.3), vec2(-0.46, 0.2), vec2(0.06, -0.5));
 float keyReaches(vec3 normal) {
   if (structureKey.w < 0.5) return 1.0;
-  float facing = smoothstep(0.05, 0.13, dot(normal, structureKey.xyz));
+  float facing = smoothstep(structureKeyEdge.x, structureKeyEdge.y, dot(normal, structureKey.xyz));
   vec3 c = vStructureShadow.xyz / vStructureShadow.w;
   if (c.x < 0.0 || c.x > 1.0 || c.y < 0.0 || c.y > 1.0 || c.z > 1.0) return facing;
-  float depth = c.z + structureShadowBias.x;
-  vec2 o = vec2(structureShadowBias.z * 0.5);
-  float lit =
-    step(depth, unpackRGBAToDepth(texture2D(structureShadowMap, c.xy + o))) +
-    step(depth, unpackRGBAToDepth(texture2D(structureShadowMap, c.xy - o))) +
-    step(depth, unpackRGBAToDepth(texture2D(structureShadowMap, c.xy + vec2(o.x, -o.y)))) +
-    step(depth, unpackRGBAToDepth(texture2D(structureShadowMap, c.xy + vec2(-o.x, o.y))));
-  return facing * lit * 0.25;
+  vec3 dx = dFdx(c), dy = dFdy(c);
+  float det = dx.x * dy.y - dx.y * dy.x;
+  vec2 slope = abs(det) > 1e-14 ? vec2(dy.y * dx.z - dx.y * dy.z, dx.x * dy.z - dy.x * dx.z) / det : vec2(0.0);
+  float radius = max(structureShadowBias.z * 0.5, structureMass.x * vStructureDepth * structureMass.y);
+  float lit = 0.0;
+  for (int i = 0; i < 8; i++) {
+    vec2 o = MASS[i] * radius;
+    float depth = c.z + clamp(dot(slope, o), -0.02, 0.02) + structureShadowBias.x;
+    lit += step(depth, unpackRGBAToDepth(texture2D(structureShadowMap, c.xy + o)));
+  }
+  return facing * lit * 0.125;
 }
 // Does this spot lie under the open sky? Nothing stands higher at its place on a map of the scene
 // seen from straight above. A wall has no place of its own on such a map, so it asks about the
 // ground just in front of it.
 float seesSky(vec3 normal) {
-  if (structureSky.w < 0.5) return 1.0;
+  if (structureSky.w < 0.5 || structureLand > 0.5) return 1.0;
   vec3 out_ = inverseTransformDirection(normal, viewMatrix);
   vec2 run = out_.xz * structureSky.z * 1.6;
   vec4 c = structureSkyMatrix * vec4(vStructureWorld.x + run.x, vStructureWorld.y, vStructureWorld.z + run.y, 1.0);
@@ -617,6 +657,9 @@ void main() {
     structureShadowMap: { value: null },
     structureShadowMatrix: { value: new THREE.Matrix4() },
     structureShadowBias: { value: new THREE.Vector3() },
+    structureKeyEdge: { value: new THREE.Vector2(0.05, 0.13) },
+    structureLand: { value: 0 },
+    structureMass: { value: new THREE.Vector2(0, 0) },
     structureSkyMap: { value: null },
     structureSkyMatrix: { value: new THREE.Matrix4() },
     structureSky: { value: new THREE.Vector4() },
@@ -638,6 +681,7 @@ void main() {
     const index = group?.materialIndex ?? 0,
       source = Array.isArray(object.material) ? object.material[index] : object.material,
       kind = structureKind(source);
+    uniforms.structureLand.value = outdoors && isLand(object, source) ? 1 : 0;
     uniforms.structureObject.value.set(
       structureId(object.id, index),
       structureSkips(source) ? 1 : 0,
@@ -680,6 +724,8 @@ void main() {
   let skyExtent = 0,
     skyAge = 0,
     skyDraws = 0;
+  // Set for each drawing of the view.
+  let outdoors = false;
   const hidden = [],
     lifted = [],
     clearColor = new THREE.Color(),
@@ -749,8 +795,10 @@ void main() {
       if (target.width !== width || target.height !== height) target.setSize(width, height);
     },
     // `key` is the scene's key light (the sun, or the moon at night), a directional light whose
-    // shadow map the beauty pass has just used.
-    render(renderer, scene, camera, key = null) {
+    // shadow map the beauty pass has just used. `outdoors` says the view stands outside the
+    // house, and `mass` how wide a cast shadow must be to be kept, in radians of the view.
+    render(renderer, scene, camera, key = null, { outdoors: viewOutdoors = false, mass = 0 } = {}) {
+      outdoors = Boolean(viewOutdoors);
       const shadow = key?.shadow,
         shadowMap = key?.castShadow ? shadow?.map?.texture : null,
         before = renderer.info.render.calls;
@@ -784,6 +832,7 @@ void main() {
         uniforms.structureShadowMap.value = shadowMap;
         uniforms.structureShadowMatrix.value.copy(shadow.matrix);
         uniforms.structureShadowBias.value.set(shadow.bias, shadow.normalBias, 1 / shadow.mapSize.x);
+        uniforms.structureMass.value.set(mass, 1 / (2 * Math.max(shadow.camera.right, 1)));
       } else {
         uniforms.structureKey.value.set(0, 0, 1, 0);
         uniforms.structureSky.value.w = 0;
@@ -841,6 +890,7 @@ uniform vec4 printLightMix;    // OKLab a, b of the light, how far a lit surface
 uniform vec4 printShadeMix;    // OKLab a, b of the shade, how far a shaded surface leans to it, the share of lightness it keeps
 uniform vec4 printMore;        // the share of its own chroma a surface keeps in shade, debug view, chroma limit, how much the light models form inside a mix
 uniform vec4 printDeep;        // stops below the start of shade where deep shade begins, the stops it takes to arrive, the lightness it keeps, how far it leans to the shade's colour
+uniform float printNight;      // how far the land under the open sky has gone into the night's deep shade: nothing at dusk, all of it at night
 const mat3 TO_LMS = ${glslMatrix(OKLAB.toLms)};
 const mat3 TO_LAB = ${glslMatrix(OKLAB.toLab)};
 const mat3 FROM_LAB = ${glslMatrix(OKLAB.fromLab)};
@@ -897,21 +947,33 @@ vec3 threeMixes(vec3 half_, float inHalf, float inLight, float lean) {
 // it reaches takes moonlight's mix.
 vec3 spotFill(vec3 mine, float seen, float kind, float reach, float open, vec2 frameHue, float wander, out float stops) {
   stops = log2(max(seen * toneMappingExposure / max(luma(mine), 0.03), 1e-4)) + wander;
-  float soft = kind > 1.5 ? 0.05 : printKey.z;
+  // A room's light fades over a long ramp. Under the open sky there is no such fall: a surface is
+  // in the sky's shade or it is not, and a wide ramp there turned a cliff at dusk into a mosaic.
+  float soft = kind > 1.5 ? 0.05 : mix(printKey.z, 0.25, open);
   float strong = smoothstep(printKey.y - soft, printKey.y + soft, stops);
   float inLight = max(reach * printDay.x, strong);
-  float begins = mix(printKey.x, printDay.z, open);
+  // With no sun in the picture (dusk, night, a sun on the horizon) everything under the open sky
+  // is in the sky's shade; there is no boundary left to draw across a cliff.
+  float skyShade = mix(printKey.x, printDay.z, open);
+  float begins = mix(printKey.x, mix(1.5, printDay.z, printDay.x), open);
   float inHalf = max(smoothstep(begins - soft, begins + soft, stops), inLight);
   vec3 own3 = ownMix(labLinear(mine));
   // The sky colours the shade it lights; in a room the shade is the thing's own colour, deepened.
   vec3 fill = threeMixes(own3, inHalf, inLight, mix(printDay.w, printShadeMix.z, open));
   // Inside a mix the light still models the form a little, the way a painter turns a plane.
-  if (kind < 1.5) fill.x *= 1.0 + printMore.w * clamp(stops - mix(begins + 0.8, -0.7, reach * printDay.x), -1.5, 1.5);
+  if (kind < 1.5) fill.x *= 1.0 + printMore.w * clamp(stops - mix(skyShade + 0.8, -0.7, reach * printDay.x), -1.5, 1.5);
   vec3 moonlit = vec3(own3.x * printMoon.w, mix(own3.yz * 0.4, printMoon.xy, printMoon.z));
   fill = mix(fill, moonlit, reach * printDay.y * (1.0 - strong));
   // Where almost no light reaches, the shade deepens toward the hour's shade colour, so a picture
   // has darks as well as lights: under a table, inside a cupboard, the far wall at night.
-  float deep = (1.0 - smoothstep(begins - printDeep.x - printDeep.y, begins - printDeep.x, stops)) * (1.0 - inLight) * step(kind, 1.5);
+  // In a room that is read from the frame. Under the open sky, once the sun has gone, the frame
+  // has nothing steady to say (every stroke of a cliff at dusk fell on one side or the other of
+  // the line), so the hour says it: plain shade at dusk, deep shade at night.
+  float deepRoom = 1.0 - smoothstep(printKey.x - printDeep.x - printDeep.y, printKey.x - printDeep.x, stops);
+  // (The land at night keeps half its way to the dark: a night to look at, not a black one.)
+  // By day a cast shadow on a cliff is the sky's blue and no darker; only a crevice goes deep.
+  float deepSky = mix(printNight * 0.5, 1.0 - smoothstep(printDay.z - 4.6, printDay.z - 2.8, stops), printDay.x);
+  float deep = mix(deepRoom, deepSky, open) * (1.0 - inLight) * step(kind, 1.5);
   fill = mix(fill, vec3(fill.x * printDeep.z, mix(fill.yz, printShadeMix.xy * 0.9, printDeep.w)), deep);
   // A lamp prints as the light itself.
   return mix(fill, vec3(mix(fill.x, 1.0, 0.8), frameHue * 1.5 + printLightMix.xy * 0.5), step(0.5, kind) * step(kind, 1.5));
@@ -1119,10 +1181,11 @@ void main() {
         // A crest is a thin pale dash inside its stroke, tapered at both ends; one stroke in thirty has one.
         float dash = (1.0 - smoothstep(0.1, 0.2, abs(within.y))) * (1.0 - smoothstep(0.28, 0.44, abs(within.x)));
         float crest = step(0.966, hash(stroke + floor(printSea.y * 0.6 + own * 9.0))) * dash * (1.0 - smoothstep(60.0, 400.0, far));
-        fill = mix(fill, vec3(0.96, 0.0, 0.02), crest * 0.85 * max(printSea.z, 0.35));
+        fill = mix(fill, mix(vec3(printSeaShallow.x + 0.2, printSeaShallow.yz * 0.5), vec3(0.96, 0.0, 0.02), printDay.x), crest * 0.85 * max(printSea.z, 0.35));
         float swash = 0.2 + 0.1 * sin(printSea.y * 0.8 + noise(water.xz * 0.11) * 6.2832);
-        float foam = (1.0 - smoothstep(swash * 0.4, swash, under)) * (0.55 + 0.45 * step(0.35, noise(water.xz * 1.9 + printSea.y * 0.15)));
-        fill = mix(fill, vec3(0.975, 0.0, 0.01), foam);
+        float foam = (1.0 - smoothstep(swash * 0.4, swash, under)) * (0.5 + 0.5 * smoothstep(0.3, 0.5, noise(water.xz * 1.9 + printSea.y * 0.15)));
+        // Foam is white in the sun and the sea's own pale colour once the sun has gone.
+        fill = mix(fill, mix(vec3(printSeaShallow.x + 0.2, printSeaShallow.yz * 0.5), vec3(0.975, 0.0, 0.01), printDay.x), foam);
         fill = mix(fill, printSkyLow, smoothstep(250.0, 2500.0, far) * 0.55);
         colour = unlab(fill);
       }
@@ -1231,26 +1294,20 @@ void main() {
 // of them and never less than 0.9 stops above their middle. Null when too little of the view is a
 // room for the reading to mean anything.
 export const METER_SIZE = Object.freeze([64, 36]);
-export function readMeter(pixels, dials = PRINT_DEFAULTS) {
+export function readMeter(pixels, dials = PRINT_DEFAULTS, day = 1) {
   const room = [];
-  let outdoors = 0;
-  for (let i = 0; i < pixels.length; i += 4) {
-    if (pixels[i + 1] > 223) room.push((pixels[i] / 255) * 10 - 8);
-    else if (pixels[i + 1] > 95 && pixels[i + 1] < 160) outdoors++;
-  }
+  for (let i = 0; i < pixels.length; i += 4) if (pixels[i + 1] > 223) room.push((pixels[i] / 255) * 10 - 8);
   if (room.length < 48) return null;
   room.sort((a, b) => a - b);
   const at = (share) => room[Math.min(room.length - 1, Math.floor(share * room.length))],
     within = (value, [low, high]) => Math.min(Math.max(value, low), high),
-    // Seen from outdoors, a room or the underside of the cliff is one dark shape; seen from inside
-    // it has its own lights and darks.
-    open = outdoors / (outdoors + room.length),
-    share = mix(dials.roomShare[0], dials.roomShare[2], Math.min(Math.max((open - 0.35) / 0.4, 0), 1));
+    // By night more of a room is shade, and fewer of its surfaces count as a lamp's pool.
+    shade = mix(dials.nightShare[0], dials.roomShare[0], day),
+    pool = mix(dials.nightShare[1], dials.roomShare[1], day);
   return {
     samples: room.length,
-    open,
-    room: within(at(share), dials.roomStops),
-    pool: within(Math.max(at(dials.roomShare[1]), at(0.5) + 0.9), dials.poolStops),
+    room: within(at(shade), dials.roomStops),
+    pool: within(Math.max(at(pool), at(0.5) + 0.9), dials.poolStops),
   };
 }
 
@@ -1289,6 +1346,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     printHorizon: { value: new THREE.Vector3(-1, 0.5, 1) },
     printMore: { value: new THREE.Vector4() },
     printDeep: { value: new THREE.Vector4() },
+    printNight: { value: 0 },
     printOver: { value: new THREE.Vector2() },
     printWorld: { value: new THREE.Matrix4() },
     printSea: { value: new THREE.Vector4(0, 0, 0, 0) },
@@ -1332,7 +1390,13 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     world = null,
     eye = null,
     keyLight = null,
+    // How much say the key light has: all of it when it stands high, none when it lies on the
+    // horizon. A sun or moon that low skims rough rock, and every bump would be lit or dark by
+    // itself: a cliff at dusk came out as a scatter of islands. Below about fifteen degrees the
+    // key light fades out of the picture and the sky's soft light is left to model the land.
+    keyShare = 1,
     seaLevel = null,
+    outdoors = false,
     paint = null,
     day = 1,
     stillFrame = true,
@@ -1353,7 +1417,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     if (wanted) {
       structure ||= createStructure();
       structure.resize(readBuffer.width, readBuffer.height);
-      structure.render(renderer, world, eye, keyLight);
+      structure.render(renderer, world, eye, keyLight, { outdoors, mass: dials.shadowMass });
       uniforms.tStructure.value = structure.target.textures[0];
       uniforms.tAlbedo.value = structure.target.textures[1];
     }
@@ -1365,7 +1429,10 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
   // meter's reading of the lamps' pools takes over.
   function setKey() {
     uniforms.printKey.value.set(roomStops, mix(poolStops, dials.strongStops, day), dials.keySoftness, uniforms.printKey.value.w);
-    uniforms.printDay.value.set(day, 1 - day, dials.openStops, mix(dials.roomLean[1], dials.roomLean[0], day));
+    const moon = (dials.hour?.moon ?? way.palette?.moon)?.[5] ?? 1;
+    uniforms.printDay.value.set(day * keyShare, (1 - day) * keyShare * moon, dials.openStops, mix(dials.roomLean[1], dials.roomLean[0], day));
+    uniforms.printDeep.value.set(...dials.deepShade.map((value, i) => mix(dials.deepNight[i], value, day)));
+    uniforms.printNight.value = (1 - day) * moon;
   }
   function sync() {
     uniforms.printLine.value.set(dials.lineRadius, dials.lineThreshold, dials.lineSoftness, dials.lineStrength);
@@ -1385,7 +1452,6 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     uniforms.printLocal.value.set(dials.localRange[0], dials.localRange[1], dials.localChroma[0], dials.localChroma[1]);
     uniforms.printSpread.value.set(dials.hueSpread[0], dials.hueSpread[1], dials.neutralLean[0], dials.neutralLean[1]);
     uniforms.printMore.value.set(dials.shadeKeep, dials.debug, dials.localChroma[2], dials.formShade);
-    uniforms.printDeep.value.set(...dials.deepShade);
     uniforms.printOver.value.set(dials.lineOver, dials.lineOwn);
     uniforms.printSea.value.z = dials.brushwork;
     // The lab can try another hour's light, shade or sky over the one the clock gives.
@@ -1466,7 +1532,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     quad.render(renderer);
     renderer.readRenderTargetPixels(meterTarget, 0, 0, METER_SIZE[0], METER_SIZE[1], meterPixels);
     uniforms.printMore.value.y = view;
-    const reading = readMeter(meterPixels, dials);
+    const reading = readMeter(meterPixels, dials, day);
     if (!reading) return;
     const ease = stillFrame || !metered ? 1 : 0.35;
     roomStops += (reading.room - roomStops) * ease;
@@ -1505,16 +1571,33 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     // Each frame: the camera that drew it, the home's minute, and whether lines may shift (they hold
     // still when motion is reduced or paused).
     // `key` is the scene's key light and `day` how much of it is the sun (1) and not the moon (0).
-    // `sea` is the sea's level in the world, when the scene has a sea.
+    // `sea` is the sea's level in the world, when the scene has a sea. `outdoors` says the view
+    // stands outside the house.
     prepare(
       camera,
-      { scene = world, minute: nextMinute = minute, seconds = 0, still = true, key = keyLight, day: nextDay = day, sea = seaLevel } = {}
+      {
+        scene = world,
+        minute: nextMinute = minute,
+        seconds = 0,
+        still = true,
+        key = keyLight,
+        day: nextDay = day,
+        sea = seaLevel,
+        outdoors: nextOutdoors = outdoors,
+      } = {}
     ) {
       world = scene;
       eye = camera;
       keyLight = key;
       stillFrame = Boolean(still);
+      const height = key?.target ? gaze.copy(key.position).sub(key.target.position).normalize().y : 1,
+        share = THREE.MathUtils.smoothstep(height, 0.04, 0.26);
+      if (share !== keyShare) {
+        keyShare = share;
+        setKey();
+      }
       seaLevel = sea;
+      outdoors = Boolean(nextOutdoors);
       if (camera.matrixWorld) uniforms.printWorld.value.copy(camera.matrixWorld);
       // The sea is designed for a view with perspective that stands above it.
       uniforms.printSea.value.set(
@@ -1566,7 +1649,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         // The structure's two targets and its map from above; then the meter's.
         renderTargets: own ? 3 : structured ? 2 : 0,
         structure: structured ? structure.evidence() : null,
-        meter: own ? { room: roomStops, pool: poolStops, readings: metered, day } : null,
+        meter: own ? { room: roomStops, pool: poolStops, readings: metered, day, keyShare } : null,
         paint: own && dials.paint > 0 && paint ? paint.evidence() : null,
         dials: { ...dials },
       };

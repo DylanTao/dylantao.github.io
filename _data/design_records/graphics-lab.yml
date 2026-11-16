@@ -1705,7 +1705,16 @@ systems:
           by how much water lies over the bed there, which the structure pass knows because it leaves water out.
           Foam lies where the water thins at the shore and moves in and out, and the water is laid in long strokes
           fixed to it, twice as long each time the distance doubles, with a thin pale crest on one in thirty. The
-          sky has brushed bands fixed to the sky itself.
+          sky has brushed bands fixed to the sky itself. Four later rules keep the picture calm, after Sirui found
+          some frames "a bit eerie instead of calming and beautiful". The land itself (ground, cliff, beach and
+          rock) counts as under the open sky whenever the view stands outdoors (`isLand`), because asking a map
+          about each spot of rough rock gave a mosaic at dusk. Cast shadows are massed, with eight taps spread over
+          a disc that grows with distance, each compared with the surface as it lies there, so the shadow of a
+          cliff stays and the shadow of each bump on it is left out. By day a cast shadow outdoors is the sky's
+          blue and only a crevice goes dark. A sun or moon within about fifteen degrees of the horizon fades out
+          of the picture and the moon is not shown until the sky is dark, so the land at dusk is one soft tone
+          under the sky's colour with the house's lamps as the only light. By night a room stays a lit room, with
+          two fifths of its unlit surfaces in shade.
         files:
           - path: assets/js/home-scene/print-look.mjs
             role: The pass, its shader, the colourways, the cartoon's hours, the two looks and the dials.
@@ -1741,7 +1750,9 @@ systems:
           - Sirui's verdict on the cartoon of November 16, seen in work-in-progress frames, "things are getting a bit better" and "rendering quality is still low and not studio quality and a bit not joyful". The fills are still flat paint with no brushwork, texture or atmosphere, the lines are one black weight, and no view is composed. It is a base for a painted world, not that world.
           - Plants, glass, steam, the pool, the bath and anything with a picture on it give no colour of their own, so they are still filled from the frame in three hard steps.
           - The designed sea is flat at one level. It ignores the swell the realistic sea has, its strokes run along one world axis and not along the shore, and it is not drawn from below the surface or without perspective.
-          - A cast shadow is only as clean as the shadow map. On rough rock at a low sun it breaks into small islands.
+          - Massing leaves out cast shadows narrower than 0.005 radians of the view (0.008 in the painted look), which also drops the shadow of a thin thing far away. A large shadow on rough rock keeps its ragged outline.
+          - Outdoors at dusk and at night the land is one tone by design. Moonlight models nothing until the sky is dark, and the house's lamps light the terrace and the rock only as far as the render lets them.
+          - A first try at a low key for night rooms, seven tenths of a room in deep shade, read as eerie and was withdrawn the same day.
           - The meter eases toward each reading, so shade shapes in a room drift for about a second after the view changes.
           - The section cut's hatching is drawn into the frame and is read as light and dark, so it prints as a moiré at some distances.
           - Measured November 16 on this PC in a 1600 by 900 window (a 1280 by 720 buffer), moving, the cartoon adds 175 draw calls in the living room (637 to 812), 488 in the whole-home view (1,659 to 2,147) and 686 on the coast (2,422 to 3,108). GPU time went from 13.0 to 13.3 ms in the room, 14.7 to 20.7 ms for the whole home and 23.0 to 23.6 ms on the coast; the room's frame went from 33 to 47 ms, the other two by 1 to 2 ms. With a drawn look off it costs nothing.
@@ -1787,7 +1798,9 @@ systems:
           shadow keeps its edge across a stroke. A stroke may lie a little over what is behind its own thing and
           never over what stands in front, so a chair leg stays a chair leg with a brushed edge. Where almost no
           light reaches, the shade deepens toward the hour's shade colour, which gives the picture darks. Edges are
-          then drawn back in over the paint, thin, in a dark of the fill they bound and not in black. The rule for
+          then drawn back in over the paint, thin, in a dark of the fill they bound and not in black. Folds inside
+          a form are mostly left to the paint, and strokes on one surface differ little in lightness, so a wall
+          reads as one quiet surface. The rule for
           the colour, that each thing has a light, a half-tone and a shade mix and the light on a stroke's spot picks
           one, is the painted game's.
         files:

@@ -15,6 +15,7 @@ import {
   colourwayAt,
   createPrintLook,
   displayToOklab,
+  isLand,
   linearToOklab,
   oklabToLinear,
   readDrawnLook,
@@ -385,7 +386,7 @@ test("the cartoon's lines come in three weights from one ring", () => {
   assert.equal(LOOKS.toon.dials.bands, 3);
   assert.equal(LOOKS.toon.dials.bandMix, 1);
   // The world is painted softly and a figure is a cel: its edge between two tones is hard.
-  assert.match(source, /float soft = kind > 1\.5 \? 0\.05 : printKey\.z;/);
+  assert.match(source, /float soft = kind > 1\.5 \? 0\.05 : mix\(printKey\.z, 0\.25, open\);/);
   assert.ok(PRINT_DEFAULTS.keySoftness > 0.5);
 });
 
@@ -507,6 +508,10 @@ test("the cartoon's hour says what colour the light, the shade, the sky, moonlig
   assert.match(sea, /\* \(1\.0 - isSea\);/, "and what lies under the sea draws no line through it");
   assert.equal(uniforms.printDay.value.w, PRINT_DEFAULTS.roomLean[1]);
   assert.ok(uniforms.printKey.value.y < PRINT_DEFAULTS.strongStops, "by night the lamps' pools are the light");
+  assert.deepEqual(uniforms.printDeep.value.toArray(), PRINT_DEFAULTS.deepNight, "and the dark goes deeper");
+  drawn.prepare(camera, { minute: 930, day: 1 });
+  assert.deepEqual(uniforms.printDeep.value.toArray(), PRINT_DEFAULTS.deepShade);
+  drawn.prepare(camera, { minute: 1300, day: 0 });
   drawn.dispose();
 });
 
@@ -526,7 +531,6 @@ test("the meter puts a room's darkest surfaces in shade and finds the lamps' poo
   );
   const room = readMeter(pixels);
   assert.equal(room.samples, width * height);
-  assert.equal(room.open, 0);
   assert.ok(Math.abs(room.room - (-4 + 3 * PRINT_DEFAULTS.roomShare[0])) < 0.05, `shade begins at ${room.room}`);
   assert.ok(Math.abs(room.pool - (-4 + 3 * PRINT_DEFAULTS.roomShare[1])) < 0.05, `a pool begins at ${room.pool}`);
   // An evenly lit room has no pool: one would have to stand 0.9 stops above the room's middle.
@@ -535,14 +539,23 @@ test("the meter puts a room's darkest surfaces in shade and finds the lamps' poo
     () => 255
   );
   assert.ok(readMeter(pixels).pool >= -2 + 0.9 - 0.05);
-  // Seen from outdoors (nine tenths of the view under the open sky), a room is one dark shape.
+  // Only a room's own surfaces are read: what lies under the open sky is the sky's to light.
   fill(
-    (i) => -4 + (3 * (i % 100)) / 100,
+    (i) => (i % 10 === 0 ? -4 + (3 * (i % 100)) / 100 : 1.5),
     (i) => (i % 10 === 0 ? 255 : 128)
   );
   const outdoors = readMeter(pixels);
-  assert.ok(outdoors.open > 0.85);
-  assert.ok(outdoors.room > -4 + 3 * 0.9, `nearly all of it is shade: ${outdoors.room}`);
+  assert.equal(outdoors.samples, Math.ceil((width * height) / 10));
+  assert.ok(outdoors.room < -2.5, `the bright land outdoors does not move a room's shade: ${outdoors.room}`);
+  // By night a room is mostly shade, and only its brightest surfaces are a lamp's pool.
+  fill(
+    (i) => -4 + (3 * i) / (width * height),
+    () => 255
+  );
+  const night = readMeter(pixels, PRINT_DEFAULTS, 0);
+  assert.ok(Math.abs(night.room - (-4 + 3 * PRINT_DEFAULTS.nightShare[0])) < 0.05, `by night shade begins at ${night.room}`);
+  assert.ok(night.room > room.room + 0.3, "more of a room is shade by night");
+  assert.ok(Math.abs(night.pool - (-4 + 3 * PRINT_DEFAULTS.nightShare[1])) < 0.05);
   // Limits hold, and too little room is no reading.
   fill(
     () => 1.5,
@@ -576,6 +589,7 @@ test("cast shadows come from the key light's own map, and the open sky from a ma
       if (structure)
         calls.push({
           camera,
+          material: structure,
           target,
           key: structure.uniforms.structureKey.value.w,
           sky: structure.uniforms.structureSky.value.w,
@@ -652,5 +666,39 @@ test("cast shadows come from the key light's own map, and the open sky from a ma
   assert.ok(Math.abs(meter.room - (-3 + 2 * PRINT_DEFAULTS.roomShare[0])) < 0.05, `shade begins at ${meter.room}`);
   assert.equal(drawn.material.uniforms.printKey.value.x, meter.room);
   assert.equal(drawn.material.uniforms.printMore.value.y, 0, "the meter's view is put away again");
+  // Seen from outdoors the land is under the open sky, all of it: whether one spot of rough rock
+  // sees the sky is too noisy to ask. A room, a terrace and a chair keep their own answers.
+  const structure = above.material,
+    cliff = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ name: "La Jolla bluff sandstone" })),
+    floor = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ name: "pale oak" }));
+  cliff.name = "core_carved_mainland001_1";
+  floor.name = "core_lounge_floor";
+  assert.equal(isLand(cliff, cliff.material), true);
+  assert.equal(isLand({ name: "coast_long_sloping_beach" }, { name: "dry beach sand" }), true);
+  assert.equal(isLand(floor, floor.material), false);
+  assert.equal(isLand(null, null), false);
+  structure.onBeforeRender(null, null, null, null, cliff, null);
+  assert.equal(structure.uniforms.structureLand.value, 0, "a view inside the house asks each spot");
+  drawn.prepare(camera, { outdoors: true });
+  drawn.tap.render(renderer, null, frame);
+  structure.onBeforeRender(null, null, null, null, cliff, null);
+  assert.equal(structure.uniforms.structureLand.value, 1);
+  structure.onBeforeRender(null, null, null, null, floor, null);
+  assert.equal(structure.uniforms.structureLand.value, 0);
+  assert.match(structure.fragmentShader, /if \(structureSky\.w < 0\.5 \|\| structureLand > 0\.5\) return 1\.0;/);
+  // Cast shadows are massed: eight taps over a disc that grows with distance, each compared with
+  // the surface as it lies there, and the shadow map's width per metre comes from the light.
+  assert.deepEqual(structure.uniforms.structureMass.value.toArray(), [drawn.dials.shadowMass, 1 / 32]);
+  assert.ok(LOOKS.paint.dials.shadowMass > LOOKS.toon.dials.shadowMass && LOOKS.toon.dials.shadowMass > 0);
+  assert.equal(PRINT_DEFAULTS.shadowMass, 0);
+  assert.match(
+    structure.fragmentShader,
+    /float radius = max\(structureShadowBias\.z \* 0\.5, structureMass\.x \* vStructureDepth \* structureMass\.y\);/
+  );
+  assert.match(structure.fragmentShader, /clamp\(dot\(slope, o\), -0\.02, 0\.02\)/);
+  drawn.prepare(camera, { outdoors: false });
+  drawn.tap.render(renderer, null, frame);
+  structure.onBeforeRender(null, null, null, null, cliff, null);
+  assert.equal(structure.uniforms.structureLand.value, 0);
   drawn.dispose();
 });

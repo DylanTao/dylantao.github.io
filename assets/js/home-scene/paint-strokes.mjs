@@ -419,6 +419,7 @@ export function createPaint({ glsl, uniforms: look, tools }) {
       "printShadeMix",
       "printMore",
       "printDeep",
+      "printNight",
       "printSea",
       "tStructure",
       "tAlbedo",
