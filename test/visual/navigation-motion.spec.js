@@ -239,10 +239,15 @@ test("the video row can be thrown with a mouse and yields at once to any other i
   expect(onStop(rested.left)).toBe(true);
   expect(rested).toMatchObject({ snap: "", lean: "", open: 0 });
 
-  // A throw carries on past where the hand let go and lands on a stop.
+  // A throw carries on past where the hand let go and lands on a stop. The row reads the hand's
+  // speed from its last 80 ms, and a pause before letting go is a hand that stopped: so nothing asks
+  // the page anything between the last move and the release (on a slow CI runner that question
+  // alone outlasted the 80 ms, and the row rightly did not fly). The row follows the hand one to
+  // one, so where it was let go is where it started plus the drag.
+  const start = (await state()).left;
   await press(-270, 8);
-  const letGo = (await state()).left;
   await page.mouse.up();
+  const letGo = start + 270;
   expect((await state()).phase).toBe("flying");
   await expect.poll(async () => (await state()).phase).toBe("idle");
   const thrown = await state();
