@@ -212,9 +212,11 @@ test("the strokes are drawn over the coat, follow their things, and share the lo
   assert.equal(LOOKS.toon.dials.paint, undefined);
   const paint = createPaint({ glsl: COLOUR_GLSL, uniforms: look.material.uniforms, tools });
   // The hour and the dials reach the strokes with no copying.
-  for (const name of ["printKey", "printDay", "printLightMix", "printShadeMix", "printDeep", "tStructure", "tAlbedo", "tDiffuse"])
+  for (const name of ["printKey", "printDay", "printLightMix", "printShadeMix", "printDeep", "printSea", "tStructure", "tAlbedo", "tDiffuse"])
     assert.equal(paint.material.uniforms[name], look.material.uniforms[name], name);
   assert.match(paint.material.fragmentShader, /spotFill\(vOwn, seen,/);
+  // What lies under the sea is the sea's to paint.
+  assert.match(paint.material.vertexShader, /\(modelMatrix \* vec4\(dabPlace, 1\.0\)\)\.y < printSea\.x - 0\.03/);
   assert.equal(paint.material.depthTest, false);
 
   const root = new THREE.Scene(),

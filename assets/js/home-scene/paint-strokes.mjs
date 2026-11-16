@@ -308,6 +308,7 @@ uniform vec2 paintResolution;
 uniform vec4 paintScale;   // pixels a metre spans at one metre away (or anywhere, without perspective), 1 with perspective, the fewest and the most pixels a stroke may be long
 uniform float paintSizes[${STROKE_SIZES.length}];
 uniform vec4 paintStroke;  // width over length, opacity, how far a stroke may spill over what lies behind, how much its thickness catches the light
+uniform vec4 printSea;     // the sea's level, and in w whether the view has a sea (print-look.mjs)
 attribute vec3 dabPlace;
 attribute vec4 dabNormal;  // xyz the surface's normal, w its size
 attribute vec4 dabAlong;   // xyz the direction of the stroke, w a number of its own
@@ -329,7 +330,9 @@ void main() {
   // A stroke is drawn when its own point is what the picture shows there.
   vec4 there = texture2D(tStructure, uv);
   bool seen = clip.w > 0.0 && abs(ndc.x) < 1.02 && abs(ndc.y) < 1.02 && px > paintScale.z
-    && abs(there.z - dabId) < 0.5 && abs(there.w - depth) < 0.06 + 0.03 * depth;
+    && abs(there.z - dabId) < 0.5 && abs(there.w - depth) < 0.06 + 0.03 * depth
+    // What lies under the sea is the sea's to paint.
+    && !(printSea.w > 0.5 && (modelMatrix * vec4(dabPlace, 1.0)).y < printSea.x - 0.03);
   if (!seen) {
     gl_Position = vec4(2.0, 2.0, 2.0, 1.0);
     return;
@@ -416,6 +419,7 @@ export function createPaint({ glsl, uniforms: look, tools }) {
       "printShadeMix",
       "printMore",
       "printDeep",
+      "printSea",
       "tStructure",
       "tAlbedo",
       "tDiffuse",

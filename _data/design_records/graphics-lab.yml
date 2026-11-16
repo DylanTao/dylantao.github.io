@@ -1700,7 +1700,12 @@ systems:
           sun does not reach is shade. In a room a meter of 64 by 36 samples reads the view a few times a second
           and puts the darkest fifth of the unlit surfaces in shade, so a dim room is not all shade and a lamp has a
           pool at night (`readMeter`). The rule that each thing has three mixes and the light on its spot picks one
-          is the painted game's, cited below.
+          is the painted game's, cited below. The sea is designed as well. A pixel shows it when the sea's level is
+          met along the view before any solid thing. Its colour runs from the hour's shallow colour to its deep one
+          by how much water lies over the bed there, which the structure pass knows because it leaves water out.
+          Foam lies where the water thins at the shore and moves in and out, and the water is laid in long strokes
+          fixed to it, twice as long each time the distance doubles, with a thin pale crest on one in thirty. The
+          sky has brushed bands fixed to the sky itself.
         files:
           - path: assets/js/home-scene/print-look.mjs
             role: The pass, its shader, the colourways, the cartoon's hours, the two looks and the dials.
@@ -1734,7 +1739,8 @@ systems:
           - The cartoon's lines are counted on a ring of twelve taps, so their edges step in a few levels; on a dense screen that is clean, at one device pixel per pixel a diagonal shows it. Thin slabs (a rug's edge) draw two lines where a hand would draw one. Line shifting between frames has not been judged in motion.
           - Plants, water, glass and steam are left out of the structure and keep only their flat colour.
           - Sirui's verdict on the cartoon of November 16, seen in work-in-progress frames, "things are getting a bit better" and "rendering quality is still low and not studio quality and a bit not joyful". The fills are still flat paint with no brushwork, texture or atmosphere, the lines are one black weight, and no view is composed. It is a base for a painted world, not that world.
-          - The sea, plants, glass, steam and anything with a picture on it give no colour of their own, so they are still filled from the frame in three hard steps. The sea prints pale and speckled.
+          - Plants, glass, steam, the pool, the bath and anything with a picture on it give no colour of their own, so they are still filled from the frame in three hard steps.
+          - The designed sea is flat at one level. It ignores the swell the realistic sea has, its strokes run along one world axis and not along the shore, and it is not drawn from below the surface or without perspective.
           - A cast shadow is only as clean as the shadow map. On rough rock at a low sun it breaks into small islands.
           - The meter eases toward each reading, so shade shapes in a room drift for about a second after the view changes.
           - The section cut's hatching is drawn into the frame and is read as light and dark, so it prints as a moiré at some distances.
@@ -1745,7 +1751,7 @@ systems:
           - The switch lives in the lab menu (`?scene-lab=1`). Visitors have no control yet.
           - The woodblock reads 23 textures per pixel (13 colour, 10 depth) in one full-screen draw; the cartoon reads 53 (13 colour, 26 structure, 13 own colour, 1 depth), and its structure pass reads the key light's shadow map four times and the map from above once for every pixel it draws.
         next:
-          - move: Give the cartoon the painted look's edges, thin and in a dark of the fill's own colour, and a designed sea and sky.
+          - move: Give the cartoon the painted look's edges, thin and in a dark of the fill's own colour.
             readiness: ready
           - move: Judge the woodblock's dusk and night frames, and both looks on a phone, before offering visitors a control.
             readiness: needs-measurement
@@ -1801,7 +1807,7 @@ systems:
         limits:
           - Sirui has seen none of it. Claude judged it in the living room, kitchen, study, gym, bedroom, whole-home and coast views at 15:00 and 21:00 on a desktop. A phone has not been looked at.
           - Beside the paintings that set the bar it is a first pass. No view is composed, the light is the realistic render's and not designed for a picture, the strokes do not yet vary their pressure or follow curved forms, and there is no canvas, no glaze and no atmosphere.
-          - The sea, the sky, plants, glass and anything with a picture on it have no still surface with a colour of its own, so they show the coat with no strokes. The sea prints pale and speckled.
+          - Plants, glass and anything with a picture on it have no still surface with a colour of its own, so they show the coat with no strokes. The sea and the sky are painted by the coat itself, in strokes fixed to the water and to the sky, which are simpler marks than the ones on solid things.
           - Strokes on things that are instanced or skinned are not scattered. Figures are meant to stay cels; instanced furniture is simply unpainted.
           - A stroke's direction is chosen for the whole mesh from its bounding box and each triangle's normal, so it follows boards and courses but not the curve of a cushion.
           - The scatter is fixed at about 396,000 strokes whatever the device, and takes about half a second (486 ms here), in one go when the view holds still and over the first frames when it moves. Nothing lowers it for a weaker GPU yet.
@@ -1810,7 +1816,7 @@ systems:
         next:
           - move: Put a frame beside each of the three reference paintings and close the largest difference first, which is the light. A picture needs one motivated light and real darks.
             readiness: ready
-          - move: Paint the sea, the sky and the plants, which have no still surface to pin a stroke to.
+          - move: Paint the plants, the pool and the bath, which have no still surface to pin a stroke to, and give the sea the brush marks the solid things have.
             readiness: needs-research
           - move: Follow curved forms, by taking a stroke's direction from the surface's curvature and not from the mesh's box.
             readiness: ready

@@ -239,6 +239,7 @@ export function colourwayAt(minute = 780) {
 //   sky    display sRGB at the top of the sky and at the horizon
 //   moon   display sRGB of moonlight, then how far a moonlit surface leans to it and the share
 //          of its lightness it keeps (used while the key light is the moon)
+//   sea    display sRGB of the sea where it is shallow over sand and where it is deep
 //
 // Warm light against a cool shade by day; at night the lamps are the light and everything else
 // sinks into indigo.
@@ -252,6 +253,8 @@ const NIGHT_HOUR = {
   skyTop: [0.03, 0.04, 0.18],
   skyLow: [0.1, 0.12, 0.36],
   moon: MOON,
+  seaShallow: [0.1, 0.24, 0.44],
+  seaDeep: [0.03, 0.07, 0.22],
 };
 export const TOON_HOURS = Object.freeze([
   { at: 0, ...NIGHT_HOUR },
@@ -264,6 +267,8 @@ export const TOON_HOURS = Object.freeze([
     skyTop: [0.38, 0.46, 0.82],
     skyLow: [1.0, 0.74, 0.62],
     moon: MOON,
+    seaShallow: [0.55, 0.72, 0.78],
+    seaDeep: [0.22, 0.36, 0.62],
   },
   {
     at: 600,
@@ -273,6 +278,8 @@ export const TOON_HOURS = Object.freeze([
     skyTop: [0.2, 0.52, 0.92],
     skyLow: [0.74, 0.9, 0.98],
     moon: MOON,
+    seaShallow: [0.3, 0.78, 0.8],
+    seaDeep: [0.06, 0.4, 0.72],
   },
   {
     at: 780,
@@ -282,6 +289,8 @@ export const TOON_HOURS = Object.freeze([
     skyTop: [0.08, 0.42, 0.92],
     skyLow: [0.6, 0.84, 0.98],
     moon: MOON,
+    seaShallow: [0.22, 0.8, 0.82],
+    seaDeep: [0.03, 0.36, 0.74],
   },
   {
     at: 930,
@@ -291,6 +300,8 @@ export const TOON_HOURS = Object.freeze([
     skyTop: [0.12, 0.44, 0.88],
     skyLow: [0.72, 0.88, 0.95],
     moon: MOON,
+    seaShallow: [0.28, 0.76, 0.78],
+    seaDeep: [0.05, 0.36, 0.7],
   },
   {
     at: 1035,
@@ -300,6 +311,8 @@ export const TOON_HOURS = Object.freeze([
     skyTop: [0.26, 0.22, 0.62],
     skyLow: [1.0, 0.58, 0.36],
     moon: MOON,
+    seaShallow: [0.62, 0.5, 0.66],
+    seaDeep: [0.2, 0.2, 0.52],
   },
   {
     at: 1140,
@@ -309,6 +322,8 @@ export const TOON_HOURS = Object.freeze([
     skyTop: [0.06, 0.08, 0.3],
     skyLow: [0.36, 0.24, 0.54],
     moon: MOON,
+    seaShallow: [0.2, 0.26, 0.52],
+    seaDeep: [0.06, 0.08, 0.3],
   },
   { at: 1290, ...NIGHT_HOUR },
 ]);
@@ -330,6 +345,8 @@ export function toonHourAt(minute = 780) {
     skyTop: blend("skyTop"),
     skyLow: blend("skyLow"),
     moon: blend("moon"),
+    seaShallow: blend("seaShallow"),
+    seaDeep: blend("seaDeep"),
   };
 }
 
@@ -397,6 +414,10 @@ export const PRINT_DEFAULTS = Object.freeze({
   strokeVary: [0.06, 0.1, 0.45], // how far one stroke's lightness and chroma stray from the mix, and how far it wanders along its ramp of light (stops)
   strokeScatter: 12, // milliseconds a frame spent scattering strokes until the scene is covered
   lineOver: 0, // the strength of lines drawn over the paint
+  // The sea is designed too: its colour goes from the hour's shallow to its deep by how much water
+  // lies over the sand, foam lies where it thins at the shore, and strokes are fixed to the water.
+  seaDepth: 2.4, // metres of water at which the sea is about two thirds of the way to its deep colour
+  brushwork: 0, // how much the sea's and the sky's strokes show
   lineOwn: 1, // how far such a line takes a dark of the fill's own colour and not the ink
   debug: 0, // 1 shows the surfaces' own colours, 2 the light on each spot in stops (grey: -6 to +2), 3 the key light's reach (white), open sky without it (blue) and rooms (green)
 });
@@ -431,6 +452,7 @@ const TOON_LOOK = Object.freeze({
     open: 0.62,
     structure: 1,
     localColour: 1,
+    brushwork: 0.3,
   }),
   way: (way, minute) => ({
     ...way,
@@ -449,7 +471,7 @@ export const LOOKS = Object.freeze({
   // strokes fixed to the scene's surfaces. Figures are not painted and stay cels.
   paint: Object.freeze({
     label: "Painted",
-    dials: Object.freeze({ ...TOON_LOOK.dials, lineStrength: 0, inkRadius: 1.5, paint: 1, lineOver: 0.8 }),
+    dials: Object.freeze({ ...TOON_LOOK.dials, lineStrength: 0, inkRadius: 1.5, paint: 1, lineOver: 0.8, brushwork: 1 }),
     way: TOON_LOOK.way,
   }),
 });
@@ -920,6 +942,10 @@ uniform vec3 printSkyTop;      // OKLab
 uniform vec3 printSkyLow;      // OKLab
 uniform vec3 printHorizon;     // the horizon's height on the sheet, sheet heights per span of sky, 1 when the view has a sky
 uniform vec2 printOver;        // the strength of the lines drawn over the paint, and how far a line takes a dark of the fill's own colour and not the ink
+uniform mat4 printWorld;       // the camera's place in the world
+uniform vec4 printSea;         // the sea's level, seconds, how much its strokes show, 1 when the view has a sea to design
+uniform vec4 printSeaShallow;  // OKLab, and the metres of water that carry the colour to its deep
+uniform vec3 printSeaDeep;     // OKLab
 varying vec2 vUv;
 
 #include <tonemapping_pars_fragment>
@@ -1056,9 +1082,51 @@ void main() {
     above = mix(above, vec3(mix(0.9, 0.985, smoothstep(0.75, 0.95, block.x)), above.yz * 0.25), cloud);
     float night = 1.0 - smoothstep(0.3, 0.45, printSkyTop.x);
     above = mix(above, vec3(0.97, 0.0, 0.02), smoothstep(0.2, 0.45, centre.x - above.x) * night * (1.0 - cloud));
+    // A brush leaves bands in a sky: long cells fixed to the sky itself, each a little off its neighbour.
+    vec3 skyward = normalize(mat3(printWorld) * placed(vUv, 1.0));
+    vec2 band = vec2(atan(skyward.z, skyward.x) / 0.07, asin(clamp(skyward.y, -1.0, 1.0)) / 0.016);
+    above.x += (hash(floor(vec2(band.x + 0.5 * floor(band.y), band.y))) - 0.5) * 0.05 * printSea.z * (1.0 - cloud);
     colour = mix(colour, unlab(above), sky * printHorizon.z);
   } else {
     colour = mix(colour, printSky.rgb, sky * printSky.a * smoothstep(0.5, 1.0, vUv.y));
+  }
+
+  // The sea. A pixel shows it when the level of the sea is met before any solid thing. Its colour
+  // goes from the hour's shallow to its deep by how much water lies over the bed there; foam lies
+  // where the water thins at the shore and breathes in and out; and it is laid in long strokes
+  // fixed to the water, with a crest here and there. Far off it takes the horizon's colour.
+  float isSea = 0.0;
+  if (local && printSea.w > 0.5 && printCamera.z > 0.5) {
+    vec3 eye = printWorld[3].xyz;
+    vec3 ray = normalize(mat3(printWorld) * placed(vUv, 1.0));
+    vec4 bed = texture2D(tStructure, vUv);
+    if (eye.y > printSea.x && ray.y < -1e-4) {
+      float far = (printSea.x - eye.y) / ray.y;
+      float facing = dot(ray, -normalize(printWorld[2].xyz));
+      if (far * facing < bed.w - 0.03) {
+        isSea = 1.0;
+        vec3 water = eye + ray * far;
+        float under = bed.w > 50000.0 ? 60.0 : printSea.x - (eye + ray * (bed.w / max(facing, 1e-3))).y;
+        vec3 fill = mix(printSeaShallow.xyz, printSeaDeep, 1.0 - exp(-max(under, 0.0) / printSeaShallow.w));
+        // Strokes twice as long each time the distance doubles, so they keep their size on the sheet.
+        float span = exp2(floor(log2(max(far, 8.0) / 8.0)));
+        vec2 lay = water.xz / (vec2(3.4, 0.5) * span);
+        lay.x += 0.5 * floor(lay.y);
+        vec2 stroke = floor(lay), within = fract(lay) - 0.5;
+        float own = hash(stroke);
+        fill.x += (own - 0.5) * 0.06 * printSea.z;
+        fill.yz *= 1.0 + (hash(stroke + 17.0) - 0.5) * 0.2 * printSea.z;
+        // A crest is a thin pale dash inside its stroke, tapered at both ends; one stroke in thirty has one.
+        float dash = (1.0 - smoothstep(0.1, 0.2, abs(within.y))) * (1.0 - smoothstep(0.28, 0.44, abs(within.x)));
+        float crest = step(0.966, hash(stroke + floor(printSea.y * 0.6 + own * 9.0))) * dash * (1.0 - smoothstep(60.0, 400.0, far));
+        fill = mix(fill, vec3(0.96, 0.0, 0.02), crest * 0.85 * max(printSea.z, 0.35));
+        float swash = 0.2 + 0.1 * sin(printSea.y * 0.8 + noise(water.xz * 0.11) * 6.2832);
+        float foam = (1.0 - smoothstep(swash * 0.4, swash, under)) * (0.55 + 0.45 * step(0.35, noise(water.xz * 1.9 + printSea.y * 0.15)));
+        fill = mix(fill, vec3(0.975, 0.0, 0.01), foam);
+        fill = mix(fill, printSkyLow, smoothstep(250.0, 2500.0, far) * 0.55);
+        colour = unlab(fill);
+      }
+    }
   }
 
   // The sheet: its tooth, a few long fibres, and the baren pressing unevenly so the darker blocks
@@ -1131,7 +1199,8 @@ void main() {
       smoothstep(0.05, 0.19, broken / ALL),
       max(smoothstep(0.13, 0.3, (meets + broken) / ALL) * 0.94, smoothstep(0.25, 0.42, (folds + meets + broken) / ALL) * printStructure.z * far)
     );
-    cut = ink * (1.0 - smoothstep(printLineFade.x, printLineFade.y, min(s0.w, 59000.0)));
+    // What lies under the sea draws no line through it.
+    cut = ink * (1.0 - smoothstep(printLineFade.x, printLineFade.y, min(s0.w, 59000.0))) * (1.0 - isSea);
   }
   // Over paint a line is a dark of the fill it bounds, the way a painter draws an edge back in.
   if (linesOnly) {
@@ -1221,6 +1290,10 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     printMore: { value: new THREE.Vector4() },
     printDeep: { value: new THREE.Vector4() },
     printOver: { value: new THREE.Vector2() },
+    printWorld: { value: new THREE.Matrix4() },
+    printSea: { value: new THREE.Vector4(0, 0, 0, 0) },
+    printSeaShallow: { value: new THREE.Vector4() },
+    printSeaDeep: { value: new THREE.Vector3() },
     printDay: { value: new THREE.Vector4(1, 0, -0.4, 0) },
     printMoon: { value: new THREE.Vector4() },
     toneMappingExposure: { value: 1 },
@@ -1259,6 +1332,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     world = null,
     eye = null,
     keyLight = null,
+    seaLevel = null,
     paint = null,
     day = 1,
     stillFrame = true,
@@ -1313,6 +1387,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     uniforms.printMore.value.set(dials.shadeKeep, dials.debug, dials.localChroma[2], dials.formShade);
     uniforms.printDeep.value.set(...dials.deepShade);
     uniforms.printOver.value.set(dials.lineOver, dials.lineOwn);
+    uniforms.printSea.value.z = dials.brushwork;
     // The lab can try another hour's light, shade or sky over the one the clock gives.
     const palette = way.palette && dials.hour ? { ...way.palette, ...dials.hour } : way.palette;
     if (palette) {
@@ -1324,6 +1399,8 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
       uniforms.printSkyLow.value.set(...displayToOklab(palette.skyLow));
       const moon = displayToOklab(palette.moon.slice(0, 3));
       uniforms.printMoon.value.set(moon[1], moon[2], palette.moon[3], palette.moon[4]);
+      uniforms.printSeaShallow.value.set(...displayToOklab(palette.seaShallow), dials.seaDepth);
+      uniforms.printSeaDeep.value.set(...displayToOklab(palette.seaDeep));
     }
   }
   sync();
@@ -1428,11 +1505,24 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     // Each frame: the camera that drew it, the home's minute, and whether lines may shift (they hold
     // still when motion is reduced or paused).
     // `key` is the scene's key light and `day` how much of it is the sun (1) and not the moon (0).
-    prepare(camera, { scene = world, minute: nextMinute = minute, seconds = 0, still = true, key = keyLight, day: nextDay = day } = {}) {
+    // `sea` is the sea's level in the world, when the scene has a sea.
+    prepare(
+      camera,
+      { scene = world, minute: nextMinute = minute, seconds = 0, still = true, key = keyLight, day: nextDay = day, sea = seaLevel } = {}
+    ) {
       world = scene;
       eye = camera;
       keyLight = key;
       stillFrame = Boolean(still);
+      seaLevel = sea;
+      if (camera.matrixWorld) uniforms.printWorld.value.copy(camera.matrixWorld);
+      // The sea is designed for a view with perspective that stands above it.
+      uniforms.printSea.value.set(
+        Number(sea) || 0,
+        still ? 0 : seconds,
+        dials.brushwork,
+        Number.isFinite(sea) && camera.isPerspectiveCamera && camera.matrixWorld ? 1 : 0
+      );
       if (nextDay !== day) {
         day = Math.min(Math.max(Number(nextDay) || 0, 0), 1);
         setKey();

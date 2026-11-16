@@ -3722,7 +3722,15 @@ export function createCoastalHome(container, records, artifacts) {
     });
     renderer.toneMappingExposure = (style === "realistic" ? 1.05 * exposureGain : 1.18) * TONE_EXPOSURE[look.tone];
     // The drawn looks cut their cast shadows from the key light's own shadow map.
-    printLook.prepare(camera, { scene, minute: routine?.minute, seconds: elapsed, still: reduced || paused, key: sun, day: daylight?.sunlight ?? 1 });
+    printLook.prepare(camera, {
+      scene,
+      minute: routine?.minute,
+      seconds: elapsed,
+      still: reduced || paused,
+      key: sun,
+      day: daylight?.sunlight ?? 1,
+      sea: SEA_LEVEL,
+    });
     walkPresence?.withoutHead(() => {
       if (style === "realistic" && finish)
         finish.render(

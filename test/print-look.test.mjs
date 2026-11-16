@@ -439,7 +439,7 @@ test("a surface says what colour it is, unless a picture or a shader holds it", 
   drawn.dispose();
 });
 
-test("the cartoon's hour says what colour the light, the shade, the sky and moonlight are", () => {
+test("the cartoon's hour says what colour the light, the shade, the sky, moonlight and the sea are", () => {
   assert.equal(toonHourAt(780).name, "noon");
   assert.equal(toonHourAt(0).name, "night");
   assert.deepEqual(toonHourAt(1440 + 930), toonHourAt(930));
@@ -449,7 +449,7 @@ test("the cartoon's hour says what colour the light, the shade, the sky and moon
   let previous = toonHourAt(0);
   for (let minute = 1; minute <= 1440; minute++) {
     const hour = toonHourAt(minute);
-    for (const key of ["light", "shade", "skyTop", "skyLow", "moon"])
+    for (const key of ["light", "shade", "skyTop", "skyLow", "moon", "seaShallow", "seaDeep"])
       hour[key].forEach((value, i) => {
         assert.ok(value >= 0 && value <= 1, `${key}[${i}] at ${minute}`);
         assert.ok(Math.abs(value - previous[key][i]) < 0.012, `${key}[${i}] jumps at minute ${minute}`);
@@ -460,8 +460,9 @@ test("the cartoon's hour says what colour the light, the shade, the sky and moon
     assert.ok(light[2] > 0.02, `the light is warm at ${minute}`);
     assert.ok(shade[2] < -0.05, `the shade is cool at ${minute}`);
     assert.ok(light[0] > shade[0] + 0.25, `and lighter than the shade at ${minute}`);
-    // The sky is darker overhead than at the horizon.
+    // The sky is darker overhead than at the horizon, and the sea darker where it is deep.
     assert.ok(displayToOklab(hour.skyTop)[0] < displayToOklab(hour.skyLow)[0]);
+    assert.ok(displayToOklab(hour.seaDeep)[0] < displayToOklab(hour.seaShallow)[0] - 0.08, `the sea deepens at ${minute}`);
     previous = hour;
   }
   // The look hands these to the pass, and the lab can try another over them.
@@ -486,6 +487,24 @@ test("the cartoon's hour says what colour the light, the shade, the sky and moon
   assert.ok(Math.abs(uniforms.printKey.value.y - PRINT_DEFAULTS.strongStops) < 1e-9, "only a lamp or a glare is light without the sun");
   drawn.prepare(camera, { minute: 1300, day: 0 });
   assert.deepEqual([uniforms.printDay.value.x, uniforms.printDay.value.y], [0, 1]);
+  // A scene with a sea says where its level is; the look then designs the sea, from a view with
+  // perspective, and knows where the camera stands.
+  assert.equal(uniforms.printSea.value.w, 0, "no sea was named");
+  drawn.prepare(camera, { minute: 1300, day: 0, sea: -7.35, seconds: 12, still: false });
+  assert.deepEqual(uniforms.printSea.value.toArray(), [-7.35, 12, drawn.dials.brushwork, 1]);
+  assert.deepEqual(uniforms.printWorld.value.elements, camera.matrixWorld.elements);
+  drawn.prepare(camera, { still: true });
+  assert.equal(uniforms.printSea.value.y, 0, "a still view holds its waves still");
+  assert.equal(uniforms.printSea.value.x, -7.35, "and the sea stays where it was");
+  drawn.prepare(new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10), {});
+  assert.equal(uniforms.printSea.value.w, 0, "a view without perspective keeps the frame's sea");
+  assert.ok(Math.abs(uniforms.printSeaShallow.value.w - PRINT_DEFAULTS.seaDepth) < 1e-9);
+  // The cartoon shows a little of the sea's and the sky's strokes, the painting all of them, the woodblock none.
+  assert.ok(LOOKS.toon.dials.brushwork > 0 && LOOKS.toon.dials.brushwork < LOOKS.paint.dials.brushwork);
+  assert.equal(PRINT_DEFAULTS.brushwork, 0);
+  const sea = drawn.material.fragmentShader;
+  assert.match(sea, /float under = bed\.w > 50000\.0 \? 60\.0 : printSea\.x - /, "the colour goes by the water over the bed");
+  assert.match(sea, /\* \(1\.0 - isSea\);/, "and what lies under the sea draws no line through it");
   assert.equal(uniforms.printDay.value.w, PRINT_DEFAULTS.roomLean[1]);
   assert.ok(uniforms.printKey.value.y < PRINT_DEFAULTS.strongStops, "by night the lamps' pools are the light");
   drawn.dispose();
