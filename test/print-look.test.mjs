@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import * as THREE from "../assets/js/three.module.min.js";
 import {
   COLOURWAYS,
   DEFAULT_DRAWN_LOOK,
@@ -8,11 +9,14 @@ import {
   OKLAB,
   PRINT_DEFAULTS,
   PRINT_KEY,
+  STRUCTURE_IDS,
   colourwayAt,
   createPrintLook,
   linearToOklab,
   oklabToLinear,
   readDrawnLook,
+  structureId,
+  structureSkips,
   writeDrawnLook,
 } from "../assets/js/home-scene/print-look.mjs";
 
@@ -190,4 +194,162 @@ test("the pass keeps the output pass's place and reports what it draws", () => {
   assert.ok(Math.abs(print.material.uniforms.printCamera.value.w - (2 * Math.tan((40 * Math.PI) / 360)) / 900) < 1e-9);
   assert.equal(print.evidence().draws, 1);
   print.dispose();
+});
+
+test("objects are told apart by a number a half-float holds exactly", () => {
+  const seen = new Set();
+  for (let id = 1; id <= 4000; id++) {
+    const number = structureId(id);
+    assert.ok(Number.isInteger(number) && number >= 1 && number <= STRUCTURE_IDS, `id ${id} gives ${number}`);
+    assert.notEqual(number, structureId(id + 1), "neighbouring objects never share a number");
+    seen.add(number);
+  }
+  assert.ok(seen.size > 1500, "the numbers are spread over the range");
+  // A part with its own material is its own object.
+  assert.notEqual(structureId(7, 0), structureId(7, 1));
+  assert.equal(structureId(7), structureId(7, 0));
+});
+
+test("the structure pass leaves out what a line could not follow", () => {
+  const solid = { visible: true, opacity: 1 };
+  assert.equal(structureSkips(solid), false);
+  assert.equal(structureSkips(null), true);
+  for (const change of [
+    { transparent: true },
+    { opacity: 0.4 },
+    { alphaTest: 0.5 },
+    { transmission: 0.9 },
+    { alphaMap: {} },
+    { colorWrite: false },
+    { visible: false },
+  ])
+    assert.equal(structureSkips({ ...solid, ...change }), true, JSON.stringify(change));
+});
+
+test("the cartoon draws the scene's structure; the woodblock and the render do not", () => {
+  // three's normal shader is patched in two places; a new three must still have them.
+  const vertex = THREE.ShaderLib.normal.vertexShader;
+  assert.equal(vertex.split("void main() {").length, 2);
+  assert.equal(vertex.split("#include <project_vertex>").length, 2);
+
+  const calls = [];
+  let target = null,
+    clear = [0, 0];
+  const renderer = {
+    toneMapping: 4,
+    toneMappingExposure: 1,
+    shadowMap: { autoUpdate: true },
+    info: { render: { calls: 0 } },
+    getRenderTarget: () => target,
+    setRenderTarget: (value) => (target = value),
+    getClearAlpha: () => clear[1],
+    getClearColor: (colour) => colour.setHex(clear[0]),
+    setClearColor: (colour, alpha) => (clear = [colour.isColor ? colour.getHex() : colour, alpha]),
+    clear: () => calls.push("clear"),
+    render(scene, camera) {
+      calls.push({
+        override: scene.overrideMaterial,
+        background: scene.background,
+        target,
+        shadows: this.shadowMap.autoUpdate,
+        clear: [...clear],
+        camera,
+      });
+      this.info.render.calls += 3;
+    },
+  };
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x123456);
+  const wall = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ side: THREE.FrontSide })),
+    steam = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshBasicMaterial()),
+    stars = new THREE.Points(new THREE.BufferGeometry(), new THREE.PointsMaterial()),
+    fern = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial());
+  steam.userData.noOcclusion = true;
+  fern.userData.flora = true;
+  scene.add(wall, steam, stars, fern);
+  const camera = new THREE.PerspectiveCamera(40, 16 / 9, 0.05, 300);
+  const frame = { depthTexture: { isDepthTexture: true }, width: 1600, height: 900, texture: { isTexture: true } };
+
+  const drawn = createPrintLook({ look: "toon" });
+  assert.equal(drawn.dials.structure, 1);
+  // Without a scene there is nothing to draw from, and the lines fall back to the frame's depth.
+  drawn.tap.render(renderer, null, frame);
+  assert.equal(calls.length, 0);
+  assert.equal(drawn.material.uniforms.printStructure.value.x, 0);
+  assert.equal(drawn.evidence().structure, null);
+
+  drawn.prepare(camera, { scene, minute: 780 });
+  drawn.tap.render(renderer, null, frame);
+  const pass = calls.find((call) => call.override);
+  assert.ok(pass, "the scene is drawn once more");
+  assert.equal(pass.override.name, "Scene structure");
+  assert.equal(pass.camera, camera, "with the frame's own camera");
+  assert.equal(pass.background, null);
+  assert.equal(pass.shadows, false, "shadow maps are not drawn again");
+  assert.deepEqual(pass.clear, [0, 60000], "nothing: no object, farther than anything drawn");
+  assert.equal(pass.target.width, 1600);
+  assert.equal(pass.target.height, 900);
+  assert.equal(pass.target.texture.type, THREE.HalfFloatType);
+  assert.equal(pass.target.texture.magFilter, THREE.NearestFilter, "ids are never blended between neighbours");
+  // Everything is handed back as it was found.
+  assert.equal(scene.overrideMaterial, null);
+  assert.equal(scene.background.getHex(), 0x123456);
+  assert.equal(renderer.shadowMap.autoUpdate, true);
+  assert.equal(target, null);
+  assert.deepEqual(clear, [0, 0]);
+  assert.ok(wall.visible && steam.visible && stars.visible && fern.visible, "what was hidden for the pass is shown again");
+  assert.equal(drawn.material.uniforms.printStructure.value.x, 1);
+  assert.equal(drawn.material.uniforms.tStructure.value, pass.target.texture);
+  assert.deepEqual(drawn.evidence().structure, { draws: 1, calls: 3, width: 1600, height: 900 });
+  assert.equal(drawn.evidence().renderTargets, 1);
+
+  // Each object brings its number and is culled as its own material is.
+  const structure = pass.override,
+    object = structure.uniforms.structureObject.value;
+  structure.onBeforeRender(null, null, null, null, wall, null);
+  assert.equal(object.x, structureId(wall.id, 0));
+  assert.equal(object.y, 0);
+  assert.equal(structure.side, THREE.FrontSide);
+  assert.equal(structure.uniformsNeedUpdate, true);
+  const pane = new THREE.Mesh(new THREE.BoxGeometry(), [
+    new THREE.MeshStandardMaterial({ side: THREE.DoubleSide }),
+    new THREE.MeshStandardMaterial({ transparent: true, opacity: 0.3 }),
+  ]);
+  structure.onBeforeRender(null, null, null, null, pane, { materialIndex: 1 });
+  assert.equal(object.x, structureId(pane.id, 1));
+  assert.equal(object.y, 1, "glass is left out, so what is behind it keeps its lines");
+  structure.onBeforeRender(null, null, null, null, pane, { materialIndex: 0 });
+  assert.equal(object.y, 0);
+  assert.equal(structure.side, THREE.DoubleSide);
+
+  // The woodblock cuts its keyblock from depth: no extra pass. The render has none either.
+  const before = calls.length;
+  drawn.setLook("print");
+  drawn.tap.render(renderer, null, frame);
+  assert.equal(calls.length, before);
+  assert.equal(drawn.material.uniforms.printStructure.value.x, 0);
+  assert.equal(drawn.evidence().structure, null);
+  assert.equal(drawn.evidence().renderTargets, 0);
+  drawn.setLook("realistic");
+  drawn.tap.render(renderer, null, frame);
+  assert.equal(calls.length, before);
+  drawn.setLook("toon");
+  drawn.tap.render(renderer, null, frame);
+  assert.equal(drawn.evidence().structure.draws, 2);
+  drawn.dispose();
+});
+
+test("the cartoon's lines come in three weights from one ring", () => {
+  const source = createPrintLook({ look: "toon" }).material.fragmentShader;
+  // A break in depth is measured off each surface's own plane, so a sloping floor draws no line.
+  assert.match(source, /float gap = max\(abs\(dot\(p - p0, n0\)\), abs\(dot\(p - p0, n\)\)\);/);
+  // Outline, contact, fold: each needs more of the ring than the one before.
+  assert.match(source, /smoothstep\(0\.05, 0\.19, broken \/ ALL\)/);
+  assert.match(source, /smoothstep\(0\.13, 0\.3, \(meets \+ broken\) \/ ALL\)/);
+  assert.match(source, /smoothstep\(0\.25, 0\.42, \(folds \+ meets \+ broken\) \/ ALL\)/);
+  // A fill is averaged inside one object only.
+  assert.match(source, /if \(structured\) w \*= step\(abs\(texture2D\(tStructure, tap\)\.z - who\), 0\.5\);/);
+  // Three hard steps, not a gradient.
+  assert.equal(LOOKS.toon.dials.bands, 3);
+  assert.equal(LOOKS.toon.dials.bandMix, 1);
 });

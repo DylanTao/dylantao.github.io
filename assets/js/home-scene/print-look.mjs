@@ -20,8 +20,16 @@ import { Pass, FullScreenQuad } from "../vendor/three-r164/postprocessing/Pass.j
 //   paper     fibre and the baren's uneven pressure, fixed to the sheet, not to the world
 //
 // Principles only: no print, scan or texture is copied, and nothing here is learned. It replaces the
-// output pass while it is on (it tone-maps and encodes the frame itself), so it costs one full-screen
-// draw with 22 texture reads and adds no render target.
+// output pass while it is on (it tone-maps and encodes the frame itself), so the woodblock costs one
+// full-screen draw with 22 texture reads and adds no render target.
+//
+// The cartoon draws from the scene's structure instead of from the finished frame's depth (Sirui,
+// November 14, 2026: "too fuzzy and too vague ... like you just apply a cheap filter"; "details are
+// crisp"). While it is on, the scene is drawn once more into a small buffer that says, for every
+// pixel, which object is there, which way its surface faces and how far away it is
+// (createStructure). Lines are then cut exactly where two objects meet, where a surface breaks in
+// depth and where it folds, each with its own weight, and flat colour is averaged only inside one
+// object, so a fill stops at the object's edge. Nothing of this runs for the realistic render.
 
 export const PRINT_KEY = "scene-print";
 // "realistic" is the render itself; these redraw it.
@@ -227,14 +235,22 @@ export const PRINT_DEFAULTS = Object.freeze({
   inkFloor: 0.17, // the darkest block is ink on paper, not black
   shadowPivot: 0.62,
   lift: 1, // exponent on lightness before it is stepped: below 1 opens the darks
+  // Drawing from the scene's structure (createStructure) instead of the frame's depth. Off for the
+  // woodblock, whose keyblock is cut from depth alone.
+  structure: 0,
+  inkRadius: 2.2, // pixels at 1080 high: the reach of the heaviest line, an outline
+  edgeGap: [0.05, 0.006], // metres apart, plus this per metre of distance, before a surface counts as broken
+  creaseTurn: 0.16, // 1 - cos of the fold that starts a line inside a form (about 33 degrees)
+  creaseFade: 22, // metres: where folds inside forms thin out (twice this, and they are gone)
 });
 
 // What each drawn look changes: its settings, and what it does to the hour's colourway.
 export const LOOKS = Object.freeze({
   print: Object.freeze({ label: "Woodblock", dials: Object.freeze({}), way: (way) => way }),
   // A cartoon keeps the hour (a dusk is still a dusk) but not the paper: near-white ground, darks
-  // opened and held off black, four hard flat steps, every hue kept (greens stay green), shadows that
-  // darken more than they turn blue, no grain, and an even outline inside forms as well as round them.
+  // opened and held off black, three hard flat steps (a soft shadow becomes a shape with an edge,
+  // not an airbrushed stain), every hue kept (greens stay green), shadows that darken more than they
+  // turn blue, no grain, and lines drawn from the scene's structure in three weights.
   toon: Object.freeze({
     label: "Cartoon",
     dials: Object.freeze({
@@ -243,9 +259,9 @@ export const LOOKS = Object.freeze({
       foldStrength: 0.85,
       clutterStrength: 0.14,
       crossHue: 1,
-      bands: 4,
-      bandSoftness: 0.05,
-      bandMix: 0.8,
+      bands: 3,
+      bandSoftness: 0.03,
+      bandMix: 1,
       flatRadius: 5.5,
       flatRange: 0.085,
       misregister: Object.freeze([0, 0]),
@@ -254,6 +270,7 @@ export const LOOKS = Object.freeze({
       inkFloor: 0.3,
       shadowPivot: 0.5,
       lift: 0.8,
+      structure: 1,
     }),
     way: (way) => ({
       ...way,
@@ -267,6 +284,146 @@ export const LOOKS = Object.freeze({
 });
 
 const glslMatrix = (m) => `mat3(${[0, 1, 2].flatMap((column) => m.map((row) => row[column].toFixed(10))).join(", ")})`;
+
+// Objects are told apart by a number from 1 to 2047: a half-float holds every whole number up to
+// 2048 exactly, and 0 means nothing was drawn. Knuth's multiplicative hash spreads neighbouring
+// three.js ids apart; a part with its own material counts as its own object, so a cushion and its
+// sofa get a line between them.
+export const STRUCTURE_IDS = 2047;
+export function structureId(objectId, materialIndex = 0) {
+  return ((Math.imul((objectId * 31 + materialIndex + 1) | 0, 2654435761) >>> 0) % STRUCTURE_IDS) + 1;
+}
+
+// What the structure pass leaves out, as the beauty pass shows it: anything see-through (glass,
+// water, steam: what is behind them must keep its lines), cut-out cards whose shape lives in a
+// texture this pass does not read, and shadow-only stand-ins.
+export function structureSkips(material) {
+  return (
+    !material ||
+    material.visible === false ||
+    material.colorWrite === false ||
+    material.transparent === true ||
+    material.opacity < 1 ||
+    material.alphaTest > 0 ||
+    material.transmission > 0 ||
+    Boolean(material.alphaMap)
+  );
+}
+
+// The scene drawn once more with one small material: view normal (xy), object id and view depth in
+// metres, in one half-float target the size of the frame. three's own normal shader supplies the
+// vertex stage, so skinned figures, morphs and instances stand where the beauty pass drew them.
+export function createStructure() {
+  const base = THREE.ShaderLib.normal;
+  const vertexShader = base.vertexShader
+    .replace("void main() {", "varying float vStructureDepth;\nvoid main() {")
+    .replace("#include <project_vertex>", "#include <project_vertex>\n\tvStructureDepth = -mvPosition.z;");
+  const fragmentShader = /* glsl */ `
+#define NORMAL
+uniform vec2 structureObject; // id, 1 to leave this object out
+varying float vStructureDepth;
+#if defined( FLAT_SHADED ) || defined( USE_BUMPMAP ) || defined( USE_NORMALMAP_TANGENTSPACE )
+  varying vec3 vViewPosition;
+#endif
+#include <normal_pars_fragment>
+#include <clipping_planes_pars_fragment>
+void main() {
+  #include <clipping_planes_fragment>
+  if (structureObject.y > 0.5) discard;
+  #include <normal_fragment_begin>
+  gl_FragColor = vec4(normal.xy, structureObject.x, vStructureDepth);
+}`;
+  const uniforms = { structureObject: { value: new THREE.Vector2() } };
+  const material = new THREE.ShaderMaterial({
+    name: "Scene structure",
+    uniforms,
+    vertexShader,
+    fragmentShader,
+    // Back faces of two-sided things keep a normal that faces the camera.
+    defines: { DOUBLE_SIDED: "" },
+    side: THREE.DoubleSide,
+  });
+  // Each object brings its id, and is culled the way its own material is, so a wall the beauty pass
+  // looks through from behind is looked through here too.
+  material.onBeforeRender = (_renderer, _scene, _camera, _geometry, object, group) => {
+    const index = group?.materialIndex ?? 0,
+      source = Array.isArray(object.material) ? object.material[index] : object.material;
+    uniforms.structureObject.value.set(structureId(object.id, index), structureSkips(source) ? 1 : 0);
+    material.side = source?.side ?? THREE.FrontSide;
+    material.uniformsNeedUpdate = true;
+  };
+  const target = new THREE.WebGLRenderTarget(1, 1, {
+    type: THREE.HalfFloatType,
+    minFilter: THREE.NearestFilter,
+    magFilter: THREE.NearestFilter,
+    depthBuffer: true,
+    stencilBuffer: false,
+  });
+  target.texture.name = "Scene structure";
+  const hidden = [],
+    clearColor = new THREE.Color();
+  let draws = 0,
+    calls = 0;
+  return {
+    target,
+    material,
+    resize(width, height) {
+      if (target.width !== width || target.height !== height) target.setSize(width, height);
+    },
+    render(renderer, scene, camera) {
+      const previousTarget = renderer.getRenderTarget(),
+        previousAlpha = renderer.getClearAlpha(),
+        previousOverride = scene.overrideMaterial,
+        previousBackground = scene.background,
+        updateShadows = renderer.shadowMap.autoUpdate,
+        before = renderer.info.render.calls;
+      renderer.getClearColor(clearColor);
+      // Points, lines and whatever the contact pass also leaves out (effects, water, the sky's own
+      // meshes) are not surfaces a line could follow.
+      scene.traverse((object) => {
+        if (!object.visible) return;
+        if (
+          object.isPoints ||
+          object.isLine ||
+          object.isSprite ||
+          object.userData.noOcclusion ||
+          object.userData.noContactOcclusion ||
+          object.userData.flora
+        ) {
+          object.visible = false;
+          hidden.push(object);
+        }
+      });
+      try {
+        renderer.shadowMap.autoUpdate = false;
+        scene.overrideMaterial = material;
+        scene.background = null;
+        renderer.setRenderTarget(target);
+        // Nothing: no id, facing the camera, farther than anything drawn.
+        renderer.setClearColor(0x000000, 60000);
+        renderer.clear(true, true, false);
+        renderer.render(scene, camera);
+      } finally {
+        scene.overrideMaterial = previousOverride;
+        scene.background = previousBackground;
+        renderer.shadowMap.autoUpdate = updateShadows;
+        renderer.setRenderTarget(previousTarget);
+        renderer.setClearColor(clearColor, previousAlpha);
+        while (hidden.length) hidden.pop().visible = true;
+        material.side = THREE.DoubleSide;
+      }
+      draws++;
+      calls = renderer.info.render.calls - before;
+    },
+    evidence() {
+      return { draws, calls, width: target.width, height: target.height };
+    },
+    dispose() {
+      target.dispose();
+      material.dispose();
+    },
+  };
+}
 
 const vertexShader = /* glsl */ `
 varying vec2 vUv;
@@ -307,6 +464,9 @@ uniform vec4 printShadow;   // OKLab a, b, amount, pivot lightness
 uniform vec4 printSky;      // rgb, amount
 uniform vec4 printGrain;    // paper, baren, ink floor, boil seed
 uniform float printLift;    // exponent on lightness before it is stepped
+uniform sampler2D tStructure;  // xy view normal, z object id, w view depth in metres (createStructure)
+uniform vec4 printStructure;   // 1 when the structure is drawn, ink radius px, fold strength, metres where folds thin
+uniform vec3 printEdge;        // gap in metres, gap per metre of distance, 1 - cos of a fold
 varying vec2 vUv;
 
 #include <tonemapping_pars_fragment>
@@ -348,6 +508,12 @@ float noise(vec2 p) {
   return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y);
 }
 float depthAt(vec2 uv) { return texture2D(tDepth, uv).x; }
+// The structure buffer: the way a surface faces, and where it is in the camera's space.
+vec3 facing(vec4 s) { return vec3(s.xy, sqrt(max(1.0 - dot(s.xy, s.xy), 0.0))); }
+vec3 placed(vec2 uv, float z) {
+  vec2 across = (uv - 0.5) * vec2(printResolution.x / printResolution.y, 1.0) * printCamera.w * printResolution.y;
+  return vec3(across * (printCamera.z > 0.5 ? z : 1.0), -z);
+}
 
 void main() {
   vec2 px = 1.0 / printResolution;
@@ -359,10 +525,15 @@ void main() {
   vec3 centre = lab(at);
   vec3 sum = centre;
   float weight = 1.0;
+  bool structured = printStructure.x > 0.5;
+  float who = structured ? texture2D(tStructure, at).z : 0.0;
   for (int i = 0; i < 12; i++) {
-    vec3 c = lab(at + RING[i] * printFlat.x * scale * px);
+    vec2 tap = at + RING[i] * printFlat.x * scale * px;
+    vec3 c = lab(tap);
     vec3 d = c - centre;
     float w = exp(-dot(d, d) * printFlat.y);
+    // A fill belongs to one object: colour from its neighbour never bleeds in.
+    if (structured) w *= step(abs(texture2D(tStructure, tap).z - who), 0.5);
     sum += c * w;
     weight += w;
   }
@@ -425,6 +596,38 @@ void main() {
   float fold = smoothstep(printLine.y, printLine.y + printLine.z, crease) * printWeight.x;
   float outline = smoothstep(printWeight.y, printWeight.y * 5.0, crease);
   float cut = max(fold, outline) * mix(1.0, printWeight.z, clutter) * (1.0 - smoothstep(printLineFade.x, printLineFade.y, z)) * (1.0 - sky);
+  if (structured) {
+    // Lines from the scene's structure, in three weights. Around each pixel a ring of taps asks:
+    // is that surface broken from this one (it lies off this one's plane: an outline, the heaviest),
+    // is it another object touching this one (a contact line), or the same object turned away (a
+    // fold, the finest). A line is as wide as the share of the ring that says so, so a heavier line
+    // only needs less of the ring to agree.
+    vec4 s0 = texture2D(tStructure, vUv);
+    vec3 n0 = facing(s0), p0 = placed(vUv, s0.w);
+    float reach = printStructure.y * scale * mix(1.15, 0.75, smoothstep(3.0, 30.0, s0.w));
+    float broken = 0.0, meets = 0.0, folds = 0.0;
+    for (int i = 0; i < 12; i++) {
+      vec2 tap = vUv + RING[i] * reach * px;
+      vec4 s = texture2D(tStructure, tap);
+      vec3 n = facing(s), p = placed(tap, s.w);
+      float gap = max(abs(dot(p - p0, n0)), abs(dot(p - p0, n)));
+      float apart = step(printEdge.x + printEdge.y * min(s0.w, s.w), gap);
+      float other = step(0.5, abs(s.z - s0.z)) * (1.0 - apart);
+      float turned = smoothstep(printEdge.z, printEdge.z * 1.5, 1.0 - dot(n, n0)) * (1.0 - apart) * (1.0 - other);
+      // The inner ring speaks for the line's core.
+      float say = i < 4 ? 1.5 : 1.0;
+      broken += say * apart;
+      meets += say * other;
+      folds += say * turned;
+    }
+    const float ALL = 14.0;
+    float far = 1.0 - smoothstep(printStructure.w, printStructure.w * 2.0, s0.w);
+    float ink = max(
+      smoothstep(0.05, 0.19, broken / ALL),
+      max(smoothstep(0.13, 0.3, (meets + broken) / ALL) * 0.94, smoothstep(0.25, 0.42, (folds + meets + broken) / ALL) * printStructure.z * far)
+    );
+    cut = ink * (1.0 - smoothstep(printLineFade.x, printLineFade.y, min(s0.w, 59000.0)));
+  }
   colour = mix(colour, printInk * printPaper, cut * printLine.w);
 
   gl_FragColor = vec4(colour, 1.0);
@@ -451,6 +654,9 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     printSky: { value: new THREE.Vector4() },
     printGrain: { value: new THREE.Vector4() },
     printLift: { value: 1 },
+    tStructure: { value: null },
+    printStructure: { value: new THREE.Vector4() },
+    printEdge: { value: new THREE.Vector3() },
     toneMappingExposure: { value: 1 },
   };
   const material = new THREE.ShaderMaterial({
@@ -478,13 +684,28 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     // The view's full height in radians (perspective) or metres (orthographic); divided by the
     // drawn buffer's height it is one pixel's share.
     extent = 1,
-    draws = 0;
+    draws = 0,
+    // The scene and camera of the frame being drawn (prepare), and the structure pass once a look
+    // has asked for it.
+    world = null,
+    eye = null,
+    structure = null;
 
   // Sits straight after the beauty pass, whose target owns the scene's depth for the whole frame.
+  // A look that draws from structure has the scene drawn once more here, with the camera exactly
+  // as the beauty pass used it.
   const tap = new Pass();
   tap.needsSwap = false;
-  tap.render = (_renderer, _writeBuffer, readBuffer) => {
+  tap.render = (renderer, _writeBuffer, readBuffer) => {
     sceneDepth = readBuffer.depthTexture;
+    const wanted = pass.enabled && dials.structure > 0 && world && eye;
+    if (wanted) {
+      structure ||= createStructure();
+      structure.resize(readBuffer.width, readBuffer.height);
+      structure.render(renderer, world, eye);
+      uniforms.tStructure.value = structure.target.texture;
+    }
+    uniforms.printStructure.value.x = wanted ? 1 : 0;
   };
 
   function sync() {
@@ -499,6 +720,8 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     uniforms.printSky.value.set(...way.sky);
     uniforms.printGrain.value.set(dials.paperGrain, dials.baren, dials.inkFloor, uniforms.printGrain.value.w);
     uniforms.printLift.value = dials.lift;
+    uniforms.printStructure.value.set(uniforms.printStructure.value.x, dials.inkRadius, dials.foldStrength, dials.creaseFade);
+    uniforms.printEdge.value.set(dials.edgeGap[0], dials.edgeGap[1], dials.creaseTurn);
   }
   sync();
 
@@ -553,7 +776,9 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     },
     // Each frame: the camera that drew it, the home's minute, and whether lines may shift (they hold
     // still when motion is reduced or paused).
-    prepare(camera, { minute: nextMinute = minute, seconds = 0, still = true } = {}) {
+    prepare(camera, { scene = world, minute: nextMinute = minute, seconds = 0, still = true } = {}) {
+      world = scene;
+      eye = camera;
       const perspective = camera.isPerspectiveCamera;
       extent = (perspective ? 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) : camera.top - camera.bottom) / camera.zoom;
       uniforms.printCamera.value.set(camera.near, camera.far, perspective ? 1 : 0, uniforms.printCamera.value.w);
@@ -570,11 +795,24 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
       sync();
     },
     evidence() {
-      return { enabled: pass.enabled, look, colourway: way.name, minute, draws, textureReads: 23, renderTargets: 0, dials: { ...dials } };
+      const structured = pass.enabled && dials.structure > 0 && Boolean(structure);
+      return {
+        enabled: pass.enabled,
+        look,
+        colourway: way.name,
+        minute,
+        draws,
+        // The woodblock reads the frame and its depth; the cartoon reads the frame and the structure.
+        textureReads: structured ? 39 : 23,
+        renderTargets: structured ? 1 : 0,
+        structure: structured ? structure.evidence() : null,
+        dials: { ...dials },
+      };
     },
     dispose() {
       quad.dispose();
       material.dispose();
+      structure?.dispose();
     },
   };
 }

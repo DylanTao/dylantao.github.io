@@ -69,19 +69,19 @@ I look myself, every session, before reporting: contact sheets of each look in t
 
 **Looks and worlds**
 
-| What                                                                                   | State                                                     | Where  |
-| -------------------------------------------------------------------------------------- | --------------------------------------------------------- | ------ |
-| Cartoon and woodblock as two settings of one pass, switch in the lab menu              | version 1, judged by him: "fuzzy", "vague", "too similar" | H1, R3 |
-| Give looks the scene's structure: surface direction, object identity, light on its own | next; measure its cost first                              | J1     |
-| The cartoon done properly, with the craft list                                         | next                                                      | J2     |
-| A one-page rule sheet per world before any shader                                      | next                                                      | J8     |
-| Watercolour: the one that is uniquely his; one room first                              | open; starts with choosing its parents                    | J3     |
-| Pencil; comic print; field guide                                                       | open                                                      | J4-J6  |
-| Heat: a thermal camera's house, with a real heat model                                 | designed, not built                                       | J9     |
-| His own figure and a companion for each world; physics and timing per world            | open                                                      | J7     |
-| A look switch for visitors; dusk, night and phone checks                               | after he approves a look                                  | H4, R3 |
-| Worlds across the whole site: tokens, skins, behaviours, states                        | later; one world on one page first                        | M      |
-| The film: a choreographed tour of the house, any look, with music                      | designed on paper                                         | N      |
+| What                                                                           | State                                                                                                                                                              | Where  |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ |
+| Cartoon and woodblock as two settings of one pass, switch in the lab menu      | version 1, judged by him: "fuzzy", "vague", "too similar"                                                                                                          | H1, R3 |
+| Give looks the scene's structure: surface direction, object identity, distance | built for the cartoon; costs about 28 % more draw calls while on                                                                                                   | J1     |
+| The cartoon done properly, with the craft list                                 | lines and fills now come from structure and are crisp; shading is three hard steps; **waits for his eye**; designed shadows, material colour and timing still open | J2     |
+| A one-page rule sheet per world before any shader                              | next                                                                                                                                                               | J8     |
+| Watercolour: the one that is uniquely his; one room first                      | open; starts with choosing its parents                                                                                                                             | J3     |
+| Pencil; comic print; field guide                                               | open                                                                                                                                                               | J4-J6  |
+| Heat: a thermal camera's house, with a real heat model                         | designed, not built                                                                                                                                                | J9     |
+| His own figure and a companion for each world; physics and timing per world    | open                                                                                                                                                               | J7     |
+| A look switch for visitors; dusk, night and phone checks                       | after he approves a look                                                                                                                                           | H4, R3 |
+| Worlds across the whole site: tokens, skins, behaviours, states                | later; one world on one page first                                                                                                                                 | M      |
+| The film: a choreographed tour of the house, any look, with music              | designed on paper                                                                                                                                                  | N      |
 
 **Sound**
 
@@ -149,6 +149,8 @@ Done and pushed:
 - **Sound (L1, L2), behind `?sound=1`.** A key for each hour, a bed, and eight interface sounds, all synthesised. I cannot hear it; the notebook card "Sound an agent can check" says how it was checked. **It waits for his ears:** open `https://dylantao.github.io/?sound=1`, open the theme panel (the sun in the navigation) and turn on Sound; or run `node bin/render_site_sound.cjs` and play `.jekyll-cache/sound/day.wav`, the four hours in 90 seconds.
 
 Also done after that push: CI for it came back green on every workflow, including the new sound case on Linux; the cut rock keeps a tone at night (B2 step 1d); and the "weird geometry" he still sees is now measured instead of guessed (B2 step 2): the cut is level, and the fault is rooms with no roof to lift, the gym above all.
+
+Also done: **the cartoon is redrawn from the scene's structure (J1, first half of J2).** His verdict on version 1 was "too fuzzy and too vague ... like you just apply a cheap filter". While the cartoon is on, the scene is drawn once more into a buffer that says which object is at each pixel, which way it faces and how far it is; lines are cut where objects meet, where a surface breaks and where it folds, in three weights, and a fill stops at its object's edge. Look at it with `?scene-lab=1&look=toon`. Soft-gradient pixels fell from 12 % of the frame to 8 % (the render has 37 %). It costs about 28 % more draw calls while on and nothing when off. The woodblock is untouched and now clearly a different picture.
 
 Next, in this order unless he says otherwise: one pass over the house in Blender that carves roofs over the buried rooms and builds the new arrival (B2 step 2 with K); the looks rebuilt on the scene's structure so they are crisp (J1, J2).
 
@@ -295,7 +297,7 @@ Sirui, November 13, after seeing the first cartoon frames (with a poster of _Com
 
 Nothing below is built. It is the plan, in the order I would take it. The notebook card "A world is more than a filter" has the reasoning.
 
-- [ ] **J1. Give the looks something to read.** Today a drawn look sees finished colour and depth. Every style below needs the surface's direction, which object and material a pixel belongs to, and the light separated from the surface colour, so that it can draw a shadow as a shape and a material as an area. That is one more colour attachment on the beauty pass. Measure its cost at 2K and on a phone before anything is built on it.
+- [x] **J1. A structure pass.** Built November 15 for the cartoon (`createStructure` in `print-look.mjs`): one more draw of the scene with one small material into a half-float target the size of the frame, holding the surface's view normal, a number per object (and per material part) and the distance in metres. See-through things, cut-out cards, effects and plants are left out. It runs only while a look that asks for it is on. Cost on this PC at 1600 by 900: 176 more draw calls in the living room (638 to 814), 488 more in the whole-home view (1,663 to 2,151), about 5 ms of GPU time. Not built yet: the materials' own flat colours and a light term separate from colour. Those need either a second target or the frame divided by albedo, and they are what designed shadows (J2) will stand on.
 - [ ] **J2. The cartoon, done properly.** Flat colour taken from the material, not from lit pixels. One shadow step cut from the real light, its edge cleaned so it reads as a drawn shape. Outlines from object edges at one even weight. Version 1 (H1) posterises the finished frame, which is the cheap transform.
   - Craft to bring in (Sirui, November 14: "lots of animation technique you can learn"): a line-weight hierarchy, heavier on the silhouette than inside the form, with interior lines in a darker shade of the fill rather than black; one designed shadow shape per form plus a rim light, instead of stepped gradients; saturated shadows; a colour key for each hour with one accent; people crisp and flat over a softer, painted house, the way cel characters sit on a painted background; drawn effects for water, steam and fire that boil at eight to twelve drawings a second. For motion, the principles in Thomas and Johnston's _The Illusion of Life_ that the procedural rigs do not have yet: anticipation before a lift, overshoot and settle on arrival, held poses, a smear on the fastest moves, overlap in hair and cloth.
 - [ ] **J3. Sirui's own: watercolour.** The one to spend the most on. First a page of rules with their sources (see the card), then one room, the kitchen nook and garden, before the whole house.

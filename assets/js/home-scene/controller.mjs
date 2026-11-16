@@ -3721,7 +3721,7 @@ export function createCoastalHome(container, records, artifacts) {
       instant: reduced || paused || style !== "realistic",
     });
     renderer.toneMappingExposure = (style === "realistic" ? 1.05 * exposureGain : 1.18) * TONE_EXPOSURE[look.tone];
-    printLook.prepare(camera, { minute: routine?.minute, seconds: elapsed, still: reduced || paused });
+    printLook.prepare(camera, { scene, minute: routine?.minute, seconds: elapsed, still: reduced || paused });
     walkPresence?.withoutHead(() => {
       if (style === "realistic" && finish)
         finish.render(

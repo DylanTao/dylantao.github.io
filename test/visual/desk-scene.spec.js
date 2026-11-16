@@ -3255,6 +3255,28 @@ test("coastal home: dinner waits at the served plate before moving dessert", asy
   expect(errors).toEqual([]);
 });
 
+// The share of a frame's middle that is neither flat fill nor a hard edge: a pixel that differs from
+// one of its four neighbours by more than 1.5 of 255 and from none of them by more than 12.
+// Gradients, blur and soft shadows live here; a drawn frame should have little of it. Only the
+// middle half is read: the page embed fades its edges into the page, which is all gradient.
+function softShare(buffer) {
+  const { width, height, data } = PNG.sync.read(buffer);
+  const x0 = Math.floor(width * 0.25),
+    x1 = Math.ceil(width * 0.75),
+    y0 = Math.floor(height * 0.25),
+    y1 = Math.ceil(height * 0.75);
+  let soft = 0;
+  for (let y = y0; y < y1; y++)
+    for (let x = x0; x < x1; x++) {
+      const o = (y * width + x) * 4;
+      let most = 0;
+      for (const n of [o - 4, o + 4, o - width * 4, o + width * 4])
+        most = Math.max(most, Math.abs(data[n] - data[o]), Math.abs(data[n + 1] - data[o + 1]), Math.abs(data[n + 2] - data[o + 2]));
+      if (most >= 1.5 && most <= 12) soft++;
+    }
+  return soft / ((x1 - x0) * (y1 - y0));
+}
+
 test("coastal home: the woodblock print redraws the live frame and hands the realistic one back", async ({ page }, testInfo) => {
   if (process.platform === "linux") test.setTimeout(600000);
   const errors = collectRuntimeErrors(page);
@@ -3280,18 +3302,32 @@ test("coastal home: the woodblock print redraws the live frame and hands the rea
   expect(drawn.rendering.print.look).toBe("toon");
   expect(drawn.rendering.print.colourway).toBe("noon");
   expect(drawn.rendering.print.draws).toBeGreaterThan(0);
-  expect(drawn.rendering.print.renderTargets).toBe(0);
+  // The cartoon draws from the scene's structure: the scene once more, into one target the size of
+  // the frame, saying which object is at each pixel, which way it faces and how far it is.
+  expect(drawn.rendering.print.renderTargets).toBe(1);
+  expect(drawn.rendering.print.structure.draws).toBeGreaterThan(0);
+  expect(drawn.rendering.print.structure.calls).toBeGreaterThan(20);
+  expect(drawn.rendering.print.structure.width).toBeGreaterThan(300);
   expect(await page.evaluate(() => sessionStorage.getItem("scene-print"))).toBe("toon");
   const cartoon = await canvas.screenshot();
   expect(screenshotMetrics(cartoon).uniqueColors).toBeGreaterThan(60);
   // Flattened colour and key lines move most of the picture; a blank or untouched frame would not.
   expect(screenshotDiffRatio(cartoon, realistic)).toBeGreaterThan(0.05);
+  // Drawn, not filtered: flat fills and hard edges. In the embed at noon the cartoon keeps about
+  // two fifths of the render's soft gradient; a filter that only tinted the frame would keep all.
+  const softness = { realistic: softShare(realistic), cartoon: softShare(cartoon) };
+  await testInfo.attach("softness", { body: JSON.stringify(softness), contentType: "application/json" });
+  expect(softness.cartoon, JSON.stringify(softness)).toBeLessThan(softness.realistic * 0.65);
 
   // The woodblock: the same pass with its own settings, a different picture again.
   await sceneInputFrame(page, view, () => look("print").click());
   await expect(look("print")).toHaveAttribute("aria-pressed", "true");
   await expect(look("toon")).toHaveAttribute("aria-pressed", "false");
-  expect((await evidence(scene)).rendering.print.look).toBe("print");
+  const block = (await evidence(scene)).rendering.print;
+  expect(block.look).toBe("print");
+  // The woodblock cuts its keyblock from the frame's depth: no structure pass, no extra target.
+  expect(block.structure).toBeNull();
+  expect(block.renderTargets).toBe(0);
   expect(await page.evaluate(() => sessionStorage.getItem("scene-print"))).toBe("print");
   const print = await canvas.screenshot();
   expect(screenshotMetrics(print).uniqueColors).toBeGreaterThan(60);
