@@ -259,6 +259,7 @@ export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = t
     sectionTone: { value: new THREE.Vector4(1, 1, 1, 0) },
     sectionFlat: { value: new THREE.Vector4(0, 0, 0, 0) },
     sectionHatch: { value: new THREE.Vector3(1, 0, 0) },
+    sectionNight: { value: new THREE.Vector3(0, 0, 0) },
   };
   // With no section given, the mask stays one black texel and the tone's strength zero.
   const noSection = section ? null : new THREE.DataTexture(new Uint8Array(4), 1, 1);
@@ -343,6 +344,7 @@ export function createHaze(atmosphere, scene, light, { volume: volumeEnabled = t
       compositeUniforms.sectionTone.value.set(...section.dials.tone, section.dials.strength);
       compositeUniforms.sectionFlat.value.set(...section.dials.flat, section.dials.flatten);
       compositeUniforms.sectionHatch.value.set(...section.dials.hatch);
+      compositeUniforms.sectionNight.value.set(...section.dials.night);
     } else compositeUniforms.sectionTone.value.w = 0;
     renderer.setRenderTarget(pass.renderToScreen ? null : writeBuffer);
     quad.render(renderer);

@@ -3349,6 +3349,40 @@ test("coastal home: the lifted roof's seats print as one cut tone, only while th
   await lab(strength);
   expect(screenshotDiffRatio(await canvas.screenshot(), cut)).toBeLessThan(0.001);
 
+  // At night the hour gives the cut no light. It keeps a dim tone of its own, so the section and
+  // its hatch still read as sliced rock instead of holes around the lit rooms: with the tone off the
+  // seats are black, with it on they are measurably lighter, and still far darker than the frame's
+  // lit rooms.
+  await explore(ui);
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-time]").fill("1320"));
+  await page.clock.runFor(1400);
+  const night = await evidence(scene);
+  expect(night.daylight.daylight).toBeLessThan(0.05);
+  expect(night.section.open).toBe(true);
+  await lab(null);
+  const nightCut = PNG.sync.read(await canvas.screenshot());
+  await lab(0);
+  const nightBare = PNG.sync.read(await canvas.screenshot());
+  await lab(strength);
+  let seats = 0,
+    lifted = 0,
+    brightest = 0;
+  for (let i = 0; i < nightCut.data.length; i += 4) {
+    const luma = (0.2126 * nightCut.data[i] + 0.7152 * nightCut.data[i + 1] + 0.0722 * nightCut.data[i + 2]) / 255,
+      bare = (0.2126 * nightBare.data[i] + 0.7152 * nightBare.data[i + 1] + 0.0722 * nightBare.data[i + 2]) / 255;
+    brightest = Math.max(brightest, luma);
+    // A seat is where the tone changes the frame.
+    if (Math.abs(luma - bare) > 0.012) {
+      seats++;
+      lifted += luma;
+    }
+  }
+  await capture(testInfo, "section-cut-tone-night", PNG.sync.write(nightCut));
+  expect(seats / (nightCut.data.length / 4), "the cut is a visible share of the night view").toBeGreaterThan(0.01);
+  expect(lifted / seats, "the cut keeps a tone at night").toBeGreaterThan(0.03);
+  expect(lifted / seats, "and stays darker than the lit rooms").toBeLessThan(0.3);
+  expect(brightest).toBeGreaterThan(0.6);
+
   // Outside, the roof is on: nothing is marked and nothing extra is drawn.
   await visit("outside");
   const closed = await evidence(scene);

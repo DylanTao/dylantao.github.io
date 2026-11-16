@@ -1613,11 +1613,16 @@ systems:
           tone every 42 cm. They are the planes x + y + z = constant, reconstructed from the pixel's depth, so they cross
           level and upright faces alike at 45°, stay fixed to the rock as the view turns, and fade out where they would
           fall closer than a few pixels. With the roof on, nothing is drawn and the composite's strength is zero.
-          `?section=0` keeps the bare rock for comparison.
+          `?section=0` keeps the bare rock for comparison. Lit only by the hour, the cut went pure black at night and
+          read as holes around the lit rooms; since November 15 a dim, cool light of its own fades in as daylight
+          leaves (`sectionLight`), so the cut and its hatch stay a tone at every hour, darker than any lit room. A noon
+          frame is unchanged to the pixel.
         files:
           - path: assets/js/home-scene/section-cut.mjs
             role: Merges the lifted solids, draws the contact mask and holds the tone and the hatch.
-            functions: [createSectionCut, worldTriangles, hatchLine]
+            functions: [createSectionCut, worldTriangles, hatchLine, sectionLight]
+          - path: bin/probe_coastal_cutaway.py
+            role: Measures, in the house file, how much of the rooms a viewer straight above can see once the roof is lifted, and what hides the rest.
           - path: assets/js/home-scene/haze.mjs
             role: Prints the tone on the surface before any air is added.
           - path: assets/js/home-scene/controller.mjs
@@ -1628,13 +1633,14 @@ systems:
           - test/visual/desk-scene.spec.js
         sources: [saito1990comprehensible]
         limits:
-          - Rock outside the lifted solids, the sheet beside the library and the lump beside the gym, still stands above the cut. Removing it is an authoring change to the house file, not a shader.
+          - Measured on November 15 with `bin/probe_coastal_cutaway.py`, the roof lifted, a viewer straight above sees 34 % of the rooms' area. Cliff rock still covers 24 % of it (the whole gym, the bedroom's bath, part of the library and of the upper floor, the arrival hall), because those rooms have no lift-away roof of their own. Carving them is an authoring change to the house file, not a shader.
+          - Inside the main roof's footprint the cut is already level at 5.83 m; the tall rock a visitor sees beside the house is the hill around the excavation, not a leftover on top of it.
           - The roof vanishes when the section opens; it does not lift visibly yet.
           - The tone was chosen from four matched noon frames, and the hatch from one plan view and two oblique ones, by Claude; Sirui has not reviewed either.
           - From far away the hatch on the most distant rock is close to its fade-out and reads as a faint texture.
           - One extra draw of 18,446 triangles and one byte target at the frame's size while the section is open. Its frame cost has not been measured on a quiet machine.
         next:
-          - move: Split the cliff above the cut, inside the house's plan, into a lift-away crown piece so the leftover rock lifts with the roof.
+          - move: Carve lift-away roofs over the rooms the section still buries (the gym first), in the same pass over the house as the new arrival, and read the probe again.
             readiness: needs-decision
           - move: Raise and fade the roof over about 400 ms when the section opens, and settle it back on the way out.
             readiness: ready

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import * as THREE from "../assets/js/three.module.min.js";
-import { SECTION_DEFAULTS, createSectionCut, hatchLine, sectionGLSL, worldTriangles } from "../assets/js/home-scene/section-cut.mjs";
+import { SECTION_DEFAULTS, createSectionCut, hatchLine, sectionGLSL, sectionLight, worldTriangles } from "../assets/js/home-scene/section-cut.mjs";
 
 function slab({ indexed = true, at = [0, 0, 0], quantized = false } = {}) {
   const geometry = new THREE.BoxGeometry(2, 1, 4);
@@ -135,4 +135,34 @@ test("the hatch is fixed to the rock, crosses level and upright faces alike, and
   assert.match(sectionGLSL, /float t = \(world\.x \+ world\.y \+ world\.z\) \/ sectionHatch\.x;/);
   assert.match(sectionGLSL, /abs\(fract\(t - 0\.5\) - 0\.5\)/);
   assert.match(sectionGLSL, /1\.0 - smoothstep\(0\.18, 0\.4, width\)/);
+});
+
+test("the cut keeps a tone at night and is untouched by day", () => {
+  const { night, flat } = SECTION_DEFAULTS;
+  // By day the hour's light is all there is: nothing is added from 0.6 up.
+  for (const daylight of [
+    [1.1, 1.0, 0.9],
+    [0.6, 0.55, 0.5],
+    [3, 2.8, 2.5],
+  ])
+    assert.deepEqual(sectionLight(daylight), daylight);
+  // With no daylight the cut is lit by the night's light alone: cool, and dim.
+  assert.deepEqual(sectionLight([0, 0, 0]), night);
+  assert.ok(night[2] > night[0], "cooler than the day's umber");
+  const tone = flat.map((albedo, i) => albedo * night[i]);
+  assert.ok(Math.max(...tone) > 0.008, "not black: the hatch has something to lighten");
+  assert.ok(Math.max(...tone) < 0.05, "darker than any lit room");
+  // Dusk passes from one to the other without a step, and never dims as the day ends.
+  let last = sectionLight([0.6, 0.6, 0.6]);
+  for (let level = 0.59; level >= 0; level -= 0.01) {
+    const light = sectionLight([level, level, level]);
+    for (let i = 0; i < 3; i++) {
+      assert.ok(Math.abs(light[i] - last[i]) < 0.02, `no step at ${level.toFixed(2)}`);
+      assert.ok(light[i] >= night[i] - 1e-9, "never darker than the night's light");
+    }
+    last = light;
+  }
+  // The shader states the same rule.
+  assert.match(sectionGLSL, /float dark = 1\.0 - smoothstep\(0\.05, 0\.6, max\(daylight\.r, max\(daylight\.g, daylight\.b\)\)\);/);
+  assert.match(sectionGLSL, /sectionFlat\.rgb \* \(daylight \+ sectionNight \* dark\)/);
 });

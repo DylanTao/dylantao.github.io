@@ -26,6 +26,12 @@ export const SECTION_DEFAULTS = Object.freeze({
   // than the tone they cross. Without it the cut rock is a large flat shape, and from above it is
   // most of the picture.
   hatch: [0.42, 0.1, 0.5],
+  // The light the cut is drawn under once the day's has gone. Lit only by the hour, the poché went
+  // pure black at night and read as holes around the lit rooms (Sirui, November 14, with a night
+  // capture: "some weird geometry issue you still haven't fixed"). A drawing's section stays a
+  // tone: this dim, cool light fades in as daylight leaves, so the cut and its hatch still read as
+  // rock that was sliced, darker than any lit room.
+  night: [0.22, 0.27, 0.36],
 });
 
 // The hatch as the shader draws it, for tests and for anyone tuning it: how much of a line covers
@@ -38,6 +44,16 @@ export function hatchLine(world, [period, share], width) {
       return u * u * (3 - 2 * u);
     };
   return (1 - smooth(share * 0.5, share * 0.5 + width, fromLine)) * (1 - smooth(0.18, 0.4, width));
+}
+
+// The light the cut is drawn under, as the shader computes it: the hour's own while there is day,
+// and `night` fading in as daylight leaves (none above 0.6 of daylight's strongest channel, all of
+// it below 0.05), so the section never goes black.
+export function sectionLight(daylight, night = SECTION_DEFAULTS.night) {
+  const peak = Math.max(...daylight),
+    u = Math.min(1, Math.max(0, (peak - 0.05) / (0.6 - 0.05))),
+    dark = 1 - u * u * (3 - 2 * u);
+  return daylight.map((value, i) => value + night[i] * dark);
 }
 
 // Every triangle of the given meshes in world space, as one flat position array. Quantized or
@@ -91,6 +107,7 @@ uniform sampler2D tSection;
 uniform vec4 sectionTone;
 uniform vec4 sectionFlat;
 uniform vec3 sectionHatch; // period in metres, line share of the period, strength
+uniform vec3 sectionNight; // the light the cut keeps when the hour gives none
 // A drawn section hatches what it cut. The lines are the planes x + y + z = constant, so they
 // cross every level or upright face at 45 degrees and stay fixed to the rock as the view turns.
 // Where they would fall closer than a few pixels they fade out instead of shimmering.
@@ -104,7 +121,8 @@ float sectionHatchLine(vec3 world) {
 vec3 sectionCut(vec3 colour, vec2 uv, vec3 daylight, vec3 world) {
   float mask = texture2D(tSection, uv).r * sectionTone.a;
   if (mask <= 0.0) return colour;
-  vec3 cut = mix(colour * sectionTone.rgb, sectionFlat.rgb * daylight, sectionFlat.a);
+  float dark = 1.0 - smoothstep(0.05, 0.6, max(daylight.r, max(daylight.g, daylight.b)));
+  vec3 cut = mix(colour * sectionTone.rgb, sectionFlat.rgb * (daylight + sectionNight * dark), sectionFlat.a);
   cut *= 1.0 + sectionHatch.z * sectionHatchLine(world);
   return mix(colour, cut, mask);
 }`;
