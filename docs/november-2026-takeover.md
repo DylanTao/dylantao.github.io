@@ -170,6 +170,14 @@ Done:
 
 In hand: the cartoon's colour (J2). Next: the sea against the Unreal reference (T1), a first composed piece (L5), the painted world (J10).
 
+**Where this round stopped (November 16, about 2 am Pacific, on a usage limit).** The cartoon's new colour is half built and is not committed: it sits in the working tree.
+
+- **In the tree, uncommitted:** `assets/js/home-scene/print-look.mjs`, `controller.mjs` (it now hands the key light and the day's share to the look), and the light cache re-baked for that (`assets/models/home/manifest.json`, `static-light-field.json`). Do not discard them.
+- **What the new colour does.** The structure pass also records each surface's own colour (material colour times painted vertices), whether the key light reaches it (asked of the sun's own shadow map, so cast shadows have edges) and whether it lies under the open sky (a map of the scene from straight above). Each surface then gets three mixes of its own colour: light, half-tone and shade. The hour gives the light's colour, the shade's colour, the sky and moonlight (`TOON_HOURS`). Under the open sky, what the sun misses is shade. In a room a small meter reads the view and puts the darkest 30 percent of unlit surfaces in shade.
+- **Seen so far** (scratch sheets, not committed): the coast went from one peach to pale yellow rock, orange ground, violet cast shadows and a blue sky; the lounge and kitchen keep oak, cream, mustard, terracotta and green. Still wrong when I stopped: the clifftop ground is too orange; the sea is pale; night was one indigo before the meter and has not been looked at since; shade edges in rooms were soft before the meter.
+- **Not done:** look at the last captures (day views with the sky map and meter) and the night views; tune the hours; `test/print-look.test.mjs` and the look-switch browser case still expect the old numbers (the pass now reads 53 textures a pixel and holds 3 targets); Prettier on `controller.mjs`; the record, its still, and J2 here.
+- **Also owed:** read CI for `f05af4f11`; the end-of-batch code-activity refresh (last one November 15, 17:14 UTC); the automated branch pass. No push between 1:15 and about 3:15 am Pacific.
+
 ## Fifth round (November 15, in the Claude app)
 
 Sirui moved the work into the Claude app: "feel free to use docker, browser, blender whatever you need, if it is still hard for you to make music, we can wait till next model update".
