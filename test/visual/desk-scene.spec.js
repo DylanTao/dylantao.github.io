@@ -3526,7 +3526,10 @@ test("coastal home: an adaptive resolution step is drawn in the frame that makes
   await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click(), { clockStep: 100 });
   await beginClockedMotion(page, canvas);
   expect((await evidence(scene)).resolution).toMatchObject({ profile: "fullscreen", adaptive: true });
-  const advance = async (milliseconds = 1200) => {
+  // Six frames a call under the slow clock. A step takes two: one that asks and one that resizes
+  // and draws. At 1.2 s a call, the case took nine to ten minutes on a hosted runner and timed out
+  // on a slow one (November 16).
+  const advance = async (milliseconds = 600) => {
     for (let elapsed = 0; elapsed < milliseconds; elapsed += 200) await page.clock.runFor(200);
   };
   // The lab holds the factor from its first request. On a slow machine the governor finds slow
