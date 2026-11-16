@@ -235,6 +235,8 @@ export const PRINT_DEFAULTS = Object.freeze({
   inkFloor: 0.17, // the darkest block is ink on paper, not black
   shadowPivot: 0.62,
   lift: 1, // exponent on lightness before it is stepped: below 1 opens the darks
+  ceiling: 1, // what the brightest surface is scaled to before stepping: below 1 keeps the top step for lamps and sky
+  open: 1, // exponent on the stepped value: below 1 prints the lit and shadow steps lighter
   // Drawing from the scene's structure (createStructure) instead of the frame's depth. Off for the
   // woodblock, whose keyblock is cut from depth alone.
   structure: 0,
@@ -250,7 +252,9 @@ export const LOOKS = Object.freeze({
   // A cartoon keeps the hour (a dusk is still a dusk) but not the paper: near-white ground, darks
   // opened and held off black, three hard flat steps (a soft shadow becomes a shape with an edge,
   // not an airbrushed stain), every hue kept (greens stay green), shadows that darken more than they
-  // turn blue, no grain, and lines drawn from the scene's structure in three weights.
+  // turn blue, no grain, and lines drawn from the scene's structure in three weights. The top step
+  // is kept for lamps and sky (`ceiling`): a sunlit cliff or cushion stays one flat tone of its own
+  // colour instead of breaking into white patches, and the lit and shadow steps print light (`open`).
   toon: Object.freeze({
     label: "Cartoon",
     dials: Object.freeze({
@@ -270,6 +274,8 @@ export const LOOKS = Object.freeze({
       inkFloor: 0.3,
       shadowPivot: 0.5,
       lift: 0.8,
+      ceiling: 0.86,
+      open: 0.62,
       structure: 1,
     }),
     way: (way) => ({
@@ -463,7 +469,7 @@ uniform vec3 printInk;
 uniform vec4 printShadow;   // OKLab a, b, amount, pivot lightness
 uniform vec4 printSky;      // rgb, amount
 uniform vec4 printGrain;    // paper, baren, ink floor, boil seed
-uniform float printLift;    // exponent on lightness before it is stepped
+uniform vec3 printLift;     // exponent on lightness before it is stepped, what the brightest surface is scaled to, exponent on the stepped value
 uniform sampler2D tStructure;  // xy view normal, z object id, w view depth in metres (createStructure)
 uniform vec4 printStructure;   // 1 when the structure is drawn, ink radius px, fold strength, metres where folds thin
 uniform vec3 printEdge;        // gap in metres, gap per metre of distance, 1 - cos of a fold
@@ -540,10 +546,10 @@ void main() {
   vec3 block = sum / weight;
 
   // Values settle into a few printed steps; the mix keeps some of the render's gradation (bokashi).
-  float lifted = pow(max(block.x, 0.0), printLift);
+  float lifted = pow(max(block.x, 0.0), printLift.x) * printLift.y;
   float stepped = lifted * printTone.x;
   stepped = (floor(stepped) + smoothstep(0.5 - printTone.y, 0.5 + printTone.y, fract(stepped))) / printTone.x;
-  float value = mix(lifted, stepped, printTone.z);
+  float value = pow(max(mix(lifted, stepped, printTone.z), 0.0), printLift.z);
 
   // Shadows lean toward the colourway's blue instead of losing their colour.
   float shade = pow(clamp(1.0 - value / printShadow.w, 0.0, 1.0), 1.4) * printShadow.z;
@@ -653,7 +659,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     printShadow: { value: new THREE.Vector4() },
     printSky: { value: new THREE.Vector4() },
     printGrain: { value: new THREE.Vector4() },
-    printLift: { value: 1 },
+    printLift: { value: new THREE.Vector3(1, 1, 1) },
     tStructure: { value: null },
     printStructure: { value: new THREE.Vector4() },
     printEdge: { value: new THREE.Vector3() },
@@ -719,7 +725,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     uniforms.printShadow.value.set(way.shadow[0], way.shadow[1], way.shadow[2], dials.shadowPivot);
     uniforms.printSky.value.set(...way.sky);
     uniforms.printGrain.value.set(dials.paperGrain, dials.baren, dials.inkFloor, uniforms.printGrain.value.w);
-    uniforms.printLift.value = dials.lift;
+    uniforms.printLift.value.set(dials.lift, dials.ceiling, dials.open);
     uniforms.printStructure.value.set(uniforms.printStructure.value.x, dials.inkRadius, dials.foldStrength, dials.creaseFade);
     uniforms.printEdge.value.set(dials.edgeGap[0], dials.edgeGap[1], dials.creaseTurn);
   }

@@ -74,11 +74,15 @@ test("the cartoon is the same pass with brighter, flatter, fuller settings, and 
     version = drawn.material.version;
   const toon = {
     bands: uniforms.printTone.value.x,
-    lift: uniforms.printLift.value,
+    lift: uniforms.printLift.value.x,
+    ceiling: uniforms.printLift.value.y,
+    open: uniforms.printLift.value.z,
     crossHue: uniforms.printWeight.value.w,
     grain: uniforms.printGrain.value.x,
   };
   assert.ok(toon.lift < 1, "the darks are opened");
+  assert.ok(toon.ceiling < 1, "the top step is kept for lamps and sky, so a sunlit surface stays one tone");
+  assert.ok(toon.open < 1, "the lit and shadow steps print light");
   assert.equal(toon.crossHue, 1, "greens stay green");
   assert.equal(toon.grain, 0, "no paper tooth");
   assert.ok(uniforms.printGrain.value.z > PRINT_DEFAULTS.inkFloor, "the darkest step is held further off black");
@@ -102,7 +106,7 @@ test("the cartoon is the same pass with brighter, flatter, fuller settings, and 
   // Woodblock: the shipped defaults again. Realistic: the pass is off and remembers the last look.
   assert.equal(drawn.setLook("print"), "print");
   assert.equal(uniforms.printTone.value.x, PRINT_DEFAULTS.bands);
-  assert.equal(uniforms.printLift.value, 1);
+  assert.deepEqual(uniforms.printLift.value.toArray(), [1, 1, 1], "the woodblock steps lightness as it comes");
   assert.equal(uniforms.printWeight.value.w, PRINT_DEFAULTS.crossHue);
   assert.equal(drawn.setLook("realistic"), "realistic");
   assert.equal(drawn.enabled, false);

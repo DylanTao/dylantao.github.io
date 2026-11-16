@@ -1680,7 +1680,9 @@ systems:
           object touching this one? A contact line. Is it the same object turned by more than about 33 degrees? A fold,
           the finest. A line is as wide as the share of the ring that agrees. Flat colour is averaged only inside one
           object, so a fill stops at its edge, and value settles into three hard steps, which turns a soft shadow into a
-          shape. The woodblock keeps its depth keyblock and pays for none of this.
+          shape. The top step is kept for lamps and sky, so a sunlit cliff or cushion stays one flat tone of its own
+          colour instead of breaking into white patches. The woodblock keeps its depth keyblock and pays for none of
+          this.
         files:
           - path: assets/js/home-scene/print-look.mjs
             role: The pass, its shader, the colourways, the two looks and the dials.
@@ -1699,7 +1701,7 @@ systems:
           - The woodblock's lines come from depth only, so a rug on a floor or a painting on a wall gets none, and a low-polygon curve can show its facets as folds. The cartoon's come from structure and have neither fault.
           - The cartoon's lines are counted on a ring of twelve taps, so their edges step in a few levels; on a dense screen that is clean, at one device pixel per pixel a diagonal shows it. Thin slabs (a rug's edge) draw two lines where a hand would draw one. Line shifting between frames has not been judged in motion.
           - Plants, water, glass and steam are left out of the structure and keep only their flat colour.
-          - The cartoon's shading is still the realistic render's light settled into three steps. Shadow shapes are harder than before, not yet designed; the materials' own flat colours are not used yet.
+          - The cartoon's shading is still the realistic render's light settled into three steps. Shadow shapes are harder than before, not yet designed; the materials' own flat colours are not used yet, so every lit surface prints at about the same lightness and differs from its neighbour by hue alone.
           - Measured November 15 on this PC at 1600 by 900, with the cartoon on the structure pass adds 176 draw calls in the living room (638 to 814) and 488 in the whole-home view (1,663 to 2,151), and about 5 ms of GPU time (12 to 17 ms in the room). With a drawn look off it costs nothing. Soft-gradient pixels fell from 12 % of the frame to 8 % in the living room (the render has 37 %).
           - The cartoon borrows the manner of television animation in general (flat fills, even outlines); it copies no show's designs, and the house's forms are still the realistic model's.
           - Sirui saw the first cartoon and the woodblock on November 14 and found the cartoon fuzzy and the woodblock too like it. He has not seen the structure-drawn cartoon. Claude judged it in the living room, gym, study, kitchen and whole-home views at 15:00 and from above at 21:00; a phone is still missing.
