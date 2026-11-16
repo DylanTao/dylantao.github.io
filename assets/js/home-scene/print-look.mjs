@@ -7,7 +7,7 @@ import { Pass, FullScreenQuad } from "../vendor/three-r164/postprocessing/Pass.j
 // compiles nothing:
 //
 //   print  the way a shin-hanga printer would cut the frame into blocks
-//   toon   a television cartoon: white paper, lifted flat colour, one even dark outline
+//   toon   an animated film: a painted world in designed colour, figures as cels, one dark outline
 //
 // The blocks, as the woodblock uses them:
 //
@@ -30,6 +30,14 @@ import { Pass, FullScreenQuad } from "../vendor/three-r164/postprocessing/Pass.j
 // (createStructure). Lines are then cut exactly where two objects meet, where a surface breaks in
 // depth and where it folds, each with its own weight, and flat colour is averaged only inside one
 // object, so a fill stops at the object's edge. Nothing of this runs for the realistic render.
+//
+// Its colour is designed, too (TOON_HOURS and the comment above it). The same extra drawing of the
+// scene records each surface's own colour, whether the key light reaches it (asked of that light's
+// own shadow map, so a cast shadow has an edge) and whether it lies under the open sky (asked of a
+// map of the scene drawn from straight above). Each surface is then filled from three mixes of its
+// own colour, light, half-tone and shade, the way an animation background is painted: an edge where
+// the sun is cut off, a soft fall where a room's own light fades, and a figure as a flat cel on
+// top. A small meter reads each view so a dim room is not all shade and a lamp has a pool at night.
 
 export const PRINT_KEY = "scene-print";
 // "realistic" is the render itself; these redraw it.
@@ -213,6 +221,115 @@ export function colourwayAt(minute = 780) {
   };
 }
 
+// The cartoon's colour is designed, not derived (Sirui, November 15, 2026, on the first cartoon drawn
+// from structure: "color is still lame, not vivid and boring"). Every lit surface had printed one
+// peach, because lightness came only from three steps of the lit frame and hue only from the lit
+// pixel. The painted references set the rule (docs/november-2026-takeover.md, "The bar, November
+// 15"): each thing has its own colour and three mixes of it, light, half-tone and shade, and the
+// light on its spot picks one. So the hour no longer tints a frame. It says what colour the light
+// is, what colour the shade is, and what the sky does:
+//
+//   light  display sRGB of a white card in the hour's key light, then how far a lit surface leans
+//          to it and how far it lifts toward white
+//   shade  display sRGB of the hour's shadow, then how far a shaded surface leans to it and the
+//          share of its lightness it keeps
+//   sky    display sRGB at the top of the sky and at the horizon
+//   moon   display sRGB of moonlight, then how far a moonlit surface leans to it and the share
+//          of its lightness it keeps (used while the key light is the moon)
+//
+// Warm light against a cool shade by day; at night the lamps are the light and everything else
+// sinks into indigo.
+const srgbToLinear = (c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+export const displayToOklab = (rgb) => linearToOklab(rgb.map(srgbToLinear));
+const MOON = [0.42, 0.62, 0.95, 0.65, 0.8];
+const NIGHT_HOUR = {
+  name: "night",
+  light: [1.0, 0.8, 0.5, 0.45, 0.3],
+  shade: [0.16, 0.2, 0.6, 0.72, 0.55],
+  skyTop: [0.03, 0.04, 0.18],
+  skyLow: [0.1, 0.12, 0.36],
+  moon: MOON,
+};
+export const TOON_HOURS = Object.freeze([
+  { at: 0, ...NIGHT_HOUR },
+  { at: 330, ...NIGHT_HOUR },
+  {
+    at: 420,
+    name: "dawn",
+    light: [1.0, 0.8, 0.7, 0.55, 0.3],
+    shade: [0.38, 0.36, 0.72, 0.6, 0.62],
+    skyTop: [0.38, 0.46, 0.82],
+    skyLow: [1.0, 0.74, 0.62],
+    moon: MOON,
+  },
+  {
+    at: 600,
+    name: "morning",
+    light: [1.0, 0.94, 0.74, 0.45, 0.42],
+    shade: [0.3, 0.48, 0.92, 0.5, 0.72],
+    skyTop: [0.2, 0.52, 0.92],
+    skyLow: [0.74, 0.9, 0.98],
+    moon: MOON,
+  },
+  {
+    at: 780,
+    name: "noon",
+    light: [1.0, 0.96, 0.8, 0.4, 0.45],
+    shade: [0.26, 0.46, 0.94, 0.5, 0.72],
+    skyTop: [0.08, 0.42, 0.92],
+    skyLow: [0.6, 0.84, 0.98],
+    moon: MOON,
+  },
+  {
+    at: 930,
+    name: "afternoon",
+    light: [1.0, 0.93, 0.7, 0.45, 0.42],
+    shade: [0.34, 0.44, 0.92, 0.5, 0.72],
+    skyTop: [0.12, 0.44, 0.88],
+    skyLow: [0.72, 0.88, 0.95],
+    moon: MOON,
+  },
+  {
+    at: 1035,
+    name: "dusk",
+    light: [1.0, 0.7, 0.46, 0.55, 0.3],
+    shade: [0.38, 0.3, 0.74, 0.6, 0.64],
+    skyTop: [0.26, 0.22, 0.62],
+    skyLow: [1.0, 0.58, 0.36],
+    moon: MOON,
+  },
+  {
+    at: 1140,
+    name: "evening",
+    light: [1.0, 0.78, 0.48, 0.5, 0.3],
+    shade: [0.2, 0.22, 0.62, 0.7, 0.56],
+    skyTop: [0.06, 0.08, 0.3],
+    skyLow: [0.36, 0.24, 0.54],
+    moon: MOON,
+  },
+  { at: 1290, ...NIGHT_HOUR },
+]);
+
+// The cartoon's hour at a minute of the day, blended like the colourway.
+export function toonHourAt(minute = 780) {
+  const m = ((Number(minute) % 1440) + 1440) % 1440;
+  let next = TOON_HOURS.findIndex((hour) => hour.at > m);
+  if (next < 0) next = TOON_HOURS.length;
+  const a = TOON_HOURS[next - 1],
+    b = TOON_HOURS[next % TOON_HOURS.length],
+    span = (next < TOON_HOURS.length ? b.at : 1440) - a.at,
+    t = span > 0 ? (m - a.at) / span : 0,
+    blend = (key) => a[key].map((value, i) => mix(value, b[key][i], t));
+  return {
+    name: t < 0.5 ? a.name : b.name,
+    light: blend("light"),
+    shade: blend("shade"),
+    skyTop: blend("skyTop"),
+    skyLow: blend("skyLow"),
+    moon: blend("moon"),
+  };
+}
+
 // The cutter's and printer's settings, exposed so a dial panel can move them.
 export const PRINT_DEFAULTS = Object.freeze({
   lineRadius: 1.15, // keyline half-width in pixels at a 1080-pixel-high frame
@@ -244,17 +361,40 @@ export const PRINT_DEFAULTS = Object.freeze({
   edgeGap: [0.05, 0.006], // metres apart, plus this per metre of distance, before a surface counts as broken
   creaseTurn: 0.16, // 1 - cos of the fold that starts a line inside a form (about 33 degrees)
   creaseFade: 22, // metres: where folds inside forms thin out (twice this, and they are gone)
+  // Fills from each surface's own colour and a designed light (TOON_HOURS), which needs the
+  // structure. Off for the woodblock, whose colour is the hour's colourway over the lit frame.
+  localColour: 0,
+  // Stops from a white card in the key light. In a room, shade is the darkest part of what the
+  // key light does not reach and a lamp's pool is the brightest: a meter reads the view a few
+  // times a second and sets both (roomShare), inside these limits. Under the open sky whatever
+  // the sun does not reach is shade (openStops). By day only a lamp or a glare counts as light
+  // without the sun (strongStops).
+  roomShare: [0.22, 0.86, 0.97], // the share of a room's unlit surfaces that prints as shade, the share below a lamp's pool, and the first again when most of the view is outdoors
+  roomStops: [-5, -0.6], // the limits of where shade may begin in a room
+  poolStops: [-3, 0.3], // the limits of where a lamp's pool may begin, and it is never less than 0.9 stops above the room's middle
+  strongStops: 0.3,
+  openStops: -0.4,
+  keySoftness: 1.1, // stops: how softly a room's own light passes from one mix to the next (a figure's edge is hard)
+  localRange: [0.3, 0.93], // the lightness a surface's own colour is printed between
+  localChroma: [1.25, 2.3, 0.17], // how far chroma is opened for a quiet colour and for a strong one, and where it stops: big quiet surfaces stay quiet
+  hueSpread: [1.2, 1.35], // the house's own hue in radians (sandstone and oak, about 70 degrees), and how far its neighbours are pushed apart
+  neutralLean: [0.5, 0.35], // how far a dark grey leans to the shade's colour, and a pale grey to the light's
+  shadeKeep: 0.62, // the share of its own chroma a surface keeps in shade
+  roomLean: [0.2, 0.66], // how far shade leans to the hour's shade colour in a room, by day and by night (under the open sky the hour says)
+  formShade: 0.07, // lightness per stop inside one mix: how much the light still models a form
+  hour: null, // the lab's override of the hour's light, shade or sky (the fields of TOON_HOURS)
+  debug: 0, // 1 shows the surfaces' own colours, 2 the light on each spot in stops (grey: -6 to +2), 3 the key light's reach (white), open sky without it (blue) and rooms (green)
 });
 
 // What each drawn look changes: its settings, and what it does to the hour's colourway.
 export const LOOKS = Object.freeze({
   print: Object.freeze({ label: "Woodblock", dials: Object.freeze({}), way: (way) => way }),
-  // A cartoon keeps the hour (a dusk is still a dusk) but not the paper: near-white ground, darks
-  // opened and held off black, three hard flat steps (a soft shadow becomes a shape with an edge,
-  // not an airbrushed stain), every hue kept (greens stay green), shadows that darken more than they
-  // turn blue, no grain, and lines drawn from the scene's structure in three weights. The top step
-  // is kept for lamps and sky (`ceiling`): a sunlit cliff or cushion stays one flat tone of its own
-  // colour instead of breaking into white patches, and the lit and shadow steps print light (`open`).
+  // A cartoon keeps the hour (a dusk is still a dusk) but not the paper: lines drawn from the
+  // scene's structure in three weights, no grain, and fills from each surface's own colour and the
+  // hour's designed light (`localColour`, TOON_HOURS). What has no colour of its own to give (a
+  // picture, the sea, a plant) is still filled from the frame, with the settings below: near-white
+  // ground, darks opened and held off black, three hard flat steps, every hue kept, the top step
+  // kept for lamps and sky (`ceiling`), the lit and shadow steps printed light (`open`).
   toon: Object.freeze({
     label: "Cartoon",
     dials: Object.freeze({
@@ -277,9 +417,11 @@ export const LOOKS = Object.freeze({
       ceiling: 0.86,
       open: 0.62,
       structure: 1,
+      localColour: 1,
     }),
-    way: (way) => ({
+    way: (way, minute) => ({
       ...way,
+      palette: toonHourAt(minute),
       paper: way.paper.map((value) => value + (1 - value) * 0.8),
       ink: [0.1, 0.085, 0.13],
       shadow: [way.shadow[0], way.shadow[1], way.shadow[2] * 0.35],
@@ -316,30 +458,124 @@ export function structureSkips(material) {
   );
 }
 
-// The scene drawn once more with one small material: view normal (xy), object id and view depth in
-// metres, in one half-float target the size of the frame. three's own normal shader supplies the
-// vertex stage, so skinned figures, morphs and instances stand where the beauty pass drew them.
+// What a surface says about its own colour: 0 it has one (its material's colour times the colour
+// painted on its vertices), 0.25 it is a lamp, 1 nothing the fill can use (a picture or pattern in
+// a texture, or a shader of its own), so that fill is taken from the frame as before.
+export const STRUCTURE_GLOW = 0.15;
+export function structureKind(material) {
+  if (!material?.color?.isColor || material.map || material.emissiveMap) return 1;
+  const glow = material.emissive;
+  return glow?.isColor && Math.max(glow.r, glow.g, glow.b) * (material.emissiveIntensity ?? 1) > STRUCTURE_GLOW ? 0.25 : 0;
+}
+
+// The scene drawn once more with one small material, into two targets the size of the frame:
+// view normal (xy), object id and view depth in metres, as half floats; and, as bytes, the
+// surface's own colour with its kind (structureKind), whether it lies under the open sky and
+// whether the key light reaches it. three's own normal shader supplies the vertex stage, so
+// skinned figures, morphs and instances stand where the beauty pass drew them.
 export function createStructure() {
   const base = THREE.ShaderLib.normal;
+  // The key light's shadow coordinate is found the way three's own materials find it: the world
+  // position, pushed along the normal by the light's normal bias, through the shadow's matrix.
   const vertexShader = base.vertexShader
-    .replace("void main() {", "varying float vStructureDepth;\nvoid main() {")
-    .replace("#include <project_vertex>", "#include <project_vertex>\n\tvStructureDepth = -mvPosition.z;");
+    .replace(
+      "void main() {",
+      "#include <color_pars_vertex>\nuniform mat4 structureShadowMatrix;\nuniform vec3 structureShadowBias;\nvarying float vStructureDepth;\nvarying vec4 vStructureShadow;\nvarying vec3 vStructureWorld;\nvoid main() {"
+    )
+    .replace("#include <begin_vertex>", "#include <begin_vertex>\n\t#include <color_vertex>")
+    .replace(
+      "#include <project_vertex>",
+      `#include <project_vertex>
+	vStructureDepth = -mvPosition.z;
+	vec4 structureWorld = vec4(transformed, 1.0);
+	#ifdef USE_BATCHING
+		structureWorld = batchingMatrix * structureWorld;
+	#endif
+	#ifdef USE_INSTANCING
+		structureWorld = instanceMatrix * structureWorld;
+	#endif
+	structureWorld = modelMatrix * structureWorld;
+	vStructureWorld = structureWorld.xyz;
+	structureWorld.xyz += inverseTransformDirection(transformedNormal, viewMatrix) * structureShadowBias.y;
+	vStructureShadow = structureShadowMatrix * structureWorld;`
+    );
   const fragmentShader = /* glsl */ `
 #define NORMAL
-uniform vec2 structureObject; // id, 1 to leave this object out
+uniform vec4 structureObject; // id, 1 to leave this object out, kind (0 a surface, 1 a lamp, 2 a figure, 3 nothing known), 1 when its vertices are painted
+uniform vec3 structureTint;   // the material's own colour, linear
+uniform vec4 structureKey;    // the key light's direction in view space; w 1 when its shadow map can be read
+uniform sampler2D structureShadowMap;
+uniform vec3 structureShadowBias; // depth bias, normal bias (vertex stage), one texel
+uniform sampler2D structureSkyMap;  // in w: how far below the sky camera the topmost surface lies, in metres
+uniform mat4 structureSkyMatrix;    // world to the sky map
+uniform vec4 structureSky;          // the sky camera's height, metres of slack, metres per texel, 1 when the map can be read
 varying float vStructureDepth;
+varying vec4 vStructureShadow;
+varying vec3 vStructureWorld;
 #if defined( FLAT_SHADED ) || defined( USE_BUMPMAP ) || defined( USE_NORMALMAP_TANGENTSPACE )
   varying vec3 vViewPosition;
 #endif
+#include <common>
+#include <packing>
+#include <color_pars_fragment>
 #include <normal_pars_fragment>
 #include <clipping_planes_pars_fragment>
+layout(location = 1) out highp vec4 structureColour;
+// Does the key light reach this spot? A drawn shadow has an edge, so this is a yes or a no: the
+// surface faces the light, and nothing stands between them in the light's own shadow map. Four
+// taps half a texel out leave the edge about a pixel wide.
+float keyReaches(vec3 normal) {
+  if (structureKey.w < 0.5) return 1.0;
+  float facing = smoothstep(0.05, 0.13, dot(normal, structureKey.xyz));
+  vec3 c = vStructureShadow.xyz / vStructureShadow.w;
+  if (c.x < 0.0 || c.x > 1.0 || c.y < 0.0 || c.y > 1.0 || c.z > 1.0) return facing;
+  float depth = c.z + structureShadowBias.x;
+  vec2 o = vec2(structureShadowBias.z * 0.5);
+  float lit =
+    step(depth, unpackRGBAToDepth(texture2D(structureShadowMap, c.xy + o))) +
+    step(depth, unpackRGBAToDepth(texture2D(structureShadowMap, c.xy - o))) +
+    step(depth, unpackRGBAToDepth(texture2D(structureShadowMap, c.xy + vec2(o.x, -o.y)))) +
+    step(depth, unpackRGBAToDepth(texture2D(structureShadowMap, c.xy + vec2(-o.x, o.y))));
+  return facing * lit * 0.25;
+}
+// Does this spot lie under the open sky? Nothing stands higher at its place on a map of the scene
+// seen from straight above. A wall has no place of its own on such a map, so it asks about the
+// ground just in front of it.
+float seesSky(vec3 normal) {
+  if (structureSky.w < 0.5) return 1.0;
+  vec3 out_ = inverseTransformDirection(normal, viewMatrix);
+  vec2 run = out_.xz * structureSky.z * 1.6;
+  vec4 c = structureSkyMatrix * vec4(vStructureWorld.x + run.x, vStructureWorld.y, vStructureWorld.z + run.y, 1.0);
+  if (c.x < 0.0 || c.x > 1.0 || c.y < 0.0 || c.y > 1.0) return 1.0;
+  return step(structureSky.x - vStructureWorld.y, texture2D(structureSkyMap, c.xy).w + structureSky.y);
+}
 void main() {
   #include <clipping_planes_fragment>
   if (structureObject.y > 0.5) discard;
   #include <normal_fragment_begin>
   gl_FragColor = vec4(normal.xy, structureObject.x, vStructureDepth);
+  vec3 own = structureTint;
+  #if defined( USE_COLOR ) || defined( USE_COLOR_ALPHA )
+    own *= mix(vec3(1.0), vColor.rgb, structureObject.w);
+  #endif
+  // The square root keeps the darks in eight bits. The fourth byte holds the kind in its top two
+  // bits, the open sky in the next, and the key light's reach in the other five.
+  structureColour = vec4(
+    sqrt(clamp(own, 0.0, 1.0)),
+    (structureObject.z * 64.0 + seesSky(normal) * 32.0 + floor(keyReaches(normal) * 31.0 + 0.5)) / 255.0
+  );
 }`;
-  const uniforms = { structureObject: { value: new THREE.Vector2() } };
+  const uniforms = {
+    structureObject: { value: new THREE.Vector4() },
+    structureTint: { value: new THREE.Color() },
+    structureKey: { value: new THREE.Vector4(0, 0, 1, 0) },
+    structureShadowMap: { value: null },
+    structureShadowMatrix: { value: new THREE.Matrix4() },
+    structureShadowBias: { value: new THREE.Vector3() },
+    structureSkyMap: { value: null },
+    structureSkyMatrix: { value: new THREE.Matrix4() },
+    structureSky: { value: new THREE.Vector4() },
+  };
   const material = new THREE.ShaderMaterial({
     name: "Scene structure",
     uniforms,
@@ -348,84 +584,176 @@ void main() {
     // Back faces of two-sided things keep a normal that faces the camera.
     defines: { DOUBLE_SIDED: "" },
     side: THREE.DoubleSide,
+    // Painted vertices are read where a surface has them; one without reads white.
+    vertexColors: true,
   });
-  // Each object brings its id, and is culled the way its own material is, so a wall the beauty pass
-  // looks through from behind is looked through here too.
+  // Each object brings its id and its own colour, and is culled the way its own material is, so a
+  // wall the beauty pass looks through from behind is looked through here too.
   material.onBeforeRender = (_renderer, _scene, _camera, _geometry, object, group) => {
     const index = group?.materialIndex ?? 0,
-      source = Array.isArray(object.material) ? object.material[index] : object.material;
-    uniforms.structureObject.value.set(structureId(object.id, index), structureSkips(source) ? 1 : 0);
+      source = Array.isArray(object.material) ? object.material[index] : object.material,
+      kind = structureKind(source);
+    uniforms.structureObject.value.set(
+      structureId(object.id, index),
+      structureSkips(source) ? 1 : 0,
+      kind === 0 ? (object.isSkinnedMesh ? 2 : 0) : kind < 1 ? 1 : 3,
+      source?.vertexColors ? 1 : 0
+    );
+    if (kind < 1) uniforms.structureTint.value.copy(source.color);
     material.side = source?.side ?? THREE.FrontSide;
     material.uniformsNeedUpdate = true;
   };
   const target = new THREE.WebGLRenderTarget(1, 1, {
+    count: 2,
     type: THREE.HalfFloatType,
     minFilter: THREE.NearestFilter,
     magFilter: THREE.NearestFilter,
     depthBuffer: true,
     stencilBuffer: false,
   });
-  target.texture.name = "Scene structure";
+  target.textures[0].name = "Scene structure";
+  target.textures[1].name = "Scene colour";
+  target.textures[1].type = THREE.UnsignedByteType;
+  // The scene from straight above, over the ground the key light's shadow covers: one number a
+  // texel, the height of whatever stands topmost there. It is redrawn when that ground moves and
+  // now and then, never every frame.
+  const SKY_SIZE = 1024,
+    SKY_ABOVE = 150,
+    SKY_STALE = 240;
+  const skyTarget = new THREE.WebGLRenderTarget(SKY_SIZE, SKY_SIZE, {
+    type: THREE.HalfFloatType,
+    minFilter: THREE.NearestFilter,
+    magFilter: THREE.NearestFilter,
+    depthBuffer: true,
+    stencilBuffer: false,
+  });
+  skyTarget.texture.name = "Scene from above";
+  const skyCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 1, SKY_ABOVE * 3);
+  skyCamera.up.set(0, 0, -1);
+  const skyCentre = new THREE.Vector3(Infinity, 0, 0),
+    toTexture = new THREE.Matrix4().set(0.5, 0, 0, 0.5, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0.5, 0, 0, 0, 1);
+  let skyExtent = 0,
+    skyAge = 0,
+    skyDraws = 0;
   const hidden = [],
-    clearColor = new THREE.Color();
+    lifted = [],
+    clearColor = new THREE.Color(),
+    toKey = new THREE.Vector3();
   let draws = 0,
     calls = 0;
+  // Points, lines and whatever the contact pass also leaves out (effects, water, the sky's own
+  // meshes) are not surfaces a line could follow. The map from above also leaves out figures and
+  // animals, which would otherwise leave their outline on the ground where they last stood.
+  function hide(scene, moving) {
+    scene.traverse((object) => {
+      if (!object.visible) {
+        // A section view lifts the roof away so the rooms can be seen. The map from above still
+        // counts it: a room does not come under the open sky because its lid is off.
+        if (moving && (object.userData.caveRoof || object.userData.roomCeilingFor || object.userData.bathroomCeilingFor)) {
+          object.visible = true;
+          lifted.push(object);
+        }
+        return;
+      }
+      if (
+        object.isPoints ||
+        object.isLine ||
+        object.isSprite ||
+        object.userData.noOcclusion ||
+        object.userData.noContactOcclusion ||
+        object.userData.flora ||
+        (moving && object.isSkinnedMesh)
+      ) {
+        object.visible = false;
+        hidden.push(object);
+      }
+    });
+  }
+  function draw(renderer, scene, camera, to) {
+    const previousTarget = renderer.getRenderTarget(),
+      previousAlpha = renderer.getClearAlpha(),
+      previousOverride = scene.overrideMaterial,
+      previousBackground = scene.background,
+      updateShadows = renderer.shadowMap.autoUpdate;
+    renderer.getClearColor(clearColor);
+    try {
+      renderer.shadowMap.autoUpdate = false;
+      scene.overrideMaterial = material;
+      scene.background = null;
+      renderer.setRenderTarget(to);
+      // Nothing: no id, facing the camera, farther than anything drawn, and (the byte target
+      // clamps the 60000 to 1) no colour of its own, under the open sky, in the key light.
+      renderer.setClearColor(0x000000, 60000);
+      renderer.clear(true, true, false);
+      renderer.render(scene, camera);
+    } finally {
+      scene.overrideMaterial = previousOverride;
+      scene.background = previousBackground;
+      renderer.shadowMap.autoUpdate = updateShadows;
+      renderer.setRenderTarget(previousTarget);
+      renderer.setClearColor(clearColor, previousAlpha);
+      while (hidden.length) hidden.pop().visible = true;
+      while (lifted.length) lifted.pop().visible = false;
+      material.side = THREE.DoubleSide;
+    }
+  }
   return {
     target,
     material,
     resize(width, height) {
       if (target.width !== width || target.height !== height) target.setSize(width, height);
     },
-    render(renderer, scene, camera) {
-      const previousTarget = renderer.getRenderTarget(),
-        previousAlpha = renderer.getClearAlpha(),
-        previousOverride = scene.overrideMaterial,
-        previousBackground = scene.background,
-        updateShadows = renderer.shadowMap.autoUpdate,
+    // `key` is the scene's key light (the sun, or the moon at night), a directional light whose
+    // shadow map the beauty pass has just used.
+    render(renderer, scene, camera, key = null) {
+      const shadow = key?.shadow,
+        shadowMap = key?.castShadow ? shadow?.map?.texture : null,
         before = renderer.info.render.calls;
-      renderer.getClearColor(clearColor);
-      // Points, lines and whatever the contact pass also leaves out (effects, water, the sky's own
-      // meshes) are not surfaces a line could follow.
-      scene.traverse((object) => {
-        if (!object.visible) return;
-        if (
-          object.isPoints ||
-          object.isLine ||
-          object.isSprite ||
-          object.userData.noOcclusion ||
-          object.userData.noContactOcclusion ||
-          object.userData.flora
-        ) {
-          object.visible = false;
-          hidden.push(object);
+      if (shadowMap) {
+        // The map from above covers the square the key light's shadow does.
+        const extent = Math.max(shadow.camera.right, 1),
+          centre = key.target.position;
+        if (extent !== skyExtent || skyCentre.distanceTo(centre) > extent * 0.02 || ++skyAge > SKY_STALE) {
+          skyExtent = extent;
+          skyCentre.copy(centre);
+          skyAge = 0;
+          Object.assign(skyCamera, { left: -extent, right: extent, top: extent, bottom: -extent });
+          skyCamera.position.set(centre.x, centre.y + SKY_ABOVE, centre.z);
+          skyCamera.lookAt(centre);
+          skyCamera.updateProjectionMatrix();
+          skyCamera.updateMatrixWorld();
+          // While the map is drawn, nothing asks it or the key light anything.
+          uniforms.structureKey.value.w = 0;
+          uniforms.structureSky.value.w = 0;
+          uniforms.structureShadowMap.value = uniforms.structureSkyMap.value = null;
+          hide(scene, true);
+          draw(renderer, scene, skyCamera, skyTarget);
+          skyDraws++;
+          uniforms.structureSkyMatrix.value.multiplyMatrices(toTexture, skyCamera.projectionMatrix).multiply(skyCamera.matrixWorldInverse);
+          uniforms.structureSky.value.set(skyCamera.position.y, 0.3, (2 * extent) / SKY_SIZE, 1);
         }
-      });
-      try {
-        renderer.shadowMap.autoUpdate = false;
-        scene.overrideMaterial = material;
-        scene.background = null;
-        renderer.setRenderTarget(target);
-        // Nothing: no id, facing the camera, farther than anything drawn.
-        renderer.setClearColor(0x000000, 60000);
-        renderer.clear(true, true, false);
-        renderer.render(scene, camera);
-      } finally {
-        scene.overrideMaterial = previousOverride;
-        scene.background = previousBackground;
-        renderer.shadowMap.autoUpdate = updateShadows;
-        renderer.setRenderTarget(previousTarget);
-        renderer.setClearColor(clearColor, previousAlpha);
-        while (hidden.length) hidden.pop().visible = true;
-        material.side = THREE.DoubleSide;
+        uniforms.structureSky.value.w = 1;
+        uniforms.structureSkyMap.value = skyTarget.texture;
+        toKey.copy(key.position).sub(key.target.position).normalize().transformDirection(camera.matrixWorldInverse);
+        uniforms.structureKey.value.set(toKey.x, toKey.y, toKey.z, 1);
+        uniforms.structureShadowMap.value = shadowMap;
+        uniforms.structureShadowMatrix.value.copy(shadow.matrix);
+        uniforms.structureShadowBias.value.set(shadow.bias, shadow.normalBias, 1 / shadow.mapSize.x);
+      } else {
+        uniforms.structureKey.value.set(0, 0, 1, 0);
+        uniforms.structureSky.value.w = 0;
       }
+      hide(scene, false);
+      draw(renderer, scene, camera, target);
       draws++;
       calls = renderer.info.render.calls - before;
     },
     evidence() {
-      return { draws, calls, width: target.width, height: target.height };
+      return { draws, calls, width: target.width, height: target.height, targets: 2, sky: { draws: skyDraws, size: SKY_SIZE, extent: skyExtent } };
     },
     dispose() {
       target.dispose();
+      skyTarget.dispose();
       material.dispose();
     },
   };
@@ -473,6 +801,18 @@ uniform vec3 printLift;     // exponent on lightness before it is stepped, what 
 uniform sampler2D tStructure;  // xy view normal, z object id, w view depth in metres (createStructure)
 uniform vec4 printStructure;   // 1 when the structure is drawn, ink radius px, fold strength, metres where folds thin
 uniform vec3 printEdge;        // gap in metres, gap per metre of distance, 1 - cos of a fold
+uniform sampler2D tAlbedo;     // rgb the surface's own colour (square root of linear); a its kind (top two bits: 0 a surface, 1 a lamp, 2 a figure, 3 nothing known), the open sky and the key light's reach (createStructure)
+uniform vec4 printKey;         // stops from a white card in the key light where shade ends and where strong light begins, the edge's width, 1 when fills use own colour
+uniform vec4 printDay;         // how much the key light counts as light (the sun), how much as moonlight, where shade begins under the open sky, how far a room's shade leans to the shade's colour
+uniform vec4 printMoon;        // OKLab a, b of moonlight, how far a moonlit surface leans to it, the share of lightness it keeps
+uniform vec4 printLocal;       // the lightness an own colour prints between (floor, ceiling), chroma gain for a quiet colour and for a strong one
+uniform vec4 printSpread;      // the house's hue in radians, how far its neighbours are pushed apart, how far a dark grey leans to the shade and a pale grey to the light
+uniform vec4 printLightMix;    // OKLab a, b of the light, how far a lit surface leans to it, how far it lifts toward white
+uniform vec4 printShadeMix;    // OKLab a, b of the shade, how far a shaded surface leans to it, the share of lightness it keeps
+uniform vec3 printSkyTop;      // OKLab
+uniform vec3 printSkyLow;      // OKLab
+uniform vec3 printHorizon;     // the horizon's height on the sheet, sheet heights per span of sky, 1 when the view has a sky
+uniform vec4 printMore;        // the share of its own chroma a surface keeps in shade, debug view, chroma limit, how much the light models form inside a mix
 varying vec2 vUv;
 
 #include <tonemapping_pars_fragment>
@@ -500,8 +840,42 @@ vec3 shown(vec3 hdr) {
   #endif
 }
 vec3 encode(vec3 c) { return mix(c * 12.92, 1.055 * pow(c, vec3(1.0 / 2.4)) - 0.055, step(0.0031308, c)); }
-vec3 lab(vec2 uv) { return TO_LAB * pow(max(TO_LMS * clamp(shown(texture2D(tDiffuse, uv).rgb), 0.0, 1.0), 0.0), vec3(1.0 / 3.0)); }
+vec3 labLinear(vec3 c) { return TO_LAB * pow(max(TO_LMS * c, 0.0), vec3(1.0 / 3.0)); }
+vec3 labOf(vec3 hdr) { return labLinear(clamp(shown(hdr), 0.0, 1.0)); }
 vec3 unlab(vec3 c) { vec3 lms = FROM_LAB * c; return encode(clamp(FROM_LMS * (lms * lms * lms), 0.0, 1.0)); }
+float luma(vec3 c) { return dot(c, vec3(0.2126, 0.7152, 0.0722)); }
+// The colour buffer's fourth byte: the surface's kind, whether it lies under the open sky, and
+// whether the key light reaches it.
+vec3 kindSkyKey(float a) {
+  float code = floor(a * 255.0 + 0.5), kind = floor(code / 64.0), rest = code - kind * 64.0, sky = floor(rest / 32.0);
+  return vec3(kind, sky, (rest - sky * 32.0) / 31.0);
+}
+
+// A surface's own colour as a colourist would mix it: printed inside a range of lightness, its
+// chroma opened (more for what the lifted lightness would otherwise turn pastel), and the hues near
+// the house's own pushed apart so sandstone, oak, plaster and terracotta stop reading as one tan.
+// A thing with no colour of its own borrows one: a dark grey from the shade, a pale grey from the
+// light, so a black floor prints as deep blue and not as grey.
+vec3 ownMix(vec3 A) {
+  float C = length(A.yz);
+  float turn = C > 1e-4 ? atan(A.z, A.y) - printSpread.x : 0.0;
+  turn = atan(sin(turn), cos(turn));
+  turn *= mix(printSpread.y, 1.0, smoothstep(0.7, 1.6, abs(turn)));
+  float L = mix(printLocal.x, printLocal.y, pow(clamp(A.x, 0.0, 1.0), 0.9));
+  float gain = mix(printLocal.z, printLocal.w, smoothstep(0.03, 0.09, C));
+  float chroma = printMore.z * tanh(C * gain * L / max(A.x, 0.3) / printMore.z);
+  vec2 hue = chroma * vec2(cos(turn + printSpread.x), sin(turn + printSpread.x));
+  float grey = 1.0 - smoothstep(0.012, 0.04, C);
+  hue += grey * mix(printShadeMix.xy * printSpread.z, printLightMix.xy * printSpread.w, smoothstep(0.35, 0.75, A.x));
+  return vec3(L, hue);
+}
+// Its three mixes, and the one the light on its spot picks.
+vec3 threeMixes(vec3 half_, float inHalf, float inLight, float lean) {
+  vec3 lit = vec3(mix(half_.x, 1.0, printLightMix.w), mix(half_.yz, half_.yz * 0.8 + printLightMix.xy, printLightMix.z));
+  float low = half_.x * printShadeMix.w;
+  vec3 shade = vec3(low, mix(half_.yz * printMore.x, printShadeMix.xy * clamp(low / 0.5, 0.45, 1.15), lean));
+  return mix(shade, mix(half_, lit, inLight), inHalf);
+}
 
 float hash(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
@@ -528,20 +902,44 @@ void main() {
 
   // Colour blocks. Average inside one surface: a neighbour counts by how close its colour is.
   vec2 at = vUv + printFlat.zw * px * scale;
-  vec3 centre = lab(at);
+  vec3 hdr0 = texture2D(tDiffuse, at).rgb;
+  vec3 centre = labOf(hdr0);
   vec3 sum = centre;
   float weight = 1.0;
   bool structured = printStructure.x > 0.5;
+  // Fills from the surface's own colour: the same taps also average that colour and the light
+  // that reached the eye, before the tone curve.
+  bool local = structured && printKey.w > 0.5;
   float who = structured ? texture2D(tStructure, at).z : 0.0;
+  vec4 own = local ? texture2D(tAlbedo, at) : vec4(0.0, 0.0, 0.0, 1.0);
+  vec3 kind = kindSkyKey(own.a);
+  vec3 ownSum = own.rgb;
+  float seen = luma(hdr0);
+  // The key light's reach and the open sky are averaged over the object's own nearest taps
+  // whatever their colour, which leaves a cast shadow's edge about a pixel wide.
+  float keySum = kind.z, skySum = kind.y, keyWeight = 1.0;
   for (int i = 0; i < 12; i++) {
     vec2 tap = at + RING[i] * printFlat.x * scale * px;
-    vec3 c = lab(tap);
+    vec3 hdr = texture2D(tDiffuse, tap).rgb;
+    vec3 c = labOf(hdr);
     vec3 d = c - centre;
     float w = exp(-dot(d, d) * printFlat.y);
     // A fill belongs to one object: colour from its neighbour never bleeds in.
-    if (structured) w *= step(abs(texture2D(tStructure, tap).z - who), 0.5);
+    float same = structured ? step(abs(texture2D(tStructure, tap).z - who), 0.5) : 1.0;
+    w *= same;
     sum += c * w;
     weight += w;
+    if (local) {
+      vec4 theirs = texture2D(tAlbedo, tap);
+      ownSum += theirs.rgb * w;
+      seen += luma(hdr) * w;
+      // Only the inner ring: the outer one would round a shadow's corners.
+      float inner = i < 4 ? same : 0.0;
+      vec3 they = kindSkyKey(theirs.a);
+      keySum += they.z * inner;
+      skySum += they.y * inner;
+      keyWeight += inner;
+    }
   }
   vec3 block = sum / weight;
 
@@ -560,9 +958,59 @@ void main() {
   vec2 hue = mix(chroma * printTone.w, chroma * 0.5 + printShadow.xy, shade);
   vec3 colour = unlab(vec3(mix(printGrain.z, 1.0, value), hue));
 
+  // A surface that knows its own colour is filled from that colour and the light on its spot:
+  // how many stops the light that reached the eye lies from a white card in the key light.
+  // Which mix a spot takes. The world is painted the way a background is: the key light's reach
+  // is a yes or a no, so the sun's cast shadows are shapes with edges, but a room's own light falls
+  // off softly from light through half-tone into shade, and a lamp has a pool with no edge. Under
+  // the open sky whatever the sun does not reach is shade: the sky lights it, and the sky is the
+  // shade's colour. A figure is a cel on that background: two flat tones and an edge. By night the
+  // key light is the moon, and what it reaches takes moonlight's mix.
+  float stops = 0.0, reach = 0.0, open = 0.0;
+  if (local && kind.x < 2.5) {
+    vec3 mine = ownSum / weight;
+    mine *= mine;
+    stops = log2(max(seen / weight * toneMappingExposure / max(luma(mine), 0.03), 1e-4));
+    reach = smoothstep(0.3, 0.7, keySum / keyWeight);
+    open = smoothstep(0.3, 0.7, skySum / keyWeight);
+    float soft = kind.x > 1.5 ? 0.05 : printKey.z;
+    float strong = smoothstep(printKey.y - soft, printKey.y + soft, stops);
+    float inLight = max(reach * printDay.x, strong);
+    float begins = mix(printKey.x, printDay.z, open);
+    float inHalf = max(smoothstep(begins - soft, begins + soft, stops), inLight);
+    vec3 own3 = ownMix(labLinear(mine));
+    // The sky colours the shade it lights; in a room the shade is the thing's own colour, deepened.
+    vec3 fill = threeMixes(own3, inHalf, inLight, mix(printDay.w, printShadeMix.z, open));
+    // Inside a mix the light still models the form a little, the way a painter turns a plane.
+    if (kind.x < 1.5) fill.x *= 1.0 + printMore.w * clamp(stops - mix(begins + 0.8, -0.7, reach * printDay.x), -1.5, 1.5);
+    vec3 moonlit = vec3(own3.x * printMoon.w, mix(own3.yz * 0.4, printMoon.xy, printMoon.z));
+    fill = mix(fill, moonlit, reach * printDay.y * (1.0 - strong));
+    // A lamp prints as the light itself.
+    fill = mix(fill, vec3(mix(fill.x, 1.0, 0.8), block.yz * 1.5 + printLightMix.xy * 0.5), step(0.5, kind.x) * step(kind.x, 1.5));
+    colour = unlab(fill);
+  }
+  // The meter's reading of a spot: the light on it, and whether it is a room's unlit surface (1),
+  // a sunlit one indoors (0.75), a surface under the open sky (0.5) or nothing it can use (0).
+  if (printMore.y > 3.5) {
+    gl_FragColor = vec4(clamp((stops + 8.0) / 10.0, 0.0, 1.0), local && kind.x < 0.5 ? (open > 0.5 ? 0.5 : reach > 0.5 ? 0.75 : 1.0) : 0.0, 0.0, 1.0);
+    return;
+  }
+
   float depth = depthAt(vUv);
   float sky = step(0.999995, depth);
-  colour = mix(colour, printSky.rgb, sky * printSky.a * smoothstep(0.5, 1.0, vUv.y));
+  if (local) {
+    // The sky is the hour's: one colour at the horizon, one overhead. Cloud is where the render's
+    // sky is pale and has no colour, and by night a star is whatever stands out of the dark.
+    float up = clamp((vUv.y - printHorizon.x) * printHorizon.y, 0.0, 1.0);
+    vec3 above = mix(printSkyLow, printSkyTop, pow(up, 0.7));
+    float cloud = smoothstep(0.55, 0.8, block.x) * (1.0 - smoothstep(0.025, 0.07, length(block.yz)));
+    above = mix(above, vec3(mix(0.9, 0.985, smoothstep(0.75, 0.95, block.x)), above.yz * 0.25), cloud);
+    float night = 1.0 - smoothstep(0.3, 0.45, printSkyTop.x);
+    above = mix(above, vec3(0.97, 0.0, 0.02), smoothstep(0.2, 0.45, centre.x - above.x) * night * (1.0 - cloud));
+    colour = mix(colour, unlab(above), sky * printHorizon.z);
+  } else {
+    colour = mix(colour, printSky.rgb, sky * printSky.a * smoothstep(0.5, 1.0, vUv.y));
+  }
 
   // The sheet: its tooth, a few long fibres, and the baren pressing unevenly so the darker blocks
   // take a little less ink in broad patches.
@@ -576,6 +1024,8 @@ void main() {
   // jumps at a crease or an edge; scaled this way it is the change of slope across the line. The
   // depth texture is unfiltered, so every tap sits on a texel centre a whole number of texels away:
   // off-centre taps would round unevenly and cut false lines into any sloping plane.
+  float cut = 0.0;
+  if (!structured) {
   vec2 wobble = (vec2(noise(sheet * 0.045 + printGrain.w), noise(sheet * 0.045 + 31.0 + printGrain.w)) - 0.5) * 1.3 * scale;
   vec2 here = (floor(sheet + wobble) + 0.5) * px;
   float z = printCamera.z > 0.5
@@ -601,8 +1051,8 @@ void main() {
   // Outlines are cut deeper than the folds inside a form.
   float fold = smoothstep(printLine.y, printLine.y + printLine.z, crease) * printWeight.x;
   float outline = smoothstep(printWeight.y, printWeight.y * 5.0, crease);
-  float cut = max(fold, outline) * mix(1.0, printWeight.z, clutter) * (1.0 - smoothstep(printLineFade.x, printLineFade.y, z)) * (1.0 - sky);
-  if (structured) {
+  cut = max(fold, outline) * mix(1.0, printWeight.z, clutter) * (1.0 - smoothstep(printLineFade.x, printLineFade.y, z)) * (1.0 - sky);
+  } else {
     // Lines from the scene's structure, in three weights. Around each pixel a ring of taps asks:
     // is that surface broken from this one (it lies off this one's plane: an outline, the heaviest),
     // is it another object touching this one (a contact line), or the same object turned away (a
@@ -636,8 +1086,49 @@ void main() {
   }
   colour = mix(colour, printInk * printPaper, cut * printLine.w);
 
+  // The lab's three readings of what the fill is made from.
+  if (local && printMore.y > 0.5) {
+    vec4 raw = texture2D(tAlbedo, vUv);
+    colour = printMore.y < 1.5
+      ? mix(encode(raw.rgb * raw.rgb), vec3(1.0, 0.0, 1.0), step(0.7, raw.a) * 0.5)
+      : kind.x > 2.5
+        ? vec3(1.0, 0.0, 1.0)
+        : printMore.y < 2.5
+          ? vec3(clamp((stops + 6.0) / 8.0, 0.0, 1.0))
+          : vec3(reach, max(reach, 0.45 * (1.0 - open)), max(reach, open));
+  }
+
   gl_FragColor = vec4(colour, 1.0);
 }`;
+
+// What the meter's pixels say (red: the light on a spot, from -8 to +2 stops; green: 255 for a
+// room's surface the key light does not reach, 128 for a surface under the open sky): where shade begins in a room, which is the darkest
+// `roomShare[0]` of those surfaces, and where a lamp's pool begins, which is above `roomShare[1]`
+// of them and never less than 0.9 stops above their middle. Null when too little of the view is a
+// room for the reading to mean anything.
+export const METER_SIZE = Object.freeze([64, 36]);
+export function readMeter(pixels, dials = PRINT_DEFAULTS) {
+  const room = [];
+  let outdoors = 0;
+  for (let i = 0; i < pixels.length; i += 4) {
+    if (pixels[i + 1] > 223) room.push((pixels[i] / 255) * 10 - 8);
+    else if (pixels[i + 1] > 95 && pixels[i + 1] < 160) outdoors++;
+  }
+  if (room.length < 48) return null;
+  room.sort((a, b) => a - b);
+  const at = (share) => room[Math.min(room.length - 1, Math.floor(share * room.length))],
+    within = (value, [low, high]) => Math.min(Math.max(value, low), high),
+    // Seen from outdoors, a room or the underside of the cliff is one dark shape; seen from inside
+    // it has its own lights and darks.
+    open = outdoors / (outdoors + room.length),
+    share = mix(dials.roomShare[0], dials.roomShare[2], Math.min(Math.max((open - 0.35) / 0.4, 0), 1));
+  return {
+    samples: room.length,
+    open,
+    room: within(at(share), dials.roomStops),
+    pool: within(Math.max(at(dials.roomShare[1]), at(0.5) + 0.9), dials.poolStops),
+  };
+}
 
 export function createPrintLook({ look: startLook = "realistic", enabled = false, settings = {} } = {}) {
   // `enabled` is the older switch: on means the default drawn look.
@@ -663,6 +1154,18 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     tStructure: { value: null },
     printStructure: { value: new THREE.Vector4() },
     printEdge: { value: new THREE.Vector3() },
+    tAlbedo: { value: null },
+    printKey: { value: new THREE.Vector4() },
+    printLocal: { value: new THREE.Vector4() },
+    printSpread: { value: new THREE.Vector4() },
+    printLightMix: { value: new THREE.Vector4() },
+    printShadeMix: { value: new THREE.Vector4() },
+    printSkyTop: { value: new THREE.Vector3() },
+    printSkyLow: { value: new THREE.Vector3() },
+    printHorizon: { value: new THREE.Vector3(-1, 0.5, 1) },
+    printMore: { value: new THREE.Vector4() },
+    printDay: { value: new THREE.Vector4(1, 0, -0.4, 0) },
+    printMoon: { value: new THREE.Vector4() },
     toneMappingExposure: { value: 1 },
   };
   const material = new THREE.ShaderMaterial({
@@ -675,6 +1178,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     toneMapped: false,
   });
   const quad = new FullScreenQuad(material);
+  const gaze = new THREE.Vector3();
   const toneDefines = {
     [THREE.LinearToneMapping]: "LINEAR_TONE_MAPPING",
     [THREE.ReinhardToneMapping]: "REINHARD_TONE_MAPPING",
@@ -686,7 +1190,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
   let sceneDepth = null,
     tone = null,
     minute = 780,
-    way = LOOKS[drawn].way(colourwayAt(minute)),
+    way = LOOKS[drawn].way(colourwayAt(minute), minute),
     // The view's full height in radians (perspective) or metres (orthographic); divided by the
     // drawn buffer's height it is one pixel's share.
     extent = 1,
@@ -695,6 +1199,13 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     // has asked for it.
     world = null,
     eye = null,
+    keyLight = null,
+    day = 1,
+    stillFrame = true,
+    // Where shade and a lamp's pool begin in a room, as the meter last read them.
+    roomStops = -1.6,
+    poolStops = -0.6,
+    metered = 0,
     structure = null;
 
   // Sits straight after the beauty pass, whose target owns the scene's depth for the whole frame.
@@ -708,12 +1219,20 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     if (wanted) {
       structure ||= createStructure();
       structure.resize(readBuffer.width, readBuffer.height);
-      structure.render(renderer, world, eye);
-      uniforms.tStructure.value = structure.target.texture;
+      structure.render(renderer, world, eye, keyLight);
+      uniforms.tStructure.value = structure.target.textures[0];
+      uniforms.tAlbedo.value = structure.target.textures[1];
     }
     uniforms.printStructure.value.x = wanted ? 1 : 0;
+    uniforms.printKey.value.w = wanted && dials.localColour > 0 && way.palette ? 1 : 0;
   };
 
+  // Where the mixes change. By day only the sun, a lamp or a glare is light; as the sun goes the
+  // meter's reading of the lamps' pools takes over.
+  function setKey() {
+    uniforms.printKey.value.set(roomStops, mix(poolStops, dials.strongStops, day), dials.keySoftness, uniforms.printKey.value.w);
+    uniforms.printDay.value.set(day, 1 - day, dials.openStops, mix(dials.roomLean[1], dials.roomLean[0], day));
+  }
   function sync() {
     uniforms.printLine.value.set(dials.lineRadius, dials.lineThreshold, dials.lineSoftness, dials.lineStrength);
     uniforms.printLineFade.value.set(...dials.lineFade);
@@ -728,6 +1247,22 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     uniforms.printLift.value.set(dials.lift, dials.ceiling, dials.open);
     uniforms.printStructure.value.set(uniforms.printStructure.value.x, dials.inkRadius, dials.foldStrength, dials.creaseFade);
     uniforms.printEdge.value.set(dials.edgeGap[0], dials.edgeGap[1], dials.creaseTurn);
+    setKey();
+    uniforms.printLocal.value.set(dials.localRange[0], dials.localRange[1], dials.localChroma[0], dials.localChroma[1]);
+    uniforms.printSpread.value.set(dials.hueSpread[0], dials.hueSpread[1], dials.neutralLean[0], dials.neutralLean[1]);
+    uniforms.printMore.value.set(dials.shadeKeep, dials.debug, dials.localChroma[2], dials.formShade);
+    // The lab can try another hour's light, shade or sky over the one the clock gives.
+    const palette = way.palette && dials.hour ? { ...way.palette, ...dials.hour } : way.palette;
+    if (palette) {
+      const light = displayToOklab(palette.light.slice(0, 3)),
+        shade = displayToOklab(palette.shade.slice(0, 3));
+      uniforms.printLightMix.value.set(light[1], light[2], palette.light[3], palette.light[4]);
+      uniforms.printShadeMix.value.set(shade[1], shade[2], palette.shade[3], palette.shade[4]);
+      uniforms.printSkyTop.value.set(...displayToOklab(palette.skyTop));
+      uniforms.printSkyLow.value.set(...displayToOklab(palette.skyLow));
+      const moon = displayToOklab(palette.moon.slice(0, 3));
+      uniforms.printMoon.value.set(moon[1], moon[2], palette.moon[3], palette.moon[4]);
+    }
   }
   sync();
 
@@ -748,10 +1283,36 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     uniforms.tDepth.value = sceneDepth || readBuffer.depthTexture;
     uniforms.printResolution.value.set(readBuffer.width, readBuffer.height);
     uniforms.printCamera.value.w = extent / Math.max(1, readBuffer.height);
+    // The meter reads the view a few times a second while it moves, and every frame it is still.
+    if (uniforms.printKey.value.w > 0.5 && (stillFrame || !metered || draws % 6 === 0)) meter(renderer);
     renderer.setRenderTarget(pass.renderToScreen ? null : readBuffer);
     quad.render(renderer);
     draws++;
   };
+
+  // The fill's own reading of the view, drawn small and read back, sets where a room's shade and a
+  // lamp's pool begin (readMeter). A moving view eases toward each reading so the shapes do not jump.
+  const meterTarget = new THREE.WebGLRenderTarget(METER_SIZE[0], METER_SIZE[1], {
+    minFilter: THREE.NearestFilter,
+    magFilter: THREE.NearestFilter,
+    depthBuffer: false,
+  });
+  const meterPixels = new Uint8Array(METER_SIZE[0] * METER_SIZE[1] * 4);
+  function meter(renderer) {
+    const view = uniforms.printMore.value.y;
+    uniforms.printMore.value.y = 4;
+    renderer.setRenderTarget(meterTarget);
+    quad.render(renderer);
+    renderer.readRenderTargetPixels(meterTarget, 0, 0, METER_SIZE[0], METER_SIZE[1], meterPixels);
+    uniforms.printMore.value.y = view;
+    const reading = readMeter(meterPixels, dials);
+    if (!reading) return;
+    const ease = stillFrame || !metered ? 1 : 0.35;
+    roomStops += (reading.room - roomStops) * ease;
+    poolStops += (reading.pool - poolStops) * ease;
+    metered++;
+    setKey();
+  }
 
   return {
     pass,
@@ -775,22 +1336,36 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
       if (pass.enabled && look !== drawn) {
         drawn = look;
         Object.assign(dials, PRINT_DEFAULTS, LOOKS[drawn].dials, settings);
-        way = LOOKS[drawn].way(colourwayAt(minute));
+        way = LOOKS[drawn].way(colourwayAt(minute), minute);
         sync();
       }
       return look;
     },
     // Each frame: the camera that drew it, the home's minute, and whether lines may shift (they hold
     // still when motion is reduced or paused).
-    prepare(camera, { scene = world, minute: nextMinute = minute, seconds = 0, still = true } = {}) {
+    // `key` is the scene's key light and `day` how much of it is the sun (1) and not the moon (0).
+    prepare(camera, { scene = world, minute: nextMinute = minute, seconds = 0, still = true, key = keyLight, day: nextDay = day } = {}) {
       world = scene;
       eye = camera;
+      keyLight = key;
+      stillFrame = Boolean(still);
+      if (nextDay !== day) {
+        day = Math.min(Math.max(Number(nextDay) || 0, 0), 1);
+        setKey();
+      }
       const perspective = camera.isPerspectiveCamera;
       extent = (perspective ? 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) : camera.top - camera.bottom) / camera.zoom;
       uniforms.printCamera.value.set(camera.near, camera.far, perspective ? 1 : 0, uniforms.printCamera.value.w);
+      // Where the horizon crosses the sheet, and how many sheet heights forty degrees of sky take:
+      // the sky's two colours belong to the world, not to the frame. A view with no horizon (from
+      // straight above, or without perspective) gets the lower colour.
+      if (perspective) {
+        const pitch = Math.asin(THREE.MathUtils.clamp(camera.getWorldDirection?.(gaze).y ?? 0, -0.985, 0.985));
+        uniforms.printHorizon.value.set(0.5 - Math.tan(pitch) / extent, extent / Math.tan(THREE.MathUtils.degToRad(40)), 1);
+      } else uniforms.printHorizon.value.set(2, 1, 1);
       if (Number.isFinite(nextMinute) && nextMinute !== minute) {
         minute = nextMinute;
-        way = LOOKS[drawn].way(colourwayAt(minute));
+        way = LOOKS[drawn].way(colourwayAt(minute), minute);
         sync();
       }
       // The cutter's hand: lines resettle six times a second, never continuously.
@@ -801,23 +1376,30 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
       sync();
     },
     evidence() {
-      const structured = pass.enabled && dials.structure > 0 && Boolean(structure);
+      const structured = pass.enabled && dials.structure > 0 && Boolean(structure),
+        own = structured && uniforms.printKey.value.w > 0.5;
       return {
         enabled: pass.enabled,
         look,
         colourway: way.name,
+        hour: own ? way.palette.name : null,
         minute,
         draws,
-        // The woodblock reads the frame and its depth; the cartoon reads the frame and the structure.
-        textureReads: structured ? 39 : 23,
-        renderTargets: structured ? 1 : 0,
+        // Per pixel of the last pass. The woodblock reads the frame 13 times and its depth 10.
+        // The cartoon reads the frame 13 times, the structure 26 and the scene's depth once, and
+        // with fills from the surfaces' own colour, that colour 13 times more.
+        textureReads: own ? 53 : structured ? 40 : 23,
+        // The structure's two targets and its map from above; then the meter's.
+        renderTargets: own ? 3 : structured ? 2 : 0,
         structure: structured ? structure.evidence() : null,
+        meter: own ? { room: roomStops, pool: poolStops, readings: metered, day } : null,
         dials: { ...dials },
       };
     },
     dispose() {
       quad.dispose();
       material.dispose();
+      meterTarget.dispose();
       structure?.dispose();
     },
   };

@@ -6,17 +6,23 @@ import {
   DEFAULT_DRAWN_LOOK,
   DRAWN_LOOKS,
   LOOKS,
+  METER_SIZE,
   OKLAB,
   PRINT_DEFAULTS,
   PRINT_KEY,
   STRUCTURE_IDS,
+  TOON_HOURS,
   colourwayAt,
   createPrintLook,
+  displayToOklab,
   linearToOklab,
   oklabToLinear,
   readDrawnLook,
+  readMeter,
   structureId,
+  structureKind,
   structureSkips,
+  toonHourAt,
   writeDrawnLook,
 } from "../assets/js/home-scene/print-look.mjs";
 
@@ -93,7 +99,8 @@ test("the cartoon is the same pass with brighter, flatter, fuller settings, and 
   // At every hour: lighter paper, fuller colour, a weaker blue lean in the shadows, ink still dark.
   for (let minute = 0; minute < 1440; minute += 45) {
     const hour = colourwayAt(minute),
-      way = LOOKS.toon.way(hour);
+      way = LOOKS.toon.way(hour, minute);
+    assert.deepEqual(way.palette, toonHourAt(minute), "and it brings the cartoon's own hour");
     assert.equal(way.name, hour.name, "a dusk is still a dusk");
     way.paper.forEach((value, i) => assert.ok(value >= hour.paper[i] && value <= 1));
     assert.ok(way.chroma > hour.chroma * 1.2);
@@ -102,6 +109,9 @@ test("the cartoon is the same pass with brighter, flatter, fuller settings, and 
     assert.ok(way.sky.every((value) => value >= 0 && value <= 1));
   }
   assert.equal(LOOKS.print.way(colourwayAt(780)).chroma, colourwayAt(780).chroma, "the woodblock keeps the hour's colourway as it is");
+  assert.equal(LOOKS.print.way(colourwayAt(780), 780).palette, undefined, "and has no designed light of its own");
+  assert.equal(drawn.dials.localColour, 1);
+  assert.equal(PRINT_DEFAULTS.localColour, 0);
 
   // Woodblock: the shipped defaults again. Realistic: the pass is off and remembers the last look.
   assert.equal(drawn.setLook("print"), "print");
@@ -294,6 +304,8 @@ test("the cartoon draws the scene's structure; the woodblock and the render do n
   assert.equal(pass.target.width, 1600);
   assert.equal(pass.target.height, 900);
   assert.equal(pass.target.texture.type, THREE.HalfFloatType);
+  assert.equal(pass.target.textures.length, 2, "structure, and the surfaces' own colour");
+  assert.equal(pass.target.textures[1].type, THREE.UnsignedByteType);
   assert.equal(pass.target.texture.magFilter, THREE.NearestFilter, "ids are never blended between neighbours");
   // Everything is handed back as it was found.
   assert.equal(scene.overrideMaterial, null);
@@ -304,8 +316,19 @@ test("the cartoon draws the scene's structure; the woodblock and the render do n
   assert.ok(wall.visible && steam.visible && stars.visible && fern.visible, "what was hidden for the pass is shown again");
   assert.equal(drawn.material.uniforms.printStructure.value.x, 1);
   assert.equal(drawn.material.uniforms.tStructure.value, pass.target.texture);
-  assert.deepEqual(drawn.evidence().structure, { draws: 1, calls: 3, width: 1600, height: 900 });
-  assert.equal(drawn.evidence().renderTargets, 1);
+  assert.equal(drawn.material.uniforms.tAlbedo.value, pass.target.textures[1]);
+  assert.equal(drawn.material.uniforms.printKey.value.w, 1, "fills come from the surfaces' own colour");
+  assert.deepEqual(drawn.evidence().structure, {
+    draws: 1,
+    calls: 3,
+    width: 1600,
+    height: 900,
+    targets: 2,
+    sky: { draws: 0, size: 1024, extent: 0 },
+  });
+  assert.equal(drawn.evidence().renderTargets, 3);
+  assert.equal(drawn.evidence().textureReads, 53);
+  assert.equal(drawn.evidence().hour, "noon");
 
   // Each object brings its number and is culled as its own material is.
   const structure = pass.override,
@@ -313,6 +336,9 @@ test("the cartoon draws the scene's structure; the woodblock and the render do n
   structure.onBeforeRender(null, null, null, null, wall, null);
   assert.equal(object.x, structureId(wall.id, 0));
   assert.equal(object.y, 0);
+  assert.equal(object.z, 0, "a surface with a colour of its own");
+  assert.equal(object.w, 0, "whose vertices are not painted");
+  assert.equal(structure.uniforms.structureTint.value.getHex(), wall.material.color.getHex());
   assert.equal(structure.side, THREE.FrontSide);
   assert.equal(structure.uniformsNeedUpdate, true);
   const pane = new THREE.Mesh(new THREE.BoxGeometry(), [
@@ -334,6 +360,8 @@ test("the cartoon draws the scene's structure; the woodblock and the render do n
   assert.equal(drawn.material.uniforms.printStructure.value.x, 0);
   assert.equal(drawn.evidence().structure, null);
   assert.equal(drawn.evidence().renderTargets, 0);
+  assert.equal(drawn.evidence().textureReads, 23);
+  assert.equal(drawn.material.uniforms.printKey.value.w, 0, "and its colour is the hour's colourway over the frame");
   drawn.setLook("realistic");
   drawn.tap.render(renderer, null, frame);
   assert.equal(calls.length, before);
@@ -352,8 +380,258 @@ test("the cartoon's lines come in three weights from one ring", () => {
   assert.match(source, /smoothstep\(0\.13, 0\.3, \(meets \+ broken\) \/ ALL\)/);
   assert.match(source, /smoothstep\(0\.25, 0\.42, \(folds \+ meets \+ broken\) \/ ALL\)/);
   // A fill is averaged inside one object only.
-  assert.match(source, /if \(structured\) w \*= step\(abs\(texture2D\(tStructure, tap\)\.z - who\), 0\.5\);/);
-  // Three hard steps, not a gradient.
+  assert.match(source, /float same = structured \? step\(abs\(texture2D\(tStructure, tap\)\.z - who\), 0\.5\) : 1\.0;/);
+  // What has no colour of its own (a picture, the sea, a plant) still prints in three hard steps.
   assert.equal(LOOKS.toon.dials.bands, 3);
   assert.equal(LOOKS.toon.dials.bandMix, 1);
+  // The world is painted softly and a figure is a cel: its edge between two tones is hard.
+  assert.match(source, /float soft = kind\.x > 1\.5 \? 0\.05 : printKey\.z;/);
+  assert.ok(PRINT_DEFAULTS.keySoftness > 0.5);
+});
+
+test("a surface says what colour it is, unless a picture or a shader holds it", () => {
+  const colour = new THREE.Color(0.5, 0.4, 0.3);
+  assert.equal(structureKind({ color: colour }), 0);
+  assert.equal(structureKind({ color: colour, emissive: new THREE.Color(0, 0, 0), emissiveIntensity: 4 }), 0);
+  assert.equal(structureKind({ color: colour, emissive: new THREE.Color(1, 0.8, 0.5), emissiveIntensity: 1.7 }), 0.25, "a lamp");
+  assert.equal(
+    structureKind({ color: colour, emissive: new THREE.Color(1, 0.8, 0.5), emissiveIntensity: 0.1 }),
+    0,
+    "a faint glow is still a surface"
+  );
+  assert.equal(structureKind({ color: colour, map: {} }), 1, "a picture keeps the frame's colours");
+  assert.equal(structureKind({ color: colour, emissiveMap: {} }), 1, "and so does a screen");
+  assert.equal(structureKind({}), 1, "a shader of its own has no colour to give");
+  assert.equal(structureKind(null), 1);
+
+  // The pass tells a figure from the world, and a painted surface from a plain one.
+  const drawn = createPrintLook({ look: "toon" });
+  const calls = [];
+  const renderer = {
+    toneMapping: 4,
+    toneMappingExposure: 1,
+    shadowMap: { autoUpdate: true },
+    info: { render: { calls: 0 } },
+    getRenderTarget: () => null,
+    setRenderTarget() {},
+    getClearAlpha: () => 0,
+    getClearColor: (c) => c.setHex(0),
+    setClearColor() {},
+    clear() {},
+    render: (scene) => calls.push(scene.overrideMaterial),
+  };
+  const scene = new THREE.Scene();
+  drawn.prepare(new THREE.PerspectiveCamera(40, 16 / 9, 0.05, 300), { scene, minute: 780 });
+  drawn.tap.render(renderer, null, { depthTexture: {}, width: 800, height: 450, texture: {} });
+  const structure = calls[0],
+    object = structure.uniforms.structureObject.value;
+  const lamp = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ emissive: 0xffcc88, emissiveIntensity: 2 }));
+  structure.onBeforeRender(null, null, null, null, lamp, null);
+  assert.equal(object.z, 1);
+  const figure = new THREE.SkinnedMesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ color: 0x336699, vertexColors: true }));
+  structure.onBeforeRender(null, null, null, null, figure, null);
+  assert.equal(object.z, 2, "a figure is a cel on the painted world");
+  assert.equal(object.w, 1, "painted vertices are read");
+  const poster = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ map: new THREE.Texture() }));
+  structure.onBeforeRender(null, null, null, null, poster, null);
+  assert.equal(object.z, 3);
+  assert.equal(structure.vertexColors, true);
+  drawn.dispose();
+});
+
+test("the cartoon's hour says what colour the light, the shade, the sky and moonlight are", () => {
+  assert.equal(toonHourAt(780).name, "noon");
+  assert.equal(toonHourAt(0).name, "night");
+  assert.deepEqual(toonHourAt(1440 + 930), toonHourAt(930));
+  assert.ok(TOON_HOURS.every((hour, i) => i === 0 || hour.at > TOON_HOURS[i - 1].at));
+  const white = displayToOklab([1, 1, 1]);
+  assert.ok(Math.abs(white[0] - 1) < 1e-6 && Math.abs(white[1]) < 1e-6 && Math.abs(white[2]) < 1e-6);
+  let previous = toonHourAt(0);
+  for (let minute = 1; minute <= 1440; minute++) {
+    const hour = toonHourAt(minute);
+    for (const key of ["light", "shade", "skyTop", "skyLow", "moon"])
+      hour[key].forEach((value, i) => {
+        assert.ok(value >= 0 && value <= 1, `${key}[${i}] at ${minute}`);
+        assert.ok(Math.abs(value - previous[key][i]) < 0.012, `${key}[${i}] jumps at minute ${minute}`);
+      });
+    // Warm light against a cool shade at every hour: the light leans to yellow, the shade to blue.
+    const light = displayToOklab(hour.light.slice(0, 3)),
+      shade = displayToOklab(hour.shade.slice(0, 3));
+    assert.ok(light[2] > 0.02, `the light is warm at ${minute}`);
+    assert.ok(shade[2] < -0.05, `the shade is cool at ${minute}`);
+    assert.ok(light[0] > shade[0] + 0.25, `and lighter than the shade at ${minute}`);
+    // The sky is darker overhead than at the horizon.
+    assert.ok(displayToOklab(hour.skyTop)[0] < displayToOklab(hour.skyLow)[0]);
+    previous = hour;
+  }
+  // The look hands these to the pass, and the lab can try another over them.
+  const drawn = createPrintLook({ look: "toon" });
+  const camera = new THREE.PerspectiveCamera(40, 16 / 9, 0.05, 300);
+  drawn.prepare(camera, { minute: 930 });
+  const uniforms = drawn.material.uniforms,
+    afternoon = displayToOklab(toonHourAt(930).shade.slice(0, 3));
+  assert.ok(Math.abs(uniforms.printShadeMix.value.x - afternoon[1]) < 1e-6 && Math.abs(uniforms.printShadeMix.value.y - afternoon[2]) < 1e-6);
+  drawn.set({ hour: { shade: [1, 0, 0, 0.5, 0.7] } });
+  assert.ok(uniforms.printShadeMix.value.x > 0.2, "a red shade, for the look of it");
+  // A level camera has the horizon across the middle of the sheet; looking down lifts it off the top.
+  assert.ok(Math.abs(uniforms.printHorizon.value.x - 0.5) < 1e-6);
+  camera.lookAt(0, -10, -10);
+  camera.updateMatrixWorld();
+  drawn.prepare(camera, { minute: 930 });
+  assert.ok(uniforms.printHorizon.value.x > 1);
+  // By day the key light is the sun; by night it is the moon, and a room's shade leans to indigo.
+  drawn.prepare(camera, { minute: 930, day: 1 });
+  assert.deepEqual([uniforms.printDay.value.x, uniforms.printDay.value.y], [1, 0]);
+  assert.equal(uniforms.printDay.value.w, PRINT_DEFAULTS.roomLean[0]);
+  assert.ok(Math.abs(uniforms.printKey.value.y - PRINT_DEFAULTS.strongStops) < 1e-9, "only a lamp or a glare is light without the sun");
+  drawn.prepare(camera, { minute: 1300, day: 0 });
+  assert.deepEqual([uniforms.printDay.value.x, uniforms.printDay.value.y], [0, 1]);
+  assert.equal(uniforms.printDay.value.w, PRINT_DEFAULTS.roomLean[1]);
+  assert.ok(uniforms.printKey.value.y < PRINT_DEFAULTS.strongStops, "by night the lamps' pools are the light");
+  drawn.dispose();
+});
+
+test("the meter puts a room's darkest surfaces in shade and finds the lamps' pools", () => {
+  const [width, height] = METER_SIZE,
+    pixels = new Uint8Array(width * height * 4);
+  const fill = (stops, kind) => {
+    for (let i = 0; i < width * height; i++) {
+      pixels[i * 4] = Math.round(((stops(i) + 8) / 10) * 255);
+      pixels[i * 4 + 1] = kind(i);
+    }
+  };
+  // A room: light from -4 to -1 stops, evenly.
+  fill(
+    (i) => -4 + (3 * i) / (width * height),
+    () => 255
+  );
+  const room = readMeter(pixels);
+  assert.equal(room.samples, width * height);
+  assert.equal(room.open, 0);
+  assert.ok(Math.abs(room.room - (-4 + 3 * PRINT_DEFAULTS.roomShare[0])) < 0.05, `shade begins at ${room.room}`);
+  assert.ok(Math.abs(room.pool - (-4 + 3 * PRINT_DEFAULTS.roomShare[1])) < 0.05, `a pool begins at ${room.pool}`);
+  // An evenly lit room has no pool: one would have to stand 0.9 stops above the room's middle.
+  fill(
+    () => -2,
+    () => 255
+  );
+  assert.ok(readMeter(pixels).pool >= -2 + 0.9 - 0.05);
+  // Seen from outdoors (nine tenths of the view under the open sky), a room is one dark shape.
+  fill(
+    (i) => -4 + (3 * (i % 100)) / 100,
+    (i) => (i % 10 === 0 ? 255 : 128)
+  );
+  const outdoors = readMeter(pixels);
+  assert.ok(outdoors.open > 0.85);
+  assert.ok(outdoors.room > -4 + 3 * 0.9, `nearly all of it is shade: ${outdoors.room}`);
+  // Limits hold, and too little room is no reading.
+  fill(
+    () => 1.5,
+    () => 255
+  );
+  assert.equal(readMeter(pixels).room, PRINT_DEFAULTS.roomStops[1]);
+  assert.equal(readMeter(pixels).pool, PRINT_DEFAULTS.poolStops[1]);
+  fill(
+    () => -2,
+    (i) => (i < 20 ? 255 : 128)
+  );
+  assert.equal(readMeter(pixels), null);
+});
+
+test("cast shadows come from the key light's own map, and the open sky from a map drawn from above", () => {
+  const calls = [];
+  let target = null;
+  const renderer = {
+    toneMapping: 4,
+    toneMappingExposure: 1,
+    shadowMap: { autoUpdate: true },
+    info: { render: { calls: 0 } },
+    getRenderTarget: () => target,
+    setRenderTarget: (value) => (target = value),
+    getClearAlpha: () => 0,
+    getClearColor: (c) => c.setHex(0),
+    setClearColor() {},
+    clear() {},
+    render(scene, camera) {
+      const structure = scene.overrideMaterial;
+      if (structure)
+        calls.push({
+          camera,
+          target,
+          key: structure.uniforms.structureKey.value.w,
+          sky: structure.uniforms.structureSky.value.w,
+          roof: roof.visible,
+          figure: figure.visible,
+          fern: fern.visible,
+        });
+      else calls.push({ quad: true, target });
+    },
+    readRenderTargetPixels(_target, _x, _y, width, height, buffer) {
+      for (let i = 0; i < width * height; i++) {
+        buffer[i * 4] = Math.round(((-3 + (2 * i) / (width * height) + 8) / 10) * 255);
+        buffer[i * 4 + 1] = 255;
+      }
+    },
+  };
+  const scene = new THREE.Scene();
+  const roof = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial()),
+    figure = new THREE.SkinnedMesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial()),
+    fern = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial());
+  // A section view has lifted the roof away.
+  roof.userData.caveRoof = true;
+  roof.visible = false;
+  fern.userData.flora = true;
+  scene.add(roof, figure, fern);
+  const camera = new THREE.PerspectiveCamera(40, 16 / 9, 0.05, 300);
+  camera.updateMatrixWorld();
+  const sun = new THREE.DirectionalLight(0xffffff, 3);
+  sun.position.set(30, 60, 20);
+  sun.castShadow = true;
+  sun.shadow.map = { texture: { isTexture: true } };
+  sun.shadow.camera.right = 16;
+  sun.shadow.bias = -0.001;
+  sun.shadow.normalBias = 0.04;
+  const frame = { depthTexture: {}, width: 800, height: 450, texture: {} };
+
+  const drawn = createPrintLook({ look: "toon" });
+  drawn.prepare(camera, { scene, minute: 900, key: sun, day: 1 });
+  drawn.tap.render(renderer, null, frame);
+  assert.equal(calls.length, 2, "the scene from above, then the scene as the camera sees it");
+  const [above, seen] = calls;
+  assert.ok(above.camera.isOrthographicCamera);
+  assert.equal(above.camera.right, 16, "over the square the key light's shadow covers");
+  assert.ok(above.camera.position.y > 100);
+  assert.equal(above.target.width, 1024);
+  assert.deepEqual([above.key, above.sky], [0, 0], "while the map is drawn nothing asks it anything");
+  assert.equal(above.roof, true, "the lifted roof still counts: a room is not outdoors because its lid is off");
+  assert.equal(above.figure, false, "a figure would leave its outline where it last stood");
+  assert.equal(above.fern, false);
+  assert.equal(seen.camera, camera);
+  assert.deepEqual([seen.key, seen.sky], [1, 1]);
+  assert.equal(seen.roof, false, "the view itself keeps its section");
+  assert.equal(seen.figure, true);
+  assert.equal(roof.visible, false);
+  assert.ok(figure.visible && fern.visible);
+  const sky = drawn.evidence().structure.sky;
+  assert.deepEqual(sky, { draws: 1, size: 1024, extent: 16 });
+  // A still view does not draw the map again; a view that has moved on does.
+  drawn.tap.render(renderer, null, frame);
+  assert.equal(drawn.evidence().structure.sky.draws, 1);
+  sun.target.position.set(40, 0, 0);
+  drawn.tap.render(renderer, null, frame);
+  assert.equal(drawn.evidence().structure.sky.draws, 2);
+
+  // The last pass reads the view through its meter first, small, and then draws.
+  calls.length = 0;
+  drawn.pass.renderToScreen = true;
+  drawn.pass.render(renderer, null, { texture: {}, depthTexture: null, width: 800, height: 450 });
+  assert.equal(calls.length, 2);
+  assert.deepEqual([calls[0].target.width, calls[0].target.height], METER_SIZE);
+  assert.equal(calls[1].target, null);
+  const meter = drawn.evidence().meter;
+  assert.equal(meter.readings, 1);
+  assert.ok(Math.abs(meter.room - (-3 + 2 * PRINT_DEFAULTS.roomShare[0])) < 0.05, `shade begins at ${meter.room}`);
+  assert.equal(drawn.material.uniforms.printKey.value.x, meter.room);
+  assert.equal(drawn.material.uniforms.printMore.value.y, 0, "the meter's view is put away again");
+  drawn.dispose();
 });

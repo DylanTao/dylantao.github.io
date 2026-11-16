@@ -3259,6 +3259,21 @@ test("coastal home: dinner waits at the served plate before moving dessert", asy
 // one of its four neighbours by more than 1.5 of 255 and from none of them by more than 12.
 // Gradients, blur and soft shadows live here; a drawn frame should have little of it. Only the
 // middle half is read: the page embed fades its edges into the page, which is all gradient.
+// How much colour the middle half of a frame holds: the mean spread between each pixel's strongest
+// and weakest channel, 0 for a grey picture.
+function colourShare(buffer) {
+  const { width, height, data } = PNG.sync.read(buffer);
+  let spread = 0,
+    count = 0;
+  for (let y = Math.floor(height * 0.25); y < Math.ceil(height * 0.75); y++)
+    for (let x = Math.floor(width * 0.25); x < Math.ceil(width * 0.75); x++) {
+      const o = (y * width + x) * 4;
+      spread += Math.max(data[o], data[o + 1], data[o + 2]) - Math.min(data[o], data[o + 1], data[o + 2]);
+      count++;
+    }
+  return spread / (count * 255);
+}
+
 function softShare(buffer) {
   const { width, height, data } = PNG.sync.read(buffer);
   const x0 = Math.floor(width * 0.25),
@@ -3302,9 +3317,15 @@ test("coastal home: the woodblock print redraws the live frame and hands the rea
   expect(drawn.rendering.print.look).toBe("toon");
   expect(drawn.rendering.print.colourway).toBe("noon");
   expect(drawn.rendering.print.draws).toBeGreaterThan(0);
-  // The cartoon draws from the scene's structure: the scene once more, into one target the size of
-  // the frame, saying which object is at each pixel, which way it faces and how far it is.
-  expect(drawn.rendering.print.renderTargets).toBe(1);
+  // The cartoon draws from the scene's structure: the scene once more, saying which object is at
+  // each pixel, which way it faces, how far it is, what colour it is, whether the sun reaches it
+  // and whether it lies under the open sky (asked of a map of the scene from above). A meter then
+  // reads the view and sets where a room's shade begins.
+  expect(drawn.rendering.print.renderTargets).toBe(3);
+  expect(drawn.rendering.print.hour).toBe("noon");
+  expect(drawn.rendering.print.structure.targets).toBe(2);
+  expect(drawn.rendering.print.structure.sky.draws).toBeGreaterThan(0);
+  expect(drawn.rendering.print.meter.readings).toBeGreaterThan(0);
   expect(drawn.rendering.print.structure.draws).toBeGreaterThan(0);
   expect(drawn.rendering.print.structure.calls).toBeGreaterThan(20);
   expect(drawn.rendering.print.structure.width).toBeGreaterThan(300);
@@ -3313,11 +3334,15 @@ test("coastal home: the woodblock print redraws the live frame and hands the rea
   expect(screenshotMetrics(cartoon).uniqueColors).toBeGreaterThan(60);
   // Flattened colour and key lines move most of the picture; a blank or untouched frame would not.
   expect(screenshotDiffRatio(cartoon, realistic)).toBeGreaterThan(0.05);
-  // Drawn, not filtered: flat fills and hard edges. In the embed at noon the cartoon keeps about
-  // two fifths of the render's soft gradient; a filter that only tinted the frame would keep all.
+  // Drawn, not filtered. The world is painted (soft where a room's light falls off, an edge where
+  // the sun is cut off), so it keeps less of the render's soft gradient than a tint would; and its
+  // colour is designed, fuller than the render's (Sirui, November 15, on the cartoon before this:
+  // "color is still lame, not vivid and boring").
   const softness = { realistic: softShare(realistic), cartoon: softShare(cartoon) };
-  await testInfo.attach("softness", { body: JSON.stringify(softness), contentType: "application/json" });
-  expect(softness.cartoon, JSON.stringify(softness)).toBeLessThan(softness.realistic * 0.65);
+  const colour = { realistic: colourShare(realistic), cartoon: colourShare(cartoon) };
+  await testInfo.attach("softness-and-colour", { body: JSON.stringify({ softness, colour }), contentType: "application/json" });
+  expect(softness.cartoon, JSON.stringify(softness)).toBeLessThan(softness.realistic * 0.8);
+  expect(colour.cartoon, JSON.stringify(colour)).toBeGreaterThan(colour.realistic * 1.3);
 
   // The woodblock: the same pass with its own settings, a different picture again.
   await sceneInputFrame(page, view, () => look("print").click());

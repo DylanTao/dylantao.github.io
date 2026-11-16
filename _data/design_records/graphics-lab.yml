@@ -1650,9 +1650,9 @@ systems:
         since: "2026-11-13"
         thumbnail:
           path: assets/img/project_pics/graphics-lab/print-treatment.webp
-          alt: The living room drawn as a cartoon, every cushion, the hanging stove, the rug and the floorboards held by an even dark outline, with flat warm fills that stop at each object's edge
-          frame: Living room at 15:00 on November 14, 2026 (page clock fixed), reduced motion, 1600 × 900, centre crop, controls hidden, with ?look=toon.
-        what: Two drawn readings of the finished frame, off unless `?look=toon`, `?look=print`, `?print=1` or the lab's switch asks for one. One pass redraws the realistic render with key lines, flattened colour and a colourway chosen by the hour; the cartoon and the woodblock are two sets of settings for it.
+          alt: The living room drawn as a cartoon in its own colours, amber oak boards, a cream sofa with mustard and blue cushions, a blue hanging stove and a plant in a terracotta pot, with sunlight falling in hard-edged patches and soft blue shade in the corners
+          frame: Living room at 15:00 on November 14, 2026 (page clock fixed), reduced motion, 1600 × 900, centre crop, controls hidden, with ?look=toon, as built on November 16.
+        what: Two drawn readings of the home, off unless `?look=toon`, `?look=print`, `?print=1` or the lab's switch asks for one. One pass redraws the realistic render with key lines and a colour scheme chosen by the hour; the cartoon and the woodblock are two sets of settings for it. The cartoon also draws the scene's structure once more and fills each surface from its own colour and a designed light.
         how: >-
           The pass takes the output pass's place and tone-maps the frame itself, because a multisampled target discards
           its depth once resolved and a second resolve would overwrite it. Key lines come from the second difference of
@@ -1682,33 +1682,72 @@ systems:
           object, so a fill stops at its edge, and value settles into three hard steps, which turns a soft shadow into a
           shape. The top step is kept for lamps and sky, so a sunlit cliff or cushion stays one flat tone of its own
           colour instead of breaking into white patches. The woodblock keeps its depth keyblock and pays for none of
-          this.
+          this. Sirui judged that cartoon's colour "still lame, not vivid and boring" on November 15. Every lit
+          surface had printed one peach, because lightness came from three steps of the lit frame and hue from the
+          lit pixel. Since November 16 the colour is designed. The structure pass writes a second target, the
+          surface's own colour (its material's colour times the colour painted on its vertices), and in one byte its
+          kind, whether the key light reaches it and whether it lies under the open sky. The key light's reach is
+          asked of that light's own shadow map with four taps half a texel apart, so a cast shadow has an edge about
+          a pixel wide. The open sky is asked of a map of the scene drawn from straight above over the same ground,
+          which still counts a roof that a section view has lifted away, and a wall asks about the ground just in
+          front of it. Each surface is then filled from three mixes of its own colour, light, half-tone and shade
+          (`ownMix`, `threeMixes`), with its lightness kept inside a printable range, its chroma opened more for a
+          strong colour than for a quiet one, the hues near the house's sandstone pushed apart, and a grey borrowing
+          a hue from the shade or the light. The hour gives the light's colour, the shade's colour, two sky colours
+          and moonlight (`TOON_HOURS`), warm light against a cool shade by day and lamps against indigo at night.
+          The world is painted the way an animation background is, with an edge where the sun is cut off and a soft
+          fall where a room's own light fades, and a figure is a flat cel on top. Under the open sky whatever the
+          sun does not reach is shade. In a room a meter of 64 by 36 samples reads the view a few times a second
+          and puts the darkest fifth of the unlit surfaces in shade, so a dim room is not all shade and a lamp has a
+          pool at night (`readMeter`). The rule that each thing has three mixes and the light on its spot picks one
+          is the painted game's, cited below.
         files:
           - path: assets/js/home-scene/print-look.mjs
-            role: The pass, its shader, the colourways, the two looks and the dials.
-            functions: [createPrintLook, createStructure, structureId, structureSkips, colourwayAt, readDrawnLook, linearToOklab, oklabToLinear]
+            role: The pass, its shader, the colourways, the cartoon's hours, the two looks and the dials.
+            functions:
+              [
+                createPrintLook,
+                createStructure,
+                structureId,
+                structureSkips,
+                structureKind,
+                readMeter,
+                toonHourAt,
+                colourwayAt,
+                readDrawnLook,
+                linearToOklab,
+                oklabToLinear,
+                displayToOklab,
+              ]
           - path: assets/js/home-scene/realism.mjs
             role: Adds the pass after the output pass and switches between them.
             functions: [createFinish]
           - path: assets/js/home-scene/controller.mjs
-            role: Reads the flag, feeds the camera and the hour, and steps the people on twos.
+            role: Reads the flag, feeds the camera, the hour and the key light, and steps the people on twos.
         tests:
           - test/print-look.test.mjs
           - test/visual/desk-scene.spec.js
-        sources: [saito1990comprehensible, winnemoller2006abstraction, ottosson2020oklab]
+        sources: [saito1990comprehensible, winnemoller2006abstraction, ottosson2020oklab, blendi2026oilpaint]
         limits:
           - The frames so far read closer to a line-and-wash illustration than to a woodblock print; the name states the aim, not a match to any printmaker.
           - The woodblock's lines come from depth only, so a rug on a floor or a painting on a wall gets none, and a low-polygon curve can show its facets as folds. The cartoon's come from structure and have neither fault.
           - The cartoon's lines are counted on a ring of twelve taps, so their edges step in a few levels; on a dense screen that is clean, at one device pixel per pixel a diagonal shows it. Thin slabs (a rug's edge) draw two lines where a hand would draw one. Line shifting between frames has not been judged in motion.
           - Plants, water, glass and steam are left out of the structure and keep only their flat colour.
-          - The cartoon's shading is still the realistic render's light settled into three steps. Shadow shapes are harder than before, not yet designed; the materials' own flat colours are not used yet, so every lit surface prints at about the same lightness and differs from its neighbour by hue alone.
-          - Measured November 15 on this PC at 1600 by 900, with the cartoon on the structure pass adds 176 draw calls in the living room (638 to 814) and 488 in the whole-home view (1,663 to 2,151), and about 5 ms of GPU time (12 to 17 ms in the room). With a drawn look off it costs nothing. Soft-gradient pixels fell from 12 % of the frame to 8 % in the living room (the render has 37 %).
+          - Sirui's verdict on the cartoon of November 16, seen in work-in-progress frames, "things are getting a bit better" and "rendering quality is still low and not studio quality and a bit not joyful". The fills are still flat paint with no brushwork, texture or atmosphere, the lines are one black weight, and no view is composed. It is a base for a painted world, not that world.
+          - The sea, plants, glass, steam and anything with a picture on it give no colour of their own, so they are still filled from the frame in three hard steps. The sea prints pale and speckled.
+          - A cast shadow is only as clean as the shadow map. On rough rock at a low sun it breaks into small islands.
+          - The meter eases toward each reading, so shade shapes in a room drift for about a second after the view changes.
+          - The section cut's hatching is drawn into the frame and is read as light and dark, so it prints as a moiré at some distances.
+          - Measured November 16 on this PC in a 1600 by 900 window (a 1280 by 720 buffer), moving, the cartoon adds 175 draw calls in the living room (637 to 812), 488 in the whole-home view (1,659 to 2,147) and 686 on the coast (2,422 to 3,108). GPU time went from 13.0 to 13.3 ms in the room, 14.7 to 20.7 ms for the whole home and 23.0 to 23.6 ms on the coast; the room's frame went from 33 to 47 ms, the other two by 1 to 2 ms. With a drawn look off it costs nothing.
+          - Measured the same day on centre crops of 1600 by 900 frames at 15:00, the cartoon holds about twice the render's colour (mean spread between a pixel's strongest and weakest channel, 0.10 to 0.21 in the living room and 0.06 to 0.23 in the gym) and under half its soft gradient (0.49 to 0.20 of the living room's pixels).
           - The cartoon borrows the manner of television animation in general (flat fills, even outlines); it copies no show's designs, and the house's forms are still the realistic model's.
-          - Sirui saw the first cartoon and the woodblock on November 14 and found the cartoon fuzzy and the woodblock too like it. He has not seen the structure-drawn cartoon. Claude judged it in the living room, gym, study, kitchen and whole-home views at 15:00 and from above at 21:00; a phone is still missing.
+          - Sirui saw the first cartoon and the woodblock on November 14 and found the cartoon fuzzy and the woodblock too like it, and the structure-drawn cartoon on November 15 and found its colour lame. Claude judged the November 16 colour in the living room, gym, study, kitchen, bedroom, whole-home and coast views at 15:00, 17:10 and 21:00; a phone is still missing.
           - The switch lives in the lab menu (`?scene-lab=1`). Visitors have no control yet.
-          - The woodblock reads 23 textures per pixel (13 colour, 10 depth) in one full-screen draw; the cartoon reads 39 (13 colour, 26 structure).
+          - The woodblock reads 23 textures per pixel (13 colour, 10 depth) in one full-screen draw; the cartoon reads 53 (13 colour, 26 structure, 13 own colour, 1 depth), and its structure pass reads the key light's shadow map four times and the map from above once for every pixel it draws.
         next:
-          - move: Judge dusk and night frames of both looks, and a phone, before offering visitors a control.
+          - move: Build the painted world on this base, with brush strokes fixed to the scene's surfaces, coloured lines, a designed sea and sky, and composed views, and judge it beside the references before anything else.
+            readiness: ready
+          - move: Judge the woodblock's dusk and night frames, and both looks on a phone, before offering visitors a control.
             readiness: needs-measurement
           - move: Offer visitors the look as one labelled choice beside Rooms (Realistic, Cartoon, Woodblock), remembered for the session.
             readiness: needs-decision
@@ -2944,6 +2983,10 @@ sources:
     label: Winnemöller et al. 2006
     citation: Holger Winnemöller, Sven C. Olsen and Bruce Gooch. *Real-Time Video Abstraction*. ACM Transactions on Graphics 25(3), 1221–1226, SIGGRAPH 2006.
     url: https://doi.org/10.1145/1141911.1142018
+  - id: blendi2026oilpaint
+    label: Blendi 2026
+    citation: Blendi. *Oil paint*, a painted browser game built from brush strokes, with code under MIT and art under CC0, 2026.
+    url: https://patch.gg/blendi/oil-paint
   - id: ottosson2020oklab
     label: Ottosson 2020
     citation: Björn Ottosson. *A perceptual color space for image processing*, 2020.
