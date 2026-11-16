@@ -131,6 +131,41 @@ that criticism to be fatal. This also helps with sunk-cost risk: while I am
 still reducing uncertainty, I should keep calling the direction a possibility,
 not "the project," until there is enough evidence to commit.
 
+### What counts as novel
+
+One tempting probe is to paste the idea into a language model and ask whether
+it is novel. My former mentor Prof.
+[Tzu-Mao Li](https://cseweb.ucsd.edu/~tzli/) asks his students not to do that,
+and his slides
+[_What is Novelty in Computer Science Research?_](https://cseweb.ucsd.edu/~tzli/novelty.pdf)
+are a great read on why.
+
+His definition is the part that resonated with me. Novelty does not mean "nobody has
+done anything like this." It is the change in what a research community thinks
+after your work reaches it, which makes it social and subjective. His first
+example is the 1986 backpropagation paper: backpropagation, multilayer
+networks, and the combination of the two had all been published before, and the
+paper still arguably influenced the deep learning work that followed. So a
+similar-looking prior paper does not settle the question. As he put it in a
+note to students, "whether it's novel or not is determined by the community,"
+and "when a language model tells you you are scooped, 99% of times you are
+not."
+
+That makes the novelty check a matter of reading and listening, and I have to
+do both myself. A model is useful for retrieving related work. Then I need to
+read that work closely, learn the history behind what the field currently
+believes, and ask what my project would teach the people in it. The model's
+verdict is also less stable than it sounds. In
+[a study of six LLM judges](https://arxiv.org/abs/2610.02022) that Tzu-Mao
+pointed to, one small change to the prompt could flip a judge's verdict on more
+than half of the identical idea pairs it was shown. He adds a caution about
+asking a model for a project's framing or name: the "key insight" it offers me
+may be the one it offered a hundred other people, and a shared framing is
+easier to scoop.
+
+The slides end with practical advice: know your community and its history. Often nothing is entirely new, and an old idea revisited at the right
+time can still change what people think.
+
 ### A four-sentence compression test
 
 [Kent Beck's OOPSLA advice](https://www.cs.utexas.edu/~wcook/papers/HowToGetaPaperAcceptedToOOPSLA/HowToGetAPaperAcceptedToOOPSLA.htm)
@@ -425,6 +460,11 @@ who wrote those resources:
   [_Notes on writing_](https://people.csail.mit.edu/fredo/PUBLI/writing.pdf)
   and [Bill Freeman](https://billf.mit.edu/)'s
   [_How to write a good CVPR submission_](https://www.cs.ryerson.ca/~wangcs/resources/How-to-write-a-good-CVPR-submission.pdf).
+  Also for his slides
+  [_What is Novelty in Computer Science Research?_](https://cseweb.ucsd.edu/~tzli/novelty.pdf)
+  and the note to students that the novelty section draws on, and for pointing
+  to Noy Sternlicht and co-authors'
+  [_Old Ideas, Novel Problems: The Instability of LLM-Based Novelty Evaluation_](https://arxiv.org/abs/2610.02022).
 - [Marco Tulio Ribeiro](https://medium.com/@marcotcr) for writing
   [_Writing, part 1 — the process_](https://medium.com/@marcotcr/writing-part-1-the-process-6bb92cb522eb).
 - Jo Vermeulen for sharing Marco Tulio Ribeiro's
@@ -460,4 +500,4 @@ before anyone gives you permission.
 
 ---
 
-Last updated: July 18, 2026.
+Last updated: November 15, 2026.
