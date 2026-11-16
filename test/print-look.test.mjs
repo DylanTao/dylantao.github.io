@@ -385,7 +385,7 @@ test("the cartoon's lines come in three weights from one ring", () => {
   assert.equal(LOOKS.toon.dials.bands, 3);
   assert.equal(LOOKS.toon.dials.bandMix, 1);
   // The world is painted softly and a figure is a cel: its edge between two tones is hard.
-  assert.match(source, /float soft = kind\.x > 1\.5 \? 0\.05 : printKey\.z;/);
+  assert.match(source, /float soft = kind > 1\.5 \? 0\.05 : printKey\.z;/);
   assert.ok(PRINT_DEFAULTS.keySoftness > 0.5);
 });
 

@@ -1745,7 +1745,7 @@ systems:
           - The switch lives in the lab menu (`?scene-lab=1`). Visitors have no control yet.
           - The woodblock reads 23 textures per pixel (13 colour, 10 depth) in one full-screen draw; the cartoon reads 53 (13 colour, 26 structure, 13 own colour, 1 depth), and its structure pass reads the key light's shadow map four times and the map from above once for every pixel it draws.
         next:
-          - move: Build the painted world on this base, with brush strokes fixed to the scene's surfaces, coloured lines, a designed sea and sky, and composed views, and judge it beside the references before anything else.
+          - move: Give the cartoon the painted look's edges, thin and in a dark of the fill's own colour, and a designed sea and sky.
             readiness: ready
           - move: Judge the woodblock's dusk and night frames, and both looks on a phone, before offering visitors a control.
             readiness: needs-measurement
@@ -1753,6 +1753,69 @@ systems:
             readiness: needs-decision
           - move: Add a hidden dial panel so line weight, value steps and shadow blue can be tuned by hand.
             readiness: ready
+      - id: painted-strokes
+        name: The home painted in brush strokes
+        status: experimental
+        since: "2026-11-16"
+        thumbnail:
+          path: assets/img/project_pics/graphics-lab/painted-strokes.webp
+          alt: The living room as a painting, with brush strokes running along the oak boards and the wall panels, short dabs across the rug, blue-grey strokes modelling the sofa cushions, thin dark edges drawn back in, and sunlight falling in hard-edged patches
+          frame: Living room at 15:00 on November 14, 2026 (page clock fixed), reduced motion, 1600 × 900, centre crop, controls hidden, with ?look=paint.
+        what: A third drawn reading of the home, off unless `?look=paint` or the lab's switch asks for it. About 396,000 brush strokes are fixed to the scene's surfaces and drawn over the cartoon's designed colour, so the paint stays on the walls and the furniture when the view moves. Figures are not painted and stay flat cels on the painted world.
+        how: >-
+          Sirui's bar for a drawn world is a painting, not a filter, and he named the work that sets it, pictures of
+          several hundred thousand simulated strokes and a painted browser game. A filter's strokes belong to the
+          screen and swim when the camera moves. Here each stroke is pinned to a point on a surface, which is Meier's
+          method for animation. Points are scattered once over the scene's still meshes by area (`scatterStrokes`),
+          each with the direction a brush would follow there (along the boards on anything level, upright on a post,
+          and across a wall or a cliff the way its courses run), the surface's own colour at that point, and a size.
+          There are five lengths from 12 cm to 9.7 m, each three times the last. A thing gets the three sizes that
+          suit it, the finest about an eighteenth of its own length, so a cushion takes the smallest and a wall the
+          next, and ground and rock are painted broadly. Large strokes are drawn first and small ones over them, as a
+          painter blocks in before detailing. Every frame a stroke asks the cartoon's structure buffers about its own
+          point, and is drawn only when that point is what the picture shows there, as a small quad along its
+          direction as the picture sees it, with one of eight brush marks made in code that start loaded and end dry.
+          A stroke has one colour of its own (the surface's, where it was laid), one place on the ramp of light, so a
+          soft fall of light is laid in strokes that differ, and one variation of the hand. The light itself is read
+          at every pixel through the same shader source as the coat under it (`COLOUR_GLSL`, `spotFill`), so a cast
+          shadow keeps its edge across a stroke. A stroke may lie a little over what is behind its own thing and
+          never over what stands in front, so a chair leg stays a chair leg with a brushed edge. Where almost no
+          light reaches, the shade deepens toward the hour's shade colour, which gives the picture darks. Edges are
+          then drawn back in over the paint, thin, in a dark of the fill they bound and not in black. The rule for
+          the colour, that each thing has a light, a half-tone and a shade mix and the light on a stroke's spot picks
+          one, is the painted game's.
+        files:
+          - path: assets/js/home-scene/paint-strokes.mjs
+            role: The scatter, the brush marks, the stroke shaders and their own scene.
+            functions: [createPaint, scatterStrokes, finestStroke, strokeAlong, strokeRandom, brushSheetPixels]
+          - path: assets/js/home-scene/print-look.mjs
+            role: The painted look's settings, the shared colour source, and the pass that lays coat, strokes and edges in that order.
+            functions: [createPrintLook, createStructure, readMeter, toonHourAt]
+          - path: _includes/home/world_controls.liquid
+            role: The lab's Painted button.
+        tests:
+          - test/paint-strokes.test.mjs
+          - test/print-look.test.mjs
+          - test/visual/desk-scene.spec.js
+        sources: [meier1996painterly, blendi2026oilpaint, ottosson2020oklab]
+        limits:
+          - Sirui has seen none of it. Claude judged it in the living room, kitchen, study, gym, bedroom, whole-home and coast views at 15:00 and 21:00 on a desktop. A phone has not been looked at.
+          - Beside the paintings that set the bar it is a first pass. No view is composed, the light is the realistic render's and not designed for a picture, the strokes do not yet vary their pressure or follow curved forms, and there is no canvas, no glaze and no atmosphere.
+          - The sea, the sky, plants, glass and anything with a picture on it have no still surface with a colour of its own, so they show the coat with no strokes. The sea prints pale and speckled.
+          - Strokes on things that are instanced or skinned are not scattered. Figures are meant to stay cels; instanced furniture is simply unpainted.
+          - A stroke's direction is chosen for the whole mesh from its bounding box and each triangle's normal, so it follows boards and courses but not the curve of a cushion.
+          - The scatter is fixed at about 396,000 strokes whatever the device, and takes about half a second (486 ms here), in one go when the view holds still and over the first frames when it moves. Nothing lowers it for a weaker GPU yet.
+          - Measured November 16 on this PC in a 1600 by 900 window (a 1280 by 720 buffer), moving, the painted look draws 490 to 520 more calls than the cartoon and uses 2.5 ms more GPU time in the living room (13.3 to 15.8 ms) and 6.6 ms more for the whole home (22.6 to 29.2 ms). The living room's frame stayed at 48 ms and the coast's went from 65 to 78 ms.
+          - The switch lives in the lab menu (`?scene-lab=1`). Visitors have no control yet.
+        next:
+          - move: Put a frame beside each of the three reference paintings and close the largest difference first, which is the light. A picture needs one motivated light and real darks.
+            readiness: ready
+          - move: Paint the sea, the sky and the plants, which have no still surface to pin a stroke to.
+            readiness: needs-research
+          - move: Follow curved forms, by taking a stroke's direction from the surface's curvature and not from the mesh's box.
+            readiness: ready
+          - move: Scale the number of strokes to the device, and judge the look on a phone.
+            readiness: needs-measurement
 
   # These comparisons stay in the technical record until actual study stills are selected for public rows.
   - id: bounded-studies
@@ -2983,6 +3046,10 @@ sources:
     label: Winnemöller et al. 2006
     citation: Holger Winnemöller, Sven C. Olsen and Bruce Gooch. *Real-Time Video Abstraction*. ACM Transactions on Graphics 25(3), 1221–1226, SIGGRAPH 2006.
     url: https://doi.org/10.1145/1141911.1142018
+  - id: meier1996painterly
+    label: Meier 1996
+    citation: Barbara J. Meier. *Painterly Rendering for Animation*. Proceedings of SIGGRAPH 96, 477–484, 1996.
+    url: https://doi.org/10.1145/237170.237288
   - id: blendi2026oilpaint
     label: Blendi 2026
     citation: Blendi. *Oil paint*, a painted browser game built from brush strokes, with code under MIT and art under CC0, 2026.

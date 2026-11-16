@@ -3362,6 +3362,26 @@ test("coastal home: the woodblock print redraws the live frame and hands the rea
   await capture(testInfo, "print-cartoon", cartoon);
   await capture(testInfo, "print-woodblock", print);
 
+  // Painted: the cartoon's colour as a coat, and over it brush strokes fixed to the scene's
+  // surfaces, each asking the structure about its own spot, with edges drawn back in on top.
+  await sceneInputFrame(page, view, () => look("paint").click());
+  await expect(look("paint")).toHaveAttribute("aria-pressed", "true");
+  await expect(look("print")).toHaveAttribute("aria-pressed", "false");
+  const painted = (await evidence(scene)).rendering.print;
+  expect(painted.look).toBe("paint");
+  expect(painted.renderTargets).toBe(3);
+  // A view that holds still is painted in one go.
+  expect(painted.paint.waiting).toBe(0);
+  expect(painted.paint.strokes).toBeGreaterThan(20000);
+  expect(painted.paint.meshes).toBeGreaterThan(20);
+  expect(painted.paint.draws).toBeGreaterThan(5);
+  expect(await page.evaluate(() => sessionStorage.getItem("scene-print"))).toBe("paint");
+  const painting = await canvas.screenshot();
+  expect(screenshotMetrics(painting).uniqueColors).toBeGreaterThan(60);
+  expect(screenshotDiffRatio(painting, realistic)).toBeGreaterThan(0.05);
+  expect(screenshotDiffRatio(painting, cartoon)).toBeGreaterThan(0.05);
+  await capture(testInfo, "print-painted", painting);
+
   // Off again, the output pass draws the same frame it drew before.
   await sceneInputFrame(page, view, () => look("realistic").click());
   await expect(look("realistic")).toHaveAttribute("aria-pressed", "true");

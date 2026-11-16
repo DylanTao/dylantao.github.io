@@ -1,5 +1,6 @@
 import * as THREE from "../three.module.min.js";
 import { Pass, FullScreenQuad } from "../vendor/three-r164/postprocessing/Pass.js";
+import { createPaint } from "./paint-strokes.mjs";
 
 // Drawn readings of the finished frame: experiments, off unless ?look=toon, ?look=print, ?print=1
 // or the lab's switch asks for one. The realistic render stays the source; this pass redraws it.
@@ -8,6 +9,8 @@ import { Pass, FullScreenQuad } from "../vendor/three-r164/postprocessing/Pass.j
 //
 //   print  the way a shin-hanga printer would cut the frame into blocks
 //   toon   an animated film: a painted world in designed colour, figures as cels, one dark outline
+//   paint  the cartoon's colour with no outline, laid over with brush strokes fixed to the
+//          scene's surfaces (paint-strokes.mjs)
 //
 // The blocks, as the woodblock uses them:
 //
@@ -41,7 +44,7 @@ import { Pass, FullScreenQuad } from "../vendor/three-r164/postprocessing/Pass.j
 
 export const PRINT_KEY = "scene-print";
 // "realistic" is the render itself; these redraw it.
-export const DRAWN_LOOKS = Object.freeze(["toon", "print"]);
+export const DRAWN_LOOKS = Object.freeze(["toon", "print", "paint"]);
 // Sirui, November 13, on the woodblock: "a bit too grim", "maybe a bit more rick and morty vibe".
 // The cartoon is what ?print=1 now means; ?look=print keeps the woodblock.
 export const DEFAULT_DRAWN_LOOK = "toon";
@@ -382,52 +385,72 @@ export const PRINT_DEFAULTS = Object.freeze({
   shadeKeep: 0.62, // the share of its own chroma a surface keeps in shade
   roomLean: [0.2, 0.66], // how far shade leans to the hour's shade colour in a room, by day and by night (under the open sky the hour says)
   formShade: 0.07, // lightness per stop inside one mix: how much the light still models a form
+  deepShade: [0.8, 1.8, 0.55, 0.4], // stops below the start of shade where deep shade begins, stops to arrive, the lightness it keeps, its lean to the shade's colour
   hour: null, // the lab's override of the hour's light, shade or sky (the fields of TOON_HOURS)
+  // Brush strokes fixed to the scene's surfaces, over the coat (paint-strokes.mjs). Off for the
+  // cartoon and the woodblock.
+  paint: 0,
+  strokePixels: [6, 170], // the fewest and the most pixels a stroke may be long, at any frame height
+  strokeOpacity: 1,
+  strokeSpill: 0.1, // how far from its middle (0 to 0.5) a stroke may lie over what is behind its own thing
+  strokeImpasto: 0.32, // how much a stroke's thickness lightens and darkens it
+  strokeVary: [0.06, 0.1, 0.45], // how far one stroke's lightness and chroma stray from the mix, and how far it wanders along its ramp of light (stops)
+  strokeScatter: 12, // milliseconds a frame spent scattering strokes until the scene is covered
+  lineOver: 0, // the strength of lines drawn over the paint
+  lineOwn: 1, // how far such a line takes a dark of the fill's own colour and not the ink
   debug: 0, // 1 shows the surfaces' own colours, 2 the light on each spot in stops (grey: -6 to +2), 3 the key light's reach (white), open sky without it (blue) and rooms (green)
 });
 
 // What each drawn look changes: its settings, and what it does to the hour's colourway.
+// A cartoon keeps the hour (a dusk is still a dusk) but not the paper: lines drawn from the
+// scene's structure in three weights, no grain, and fills from each surface's own colour and the
+// hour's designed light (`localColour`, TOON_HOURS). What has no colour of its own to give (a
+// picture, the sea, a plant) is still filled from the frame, with the settings below: near-white
+// ground, darks opened and held off black, three hard flat steps, every hue kept, the top step
+// kept for lamps and sky (`ceiling`), the lit and shadow steps printed light (`open`).
+const TOON_LOOK = Object.freeze({
+  label: "Cartoon",
+  dials: Object.freeze({
+    lineRadius: 1.5,
+    lineStrength: 0.95,
+    foldStrength: 0.85,
+    clutterStrength: 0.14,
+    crossHue: 1,
+    bands: 3,
+    bandSoftness: 0.03,
+    bandMix: 1,
+    flatRadius: 5.5,
+    flatRange: 0.085,
+    misregister: Object.freeze([0, 0]),
+    paperGrain: 0,
+    baren: 0,
+    inkFloor: 0.3,
+    shadowPivot: 0.5,
+    lift: 0.8,
+    ceiling: 0.86,
+    open: 0.62,
+    structure: 1,
+    localColour: 1,
+  }),
+  way: (way, minute) => ({
+    ...way,
+    palette: toonHourAt(minute),
+    paper: way.paper.map((value) => value + (1 - value) * 0.8),
+    ink: [0.1, 0.085, 0.13],
+    shadow: [way.shadow[0], way.shadow[1], way.shadow[2] * 0.35],
+    chroma: way.chroma * 1.4,
+    sky: [...way.sky.slice(0, 3).map((value, i) => value + ([0.3, 0.62, 0.92][i] - value) * 0.3), way.sky[3] * 0.7],
+  }),
+});
 export const LOOKS = Object.freeze({
   print: Object.freeze({ label: "Woodblock", dials: Object.freeze({}), way: (way) => way }),
-  // A cartoon keeps the hour (a dusk is still a dusk) but not the paper: lines drawn from the
-  // scene's structure in three weights, no grain, and fills from each surface's own colour and the
-  // hour's designed light (`localColour`, TOON_HOURS). What has no colour of its own to give (a
-  // picture, the sea, a plant) is still filled from the frame, with the settings below: near-white
-  // ground, darks opened and held off black, three hard flat steps, every hue kept, the top step
-  // kept for lamps and sky (`ceiling`), the lit and shadow steps printed light (`open`).
-  toon: Object.freeze({
-    label: "Cartoon",
-    dials: Object.freeze({
-      lineRadius: 1.5,
-      lineStrength: 0.95,
-      foldStrength: 0.85,
-      clutterStrength: 0.14,
-      crossHue: 1,
-      bands: 3,
-      bandSoftness: 0.03,
-      bandMix: 1,
-      flatRadius: 5.5,
-      flatRange: 0.085,
-      misregister: Object.freeze([0, 0]),
-      paperGrain: 0,
-      baren: 0,
-      inkFloor: 0.3,
-      shadowPivot: 0.5,
-      lift: 0.8,
-      ceiling: 0.86,
-      open: 0.62,
-      structure: 1,
-      localColour: 1,
-    }),
-    way: (way, minute) => ({
-      ...way,
-      palette: toonHourAt(minute),
-      paper: way.paper.map((value) => value + (1 - value) * 0.8),
-      ink: [0.1, 0.085, 0.13],
-      shadow: [way.shadow[0], way.shadow[1], way.shadow[2] * 0.35],
-      chroma: way.chroma * 1.4,
-      sky: [...way.sky.slice(0, 3).map((value, i) => value + ([0.3, 0.62, 0.92][i] - value) * 0.3), way.sky[3] * 0.7],
-    }),
+  toon: TOON_LOOK,
+  // The painted world: the cartoon's designed colour as a coat, no outline, and over it brush
+  // strokes fixed to the scene's surfaces. Figures are not painted and stay cels.
+  paint: Object.freeze({
+    label: "Painted",
+    dials: Object.freeze({ ...TOON_LOOK.dials, lineStrength: 0, inkRadius: 1.5, paint: 1, lineOver: 0.8 }),
+    way: TOON_LOOK.way,
   }),
 });
 
@@ -782,26 +805,11 @@ const RING = [
   [0.76, -0.65],
 ];
 
-const fragmentShader = /* glsl */ `
-uniform sampler2D tDiffuse;
-uniform sampler2D tDepth;
-uniform vec2 printResolution;
-uniform vec4 printCamera;   // near, far, 1 perspective / 0 orthographic, radians (or metres) per pixel
-uniform vec4 printLine;     // radius px, threshold, softness, strength
-uniform vec2 printLineFade; // metres
-uniform vec4 printWeight;   // fold strength, outline threshold, clutter strength, cross-hue gain
-uniform vec4 printTone;     // bands, band softness, band mix, chroma gain
-uniform vec4 printFlat;     // radius px, 1 / range^2, misregistration px
-uniform vec3 printPaper;
-uniform vec3 printInk;
-uniform vec4 printShadow;   // OKLab a, b, amount, pivot lightness
-uniform vec4 printSky;      // rgb, amount
-uniform vec4 printGrain;    // paper, baren, ink floor, boil seed
-uniform vec3 printLift;     // exponent on lightness before it is stepped, what the brightest surface is scaled to, exponent on the stepped value
-uniform sampler2D tStructure;  // xy view normal, z object id, w view depth in metres (createStructure)
-uniform vec4 printStructure;   // 1 when the structure is drawn, ink radius px, fold strength, metres where folds thin
-uniform vec3 printEdge;        // gap in metres, gap per metre of distance, 1 - cos of a fold
-uniform sampler2D tAlbedo;     // rgb the surface's own colour (square root of linear); a its kind (top two bits: 0 a surface, 1 a lamp, 2 a figure, 3 nothing known), the open sky and the key light's reach (createStructure)
+// The designed colour, as shader source: the uniforms that carry the hour and the dials, OKLab,
+// and the fill of a spot from its own colour and the light on it. The last pass includes it, and
+// so does the stroke renderer (paint-strokes.mjs), so a stroke and the coat under it can never
+// disagree about a spot. It expects `uniform float toneMappingExposure` to be declared before it.
+export const COLOUR_GLSL = /* glsl */ `
 uniform vec4 printKey;         // stops from a white card in the key light where shade ends and where strong light begins, the edge's width, 1 when fills use own colour
 uniform vec4 printDay;         // how much the key light counts as light (the sun), how much as moonlight, where shade begins under the open sky, how far a room's shade leans to the shade's colour
 uniform vec4 printMoon;        // OKLab a, b of moonlight, how far a moonlit surface leans to it, the share of lightness it keeps
@@ -809,39 +817,14 @@ uniform vec4 printLocal;       // the lightness an own colour prints between (fl
 uniform vec4 printSpread;      // the house's hue in radians, how far its neighbours are pushed apart, how far a dark grey leans to the shade and a pale grey to the light
 uniform vec4 printLightMix;    // OKLab a, b of the light, how far a lit surface leans to it, how far it lifts toward white
 uniform vec4 printShadeMix;    // OKLab a, b of the shade, how far a shaded surface leans to it, the share of lightness it keeps
-uniform vec3 printSkyTop;      // OKLab
-uniform vec3 printSkyLow;      // OKLab
-uniform vec3 printHorizon;     // the horizon's height on the sheet, sheet heights per span of sky, 1 when the view has a sky
 uniform vec4 printMore;        // the share of its own chroma a surface keeps in shade, debug view, chroma limit, how much the light models form inside a mix
-varying vec2 vUv;
-
-#include <tonemapping_pars_fragment>
-
+uniform vec4 printDeep;        // stops below the start of shade where deep shade begins, the stops it takes to arrive, the lightness it keeps, how far it leans to the shade's colour
 const mat3 TO_LMS = ${glslMatrix(OKLAB.toLms)};
 const mat3 TO_LAB = ${glslMatrix(OKLAB.toLab)};
 const mat3 FROM_LAB = ${glslMatrix(OKLAB.fromLab)};
 const mat3 FROM_LMS = ${glslMatrix(OKLAB.fromLms)};
-const vec2 RING[12] = vec2[12](${RING.map(([x, y]) => `vec2(${x.toFixed(2)}, ${y.toFixed(2)})`).join(", ")});
-
-// The frame arrives scene-referred; show it through the home's own tone curve first.
-vec3 shown(vec3 hdr) {
-  #if defined(ACES_FILMIC_TONE_MAPPING)
-    return ACESFilmicToneMapping(hdr);
-  #elif defined(AGX_TONE_MAPPING)
-    return AgXToneMapping(hdr);
-  #elif defined(NEUTRAL_TONE_MAPPING)
-    return NeutralToneMapping(hdr);
-  #elif defined(REINHARD_TONE_MAPPING)
-    return ReinhardToneMapping(hdr);
-  #elif defined(CINEON_TONE_MAPPING)
-    return OptimizedCineonToneMapping(hdr);
-  #else
-    return LinearToneMapping(hdr);
-  #endif
-}
 vec3 encode(vec3 c) { return mix(c * 12.92, 1.055 * pow(c, vec3(1.0 / 2.4)) - 0.055, step(0.0031308, c)); }
 vec3 labLinear(vec3 c) { return TO_LAB * pow(max(TO_LMS * c, 0.0), vec3(1.0 / 3.0)); }
-vec3 labOf(vec3 hdr) { return labLinear(clamp(shown(hdr), 0.0, 1.0)); }
 vec3 unlab(vec3 c) { vec3 lms = FROM_LAB * c; return encode(clamp(FROM_LMS * (lms * lms * lms), 0.0, 1.0)); }
 float luma(vec3 c) { return dot(c, vec3(0.2126, 0.7152, 0.0722)); }
 // The colour buffer's fourth byte: the surface's kind, whether it lies under the open sky, and
@@ -876,6 +859,91 @@ vec3 threeMixes(vec3 half_, float inHalf, float inLight, float lean) {
   vec3 shade = vec3(low, mix(half_.yz * printMore.x, printShadeMix.xy * clamp(low / 0.5, 0.45, 1.15), lean));
   return mix(shade, mix(half_, lit, inLight), inHalf);
 }
+// The fill of a spot that knows its own colour, in OKLab. mine is that colour (linear), seen the
+// light that reached the eye from the spot before the tone curve, kind what it is, reach and
+// open whether the key light reaches it and whether it lies under the open sky, and frameHue
+// the frame's own a and b there (a lamp prints as the light itself). wander moves the spot along
+// its ramp of light, in stops: nothing for the coat, a little for each brush stroke, so a soft fall
+// of light is laid in strokes that differ. stops returns how far the light on the spot lies from a
+// white card in the key light.
+//
+// The world is painted the way a background is: the key light's reach is a yes or a no, so the
+// sun's cast shadows are shapes with edges, but a room's own light falls off softly from light
+// through half-tone into shade, and a lamp has a pool with no edge. Under the open sky whatever the
+// sun does not reach is shade: the sky lights it, and the sky is the shade's colour. A figure is a
+// cel on that background: two flat tones and an edge. By night the key light is the moon, and what
+// it reaches takes moonlight's mix.
+vec3 spotFill(vec3 mine, float seen, float kind, float reach, float open, vec2 frameHue, float wander, out float stops) {
+  stops = log2(max(seen * toneMappingExposure / max(luma(mine), 0.03), 1e-4)) + wander;
+  float soft = kind > 1.5 ? 0.05 : printKey.z;
+  float strong = smoothstep(printKey.y - soft, printKey.y + soft, stops);
+  float inLight = max(reach * printDay.x, strong);
+  float begins = mix(printKey.x, printDay.z, open);
+  float inHalf = max(smoothstep(begins - soft, begins + soft, stops), inLight);
+  vec3 own3 = ownMix(labLinear(mine));
+  // The sky colours the shade it lights; in a room the shade is the thing's own colour, deepened.
+  vec3 fill = threeMixes(own3, inHalf, inLight, mix(printDay.w, printShadeMix.z, open));
+  // Inside a mix the light still models the form a little, the way a painter turns a plane.
+  if (kind < 1.5) fill.x *= 1.0 + printMore.w * clamp(stops - mix(begins + 0.8, -0.7, reach * printDay.x), -1.5, 1.5);
+  vec3 moonlit = vec3(own3.x * printMoon.w, mix(own3.yz * 0.4, printMoon.xy, printMoon.z));
+  fill = mix(fill, moonlit, reach * printDay.y * (1.0 - strong));
+  // Where almost no light reaches, the shade deepens toward the hour's shade colour, so a picture
+  // has darks as well as lights: under a table, inside a cupboard, the far wall at night.
+  float deep = (1.0 - smoothstep(begins - printDeep.x - printDeep.y, begins - printDeep.x, stops)) * (1.0 - inLight) * step(kind, 1.5);
+  fill = mix(fill, vec3(fill.x * printDeep.z, mix(fill.yz, printShadeMix.xy * 0.9, printDeep.w)), deep);
+  // A lamp prints as the light itself.
+  return mix(fill, vec3(mix(fill.x, 1.0, 0.8), frameHue * 1.5 + printLightMix.xy * 0.5), step(0.5, kind) * step(kind, 1.5));
+}
+`;
+
+const fragmentShader = /* glsl */ `
+uniform sampler2D tDiffuse;
+uniform sampler2D tDepth;
+uniform vec2 printResolution;
+uniform vec4 printCamera;   // near, far, 1 perspective / 0 orthographic, radians (or metres) per pixel
+uniform vec4 printLine;     // radius px, threshold, softness, strength
+uniform vec2 printLineFade; // metres
+uniform vec4 printWeight;   // fold strength, outline threshold, clutter strength, cross-hue gain
+uniform vec4 printTone;     // bands, band softness, band mix, chroma gain
+uniform vec4 printFlat;     // radius px, 1 / range^2, misregistration px
+uniform vec3 printPaper;
+uniform vec3 printInk;
+uniform vec4 printShadow;   // OKLab a, b, amount, pivot lightness
+uniform vec4 printSky;      // rgb, amount
+uniform vec4 printGrain;    // paper, baren, ink floor, boil seed
+uniform vec3 printLift;     // exponent on lightness before it is stepped, what the brightest surface is scaled to, exponent on the stepped value
+uniform sampler2D tStructure;  // xy view normal, z object id, w view depth in metres (createStructure)
+uniform vec4 printStructure;   // 1 when the structure is drawn, ink radius px, fold strength, metres where folds thin
+uniform vec3 printEdge;        // gap in metres, gap per metre of distance, 1 - cos of a fold
+uniform sampler2D tAlbedo;     // rgb the surface's own colour (square root of linear); a its kind (top two bits: 0 a surface, 1 a lamp, 2 a figure, 3 nothing known), the open sky and the key light's reach (createStructure)
+uniform vec3 printSkyTop;      // OKLab
+uniform vec3 printSkyLow;      // OKLab
+uniform vec3 printHorizon;     // the horizon's height on the sheet, sheet heights per span of sky, 1 when the view has a sky
+uniform vec2 printOver;        // the strength of the lines drawn over the paint, and how far a line takes a dark of the fill's own colour and not the ink
+varying vec2 vUv;
+
+#include <tonemapping_pars_fragment>
+
+${COLOUR_GLSL}
+const vec2 RING[12] = vec2[12](${RING.map(([x, y]) => `vec2(${x.toFixed(2)}, ${y.toFixed(2)})`).join(", ")});
+
+// The frame arrives scene-referred; show it through the home's own tone curve first.
+vec3 shown(vec3 hdr) {
+  #if defined(ACES_FILMIC_TONE_MAPPING)
+    return ACESFilmicToneMapping(hdr);
+  #elif defined(AGX_TONE_MAPPING)
+    return AgXToneMapping(hdr);
+  #elif defined(NEUTRAL_TONE_MAPPING)
+    return NeutralToneMapping(hdr);
+  #elif defined(REINHARD_TONE_MAPPING)
+    return ReinhardToneMapping(hdr);
+  #elif defined(CINEON_TONE_MAPPING)
+    return OptimizedCineonToneMapping(hdr);
+  #else
+    return LinearToneMapping(hdr);
+  #endif
+}
+vec3 labOf(vec3 hdr) { return labLinear(clamp(shown(hdr), 0.0, 1.0)); }
 
 float hash(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
@@ -918,7 +986,9 @@ void main() {
   // The key light's reach and the open sky are averaged over the object's own nearest taps
   // whatever their colour, which leaves a cast shadow's edge about a pixel wide.
   float keySum = kind.z, skySum = kind.y, keyWeight = 1.0;
-  for (int i = 0; i < 12; i++) {
+  // Drawing only the lines (over the paint), the fill under them is read at its centre.
+  bool linesOnly = printMore.y > 4.5;
+  for (int i = 0; i < (linesOnly ? 0 : 12); i++) {
     vec2 tap = at + RING[i] * printFlat.x * scale * px;
     vec3 hdr = texture2D(tDiffuse, tap).rgb;
     vec3 c = labOf(hdr);
@@ -958,40 +1028,19 @@ void main() {
   vec2 hue = mix(chroma * printTone.w, chroma * 0.5 + printShadow.xy, shade);
   vec3 colour = unlab(vec3(mix(printGrain.z, 1.0, value), hue));
 
-  // A surface that knows its own colour is filled from that colour and the light on its spot:
-  // how many stops the light that reached the eye lies from a white card in the key light.
-  // Which mix a spot takes. The world is painted the way a background is: the key light's reach
-  // is a yes or a no, so the sun's cast shadows are shapes with edges, but a room's own light falls
-  // off softly from light through half-tone into shade, and a lamp has a pool with no edge. Under
-  // the open sky whatever the sun does not reach is shade: the sky lights it, and the sky is the
-  // shade's colour. A figure is a cel on that background: two flat tones and an edge. By night the
-  // key light is the moon, and what it reaches takes moonlight's mix.
+  // A surface that knows its own colour is filled from that colour and the light on its spot
+  // (spotFill, in COLOUR_GLSL).
   float stops = 0.0, reach = 0.0, open = 0.0;
   if (local && kind.x < 2.5) {
     vec3 mine = ownSum / weight;
     mine *= mine;
-    stops = log2(max(seen / weight * toneMappingExposure / max(luma(mine), 0.03), 1e-4));
     reach = smoothstep(0.3, 0.7, keySum / keyWeight);
     open = smoothstep(0.3, 0.7, skySum / keyWeight);
-    float soft = kind.x > 1.5 ? 0.05 : printKey.z;
-    float strong = smoothstep(printKey.y - soft, printKey.y + soft, stops);
-    float inLight = max(reach * printDay.x, strong);
-    float begins = mix(printKey.x, printDay.z, open);
-    float inHalf = max(smoothstep(begins - soft, begins + soft, stops), inLight);
-    vec3 own3 = ownMix(labLinear(mine));
-    // The sky colours the shade it lights; in a room the shade is the thing's own colour, deepened.
-    vec3 fill = threeMixes(own3, inHalf, inLight, mix(printDay.w, printShadeMix.z, open));
-    // Inside a mix the light still models the form a little, the way a painter turns a plane.
-    if (kind.x < 1.5) fill.x *= 1.0 + printMore.w * clamp(stops - mix(begins + 0.8, -0.7, reach * printDay.x), -1.5, 1.5);
-    vec3 moonlit = vec3(own3.x * printMoon.w, mix(own3.yz * 0.4, printMoon.xy, printMoon.z));
-    fill = mix(fill, moonlit, reach * printDay.y * (1.0 - strong));
-    // A lamp prints as the light itself.
-    fill = mix(fill, vec3(mix(fill.x, 1.0, 0.8), block.yz * 1.5 + printLightMix.xy * 0.5), step(0.5, kind.x) * step(kind.x, 1.5));
-    colour = unlab(fill);
+    colour = unlab(spotFill(mine, seen / weight, kind.x, reach, open, block.yz, 0.0, stops));
   }
   // The meter's reading of a spot: the light on it, and whether it is a room's unlit surface (1),
   // a sunlit one indoors (0.75), a surface under the open sky (0.5) or nothing it can use (0).
-  if (printMore.y > 3.5) {
+  if (printMore.y > 3.5 && printMore.y < 4.5) {
     gl_FragColor = vec4(clamp((stops + 8.0) / 10.0, 0.0, 1.0), local && kind.x < 0.5 ? (open > 0.5 ? 0.5 : reach > 0.5 ? 0.75 : 1.0) : 0.0, 0.0, 1.0);
     return;
   }
@@ -1084,6 +1133,12 @@ void main() {
     );
     cut = ink * (1.0 - smoothstep(printLineFade.x, printLineFade.y, min(s0.w, 59000.0)));
   }
+  // Over paint a line is a dark of the fill it bounds, the way a painter draws an edge back in.
+  if (linesOnly) {
+    vec3 edge = mix(printInk * printPaper, colour * colour * vec3(0.5, 0.42, 0.52), printOver.y);
+    gl_FragColor = vec4(edge, cut * printOver.x);
+    return;
+  }
   colour = mix(colour, printInk * printPaper, cut * printLine.w);
 
   // The lab's three readings of what the fill is made from.
@@ -1164,6 +1219,8 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     printSkyLow: { value: new THREE.Vector3() },
     printHorizon: { value: new THREE.Vector3(-1, 0.5, 1) },
     printMore: { value: new THREE.Vector4() },
+    printDeep: { value: new THREE.Vector4() },
+    printOver: { value: new THREE.Vector2() },
     printDay: { value: new THREE.Vector4(1, 0, -0.4, 0) },
     printMoon: { value: new THREE.Vector4() },
     toneMappingExposure: { value: 1 },
@@ -1176,6 +1233,8 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     depthTest: false,
     depthWrite: false,
     toneMapped: false,
+    // The coat is opaque (its alpha is 1); the lines drawn over paint are blended.
+    transparent: true,
   });
   const quad = new FullScreenQuad(material);
   const gaze = new THREE.Vector3();
@@ -1200,6 +1259,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     world = null,
     eye = null,
     keyLight = null,
+    paint = null,
     day = 1,
     stillFrame = true,
     // Where shade and a lamp's pool begin in a room, as the meter last read them.
@@ -1251,6 +1311,8 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     uniforms.printLocal.value.set(dials.localRange[0], dials.localRange[1], dials.localChroma[0], dials.localChroma[1]);
     uniforms.printSpread.value.set(dials.hueSpread[0], dials.hueSpread[1], dials.neutralLean[0], dials.neutralLean[1]);
     uniforms.printMore.value.set(dials.shadeKeep, dials.debug, dials.localChroma[2], dials.formShade);
+    uniforms.printDeep.value.set(...dials.deepShade);
+    uniforms.printOver.value.set(dials.lineOver, dials.lineOwn);
     // The lab can try another hour's light, shade or sky over the one the clock gives.
     const palette = way.palette && dials.hour ? { ...way.palette, ...dials.hour } : way.palette;
     if (palette) {
@@ -1287,6 +1349,28 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     if (uniforms.printKey.value.w > 0.5 && (stillFrame || !metered || draws % 6 === 0)) meter(renderer);
     renderer.setRenderTarget(pass.renderToScreen ? null : readBuffer);
     quad.render(renderer);
+    // The painted look lays its strokes over that coat.
+    if (dials.paint > 0 && uniforms.printKey.value.w > 0.5 && world && eye) {
+      paint ||= createPaint({ glsl: COLOUR_GLSL, uniforms, tools: { structureId, structureKind, structureSkips } });
+      paint.render(renderer, world, eye, {
+        width: readBuffer.width,
+        height: readBuffer.height,
+        extent,
+        centre: keyLight?.target?.position,
+        dials,
+        still: stillFrame,
+      });
+      // Edges are drawn back in over the paint.
+      if (dials.lineOver > 0) {
+        const view = uniforms.printMore.value.y,
+          clear = renderer.autoClear;
+        uniforms.printMore.value.y = 5;
+        renderer.autoClear = false;
+        quad.render(renderer);
+        renderer.autoClear = clear;
+        uniforms.printMore.value.y = view;
+      }
+    }
     draws++;
   };
 
@@ -1393,6 +1477,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         renderTargets: own ? 3 : structured ? 2 : 0,
         structure: structured ? structure.evidence() : null,
         meter: own ? { room: roomStops, pool: poolStops, readings: metered, day } : null,
+        paint: own && dials.paint > 0 && paint ? paint.evidence() : null,
         dials: { ...dials },
       };
     },
@@ -1401,6 +1486,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
       material.dispose();
       meterTarget.dispose();
       structure?.dispose();
+      paint?.dispose();
     },
   };
 }
