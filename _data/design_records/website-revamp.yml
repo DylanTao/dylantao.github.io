@@ -953,6 +953,68 @@ systems:
           - The shader compiles level with the old water program on ANGLE's Direct3D path only after its restructure; inlined noise, loops with constant bounds or a long branch chain bring back cold compiles of several seconds.
           - There are no pier lamps in the Blender model; they are runtime meshes placed from the pier's bounds.
         next: []
+      - id: orange-splash
+        name: An orange that rolls off the page and falls into the sea
+        status: shipped
+        since: "2026-11-16"
+        what: On the Page not found page, the orange rolls to the right when the pointer touches it, tips over the end of the shelf it was resting on, falls down the page into the footer's sea, shrinking to that coast's scale, and lands with a splash. An orange floats, so it stays there, bobbing.
+        how: >-
+          Sirui asked for it on November 16, "when hover on the orange, it will roll to right following physics
+          simulation and then fall into ocean as it become smaller and you can do great water splash simulation there".
+          The page is the orange's own size (a metre is a thousand pixels), gravity is the real one, and the page plays
+          at six tenths of real time so the fall can be watched. On its shelf the orange rolls without slipping, so it
+          turns exactly as far as it travels, and loses speed to rolling resistance. At the shelf's end it turns about
+          the edge, with a sphere's moment of inertia there, until the edge can no longer hold it, and then flies a
+          ballistic path, still spinning. As it falls toward the miniature coast it shrinks to that coast's scale, and
+          its speed on the page shrinks with it. The push is found by halving, on the simulated landing, so that it
+          comes down on open water that the sea itself picks, clear of the pier. The page scrolls after it only when
+          the sea is below the fold, and stops following if the visitor scrolls. In the sea, rings spread as the far
+          field of the Cauchy-Poisson problem, so they disperse as deep-water waves do, long outside and short inside
+          with the middle calm first; the shader adds their slope to the water's, shades them as light and dark bands
+          and lays churned foam that thins from its edge inward. A crown of drops leaves the rim and a jet leaves the
+          middle when the cavity closes. The orange is a floating sphere, with weight, the buoyancy of its submerged
+          cap, added mass with the slam of taking it on, and drag, so it plunges, comes back up after about a second
+          and a half and settles with a third of its height dry.
+        files:
+          - path: assets/js/orange-roll-physics.mjs
+            role: The roll, the tip over the edge, the fall and the search for the push; no page.
+            functions: [createRoll, solvePush, landingOf, leaveAngle, shelfEnd]
+          - path: assets/js/orange-roll.mjs
+            role: The page's side. A copy of the orange that crosses the page, the scroll that follows it, and the hand-over to the sea.
+          - path: assets/js/footer-coast/splash-physics.mjs
+            role: The rings, the foam, the drops and the floating body, as formulas shared with the shader and the tests.
+            functions: [ringWave, ringRadius, splashFoam, splashDrops, stepDrop, floatLevel, stepFloater]
+          - path: assets/js/footer-coast/splash.mjs
+            role: The drops and the floating orange in the footer's scene.
+            functions: [createSplash]
+          - path: assets/js/footer-coast/water.mjs
+            role: The rings' slope and the foam in the sea's shader.
+            functions: [createCoastWater]
+          - path: assets/js/footer-coast/scene.mjs
+            role: The hooks the page calls (coastLanding, coastSplash), and the splash's place in each frame.
+            functions: [mountCoast]
+          - path: _includes/orange-specimen.liquid
+            role: Loads the orange's module with the orange.
+          - path: _sass/_brand-orange.scss
+            role: The travelling copy, and the plain ring for a sea that is not running.
+        tests:
+          - test/orange-roll.test.mjs
+          - test/coast-splash.test.mjs
+          - test/visual/footer-coast.spec.js
+        sources: [lamb1932hydrodynamics, wikipedia-water-dispersion]
+        limits:
+          - Sirui has not seen it. Claude watched it in Chromium at 1600 by 1000, at 1500 by 640 with the sea below the fold, and on a 390-wide phone layout in the evening.
+          - It answers a pointer only (a hover or a tap). The orange is decoration, hidden from assistive technology, and a keyboard cannot set it rolling.
+          - Two things are staged and said so in the code. The page plays at six tenths of real time, and the orange shrinks as it falls, which a real fall in front of a fixed eye would not do.
+          - The floating orange is 0.32 of the coast's units in radius, about the size of a beach umbrella there, so that it can be seen. It floats a third dry; a real orange floats about a quarter dry.
+          - The rings bend reflections and are shaded as bands; they do not move the water's surface, and the drops and the orange are not mirrored in it.
+          - When the sea is not running (no WebGL, or its model has not arrived) the fall ends in two plain rings drawn on the page, and no orange floats afterwards.
+          - One orange a visit. It stays in the sea until the page is left.
+        next:
+          - move: Let the orange drift with the swell and wash up on the beach after a minute.
+            readiness: ready
+          - move: Give the companion on that page something to do while the orange rolls past.
+            readiness: needs-decision
       - id: coast-sky
         name: A Pacific sunset behind the footer
         status: shipped
@@ -1884,6 +1946,14 @@ sources:
     label: Wood, Bruner and Ross 1976
     citation: David Wood, Jerome S. Bruner and Gail Ross. *The Role of Tutoring in Problem Solving*. Journal of Child Psychology and Psychiatry 17(2), 1976.
     url: https://doi.org/10.1111/j.1469-7610.1976.tb00381.x
+  - id: lamb1932hydrodynamics
+    label: Lamb 1932
+    citation: Horace Lamb. *Hydrodynamics*, 6th edition. Cambridge University Press, 1932 (the linked copy is a 1945 printing). Chapter IX, on surface waves, treats the waves a local disturbance sends out over deep water, the Cauchy-Poisson problem.
+    url: https://archive.org/details/hydrodynamics0000lamb
+  - id: wikipedia-water-dispersion
+    label: Dispersion of water waves
+    citation: Wikipedia. *Dispersion (water waves)*. On deep water the frequency squared is gravity times the wave number, so long waves outrun short ones and a group travels at half the speed of its crests.
+    url: https://en.wikipedia.org/wiki/Dispersion_(water_waves)
   - id: eno1978airports
     label: Eno 1978
     citation: "Brian Eno. *Ambient 1: Music for Airports*. Polydor, 1978. Built from tape loops of unequal length, so the parts drift against each other and do not repeat."

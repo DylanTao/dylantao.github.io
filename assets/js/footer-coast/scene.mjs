@@ -5,7 +5,10 @@ import { createCameraMotion } from "../home-scene/camera-motion.mjs";
 import { sampleCoastWave } from "./wave-motion.mjs";
 import { sampleSurferRide, sampleRideShoulder, surferBoardFrame, surferRideTrail } from "./surfer-motion.mjs?v=hollan-20261028";
 import { createPeople } from "./people.mjs?v=hollan-20261028";
-import { createCoastWater } from "./water.mjs?v=coast-streaks-20261115";
+import { createCoastWater } from "./water.mjs?v=coast-splash-20261116";
+import { createSplash } from "./splash.mjs?v=coast-splash-20261116";
+import { SPLASH } from "./splash-physics.mjs?v=coast-splash-20261116";
+import { WATER_LEVEL } from "./water-optics.mjs?v=coast-streaks-20261115";
 import { createSky, loadRelief, sceneColor } from "./sky.mjs?v=coast-depth-20261029";
 import { createMarineLayer } from "./marine-layer.mjs?v=coast-streaks-20261115";
 import { DAY_KEY, anchorLook, creditHalo, keyDirection, lookAt, mixHex } from "./sky-look.mjs?v=coast-daylight-20261028";
@@ -152,6 +155,8 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
   fill.position.set(12, 6, -10);
   scene.add(fill);
   const clock = { value: 0 };
+  const dropLight = new THREE.Color(),
+    dropSky = new THREE.Color();
   const finish = createFinish(renderer, scene, camera, { transparentOutput: true });
   let model, manifest;
   // The hills' relief (sky.mjs) loads beside the model; the miniature sits on its map instead.
@@ -248,6 +253,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     cameraWidth = 45,
     frameCount = 0;
   const target = new THREE.Vector3(0, 1.3, 0);
+  const viewToward = new THREE.Vector3();
   const bufferSize = new THREE.Vector2();
   const cameraBase = new THREE.Vector3(11, 23, 36);
   const motion = createCameraMotion();
@@ -297,6 +303,13 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
       })
     : null;
   water.exclude(people?.objects || []);
+  // What falls into the sea from the page above (splash.mjs): drops and a floating body. Like the
+  // people, they stay out of the mirror, which is redrawn only on demand.
+  const splash = miniature ? null : createSplash();
+  if (splash) {
+    scene.add(...splash.objects);
+    water.exclude(splash.objects);
+  }
   const peopleLive = () => !reduced.matches && !stopped && !automated;
   const boardMatrix = new THREE.Matrix4();
   const boardAxes = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
@@ -440,6 +453,13 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     // The back fill rims roofs and bluff tops: cool by day and night, gold and rose at sunset.
     fill.color.set(theme.rimColor);
     fill.intensity = theme.rim;
+    // White water under this hour's sun and sky.
+    splash?.setLight(
+      dropLight
+        .set(theme.sun)
+        .multiplyScalar(theme.key * 0.26)
+        .add(dropSky.set(theme.sky).multiplyScalar(theme.fill * 0.28))
+    );
     renderer.toneMappingExposure = theme.exposure;
     // The studio lights every surface evenly (three r164 applies the scene's environment at its own
     // intensity, not each material's envMapIntensity), so it dims with the hour: at sunset the coast
@@ -633,6 +653,10 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     // The sea follows the camera and redraws its mirror only when the coast or the view changed.
     water.setMovers(movers());
     water.setLights(seaLights(), camera);
+    if (splash) {
+      splash.setView(viewToward.copy(camera.position).sub(target), renderer.getDrawingBufferSize(bufferSize).x / (camera.right - camera.left));
+      water.setSplashes(splash.rings());
+    }
     marine?.update(camera, elapsed);
     if (mounted) water.update(scene, camera, { size: renderer.getDrawingBufferSize(bufferSize), live: running });
     finish.render(camera, false);
@@ -674,6 +698,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     renderedOrbitX = clamp(motion.step("orbitX", renderedOrbitX, orbitX, dt, false, drag ? 28 : 16), -Math.PI / 6, Math.PI / 6);
     renderedOrbitY = clamp(motion.step("orbitY", renderedOrbitY, orbitY, dt, false, drag ? 28 : 16), -Math.PI / 18, Math.PI / 18);
     sky?.tick(elapsed, peopleLive());
+    splash?.update(Math.min(dt, 0.1), elapsed);
     crowns.forEach((o, i) => {
       o.rotation.z = Math.sin(elapsed * 0.65 + i) * 0.008;
     });
@@ -855,6 +880,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     env.dispose();
     model.release();
     water.dispose();
+    splash?.dispose();
     sky?.dispose();
     marine?.dispose();
     finish.dispose();
@@ -957,6 +983,7 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
     })),
     people: people ? { live: peopleLive(), ...people.evidence() } : null,
     water: water.evidence(),
+    splash: splash?.evidence() ?? null,
     sky: sky?.evidence() ?? null,
     marineLayer: marine?.evidence() ?? null,
     sun: sunNow ? { altitude: +sunNow.altitude.toFixed(2), azimuth: +sunNow.azimuth.toFixed(1), rising: sunNow.rising } : null,
@@ -977,6 +1004,67 @@ export async function mountCoast(host, { posterFrameHeight } = {}) {
         )
       : undefined,
   });
+  // The sea under a point of the screen: where the view's ray through it meets the still water.
+  const seaRay = new THREE.Vector3(),
+    seaForward = new THREE.Vector3();
+  // (`height` above the still water, for a body's centre as it touches down.)
+  function seaUnder(clientX, clientY, out = new THREE.Vector3(), height = 0) {
+    const r = canvas.getBoundingClientRect();
+    camera.updateMatrixWorld();
+    seaRay.set(((clientX - r.left) / r.width) * 2 - 1, 1 - ((clientY - r.top) / r.height) * 2, -1).unproject(camera);
+    camera.getWorldDirection(seaForward);
+    return out.copy(seaRay).addScaledVector(seaForward, (WATER_LEVEL + height - seaRay.y) / seaForward.y);
+  }
+  const clientPoint = (world) => {
+    const r = canvas.getBoundingClientRect(),
+      point = world.clone().project(camera);
+    return [r.left + ((point.x + 1) / 2) * r.width, r.top + ((1 - point.y) / 2) * r.height];
+  };
+  if (splash) {
+    const seaHere = new THREE.Vector3(),
+      pier = model.scene.getObjectByName("ScrippsPier"),
+      pierBox = pier ? new THREE.Box3().setFromObject(pier) : null;
+    // Open water under the screen's column at clientX, a body's throw out from the waterline: where
+    // something dropped from the page above should land. Null when that column shows no sea.
+    host.coastLanding = ({ clientX }) => {
+      if (!mounted || disposed || lost) return null;
+      const r = canvas.getBoundingClientRect(),
+        out = (y) => {
+          seaUnder(clientX, y, seaHere);
+          return water.depthAt(seaHere.x, seaHere.z);
+        },
+        most = out(r.bottom - 2);
+      if (!(most > 1.1)) return null;
+      // The waterline runs across the screen; farther down the screen is farther out to sea.
+      const wanted = Math.min(1.7, most * 0.5);
+      let high = r.top,
+        low = r.bottom - 2;
+      for (let i = 0; i < 28; i++) {
+        const mid = (high + low) / 2;
+        if (out(mid) < wanted) high = mid;
+        else low = mid;
+      }
+      seaUnder(clientX, (high + low) / 2, seaHere);
+      // Not on the pier's deck or among its piles.
+      if (pierBox && seaHere.x > pierBox.min.x - 0.6 && seaHere.x < pierBox.max.x + 0.6 && seaHere.z < pierBox.max.z + 0.6) return null;
+      const [x, y] = clientPoint(seaHere.setY(WATER_LEVEL + SPLASH.radius));
+      return { clientX: x, clientY: y, pixelsPerUnit: r.width / (camera.right - camera.left), radius: SPLASH.radius, sea: [seaHere.x, seaHere.z] };
+    };
+    // Something from the page lands in the sea under that point of the screen, falling at `speed`
+    // CSS pixels a second and turning at `spin` radians a second. False when the sea is not running
+    // (reduced motion, or no sea there), so the page can end the fall its own way.
+    host.coastSplash = ({ clientX, clientY, speed = 400, spin = 0 }) => {
+      if (!mounted || disposed || lost || stopped || reduced.matches) return false;
+      // The point given is the body's centre as it touches down, a radius above the water.
+      seaUnder(clientX, clientY, seaHere, SPLASH.radius);
+      // A point over the beach lands in the nearest water out from it.
+      for (let i = 0; i < 40 && water.depthAt(seaHere.x, seaHere.z) < 0.7; i++) seaHere.z += 0.15;
+      const pixelsPerUnit = canvas.getBoundingClientRect().width / (camera.right - camera.left);
+      splash.impact({ x: seaHere.x, z: seaHere.z, speed: speed / pixelsPerUnit, spin });
+      if (!running) draw();
+      return true;
+    };
+  }
   if (navigator.webdriver) {
     host.setCoastWaterProof = (options) => {
       water.setProof(options);

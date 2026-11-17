@@ -350,6 +350,111 @@ test("coastal sea: the studio window's reflection hangs straight below it, in it
   await attachScreenshot(page, testInfo, "coast-studio-streak", { locator: page.locator("footer") });
   expect(errors).toEqual([]);
 });
+test("page not found: the orange rolls off the page, falls into the sea, splashes and floats", async ({ page }, testInfo) => {
+  test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
+  test.setTimeout(process.platform === "linux" ? 240000 : 90000);
+  const errors = collectRuntimeErrors(page);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await preparePage(page, "noon");
+  await page.goto(publicRouteUrl("/404.html"), { waitUntil: "domcontentloaded" });
+  const mark = page.locator("[data-orange-specimen]"),
+    host = page.locator("footer [data-footer-coast]");
+  await expect(mark).toHaveAttribute("data-orange-roll", "ready");
+  // The sea is up before the orange is touched, so this case always lands in running water; a
+  // sea that is not running ends the fall with a plain ring instead (orange-roll.mjs).
+  await host.scrollIntoViewIfNeeded();
+  await expect(host).toHaveAttribute("data-state", "ready", { timeout: 60000 });
+  await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
+  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  expect((await evidence(host)).splash).toMatchObject({ impacts: 0, rings: 0, drops: 0, floater: null });
+  const rest = await mark.boundingBox(),
+    placed = () => mark.evaluate((e) => [e.offsetLeft, e.offsetTop, e.offsetWidth, e.offsetHeight]),
+    place = await placed();
+  // Touch it.
+  await page.mouse.move(Math.max(rest.x - 30, 1), rest.y + rest.height / 2);
+  await page.mouse.move(rest.x + rest.width / 2, rest.y + rest.height / 2, { steps: 4 });
+  await expect(mark).not.toHaveAttribute("data-orange-roll", "ready");
+  // A copy crosses the page; the original keeps its place, unseen, so nothing reflows.
+  expect(await mark.evaluate((e) => getComputedStyle(e).visibility)).toBe("hidden");
+  expect(await placed()).toEqual(place);
+  const mover = page.locator(".orange-roll"),
+    track = [];
+  for (let i = 0; i < 200 && (await mark.getAttribute("data-orange-roll")) !== "landed"; i++) {
+    const at = await mover
+      .evaluate(
+        (e) => {
+          // It is taken off the page the moment it lands; a sample caught then says nothing.
+          const r = e.getBoundingClientRect();
+          if (!e.isConnected || !r.width) return null;
+          return { x: r.x + r.width / 2 + scrollX, y: r.y + r.height / 2 + scrollY, width: r.width, turn: e.firstElementChild.style.transform };
+        },
+        null,
+        { timeout: 500 }
+      )
+      .catch(() => null);
+    if (at) track.push(at);
+    await page.waitForTimeout(60);
+  }
+  await expect(mark).toHaveAttribute("data-orange-roll", "landed", { timeout: 30000 });
+  await expect(mover).toHaveCount(0);
+  await testInfo.attach("orange-track", { body: JSON.stringify(track, null, 1), contentType: "application/json" });
+  expect(track.length).toBeGreaterThan(5);
+  // To the right, then down, smaller as it goes, and turning all the way.
+  for (let i = 1; i < track.length; i++) {
+    expect(track[i].x).toBeGreaterThanOrEqual(track[i - 1].x - 0.5);
+    expect(track[i].y).toBeGreaterThanOrEqual(track[i - 1].y - 0.5);
+    expect(track[i].width).toBeLessThanOrEqual(track[i - 1].width + 0.5);
+  }
+  expect(track.at(-1).x).toBeGreaterThan(track[0].x + 60);
+  expect(track.at(-1).y).toBeGreaterThan(track[0].y + 150);
+  expect(track.at(-1).width).toBeLessThan(track[0].width * 0.8);
+  const turned = (entry) => Number(/rotate\(([-\d.e]+)rad\)/.exec(entry.turn)?.[1] ?? 0);
+  expect(turned(track.at(-1))).toBeGreaterThan(turned(track[0]) + 1);
+  // It came down in the sea, on screen (the page followed the fall), and the sea took it.
+  const [x, y] = (await mark.getAttribute("data-orange-landing")).split(",").map(Number);
+  const frame = await host.locator("canvas").boundingBox();
+  expect(x).toBeGreaterThan(frame.x);
+  expect(x).toBeLessThan(frame.x + frame.width);
+  expect(y).toBeGreaterThan(frame.y + frame.height * 0.55);
+  expect(y).toBeLessThan(Math.min(frame.y + frame.height, page.viewportSize().height));
+  await expect(mark).toHaveAttribute("data-orange-sea", "live");
+  const landed = await evidence(host);
+  expect(landed.splash).toMatchObject({ impacts: 1, rings: 1 });
+  expect(landed.splash.floater.visible).toBe(true);
+  expect(landed.water.splashes).toBe(1);
+  await attachScreenshot(page, testInfo, "orange-splash", { locator: page.locator("footer") });
+  // An orange floats: it plunges, comes back up and settles with its top dry.
+  await expect.poll(async () => (await evidence(host)).splash.floater.settled, { timeout: 60000, intervals: [400] }).toBe(true);
+  const afloat = (await evidence(host)).splash.floater;
+  expect(Math.abs(afloat.height - afloat.level)).toBeLessThan(0.1);
+  expect(afloat.level).toBeLessThan(0);
+  await attachScreenshot(page, testInfo, "orange-afloat", { locator: page.locator("footer") });
+  // Once is once: touching the empty place does nothing more.
+  await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
+  await page.mouse.move(rest.x + rest.width / 2, rest.y + rest.height / 2, { steps: 3 });
+  await page.waitForTimeout(300);
+  expect((await evidence(host)).splash.impacts).toBe(1);
+  await expect(page.locator(".orange-roll")).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+test("page not found: with reduced motion the orange stays where it is", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440");
+  const errors = collectRuntimeErrors(page);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await preparePage(page, "noon");
+  await page.goto(publicRouteUrl("/404.html"), { waitUntil: "domcontentloaded" });
+  const mark = page.locator("[data-orange-specimen]");
+  await expect(mark).toHaveAttribute("data-orange-roll", "ready");
+  const rest = await mark.boundingBox();
+  await page.mouse.move(rest.x + rest.width / 2, rest.y + rest.height / 2, { steps: 4 });
+  await page.mouse.down();
+  await page.mouse.up();
+  await page.waitForTimeout(700);
+  await expect(mark).toHaveAttribute("data-orange-roll", "ready");
+  expect(await mark.evaluate((e) => getComputedStyle(e).visibility)).toBe("visible");
+  await expect(page.locator(".orange-roll")).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
 test("coastal sea: refracted bottom and volumetric light use the current relief", async ({ page }, testInfo) => {
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
   const errors = collectRuntimeErrors(page);

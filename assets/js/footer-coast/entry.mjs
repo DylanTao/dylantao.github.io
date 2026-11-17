@@ -44,6 +44,8 @@ document.querySelectorAll("[data-footer-coast]").forEach((host) => {
       host.dataset.state = "fallback";
     }
   };
+  // Something on the page is on its way to the sea (orange-roll.mjs): start before the footer nears.
+  host.addEventListener("coast:wake", start, { once: true });
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver(
       (entries) => {

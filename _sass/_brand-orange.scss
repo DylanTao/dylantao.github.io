@@ -583,3 +583,43 @@ html[data-theme-mode="evening"] .navbar.navbar-light .site-brand {
     animation: none !important;
   }
 }
+
+// The orange that leaves the Page not found page (orange-roll.mjs): a copy of the specimen that can
+// cross the page, moved by script every frame, and the plain ring it leaves when the footer's sea
+// is not running.
+.orange-roll {
+  position: absolute;
+  z-index: 1080;
+  margin: 0;
+  pointer-events: none;
+  transition: none;
+  will-change: transform;
+}
+
+.orange-roll__turn {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.orange-roll-ring {
+  position: absolute;
+  z-index: 1080;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.15, 0.06);
+  animation: orange-roll-ring 1.5s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+
+@keyframes orange-roll-ring {
+  from {
+    opacity: 0.9;
+  }
+
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1, 0.4);
+  }
+}

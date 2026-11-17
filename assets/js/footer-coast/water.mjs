@@ -1,6 +1,6 @@
 // The coast's sea: one water surface whose shader looks through clear shallows to a sandy, rocky
 // seabed with caustics, breaks surf over the shelf, trails wakes behind the boards and the swimmer,
-// and mirrors the coast. The mirror is a small render of the scene from below the water, redrawn on
+// spreads rings and foam from whatever falls in (splash-physics.mjs), and mirrors the coast. The mirror is a small render of the scene from below the water, redrawn on
 // demand like the coast's shadow map, so a steady frame costs no extra draws. The footer draws it on
 // its own wide plane; the Connect page's miniature runs the same sea on its relief's water slab, with
 // its own cove shoreline, canyon and reefs. Numbers shared with node tests live in water-optics.mjs.
@@ -24,6 +24,7 @@ import {
 } from "./water-optics.mjs?v=coast-streaks-20261115";
 import { buildBottomRelief } from "./bed-relief.mjs?v=coast-streaks-20261115";
 import { RIDE, SHOULDER } from "./surfer-motion.mjs?v=hollan-20261028";
+import { SPLASH, splashTime } from "./splash-physics.mjs?v=coast-splash-20261116";
 
 const f = (value) => {
   const text = Number(value).toFixed(9);
@@ -154,6 +155,8 @@ function seaShader(material, uniforms) {
     uniform int coastRideTrailCount;
     uniform vec4 coastGlints[4];
     uniform int coastGlintCount;
+    uniform vec4 coastSplash[${SPLASH.impacts}];  // where something fell in (x, z), seconds since, strength
+    uniform int coastSplashCount;
     uniform vec3 coastGlintColor;
     uniform int coastHotTaps;
     uniform int coastOne;
@@ -187,6 +190,7 @@ function seaShader(material, uniforms) {
     varying vec3 coastPosition;
     vec3 coastNormal;
     vec2 coastSlope;
+    vec2 coastRing;
     float coastFoamAmount;
     float coastDepth;
     vec3 coastTransmission;
@@ -294,6 +298,26 @@ function seaShader(material, uniforms) {
       }
       return foam;
     }
+    // What fell in: rings that disperse as deep-water waves do, long outside and short inside, and
+    // a patch of churned foam (splash-physics.mjs ringWave and splashFoam, the same formulas).
+    // Returns the surface's slope (dh/dx, dh/dz) and how much foam.
+    vec3 coastSplashes(vec2 p) {
+      vec3 sum = vec3(0.);
+      for (int i = 0; i < coastSplashCount; i++) {
+        vec4 s = coastSplash[i];
+        vec2 from = p - s.xy;
+        float r = length(from), t = s.z;
+        if (t <= 0. || r > 16.) continue;
+        float rho = max(r * ${f(1 / SPLASH.radius)}, .35), theta = t * ${f(1 / splashTime())};
+        float kappa = theta * theta / (4. * rho * rho);
+        float envelope = ${f(SPLASH.ringHeight)} * theta * theta / (rho * rho * rho) * exp(-kappa * kappa * .25)
+          * smoothstep(.6, 1.6, r * ${f(1 / SPLASH.radius)}) * exp(-t * ${f(1 / SPLASH.ringDamping)}) * s.w;
+        sum.xy += from / max(r, 1e-4) * envelope * kappa * sin(theta * theta / (4. * rho));
+        float edge = ${f(SPLASH.radius)} * (1. + ${f(SPLASH.foamReach - 1)} * (1. - exp(-t * 3.2)));
+        sum.z = max(sum.z, (1. - smoothstep(edge * .15, edge, r)) * (1. - smoothstep(${f(SPLASH.foamLife * 0.35)}, ${f(SPLASH.foamLife)}, t)) * s.w);
+      }
+      return sum;
+    }
   `;
   material.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, uniforms);
@@ -321,7 +345,9 @@ function seaShader(material, uniforms) {
           coastDepth = d;
           // Surface slope: the vertex waves (wave-motion.mjs) and the wind ripples.
           float wa = p.y * 3.8 - p.x * .28 - coastTime * .8, wb = p.x * 2.7 + p.y * 1.2 - coastTime * .6;
-          coastSlope = vec2(-.00644 * cos(wa) + .0351 * cos(wb), .0874 * cos(wa) + .0156 * cos(wb)) + coastRipples(p, coastTime) + coastRideShoulder(p).yz;
+          vec3 fellIn = coastSplashes(p);
+          coastRing = fellIn.xy;
+          coastSlope = vec2(-.00644 * cos(wa) + .0351 * cos(wb), .0874 * cos(wa) + .0156 * cos(wb)) + coastRipples(p, coastTime) + coastRideShoulder(p).yz + fellIn.xy;
           coastNormal = normalize(vec3(-coastSlope.x, 1., -coastSlope.y));
           // Clear shallows: follow the refracted view ray down to the seabed it meets.
           vec3 ray = refract(-coastView, coastNormal, ${f(1 / WATER_IOR)});
@@ -383,6 +409,8 @@ function seaShader(material, uniforms) {
           float shoreFoam = (1. - smoothstep(.22, .5 + .25 * exp(-arrival * 4.), d)) * (.45 + .55 * exp(-arrival * 3.));
           foam = max(foam, shoreFoam * smoothstep(.25, .55, (.5 + .5 * sin(p.x * 3.1 + sin(p.x * .9) * 2. + coastTime * .3)) * .7 + .3));
           foam = max(foam, coastWakes(p));
+          // Churned foam where something fell in: solid at first, then broken up as it thins.
+          foam = max(foam, smoothstep(.42, .7, coastNoise(p * 15. + vec2(coastTime * .23, -coastTime * .19)) * .5 + fellIn.z * .78));
           coastFoamAmount = clamp(foam * coastFoam, 0., 1.);
           diffuseColor.rgb = vec3(.86, .93, .9);
           diffuseColor.a *= smoothstep(0., .12, d);
@@ -435,6 +463,9 @@ function seaShader(material, uniforms) {
           float facing = (f0 + (1. - f0) * pow(1. - clamp(dot(coastNormal, coastView), 0., 1.), 5.)) * (1. - coastFoamAmount) * coastProof.z;
           outgoingLight = mix(coastTransmission, outgoingLight, coastFoamAmount);
           outgoingLight = mix(outgoingLight, mirrored, facing) + hot * coastGlow * ${f(STREAK.gain)} * facing * facet;
+          // Rings read as light and dark bands: a crest's near side tilts toward the viewer and mirrors
+          // the sky lower down, where it is paler; its far side tilts away and shows the dark water.
+          outgoingLight *= 1. + clamp(dot(coastRing, coastToward) * 2.2, -.26, .42) * (1. - coastFoamAmount);
           // Glitter paths of the fire and the pier lamps: each light's mirror point stretched into a long
           // streak toward the viewer, lit only on ripple facets tilted back toward the light.
           float glitter = 0.;
@@ -546,7 +577,8 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
     moverPower = new Float32Array(4),
     moverRide = new Float32Array(4),
     rideTrail = new Float32Array(RIDE.trailPoints * 4),
-    glints = new Float32Array(16);
+    glints = new Float32Array(16),
+    splashes = new Float32Array(SPLASH.impacts * 4);
   const uniforms = {
     coastTime: clock,
     // Linear albedos: a cool wet sand close to the authored tidal sand (la-jolla.glb) and a dark, weedy reef stone.
@@ -565,6 +597,8 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
     coastRideTrailCount: { value: 0 },
     coastGlints: { value: glints },
     coastGlintCount: { value: 0 },
+    coastSplash: { value: splashes },
+    coastSplashCount: { value: 0 },
     coastMoverCount: { value: 0 },
     coastHotTaps: { value: 4 },
     coastOne: { value: 1 },
@@ -765,6 +799,16 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
       });
       uniforms.coastMoverCount.value = Math.min(list.length, 4);
     },
+    // What has fallen in lately: [{ x, z, age, strength }], age in seconds (splash-physics.mjs).
+    setSplashes(list) {
+      const shown = list.slice(0, SPLASH.impacts);
+      shown.forEach((impact, i) => splashes.set([impact.x, impact.z, impact.age, impact.strength ?? 1], i * 4));
+      uniforms.coastSplashCount.value = shown.length;
+    },
+    // How far out from the waterline a point is; negative on land.
+    depthAt(x, z) {
+      return z - sea.shore(x);
+    },
     // Up to four point lights above the water: [{ x, y, z, power, spread }]. Each glitters around its
     // mirror point, where the camera sees its reflection in a level surface.
     setLights(list, camera) {
@@ -819,6 +863,7 @@ export function createCoastWater(renderer, { clock, miniature = false, profile =
         reflection: { renders: schedule.renders, pending: schedule.dirty, ...rendered },
         caustics: uniforms.coastCaustic.value,
         wakes: moverPower.filter((power) => power > 0.01).length,
+        splashes: uniforms.coastSplashCount.value,
         ride: { power: uniforms.coastRidePower.value, trailPoints: uniforms.coastRideTrailCount.value },
         glints: [0, 1, 2, 3].filter((i) => glints[i * 4 + 2] > 0.001).map((i) => Array.from(glints.slice(i * 4, i * 4 + 4), (v) => +v.toFixed(3))),
       };

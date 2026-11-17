@@ -1,7 +1,8 @@
 {% comment %}
   The procedural orange that used to be the navbar mark: brand-orange.js grows a new one, with its
   own shape, rind, pores, calyx and leaves, on every visit (?orangeSeed= repeats one). It lives on
-  the 404 page now that the site mark stays the same everywhere.
+  the 404 page now that the site mark stays the same everywhere. Touched, it rolls off the page and
+  falls into the footer's sea (orange-roll.mjs).
 {% endcomment %}
 <div class="orange-specimen brand-orange" data-orange-specimen aria-hidden="true" markdown="0">
   <svg class="brand-orange-svg" viewBox="0 0 64 64" focusable="false" aria-hidden="true">
@@ -73,3 +74,4 @@
     </g>
   </svg>
 </div>
+<script type="module" src="{{ '/assets/js/orange-roll.mjs' | relative_url | bust_file_cache }}"></script>
