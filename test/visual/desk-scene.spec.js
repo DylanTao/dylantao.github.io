@@ -1677,6 +1677,9 @@ test("coastal home: quiet public controls, capybara wall art and a new arrival o
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
   await page.addInitScript(() => sessionStorage.setItem("sirui-scene-style", "architectural"));
+  // An hour of the home's day when Sirui is at his desk. Left to the wall clock, this case failed
+  // whenever CI ran during his evening session: in the gym a third control, Training, is shown.
+  await page.clock.setFixedTime(new Date("2026-10-02T13:20:00-07:00"));
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
   await expect(page.locator("[data-home-artifact-stage]")).toHaveAttribute("data-desk-mode", "2d");

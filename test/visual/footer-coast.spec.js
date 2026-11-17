@@ -421,7 +421,9 @@ test("page not found: the orange rolls off the page, falls into the sea, splashe
   const landed = await evidence(host);
   expect(landed.splash).toMatchObject({ impacts: 1, rings: 1 });
   expect(landed.splash.floater.visible).toBe(true);
-  expect(landed.water.splashes).toBe(1);
+  // The sea's shader hears of the impact when its next frame is drawn, which on a slow renderer
+  // can be after the page has been told.
+  await expect.poll(async () => (await evidence(host)).water.splashes, { timeout: 15000 }).toBe(1);
   await attachScreenshot(page, testInfo, "orange-splash", { locator: page.locator("footer") });
   // An orange floats: it plunges, comes back up and settles with its top dry.
   await expect.poll(async () => (await evidence(host)).splash.floater.settled, { timeout: 60000, intervals: [400] }).toBe(true);
