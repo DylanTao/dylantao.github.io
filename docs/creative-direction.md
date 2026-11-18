@@ -61,6 +61,8 @@ In order of priority. Letters point to the sections of the takeover notes, where
 
 **Done when** the room reads as used at 7 am and at 9 pm from the room view and from the sea, the light bake stays inside its triangle budget (B1), and the gym's browser cases pass.
 
+**Extended by Sirui, November 18** (his words in docs/todo.md, item 3, and the takeover notes): the gym opens fully onto the flat ground in front of it as an elegant outdoor workout garden, "without being too gym bro": a lawn for yoga, Pilates, boxing, rowing and biking; an indoor-outdoor threshold with planting and a waterfall in a Japandi zen manner; and, carved into the rock further right (north), a hot spa and a cold room, all facing the ocean. Massing F and its section are in `docs/images/gym-garden-massing-f-*.webp`; the plan is `docs/house/gym-plan.md`, "Sirui's garden side".
+
 ### 3. The speakeasy and the glass lift (O5, O6)
 
 **His words.** "leverage the empty area of the study room, maybe it can be a better decorated speakeasy bar and also the study room can also further go into that area, and the elevator go down from speakeasy to bottom"; "a transparent cliff elevator to go from the house to bottom of the cliff while appreciating the view from ocean". He ringed the solid rock to the right of the study, as seen from the sea.
@@ -70,6 +72,8 @@ In order of priority. Letters point to the sections of the takeover notes, where
 From the speakeasy's landing a glass cab runs in a glass and steel shaft set into a notch in the cliff, down to the beach, about eight metres, ridden in walk mode with the sea in view all the way down. Lit at night as one line of light on the cliff.
 
 **First** three massings on paper, rendered in Blender's workbench, before any export (the method of K1). **Open question for Sirui**, not decided: whether the shaft goes on below the tide line to a window under the water, which would join it to brief 7.
+
+**Decided by Sirui, November 18, replacing the direction above where they differ:** not into the headland (massings A to C) but into the empty court in front of the study, under its rock overhang (massing D), with a semi-open outdoor dining terrace between the study and the bar, by the pool, holding the BBQ, grill and fridge (massing E), so the study quarter stays quiet and private. Both rooms must feel protected and comfortable and still have a great view; the section (`docs/images/speakeasy-massing-e-section-2026-11-18.webp`) shows the court is already a cave under the rock, open only to the sea. The bookcase door, the bar's character and the glass lift stand. Underwater exploration and swimming follow later (brief 7). Drawings: `bin/render_speakeasy_massings.py`; steps: docs/todo.md, item 4.
 
 ### 4. The bedroom, as a room (O7)
 
