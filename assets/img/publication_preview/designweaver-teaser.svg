@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="dw-teaser" viewBox="0 0 2000 1132" width="2000" height="1132" role="img" aria-labelledby="dwt-card-title dwt-card-desc"> <title id="dwt-card-title">DesignWeaver teaser</title> <desc id="dwt-card-desc">Diagram of DesignWeaver connecting a design specification to a tag-based prompt box and image gallery</desc> <style>
+    .dw-teaser {
+      --dwt-paper: #ffffff;
+      --dwt-ink: #454242;
+      --dwt-frame: #454242;
+      --dwt-panel: #eeeeee;
+      --dwt-box: #ffffff;
+      --dwt-button: #454242;
+      --dwt-mark: #ffffff;
+      --dwt-blue: #2460ff;
+      --dwt-yellow: #ffff92;
+      --dwt-yellow-edge: #a2a2a6;
+      --dwt-chip-edge: #dcdcdc;
+      --dwt-chip-dark: #141414;
+      --dwt-dot: #dfdfdf;
+      --dwt-red: #f47c7c;
+      --dwt-brief: #0055a3;
+      --dwt-dash: #82aee3;
+      --dwt-doc-back: #0055a5;
+      --dwt-doc-shade: #00468a;
+      --dwt-doc-page: #eaf6ff;
+      --dwt-doc-fold: #b3dafe;
+      --dwt-doc-edge: #d8ecfe;
+      --dwt-doc-line: #82aee3;
+      --dwt-doc-tag: #f47c7c;
+      --dwt-doc-letters: #fdd9d9;
+      --dwt-heart: #ff6340;
+      --dwt-caption: #ff6340;
+      --dwt-info: #454242;
+      --dwt-info-mark: #ffffff;
+      --dwt-t1: #fffaea;
+      --dwt-t2: #f4d2d2;
+      --dwt-t3: #d9e7e1;
+      --dwt-t4: #c3ced7;
+      --dwt-t5: #e2d1e9;
+      --dwt-t6: #e5e8f5;
+      --dwt-t7: #c8e7ee;
+      --dwt-t8: #d2d6b3;
+      --dwt-t9: #fae0bb;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2000 / 1132;
+      font-family: var(--font-ui, "Inter", "Inter Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
+      font-weight: 700;
+    }
+    html[data-theme="dark"] .dw-teaser {
+      --dwt-paper: #20242a;
+      --dwt-ink: #e9e6e1;
+      --dwt-frame: #3d4249;
+      --dwt-panel: #2b2f36;
+      --dwt-box: #1f2329;
+      --dwt-button: #575c64;
+      --dwt-mark: #f4f4f4;
+      --dwt-blue: #4d7cff;
+      --dwt-yellow: #e6df73;
+      --dwt-yellow-edge: #8d8952;
+      --dwt-chip-edge: #4a4f57;
+      --dwt-chip-dark: #c9ccd1;
+      --dwt-dot: #454a52;
+      --dwt-red: #f08080;
+      --dwt-brief: #82b3ee;
+      --dwt-dash: #5f8bc6;
+      --dwt-doc-back: #2f72c4;
+      --dwt-doc-shade: #255fa8;
+      --dwt-doc-page: #e3eefa;
+      --dwt-doc-fold: #a9cdf3;
+      --dwt-doc-edge: #cfe2f7;
+      --dwt-doc-line: #7ea6d8;
+      --dwt-doc-tag: #f07878;
+      --dwt-doc-letters: #fde3e3;
+      --dwt-heart: #ff7656;
+      --dwt-caption: #ff7a5a;
+      --dwt-info: #e4e4e4;
+      --dwt-info-mark: #2b2f36;
+      --dwt-t1: #4b4636;
+      --dwt-t2: #5b4043;
+      --dwt-t3: #3d4e46;
+      --dwt-t4: #3e4954;
+      --dwt-t5: #4d4059;
+      --dwt-t6: #40475c;
+      --dwt-t7: #35535b;
+      --dwt-t8: #4b4f34;
+      --dwt-t9: #5c4b33;
+    }
+    @media (prefers-color-scheme: dark) {
+      .dw-teaser {
+      --dwt-paper: #20242a;
+      --dwt-ink: #e9e6e1;
+      --dwt-frame: #3d4249;
+      --dwt-panel: #2b2f36;
+      --dwt-box: #1f2329;
+      --dwt-button: #575c64;
+      --dwt-mark: #f4f4f4;
+      --dwt-blue: #4d7cff;
+      --dwt-yellow: #e6df73;
+      --dwt-yellow-edge: #8d8952;
+      --dwt-chip-edge: #4a4f57;
+      --dwt-chip-dark: #c9ccd1;
+      --dwt-dot: #454a52;
+      --dwt-red: #f08080;
+      --dwt-brief: #82b3ee;
+      --dwt-dash: #5f8bc6;
+      --dwt-doc-back: #2f72c4;
+      --dwt-doc-shade: #255fa8;
+      --dwt-doc-page: #e3eefa;
+      --dwt-doc-fold: #a9cdf3;
+      --dwt-doc-edge: #cfe2f7;
+      --dwt-doc-line: #7ea6d8;
+      --dwt-doc-tag: #f07878;
+      --dwt-doc-letters: #fde3e3;
+      --dwt-heart: #ff7656;
+      --dwt-caption: #ff7a5a;
+      --dwt-info: #e4e4e4;
+      --dwt-info-mark: #2b2f36;
+      --dwt-t1: #4b4636;
+      --dwt-t2: #5b4043;
+      --dwt-t3: #3d4e46;
+      --dwt-t4: #3e4954;
+      --dwt-t5: #4d4059;
+      --dwt-t6: #40475c;
+      --dwt-t7: #35535b;
+      --dwt-t8: #4b4f34;
+      --dwt-t9: #5c4b33;
+      }
+    }
+    .dw-teaser .ink { fill: var(--dwt-ink); }
+    .dw-teaser .chip { stroke-width: 1.6; fill: var(--dwt-box); }
+    .dw-teaser .chip.is-on { fill: var(--dwt-blue); stroke: none; }
+    .dw-teaser .chip.is-open { stroke: var(--dwt-chip-edge); }
+    .dw-teaser .chip.is-picked { stroke: var(--dwt-chip-dark); stroke-width: 2.2; }
+    .dw-teaser .chip.is-new { fill: var(--dwt-yellow); stroke: var(--dwt-yellow-edge); stroke-dasharray: 5 3.5; }
+  </style> <defs> <path id="dwt-card-heart" d="M17 27C17 27 0 17.5 0 8.5C0 3.6 3.9 0 8.6 0C12.1 0 15.3 2.1 17 5.1C18.7 2.1 21.9 0 25.4 0C30.1 0 34 3.6 34 8.5C34 17.5 17 27 17 27Z"/> <g id="dwt-card-info"> <circle r="13.5" fill="var(--dwt-info)"/> <circle cy="-5.6" r="2.3" fill="var(--dwt-info-mark)"/> <rect x="-2" y="-1.6" width="4" height="8.8" rx="1" fill="var(--dwt-info-mark)"/> </g> </defs> <rect width="2000" height="1132" rx="28" fill="var(--dwt-paper)"/> <text x="117.7" y="89.6" font-size="59" textLength="198.8" lengthAdjust="spacingAndGlyphs" fill="var(--dwt-brief)">Design</text> <text x="29.6" y="163.7" font-size="59" textLength="387.1" lengthAdjust="spacingAndGlyphs" fill="var(--dwt-brief)">Specification</text> <path d="M215 208V377" fill="none" stroke="var(--dwt-dash)" stroke-width="10" stroke-linecap="round" stroke-dasharray="6 27.6"/> <rect x="87" y="435" width="244" height="320" rx="13" fill="var(--dwt-doc-back)"/> <rect x="104" y="435" width="227" height="303" rx="12" fill="var(--dwt-doc-shade)"/> <path d="M132 399H299L365 466V709A12 12 0 0 1 353 721H132A12 12 0 0 1 120 709V411A12 12 0 0 1 132 399Z" fill="var(--dwt-doc-page)"/> <path d="M344 466H365V709A12 12 0 0 1 353 721H344Z" fill="var(--dwt-doc-edge)"/> <path d="M299 399L365 466H311A12 12 0 0 1 299 454Z" fill="var(--dwt-doc-fold)"/> <g fill="none" stroke="var(--dwt-doc-line)" stroke-width="9" stroke-linecap="round"> <path d="M166 507.3H336M288 547.4H336M288 587.5H336M288 627.6H336M166 667.7H336"/> </g> <rect x="65.5" y="543.5" width="197" height="96.5" rx="8" fill="var(--dwt-doc-tag)"/> <g fill="none" stroke="var(--dwt-doc-letters)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"> <path d="M90.2 570V612.3H97.7A21.15 21.15 0 0 0 97.7 570Z"/> <circle cx="160.9" cy="591.6" r="21.9"/> <path d="M237 574.7A21.9 21.9 0 1 0 237 608.3"/> </g> <g fill="none" stroke="var(--dwt-brief)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"> <path d="M226 757V790Q226 846 282 846H372"/> <path d="M331 803L374 846L331 889"/> </g> <text class="ink" x="470.8" y="107.1" font-size="58.6" textLength="676.5" lengthAdjust="spacingAndGlyphs">Tag-Based Prompt Box</text> <text class="ink" x="1367" y="107.1" font-size="58.6" textLength="403.7" lengthAdjust="spacingAndGlyphs">Image Gallery</text> <g class="ink"> <rect x="468.2" y="132.5" width="681.8" height="10" rx="5"/> <path d="M805 140H830V168H851L817.5 202L784 168H805Z"/> <rect x="1362.7" y="132.5" width="410.6" height="10" rx="5"/> <path d="M1557 140H1582V168H1603L1569.5 202L1536 168H1557Z"/> </g> <rect x="413" y="208" width="1550" height="724.5" fill="var(--dwt-frame)"/> <rect x="441" y="232" width="732" height="676" rx="16" fill="var(--dwt-panel)"/> <rect x="461" y="272" width="641" height="71" rx="4" fill="var(--dwt-box)"/> <rect x="1118" y="287" width="40" height="40" rx="3" fill="var(--dwt-button)"/> <path d="M1131 299.5L1147 307L1131 314.5L1133.6 307Z" fill="none" stroke="var(--dwt-mark)" stroke-width="2" stroke-linejoin="round"/> <rect x="461" y="380" width="697" height="473" rx="4" fill="var(--dwt-box)"/> <g> <rect class="chip is-on" x="501.3" y="411" width="66.3" height="27" rx="13.5"/> <rect class="chip is-open" x="578.9" y="411.8" width="48.8" height="25.4" rx="12.7"/> <rect class="chip is-on" x="636.4" y="411" width="66.3" height="27" rx="13.5"/> <rect class="chip is-open" x="712.8" y="411.8" width="85.4" height="25.4" rx="12.7"/> <rect class="chip is-new" x="809.1" y="411.8" width="108" height="25.4" rx="12.7"/> <rect class="chip is-picked" x="929.1" y="412.1" width="60.8" height="24.8" rx="12.4"/> <rect class="chip is-picked" x="502.1" y="448.1" width="93.8" height="24.8" rx="12.4"/> <rect class="chip is-on" x="501.3" y="483" width="74.1" height="27" rx="13.5"/> <rect class="chip is-on" x="585" y="483" width="49.7" height="27" rx="13.5"/> <rect class="chip is-open" x="645.8" y="483.8" width="115.5" height="25.4" rx="12.7"/> <rect class="chip is-picked" x="774.1" y="484.1" width="103.8" height="24.8" rx="12.4"/> <rect class="chip is-picked" x="889.1" y="484.1" width="115.8" height="24.8" rx="12.4"/> <rect class="chip is-on" x="501.3" y="527" width="66.3" height="27" rx="13.5"/> <rect class="chip is-on" x="577.2" y="527" width="69.7" height="27" rx="13.5"/> <rect class="chip is-on" x="656.5" y="527" width="42.7" height="27" rx="13.5"/> <rect class="chip is-open" x="708.6" y="527.8" width="89" height="25.4" rx="12.7"/> <rect class="chip is-open" x="808.8" y="527.8" width="86.5" height="25.4" rx="12.7"/> <rect class="chip is-new" x="904.8" y="527.8" width="96.2" height="25.4" rx="12.7"/> <rect class="chip is-new" x="501.8" y="563.8" width="77.4" height="25.4" rx="12.7"/> <rect class="chip is-new" x="589.8" y="563.8" width="100.2" height="25.4" rx="12.7"/> <rect class="chip is-on" x="501.3" y="602.5" width="137.8" height="27" rx="13.5"/> <rect class="chip is-on" x="648.6" y="602.5" width="177.9" height="27" rx="13.5"/> <rect class="chip is-on" x="836.1" y="602.5" width="89.8" height="27" rx="13.5"/> <rect class="chip is-on" x="501.3" y="638" width="97.7" height="27" rx="13.5"/> <rect class="chip is-picked" x="610.1" y="639.1" width="111.8" height="24.8" rx="12.4"/> <rect class="chip is-picked" x="734.1" y="639.1" width="146.8" height="24.8" rx="12.4"/> <rect class="chip is-on" x="501.3" y="674" width="114.2" height="27" rx="13.5"/> <rect class="chip is-on" x="625.1" y="674" width="77.6" height="27" rx="13.5"/> <rect class="chip is-open" x="713.3" y="674.8" width="124.4" height="25.4" rx="12.7"/> <rect class="chip is-open" x="847.8" y="674.8" width="74.4" height="25.4" rx="12.7"/> <rect class="chip is-on" x="501.3" y="714.3" width="114.2" height="27" rx="13.5"/> <rect class="chip is-on" x="625.1" y="714.3" width="97.7" height="27" rx="13.5"/> <rect class="chip is-picked" x="734.1" y="715.4" width="66.8" height="24.8" rx="12.4"/> <rect class="chip is-picked" x="813.1" y="715.4" width="67.8" height="24.8" rx="12.4"/> <rect class="chip is-open" x="501.8" y="754.8" width="237" height="25.4" rx="12.7"/> <rect class="chip is-open" x="749" y="754.8" width="180" height="25.4" rx="12.7"/> <rect class="chip is-open" x="501.8" y="791.8" width="193" height="25.4" rx="12.7"/> <rect class="chip is-new" x="704.8" y="791.8" width="101" height="25.4" rx="12.7"/> <rect class="chip is-new" x="816.8" y="791.8" width="152" height="25.4" rx="12.7"/> </g> <g> <circle cx="1076.3" cy="441" r="13.5" fill="var(--dwt-dot)"/> <circle cx="1119.9" cy="441" r="13.5" fill="var(--dwt-red)"/> <circle cx="1076.3" cy="497" r="13.5" fill="var(--dwt-dot)"/> <circle cx="1119.9" cy="497" r="13.5" fill="var(--dwt-red)"/> <circle cx="1076.3" cy="557" r="13.5" fill="var(--dwt-dot)"/> <circle cx="1119.9" cy="557" r="13.5" fill="var(--dwt-red)"/> <circle cx="1076.3" cy="632" r="13.5" fill="var(--dwt-dot)"/> <circle cx="1119.9" cy="632" r="13.5" fill="var(--dwt-red)"/> <circle cx="1076.3" cy="704" r="13.5" fill="var(--dwt-dot)"/> <circle cx="1119.9" cy="704" r="13.5" fill="var(--dwt-red)"/> <circle cx="1076.3" cy="784" r="13.5" fill="var(--dwt-dot)"/> <circle cx="1119.9" cy="784" r="13.5" fill="var(--dwt-red)"/> </g> <rect x="1202" y="232" width="733" height="676" rx="16" fill="var(--dwt-panel)"/> <rect x="1844" y="256.3" width="66.3" height="38.4" rx="4" fill="var(--dwt-button)"/> <use href="#dwt-card-heart" transform="translate(1869.5 270) scale(0.44)" fill="var(--dwt-mark)"/> <rect x="1226" y="316" width="222" height="222" fill="var(--dwt-t1)"/> <rect x="1457" y="316" width="222" height="222" fill="var(--dwt-t2)"/> <rect x="1688" y="316" width="222" height="222" fill="var(--dwt-t3)"/> <rect x="1226" y="547" width="222" height="222" fill="var(--dwt-t4)"/> <rect x="1457" y="547" width="222" height="222" fill="var(--dwt-t5)"/> <rect x="1688" y="547" width="222" height="222" fill="var(--dwt-t6)"/> <rect x="1226" y="778" width="222" height="118.5" fill="var(--dwt-t7)"/> <rect x="1457" y="778" width="222" height="118.5" fill="var(--dwt-t8)"/> <rect x="1688" y="778" width="222" height="118.5" fill="var(--dwt-t9)"/> <use href="#dwt-card-info" x="1251.5" y="341.3"/> <use href="#dwt-card-info" x="1482.5" y="341.3"/> <use href="#dwt-card-info" x="1713.5" y="341.3"/> <use href="#dwt-card-info" x="1251.5" y="572.3"/> <use href="#dwt-card-info" x="1482.5" y="572.3"/> <use href="#dwt-card-info" x="1713.5" y="572.3"/> <use href="#dwt-card-info" x="1251.5" y="803.3"/> <use href="#dwt-card-info" x="1482.5" y="803.3"/> <use href="#dwt-card-info" x="1713.5" y="803.3"/> <g fill="var(--dwt-heart)"> <use href="#dwt-card-heart" x="1402" y="499.3"/> <use href="#dwt-card-heart" x="1864" y="499.3"/> <use href="#dwt-card-heart" x="1633" y="730.3"/> <use href="#dwt-card-heart" x="1864" y="730.3"/> </g> <text x="506.5" y="1056" font-size="77" textLength="1379.3" lengthAdjust="spacingAndGlyphs" fill="var(--dwt-caption)">Dimensional Scaffolding for Novices</text> </svg>
