@@ -140,6 +140,35 @@ export function strokeAlong(normal, longAxis, upright, out) {
   return out.normalize();
 }
 
+// A rounded thing is painted around its form, the way a hand wraps a stroke over a cushion's edge.
+// Across a triangle, the edge along which the surface's normal turns fastest is the direction it
+// bends in; where that is sharper than STROKE_CURVE (radians a metre), a made thing's stroke follows
+// it. Returns the bend, and sets `out` to the direction, laid in the surface.
+export const STROKE_CURVE = 2.5;
+const wrapEdge = new THREE.Vector3(),
+  wrapTurn = new THREE.Vector3();
+export function strokeWrap(points, normals, normal, out) {
+  let best = 0;
+  for (const [i, j] of [
+    [0, 1],
+    [1, 2],
+    [2, 0],
+  ]) {
+    const length = wrapEdge.subVectors(points[j], points[i]).length();
+    if (length < 1e-6) continue;
+    const bend = wrapTurn.subVectors(normals[j], normals[i]).length() / length;
+    if (bend > best) {
+      best = bend;
+      out.copy(wrapEdge);
+    }
+  }
+  if (!best) return 0;
+  out.addScaledVector(normal, -out.dot(normal));
+  if (out.lengthSq() < 1e-12) return 0;
+  out.normalize();
+  return best;
+}
+
 // The direction a brush would follow on land. On a slope it is the land's own contour, the level
 // line that lies in the surface, which on a cliff is the way its beds run. On ground too level to
 // have one the hand follows a slow drift that turns from place to place, and sand is laid along
@@ -266,7 +295,13 @@ export function scatterStrokes(mesh, { focus, tools, thin = 1, limit = STROKE_LI
     perpendicular = new THREE.Vector3(),
     point = new THREE.Vector3(),
     place = new THREE.Vector3(),
-    unturn = new THREE.Matrix3().setFromMatrix4(world).invert();
+    unturn = new THREE.Matrix3().setFromMatrix4(world).invert(),
+    vertexNormals = geometry.attributes.normal,
+    bendMatrix = new THREE.Matrix3().getNormalMatrix(world),
+    na = new THREE.Vector3(),
+    nb = new THREE.Vector3(),
+    nc = new THREE.Vector3(),
+    wrap = new THREE.Vector3();
   // What the whole mesh is like: which way its long side runs, and whether it stands like a post.
   if (!geometry.boundingBox) geometry.computeBoundingBox();
   const size = geometry.boundingBox.getSize(new THREE.Vector3()).applyMatrix3(new THREE.Matrix3().setFromMatrix4(world));
@@ -336,6 +371,12 @@ export function scatterStrokes(mesh, { focus, tools, thin = 1, limit = STROKE_LI
       localNormal.crossVectors(edge1.subVectors(b, a), edge2.subVectors(c, a)).normalize();
       if (!land) {
         strokeAlong(normal, longAxis, upright, along);
+        if (!upright && vertexNormals) {
+          na.fromBufferAttribute(vertexNormals, ia).applyMatrix3(bendMatrix).normalize();
+          nb.fromBufferAttribute(vertexNormals, ib).applyMatrix3(bendMatrix).normalize();
+          nc.fromBufferAttribute(vertexNormals, ic).applyMatrix3(bendMatrix).normalize();
+          if (strokeWrap([wa, wb, wc], [na, nb, nc], normal, wrap) > STROKE_CURVE) along.copy(wrap);
+        }
         perpendicular.crossVectors(normal, along);
       }
       while (strokes-- > 0 && made < limit) {

@@ -15,6 +15,7 @@ import {
   STROKE_FINE,
   STROKE_LAYERS,
   STROKE_LIMITS,
+  STROKE_CURVE,
   STROKE_SIZES,
   brushSheetPixels,
   createPaint,
@@ -27,6 +28,7 @@ import {
   scatterStrokes,
   strokeAlong,
   strokeRandom,
+  strokeWrap,
 } from "../assets/js/home-scene/paint-strokes.mjs";
 import { COLOUR_GLSL, FIELD_GLSL, LOOKS, createPrintLook, structureId, structureKind, structureSkips } from "../assets/js/home-scene/print-look.mjs";
 
@@ -509,4 +511,29 @@ test("the paint is gouache by day and oil as the sun goes down", () => {
   assert.equal(BRUSH_MARKS.length, BRUSH_SHEET.columns * BRUSH_SHEET.rows);
   assert.equal(new Set(BRUSH_MARKS.map((mark) => mark.name)).size, BRUSH_MARKS.length);
   for (const mark of BRUSH_MARKS) assert.ok(mark.half <= 0.34 && mark.half > 0.15 && mark.rise + mark.fall <= 1 && mark.dry <= 1, mark.name);
+});
+
+test("a rounded thing is painted around its form; boards and posts keep their grain", () => {
+  const out = new THREE.Vector3(),
+    up = new THREE.Vector3(0, 1, 0);
+  const flat = [new THREE.Vector3(0, 0, 0), new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0, 1)];
+  assert.equal(strokeWrap(flat, [up, up, up], up, out), 0, "a flat triangle does not bend");
+  // A log lying along x, 0.2 m in radius: it bends five radians a metre around, not at all along.
+  const log = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.2, 0.2, 2, 24, 1, true).rotateZ(Math.PI / 2),
+    new THREE.MeshStandardMaterial({ color: 0x8a6a4a })
+  );
+  log.name = "test_log";
+  const found = scatterStrokes(log, { focus, tools });
+  let around = 0;
+  for (let i = 0; i < found.count; i++) if (Math.abs(found.alongs[i * 4]) / 127 < 0.35) around++;
+  assert.ok(around > found.count * 0.8, `${around} of ${found.count} strokes go around the log`);
+  assert.ok(1 / 0.2 > STROKE_CURVE);
+  // A post of the same shape stood upright keeps its strokes along its length.
+  const post = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 2, 24, 1, true), new THREE.MeshStandardMaterial({ color: 0x8a6a4a }));
+  post.name = "test_post";
+  const posted = scatterStrokes(post, { focus, tools });
+  let lengthwise = 0;
+  for (let i = 0; i < posted.count; i++) if (Math.abs(posted.alongs[i * 4 + 1]) / 127 > 0.9) lengthwise++;
+  assert.ok(lengthwise > posted.count * 0.8, `${lengthwise} of ${posted.count} strokes run up the post`);
 });
