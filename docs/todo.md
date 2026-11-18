@@ -42,6 +42,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 - **Next.**
   - [ ] Run the report weekly on the laptop (Windows Task Scheduler), into the private folder.
   - Outbound clicks, 90 days: nearly all from the homepage (the lab sites, GitHub, and 22 downloads of the CV PDF counting the CV page). DesignWeaver's Paper, Code and Talk links drew two clicks each, so people who land there mostly leave without taking anything. Leads to test: how fast the cinematic page shows something, whether its first screen says what DesignWeaver is for a newcomer, and whether search and AI-assistant visitors expect the ACM paper.
+  - [x] DesignWeaver's first paint, November 17: on a throttled phone its largest paint came at about ten seconds (other pages: about two), because the hero's faint mesh background was a 170 kB image that arrived last, behind fonts and full-size figures loading early further down. The mesh is now 32 kB and the figures below the fold load lazily. Re-measure on the live site and compare the page's engagement after a few weeks.
   - [ ] Find out what someone arriving straight at a project page wants (the paper, a video, a demo, the code) and give it to them on the first screen, starting with DesignWeaver. Then the index pages: does each lead somewhere worth going?
   - [ ] After two to four weeks, read the 3D events: how many enter 3D, which looks and rooms.
   - [ ] Count keyboard shortcuts and the sound switch too.

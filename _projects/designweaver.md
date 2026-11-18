@@ -143,7 +143,7 @@ cinematic: true
 
 <section class="artifact-spread" aria-labelledby="designweaver-interface-decision">
   <div class="artifact-spread__artifact">
-    {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/DesignWeaver_teaser.jpg" width="15360" height="7732" title="DesignWeaver_teaser" alt="DesignWeaver interface overview showing a prompt box, dimension palette, image gallery, and favorite folder" class="img-fluid rounded" %}
+    {% include figure.liquid loading="lazy" path="assets/img/project_pics/designweaver/DesignWeaver_teaser.jpg" width="15360" height="7732" title="DesignWeaver_teaser" alt="DesignWeaver interface overview showing a prompt box, dimension palette, image gallery, and favorite folder" class="img-fluid rounded" %}
     <p class="caption">Figure 1. The interface brings together (A) a prompt box, (B) a dimension palette, (C) an image gallery, and (D) a favorite folder.</p>
   </div>
   <aside class="artifact-spread__notes">
@@ -173,7 +173,7 @@ cinematic: true
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/tool_design_system_diagram.jpg" width="7822" height="5801" title="tool_design_system_diagram" alt="System diagram showing how DesignWeaver ingests design documents, recommends dimensions, generates images, and supports iteration" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="lazy" path="assets/img/project_pics/designweaver/tool_design_system_diagram.jpg" width="7822" height="5801" title="tool_design_system_diagram" alt="System diagram showing how DesignWeaver ingests design documents, recommends dimensions, generates images, and supports iteration" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -197,7 +197,7 @@ cinematic: true
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/tool_design_all_features.jpg" width="10740" height="9142" title="tool_design_all_features" alt="Full DesignWeaver interface with the design document, prompt box, dimension palette, image panel, and favorite selection tools" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="lazy" path="assets/img/project_pics/designweaver/tool_design_all_features.jpg" width="10740" height="9142" title="tool_design_all_features" alt="Full DesignWeaver interface with the design document, prompt box, dimension palette, image panel, and favorite selection tools" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -212,7 +212,7 @@ cinematic: true
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/user_study_baseline.jpg" width="3784" height="2131" title="user_study_baseline" alt="Baseline study workflow showing participants creating product design prompts without dimensional scaffolding" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="lazy" path="assets/img/project_pics/designweaver/user_study_baseline.jpg" width="3784" height="2131" title="user_study_baseline" alt="Baseline study workflow showing participants creating product design prompts without dimensional scaffolding" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -229,7 +229,7 @@ A user study involving 52 novice designers revealed that DesignWeaver:
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/user_study_workflow.jpg" width="9727" height="3928" title="user_study_workflow" alt="DesignWeaver study workflow showing how participants use extracted dimensions, prompts, generated images, and favorites" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="lazy" path="assets/img/project_pics/designweaver/user_study_workflow.jpg" width="9727" height="3928" title="user_study_workflow" alt="DesignWeaver study workflow showing how participants use extracted dimensions, prompts, generated images, and favorites" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -260,7 +260,7 @@ DesignWeaver bridges the gap between novice and expert design approaches by:
 
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/project_pics/designweaver/finding_novelty_gallery_.jpg" width="6019" height="6243" title="finding_novelty_gallery_" alt="Gallery comparing the novelty and diversity of chair concepts created with DesignWeaver and baseline workflows" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="lazy" path="assets/img/project_pics/designweaver/finding_novelty_gallery_.jpg" width="6019" height="6243" title="finding_novelty_gallery_" alt="Gallery comparing the novelty and diversity of chair concepts created with DesignWeaver and baseline workflows" class="img-fluid rounded z-depth-1" %}
         <a class="research-lens__open" href="{{ '/assets/img/project_pics/designweaver/finding_novelty_gallery_.jpg' | relative_url }}">Open original chair gallery ↗</a>
     </div>
 </div>
