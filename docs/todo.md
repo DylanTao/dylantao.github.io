@@ -134,7 +134,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 - **His words.** "can you use code and things and blender etc. to get to similar or better quality for things we have?"
 - **References.** William Faucher, https://www.fab.com/sellers/William%20Faucher, and his Easy Waterscape, https://www.fab.com/listings/ddd28113-6f59-4ba3-bf60-ad7b1920a547.
 - **Next.**
-  - [ ] Our sea and shore beside the listing's images, with a written list of gaps, largest first (T1).
+  - [x] Our sea beside the bar, gaps largest first (T1), November 17: `docs/sea/photoreal-gaps.md` (no surf, no swell, a ripple that repeats, thin foam, wet sand that does not breathe, no underwater view).
   - [ ] Close the largest gap and measure it (T2).
   - [ ] A path-traced reference of our own in Blender Cycles (T3).
 - **Machine: PC.** **Size.** 0.1 for the side by side; 1 to 2 for the sea; 0.5 to 1 for the reference. **Detail:** takeover T.
