@@ -1,4 +1,10 @@
-"""User-approved, pixel-preserving outer-paper masks. Never redraw a figure."""
+"""User-approved, pixel-preserving outer-paper masks (September 14, 2026).
+
+Superseded November 17, 2026: Sirui found the masked edges poor on the dark theme and asked for the
+schematic teasers to be redrawn as Figma-like vectors that take the theme's colours. They now live in
+_includes/figures/, and no page uses these masks; the script and its provenance stay as the record.
+Plots, measurements and photographs are still never redrawn (WEBSITE_DESIGN_HEURISTICS.md).
+"""
 from pathlib import Path
 from PIL import Image, ImageDraw
 import numpy as np
