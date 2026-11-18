@@ -27,6 +27,7 @@ Before changing this customized site:
 3. Read the matching skill and its canonical human document before editing. Skills route the work; canonical documents carry the detailed contract.
 4. Inspect the current rendered route before making visual judgments. Capture one comparable representative baseline during iteration; reserve the full viewport/theme matrix for a checkpoint or release.
 5. State the intended files, explicit non-goals, and verification evidence. Stage and commit only explicit paths.
+6. Before choosing what to improve, run `python bin/site_analytics_report.py --if-older-than 7` and read its summary of real visitors (it needs this machine's read-only Analytics key in Downloads; skip it if there is none). Never copy the key or the visitor data into the repository.
 
 ## Parallel Work Contract
 

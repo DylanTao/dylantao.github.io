@@ -1,4 +1,7 @@
+import contextlib
 import importlib.util
+import io
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -66,6 +69,14 @@ class SiteAnalyticsReportTest(unittest.TestCase):
                 report.output_dir(str(inside))
         elsewhere = ROOT.parent / "site-analytics-elsewhere"
         self.assertEqual(report.output_dir(str(elsewhere)), elsewhere.resolve())
+
+    def test_a_recent_summary_is_reused_without_asking_analytics(self) -> None:
+        with tempfile.TemporaryDirectory() as folder:
+            Path(folder, "latest.md").write_text("# last week\n", encoding="utf-8")
+            printed = io.StringIO()
+            with contextlib.redirect_stdout(printed):
+                self.assertEqual(report.main(["--out", folder, "--if-older-than", "7"]), 0)
+            self.assertEqual(printed.getvalue(), "# last week\n")
 
 
 if __name__ == "__main__":

@@ -15,6 +15,7 @@ the repository (by default ~/.local/share/site-analytics), because the repositor
 
     python bin/site_analytics_report.py                 # the last 28 days against the 28 before
     python bin/site_analytics_report.py --days 90 --out D:/private/site-analytics
+    python bin/site_analytics_report.py --if-older-than 7   # at the start of a session, on any machine
 """
 
 from __future__ import annotations
@@ -25,6 +26,7 @@ import glob
 import json
 import os
 import sys
+import time
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
@@ -157,8 +159,13 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--days", type=int, default=28)
     parser.add_argument("--out", default=str(Path.home() / ".local" / "share" / "site-analytics"))
+    parser.add_argument("--if-older-than", type=float, default=None, metavar="DAYS", help="print the last summary instead, if it is newer than this")
     args = parser.parse_args(argv)
     out = output_dir(args.out)
+    latest = out / "latest.md"
+    if args.if_older_than is not None and latest.is_file() and time.time() - latest.stat().st_mtime < args.if_older_than * 86400:
+        sys.stdout.write(latest.read_text(encoding="utf-8"))
+        return 0
     data = collect(runner(key_file()), args.days)
     today = dt.date.today().isoformat()
     summary = summarise(data, args.days, today=today)
