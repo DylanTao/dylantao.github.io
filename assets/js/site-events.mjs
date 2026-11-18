@@ -15,6 +15,7 @@ export const TRACKED = Object.freeze([
   ["[data-world-walk]", () => ["walk_start", {}]],
   ["[data-world-fullscreen]", () => ["scene_fullscreen", {}]],
   ["[data-world-view]", () => ["scene_look_around", {}]],
+  ["[data-sound-toggle]", (element) => ["sound_change", { on: element.getAttribute?.("aria-checked") === "true" ? "off" : "on" }]],
 ]);
 const SELECTOR = TRACKED.map(([selector]) => selector).join(", ");
 

@@ -45,7 +45,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
   - [x] DesignWeaver's first paint, November 17: on a throttled phone its largest paint came at about ten seconds (other pages: about two), because the hero's faint mesh background was a 170 kB image that arrived last, behind fonts and full-size figures loading early further down. The mesh is now 32 kB and the figures below the fold load lazily. Re-measure on the live site and compare the page's engagement after a few weeks.
   - [ ] Find out what someone arriving straight at a project page wants (the paper, a video, a demo, the code) and give it to them on the first screen, starting with DesignWeaver. Then the index pages: does each lead somewhere worth going?
   - [ ] After two to four weeks, read the 3D events: how many enter 3D, which looks and rooms.
-  - [ ] Count the sound switch too. (The V and F keys count since November 17, as `walk_start` and `scene_fullscreen` with `by: key`.)
+  - [x] Count the keys and the sound switch (November 17: V and F as `walk_start` and `scene_fullscreen` with `by: key`; the sound switch as `sound_change`).
 - **Fit.** Astra for the pages and the writing; Sol for the schedule. **Machine:** the laptop, with its own key.
 - **Size.** 0.3 to 0.6; a week, then ongoing. **Detail:** brief 8.
 
@@ -191,7 +191,7 @@ Item 2's data says where to start.
 
 ## Done recently
 
-- **November 17.** Click events for the 3D home and the orange. A visitor report script. Test browsers no longer report to Analytics. The painted world's second pass, and its GPU cost measured. The hand-over to Codex. Six old local branches deleted after checking their content was already in `main`.
+- **November 17.** The painted world's second pass, then: calmer at night, a dusk with form, rock modelled as masses, strokes that wrap rounded things, half the strokes on phones and small machines, its GPU cost measured, and a public Realistic / Painted choice in the Rooms panel. Visitor data: reading works, test browsers no longer report, a report script, events for clicks, keys and the sound switch. DesignWeaver's first paint on a slow phone brought from about ten seconds toward the others' two (its background image 170 kB to 46 kB; figures below the fold lazy). The paper-accent generator renders again. The PC's 42 old branches archived in OneDrive and triaged: nothing needs folding in. The hand-over to Codex, and this list.
 - **November 16.** The orange that rolls off the Page not found page into the footer's sea. Calm drawn looks. The painted world's first pass. A designed sea and sky. The cartoon's colour rebuilt.
 - **November 15.** The footer's lit building reflected properly. The novelty passage in the research starter pack. A sound engine behind `?sound=1`, judged "okish".
 

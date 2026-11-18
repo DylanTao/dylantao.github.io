@@ -33,6 +33,13 @@ test("a click on a control the home is judged by stands for one event, with no p
   assert.deepEqual(eventFor(element({ "data-world-walk": "" })), ["walk_start", {}]);
   assert.deepEqual(eventFor(element({ "data-world-fullscreen": "" })), ["scene_fullscreen", {}]);
   assert.deepEqual(eventFor(element({ "data-world-view": "" })), ["scene_look_around", {}]);
+  // The sound switch says where it is going: the click is read before the switch flips.
+  const quiet = element({ "data-sound-toggle": "" });
+  quiet.getAttribute = () => "false";
+  assert.deepEqual(eventFor(quiet), ["sound_change", { on: "on" }]);
+  const playing = element({ "data-sound-toggle": "" });
+  playing.getAttribute = () => "true";
+  assert.deepEqual(eventFor(playing), ["sound_change", { on: "off" }]);
   // A click on the icon inside a button counts as the button.
   assert.deepEqual(eventFor(element({}, element({ "data-world-walk": "" }))), ["walk_start", {}]);
   assert.equal(eventFor(element({ "data-anything-else": "" })), null);
