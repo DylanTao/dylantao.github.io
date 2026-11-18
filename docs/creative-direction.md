@@ -47,7 +47,7 @@ In order of priority. Letters point to the sections of the takeover notes, where
 
 **Direction.** A painting first, a game second. One motivated light per view and real darks. The views a visitor arrives at composed as a painter would compose them, with a place for the eye to rest. Paint follows form. The hour changes the manner of the paint as well as its colour.
 
-**Next, in order.** Measure the GPU cost and scale stroke counts by device; check a phone. Quiet the streaky strokes in night interiors. Break up the single rose of the land at dusk with warmer lit faces and cooler turned planes. Mass the cliff's cast shadows so rough rock stops breaking them into islands. Paint the plants, the pool and the bath. Take stroke direction from curvature. Then a public look switch (H4). The homepage keeps two public controls today and a browser case holds it to that (`test/visual/desk-scene.spec.js`, "quiet public controls"). Change that contract on purpose, and update the case in the same commit.
+**Next, in order.** Scale stroke counts by device and check a phone (the GPU cost on a desktop was measured November 17 and is in the record: 0.4 to 4.4 ms over the cartoon). Quiet the streaky strokes in night interiors. Break up the single rose of the land at dusk with warmer lit faces and cooler turned planes. Mass the cliff's cast shadows so rough rock stops breaking them into islands. Paint the plants, the pool and the bath. Take stroke direction from curvature. Then a public look switch (H4). The homepage keeps two public controls today and a browser case holds it to that (`test/visual/desk-scene.spec.js`, "quiet public controls"). Change that contract on purpose, and update the case in the same commit.
 
 ### 2. The gym, used (O4)
 

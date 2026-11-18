@@ -1842,7 +1842,7 @@ systems:
           - Plants, glass, the pool, the bath and anything with a picture on it take no strokes of their own and show the coat.
           - Strokes on instanced or skinned things are not scattered. Figures are meant to stay cels, and instanced furniture is simply unpainted.
           - A made thing's stroke direction is chosen from its bounding box and each triangle's normal, so it follows boards and courses but not the curve of a cushion.
-          - The counts do not scale with the device. The scatter takes 0.7 to 1.2 s here, in one go when the view holds still and over the first frames when it moves. The GPU cost of this version has not been measured, and the first pass cost 2.5 to 6.6 ms more than the cartoon.
+          - The counts do not scale with the device. The scatter takes 0.7 to 1.2 s here, in one go when the view holds still and over the first frames when it moves. Measured November 17 on this PC (an RTX 3080 Ti) at a 1280 by 720 render with frames moving, the painted look costs more GPU time than the cartoon by 1.5 ms in the living room (18.1 against 16.6), 4.4 ms over the whole home (28.4 against 24.0) and 0.4 ms outside (28.5 against 28.1), and 510 to 560 more draw calls. The median frame interval rose by 4 ms in the living room and 18 ms outside. A phone has not been measured.
           - The switch lives in the lab menu (`?scene-lab=1`). Visitors have no control yet.
         next:
           - move: Put a frame beside each of the three reference paintings and close the largest difference first, which is the light. A picture needs one motivated light and real darks.
