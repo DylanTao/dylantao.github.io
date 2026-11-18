@@ -23,6 +23,7 @@ import {
   landAlong,
   landClass,
   paintManner,
+  paintThin,
   scatterSea,
   scatterSky,
   scatterStrokes,
@@ -536,4 +537,21 @@ test("a rounded thing is painted around its form; boards and posts keep their gr
   let lengthwise = 0;
   for (let i = 0; i < posted.count; i++) if (Math.abs(posted.alongs[i * 4 + 1]) / 127 > 0.9) lengthwise++;
   assert.ok(lengthwise > posted.count * 0.8, `${lengthwise} of ${posted.count} strokes run up the post`);
+});
+
+test("a phone or a small machine carries half the paint, and the dial can say otherwise", () => {
+  const desk = { matchMedia: () => ({ matches: false }), navigator: { deviceMemory: 16, hardwareConcurrency: 16 } };
+  assert.equal(paintThin(null, desk), 1);
+  assert.equal(paintThin(null, { ...desk, matchMedia: () => ({ matches: true }) }), 0.5, "a touch screen");
+  assert.equal(paintThin(null, { ...desk, navigator: { deviceMemory: 4, hardwareConcurrency: 16 } }), 0.5, "little memory");
+  assert.equal(paintThin(null, { ...desk, navigator: { deviceMemory: 16, hardwareConcurrency: 4 } }), 0.5, "few cores");
+  assert.equal(paintThin(null, {}), 1, "nothing known: a desktop");
+  assert.equal(paintThin(0.3, desk), 0.3);
+  assert.equal(paintThin(0, desk), 0.1);
+  assert.equal(paintThin(7, desk), 1);
+  // Thinning thins what is scattered.
+  const floor = square(4);
+  const full = scatterStrokes(floor, { focus, tools }).count,
+    half = scatterStrokes(floor, { focus, tools, thin: 0.5 }).count;
+  assert.ok(Math.abs(half / full - 0.5) < 0.08, `${half} of ${full}`);
 });

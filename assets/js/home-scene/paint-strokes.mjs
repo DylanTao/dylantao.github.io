@@ -925,6 +925,17 @@ void main() {
   gl_FragColor = vec4(colour, paint * paintStroke.y * vShape.z * shows);
 }`;
 
+// How much of the paint a device can carry: all of it on a desktop, half on a touch screen or on a
+// machine that reports at most 4 GB of memory or 4 cores, where every stroke's vertices cost more
+// than they are worth. `asked` (the strokeThin dial) overrides it.
+export function paintThin(asked = null, env = globalThis) {
+  if (Number.isFinite(asked)) return Math.min(Math.max(asked, 0.1), 1);
+  const coarse = typeof env.matchMedia === "function" && env.matchMedia("(pointer: coarse)").matches,
+    nav = env.navigator || {},
+    small = (nav.deviceMemory ?? 8) <= 4 || (nav.hardwareConcurrency ?? 8) <= 4;
+  return coarse || small ? 0.5 : 1;
+}
+
 // The manner of the paint, from the sine of the sun's elevation: gouache (0) while the sun stands
 // high, oil (1) as it goes down and through the night.
 export function paintManner(sunHeight) {
@@ -1047,6 +1058,7 @@ export function createPaint({ glsl, uniforms: look, tools }) {
     world = null,
     draws = 0,
     oil = 1,
+    thin = 1,
     scatterMs = 0;
   const eye = new THREE.Vector3(),
     middle = new THREE.Vector3();
@@ -1099,7 +1111,7 @@ export function createPaint({ glsl, uniforms: look, tools }) {
     }
     wanted.sort((p, q) => p.away - q.away);
     for (const { entry } of wanted) {
-      if (performance.now() >= until || fineStrokes >= STROKE_FINE.limit) break;
+      if (performance.now() >= until || fineStrokes >= STROKE_FINE.limit * thin) break;
       const again = Boolean(entry.fine);
       if (again) drop(entry);
       const found = scatterStrokes(entry.source, {
@@ -1107,7 +1119,8 @@ export function createPaint({ glsl, uniforms: look, tools }) {
         tools,
         fine: entry.finest,
         eye,
-        limit: Math.min(STROKE_LIMITS.mesh, STROKE_FINE.limit - fineStrokes),
+        thin,
+        limit: Math.min(STROKE_LIMITS.mesh, STROKE_FINE.limit * thin - fineStrokes),
       });
       // (false: looked, and it has nothing finer to take. A large thing is asked again as the eye moves.)
       entry.fine = found ? strokeMesh(found, entry.source, 1) : again ? null : false;
@@ -1120,8 +1133,9 @@ export function createPaint({ glsl, uniforms: look, tools }) {
   }
 
   // Everything still that can be painted, nearest the view's centre first.
-  function begin(root, centre) {
+  function begin(root, centre, dials) {
     world = root;
+    thin = paintThin(dials?.strokeThin);
     focus.copy(centre);
     queue = [];
     // The sky is the same everywhere; the sea is scattered round the house.
@@ -1146,7 +1160,7 @@ export function createPaint({ glsl, uniforms: look, tools }) {
       until = from + milliseconds;
     while (queue?.length && strokes < STROKE_LIMITS.scene && performance.now() < until) {
       const { object } = queue.pop(),
-        found = scatterStrokes(object, { focus, tools, limit: Math.min(STROKE_LIMITS.mesh, STROKE_LIMITS.scene - strokes) });
+        found = scatterStrokes(object, { focus, tools, thin, limit: Math.min(STROKE_LIMITS.mesh, STROKE_LIMITS.scene - strokes) });
       if (!found) continue;
       const mesh = strokeMesh(found, object, 0);
       painted.push({
@@ -1176,7 +1190,7 @@ export function createPaint({ glsl, uniforms: look, tools }) {
     // A view that holds still (reduced motion, or paused) is painted in one go, since no later
     // frame is promised; a moving one fills in over its first frames.
     render(renderer, root, camera, { width, height, extent, centre, dials, still = false, sunHeight = 1 }) {
-      if (world !== root) begin(root, centre || camera.position);
+      if (world !== root) begin(root, centre || camera.position, dials);
       if (queue.length) scatter(still ? Infinity : dials.strokeScatter);
       else refine(camera, still ? Infinity : dials.strokeScatter);
       const perspective = camera.isPerspectiveCamera;
@@ -1220,6 +1234,7 @@ export function createPaint({ glsl, uniforms: look, tools }) {
         draws,
         scatterMs: Math.round(scatterMs),
         manner: oil,
+        thin,
         sky: skyMesh?.geometry.instanceCount ?? 0,
         sea: seaMesh?.geometry.instanceCount ?? 0,
       };

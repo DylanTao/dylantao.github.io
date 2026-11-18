@@ -23,7 +23,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 - **References.** Jake Eaton's stroke paintings, https://x.com/jkeatn/status/2119874018706874601 (light as the subject). Blendi's painted game, https://patch.gg/blendi/oil-paint (the colour rule; 1.5 million strokes a frame). rewind's painted walk, https://x.com/rewind02/status/2121991760825995575 (gouache by day, oil at sunset; "judge each frame like a painting, not a game").
 - **Analysis.** The backgrounds read as paintings now. What separates them from the references is light and composition, not strokes: every view is lit as the realistic render lights it, so nothing in it is the subject. The land at dusk is one rose, night interiors carry loud streaks, rough rock breaks cast shadows into islands, and plants, the pool and the bath show the coat.
 - **Next.**
-  - [ ] Scale stroke counts by device and judge it on a phone.
+  - [ ] Judge it on a real phone. (Scaling done November 17: touch screens and machines with at most 4 GB or 4 cores get half the strokes, `paintThin`; the `strokeThin` dial overrides. When a phone looks right, show the Rooms panel's look choice on touch screens too.)
   - [ ] One motivated light per view a visitor arrives at, with real darks.
   - [x] Quiet the strokes of night interiors (November 17: oil is only a little more broken than gouache now).
   - [x] Dusk: warm lit faces against cool turned planes (November 17: the afterglow warms only what looks toward it).

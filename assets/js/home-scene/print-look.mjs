@@ -430,6 +430,7 @@ export const PRINT_DEFAULTS = Object.freeze({
   strokeBroken: [0.14, 0.12, 0.5], // how far one stroke turns its hue (radians), the share of strokes that are accents, and how far an accent goes to the other temperature
   landPaint: 1, // how much of the land's own painting shows: beds and stains in rock, the tide's mark, patches in sand, ground and scrub
   manner: null, // null follows the sun: gouache while it stands high, oil as it goes down and through the night; a number holds it (0 gouache, 1 oil)
+  strokeThin: null, // the share of strokes laid, from 0.1 to 1; null lets the device decide (paintThin in paint-strokes.mjs)
   skyStrokes: 1, // how much the strokes laid over the sky show (0 leaves the sky to the coat)
   seaStrokes: 1, // and those laid over the sea
   shadowMass: 0, // radians of the view: a cast shadow narrower than this is left out, the way a painter masses shadows
