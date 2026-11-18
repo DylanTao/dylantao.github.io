@@ -124,7 +124,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 - **His words.** "later we can also study La Jolla local sea env".
 - **Reference.** Noniv's Abyssal Garden, https://github.com/Noniv/abyssal-garden, live at https://noniv.github.io/abyssal-garden/ (about two million kelp leaves in raw WebGPU; MIT).
 - **Next.**
-  - [ ] Study the place from citable sources: kelp, fish, rays, seals, the bottom, the water's colour by season.
+  - [x] Study the place (November 17): `docs/sea/la-jolla-underwater.md` (the reserve, giant kelp, garibaldi, leopard sharks, sea lions, the canyon; green-blue water with 3 to 12 m of visibility, clearest in autumn; what that means for the build).
   - [ ] Build: light shafts, caustics, kelp, schools, a crossing at the surface.
   - [ ] A way down (item 4's lift, or a swim).
 - **Size.** 2 to 4; 4 to 8 weeks; the study in a day. **Detail:** brief 7; takeover U.
