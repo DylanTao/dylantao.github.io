@@ -348,6 +348,8 @@ test("the strokes are drawn over the coat, follow their things, and share the lo
       this.info.render.calls += scene.children.filter((child) => child.visible).length;
     },
   };
+  // The full share of strokes whatever machine runs this (paintThin reads its cores and memory).
+  look.set({ strokeThin: 1 });
   const camera = new THREE.PerspectiveCamera(40, 16 / 9, 0.05, 300);
   const frame = { width: 1600, height: 900, extent: 2 * Math.tan((40 * Math.PI) / 360), centre: focus, dials: look.dials, still: true };
   paint.render(renderer, root, camera, frame);
