@@ -84,7 +84,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 
 - **His words.** "the bedroom can be bigger and much better well designed instead of just having a bed"; November 3: "my bedroom should maybe have curtain".
 - **Next.**
-  - [ ] Plan: the bed facing the sea, a headboard wall with a niche and reading lights, a chair at the glass, somewhere to dress, a rug, planting, the curtain, low warm night light.
+  - [x] Plan on paper (November 17): `docs/house/bedroom-plan.md`.
   - [ ] Build in the same architecture pass as item 4.
 - **Machine: PC.** **Size.** 0.4 to 0.7; 3 to 5 days. **Detail:** brief 4; takeover O7.
 
