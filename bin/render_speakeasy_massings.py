@@ -167,6 +167,7 @@ def aim(spec):
         camera.rotation_euler = (0.0, 0.0, math.pi)
     else:
         camera.rotation_euler = (Vector(spec["target"]) - Vector(spec["eye"])).to_track_quat("-Z", "Y").to_euler()
+    camera_data.clip_start = spec.get("clip", 0.1)
     if spec["ortho"]:
         camera_data.type = "ORTHO"
         camera_data.ortho_scale = spec["ortho"]
@@ -199,6 +200,11 @@ if args.get("options") == "f-gym-garden-side":
         "sea": {"eye": (5.0, 34.0, -1.0), "target": (7.5, 0.0, 1.0), "fov": 36, "ortho": None},
         "plan": {"eye": (6.5, -1.0, 60.0), "target": None, "fov": None, "ortho": 26.0},
     }
+
+if args.get("views") == "section":
+    # A section across the study's middle (x -10.5), seen from the south with everything nearer clipped
+    # away: the sea on the left, the rock overhang above the court, the drop to the beach.
+    VIEWS = {"section": {"eye": (-40.0, 4.0, 1.5), "target": (0.0, 4.0, 1.5), "fov": None, "ortho": 30.0, "clip": 29.5}}
 
 # 1. The house alone, solid, with shadows and cavity.
 scene.render.film_transparent = False
