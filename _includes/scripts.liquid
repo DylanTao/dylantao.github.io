@@ -195,6 +195,8 @@
     }
   </script>
   {% include plugins/al_analytics_scripts.liquid %}
+  <!-- What visitors do with the 3D home and the orange, as events (brief 8). -->
+  <script type="module" src="{{ '/assets/js/site-events.mjs' | relative_url | bust_file_cache }}"></script>
 {% endif %}
 
 {% if site.plugins contains 'al_img_tools' %}
