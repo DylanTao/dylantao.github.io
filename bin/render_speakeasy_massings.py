@@ -42,6 +42,11 @@ COLOURS = {
     "lift": (0.25, 0.55, 0.95, 1),
     "terrace": (0.85, 0.82, 0.76, 1),
     "grill": (0.24, 0.24, 0.26, 1),
+    "lawn": (0.42, 0.66, 0.32, 1),
+    "plants": (0.22, 0.45, 0.24, 1),
+    "water": (0.45, 0.78, 0.9, 1),
+    "hot": (0.86, 0.42, 0.3, 1),
+    "cold": (0.72, 0.9, 0.98, 1),
 }
 materials = {}
 for key, rgba in COLOURS.items():
@@ -66,7 +71,7 @@ def block(name, kind, lo, hi):
 
 
 # The study's own extension and the bookcase door are shared: a few metres south into the rock.
-SHARED = [] if args.get("options") in ("d-in-front-of-the-study", "e-dining-terrace-between") else [
+SHARED = [] if args.get("options") else [
     block("study extension", "study", (-14.6, -6.4, 0.0), (-12.3, -1.6, 3.2)),
 ]
 OPTIONS = {
@@ -111,6 +116,18 @@ OPTIONS = {
         block("bar", "bar", (-12.6, 6.0, 0.0), (-8.4, 10.0, 2.7)),
         block("framed opening", "glass", (-11.8, 10.0, 0.9), (-9.2, 10.5, 2.1)),
         block("lift shaft", "lift", (-14.0, 10.6, -7.6), (-12.4, 12.6, 2.7)),
+    ],
+    "f-gym-garden-side": [
+        # Sirui, November 18: the gym opens fully onto the flat ground in front of it (about 5 by 5 m at the
+        # gym's floor, measured in the model, ending at the cliff edge above the beach) as a lawn for yoga,
+        # Pilates, boxing, rowing and biking; a water wall and planting make the threshold a Japandi garden;
+        # further right (north), a niche carved into the rock holds a hot spa and a cold room, both facing the sea.
+        block("opening", "glass", (5.0, -0.4, 0.2), (10.6, 0.1, 3.0)),
+        block("lawn", "lawn", (2.2, 0.2, -0.06), (7.6, 4.8, 0.04)),
+        block("planting edge", "plants", (2.2, 4.4, 0.0), (7.6, 4.9, 0.55)),
+        block("water wall", "water", (7.6, 0.4, 0.0), (8.0, 4.4, 2.8)),
+        block("hot spa", "hot", (8.2, 1.0, 0.0), (9.9, 5.0, 2.8)),
+        block("cold room", "cold", (9.9, 1.0, 0.0), (11.6, 5.0, 2.8)),
     ],
 }
 only = [o for o in args.get("options", "").split(",") if o]
@@ -176,6 +193,12 @@ def save(pixels, path):
     image.save()
     bpy.data.images.remove(image)
 
+
+if args.get("options") == "f-gym-garden-side":
+    VIEWS = {
+        "sea": {"eye": (5.0, 34.0, -1.0), "target": (7.5, 0.0, 1.0), "fov": 36, "ortho": None},
+        "plan": {"eye": (6.5, -1.0, 60.0), "target": None, "fov": None, "ortho": 26.0},
+    }
 
 # 1. The house alone, solid, with shadows and cavity.
 scene.render.film_transparent = False

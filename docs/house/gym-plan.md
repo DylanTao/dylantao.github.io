@@ -10,6 +10,8 @@ The first step of docs/todo.md, item 3 (creative direction, brief 2). Written by
 
 Read as zones, from the house outward, all facing the ocean: the indoor gym (lifting, the rower and bike at the glass, the bags); a wide threshold that opens fully, with planting and a waterfall, so inside and outside read as one Japandi garden; an open lawn for yoga, Pilates and stretching, with room for boxing and the rower or bike outside on fine days; and, carved into the rock further right, a small niche with a hot spa and a cold room. Elegant rather than gym-bro: natural timber, stone, water, low planting, equipment of good design kept few and put away when not in use. The speakeasy's side of the house gets its own outdoor room (an outdoor dining terrace with the BBQ, grill and fridge by the pool, todo item 4), so the two outdoor rooms have different jobs: eating and gathering there, moving and resting here.
 
+Massing F (`docs/images/gym-garden-massing-f-2026-11-18.webp`) places these on the ground the model has: about 5 by 5 m of flat ground at the gym's floor in front of its sea face, between the infinity pool's end and the rock to the north, ending at the cliff edge; the spa niche is carved into that north rock.
+
 ## The idea
 
 The sea is the reason to train in this room, so the cardio faces it, in the light; the bags take the dim side, where hitting something feels right. The rack and platform stay where they are: his lifting already works there (the bar loading and warm-up of November 13 and 14).
