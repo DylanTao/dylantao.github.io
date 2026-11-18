@@ -204,7 +204,9 @@ if args.get("options") == "f-gym-garden-side":
 if args.get("views") == "section":
     # A section across the study's middle (x -10.5), seen from the south with everything nearer clipped
     # away: the sea on the left, the rock overhang above the court, the drop to the beach.
-    VIEWS = {"section": {"eye": (-40.0, 4.0, 1.5), "target": (0.0, 4.0, 1.5), "fov": None, "ortho": 30.0, "clip": 29.5}}
+    # --cut=X moves the cut (default the study's middle) and --centre=Y the view's middle along the coast.
+    cut, centre = float(args.get("cut", -10.5)), float(args.get("centre", 4.0))
+    VIEWS = {"section": {"eye": (-40.0, centre, 1.5), "target": (0.0, centre, 1.5), "fov": None, "ortho": 30.0, "clip": cut + 40.0}}
 
 # 1. The house alone, solid, with shadows and cavity.
 scene.render.film_transparent = False
