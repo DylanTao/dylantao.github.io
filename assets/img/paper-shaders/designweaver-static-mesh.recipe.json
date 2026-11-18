@@ -11,7 +11,7 @@
   "output_height": 270,
   "quality": 0.68,
   "output": "assets/img/paper-shaders/designweaver-static-mesh-0.0.80.webp",
-  "output_sha256": "f42dd8fefea9cfc819544afe14c9ae4d108466c1a89b19c93e3a7912878a3a4c",
+  "output_sha256": "90f6ea0bb5f1c828123b5eb64a74493be0bb784679d68bd15363e3c1977325a7",
   "parameters": {
     "scale": 0.94,
     "rotation": 0,
@@ -33,5 +33,5 @@
     "grainMixer": 0.06,
     "grainOverlay": 0.015
   },
-  "postprocess": "November 17, 2026: the generator's 960 by 540 render, downscaled to 480 by 270 (Pillow, Lanczos) and re-encoded as WebP at quality 60 with method 6. The field is shown faint (opacity 0.28) behind a mask, and at 170 kB it was the last thing to arrive on the DesignWeaver page, holding its first paint to about ten seconds on a slow phone."
+  "output_quality": 0.6
 }

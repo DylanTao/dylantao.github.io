@@ -119,7 +119,9 @@ const server = http.createServer((request, response) => {
 (async () => {
   await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
   const address = server.address();
-  const browser = await chromium.launch({ headless: true });
+  // Software WebGL, named: Chromium stopped falling back to it on its own, and the shaders then drew
+  // nothing (November 17, 2026).
+  const browser = await chromium.launch({ headless: true, args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
   try {
     for (const recipePath of recipePaths) {
       activeRecipe = JSON.parse(fs.readFileSync(recipePath, "utf8"));
@@ -152,7 +154,21 @@ const server = http.createServer((request, response) => {
           throw new Error(`Generated ${activeRecipe.shader} accent failed the pixel check: ${JSON.stringify(sample)}`);
         }
         const quality = activeRecipe.quality ?? 0.8;
-        const dataUrl = await page.locator("#accent canvas").evaluate((canvas, webpQuality) => canvas.toDataURL("image/webp", webpQuality), quality);
+        // A soft field can be stored smaller than it is drawn (output_width, output_height): it is
+        // shown faint and scaled up, and a large file held back the first paint of its page.
+        const dataUrl = await page.locator("#accent canvas").evaluate(
+          (canvas, { webpQuality, width, height }) => {
+            if (!width || !height) return canvas.toDataURL("image/webp", webpQuality);
+            const out = document.createElement("canvas");
+            out.width = width;
+            out.height = height;
+            const context = out.getContext("2d");
+            context.imageSmoothingQuality = "high";
+            context.drawImage(canvas, 0, 0, width, height);
+            return out.toDataURL("image/webp", webpQuality);
+          },
+          { webpQuality: activeRecipe.output_quality ?? quality, width: activeRecipe.output_width, height: activeRecipe.output_height }
+        );
         if (!dataUrl.startsWith("data:image/webp;base64,")) throw new Error("Chromium did not encode WebP");
         fs.mkdirSync(path.dirname(outputPath), { recursive: true });
         fs.writeFileSync(outputPath, Buffer.from(dataUrl.split(",", 2)[1], "base64"));
