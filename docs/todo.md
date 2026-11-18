@@ -165,7 +165,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 - [ ] Under the pool (O2).
 - [ ] Rooms the section buries (B2 step 2).
 - [ ] The stair hall (H7).
-- [ ] A bar through a body in the squat, bench and press, on every avatar (H5).
+- [x] A bar through a body in the squat, bench and press (H5), November 17, measured on the test skeleton through whole repetitions. None passes through: the back squat's bar rests on the upper back about 11 cm clear of the neck, the front squat's on the front of the shoulders about 13 cm clear, the bench bar comes down over the lower chest to 2 to 4 cm above it in a J-shaped path, and the press bar keeps clear of the head. Every avatar: the rig steers the bar by each figure's own head, measured from its mesh (`measureHead` in `lift-rig.mjs`). Found and fixed on the way: the press dropped its hold in front of the face at one height, so the bar and the hands jumped about 13 cm in a single frame on the way up and again on the way down; they now glide back over the head (largest step 1.7 mm), and `test/coastal-lift-rig.test.mjs` holds both clearance and smoothness. Not yet seen in the browser, and each avatar's chest and limb thickness is not measured.
 - [ ] A roof that visibly lifts (B2 step 3).
 
 **Machine: PC.** **Size:** 0.15 to 0.5 each. **Detail:** takeover B, H, O.

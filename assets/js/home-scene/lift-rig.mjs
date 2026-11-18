@@ -344,10 +344,13 @@ export function createLiftRig(actor) {
         .clone()
         .lerp(lock, e)
         .addScaledVector(forward, 0.07 * pass);
-      // Past the face the bar keeps in front of it, then comes back over the crown at lockout.
-      const height = bar.clone().sub(s).dot(up);
-      if (height < dims.neck + dims.head.max.y + 0.03)
-        bar.addScaledVector(forward, Math.max(0, dims.head.max.z + 0.035 - bar.clone().sub(s).dot(forward)));
+      // Past the face the bar keeps in front of it, then comes back over the crown at lockout. The
+      // hold eases off over the 8 cm above the crown's clearance, so the bar, and the hands on it,
+      // glide back over the head once it is clear. Ending the hold at one height made both jump
+      // about 13 cm in a single frame, on the way up and again on the way down (November 17).
+      const height = bar.clone().sub(s).dot(up),
+        hold = 1 - smooth((height - (dims.neck + dims.head.max.y + 0.03)) / 0.08);
+      if (hold > 0) bar.addScaledVector(forward, hold * Math.max(0, dims.head.max.z + 0.035 - bar.clone().sub(s).dot(forward)));
       if (ctx.hooks && take < 1) bar = fromRoom(ctx.hooks).lerp(rack, smooth(take));
       arms(sideways(0.25, bar), hintsOut(0.4 + 0.6 * e, -0.4 + 0.4 * e, 1 - e));
       return { bar, axis: V(1, 0, 0) };

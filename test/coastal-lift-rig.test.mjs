@@ -142,6 +142,38 @@ test("releasing hands every bone back to its bind pose", () => {
   });
 });
 
+test("the press bar glides around the head: clear of it, and never jumping", () => {
+  // The head box the rig steers by (its default when a figure has no mesh), carried by the head
+  // bone, against the bar's centre in the plane the bar crosses. The press used to hold the bar in
+  // front of the face until one height and then drop the hold, so the bar and the hands jumped
+  // about 13 cm in one frame on the way up and again on the way down.
+  const BAR = 0.0145;
+  const { actor } = figure();
+  const rig = createLiftRig(actor);
+  let head;
+  actor.traverse((o) => o.isBone && o.name === "Head" && (head = o));
+  const box = { min: new THREE.Vector3(-0.11, -0.12, -0.12), max: new THREE.Vector3(0.11, 0.24, 0.12) },
+    local = new THREE.Vector3(),
+    inverse = new THREE.Matrix4();
+  let previous = null,
+    largest = 0,
+    closest = Infinity;
+  for (let i = 0; i <= 1800; i++) {
+    const u = (i / 1800) * 0.9;
+    rig.release();
+    const out = rig.apply("ohp", u, {});
+    actor.parent.updateMatrixWorld(true);
+    local.copy(out.center).applyMatrix4(inverse.copy(head.matrixWorld).invert());
+    const dy = Math.max(box.min.y - local.y, 0, local.y - box.max.y),
+      dz = Math.max(box.min.z - local.z, 0, local.z - box.max.z);
+    closest = Math.min(closest, Math.hypot(dy, dz) - BAR);
+    if (previous) largest = Math.max(largest, out.center.distanceTo(previous));
+    previous = out.center.clone();
+  }
+  assert.ok(closest > 0, `the bar passes ${(-closest * 1000).toFixed(1)} mm inside the head`);
+  assert.ok(largest < 0.005, `the bar jumps ${(largest * 100).toFixed(1)} cm in one 1/2000 of a repetition`);
+});
+
 test("the deadlift bar stays in front of the shins and thighs through a whole repetition", () => {
   // The bar's centre against each leg's centre line, in the plane the bar crosses (height, forward).
   // Radii: the bar's shaft, a shin and a thigh of this skeleton's build.
