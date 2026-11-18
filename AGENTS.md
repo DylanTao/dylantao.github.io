@@ -7,6 +7,7 @@
 - Start with `.github/copilot-instructions.md` for architecture, ownership boundaries, and CI expectations.
 - Use `.codex/skills/al-folio-upstream-sync/SKILL.md` before syncing upstream al-folio into this customized site.
 - Use `docs/BOUNDARIES.md` as the source of truth for starter-vs-plugin ownership.
+- Use `docs/creative-direction.md` for who does what (Claude as creative director, Codex as engineer and designer), the reference works that set the quality bar, and the design briefs in priority order.
 - Use `.agents/skills/al-folio-bootstrap/SKILL.md` for new-site setup tasks.
 - Use `.agents/skills/al-folio-v1-migration/SKILL.md` when planning a full customized-fork migration.
 - Use `.codex/skills/tacit-knowledge-to-skill/SKILL.md` when deciding whether a living heuristic should stay human-facing, become a new Codex skill, or update an existing skill.
@@ -110,6 +111,7 @@ Source checks are not a substitute for rendered inspection when public UI change
 - `docs/homepage-desk-scene-brief.md` remains the canonical desk-scene brief and handoff prompt.
 - `docs/material-lite-revamp.md` remains the canonical Material-Lite design-grammar intent: orange is the identity source color, the `--md-lite-*` token set is preferred over one-off values, and the navbar brand-mark rules live there.
 - `docs/design-experiment-backlog.md` remains the durable queue for unproven visual and interaction ideas, including hypothesis, licensing, visitor benefit, evidence, Sirui's decision, and revisit trigger.
+- `docs/creative-direction.md` (November 17, 2026) holds the roles, the references Sirui set as the bar with their makers and links, and the creative director's briefs. Where it and Sirui's own words in the takeover notes disagree, his words win.
 - `docs/november-2026-takeover.md` is the resume point from November 13, 2026: the open todo list, an ideas ledger, and a notebook of what was tried and why. Add to it as you work.
 - `docs/october-2026-handoff.md` holds Sirui's intent by stream and the working conventions up to that date. Read its `Codex continuation brief` and `Opus continuation checklist`; the sections further down are history. Reconcile current statuses and evidence before treating an old checkbox or parked WIP as remaining work.
 - `docs/site-experience-roadmap.md` preserves the historical September 2026 plan for accessibility, tokens, wayfinding, motion, hidden-page hygiene and the scene handoff. Its dated model assignments and open lists do not supersede the current handoff or design contracts.
