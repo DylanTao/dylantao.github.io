@@ -183,7 +183,7 @@ Item 2's data says where to start.
 
 ### 16. Housekeeping
 
-- [ ] The PC archive in Sirui's OneDrive, `site-pc-archive-20261117`: 42 branches and the October worktrees' uncommitted changes, with a README. Keep it private; some may hold material from a private study that must never be published. Triaged November 17 (`TRIAGE.md` there): 35 branches are almost certainly superseded (they conflict with main, and main has rewritten every file they touched since), 4 add nothing, and 7 carry files main never got; read those 7 first, listed at the top of `TRIAGE.md`.
+- [x] The PC archive in Sirui's OneDrive, `site-pc-archive-20261117`: 42 branches and the October worktrees' uncommitted changes, with a README. Keep it private; some may hold material from a private study that must never be published. Triaged November 17 (`TRIAGE.md` there): 35 branches are almost certainly superseded (they conflict with main, and main has rewritten every file they touched since), 4 add nothing, and 7 carry files main never got; those 7 were read the same day: what main never got is October review renders and notes, four small tests and one module from features that landed differently since. Nothing needs folding in; the archive is history.
 - [ ] Follow AGENTS.md's standing rules: the end-of-batch code activity refresh, Google Scholar freshness, and never pushing during the nightly metrics run.
 - [ ] Known CI flakes: takeover G.
 
