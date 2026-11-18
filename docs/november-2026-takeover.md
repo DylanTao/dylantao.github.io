@@ -41,6 +41,8 @@ Sirui asked for a wrap-up to save tokens. Everything below is committed and push
 
 Sirui, November 14: "show me a high level list of the todos ... so we can align that you didn't forget anything or lost anything between session change ... it is ok that the task is hard ... as long as we write that down, we can just keep pushing with every week's token ... but i don't want to keep re-explain myself."
 
+**The list to work from is now `docs/todo.md`** (November 17): everything open in priority order, with references, analysis and the machine each item needs. The tables below keep the estimates and their history.
+
 **Who does what, from November 17:** Claude directs and Codex builds, with freedom to interpret. The roles, the references with their makers, and the briefs are in `docs/creative-direction.md`.
 
 This is that list. It is the first thing to read and the first thing to update. Letters point to the sections under "Todo"; the detail and the evidence live there. Nothing here needs to finish in one session.

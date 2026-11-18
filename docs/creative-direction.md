@@ -2,7 +2,7 @@
 
 Written by Claude on November 17, 2026, as the hand-over to Codex. Sirui asked that day for Claude to act as creative director and finish the design, and for Codex to be the engineer who builds it, "and in that process, also has its creative freedom of interpretation and execution while semi-respect your original goal, yet also try to interpret my original request".
 
-So this file holds three things: who does what, the bar every frame is judged against, and the briefs. The list of open work with estimates, and Sirui's requests in his own words, stay in `docs/november-2026-takeover.md` ("The list" and "What Sirui has asked for"). Read those first. When a brief here and his words there disagree, his words win. Quotes here are lightly corrected for spelling; the verbatim words are in the takeover notes.
+So this file holds three things: who does what, the bar every frame is judged against, and the briefs. The list of open work with estimates, and Sirui's requests in his own words, stay in `docs/november-2026-takeover.md` ("The list" and "What Sirui has asked for"). Read those first, and `docs/todo.md`, the list of everything open. When a brief here and his words there disagree, his words win. Quotes here are lightly corrected for spelling; the verbatim words are in the takeover notes.
 
 ## Who does what
 

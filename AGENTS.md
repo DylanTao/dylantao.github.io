@@ -7,6 +7,7 @@
 - Start with `.github/copilot-instructions.md` for architecture, ownership boundaries, and CI expectations.
 - Use `.codex/skills/al-folio-upstream-sync/SKILL.md` before syncing upstream al-folio into this customized site.
 - Use `docs/BOUNDARIES.md` as the source of truth for starter-vs-plugin ownership.
+- Use `docs/todo.md` for everything open, in priority order, for any model on either machine: each item's state, Sirui's words, references with links and images, analysis, next steps, and which machine it needs.
 - Use `docs/creative-direction.md` for who does what (Claude as creative director, Codex as engineer and designer), the reference works that set the quality bar, and the design briefs in priority order.
 - Use `.agents/skills/al-folio-bootstrap/SKILL.md` for new-site setup tasks.
 - Use `.agents/skills/al-folio-v1-migration/SKILL.md` when planning a full customized-fork migration.
