@@ -124,6 +124,31 @@ test("floors carry the walker at their exact height; walls and furniture stop it
   assert.ok(t.blocked && t.z > -2.2 + BODY.radius - 0.06, `${t.z}`);
 });
 
+// The movement audit of November 17 asked whether a walker stops dead against a wall met at an
+// angle. It slides: the push out of the wall removes only the part of each step that goes into it.
+test("walking into a wall at an angle slides along it, keeping the along-wall speed", () => {
+  const field = room(),
+    angle = (30 * Math.PI) / 180,
+    speed = 2,
+    dt = 1 / 60,
+    start = { x: -4, z: -3, foot: 0 };
+  for (const how of ["move", "sweepBody"]) {
+    let s = { ...start },
+      stuck = 0;
+    for (let frame = 0; frame < 120; frame++) {
+      const dx = -Math.sin(angle) * speed * dt,
+        dz = Math.cos(angle) * speed * dt,
+        next = how === "move" ? field.move(s.x, s.z, s.foot, dx, dz) : field.sweepBody(s, { dx, dz, grounded: true });
+      if (Math.hypot(next.x - s.x, next.z - s.z) < 1e-4) stuck++;
+      s = { x: next.x, z: next.z, foot: next.foot };
+    }
+    assert.ok(s.x <= -5 + BODY.radius + field.cell + 1e-3, `${how}: reached the wall, ${s.x}`);
+    assert.ok(Math.abs(s.z - start.z - 2 * speed * Math.cos(angle)) < 0.05, `${how}: kept the along-wall speed, ${s.z - start.z}`);
+    assert.equal(stuck, 0, `${how}: never stopped dead`);
+    assert.equal(s.foot, 0);
+  }
+});
+
 test("a long step is broken into short ones: nothing a column thick is tunnelled", () => {
   const field = createWalkField({ min: [-3, -1, -3], max: [3, 3, 3] });
   box(field, [-3, -0.2, -3], [3, 0, 3]);
