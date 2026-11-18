@@ -25,7 +25,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 - **Next.**
   - [ ] Scale stroke counts by device and judge it on a phone.
   - [ ] One motivated light per view a visitor arrives at, with real darks.
-  - [ ] Quiet the strokes of night interiors.
+  - [x] Quiet the strokes of night interiors (November 17: oil is only a little more broken than gouache now).
   - [ ] Dusk: warm lit faces against cool turned planes.
   - [ ] Mass the cliff's cast shadows.
   - [ ] Paint the plants, the pool and the bath.

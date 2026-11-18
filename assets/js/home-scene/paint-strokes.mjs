@@ -1135,12 +1135,13 @@ export function createPaint({ glsl, uniforms: look, tools }) {
       uniforms.paintResolution.value.set(width, height);
       uniforms.paintScale.value.set(height / Math.max(extent, 1e-6), perspective ? 1 : 0, dials.strokePixels[0], dials.strokePixels[1]);
       // Gouache lies flat; oil stands up from the picture.
-      uniforms.paintStroke.value.set(STROKE_ASPECT, dials.strokeOpacity, dials.strokeSpill, dials.strokeImpasto * between(0.3, 0.85, oil));
+      uniforms.paintStroke.value.set(STROKE_ASPECT, dials.strokeOpacity, dials.strokeSpill, dials.strokeImpasto * between(0.3, 0.6, oil));
       uniforms.paintVary.value.set(dials.strokeVary[0], dials.strokeVary[1], dials.strokeVary[2]);
-      // Oil is more broken than gouache, and its bristles part sooner.
-      const broken = between(0.65, 1.3, oil);
+      // Oil is a little more broken than gouache and its bristles part a little sooner. More than
+      // this, and a lamp-lit room at night flickered stroke by stroke (November 17).
+      const broken = between(0.7, 0.95, oil);
       uniforms.paintBroken.value.set(dials.strokeBroken[0] * broken, dials.strokeBroken[1], dials.strokeBroken[2] * broken, dials.landPaint);
-      uniforms.paintManner.value.set(between(0.16, 0.3, oil), between(0.36, 0.52, oil), oil, between(1.15, 0.92, oil));
+      uniforms.paintManner.value.set(between(0.24, 0.3, oil), between(0.44, 0.52, oil), oil, between(1.15, 0.92, oil));
       // A stroke goes where its thing goes, and is put away with it.
       for (const { mesh, source, fine } of painted) {
         mesh.visible = shown(source);

@@ -374,7 +374,7 @@ test("the strokes are drawn over the coat, follow their things, and share the lo
   const flat = paint.material.uniforms.paintStroke.value.w;
   paint.render(renderer, root, camera, { ...frame, sunHeight: 0.02 });
   assert.equal(paint.evidence().manner, 1);
-  assert.ok(paint.material.uniforms.paintStroke.value.w > flat * 2.5);
+  assert.ok(paint.material.uniforms.paintStroke.value.w > flat * 1.8);
   paint.render(renderer, root, camera, { ...frame, sunHeight: 0.02, dials: { ...look.dials, manner: 0 } });
   assert.equal(paint.evidence().manner, 0);
   // The floor and the chair were painted with the smallest size already, so they have nothing
