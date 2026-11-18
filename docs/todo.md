@@ -72,7 +72,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 - **Where.** `docs/images/sirui-2026-11-16-house-at-night-speakeasy-and-lift.webp`: his orange ring is the dark rock right of the study, and his two lines run down to the beach.
 - **Analysis.** A bar reached through a bookcase keeps the surprise the word speakeasy promises. The lift ties the house to the beach, and later perhaps to the sea below (item 9).
 - **Next.**
-  - [ ] Three massings on paper, rendered in Blender's workbench. Written November 17: `docs/house/speakeasy-massing.md` (behind the bookcase, along the cliff face, a half level down; recommendation: along the cliff face with the bookcase door). Render them next.
+  - [x] Three massings on paper, rendered in Blender's workbench (November 17): `docs/house/speakeasy-massing.md` (behind the bookcase, along the cliff face, a half level down; recommendation: along the cliff face with the bookcase door), drawn from the sea and in plan in `docs/images/speakeasy-massings-2026-11-17.webp` by `bin/render_speakeasy_massings.py`. The ring on his screenshot is the sandstone headland south of the cave study: it rises about 11 m above the study's floor, its sea face stands about 14 m out from the study's glass and about 7.5 m above the beach, which sets the lift's ride.
   - [ ] One chosen with Sirui.
   - [ ] Build the study's extension and the bar.
   - [ ] Build the lift and ride it in walk mode.

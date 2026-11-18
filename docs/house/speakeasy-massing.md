@@ -30,6 +30,10 @@ Behind the bookcase a short spiral stair goes down half a level to the bar, whic
 - **Costs:** a stair for walk mode and the camera (the stair hall lesson, H7), a terrace that must look engineered (the under-the-pool lesson, O2), the most varied geometry.
 - **From the sea:** a terrace with a light under the study, the lift dropping from it.
 
+## Rendered
+
+`docs/images/speakeasy-massings-2026-11-17.webp`, made by `bin/render_speakeasy_massings.py` (Blender's workbench, November 17): each option from the sea and in plan, the bar in amber, the study's extension in oak, glass in pale yellow and the lift in blue, laid over the house so they read through the rock. The site, measured in the model: the study's floor is the house's zero, behind glass about 0.8 m landward of the model's origin line; the headland Sirui ringed rises to about 11 m south of the study; its sea face is about 14 m out from the study's glass; the beach is about 7.5 m below the study's floor.
+
 ## Recommendation
 
 **B**, with A's secret door. It answers what he drew (the empty dark rock right of the study, lit), gives the bar the view the house is built for, carves the least, and keeps the lift at the end of a room rather than inside rock. If he wants the surprise above all, A. Decide the tide-line question after the massing: whether the shaft goes on below the water to a window into the sea (item 9).
