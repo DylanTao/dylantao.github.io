@@ -141,7 +141,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 - **His words** (November 14). "a better mini-movie like experience", switching looks during a choreographed walk-through or drone flight, with the site's own music.
 - **References.** Riley Brown's two-minute Blender film, https://www.youtube.com/watch?v=Bvb4DxB35MM (details: https://claude.ai/artifact/BkA6dzdGMx796WymCFpRyZ). techfren's headless Blender short, https://x.com/techfren/status/2119926681716834440. CCapture.js for frame-exact capture.
 - **Next.**
-  - [ ] A shot list on one page (N1).
+  - [x] A shot list on one page (N1), November 17: `docs/film/shot-list.md` (nine shots, about two minutes).
   - [ ] A camera on rails over the live scene (N2).
   - [ ] Looks during the film (N3).
   - [ ] Sound to picture (N4).
