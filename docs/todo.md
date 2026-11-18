@@ -55,7 +55,8 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 - **As it stands.** `docs/images/sirui-2026-11-16-gym-as-it-stands.png`.
 - **Analysis.** A rack, a platform and a training screen, then dark empty floor. The sea is the reason to train in this room, so the cardio faces it and the bags take the dim side.
 - **Next.**
-  - [ ] Plan on paper, then build in Blender to real sizes: rower and bike at the glass, bag corner with a heavy bag, a double-end bag and a speed bag.
+  - [x] Plan on paper (November 17): `docs/house/gym-plan.md`.
+  - [ ] Build in Blender to real sizes: rower and bike at the glass, bag corner with a heavy bag, a double-end bag and a speed bag.
   - [ ] Rowing, riding and bag work for every avatar, audited for a handle or a pedal through the body (H5).
   - [ ] The bag swings as a damped pendulum; the rower's fan and the bike's wheel spin down.
   - [ ] Judge at 7 am and 9 pm from the room and from the sea; keep the light bake inside its triangle budget.
