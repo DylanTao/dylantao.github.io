@@ -2879,7 +2879,8 @@ export function createCoastalHome(container, records, artifacts) {
         const lines = e.deltaMode === 1 ? 32 : e.deltaMode === 2 ? 320 : 1;
         // A pinch reports small steps; a mouse notch (also with Ctrl) is about 100.
         const pinchStep = pinching && Math.abs(e.deltaY * lines) < 40;
-        zoomBy(Math.exp(e.deltaY * lines * (pinchStep ? 0.01 : 0.0016)), e);
+        // A wheel tick moves about 12 percent (17.5 felt fast in the audit of November 17).
+        zoomBy(Math.exp(e.deltaY * lines * (pinchStep ? 0.01 : 0.0011)), e);
       },
       { passive: false }
     );
