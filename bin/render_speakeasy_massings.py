@@ -41,6 +41,7 @@ COLOURS = {
     "glass": (1.0, 0.93, 0.55, 1),
     "lift": (0.25, 0.55, 0.95, 1),
     "terrace": (0.85, 0.82, 0.76, 1),
+    "grill": (0.24, 0.24, 0.26, 1),
 }
 materials = {}
 for key, rgba in COLOURS.items():
@@ -65,7 +66,7 @@ def block(name, kind, lo, hi):
 
 
 # The study's own extension and the bookcase door are shared: a few metres south into the rock.
-SHARED = [] if args.get("options") == "d-in-front-of-the-study" else [
+SHARED = [] if args.get("options") in ("d-in-front-of-the-study", "e-dining-terrace-between") else [
     block("study extension", "study", (-14.6, -6.4, 0.0), (-12.3, -1.6, 3.2)),
 ]
 OPTIONS = {
@@ -99,6 +100,17 @@ OPTIONS = {
         block("bar", "bar", (-12.6, 3.4, 0.0), (-8.4, 9.4, 2.7)),
         block("framed opening", "glass", (-11.8, 9.4, 0.9), (-9.2, 9.9, 2.1)),
         block("lift shaft", "lift", (-14.0, 10.2, -7.6), (-12.4, 12.2, 2.7)),
+    ],
+    "e-dining-terrace-between": [
+        # Sirui, later on November 18: D, with a semi-open room of its own between the study and the bar so the
+        # study quarter stays quiet: an outdoor dining terrace open to the pool on its north side, the BBQ, grill
+        # and fridge in a counter against the rock on its south side.
+        block("study forward", "study", (-12.3, -0.8, 0.0), (-8.7, 2.2, 3.2)),
+        block("dining terrace", "terrace", (-12.6, 2.2, -0.06), (-7.6, 6.0, 0.04)),
+        block("grill counter", "grill", (-12.6, 2.5, 0.0), (-11.9, 5.7, 0.95)),
+        block("bar", "bar", (-12.6, 6.0, 0.0), (-8.4, 10.0, 2.7)),
+        block("framed opening", "glass", (-11.8, 10.0, 0.9), (-9.2, 10.5, 2.1)),
+        block("lift shaft", "lift", (-14.0, 10.6, -7.6), (-12.4, 12.6, 2.7)),
     ],
 }
 only = [o for o in args.get("options", "").split(",") if o]
