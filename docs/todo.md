@@ -27,7 +27,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
   - [ ] One motivated light per view a visitor arrives at, with real darks.
   - [x] Quiet the strokes of night interiors (November 17: oil is only a little more broken than gouache now).
   - [x] Dusk: warm lit faces against cool turned planes (November 17: the afterglow warms only what looks toward it).
-  - [ ] Mass the cliff's cast shadows.
+  - [ ] Mass the cliff's shadows. Tried November 17: doubling `shadowMass` (0.008 to 0.016) changed almost nothing, because the islands are not small cast shadows but the rough rock's own facets turning from the sun, shaded from each pixel's raw normal. Next: shade form from a smoothed normal (the structure normal averaged over a metre or two, or a low-detail copy of the land's mesh), and keep cast shadows from the shadow map.
   - [ ] Paint the plants, the pool and the bath.
   - [ ] Strokes follow curvature.
   - [ ] A public look switch (H4). The homepage keeps two public buttons and a browser case holds it to that; change both in one commit.
