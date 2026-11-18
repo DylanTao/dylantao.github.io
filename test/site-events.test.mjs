@@ -63,3 +63,35 @@ test("events go to Analytics only when its tag is on the page, and the orange's 
     ["event", "orange_roll", {}],
   ]);
 });
+
+test("the walk and full-screen keys count only when they really started walking or went full screen", () => {
+  const listeners = {},
+    walkButton = { pressed: "false", getAttribute: () => walkButton.pressed },
+    doc = {
+      fullscreenElement: null,
+      querySelector: () => walkButton,
+      addEventListener: (type, listener) => (listeners[type] = listener),
+    };
+  const sent = [],
+    timers = [],
+    win = { gtag: (...args) => sent.push(args), setTimeout: (fn) => timers.push(fn) };
+  installSiteEvents(doc, win);
+  const press = (key, extra = {}) => listeners.keydown({ key, ...extra });
+  press("v");
+  walkButton.pressed = "true";
+  timers.shift()();
+  press("V");
+  walkButton.pressed = "false";
+  timers.shift()();
+  press("f");
+  doc.fullscreenElement = {};
+  timers.shift()();
+  press("x");
+  press("v", { repeat: true });
+  press("f", { ctrlKey: true });
+  assert.equal(timers.length, 0, "other keys, held keys and shortcuts are ignored");
+  assert.deepEqual(sent, [
+    ["event", "walk_start", { by: "key" }],
+    ["event", "scene_fullscreen", { by: "key" }],
+  ]);
+});

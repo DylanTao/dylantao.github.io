@@ -45,7 +45,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
   - [x] DesignWeaver's first paint, November 17: on a throttled phone its largest paint came at about ten seconds (other pages: about two), because the hero's faint mesh background was a 170 kB image that arrived last, behind fonts and full-size figures loading early further down. The mesh is now 32 kB and the figures below the fold load lazily. Re-measure on the live site and compare the page's engagement after a few weeks.
   - [ ] Find out what someone arriving straight at a project page wants (the paper, a video, a demo, the code) and give it to them on the first screen, starting with DesignWeaver. Then the index pages: does each lead somewhere worth going?
   - [ ] After two to four weeks, read the 3D events: how many enter 3D, which looks and rooms.
-  - [ ] Count keyboard shortcuts and the sound switch too.
+  - [ ] Count the sound switch too. (The V and F keys count since November 17, as `walk_start` and `scene_fullscreen` with `by: key`.)
 - **Fit.** Astra for the pages and the writing; Sol for the schedule. **Machine:** the laptop, with its own key.
 - **Size.** 0.3 to 0.6; a week, then ongoing. **Detail:** brief 8.
 

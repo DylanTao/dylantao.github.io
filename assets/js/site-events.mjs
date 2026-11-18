@@ -4,7 +4,8 @@
 // apply, so nothing is sent without consent or from a browser driven by automation.
 //
 // One listener on the document reads clicks on the controls that matter, so no scene module has to
-// know about analytics. Keyboard shortcuts (V to walk, F for full screen) are not counted yet.
+// know about analytics. The keyboard shortcuts V (walk) and F (full screen) count too, when the key
+// really started walking or entered full screen.
 
 export const TRACKED = Object.freeze([
   ['[data-home-desk-mode="3d"]', () => ["scene_enter_3d", {}]],
@@ -34,6 +35,21 @@ export function installSiteEvents(doc, win) {
     (event) => {
       const found = eventFor(event.target);
       if (found) send(found);
+    },
+    { capture: true, passive: true }
+  );
+  doc.addEventListener(
+    "keydown",
+    (event) => {
+      const key = String(event.key || "").toLowerCase();
+      if (event.repeat || event.ctrlKey || event.metaKey || event.altKey || (key !== "v" && key !== "f")) return;
+      const walk = doc.querySelector?.("[data-world-walk]"),
+        walking = walk?.getAttribute("aria-pressed") === "true",
+        full = Boolean(doc.fullscreenElement);
+      win.setTimeout?.(() => {
+        if (key === "v" && !walking && walk?.getAttribute("aria-pressed") === "true") send(["walk_start", { by: "key" }]);
+        if (key === "f" && !full && doc.fullscreenElement) send(["scene_fullscreen", { by: "key" }]);
+      }, 300);
     },
     { capture: true, passive: true }
   );
