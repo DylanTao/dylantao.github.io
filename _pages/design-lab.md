@@ -24,7 +24,7 @@ reading_list:
 featured_work:
   - title: DesignWeaver
     url: /projects/designweaver/
-    image: /assets/img/publication_preview/designweaver-transparent.png
+    image: /assets/img/publication_preview/designweaver-teaser.svg
     alt: Original DesignWeaver figure connecting a design brief, dimension palette, and image gallery.
     image_aspect: 16 / 9
     image_width: 2294
