@@ -1060,6 +1060,12 @@ uniform vec4 printWeather;     // cloud cover, high streaks, the marine layer, s
 uniform vec4 printSea;         // the sea's level, seconds, how much the coat's own strokes show, 1 when the view has a sea to design
 uniform vec4 printSeaShallow;  // OKLab, and the metres of water that carry the colour to its deep
 uniform vec3 printSeaDeep;     // OKLab
+uniform vec4 printPool;        // the pool's water: x unused, y its level, z unused, w 1 when the scene has one
+uniform vec4 printPoolBox;     // the pool's footprint in the world: least x, least z, most x, most z
+// Whether a point of the world lies under the pool's water.
+bool underPool(vec3 p) {
+  return printPool.w > 0.5 && p.y < printPool.y - 0.02 && p.x > printPoolBox.x && p.x < printPoolBox.z && p.z > printPoolBox.y && p.z < printPoolBox.w;
+}
 float fieldHash(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
   p += dot(p, p + 45.32);
@@ -1355,6 +1361,39 @@ void main() {
     }
   }
 
+  // The pool: flat clear water at a known height. The floor shows through it, tinted by the water
+  // over it; the sky lies on it where it is looked along; the wind brushes it in short cells and
+  // the sun glints in a few. The strokes leave what lies under it to this.
+  if (local && printPool.w > 0.5 && printCamera.z > 0.5 && isSea < 0.5) {
+    vec3 eye = printWorld[3].xyz;
+    vec3 ray = normalize(mat3(printWorld) * placed(vUv, 1.0));
+    vec4 bed = texture2D(tStructure, vUv);
+    if (eye.y > printPool.y && ray.y < -1e-4) {
+      float far = (printPool.y - eye.y) / ray.y;
+      float facing = dot(ray, -normalize(printWorld[2].xyz));
+      vec3 water = eye + ray * far;
+      bool inside = water.x > printPoolBox.x && water.x < printPoolBox.z && water.z > printPoolBox.y && water.z < printPoolBox.w;
+      if (inside && far * facing < bed.w + 0.02) {
+        isSea = 1.0;
+        float under = max(printPool.y - (eye + ray * (bed.w / max(facing, 1e-3))).y, 0.0);
+        vec3 floorLab = labLinear(pow(clamp(colour, 0.0, 1.0), vec3(2.2)));
+        vec3 tint = vec3(min(printSeaShallow.x + 0.1, 0.94), printSeaShallow.yz * 0.85);
+        vec3 fill = mix(floorLab, tint, 0.28 + 0.42 * (1.0 - exp(-under / 1.1)));
+        vec3 back = normalize(vec3(ray.x, abs(ray.y) + 0.02, ray.z));
+        float graze = pow(1.0 - clamp(-ray.y, 0.0, 1.0), 5.0);
+        fill = mix(fill, skyClear(back), (0.05 + 0.9 * graze) * 0.6);
+        vec2 lay = water.xz / vec2(0.55, 0.14);
+        lay.x += 0.5 * floor(lay.y);
+        vec2 cell = floor(lay);
+        float own = hash(cell + 41.0);
+        fill.x += (own - 0.5) * 0.05;
+        float glint = smoothstep(0.9, 0.998, dot(back, printKeyDir.xyz)) * step(0.02, printKeyDir.y) * printKeyDir.w * step(0.72, hash(cell + 7.0));
+        fill = mix(fill, vec3(mix(0.9, 0.975, printDay.x), mix(printMoon.xy * 0.4, printLightMix.xy * 0.6, printDay.x)), glint * 0.85);
+        colour = unlab(airFill(fill, far * 0.5));
+      }
+    }
+  }
+
   // The sheet: its tooth, a few long fibres, and the baren pressing unevenly so the darker blocks
   // take a little less ink in broad patches.
   float tooth = noise(sheet * 0.8 / scale + 17.0) - 0.5;
@@ -1525,6 +1564,8 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     printSunDir: { value: new THREE.Vector4(0, 1, 0, 0) },
     printKeyDir: { value: new THREE.Vector4(0, 1, 0, 1) },
     printWeather: { value: new THREE.Vector4(0, 0, 0, 0) },
+    printPool: { value: new THREE.Vector4(0, 0, 0, 0) },
+    printPoolBox: { value: new THREE.Vector4(0, 0, 0, 0) },
     printOver: { value: new THREE.Vector2() },
     printWorld: { value: new THREE.Matrix4() },
     printSea: { value: new THREE.Vector4(0, 0, 0, 0) },
@@ -1546,6 +1587,30 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     transparent: true,
   });
   const quad = new FullScreenQuad(material);
+  // The pool's water, found once a scene: the largest flat surface marked as water that is not the
+  // sea, and whose top is its level.
+  let poolScene = null;
+  const poolBox = new THREE.Box3();
+  function findPool(scene) {
+    poolScene = scene;
+    let best = null,
+      area = 0;
+    scene.updateMatrixWorld?.();
+    scene.traverse?.((object) => {
+      if (!object.isMesh || !object.userData?.water || !object.geometry) return;
+      if (!object.geometry.boundingBox) object.geometry.computeBoundingBox();
+      const box = object.geometry.boundingBox.clone().applyMatrix4(object.matrixWorld),
+        size = box.getSize(new THREE.Vector3());
+      if (size.y > 0.2 || size.x * size.z <= area) return;
+      best = box;
+      area = size.x * size.z;
+    });
+    if (best) {
+      poolBox.copy(best);
+      uniforms.printPool.value.set(0, best.max.y, 0, 1);
+      uniforms.printPoolBox.value.set(best.min.x, best.min.z, best.max.x, best.max.z);
+    } else uniforms.printPool.value.set(0, 0, 0, 0);
+  }
   const gaze = new THREE.Vector3(),
     // Toward the sun, in the world, wherever it is (below the horizon too).
     sunward = new THREE.Vector3(0, 1, 0);
@@ -1785,6 +1850,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         sky = null,
       } = {}
     ) {
+      if (scene && scene !== poolScene) findPool(scene);
       world = scene;
       if (sky?.sun) sunward.fromArray(sky.sun).normalize();
       // The day's weather, as the scene has it: heaped cloud, high streaks, the marine layer.

@@ -597,7 +597,9 @@ void main() {
   bool seen = clip.w > 0.0 && abs(ndc.x) < 1.02 && abs(ndc.y) < 1.02 && px > paintScale.z
     && abs(there.z - dabId) < 0.5 && abs(there.w - depth) < 0.06 + 0.03 * depth
     // What lies under the sea is the sea's to paint.
-    && !(printSea.w > 0.5 && (modelMatrix * vec4(dabPlace, 1.0)).y < printSea.x - 0.03);
+    && !(printSea.w > 0.5 && (modelMatrix * vec4(dabPlace, 1.0)).y < printSea.x - 0.03)
+    // Nor what lies under the pool's water: the coat paints its surface.
+    && !underPool((modelMatrix * vec4(dabPlace, 1.0)).xyz);
   if (!seen) {
     gl_Position = vec4(2.0, 2.0, 2.0, 1.0);
     return;
@@ -982,6 +984,8 @@ export function createPaint({ glsl, uniforms: look, tools }) {
       "printSea",
       "printSeaShallow",
       "printSeaDeep",
+      "printPool",
+      "printPoolBox",
       "tStructure",
       "tAlbedo",
       "tDiffuse",
