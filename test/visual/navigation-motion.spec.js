@@ -251,7 +251,10 @@ test("the video row can be thrown with a mouse and yields at once to any other i
   expect((await state()).phase).toBe("flying");
   await expect.poll(async () => (await state()).phase).toBe("idle");
   const thrown = await state();
-  expect(thrown.left).toBeGreaterThan(letGo + 100);
+  // How far it flies depends on the speed the row read from the hand, and on a slow runner the
+  // last 80 ms hold only a move or two: it flew 29 px on past the release there (November 16 and
+  // 17), against hundreds here. Flying on at all is the behaviour; landing on a stop is checked next.
+  expect(thrown.left).toBeGreaterThan(letGo + 16);
   expect(onStop(thrown.left)).toBe(true);
   expect(thrown.open).toBe(0);
 
