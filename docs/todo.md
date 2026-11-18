@@ -38,10 +38,10 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 
 - **State.** Reading works. Test browsers stopped reporting on November 17. `python bin/site_analytics_report.py` prints the last 28 days against the 28 before, real site only, and writes to a private folder. Click events for the 3D home and the orange have been sent since November 17.
 - **His words.** "are you able to track google analytics data for later data-driven self improvement".
-- **Analysis** (first read, aggregates only). Before November 17 most recorded users were our own test browsers. Real visitors come mostly on desktop. The homepage and the CV hold attention; the projects, blog and AI pages lose people within about fifteen seconds. AI assistants, referrals and search bring the most engaged visits. With a few hundred visitors a month, depth beats reach: make each page worth its visit.
+- **Analysis** (first read, aggregates only). Before November 17 most recorded users were our own test browsers. Real visitors come mostly on desktop. The homepage and the CV hold attention. The projects, blog and AI index pages are passed through in about fifteen seconds, which is what an index is for: `/projects` as the first page of a visit is among the best engaged. What loses people is arriving straight at a project page, DesignWeaver above all (about a quarter of those visits engage), and visits with no first page recorded, which look automated. The numbers are small (four weeks, a few hundred visitors); treat them as leads. AI assistants, referrals and search bring the most engaged visits. With a few hundred visitors a month, depth beats reach: make each page worth its visit.
 - **Next.**
   - [ ] Run the report weekly on the laptop (Windows Task Scheduler), into the private folder.
-  - [ ] Find out why the projects, blog and AI pages lose people, and fix them: one thing per section, a reason to stay, a clear next step.
+  - [ ] Find out what someone arriving straight at a project page wants (the paper, a video, a demo, the code) and give it to them on the first screen, starting with DesignWeaver. Then the index pages: does each lead somewhere worth going?
   - [ ] After two to four weeks, read the 3D events: how many enter 3D, which looks and rooms.
   - [ ] Count keyboard shortcuts and the sound switch too.
 - **Fit.** Astra for the pages and the writing; Sol for the schedule. **Machine:** the laptop, with its own key.
