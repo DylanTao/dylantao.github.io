@@ -175,6 +175,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 - [ ] Every page read against the Design Review video's lessons (C).
 - [ ] The throwable row on other rows (C7).
 - [ ] Worlds across the whole site, later (M).
+- [x] Figures for both themes (Sirui, November 17: the keyed-out white backgrounds were not well done; reproduce the old designs as Figma-like vectors). DesignWeaver's and What Happened and Why's teasers are now SVG in `_includes/figures/`, following the site's theme inline and the reader's system theme on cards; the rule is in WEBSITE_DESIGN_HEURISTICS.md, "Visual Hierarchy". If another schematic shows a white box on the dark theme, redraw it the same way; plots and results stay images.
 
 Item 2's data says where to start.
 
