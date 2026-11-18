@@ -155,7 +155,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 - **His words.** A watercolour world that is "uniquely sirui ... vibrant color and wacky physics and expressive stroke"; pencil; the manners of _Common Side Effects_ and _Spider-Verse_; a thermal camera's view with real heat. "they should not just cheaply do a trivial shitty transform."
 - **References.** Ebby Amir's Starry Night ride, https://starrynightrider.com. The shows themselves. A stop-motion film shot through a thermal camera (an Instagram reel; ask Sirui for a screenshot).
 - **Next.**
-  - [ ] A one-page rule sheet per world before any shader (J8). The watercolour world's is drafted: `docs/worlds/watercolour.md` (November 17); it waits for Sirui's eye.
+  - [ ] A one-page rule sheet per world before any shader (J8). Drafted November 17 and waiting for Sirui's eye: `docs/worlds/watercolour.md`, `docs/worlds/pencil.md`, `docs/worlds/heat.md` (the comic print and the field guide still to write).
   - [ ] Watercolour first, one room (J3).
 - **Size.** 1 to 3 each. **Detail:** takeover J, notebook cards "A world is more than a filter" and "A world is a contract".
 
