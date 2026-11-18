@@ -65,7 +65,7 @@ def block(name, kind, lo, hi):
 
 
 # The study's own extension and the bookcase door are shared: a few metres south into the rock.
-SHARED = [
+SHARED = [] if args.get("options") == "d-in-front-of-the-study" else [
     block("study extension", "study", (-14.6, -6.4, 0.0), (-12.3, -1.6, 3.2)),
 ]
 OPTIONS = {
@@ -90,7 +90,20 @@ OPTIONS = {
         block("glass wall", "glass", (-17.0, 8.6, -1.6), (-12.6, 8.8, 1.2)),
         block("lift shaft", "lift", (-15.6, 13.4, -7.6), (-13.8, 15.2, -1.6)),
     ],
+    "d-in-front-of-the-study": [
+        # Sirui, November 18: use the empty court in front of the study, and make both rooms refuges with a
+        # view. The study grows forward under the overhang; the bar sits beyond it, low-ceilinged, its back to
+        # the study and the rock, looking out through one deep, framed opening; the lift stands at the court's
+        # sea edge.
+        block("study forward", "study", (-12.3, -0.8, 0.0), (-8.7, 3.4, 3.2)),
+        block("bar", "bar", (-12.6, 3.4, 0.0), (-8.4, 9.4, 2.7)),
+        block("framed opening", "glass", (-11.8, 9.4, 0.9), (-9.2, 9.9, 2.1)),
+        block("lift shaft", "lift", (-14.0, 10.2, -7.6), (-12.4, 12.2, 2.7)),
+    ],
 }
+only = [o for o in args.get("options", "").split(",") if o]
+if only:
+    OPTIONS = {k: v for k, v in OPTIONS.items() if k in only}
 
 scene.render.engine = "BLENDER_WORKBENCH"
 scene.render.resolution_x, scene.render.resolution_y = 1600, 900
