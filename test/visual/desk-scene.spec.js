@@ -2351,7 +2351,7 @@ test("coastal home: public room navigation works in the embed and starts a safe 
   expect(panel.y + panel.height).toBeLessThanOrEqual(page.viewportSize().height);
   const header = await page.locator("#navbar").boundingBox();
   if (header && header.y <= 1) expect(panel.y).toBeGreaterThanOrEqual(header.y + header.height);
-  for (const button of await places.locator("button").all()) {
+  for (const button of await places.locator("button:visible").all()) {
     expect((await button.boundingBox()).height).toBeGreaterThanOrEqual(44);
   }
   await capture(testInfo, "public-embed-rooms", await page.screenshot());
@@ -3301,7 +3301,7 @@ test("coastal home: the woodblock print redraws the live frame and hands the rea
   const view = await openClockedHome(page, { time: "2026-10-23T12:00:00-07:00" });
   const { scene, canvas, ui } = view;
   await explore(ui);
-  const look = (name) => ui.locator(`[data-world-drawing="${name}"]`);
+  const look = (name) => ui.locator(`details.home-world-objects [data-world-drawing="${name}"]`);
   await ui.locator("details.home-world-objects:has([data-world-drawing]) > summary").click();
   await expect(look("realistic")).toHaveAttribute("aria-pressed", "true");
   await expect(look("toon")).toHaveAttribute("aria-pressed", "false");

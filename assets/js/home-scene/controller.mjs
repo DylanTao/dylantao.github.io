@@ -4323,6 +4323,20 @@ export function createCoastalHome(container, records, artifacts) {
 
   if (labEnabled)
     container.labScene = { scene, sun, settings: labSettings, requestFrame: () => requestFrame(), collisionGrid: () => cameraField?.grid };
+  // The look switch: the realistic render, or one of the drawn looks (print-look.mjs). Visitors on
+  // a desktop have Realistic and Painted in the Rooms panel (Sirui approved the painted look for
+  // feedback, November 17); the lab menu has every look.
+  const lookButtons = [...ui.querySelectorAll("[data-world-drawing]")];
+  const showLook = () => {
+    for (const button of lookButtons) button.setAttribute("aria-pressed", String(button.dataset.worldDrawing === printLook.look));
+  };
+  showLook();
+  for (const button of lookButtons)
+    listen(button, "click", () => {
+      writeDrawnLook(printLook.setLook(button.dataset.worldDrawing), lookStorage);
+      showLook();
+      requestFrame();
+    });
   if (labEnabled) {
     container.labScene.exportStaticLightSnapshot = (signature) => staticLightField?.exportSnapshot({ signature });
     container.labScene.captureInkStudy = async (surfaceInk = true) => {
@@ -4395,18 +4409,6 @@ export function createCoastalHome(container, records, artifacts) {
       requestFrame();
     };
     container.labScene.sectionCut = sectionCut;
-    // The look switch: the realistic render, or one of the drawn looks (print-look.mjs).
-    const lookButtons = [...ui.querySelectorAll("[data-world-drawing]")];
-    const showLook = () => {
-      for (const button of lookButtons) button.setAttribute("aria-pressed", String(button.dataset.worldDrawing === printLook.look));
-    };
-    showLook();
-    for (const button of lookButtons)
-      listen(button, "click", () => {
-        writeDrawnLook(printLook.setLook(button.dataset.worldDrawing), lookStorage);
-        showLook();
-        requestFrame();
-      });
     container.labScene.setTemporalEnabled = (value) => {
       finish?.setTemporalEnabled(value);
       requestFrame();

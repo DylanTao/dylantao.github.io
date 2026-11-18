@@ -30,7 +30,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
   - [ ] Mass the cliff's shadows. Tried November 17: doubling `shadowMass` (0.008 to 0.016) changed almost nothing, because the islands are not small cast shadows but the rough rock's own facets turning from the sun, shaded from each pixel's raw normal. Then, the same day: form is shaded from the surface's direction averaged over about a metre of the same thing, in the coat and the strokes, which cleared the speckles. The large shapes left are true cast shadows from overhangs; soften or mass those only if they still read as noise.
   - [ ] Paint the plants, the pool and the bath.
   - [ ] Strokes follow curvature.
-  - [ ] A public look switch (H4). The homepage keeps two public buttons and a browser case holds it to that; change both in one commit.
+  - [x] A public look switch (H4), November 17: "Drawn as: Realistic / Painted" inside the Rooms panel, so the homepage keeps its two buttons. Hidden on touch screens until the paint is scaled for phones; then show it there too.
 - **Fit.** Claude for the look and the judging; Astra for device scaling and the switch. **Machine:** any; frames from the PC are the steadiest.
 - **Size.** 1.5 to 3 billion tokens; 3 to 5 weeks. **Detail:** brief 1; record entry `painted-strokes`; takeover J10.
 

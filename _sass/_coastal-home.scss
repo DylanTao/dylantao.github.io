@@ -381,6 +381,33 @@
   margin-bottom: 0.5rem;
   border-bottom: 1px solid var(--home-line);
 }
+// Visitors on a desktop choose how the home is drawn. Touch screens keep the realistic render
+// until the painted look is scaled for phones (docs/todo.md, item 1).
+.home-world-places-looks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.4rem;
+  align-items: center;
+  border-top: 1px solid var(--home-line);
+  padding-top: 0.35rem;
+
+  .home-world-places-title {
+    flex-basis: 100%;
+    margin: 0;
+  }
+
+  button {
+    min-height: 44px;
+    line-height: 1.25;
+  }
+}
+
+@media (pointer: coarse) {
+  .home-world-places-looks {
+    display: none;
+  }
+}
+
 .home-world-places-note {
   margin: 0.7rem 0 0.4rem;
   color: var(--home-muted);
