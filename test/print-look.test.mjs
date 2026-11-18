@@ -5,6 +5,7 @@ import {
   COLOURWAYS,
   DEFAULT_DRAWN_LOOK,
   DRAWN_LOOKS,
+  FIELD_GLSL,
   LOOKS,
   METER_SIZE,
   OKLAB,
@@ -12,6 +13,7 @@ import {
   PRINT_KEY,
   STRUCTURE_IDS,
   TOON_HOURS,
+  afterglow,
   colourwayAt,
   createPrintLook,
   displayToOklab,
@@ -500,8 +502,10 @@ test("the cartoon's hour says what colour the light, the shade, the sky, moonlig
   drawn.prepare(new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10), {});
   assert.equal(uniforms.printSea.value.w, 0, "a view without perspective keeps the frame's sea");
   assert.ok(Math.abs(uniforms.printSeaShallow.value.w - PRINT_DEFAULTS.seaDepth) < 1e-9);
-  // The cartoon shows a little of the sea's and the sky's strokes, the painting all of them, the woodblock none.
-  assert.ok(LOOKS.toon.dials.brushwork > 0 && LOOKS.toon.dials.brushwork < LOOKS.paint.dials.brushwork);
+  // The cartoon lays the sea and the sky in long cells; the painting lays real strokes there
+  // instead (paint-strokes.mjs), and the woodblock neither.
+  assert.ok(LOOKS.toon.dials.brushwork > 0 && LOOKS.paint.dials.brushwork === 0);
+  assert.ok(PRINT_DEFAULTS.skyStrokes > 0 && PRINT_DEFAULTS.seaStrokes > 0);
   assert.equal(PRINT_DEFAULTS.brushwork, 0);
   const sea = drawn.material.fragmentShader;
   assert.match(sea, /float under = bed\.w > 50000\.0 \? 60\.0 : printSea\.x - /, "the colour goes by the water over the bed");
@@ -701,4 +705,39 @@ test("cast shadows come from the key light's own map, and the open sky from a ma
   structure.onBeforeRender(null, null, null, null, cliff, null);
   assert.equal(structure.uniforms.structureLand.value, 0);
   drawn.dispose();
+});
+
+test("the painted look turns forms from the light, lights shade from the sky and the ground, and puts air before far things", () => {
+  // Off by default, so the cartoon and the woodblock are as they were.
+  assert.equal(PRINT_DEFAULTS.formTurn, 0);
+  assert.equal(PRINT_DEFAULTS.air[1], 0);
+  assert.ok(LOOKS.paint.dials.formTurn > 0 && LOOKS.paint.dials.air[1] > 0);
+  assert.equal(LOOKS.toon.dials.formTurn, undefined);
+  // The afterglow: none by day or deep in the night, all of it with the sun on the horizon.
+  assert.equal(afterglow(0.5), 0);
+  assert.equal(afterglow(-0.3), 0);
+  assert.equal(afterglow(0), 1);
+  assert.ok(afterglow(0.1) > 0 && afterglow(0.1) < 1 && afterglow(-0.1) > 0 && afterglow(-0.1) < 1);
+  // The sky and the sea are one design, shared by the coat and the strokes; the coat's fill knows
+  // how its surface lies, and far things take the air's colour.
+  const look = createPrintLook({ look: "paint" }),
+    shader = look.material.fragmentShader;
+  for (const name of ["skyClear", "skyPaint", "seaPaint"]) assert.ok(FIELD_GLSL.includes(`vec3 ${name}(`) && shader.includes(`vec3 ${name}(`), name);
+  assert.ok(
+    shader.includes("airFill(spotFill(mine, ownMix(labLinear(mine)), seen / weight, kind.x, reach, open, block.yz, 0.0, geo, read), lies.w)")
+  );
+  // The scene's sky reaches the look: the sun below the horizon too, and the day's weather.
+  const camera = new THREE.PerspectiveCamera(40, 16 / 9, 0.05, 300),
+    uniforms = look.material.uniforms;
+  look.prepare(camera, {
+    minute: 1040,
+    seconds: 5,
+    still: false,
+    sky: { sun: [0.6, -0.02, -0.8], weather: { cloudCover: 0.4, cirrus: 0.2 }, marine: 0.3, overcast: 0.1 },
+  });
+  assert.deepEqual(uniforms.printWeather.value.toArray(), [0.4, 0.2, 0.3, 5]);
+  look.prepare(camera, { still: true, sky: { sun: [0, 1, 0], weather: {}, marine: 0, overcast: 0.9 } });
+  assert.ok(Math.abs(uniforms.printWeather.value.x - 0.81) < 1e-9, "an overcast sky is cloud");
+  assert.equal(uniforms.printWeather.value.w, 0, "and a still view holds its clouds still");
+  look.dispose();
 });

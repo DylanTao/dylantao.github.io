@@ -408,6 +408,13 @@ export const PRINT_DEFAULTS = Object.freeze({
   shadeKeep: 0.62, // the share of its own chroma a surface keeps in shade
   roomLean: [0.2, 0.66], // how far shade leans to the hour's shade colour in a room, by day and by night (under the open sky the hour says)
   formShade: 0.07, // lightness per stop inside one mix: how much the light still models a form
+  // How a surface lies. A form that turns from the key light passes through half-tone into shade
+  // (a cast shadow keeps its edge), shade under the open sky is lifted where it faces the sky and
+  // warmed where the ground throws light back up, and far things go toward the air's colour.
+  formTurn: 0, // how squarely a surface must face the key light to stand in full light (the cosine); 0 leaves forms unmodelled
+  groundBounce: [0.03, 0.055, 0.55], // OKLab a, b of the light the ground throws back up, and how far a shaded underside leans to it
+  skyLift: 0.1, // how much lighter a shaded surface is when it faces the sky, and darker when it faces down
+  air: [900, 0], // metres over which a far thing goes half of its way to the colour of the sky at the horizon, and the most of the way it goes
   deepNight: [0.6, 1.8, 0.5, 0.5], // the same by night, when it begins a little sooner and leans a little further
   deepShade: [0.8, 1.8, 0.55, 0.4], // stops below the start of shade where deep shade begins, stops to arrive, the lightness it keeps, its lean to the shade's colour
   hour: null, // the lab's override of the hour's light, shade or sky (the fields of TOON_HOURS)
@@ -420,6 +427,11 @@ export const PRINT_DEFAULTS = Object.freeze({
   strokeImpasto: 0.2, // how much a stroke's thickness lightens and darkens it
   strokeVary: [0.04, 0.08, 0.25], // how far one stroke's lightness and chroma stray from the mix, and how far it wanders along its ramp of light (stops)
   strokeScatter: 12, // milliseconds a frame spent scattering strokes until the scene is covered
+  strokeBroken: [0.14, 0.12, 0.5], // how far one stroke turns its hue (radians), the share of strokes that are accents, and how far an accent goes to the other temperature
+  landPaint: 1, // how much of the land's own painting shows: beds and stains in rock, the tide's mark, patches in sand, ground and scrub
+  manner: null, // null follows the sun: gouache while it stands high, oil as it goes down and through the night; a number holds it (0 gouache, 1 oil)
+  skyStrokes: 1, // how much the strokes laid over the sky show (0 leaves the sky to the coat)
+  seaStrokes: 1, // and those laid over the sea
   shadowMass: 0, // radians of the view: a cast shadow narrower than this is left out, the way a painter masses shadows
   lineOver: 0, // the strength of lines drawn over the paint
   // The sea is designed too: its colour goes from the hour's shallow to its deep by how much water
@@ -489,10 +501,23 @@ export const LOOKS = Object.freeze({
       foldStrength: 0.35,
       paint: 1,
       lineOver: 0.72,
-      brushwork: 1,
+      // The sea's and the sky's brushwork is real strokes here, not the coat's cells.
+      brushwork: 0,
       shadowMass: 0.008,
+      // Forms turn from the light, and far things take the air's colour.
+      formTurn: 0.6,
+      air: Object.freeze([900, 0.75]),
+      formShade: 0.045,
+      strokePixels: Object.freeze([6, 260]),
+      strokeVary: Object.freeze([0.022, 0.07, 0.05]),
+      strokeBroken: Object.freeze([0.1, 0.05, 0.4]),
     }),
-    way: TOON_LOOK.way,
+    // A painter's shade is lighter and less blue than a cel's: the sky is not all that lights it.
+    way: (way, minute) => {
+      const toon = TOON_LOOK.way(way, minute),
+        shade = toon.palette.shade;
+      return { ...toon, palette: { ...toon.palette, shade: [shade[0], shade[1], shade[2], shade[3] * 0.72, Math.min(shade[4] + 0.05, 0.86)] } };
+    },
   }),
 });
 
@@ -891,6 +916,11 @@ uniform vec4 printShadeMix;    // OKLab a, b of the shade, how far a shaded surf
 uniform vec4 printMore;        // the share of its own chroma a surface keeps in shade, debug view, chroma limit, how much the light models form inside a mix
 uniform vec4 printDeep;        // stops below the start of shade where deep shade begins, the stops it takes to arrive, the lightness it keeps, how far it leans to the shade's colour
 uniform float printNight;      // how far the land under the open sky has gone into the night's deep shade: nothing at dusk, all of it at night
+uniform vec4 printSun;         // the key light's direction in the camera's space, and how squarely a surface must face it to stand in full light (0 leaves forms unmodelled)
+uniform vec4 printGlow;        // the direction of the afterglow in the camera's space, and how much of it there is: none by day, none deep in the night
+uniform vec4 printBounce;      // OKLab a, b of the light the ground throws back up, how far a shaded underside leans to it, how much the open sky lifts a shaded surface that faces it
+uniform vec3 printSkyLow;      // OKLab of the sky at the horizon, which is also the colour of the air far off
+uniform vec2 printAir;         // the metres over which a thing goes half of its way to the air's colour, and the most of the way it ever goes
 const mat3 TO_LMS = ${glslMatrix(OKLAB.toLms)};
 const mat3 TO_LAB = ${glslMatrix(OKLAB.toLab)};
 const mat3 FROM_LAB = ${glslMatrix(OKLAB.fromLab)};
@@ -931,39 +961,56 @@ vec3 threeMixes(vec3 half_, float inHalf, float inLight, float lean) {
   vec3 shade = vec3(low, mix(half_.yz * printMore.x, printShadeMix.xy * clamp(low / 0.5, 0.45, 1.15), lean));
   return mix(shade, mix(half_, lit, inLight), inHalf);
 }
-// The fill of a spot that knows its own colour, in OKLab. mine is that colour (linear), seen the
-// light that reached the eye from the spot before the tone curve, kind what it is, reach and
-// open whether the key light reaches it and whether it lies under the open sky, and frameHue
-// the frame's own a and b there (a lamp prints as the light itself). wander moves the spot along
-// its ramp of light, in stops: nothing for the coat, a little for each brush stroke, so a soft fall
-// of light is laid in strokes that differ. stops returns how far the light on the spot lies from a
-// white card in the key light.
+// The fill of a spot that knows its own colour, in OKLab. mine is that colour (linear) and own3
+// its mix (ownMix, which a painter of land may have turned: paint-strokes.mjs), seen the light
+// that reached the eye from the spot before the tone curve, kind what it is, reach and open
+// whether the key light reaches it and whether it lies under the open sky, and frameHue the
+// frame's own a and b there (a lamp prints as the light itself). wander moves the spot along its
+// ramp of light, in stops: nothing for the coat, a little for each brush stroke, so a soft fall of
+// light is laid in strokes that differ. geo is how the surface lies: how squarely it faces the key
+// light (-2 when that is not known), how far it faces up, its height above the sea in metres, and
+// how squarely it faces the afterglow. read returns how far the light on the spot lies from a
+// white card in the key light, then how far the spot is out of shade and how far into light.
 //
-// The world is painted the way a background is: the key light's reach is a yes or a no, so the
-// sun's cast shadows are shapes with edges, but a room's own light falls off softly from light
-// through half-tone into shade, and a lamp has a pool with no edge. Under the open sky whatever the
-// sun does not reach is shade: the sky lights it, and the sky is the shade's colour. A figure is a
-// cel on that background: two flat tones and an edge. By night the key light is the moon, and what
-// it reaches takes moonlight's mix.
-vec3 spotFill(vec3 mine, float seen, float kind, float reach, float open, vec2 frameHue, float wander, out float stops) {
-  stops = log2(max(seen * toneMappingExposure / max(luma(mine), 0.03), 1e-4)) + wander;
+// The world is painted the way a background is. A cast shadow is a shape with an edge: the key
+// light's reach is a yes or a no. A form that turns from the light has no edge: how squarely the
+// light meets it carries it from light through half-tone into shade, so rough rock skimmed by a
+// low sun is half-tone with soft shadows in it, and not the scatter of lit and dark islands a
+// yes or no made of it. A room's own light falls off softly, and a lamp has a pool with no edge.
+// Under the open sky whatever the sun does not reach is shade, and shade is lit too: the sky lifts
+// what faces it, the ground throws warm light back up under an overhang and onto the foot of a
+// wall, and after sunset the part of the sky the sun went down in still colours what faces it. A
+// figure is a cel on that background: two flat tones and an edge. By night the key light is the
+// moon, and what it reaches takes moonlight's mix.
+vec3 spotFill(vec3 mine, vec3 own3, float seen, float kind, float reach, float open, vec2 frameHue, float wander, vec4 geo, out vec3 read) {
+  float stops = log2(max(seen * toneMappingExposure / max(luma(mine), 0.03), 1e-4)) + wander;
   // A room's light fades over a long ramp. Under the open sky there is no such fall: a surface is
   // in the sky's shade or it is not, and a wide ramp there turned a cliff at dusk into a mosaic.
   float soft = kind > 1.5 ? 0.05 : mix(printKey.z, 0.25, open);
   float strong = smoothstep(printKey.y - soft, printKey.y + soft, stops);
-  float inLight = max(reach * printDay.x, strong);
+  bool shaped = geo.x > -1.5 && kind < 1.5 && printSun.w > 0.0;
+  float key = reach * (shaped ? smoothstep(0.0, printSun.w, geo.x) : 1.0);
+  float sun = key * printDay.x;
+  float inLight = max(shaped ? smoothstep(0.3, 0.85, sun) : sun, strong);
   // With no sun in the picture (dusk, night, a sun on the horizon) everything under the open sky
   // is in the sky's shade; there is no boundary left to draw across a cliff.
   float skyShade = mix(printKey.x, printDay.z, open);
   float begins = mix(printKey.x, mix(1.5, printDay.z, printDay.x), open);
-  float inHalf = max(smoothstep(begins - soft, begins + soft, stops), inLight);
-  vec3 own3 = ownMix(labLinear(mine));
+  float inHalf = max(max(smoothstep(begins - soft, begins + soft, stops), shaped ? smoothstep(0.0, 0.4, sun) : 0.0), inLight);
   // The sky colours the shade it lights; in a room the shade is the thing's own colour, deepened.
   vec3 fill = threeMixes(own3, inHalf, inLight, mix(printDay.w, printShadeMix.z, open));
   // Inside a mix the light still models the form a little, the way a painter turns a plane.
   if (kind < 1.5) fill.x *= 1.0 + printMore.w * clamp(stops - mix(skyShade + 0.8, -0.7, reach * printDay.x), -1.5, 1.5);
+  if (shaped) {
+    float away = (1.0 - inHalf) * open;
+    fill.x *= 1.0 + printBounce.w * geo.y * away;
+    float thrown = clamp(-geo.y * 0.9 + 0.35 * (1.0 - smoothstep(0.0, 5.0, geo.z)) * (1.0 - abs(geo.y)), 0.0, 1.0) * away * printDay.x;
+    fill = mix(fill, vec3(fill.x * 1.12, fill.yz * 0.45 + printBounce.xy), thrown * printBounce.z);
+    float lit = printGlow.w * smoothstep(-0.15, 0.75, geo.w) * open * (1.0 - inLight);
+    fill = mix(fill, vec3(fill.x * 1.3, fill.yz * 0.55 + printLightMix.xy * 0.9), lit * 0.65);
+  }
   vec3 moonlit = vec3(own3.x * printMoon.w, mix(own3.yz * 0.4, printMoon.xy, printMoon.z));
-  fill = mix(fill, moonlit, reach * printDay.y * (1.0 - strong));
+  fill = mix(fill, moonlit, key * printDay.y * (1.0 - strong));
   // Where almost no light reaches, the shade deepens toward the hour's shade colour, so a picture
   // has darks as well as lights: under a table, inside a cupboard, the far wall at night.
   // In a room that is read from the frame. Under the open sky, once the sun has gone, the frame
@@ -975,8 +1022,118 @@ vec3 spotFill(vec3 mine, float seen, float kind, float reach, float open, vec2 f
   float deepSky = mix(printNight * 0.5, 1.0 - smoothstep(printDay.z - 4.6, printDay.z - 2.8, stops), printDay.x);
   float deep = mix(deepRoom, deepSky, open) * (1.0 - inLight) * step(kind, 1.5);
   fill = mix(fill, vec3(fill.x * printDeep.z, mix(fill.yz, printShadeMix.xy * 0.9, printDeep.w)), deep);
+  read = vec3(stops, inHalf, inLight);
   // A lamp prints as the light itself.
   return mix(fill, vec3(mix(fill.x, 1.0, 0.8), frameHue * 1.5 + printLightMix.xy * 0.5), step(0.5, kind) * step(kind, 1.5));
+}
+// The air between the eye and a thing far off: it goes toward the colour of the sky at the horizon.
+vec3 airFill(vec3 fill, float metres) {
+  return mix(fill, printSkyLow, printAir.y * (1.0 - exp2(-metres / printAir.x)));
+}
+`;
+
+// The sky and the sea, designed: what colour each is in a direction of the world or at a point of
+// the water, in OKLab. The last pass paints them smoothly as a coat, and the painted look lays its
+// strokes of them from the same source (paint-strokes.mjs), so a stroke and the coat under it
+// agree. It follows COLOUR_GLSL.
+//
+// The sky is the hour's two colours, horizon and overhead, with most of the change low down. By
+// day it is lighter and warmer round the sun. As the sun goes down the afterglow lies low on its
+// side in the light's own colour, and across from it a band of rose stands over the blue. Cloud is
+// there only when the scene's weather has it: heaps that are lit on the sun's side, high streaks,
+// and the marine layer as a bank low over the sea.
+//
+// The sea goes from the hour's shallow colour to its deep by how much water lies over the bed.
+// Seen along its surface it mirrors the sky; seen from above it is itself. Small waves come in as
+// lines that follow the bed, foam lies where the water thins at the shore and breathes in and out,
+// and the light's path lies across it toward the sun or the moon.
+export const FIELD_GLSL = /* glsl */ `
+uniform vec3 printSkyTop;      // OKLab of the sky overhead
+uniform vec4 printSunDir;      // toward the sun in the world, below the horizon too
+uniform vec4 printKeyDir;      // toward the key light in the world (the sun, or the moon by night), and how much say it has
+uniform vec4 printWeather;     // cloud cover, high streaks, the marine layer, seconds
+uniform vec4 printSea;         // the sea's level, seconds, how much the coat's own strokes show, 1 when the view has a sea to design
+uniform vec4 printSeaShallow;  // OKLab, and the metres of water that carry the colour to its deep
+uniform vec3 printSeaDeep;     // OKLab
+float fieldHash(vec2 p) {
+  p = fract(p * vec2(123.34, 456.21));
+  p += dot(p, p + 45.32);
+  return fract(p.x * p.y);
+}
+float fieldNoise(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(fieldHash(i), fieldHash(i + vec2(1.0, 0.0)), f.x), mix(fieldHash(i + vec2(0.0, 1.0)), fieldHash(i + vec2(1.0, 1.0)), f.x), f.y);
+}
+float fieldFbm(vec2 p) {
+  float sum = 0.0, amp = 0.5;
+  for (int i = 0; i < 4; i++) {
+    sum += amp * fieldNoise(p);
+    p = p * 2.03 + 17.0;
+    amp *= 0.5;
+  }
+  return sum / 0.9375;
+}
+// The clear sky in a direction.
+vec3 skyClear(vec3 d) {
+  float up = max(d.y, 0.0);
+  vec3 sky = mix(printSkyLow, printSkyTop, pow(min(up / 0.8, 1.0), 0.65));
+  vec2 flatD = normalize(d.xz + vec2(1e-5, 0.0)), flatS = normalize(printSunDir.xz + vec2(1e-5, 0.0));
+  float toward = dot(flatD, flatS);
+  float day = smoothstep(-0.05, 0.12, printSunDir.y);
+  sky.x *= 1.0 + 0.05 * toward * day * (1.0 - up);
+  sky = mix(sky, vec3(mix(sky.x, 0.98, 0.7), sky.yz * 0.35 + printLightMix.xy * 0.7), pow(max(dot(d, printSunDir.xyz), 0.0), 12.0) * day * 0.6);
+  float low = 1.0 - smoothstep(0.0, 0.42, up);
+  sky = mix(sky, vec3(mix(sky.x, 0.88, 0.45), printLightMix.xy * 1.7), printGlow.w * low * low * smoothstep(-0.35, 1.0, toward) * 0.8);
+  float belt = (1.0 - smoothstep(0.04, 0.2, abs(up - 0.13))) * smoothstep(0.1, 1.0, -toward);
+  return mix(sky, vec3(sky.x * 1.05, sky.yz * 0.45 + vec2(0.055, 0.0)), printGlow.w * belt * 0.55);
+}
+// The sky with the day's cloud. cloud returns how much of the direction is cloud.
+vec3 skyPaint(vec3 d, out float cloud) {
+  vec3 sky = skyClear(d);
+  cloud = 0.0;
+  if (printWeather.x + printWeather.y + printWeather.z < 0.01) return sky;
+  float up = max(d.y, 0.0);
+  vec2 flatS = normalize(printSunDir.xz + vec2(1e-5, 0.0));
+  // A plane overhead: far at the horizon, but not without end.
+  vec2 q = d.xz / (up + 0.14) + printWeather.w * vec2(0.01, 0.004);
+  float heap = fieldFbm(q * 0.5);
+  float cover = printWeather.x;
+  float body = cover > 0.01 ? smoothstep(0.78 - 0.62 * cover, 0.92 - 0.62 * cover, heap) : 0.0;
+  float streaks = printWeather.y * smoothstep(0.5, 0.8, fieldFbm(vec2(dot(q, vec2(0.33, 0.12)), dot(q, vec2(-0.25, 1.4))))) * smoothstep(0.06, 0.4, up) * 0.7;
+  float bank = printWeather.z * (1.0 - smoothstep(0.015, 0.09 + 0.06 * fieldNoise(q * 0.3), up));
+  cloud = max(max(body, streaks), bank);
+  // A heap is lit on the sun's side: it is compared with itself a little way toward the sun.
+  float sunny = clamp((heap - fieldFbm((q + flatS * 0.4) * 0.5)) * 5.0 + 0.55, 0.0, 1.0);
+  float night = 1.0 - smoothstep(0.3, 0.45, printSkyTop.x);
+  vec3 bright = vec3(mix(0.96, sky.x + 0.16, night), printLightMix.xy * mix(0.45, 1.3, printGlow.w));
+  vec3 shaded = vec3(mix(mix(0.74, 0.58, cover), sky.x + 0.05, night), mix(sky.yz, printShadeMix.xy, 0.4) * 0.55);
+  return mix(sky, mix(shaded, bright, max(sunny, streaks) * (1.0 - 0.5 * bank)), cloud);
+}
+// The sea at a point of its surface. under is the water over the bed there in metres, ray the
+// direction of the look in the world, and hand two numbers between 0 and 1 that break the light's
+// path into dabs (a stroke's own, or noise for the coat). white returns how much of the point is
+// foam.
+vec3 seaPaint(vec2 at, float under, vec3 ray, vec2 hand, out float white) {
+  vec3 fill = mix(printSeaShallow.xyz, printSeaDeep, 1.0 - exp(-max(under, 0.0) / printSeaShallow.w));
+  // Small waves come in: lines that follow the bed and travel toward the shore.
+  float wave = 0.5 + 0.5 * sin(6.2832 * (under * 1.25 + printSea.y * 0.2 + fieldNoise(at * 0.05) * 2.0));
+  float crest = smoothstep(0.8, 0.98, wave) * smoothstep(0.25, 0.6, under) * (1.0 - smoothstep(2.2, 4.5, under));
+  fill.x += 0.07 * crest - 0.02 * (1.0 - wave) * (1.0 - smoothstep(2.2, 4.5, under));
+  // The mirror: all sky where the look runs along the water, none from straight above.
+  vec3 back = normalize(vec3(ray.x, abs(ray.y) + 0.02, ray.z));
+  float graze = pow(1.0 - clamp(-ray.y, 0.0, 1.0), 5.0);
+  // (Over shallow sand the bed shows through and the mirror is weaker: the shallows keep their colour.)
+  fill = mix(fill, skyClear(back), (0.02 + 0.98 * graze) * 0.72 * mix(0.3, 1.0, smoothstep(0.4, 3.0, under)));
+  // The light's path: where the mirror would hold the sun or the moon, broken into dabs by the waves.
+  float path = smoothstep(0.9, 0.998, dot(back, printKeyDir.xyz)) * step(0.02, printKeyDir.y) * printKeyDir.w;
+  float dab = step(1.0 - path * 0.8, hand.x);
+  fill = mix(fill, vec3(mix(0.9, 0.975, printDay.x), mix(printMoon.xy * 0.4, printLightMix.xy * 0.7, printDay.x)), dab * mix(0.6, 0.95, hand.y));
+  float swash = 0.2 + 0.1 * sin(printSea.y * 0.8 + fieldNoise(at * 0.11) * 6.2832);
+  white = (1.0 - smoothstep(swash * 0.4, swash, under)) * (0.5 + 0.5 * smoothstep(0.3, 0.5, fieldNoise(at * 1.9 + printSea.y * 0.15)));
+  white = max(white, crest * 0.3);
+  // Foam is white in the sun and the sea's own pale colour once the sun has gone.
+  return mix(fill, mix(vec3(printSeaShallow.x + 0.2, printSeaShallow.yz * 0.5), vec3(0.975, 0.0, 0.01), printDay.x), white);
 }
 `;
 
@@ -1000,19 +1157,15 @@ uniform sampler2D tStructure;  // xy view normal, z object id, w view depth in m
 uniform vec4 printStructure;   // 1 when the structure is drawn, ink radius px, fold strength, metres where folds thin
 uniform vec3 printEdge;        // gap in metres, gap per metre of distance, 1 - cos of a fold
 uniform sampler2D tAlbedo;     // rgb the surface's own colour (square root of linear); a its kind (top two bits: 0 a surface, 1 a lamp, 2 a figure, 3 nothing known), the open sky and the key light's reach (createStructure)
-uniform vec3 printSkyTop;      // OKLab
-uniform vec3 printSkyLow;      // OKLab
 uniform vec3 printHorizon;     // the horizon's height on the sheet, sheet heights per span of sky, 1 when the view has a sky
 uniform vec2 printOver;        // the strength of the lines drawn over the paint, and how far a line takes a dark of the fill's own colour and not the ink
 uniform mat4 printWorld;       // the camera's place in the world
-uniform vec4 printSea;         // the sea's level, seconds, how much its strokes show, 1 when the view has a sea to design
-uniform vec4 printSeaShallow;  // OKLab, and the metres of water that carry the colour to its deep
-uniform vec3 printSeaDeep;     // OKLab
 varying vec2 vUv;
 
 #include <tonemapping_pars_fragment>
 
 ${COLOUR_GLSL}
+${FIELD_GLSL}
 const vec2 RING[12] = vec2[12](${RING.map(([x, y]) => `vec2(${x.toFixed(2)}, ${y.toFixed(2)})`).join(", ")});
 
 // The frame arrives scene-referred; show it through the home's own tone curve first.
@@ -1066,7 +1219,8 @@ void main() {
   // Fills from the surface's own colour: the same taps also average that colour and the light
   // that reached the eye, before the tone curve.
   bool local = structured && printKey.w > 0.5;
-  float who = structured ? texture2D(tStructure, at).z : 0.0;
+  vec4 lies = structured ? texture2D(tStructure, at) : vec4(0.0, 0.0, 0.0, 1.0);
+  float who = lies.z;
   vec4 own = local ? texture2D(tAlbedo, at) : vec4(0.0, 0.0, 0.0, 1.0);
   vec3 kind = kindSkyKey(own.a);
   vec3 ownSum = own.rgb;
@@ -1124,7 +1278,12 @@ void main() {
     mine *= mine;
     reach = smoothstep(0.3, 0.7, keySum / keyWeight);
     open = smoothstep(0.3, 0.7, skySum / keyWeight);
-    colour = unlab(spotFill(mine, seen / weight, kind.x, reach, open, block.yz, 0.0, stops));
+    // How the surface lies: to the key light, to the sky, above the sea, and to the afterglow.
+    vec3 faces = facing(lies);
+    vec4 geo = vec4(dot(faces, printSun.xyz), (mat3(printWorld) * faces).y, (printWorld * vec4(placed(at, lies.w), 1.0)).y - printSea.x, dot(faces, printGlow.xyz));
+    vec3 read;
+    colour = unlab(airFill(spotFill(mine, ownMix(labLinear(mine)), seen / weight, kind.x, reach, open, block.yz, 0.0, geo, read), lies.w));
+    stops = read.x;
   }
   // The meter's reading of a spot: the light on it, and whether it is a room's unlit surface (1),
   // a sunlit one indoors (0.75), a surface under the open sky (0.5) or nothing it can use (0).
@@ -1136,27 +1295,24 @@ void main() {
   float depth = depthAt(vUv);
   float sky = step(0.999995, depth);
   if (local) {
-    // The sky is the hour's: one colour at the horizon, one overhead. Cloud is where the render's
-    // sky is pale and has no colour, and by night a star is whatever stands out of the dark.
-    float up = clamp((vUv.y - printHorizon.x) * printHorizon.y, 0.0, 1.0);
-    vec3 above = mix(printSkyLow, printSkyTop, pow(up, 0.7));
-    float cloud = smoothstep(0.55, 0.8, block.x) * (1.0 - smoothstep(0.025, 0.07, length(block.yz)));
-    above = mix(above, vec3(mix(0.9, 0.985, smoothstep(0.75, 0.95, block.x)), above.yz * 0.25), cloud);
+    // The sky is designed (skyPaint): the hour's colours, the sun's side, the afterglow and the
+    // day's cloud. What the render holds that is brighter than any sky, the sun's or the moon's
+    // own disc, stays white, and by night a star is whatever stands out of the dark.
+    vec3 skyward = printCamera.z > 0.5 ? normalize(mat3(printWorld) * placed(vUv, 1.0)) : -normalize(printWorld[2].xyz);
+    float cloud;
+    vec3 above = skyPaint(skyward, cloud);
+    float glare = smoothstep(0.86, 0.97, block.x) * (1.0 - smoothstep(0.025, 0.07, length(block.yz)));
+    above = mix(above, vec3(0.985, above.yz * 0.25), glare);
     float night = 1.0 - smoothstep(0.3, 0.45, printSkyTop.x);
     above = mix(above, vec3(0.97, 0.0, 0.02), smoothstep(0.2, 0.45, centre.x - above.x) * night * (1.0 - cloud));
-    // A brush leaves bands in a sky: long cells fixed to the sky itself, each a little off its neighbour.
-    vec3 skyward = normalize(mat3(printWorld) * placed(vUv, 1.0));
-    vec2 band = vec2(atan(skyward.z, skyward.x) / 0.07, asin(clamp(skyward.y, -1.0, 1.0)) / 0.016);
-    above.x += (hash(floor(vec2(band.x + 0.5 * floor(band.y), band.y))) - 0.5) * 0.05 * printSea.z * (1.0 - cloud);
     colour = mix(colour, unlab(above), sky * printHorizon.z);
   } else {
     colour = mix(colour, printSky.rgb, sky * printSky.a * smoothstep(0.5, 1.0, vUv.y));
   }
 
-  // The sea. A pixel shows it when the level of the sea is met before any solid thing. Its colour
-  // goes from the hour's shallow to its deep by how much water lies over the bed there; foam lies
-  // where the water thins at the shore and breathes in and out; and it is laid in long strokes
-  // fixed to the water, with a crest here and there. Far off it takes the horizon's colour.
+  // The sea. A pixel shows it when the level of the sea is met before any solid thing, and its
+  // colour is designed (seaPaint). The cartoon lays it in long cells fixed to the water; the
+  // painted look leaves that to its strokes. Far off it takes the air's colour.
   float isSea = 0.0;
   if (local && printSea.w > 0.5 && printCamera.z > 0.5) {
     vec3 eye = printWorld[3].xyz;
@@ -1169,25 +1325,16 @@ void main() {
         isSea = 1.0;
         vec3 water = eye + ray * far;
         float under = bed.w > 50000.0 ? 60.0 : printSea.x - (eye + ray * (bed.w / max(facing, 1e-3))).y;
-        vec3 fill = mix(printSeaShallow.xyz, printSeaDeep, 1.0 - exp(-max(under, 0.0) / printSeaShallow.w));
-        // Strokes twice as long each time the distance doubles, so they keep their size on the sheet.
+        // Cells twice as long each time the distance doubles, so they keep their size on the sheet.
         float span = exp2(floor(log2(max(far, 8.0) / 8.0)));
         vec2 lay = water.xz / (vec2(3.4, 0.5) * span);
         lay.x += 0.5 * floor(lay.y);
-        vec2 stroke = floor(lay), within = fract(lay) - 0.5;
-        float own = hash(stroke);
-        fill.x += (own - 0.5) * 0.06 * printSea.z;
-        fill.yz *= 1.0 + (hash(stroke + 17.0) - 0.5) * 0.2 * printSea.z;
-        // A crest is a thin pale dash inside its stroke, tapered at both ends; one stroke in thirty has one.
-        float dash = (1.0 - smoothstep(0.1, 0.2, abs(within.y))) * (1.0 - smoothstep(0.28, 0.44, abs(within.x)));
-        float crest = step(0.966, hash(stroke + floor(printSea.y * 0.6 + own * 9.0))) * dash * (1.0 - smoothstep(60.0, 400.0, far));
-        fill = mix(fill, mix(vec3(printSeaShallow.x + 0.2, printSeaShallow.yz * 0.5), vec3(0.96, 0.0, 0.02), printDay.x), crest * 0.85 * max(printSea.z, 0.35));
-        float swash = 0.2 + 0.1 * sin(printSea.y * 0.8 + noise(water.xz * 0.11) * 6.2832);
-        float foam = (1.0 - smoothstep(swash * 0.4, swash, under)) * (0.5 + 0.5 * smoothstep(0.3, 0.5, noise(water.xz * 1.9 + printSea.y * 0.15)));
-        // Foam is white in the sun and the sea's own pale colour once the sun has gone.
-        fill = mix(fill, mix(vec3(printSeaShallow.x + 0.2, printSeaShallow.yz * 0.5), vec3(0.975, 0.0, 0.01), printDay.x), foam);
-        fill = mix(fill, printSkyLow, smoothstep(250.0, 2500.0, far) * 0.55);
-        colour = unlab(fill);
+        vec2 stroke = floor(lay);
+        float own = hash(stroke), white;
+        vec3 fill = seaPaint(water.xz, under, ray, vec2(own, hash(stroke + 17.0)), white);
+        fill.x += (own - 0.5) * 0.06 * printSea.z * (1.0 - white);
+        fill.yz *= 1.0 + (hash(stroke + 17.0) - 0.5) * 0.2 * printSea.z * (1.0 - white);
+        colour = unlab(airFill(fill, far * 0.5));
       }
     }
   }
@@ -1288,6 +1435,14 @@ void main() {
   gl_FragColor = vec4(colour, 1.0);
 }`;
 
+// How much afterglow the sky holds, from the sine of the sun's elevation: all of it with the sun on
+// the horizon, none once it stands twelve degrees up or lies ten degrees down.
+export function afterglow(sunHeight) {
+  const rise = THREE.MathUtils.smoothstep(sunHeight, -0.17, -0.03),
+    fall = 1 - THREE.MathUtils.smoothstep(sunHeight, 0.05, 0.21);
+  return rise * fall;
+}
+
 // What the meter's pixels say (red: the light on a spot, from -8 to +2 stops; green: 255 for a
 // room's surface the key light does not reach, 128 for a surface under the open sky): where shade begins in a room, which is the darkest
 // `roomShare[0]` of those surfaces, and where a lamp's pool begins, which is above `roomShare[1]`
@@ -1347,6 +1502,13 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     printMore: { value: new THREE.Vector4() },
     printDeep: { value: new THREE.Vector4() },
     printNight: { value: 0 },
+    printSun: { value: new THREE.Vector4(0, 0, 1, 0) },
+    printGlow: { value: new THREE.Vector4(0, 0, 1, 0) },
+    printBounce: { value: new THREE.Vector4() },
+    printAir: { value: new THREE.Vector2(900, 0) },
+    printSunDir: { value: new THREE.Vector4(0, 1, 0, 0) },
+    printKeyDir: { value: new THREE.Vector4(0, 1, 0, 1) },
+    printWeather: { value: new THREE.Vector4(0, 0, 0, 0) },
     printOver: { value: new THREE.Vector2() },
     printWorld: { value: new THREE.Matrix4() },
     printSea: { value: new THREE.Vector4(0, 0, 0, 0) },
@@ -1368,7 +1530,9 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     transparent: true,
   });
   const quad = new FullScreenQuad(material);
-  const gaze = new THREE.Vector3();
+  const gaze = new THREE.Vector3(),
+    // Toward the sun, in the world, wherever it is (below the horizon too).
+    sunward = new THREE.Vector3(0, 1, 0);
   const toneDefines = {
     [THREE.LinearToneMapping]: "LINEAR_TONE_MAPPING",
     [THREE.ReinhardToneMapping]: "REINHARD_TONE_MAPPING",
@@ -1423,6 +1587,18 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     }
     uniforms.printStructure.value.x = wanted ? 1 : 0;
     uniforms.printKey.value.w = wanted && dials.localColour > 0 && way.palette ? 1 : 0;
+    // The key light and the afterglow, as this frame's camera sees them.
+    if (wanted) {
+      if (keyLight?.target) gaze.copy(keyLight.position).sub(keyLight.target.position).normalize();
+      else gaze.set(0, 1, 0);
+      uniforms.printKeyDir.value.set(gaze.x, gaze.y, gaze.z, keyShare);
+      uniforms.printSunDir.value.set(sunward.x, sunward.y, sunward.z, 0);
+      gaze.transformDirection(eye.matrixWorldInverse);
+      uniforms.printSun.value.set(gaze.x, gaze.y, gaze.z, dials.formTurn);
+      // The glow lies on the horizon where the sun went down, or is about to come up.
+      gaze.set(sunward.x, 0.12, sunward.z).normalize().transformDirection(eye.matrixWorldInverse);
+      uniforms.printGlow.value.set(gaze.x, gaze.y, gaze.z, afterglow(sunward.y));
+    }
   };
 
   // Where the mixes change. By day only the sun, a lamp or a glare is light; as the sun goes the
@@ -1453,6 +1629,9 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     uniforms.printSpread.value.set(dials.hueSpread[0], dials.hueSpread[1], dials.neutralLean[0], dials.neutralLean[1]);
     uniforms.printMore.value.set(dials.shadeKeep, dials.debug, dials.localChroma[2], dials.formShade);
     uniforms.printOver.value.set(dials.lineOver, dials.lineOwn);
+    uniforms.printSun.value.w = dials.formTurn;
+    uniforms.printBounce.value.set(dials.groundBounce[0], dials.groundBounce[1], dials.groundBounce[2], dials.skyLift);
+    uniforms.printAir.value.set(dials.air[0], dials.air[1]);
     uniforms.printSea.value.z = dials.brushwork;
     // The lab can try another hour's light, shade or sky over the one the clock gives.
     const palette = way.palette && dials.hour ? { ...way.palette, ...dials.hour } : way.palette;
@@ -1494,7 +1673,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     quad.render(renderer);
     // The painted look lays its strokes over that coat.
     if (dials.paint > 0 && uniforms.printKey.value.w > 0.5 && world && eye) {
-      paint ||= createPaint({ glsl: COLOUR_GLSL, uniforms, tools: { structureId, structureKind, structureSkips } });
+      paint ||= createPaint({ glsl: COLOUR_GLSL + FIELD_GLSL, uniforms, tools: { structureId, structureKind, structureSkips } });
       paint.render(renderer, world, eye, {
         width: readBuffer.width,
         height: readBuffer.height,
@@ -1502,6 +1681,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         centre: keyLight?.target?.position,
         dials,
         still: stillFrame,
+        sunHeight: sunward.y,
       });
       // Edges are drawn back in over the paint.
       if (dials.lineOver > 0) {
@@ -1572,7 +1752,9 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     // still when motion is reduced or paused).
     // `key` is the scene's key light and `day` how much of it is the sun (1) and not the moon (0).
     // `sea` is the sea's level in the world, when the scene has a sea. `outdoors` says the view
-    // stands outside the house.
+    // stands outside the house. `sky` is the sky as the scene has it (atmosphere.mjs's state):
+    // `sun`, the direction toward the sun in the world, below the horizon too, and the day's
+    // weather (`weather.cloudCover`, `weather.cirrus`, `marine`, `overcast`).
     prepare(
       camera,
       {
@@ -1584,9 +1766,21 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         day: nextDay = day,
         sea = seaLevel,
         outdoors: nextOutdoors = outdoors,
+        sky = null,
       } = {}
     ) {
       world = scene;
+      if (sky?.sun) sunward.fromArray(sky.sun).normalize();
+      // The day's weather, as the scene has it: heaped cloud, high streaks, the marine layer.
+      if (sky) {
+        const cover = Math.max(Number(sky.weather?.cloudCover) || 0, (Number(sky.overcast) || 0) * 0.9);
+        uniforms.printWeather.value.set(
+          Math.min(cover, 1),
+          Math.min(Number(sky.weather?.cirrus) || 0, 1),
+          Math.min(Number(sky.marine) || 0, 1),
+          still ? 0 : seconds
+        );
+      }
       eye = camera;
       keyLight = key;
       stillFrame = Boolean(still);

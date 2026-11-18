@@ -1778,64 +1778,83 @@ systems:
           path: assets/img/project_pics/graphics-lab/painted-strokes.webp
           alt: The living room as a painting, with brush strokes running along the oak boards and the wall panels, short dabs across the rug, blue-grey strokes modelling the sofa cushions, thin dark edges drawn back in, and sunlight falling in hard-edged patches
           frame: Living room at 15:00 on November 14, 2026 (page clock fixed), reduced motion, 1600 × 900, centre crop, controls hidden, with ?look=paint.
-        what: A third drawn reading of the home, off unless `?look=paint` or the lab's switch asks for it. About 396,000 brush strokes are fixed to the scene's surfaces and drawn over the cartoon's designed colour, so the paint stays on the walls and the furniture when the view moves. Figures are not painted and stay flat cels on the painted world.
+        what: >-
+          A third drawn reading of the home, off unless `?look=paint` or the lab's switch asks for it. About 587,000
+          brush strokes are fixed to the scene's surfaces, about 20,000 to directions of the sky and 80,000 to the
+          sea, and the house takes up to 300,000 finer ones wherever the eye comes close. Each stroke is one colour
+          decided for its own spot, the land is painted as sandstone, sand, ground and scrub, and the paint goes from
+          gouache by day to oil as the sun goes down.
         how: >-
           Sirui's bar for a drawn world is a painting, not a filter, and he named the work that sets it, pictures of
           several hundred thousand simulated strokes and a painted browser game. A filter's strokes belong to the
           screen and swim when the camera moves. Here each stroke is pinned to a point on a surface, which is Meier's
           method for animation. Points are scattered once over the scene's still meshes by area (`scatterStrokes`),
-          each with the direction a brush would follow there (along the boards on anything level, upright on a post,
-          and across a wall or a cliff the way its courses run), the surface's own colour at that point, and a size.
-          There are five lengths from 12 cm to 9.7 m, each three times the last. A thing gets the three sizes that
-          suit it, the finest about an eighteenth of its own length, so a cushion takes the smallest and a wall the
-          next, and ground and rock are painted broadly. Large strokes are drawn first and small ones over them, as a
-          painter blocks in before detailing. Every frame a stroke asks the cartoon's structure buffers about its own
-          point, and is drawn only when that point is what the picture shows there, as a small quad along its
-          direction as the picture sees it, with one of eight brush marks made in code that start loaded and end dry.
-          A stroke has one colour of its own (the surface's, where it was laid), one place on the ramp of light, so a
-          soft fall of light is laid in strokes that differ, and one variation of the hand. The light itself is read
-          at every pixel through the same shader source as the coat under it (`COLOUR_GLSL`, `spotFill`), so a cast
-          shadow keeps its edge across a stroke. A stroke may lie a little over what is behind its own thing and
-          never over what stands in front, so a chair leg stays a chair leg with a brushed edge. Where almost no
-          light reaches, the shade deepens toward the hour's shade colour, which gives the picture darks. Edges are
-          then drawn back in over the paint, thin, in a dark of the fill they bound and not in black. Folds inside
-          a form are mostly left to the paint, and strokes on one surface differ little in lightness, so a wall
-          reads as one quiet surface. The rule for
-          the colour, that each thing has a light, a half-tone and a shade mix and the light on a stroke's spot picks
-          one, is the painted game's.
+          each with the surface's own colour there, a size and the direction a brush would follow. On made things that
+          is along the boards, up a post, across a wall's courses. On land it is the land's own contour, which on a
+          cliff is the way its beds run, with a slow sway that neighbouring strokes share, and one stroke in twelve
+          runs down the face (`landAlong`). There are five lengths from 12 cm to 9.7 m, each three times the last. A
+          thing takes three of them, the broad ones covering more than the fine ones laid over them, so the
+          blocking-in shows between the detail. Where the eye comes within a few metres of a thing painted broadly,
+          the thing is given the finer sizes too, only as far from the eye as each can be seen, and gives them up when
+          the eye moves on (`STROKE_FINE`). On November 16 Sirui judged the first pass's backgrounds lazy ("the
+          artistic beauty and uniqueness is still limited"). The cause was that a stroke read the light at every
+          pixel, so the strokes were a texture over a shaded picture, and the land was one tone. Now each stroke
+          decides its colour once, in its vertex stage, from the same shader source as the coat under it
+          (`COLOUR_GLSL`, `spotFill`), with one version for where the key light reaches it and one for where it does
+          not, so only a cast shadow's edge is read at every pixel. The fill knows how the surface lies. A form that
+          turns from the light passes through half-tone into shade while a cast shadow keeps its edge, shade under the
+          open sky is lifted where it faces the sky and warmed where the ground throws light back, the afterglow
+          colours what faces it at dusk, and far things go toward the colour of the horizon. The land is painted from
+          what its point is (`LAND_GLSL`), after the photoreal sandstone's own recipe: beds of uneven thickness, each
+          with its own stain (gold, pale, rust, a cool grey), partings and streaks where water runs, a wet foot and
+          weed at the tide line, soil and dry grass on top; sand dark where the last wave reached; ground in patches;
+          scrub in drifts. No two strokes of one mass are the same paint. Each turns its hue a little at the same
+          value, and a few small ones are accents of the other temperature. Eight brush marks are made in code, each
+          stroke bending its own a little, with relief lit from the upper left. The sky and the sea are one design
+          shared by the coat and the strokes (`FIELD_GLSL`). The sky is the hour's, with the sun's glow, an afterglow
+          and clouds only when the scene's weather has them. The sea goes from its shallow to its deep colour by the
+          water over the bed, mirrors the sky where it is looked along, and has waves that follow the bed, foam and
+          the light's path. After an idea of rewind's painted walk, the manner follows the sun, gouache by day (flat,
+          opaque, quiet) and oil as the sun goes down and through the night (ridges that catch the light, deeper
+          darks, more broken colour). Edges are drawn back in over the paint in a dark of the fill they bound. The
+          rule for colour, that each thing has a light, a half-tone and a shade mix and the light on a stroke's spot
+          picks one, is the painted game's.
         files:
           - path: assets/js/home-scene/paint-strokes.mjs
-            role: The scatter, the brush marks, the stroke shaders and their own scene.
-            functions: [createPaint, scatterStrokes, finestStroke, strokeAlong, strokeRandom, brushSheetPixels]
+            role: The scatter of strokes over things, the sky and the sea, the land's painting, the brush marks, the stroke shaders and the finer paint near the eye.
+            functions:
+              [createPaint, scatterStrokes, scatterSky, scatterSea, landClass, landAlong, paintManner, finestStroke, strokeAlong, brushSheetPixels]
           - path: assets/js/home-scene/print-look.mjs
-            role: The painted look's settings, the shared colour source, and the pass that lays coat, strokes and edges in that order.
-            functions: [createPrintLook, createStructure, readMeter, toonHourAt]
+            role: The painted look's settings, the shared colour and field sources, and the pass that lays coat, strokes and edges in that order.
+            functions: [createPrintLook, createStructure, readMeter, toonHourAt, afterglow]
+          - path: assets/js/home-scene/controller.mjs
+            role: Hands the look the scene's sky every frame, the sun's direction and the day's weather.
           - path: _includes/home/world_controls.liquid
             role: The lab's Painted button.
         tests:
           - test/paint-strokes.test.mjs
           - test/print-look.test.mjs
           - test/visual/desk-scene.spec.js
-        sources: [meier1996painterly, blendi2026oilpaint, ottosson2020oklab]
+        sources: [meier1996painterly, blendi2026oilpaint, rewind2026paintedwalk, ottosson2020oklab]
         limits:
-          - Sirui has seen none of it. Claude judged it in the living room, kitchen, study, gym, bedroom, whole-home and coast views at 15:00 and 21:00 on a desktop. A phone has not been looked at.
-          - Beside the paintings that set the bar it is a first pass. No view is composed, the light is the realistic render's and not designed for a picture, the strokes do not yet vary their pressure or follow curved forms, and there is no canvas, no glaze and no atmosphere.
-          - Plants, glass and anything with a picture on it have no still surface with a colour of its own, so they show the coat with no strokes. The sea and the sky are painted by the coat itself, in strokes fixed to the water and to the sky, which are simpler marks than the ones on solid things.
-          - Strokes on things that are instanced or skinned are not scattered. Figures are meant to stay cels; instanced furniture is simply unpainted.
-          - A stroke's direction is chosen for the whole mesh from its bounding box and each triangle's normal, so it follows boards and courses but not the curve of a cushion.
-          - The scatter is fixed at about 396,000 strokes whatever the device, and takes about half a second (486 ms here), in one go when the view holds still and over the first frames when it moves. Nothing lowers it for a weaker GPU yet.
-          - Measured November 16 on this PC in a 1600 by 900 window (a 1280 by 720 buffer), moving, the painted look draws 490 to 520 more calls than the cartoon and uses 2.5 ms more GPU time in the living room (13.3 to 15.8 ms) and 6.6 ms more for the whole home (22.6 to 29.2 ms). The living room's frame stayed at 48 ms and the coast's went from 65 to 78 ms.
+          - Sirui saw the first pass and judged its backgrounds lazy. He has not seen this one. Claude judged it at the coast at 15:00, at dusk and at 21:00, and in the living room and the kitchen nook by day and by night, on a desktop. A phone has not been looked at.
+          - Beside the paintings that set the bar it is still short. No view is composed, the light is the realistic render's, a cliff's cast shadows still break into islands where the rock is rough, the land at dusk is one rose, and night interiors carry loud streaks.
+          - Plants, glass, the pool, the bath and anything with a picture on it take no strokes of their own and show the coat.
+          - Strokes on instanced or skinned things are not scattered. Figures are meant to stay cels, and instanced furniture is simply unpainted.
+          - A made thing's stroke direction is chosen from its bounding box and each triangle's normal, so it follows boards and courses but not the curve of a cushion.
+          - The counts do not scale with the device. The scatter takes 0.7 to 1.2 s here, in one go when the view holds still and over the first frames when it moves. The GPU cost of this version has not been measured, and the first pass cost 2.5 to 6.6 ms more than the cartoon.
           - The switch lives in the lab menu (`?scene-lab=1`). Visitors have no control yet.
         next:
           - move: Put a frame beside each of the three reference paintings and close the largest difference first, which is the light. A picture needs one motivated light and real darks.
             readiness: ready
-          - move: Paint the plants, the pool and the bath, which have no still surface to pin a stroke to, and give the sea the brush marks the solid things have.
+          - move: Compose the views a visitor arrives at, as a painter would, and quiet the strokes of night interiors.
+            readiness: ready
+          - move: Paint the plants, the pool and the bath, which have no still surface to pin a stroke to.
             readiness: needs-research
           - move: Follow curved forms, by taking a stroke's direction from the surface's curvature and not from the mesh's box.
             readiness: ready
-          - move: Scale the number of strokes to the device, and judge the look on a phone.
+          - move: Measure the GPU cost, scale the number of strokes to the device, and judge the look on a phone.
             readiness: needs-measurement
-
   # These comparisons stay in the technical record until actual study stills are selected for public rows.
   - id: bounded-studies
     name: Frozen views and representation studies
@@ -3073,6 +3092,10 @@ sources:
     label: Blendi 2026
     citation: Blendi. *Oil paint*, a painted browser game built from brush strokes, with code under MIT and art under CC0, 2026.
     url: https://patch.gg/blendi/oil-paint
+  - id: rewind2026paintedwalk
+    label: rewind 2026
+    citation: rewind (rewind02 on X). A painted 3D world built in a browser with Three.js and a language model, whose brush manner turns from gouache by day to oil paint at sunset, November 2026.
+    url: https://x.com/rewind02/status/2121991760825995575
   - id: ottosson2020oklab
     label: Ottosson 2020
     citation: Björn Ottosson. *A perceptual color space for image processing*, 2020.
