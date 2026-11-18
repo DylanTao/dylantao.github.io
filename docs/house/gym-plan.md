@@ -10,6 +10,8 @@ The first step of docs/todo.md, item 3 (creative direction, brief 2). Written by
 
 Read as zones, from the house outward, all facing the ocean: the indoor gym (lifting, the rower and bike at the glass, the bags); a wide threshold that opens fully, with planting and a waterfall, so inside and outside read as one Japandi garden; an open lawn for yoga, Pilates and stretching, with room for boxing and the rower or bike outside on fine days; and, carved into the rock further right, a small niche with a hot spa and a cold room. Elegant rather than gym-bro: natural timber, stone, water, low planting, equipment of good design kept few and put away when not in use. The speakeasy's side of the house gets its own outdoor room (an outdoor dining terrace with the BBQ, grill and fridge by the pool, todo item 4), so the two outdoor rooms have different jobs: eating and gathering there, moving and resting here.
 
+**Found at eye level, November 18** (`docs/images/gym-side-terrace-as-it-stands-2026-11-18.webp`, Eevee with the roof on): the flat ground in front of the gym is not empty; it holds the house's outdoor dining terrace, a timber pergola over an oval table with chairs, a grill island with a hood, pendants, a glass and brass rail, the pool alongside. So Sirui's brief is a swap: the dining and the grill move to the study side (item 4's terrace, massing E), and this ground becomes the workout garden (massing F).
+
 Massing F (`docs/images/gym-garden-massing-f-2026-11-18.webp`) places these on the ground the model has: about 5 by 5 m of flat ground at the gym's floor in front of its sea face, between the infinity pool's end and the rock to the north, ending at the cliff edge; the spa niche is carved into that north rock.
 
 ## The idea
