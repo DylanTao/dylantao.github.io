@@ -586,8 +586,16 @@ void main() {
   light /= taps;
   vec3 spot = kindSkyKey(texture2D(tAlbedo, uv).a);
   float keyHere = step(0.5, spot.z);
-  // How the surface lies: to the key light, to the sky, above the sea, and to the afterglow.
+  // How the surface lies: to the key light, to the sky, above the sea, and to the afterglow,
+  // averaged over about a metre of the same thing, as the coat does: the mass, not the grain.
   vec3 faces = vec3(there.xy, sqrt(max(1.0 - dot(there.xy, there.xy), 0.0)));
+  float metre = clamp(paintScale.x / (paintScale.y > 0.5 ? max(depth, 0.05) : 1.0), 2.0, 60.0);
+  for (int i = 0; i < 8; i++) {
+    float turn = float(i) * 0.785398 + 0.39;
+    vec4 near = texture2D(tStructure, uv + vec2(cos(turn), sin(turn)) * metre / paintResolution);
+    if (abs(near.z - dabId) < 0.5) faces += vec3(near.xy, sqrt(max(1.0 - dot(near.xy, near.xy), 0.0)));
+  }
+  faces = normalize(faces);
   vec3 up = normalize(transpose(mat3(viewMatrix)) * faces);
   vec4 geo = vec4(dot(faces, printSun.xyz), up.y, world.y - printSea.x, dot(faces, printGlow.xyz));
   vec3 own = dabOwn.rgb * dabOwn.rgb;

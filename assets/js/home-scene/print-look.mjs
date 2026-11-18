@@ -1283,7 +1283,18 @@ void main() {
     reach = smoothstep(0.3, 0.7, keySum / keyWeight);
     open = smoothstep(0.3, 0.7, skySum / keyWeight);
     // How the surface lies: to the key light, to the sky, above the sea, and to the afterglow.
+    // Form is shaded from the surface's direction averaged over about a metre of the same thing,
+    // so the facets of rough rock do not each turn from the sun on their own: a painter models the
+    // mass, not the grain. Cast shadows keep their edges; they come from the shadow map.
     vec3 faces = facing(lies);
+    if (printSun.w > 0.0 && lies.w < 50000.0) {
+      float metre = clamp(1.0 / max(printCamera.w * (printCamera.z > 0.5 ? lies.w : 1.0), 1e-5), 2.0, 60.0);
+      for (int i = 4; i < 12; i++) {
+        vec4 near = texture2D(tStructure, at + RING[i] * metre * px);
+        if (abs(near.z - lies.z) < 0.5) faces += facing(near);
+      }
+      faces = normalize(faces);
+    }
     vec4 geo = vec4(dot(faces, printSun.xyz), (mat3(printWorld) * faces).y, (printWorld * vec4(placed(at, lies.w), 1.0)).y - printSea.x, dot(faces, printGlow.xyz));
     vec3 read;
     colour = unlab(airFill(spotFill(mine, ownMix(labLinear(mine)), seen / weight, kind.x, reach, open, block.yz, 0.0, geo, read), lies.w));
