@@ -1839,7 +1839,7 @@ systems:
         limits:
           - Sirui saw the first pass and judged its backgrounds lazy; on the second he said it is good enough to push for feedback. Claude judged later rounds at the coast at 15:00, at dusk and at 21:00, and in the living room and the kitchen nook by day and by night, on a desktop. A real phone has not been looked at.
           - Beside the paintings that set the bar it is still short. No view is composed, and the light is the realistic render's rather than one motivated light with real darks.
-          - Plants, glass, the bath and anything with a picture on it take no strokes of their own and show the coat. The pool is painted by the coat as clear water (November 17), without strokes of its own.
+          - Plants, glass and anything with a picture on it take no strokes of their own and show the coat. The pool and the onsen's bath are painted by the coat as clear water (November 17), without strokes of their own.
           - Strokes on instanced or skinned things are not scattered. Figures are meant to stay cels, and instanced furniture is simply unpainted.
           - The cliff's larger cast shadows from overhangs keep their shapes; only the speckle of rough facets was massed away.
           - Touch screens, and machines that report at most 4 GB of memory or 4 cores, get half the strokes. The scatter takes 0.7 to 1.3 s on this PC, in one go when the view holds still and over the first frames when it moves, so a newly chosen look fills in over about three seconds.
@@ -1852,7 +1852,7 @@ systems:
             readiness: ready
           - move: Compose the views a visitor arrives at, as a painter would.
             readiness: ready
-          - move: Paint the plants and the bath; the bath like the pool, as flat water at a known height.
+          - move: Paint the plants, with strokes per plant model drawn with each copy's matrix.
             readiness: needs-research
   # These comparisons stay in the technical record until actual study stills are selected for public rows.
   - id: bounded-studies

@@ -1062,9 +1062,14 @@ uniform vec4 printSeaShallow;  // OKLab, and the metres of water that carry the 
 uniform vec3 printSeaDeep;     // OKLab
 uniform vec4 printPool;        // the pool's water: x unused, y its level, z unused, w 1 when the scene has one
 uniform vec4 printPoolBox;     // the pool's footprint in the world: least x, least z, most x, most z
+uniform vec4 printBath;        // the bath's water (the onsen), as printPool; indoors, so it holds the room's light and not the sky
+uniform vec4 printBathBox;     // its footprint, as printPoolBox
 // Whether a point of the world lies under the pool's water.
+bool underWater(vec3 p, vec4 level, vec4 box) {
+  return level.w > 0.5 && p.y < level.y - 0.02 && p.x > box.x && p.x < box.z && p.z > box.y && p.z < box.w;
+}
 bool underPool(vec3 p) {
-  return printPool.w > 0.5 && p.y < printPool.y - 0.02 && p.x > printPoolBox.x && p.x < printPoolBox.z && p.z > printPoolBox.y && p.z < printPoolBox.w;
+  return underWater(p, printPool, printPoolBox) || underWater(p, printBath, printBathBox);
 }
 float fieldHash(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
@@ -1394,6 +1399,33 @@ void main() {
     }
   }
 
+  // The bath (the onsen): the same clear water indoors, holding the room's warm light where it is
+  // looked along, since there is no sky over it.
+  if (local && printBath.w > 0.5 && printCamera.z > 0.5 && isSea < 0.5) {
+    vec3 eye = printWorld[3].xyz;
+    vec3 ray = normalize(mat3(printWorld) * placed(vUv, 1.0));
+    vec4 bed = texture2D(tStructure, vUv);
+    if (eye.y > printBath.y && ray.y < -1e-4) {
+      float far = (printBath.y - eye.y) / ray.y;
+      float facing = dot(ray, -normalize(printWorld[2].xyz));
+      vec3 water = eye + ray * far;
+      bool inside = water.x > printBathBox.x && water.x < printBathBox.z && water.z > printBathBox.y && water.z < printBathBox.w;
+      if (inside && far * facing < bed.w + 0.02) {
+        isSea = 1.0;
+        float under = max(printBath.y - (eye + ray * (bed.w / max(facing, 1e-3))).y, 0.0);
+        vec3 floorLab = labLinear(pow(clamp(colour, 0.0, 1.0), vec3(2.2)));
+        vec3 tint = vec3(min(printSeaShallow.x + 0.06, 0.92), printSeaShallow.yz * 0.7);
+        vec3 fill = mix(floorLab, tint, 0.3 + 0.4 * (1.0 - exp(-under / 0.6)));
+        float graze = pow(1.0 - clamp(-ray.y, 0.0, 1.0), 5.0);
+        fill = mix(fill, vec3(min(fill.x + 0.18, 0.95), fill.yz * 0.6 + printLightMix.xy * 0.5), (0.05 + 0.8 * graze) * 0.5);
+        vec2 lay = water.xz / vec2(0.32, 0.09);
+        lay.x += 0.5 * floor(lay.y);
+        fill.x += (hash(floor(lay) + 59.0) - 0.5) * 0.045;
+        colour = unlab(fill);
+      }
+    }
+  }
+
   // The sheet: its tooth, a few long fibres, and the baren pressing unevenly so the darker blocks
   // take a little less ink in broad patches.
   float tooth = noise(sheet * 0.8 / scale + 17.0) - 0.5;
@@ -1566,6 +1598,8 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     printWeather: { value: new THREE.Vector4(0, 0, 0, 0) },
     printPool: { value: new THREE.Vector4(0, 0, 0, 0) },
     printPoolBox: { value: new THREE.Vector4(0, 0, 0, 0) },
+    printBath: { value: new THREE.Vector4(0, 0, 0, 0) },
+    printBathBox: { value: new THREE.Vector4(0, 0, 0, 0) },
     printOver: { value: new THREE.Vector2() },
     printWorld: { value: new THREE.Matrix4() },
     printSea: { value: new THREE.Vector4(0, 0, 0, 0) },
@@ -1610,6 +1644,17 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
       uniforms.printPool.value.set(0, best.max.y, 0, 1);
       uniforms.printPoolBox.value.set(best.min.x, best.min.z, best.max.x, best.max.z);
     } else uniforms.printPool.value.set(0, 0, 0, 0);
+    // The bath: the onsen's water, by its name.
+    let bath = null;
+    scene.traverse?.((object) => {
+      if (bath || !object.isMesh || !/onsen_water|bath_water/i.test(object.name || "") || !object.geometry) return;
+      if (!object.geometry.boundingBox) object.geometry.computeBoundingBox();
+      bath = object.geometry.boundingBox.clone().applyMatrix4(object.matrixWorld);
+    });
+    if (bath) {
+      uniforms.printBath.value.set(0, bath.max.y, 0, 1);
+      uniforms.printBathBox.value.set(bath.min.x, bath.min.z, bath.max.x, bath.max.z);
+    } else uniforms.printBath.value.set(0, 0, 0, 0);
   }
   const gaze = new THREE.Vector3(),
     // Toward the sun, in the world, wherever it is (below the horizon too).

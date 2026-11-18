@@ -986,6 +986,8 @@ export function createPaint({ glsl, uniforms: look, tools }) {
       "printSeaDeep",
       "printPool",
       "printPoolBox",
+      "printBath",
+      "printBathBox",
       "tStructure",
       "tAlbedo",
       "tDiffuse",
