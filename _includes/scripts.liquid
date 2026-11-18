@@ -184,7 +184,16 @@
   {% include plugins/al_cookie_scripts.liquid %}
 {% endif %}
 {% if site.plugins contains 'al_analytics' %}
-  <!-- Analytics -->
+  <!--
+    Analytics. A browser driven by automation, or a page served from this machine, reports
+    nothing: the site's own test runs had become most of the recorded visitors (November 17, 2026;
+    docs/creative-direction.md, brief 8).
+  -->
+  <script>
+    if (navigator.webdriver || /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+      window['ga-disable-{{ site.analytics.google | default: site.google_analytics }}'] = true;
+    }
+  </script>
   {% include plugins/al_analytics_scripts.liquid %}
 {% endif %}
 
