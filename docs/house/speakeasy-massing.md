@@ -34,7 +34,13 @@ Behind the bookcase a short spiral stair goes down half a level to the bar, whic
 
 `docs/images/speakeasy-massings-2026-11-17.webp`, made by `bin/render_speakeasy_massings.py` (Blender's workbench, November 17): each option from the sea and in plan, the bar in amber, the study's extension in oak, glass in pale yellow and the lift in blue, laid over the house so they read through the rock. The site, measured in the model: the study's floor is the house's zero, behind glass about 0.8 m landward of the model's origin line; the headland Sirui ringed rises to about 11 m south of the study; its sea face is about 14 m out from the study's glass; the beach is about 7.5 m below the study's floor.
 
-## Recommendation
+## Sirui's answer (November 18), which replaces the recommendation below
+
+"instead of abc, should be more like using the empty space in front of study instead further moving to left, same for the unused flat space instead of gym, to better use them. also the study and speakeasy should also have more protected and comfy feeling for safety instead of all exposed, though should still have great view".
+
+Read: the rooms go into the empty court in front of the study, between its glass and the cliff edge, not into the headland to the south; the gym's unused flat ground is to be used the same way. And the study and the bar must feel protected and comfortable, refuges with a view rather than exposed glass boxes: backs to the rock, thick walls and deep reveals, a lower ceiling over the bar, the sea framed. Draw that as massing D next.
+
+## Recommendation (superseded)
 
 **B**, with A's secret door. It answers what he drew (the empty dark rock right of the study, lit), gives the bar the view the house is built for, carves the least, and keeps the lift at the end of a room rather than inside rock. If he wants the surprise above all, A. Decide the tide-line question after the massing: whether the shaft goes on below the water to a window into the sea (item 9).
 
