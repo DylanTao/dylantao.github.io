@@ -26,7 +26,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
   - [ ] Scale stroke counts by device and judge it on a phone.
   - [ ] One motivated light per view a visitor arrives at, with real darks.
   - [x] Quiet the strokes of night interiors (November 17: oil is only a little more broken than gouache now).
-  - [ ] Dusk: warm lit faces against cool turned planes.
+  - [x] Dusk: warm lit faces against cool turned planes (November 17: the afterglow warms only what looks toward it).
   - [ ] Mass the cliff's cast shadows.
   - [ ] Paint the plants, the pool and the bath.
   - [ ] Strokes follow curvature.

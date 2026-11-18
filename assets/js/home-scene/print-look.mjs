@@ -1006,8 +1006,12 @@ vec3 spotFill(vec3 mine, vec3 own3, float seen, float kind, float reach, float o
     fill.x *= 1.0 + printBounce.w * geo.y * away;
     float thrown = clamp(-geo.y * 0.9 + 0.35 * (1.0 - smoothstep(0.0, 5.0, geo.z)) * (1.0 - abs(geo.y)), 0.0, 1.0) * away * printDay.x;
     fill = mix(fill, vec3(fill.x * 1.12, fill.yz * 0.45 + printBounce.xy), thrown * printBounce.z);
-    float lit = printGlow.w * smoothstep(-0.15, 0.75, geo.w) * open * (1.0 - inLight);
+    // The afterglow warms what looks toward it; what turns away keeps the cool of the sky behind
+    // the viewer. A wide glow had turned the whole cliff one rose (November 17).
+    float lit = printGlow.w * smoothstep(0.25, 0.85, geo.w) * open * (1.0 - inLight);
     fill = mix(fill, vec3(fill.x * 1.3, fill.yz * 0.55 + printLightMix.xy * 0.9), lit * 0.65);
+    float turned = printGlow.w * smoothstep(0.15, -0.55, geo.w) * open * (1.0 - inLight);
+    fill = mix(fill, vec3(fill.x * 0.94, fill.yz * 0.6 + printShadeMix.xy * 0.45), turned * 0.5);
   }
   vec3 moonlit = vec3(own3.x * printMoon.w, mix(own3.yz * 0.4, printMoon.xy, printMoon.z));
   fill = mix(fill, moonlit, key * printDay.y * (1.0 - strong));
