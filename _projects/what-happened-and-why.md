@@ -3,7 +3,7 @@ layout: page
 title: What Happened and Why?
 permalink: /projects/what-happened-and-why/
 description: A CHI 2026 workshop position paper about trace-guided micro-episodes and in-flow user explanations for product iteration in AI-supported design tools.
-img: assets/img/publication_preview/herding_cats_why_what-transparent.png
+img: assets/img/publication_preview/what-happened-teaser.svg
 image_aspect: 16 / 9
 importance: -2
 category: research
@@ -48,7 +48,9 @@ citation_pdf_url: "https://dylantao.github.io/projects/what-happened-and-why/wha
     <div class="trace-hero-grid">
       <aside class="trace-hero-evidence" aria-label="Micro-episode lifecycle diagram">
         <div class="trace-figure-shell">
-          {% include figure.liquid loading="eager" path="assets/img/publication_preview/herding_cats_why_what-transparent.png" width="1376" height="590" title="Micro-episode lifecycle diagram" alt="Diagram showing a trace-guided micro-episode lifecycle: detect friction, offer a context-aware control, collect user rationale, and diagnose product iteration" class="img-fluid research-cutout" %}
+          <figure>
+            {% include figures/what-happened-teaser.svg %}
+          </figure>
           <a class="research-lens__open" href="{{ '/assets/img/publication_preview/herding_cats_why_what.png' | relative_url }}">Open original figure ↗</a>
         </div>
         <div class="trace-caption">

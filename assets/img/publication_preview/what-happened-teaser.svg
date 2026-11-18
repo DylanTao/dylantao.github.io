@@ -1,0 +1,4 @@
+---
+layout: null
+---
+{% include figures/what-happened-teaser.svg standalone=true id="hct-card" %}
