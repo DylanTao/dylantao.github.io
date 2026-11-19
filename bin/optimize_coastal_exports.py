@@ -94,11 +94,21 @@ only=next((a.split('=',1)[1].split(',') for a in sys.argv if a.startswith('--onl
 if only:exports=[e for e in exports if e[0] in only]
 from coastal_water_export_precision import install_water_precision
 water_precision_report=install_water_precision()
+# --geology-custody=DIR keeps the two qualified static geology meshes' exact native ports through Blender's
+# glTF export (bin/coastal_geology_export_custody.py): installed after preparation, before any export call,
+# finished after the last; its evidence and report go to DIR, which must not exist yet.
+custody=None
+if 'geology-custody' in args:
+    from coastal_geology_export_custody import install_geology_export_custody
+    custody_dir=option_path('geology-custody',args['geology-custody'])
+    custody=install_geology_export_custody(source,hashlib.sha256(source.read_bytes()).hexdigest(),custody_dir)
 for name,prefix in exports:
     bpy.ops.object.select_all(action='DESELECT')
     for o in scene.objects:
         if o.name.startswith(prefix) and not (name=='home-shell' and o.name.startswith('core_flora_')) or name=='home-shell' and o.type=='EMPTY':o.select_set(True)
     bpy.ops.export_scene.gltf(filepath=str(models_out/f'{name}.glb'),export_format='GLB',use_selection=True,export_extras=True,export_cameras=False,export_lights=False,export_animations=False,export_draco_mesh_compression_enable=True,export_draco_mesh_compression_level=draco_level,export_draco_color_quantization=6,export_draco_normal_quantization=8,export_draco_position_quantization=14)
+if custody:
+    (custody_dir/'CUSTODY-REPORT.json').write_text(json.dumps(custody.finish(),indent=2,default=str)+'\n',encoding='utf-8')
 output=option_path('report','artwork/coastal-home/reviews/web-export.json')
 output.parent.mkdir(parents=True,exist_ok=True)
 if room and output.exists():
