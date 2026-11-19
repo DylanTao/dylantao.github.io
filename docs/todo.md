@@ -56,6 +56,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 
 - **His words.** "don't waste the area ... a few different boxing bag etc, and a rowing and biking machine facing the ocean so i can do cardio while viewing ocean."
 - **As it stands.** `docs/images/sirui-2026-11-16-gym-as-it-stands.png`.
+- **Progress, November 19.** The rower and bike are built to scale in Blender. Seated eye rays from both stations clear the pavilion and reach the Pacific when the machines face due west. The first fit and the revision to the mats are recorded in the [takeover notebook](november-2026-takeover.md#november-19--two-seats-at-the-glass-first-fit). Browser delivery and the remaining gym work are open.
 - **Analysis.** A rack, a platform and a training screen, then dark empty floor. The sea is the reason to train in this room, so the cardio faces it and the bags take the dim side.
 - **Next.**
   - [x] Plan on paper (November 17): `docs/house/gym-plan.md`.

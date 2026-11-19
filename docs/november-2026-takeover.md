@@ -77,7 +77,7 @@ The two right-hand columns of each table are those estimates. They are sized for
 | Lamps ease between rooms; no blank frame when the resolution adapts (the flash)                                                         | shipped                                                              | H7         | done; the flash cost 0.08                   | done                                   |
 | **The section still buries rooms: the gym, the bedroom's bath, part of the library and upper floor** (what he sees as "weird geometry") | measured; the night tone is fixed; the carving goes with the arrival | B2 step 2  | 0.3 to 0.5                                  | 2 to 3 days, done with the arrival     |
 | The top floor: its subtle lighting and its garden                                                                                       | open: a design pass                                                  | O          | 0.2 to 0.4                                  | 1 to 2 days                            |
-| **The gym: boxing bags, and a rower and a bike that face the sea, on the floor that stands empty**                                      | **next house piece**                                                 | O4         | 0.3 to 0.5                                  | 2 to 3 days                            |
+| **The gym: boxing bags, and a rower and a bike that face the sea, on the floor that stands empty**                                      | cardio pair fitted in Blender, browser delivery in progress          | O4         | 0.3 to 0.5                                  | 2 to 3 days                            |
 | **The dark rock beside the study: a speakeasy bar, with the study reaching into it**                                                    | open; three massings on paper first                                  | O5         | 0.6 to 1.0                                  | about a week, with one choice from him |
 | **A glass lift from the speakeasy down the cliff to the beach, the sea in view all the way**                                            | later, after the speakeasy                                           | O6         | 0.5 to 0.9                                  | about a week                           |
 | **The bedroom: bigger, and designed as a room, not a bed**                                                                              | open                                                                 | O7         | 0.4 to 0.7                                  | 3 to 5 days                            |
@@ -546,6 +546,14 @@ Ideas wait here until someone tries them. Each names what it would change, why i
 - **A dial panel for the look.** The video's point about exposing the dials: a hidden `?dials=1` panel for line weight, band count and shadow hue would let Sirui tune the print by hand instead of by message.
 
 ## Notebook
+
+### November 19 · Two seats at the glass, first fit
+
+Sirui wants to see the Pacific while he trains. From the Gym button the camera watches the lifting platform, so I also put a camera at the height of a seated rider. The pavilion occupies much of the left window. Open water is visible between its rail and the headland.
+
+I built a low ash-rail rower with an open fan and a sea-green bike with a bronze hub. Each has its own mat. The first Blender frame puts both beside the bench. From the sea, the mullions hide the bike's silhouette at some angles. The mat fronts also cross a 33 mm step where the rubber tiles end. [Sirui’s reference, the current browser room and the first fit](images/gym-cardio-first-fit-2026-11-19.webp).
+
+For the second fit I turned both machines due west. Perpendicular to the glass is an angle of about 37° toward the pavilion. Rays from three positions along the rowing stroke and three bike eye positions reach the horizon facing west. The central water sightlines reach the sea at about 63–68 m and 45–48 m respectively. Moving the rower inward also clears the projection of the bench's loaded plates. The two machines leave about 0.9 m between their working widths. Scribed ash boards bring the concrete border up to the rubber at the glass. The native builder reads the tile ends and slab from the retained house. The morning coffee chair and its supports still occupy the future lawn.
 
 ### What the Design Review video teaches, and what it means here
 
