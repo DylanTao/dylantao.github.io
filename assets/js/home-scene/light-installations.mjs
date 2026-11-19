@@ -155,7 +155,9 @@ export const SCHEDULES = {
     Math.max(sheltered ? 0.18 : 0, dark.inside * Math.max(windowLevel(minute, 17 * 60 + 30, 23 * 60 + 30, 25), activity === "coding" ? 0.35 : 0)),
   steps: ({ dark }) => 0.45 * dark.outside,
   pool: ({ minute, dark, activity }) => (activity === "soak" ? 1 : 0.4 * dark.outside * windowLevel(minute, 19 * 60, 23 * 60, 20)),
-  gym: ({ dark, activity, visit }) => (activity === "workout" || visit === "gym" ? Math.max(0.65, dark.inside) : 0.18 * dark.inside),
+  gym: ({ dark, activity, visit }) => (activity === "workout" ? Math.max(0.65, dark.inside) : visit === "gym" ? 0.65 * (1 - dark.inside) : 0),
+  boxing: ({ dark, visit, activity }) =>
+    visit === "gym" || ["bagwork", "double-end", "speed-bag"].includes(activity) ? Math.max(0.38, dark.inside) : 0.2 * dark.inside,
   privateReading: ({ dark, visit }) => (visit === "library-upper" ? Math.max(0.65, dark.inside) : 0.16 * dark.inside),
   // The dining table is under the gallery, so daylight outside does not replace its task light.
   pendant: ({ minute, dark, activity, sheltered }) =>

@@ -2779,6 +2779,144 @@
       "corners": 1116,
       "min": 0.68,
       "max": 0.7546468945592643
+    },
+    {
+      "mesh": "gym_cardio_window_boards",
+      "corners": 576,
+      "min": 0.68,
+      "max": 0.7262448669783771
+    },
+    {
+      "mesh": "gym_cardio_rower",
+      "corners": 5448,
+      "min": 0.68,
+      "max": 0.7709654248567919
+    },
+    {
+      "mesh": "gym_cardio_rower_fan",
+      "corners": 864,
+      "min": 0.68,
+      "max": 0.739657386019826
+    },
+    {
+      "mesh": "gym_cardio_rower_seat",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7383995280911526
+    },
+    {
+      "mesh": "gym_cardio_rower_cord",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7038725821115077
+    },
+    {
+      "mesh": "gym_cardio_rower_handle",
+      "corners": 180,
+      "min": 0.68,
+      "max": 0.7371188880565267
+    },
+    {
+      "mesh": "gym_cardio_pedal_left",
+      "corners": 216,
+      "min": 0.68,
+      "max": 0.7454824466258289
+    },
+    {
+      "mesh": "gym_cardio_pedal_right",
+      "corners": 216,
+      "min": 0.68,
+      "max": 0.7139743443431024
+    },
+    {
+      "mesh": "gym_cardio_bike",
+      "corners": 2664,
+      "min": 0.68,
+      "max": 0.7549594285339117
+    },
+    {
+      "mesh": "gym_cardio_bike_crank",
+      "corners": 504,
+      "min": 0.68,
+      "max": 0.7372483272726338
+    },
+    {
+      "mesh": "gym_cardio_bike_flywheel",
+      "corners": 1748,
+      "min": 0.68,
+      "max": 0.7406630778685213
+    },
+    {
+      "mesh": "gym_cardio_heavy_mount",
+      "corners": 276,
+      "min": 0.68,
+      "max": 0.7162293244277439
+    },
+    {
+      "mesh": "gym_cardio_heavy_bag",
+      "corners": 1632,
+      "min": 0.68,
+      "max": 0.7703012155423251
+    },
+    {
+      "mesh": "gym_cardio_double_bottom",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7027347090506616
+    },
+    {
+      "mesh": "gym_cardio_double_top",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.702834880752489
+    },
+    {
+      "mesh": "gym_cardio_double_anchors",
+      "corners": 360,
+      "min": 0.68,
+      "max": 0.7140236490452663
+    },
+    {
+      "mesh": "gym_cardio_double_bag",
+      "corners": 960,
+      "min": 0.68,
+      "max": 0.7376252872248491
+    },
+    {
+      "mesh": "gym_cardio_speed_platform",
+      "corners": 1356,
+      "min": 0.68,
+      "max": 0.8712500107288361
+    },
+    {
+      "mesh": "gym_cardio_speed_bag",
+      "corners": 720,
+      "min": 0.68,
+      "max": 0.7517302008097371
+    },
+    {
+      "mesh": "gym_cardio_wrap_shelf",
+      "corners": 3476,
+      "min": 0.68,
+      "max": 0.8712500107288361
+    },
+    {
+      "mesh": "gym_cardio_pendant_paper",
+      "corners": 336,
+      "min": 0.68,
+      "max": 0.7371688878784578
+    },
+    {
+      "mesh": "gym_cardio_sill_diffuser",
+      "corners": 48,
+      "min": 0.6801110478973715,
+      "max": 0.7044624292105437
+    },
+    {
+      "mesh": "gym_cardio_pendant_mount",
+      "corners": 336,
+      "min": 0.68,
+      "max": 0.7275686992704868
     }
   ]
 }

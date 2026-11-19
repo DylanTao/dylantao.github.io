@@ -122,8 +122,9 @@ test("a gym visit uses the existing workout pendants and leaves unrelated spaces
     for (const daylight of [0, 0.3, 0.95]) {
       const dark = darkness(daylight);
       assert.equal(SCHEDULES.gym({ dark, activity: "workout" }), Math.max(0.65, dark.inside));
-      assert.equal(SCHEDULES.gym({ dark, activity: "reading", visit: "gym" }), SCHEDULES.gym({ dark, activity: "workout" }));
-      assert.equal(SCHEDULES.gym({ dark, activity: "reading", visit: "study" }), 0.18 * dark.inside);
+      assert.equal(SCHEDULES.gym({ dark, activity: "reading", visit: "gym" }), 0.65 * (1 - dark.inside));
+      assert.equal(SCHEDULES.gym({ dark, activity: "reading", visit: "study" }), 0);
+      assert.equal(SCHEDULES.boxing({ dark, activity: "bagwork", visit: "outside" }), Math.max(0.38, dark.inside));
     }
     lights.update({ minute: 720, daylight: 0.95, activity: "reading", visit: "outside" });
     assert.equal(lights.levels.gym, 0);

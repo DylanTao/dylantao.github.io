@@ -980,6 +980,51 @@
       "minute": 1110,
       "sequence": "session"
     },
+    "rowing": {
+      "label": "Ocean row",
+      "room": "gym",
+      "clip": "workout",
+      "minute": 420,
+      "sequence": "cardio",
+      "previewOnly": true,
+      "view": { "target": [9.48, 0.86, 3.03], "yaw": -0.194, "pitch": 0.19, "radius": 2.75, "fov": 60 }
+    },
+    "riding": {
+      "label": "Stationary bike",
+      "room": "gym",
+      "clip": "workout",
+      "minute": 420,
+      "sequence": "cardio",
+      "previewOnly": true,
+      "view": { "target": [8.57, 0.96, 4.13], "yaw": 0.7, "pitch": 0.14, "radius": 2.25, "fov": 63 }
+    },
+    "bagwork": {
+      "label": "Heavy bag",
+      "room": "gym",
+      "clip": "workout",
+      "minute": 1260,
+      "sequence": "cardio",
+      "previewOnly": true,
+      "view": { "target": [8.12, 1.24, 5.34], "yaw": 2.27, "pitch": 0.09, "radius": 2.15, "fov": 65 }
+    },
+    "double-end": {
+      "label": "Double-end bag",
+      "room": "gym",
+      "clip": "workout",
+      "minute": 1260,
+      "sequence": "cardio",
+      "previewOnly": true,
+      "view": { "target": [10.64, 1.19, 7.45], "yaw": -2.5, "pitch": 0.1, "radius": 2.55, "fov": 61 }
+    },
+    "speed-bag": {
+      "label": "Speed bag",
+      "room": "gym",
+      "clip": "workout",
+      "minute": 1260,
+      "sequence": "cardio",
+      "previewOnly": true,
+      "view": { "target": [10.49, 1.37, 6.21], "yaw": -2.54, "pitch": 0.07, "radius": 2.52, "fov": 61 }
+    },
     "soak": {
       "label": "Onsen time",
       "room": "onsen",
@@ -5915,8 +5960,8 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "a2cfd43250b094a9f891539444f8e1493609c96fb5576d368bc976ad83e3f2c5",
-    "sha256": "e43b9115f549a4c68fe01cb484e443948bf434dbd38b966c866c82cbec5c6028"
+    "signature": "69f21cb81f3e7386258d3bcdb044f0043f55349aff0af9cf29806e5cbac4ed0e",
+    "sha256": "c530e8a5fcd36d607a5f6400d82c4f05378e7ef94b20761fba4bcaede7916ba7"
   },
   "estateDoors": [
     {
@@ -7653,6 +7698,17 @@
       }
     },
     {
+      "id": "gym-window-sill",
+      "schedule": "steps",
+      "a": [8.08, 0.031, 3.765],
+      "b": [10.84, 0.031, 1.723],
+      "intensity": 0.16,
+      "color": [1, 0.73, 0.48],
+      "region": { "min": [7.9, -0.04, 1.55], "max": [10.99, 1.28, 5.15] },
+      "transport": false,
+      "glowTag": "gym-window-sill"
+    },
+    {
       "id": "private-living-reading-lantern",
       "schedule": "privateReading",
       "a": [0.65, 4.855, 12.65],
@@ -7792,6 +7848,17 @@
         "min": [-3.45, -0.1, 16.14],
         "max": [3.35, 7.3, 23.2]
       }
+    },
+    {
+      "id": "gym-boxing-pendant",
+      "schedule": "boxing",
+      "position": [9.1, 2.49, 5.85],
+      "intensity": 2.1,
+      "color": [1, 0.73, 0.48],
+      "region": { "min": [7.05, -0.04, 4.05], "max": [11.22, 3.6, 8.72] },
+      "transport": false,
+      "emitterRadius": 0.095,
+      "glowTag": "gym-boxing-pendant"
     },
     {
       "id": "tea-garden-lantern",

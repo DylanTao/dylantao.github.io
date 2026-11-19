@@ -37,9 +37,10 @@ import {
 } from "./camera.mjs?v=exterior-waterline-20261101";
 import { createCameraField } from "./camera-field.mjs";
 import { activityPose, createHandContacts } from "./activities.mjs";
-import { createLiftRig } from "./lift-rig.mjs";
+import { createLiftRig } from "./lift-rig.mjs?v=gym-stations-20261119";
 import { createDynamicCover, breathAt } from "./bedding-breath.mjs";
 import { createGymProps, createTrainingScreen } from "./gym-props.mjs?v=gym-close-20261101";
+import { createCardioStations } from "./gym-cardio.mjs";
 import { createGymDashboard } from "./gym-dashboard.mjs?v=gym-close-20261101";
 import { sessionPose } from "./gym-session.mjs";
 import { sessionState, trainingAt } from "./training.mjs";
@@ -80,7 +81,7 @@ import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
 import { createWorldFullscreen } from "./world-fullscreen.mjs?v=layout-20261031";
 import { createWalkMode, WALK } from "./walk-controls.mjs?v=gym-close-20261101";
 import { arrivalStandingView } from "./arrival-view.mjs";
-import { createLightInstallations, roomLightSources } from "./light-installations.mjs?v=interior-20261031";
+import { createLightInstallations, roomLightSources } from "./light-installations.mjs?v=gym-stations-20261119";
 import { createFurniture } from "./furniture.mjs";
 import { createDining } from "./dining.mjs";
 import { createAtmosphere } from "./atmosphere.mjs";
@@ -123,6 +124,8 @@ const canvasLabel = (roomCount) =>
 export function createCoastalHome(container, records, artifacts) {
   const stage = container.closest("[data-home-artifact-stage]");
   const ui = stage.querySelector("[data-home-world-controls]");
+  const stationPanel = ui?.querySelector("[data-world-gym-stations]");
+  const stationSelect = stationPanel?.querySelector("[data-world-station]");
   const status = ui.querySelector("[data-world-status]");
   const clockLabel = ui.querySelector("[data-world-clock]");
   const explore = createExplorationState();
@@ -276,6 +279,7 @@ export function createCoastalHome(container, records, artifacts) {
     liftRig = null,
     liftActive = false,
     gymProps = null,
+    cardioStations = null,
     gymScreen = null,
     gymDashboard = null,
     sessionClock = { second: -1, minute: 0 },
@@ -2033,6 +2037,7 @@ export function createCoastalHome(container, records, artifacts) {
   // Visitors can lean in closer than the authored framings (Sirui, 2026-10-14): the zoom-in limit is
   // about half the authored one, never nearer than 1.6 m in a room, 7 m for the house or 10 m outside.
   const nearerEnvelopes = new WeakMap();
+  const cardioEnvelope = { yaw: null, pitch: [-0.12, 1.05], radius: [1.1, 4.9] };
   // The authoring lab (?scene-lab=1) can place the camera anywhere for close inspection.
   let labFreeCamera = false;
   // The gym camera works like a tripod in the corner (camera.mjs tripodLook): from each arrival
@@ -2074,6 +2079,7 @@ export function createCoastalHome(container, records, artifacts) {
   function cameraEnvelope(orbitYaw = yaw, orbitPitch = pitch) {
     if (labFreeCamera) return null;
     if (animalFocus) return wildlifeEnvelope(animalFocus.radius);
+    if (currentRoom === "gym" && routine?.sequence === "cardio") return cardioEnvelope;
     const authored = envelopeFor(config, currentRoom);
     if (!authored) return authored;
     let envelope = nearerEnvelopes.get(authored);
@@ -2490,6 +2496,14 @@ export function createCoastalHome(container, records, artifacts) {
       yaw = room.camera?.yaw ?? 0.65;
       pitch = room.camera?.pitch ?? 0.24;
       desiredFov = room.camera?.fov ?? 38;
+      if (id === "gym" && routine?.sequence === "cardio" && config.activities[routine.id]?.view) {
+        const view = config.activities[routine.id].view;
+        desiredTarget.fromArray(view.target);
+        yaw = view.yaw;
+        pitch = view.pitch;
+        desiredRadius = view.radius;
+        desiredFov = view.fov;
+      }
       loadRoom(id).catch(() => {});
     }
     if (reduced) {
@@ -2503,6 +2517,10 @@ export function createCoastalHome(container, records, artifacts) {
 
   function syncVisitorNavigation() {
     gymDashboard?.setAvailable(currentRoom === "gym");
+    if (stationSelect) {
+      stationPanel.hidden = currentRoom !== "gym" || !cardioStations || Boolean(walkMode?.active);
+      stationSelect.value = ["session", "cardio"].includes(routine?.sequence) ? routine.id : "";
+    }
     const viewedDestination = freeLook?.destination || currentRoom;
     ui.querySelectorAll("[data-world-destination]").forEach((b) =>
       b.setAttribute("aria-pressed", String(b.dataset.worldDestination === viewedDestination))
@@ -2516,7 +2534,7 @@ export function createCoastalHome(container, records, artifacts) {
         viewedDestination === "entrance"
           ? "Main entrance"
           : config?.rooms.find((r) => r.id === currentRoom)?.label || (currentRoom === "overview" ? "Whole home" : "Patio & coast");
-      status.textContent = walkMode?.active ? `Walking · ${label}` : label;
+      status.textContent = walkMode?.active ? `Walking · ${label}` : currentRoom === "gym" && routine?.sequence === "cardio" ? routine.label : label;
     }
   }
 
@@ -2744,6 +2762,17 @@ export function createCoastalHome(container, records, artifacts) {
       updateRoutine(true);
       setRoom(config.activities[id].room);
     });
+    if (stationSelect)
+      listen(stationSelect, "change", (e) => {
+        const id = e.target.value;
+        if (!config.activities[id]) return;
+        explore.setActivity(id, id === "workout" ? config.activities[id].minute : routine.minute);
+        followClock = false;
+        updateRoutine(true);
+        setRoom("gym");
+        ui.querySelector("[data-world-places]").open = false;
+        renderer.domElement.focus({ preventScroll: true });
+      });
     const canvas = renderer.domElement;
     canvas.className = "home-desk-corner-canvas";
     canvas.tabIndex = 0;
@@ -3464,10 +3493,26 @@ export function createCoastalHome(container, records, artifacts) {
     // The gym's bars, dumbbells and board exist whenever its room is loaded.
     if (!gymProps && config?.equipment?.gym && rooms.get("gym")) {
       gymProps = createGymProps({ room: rooms.get("gym"), world, gym: config.equipment.gym, training: config.training, material, screen: gymScreen });
+      cardioStations = createCardioStations(rooms.get("gym"));
+      syncVisitorNavigation();
       cleanup.push(() => gymProps?.dispose());
       refreshTrainingScreen();
     }
-    if (actor && !travel && poolVisit && routine?.sequence === "pool") {
+    const station = cardioStations?.update(
+      actor && liftRig && !travel && routine?.sequence === "cardio" ? routine.id : null,
+      elapsed - sequenceStart,
+      frameDelta,
+      { moving, reduced, avatar: avatarId }
+    );
+    if (station) {
+      actor.position.copy(station.origin);
+      actor.rotation.y = station.facing;
+      actor.updateMatrixWorld(true);
+      if (moving || reduced || !liftActive || sequencePose?.station !== routine.id) cardioStations.observeContact(liftRig.applyStation(station));
+      liftActive = liftThisFrame = true;
+      sequencePose = { phase: station.phase, clip: "workout", station: routine.id };
+      container.dataset.activityPhase = station.phase;
+    } else if (actor && !travel && poolVisit && routine?.sequence === "pool") {
       if (moving || reduced || !sequencePose) {
         sequencePose = poolVisit.pose(elapsed - sequenceStart, { reduced });
         const pose = sequencePose;
@@ -4160,6 +4205,9 @@ export function createCoastalHome(container, records, artifacts) {
       const activitySelect = ui.querySelector("[data-world-activity]");
       activitySelect.replaceChildren();
       Object.entries(config.activities).forEach(([id, a]) => activitySelect.add(new Option(a.label, id)));
+      for (const [id, activity] of Object.entries(config.activities)) {
+        if (activity.room === "gym") stationSelect?.add(new Option(activity.label, id));
+      }
       const items = ui.querySelector("[data-world-desk-items]");
       items.replaceChildren();
       records.forEach((r, i) => {
@@ -4536,6 +4584,7 @@ export function createCoastalHome(container, records, artifacts) {
     gym: gymProps
       ? {
           ...gymProps.evidence(),
+          cardio: cardioStations?.evidence(),
           collectorFaces: [...trainingCollectorFaces.values()],
           dashboard: gymDashboard?.evidence(),
           lift: sequencePose?.lift?.name || null,

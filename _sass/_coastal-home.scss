@@ -414,6 +414,24 @@
   font-size: var(--type-meta);
   line-height: 1.45;
 }
+
+.home-world-stations:not([hidden]) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+
+  select {
+    min-width: 0;
+    max-width: 65%;
+    color: inherit;
+    background: var(--global-bg-color);
+    border: 1px solid var(--global-divider-color);
+    border-radius: 0.35rem;
+    padding: 0.35rem;
+  }
+}
 .home-world-places-tools {
   border-top: 1px solid var(--home-line);
   padding-top: 0.35rem;

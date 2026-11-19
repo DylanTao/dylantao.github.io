@@ -419,7 +419,7 @@
       },
       {
         "file": "architecture-finish.spec.js",
-        "title": "finished house: public gym visits keep the existing task lights on in the embed and full screen"
+        "title": "finished house: public gym visits light the lifting bay by day and the bags by night"
       }
     ],
     "scene-gym": [

@@ -351,6 +351,19 @@ async function capture(shot, mode) {
     if (lab) lab.open = false;
   }, shot.room);
   await page.waitForFunction((room) => document.querySelector("[data-home-desk-scene]").getSceneEvidence().currentRoom === room, shot.room);
+  if (process.env.COAST_GYM_STATION && shot.room === "gym") {
+    if (process.env.COAST_AVATAR) {
+      const avatars = page.locator("[data-world-avatar]");
+      await avatars.selectOption(process.env.COAST_AVATAR, { force: true });
+      await page.waitForFunction((id) => document.querySelector("[data-home-desk-scene]").dataset.avatar === id, process.env.COAST_AVATAR);
+    }
+    await page.locator("[data-world-places] > summary").click();
+    await page.locator("[data-world-station]").selectOption(process.env.COAST_GYM_STATION);
+    await page.waitForFunction(
+      (id) => document.querySelector("[data-home-desk-scene]").getSceneEvidence().gym?.cardio?.active === id,
+      process.env.COAST_GYM_STATION
+    );
+  }
   if (shot.camera) await host.evaluate((e, camera) => e.setLabCamera(camera), shot.camera);
   const cameraSweep = [];
   if (process.env.COAST_CAMERA_SWEEP) {

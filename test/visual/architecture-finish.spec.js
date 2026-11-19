@@ -73,7 +73,7 @@ function pixelDifference(a, b) {
   return { changedPixels: changed, meanMaximumChannelError: sum / (before.width * before.height), width: before.width, height: before.height };
 }
 
-test("finished house: public gym visits keep the existing task lights on in the embed and full screen", async ({ page }, testInfo) => {
+test("finished house: public gym visits light the lifting bay by day and the bags by night", async ({ page }, testInfo) => {
   test.setTimeout(process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1" ? 900000 : 600000);
   const errors = collectRuntimeErrors(page),
     records = [];
@@ -108,7 +108,12 @@ test("finished house: public gym visits keep the existing task lights on in the 
     expect(gym.position).toEqual([8.7, 2.9448975324630737, 7.1]);
     if (active) {
       expect(gym.intensity).toBe(6);
-      expect(state.simulation.installations.levels.gym).toBeGreaterThanOrEqual(0.65);
+      const levels = state.simulation.installations.levels;
+      if (name === "gym-evening-fullscreen") {
+        expect(levels.gym).toBe(0);
+        expect(levels.boxing).toBe(1);
+        expect(levels.steps).toBeGreaterThan(0);
+      } else expect(levels.gym).toBeGreaterThanOrEqual(0.65);
     } else expect(gym.intensity).toBeLessThan(6);
     const bytes = await canvas.screenshot();
     nonblank(bytes);
@@ -124,6 +129,16 @@ test("finished house: public gym visits keep the existing task lights on in the 
   await theme("evening");
   await page.locator("[data-world-fullscreen]").click();
   await capture("gym-evening-fullscreen", true);
+  const places = page.locator("[data-world-places]");
+  for (const id of ["rowing", "riding", "bagwork", "double-end", "speed-bag"]) {
+    await places.locator("summary").click();
+    await places.locator("[data-world-station]").selectOption(id);
+    await expect.poll(async () => (await evidence(scene)).gym?.cardio?.active, { timeout: 60000 }).toBe(id);
+    const station = (await evidence(scene)).gym.cardio;
+    expect(station.contacts.hands).toHaveLength(2);
+    expect(station.fanSpeed + station.wheelSpeed + Math.abs(station.heavyAngle)).toBe(0);
+    await expect(canvas).toBeFocused();
+  }
   await visit("sleep");
   await capture("gym-light-released-after-departure", false);
   await retain(testInfo, "gym-public-visits", { body: Buffer.from(JSON.stringify({ records, errors }, null, 2)), contentType: "application/json" });

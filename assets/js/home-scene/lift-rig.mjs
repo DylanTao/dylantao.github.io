@@ -654,6 +654,18 @@ export function createLiftRig(actor) {
   return {
     dims,
     lifts: Object.keys(poses),
+    applyStation(pose) {
+      const local = (v) => toLocal(actor.parent.localToWorld(v.clone()));
+      const hands = pose.hands.map(local);
+      body({ hips: local(pose.hips), lean: pose.lean, twist: pose.twist, head: -pose.lean * 0.45 });
+      legs(pose.feet.map(local), hintsOut(0.22, 0, 1));
+      arms(hands, hintsOut(0.44, -0.25, -0.75));
+      // Distances to the solved wrist and ankle, including each character's palm length.
+      return {
+        hands: SIDES.map(([side], i) => toLocal(bones["Hand" + side].getWorldPosition(V())).distanceTo(wristFor(side, hands[i]))),
+        feet: SIDES.map(([side], i) => actor.parent.worldToLocal(bones["Foot" + side].getWorldPosition(V())).distanceTo(pose.feet[i])),
+      };
+    },
     // Pose `name` at phase u (0-1) over the pose already on the bones (a clip's), blended by
     // `weight`. Returns the bar (centre and axis), the hands, or a plate, in the room's frame.
     apply(name, u, ctx = {}, weight = 1) {

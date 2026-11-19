@@ -1,4 +1,4 @@
-"""Build the gym's two ocean-facing cardio stations in the retained house.
+"""Fit the ocean-facing machines and boxing equipment in the retained gym.
 
 Blender 4.5 LTS, from the repository root:
   blender -b artwork/coastal-home/coastal-home.blend --python-exit-code 1 --python bin/coastal_gym_cardio.py -- --save-as=PATH
@@ -99,6 +99,7 @@ GRIP = "cardio graphite rubber"
 HIDE = "cardio saddle leather"
 BRASS = "cardio brushed bronze"
 MAT = "cardio cork rubber"
+CANVAS = "cardio sand canvas"
 
 
 def finishes():
@@ -108,6 +109,7 @@ def finishes():
     material(HIDE, (0.31, 0.127, 0.063), 0.66)
     material(BRASS, (0.46, 0.29, 0.125), 0.4, 0.62)
     material(MAT, (0.112, 0.125, 0.109), 0.94)
+    material(CANVAS, (0.51, 0.34, 0.20), 0.86)
 
 
 def threshold():
@@ -170,11 +172,18 @@ def rower(floor):
     for fy in (-0.92, 0.85):
         foot(base, fy, 0.45)
         base.box(STEEL, (0, fy, 0.078), (0.35, 0.054, 0.040))
+    # A flask rests on the mat outside the seat travel and the line of the cord.
+    furniture.lathe(base.surface(STEEL), [(0.031, MAT_TOP), (0.036, 0.020), (0.036, 0.165), (0.021, 0.182),
+                                           (0.021, 0.189)], center=(0.26, 0.49, 0), segments=16)
+    furniture.lathe(base.surface(BRASS), [(0.022, 0.189), (0.022, 0.202), (0.019, 0.205)],
+                    center=(0.26, 0.49, 0), segments=16)
     # The handle rests in the cradle above the foot stretchers. Its cord returns to the drum.
-    base.tube(TRIM, [(0, 0.57, 0.36), (0, 0.38, 0.329)], 0.006, 8)
-    base.tube(OAK, [(-0.20, 0.38, 0.327), (0.20, 0.38, 0.327)], 0.016)
+    cord = Piece("rower_cord", (x, y + 0.57, floor + 0.36))
+    cord.tube(TRIM, [(0, 0, 0), (0, -0.19, -0.033)], 0.006, 8)
+    handle = Piece("rower_handle", (x, y + 0.38, floor + 0.327))
+    handle.tube(OAK, [(-0.20, 0, 0), (0.20, 0, 0)], 0.016)
     for sign in (-1, 1):
-        base.tube(GRIP, [(sign * 0.074, 0.38, 0.327), (sign * 0.204, 0.38, 0.327)], 0.020)
+        handle.tube(GRIP, [(sign * 0.074, 0, 0), (sign * 0.204, 0, 0)], 0.020)
     seat = Piece("rower_seat", (x, y - 0.38, floor))
     seat.box(STEEL, (0, 0, 0.204), (0.32, 0.14, 0.040))
     seat.upholstery(HIDE, [(-0.122, 0.255, 0.12, 0.021), (-0.082, 0.259, 0.178, 0.038),
@@ -202,7 +211,7 @@ def rower(floor):
                 blade.faces.new((p[n], p[(n + 1) % 4], q[(n + 1) % 4], q[n]))
         blade.faces.new(rings[0])
         blade.faces.new(rings[-1])
-    return [base.finish(), fan.finish(), seat.finish()]
+    return [base.finish(), fan.finish(), seat.finish(), cord.finish(), handle.finish()]
 
 
 def bike(floor):
@@ -226,7 +235,7 @@ def bike(floor):
             (0.16, 0.226, 1.006), (0.215, 0.26, 1.032), (0.201, 0.36, 1.095)]
     base.tube(TRIM, bars, 0.018, 12)
     for sign in (-1, 1):
-        base.tube(GRIP, [(sign * 0.215, 0.263, 1.034), (sign * 0.201, 0.36, 1.095)], 0.023)
+        base.tube(GRIP, [(sign * 0.215, 0.263, 1.034), (sign * 0.2004, 0.3641, 1.0977)], 0.023)
     # Two diagonal guards around the belt leave the flywheel silhouette legible from the door.
     for z0, z1 in ((0.37, 0.39), (0.23, 0.317)):
         base.tube(GRIP, [(0.069, -0.02, z0), (0.069, 0.28, z1)], 0.008, 8)
@@ -239,10 +248,125 @@ def bike(floor):
         wheel.tube(STEEL, [(0, r * math.cos(a + s), r * math.sin(a + s)) for r, s in ((0.040, 0), (0.128, 0.13), (0.196, 0.38))], 0.021)
     crank = Piece("bike_crank", (x, y - 0.02, floor + 0.30))
     crank.wheel(TRIM, (0, 0, 0), [(-0.077, 0.012), (-0.074, 0.061), (0.074, 0.061), (0.077, 0.012)], 24)
-    for sign in (-1, 1):
+    pedals = []
+    for sign, side in ((-1, "left"), (1, "right")):
         crank.tube(TRIM, [(sign * 0.082, 0, 0), (sign * 0.092, sign * 0.145, sign * 0.065)], 0.014)
-        crank.box(GRIP, (sign * 0.132, sign * 0.145, sign * 0.065), (0.092, 0.069, 0.021), 0.006)
-    return [base.finish(), crank.finish(), wheel.finish()]
+        pedal = Piece("pedal_" + side, (x + sign * 0.132, y - 0.02 + sign * 0.145, floor + 0.30 + sign * 0.065))
+        pedal.box(GRIP, (0, 0, 0), (0.092, 0.069, 0.021), 0.006)
+        pedals.append(pedal.finish())
+    return [base.finish(), crank.finish(), wheel.finish(), *pedals]
+
+
+def overhead(x, y):
+    hit, p, _, _, obj, _ = bpy.context.scene.ray_cast(
+        bpy.context.evaluated_depsgraph_get(), Vector((x, y, 2.49)), Vector((0, 0, 1)), distance=1.8
+    )
+    if not hit or not 3.1 < p.z < 4.0:
+        raise ValueError(f"No overhead support for the bag at {(x, y)}: {obj.name if obj else None}")
+    return p.z
+
+
+def heavy_bag():
+    x, y = 8.04, -4.78
+    roof = overhead(x, y)
+    pivot = 2.58
+    mount = Piece("heavy_mount", (x, y, pivot))
+    mount.box(OAK, (0, 0, roof - pivot - 0.04), (0.36, 0.13, 0.08))
+    mount.tube(TRIM, [(0, 0, 0), (0, 0, roof - pivot - 0.076)], 0.009)
+    body = Piece("heavy_bag", (x, y, pivot))
+    def leather_surface(finish, profile):
+        furniture.lathe(body.surface(finish), [(r, z - pivot) for r, z in profile], segments=28)
+    leather_surface(HIDE, [(0.116, 0.67), (0.156, 0.692), (0.173, 0.744), (0.176, 1.11),
+                           (0.17, 1.69), (0.16, 1.78), (0.13, 1.824)])
+    leather_surface(CANVAS, [(0.166, 1.742), (0.17, 1.747), (0.166, 1.776), (0.161, 1.78)])
+    for i in range(4):
+        a = i * math.pi / 2 + math.pi / 4
+        ca, sa = math.cos(a), math.sin(a)
+        body.tube(CANVAS, [(r * ca, r * sa, z - pivot) for r, z in ((0.164, 1.735), (0.14, 1.835), (0.054, 2.08))], 0.016, 8)
+        body.tube(TRIM, [(0.054 * ca, 0.054 * sa, 2.08 - pivot), (0, 0, 0)], 0.005, 8)
+    return [mount.finish(), body.finish()]
+
+
+def double_end():
+    x, y = 10.92, -7.45
+    center = 1.46
+    roof, floor = overhead(x, y), floor_at(x, y)
+    fixed = Piece("double_anchors", (x, y, 0))
+    for z, height in ((floor, 0.026), (roof - 0.046, 0.046)):
+        furniture.lathe(fixed.surface(TRIM), [(0.045, z), (0.052, z + height * 0.32), (0.033, z + height)], segments=18)
+    body = Piece("double_bag", (x, y, center))
+    furniture.lathe(body.surface(HIDE), [(0.018, -0.195), (0.048, -0.15), (0.095, -0.082), (0.108, -0.02),
+                                         (0.11, 0.03), (0.089, 0.105), (0.039, 0.17), (0.016, 0.188)], segments=24)
+    furniture.lathe(body.surface(CANVAS), [(0.1085, -0.03), (0.111, -0.015), (0.1115, 0.016)], segments=24)
+    cords = []
+    for name, z, tip in (("bottom", floor + 0.026, center - 0.195), ("top", roof - 0.046, center + 0.188)):
+        cord = Piece("double_" + name, (x, y, z))
+        cord.tube(GRIP, [(0, 0, 0), (0, 0, tip - z)], 0.006, 8)
+        cords.append(cord.finish())
+    return [fixed.finish(), body.finish(), *cords]
+
+
+def bag_wall():
+    # The bracket and shelf are cantilevered from the rock wall beyond the concrete slab.
+    x, y, top = 10.68, -6.21, 1.97
+    mount = Piece("speed_platform", (x, y, top))
+    furniture.lathe(mount.surface(OAK), [(0.222, 0), (0.243, 0.008), (0.243, 0.039), (0.231, 0.047)], segments=32)
+    for side in (-0.115, 0.115):
+        mount.box(STEEL, (0.503, side, 0.185), (0.044, 0.064, 0.31))
+        mount.tube(STEEL, [(0.486, side, 0.29), (0.065, side, 0.073), (0.485, side, 0.073)], 0.018)
+    mount.box(STEEL, (0.057, 0, 0.057), (0.047, 0.268, 0.020))
+    mount.tube(BRASS, [(0, 0, -0.04), (0, 0, 0)], 0.014)
+    pear = Piece("speed_bag", (x, y, top - 0.04))
+    furniture.lathe(pear.surface(HIDE), [(0.026, -0.284), (0.068, -0.269), (0.096, -0.23), (0.097, -0.19),
+                                        (0.074, -0.132), (0.035, -0.073), (0.013, -0.017), (0.011, 0)], segments=24)
+    shelf = Piece("wrap_shelf", (11.20, -6.82, 0.91))
+    shelf.box(OAK, (-0.135, 0, 0), (0.28, 0.76, 0.037))
+    for along in (-0.27, 0.27):
+        shelf.tube(STEEL, [(-0.015, along, -0.16), (-0.18, along, -0.026), (-0.01, along, -0.026)], 0.011)
+    for along in (-0.24, -0.14):
+        furniture.lathe(shelf.surface(CANVAS), [(0.043, 0.019), (0.046, 0.023), (0.046, 0.067), (0.04, 0.071)],
+                        center=(-0.15, along, 0), segments=18)
+    for i in range(2):
+        shelf.box("linen", (-0.132, 0.15, 0.036 + i * 0.031), (0.215 - i * 0.014, 0.296, 0.032), 0.014)
+    for along in (-0.13, 0.10):
+        shelf.tube(BRASS, [(-0.235, along, -0.018), (-0.235, along, -0.065)], 0.009, 8)
+        for dz, r, paint in ((-0.118, 0.042, CANVAS), (-0.196, 0.063, HIDE)):
+            furniture.lathe(shelf.surface(paint), [(r * 0.68, -0.05), (r, -0.024), (r, 0.025), (r * 0.71, 0.065)],
+                            center=(-0.235, along, dz), segments=18)
+        furniture.lathe(shelf.surface(HIDE), [(0.014, 0), (0.028, 0.03), (0.023, 0.071), (0.011, 0.089)],
+                        center=(-0.265, along + 0.043, -0.235), segments=12)
+    # Both timber handles rest in the peg; the loop hangs clear of the gloves.
+    rope = [(-0.237, -0.28 + 0.052 * math.sin(a), -0.221 + 0.168 * math.cos(a))
+            for a in (math.tau * i / 24 for i in range(1, 24))]
+    shelf.tube(GRIP, rope, 0.0036, 6)
+    for end in (rope[0], rope[-1]):
+        shelf.tube(OAK, [end, (end[0], end[1], -0.023)], 0.009, 8)
+    shelf.tube(BRASS, [(-0.209, -0.28, -0.019), (-0.252, -0.28, -0.046)], 0.007, 8)
+    return [mount.finish(), pear.finish(), shelf.finish()]
+
+
+def lamps():
+    # The two fittings share a parchment diffuser; the source regions in the
+    # manifest are local to the bag wall and the window respectively.
+    paper = material("cardio parchment", (0.74, 0.59, 0.39), 0.82)
+    shader = paper.node_tree.nodes["Principled BSDF"]
+    shader.inputs["Emission Color"].default_value = (1.0, 0.63, 0.32, 1)
+    shader.inputs["Emission Strength"].default_value = 0.64
+    x, y, bottom = 9.10, -5.85, 2.36
+    roof = overhead(x, y)
+    hardware = Piece("pendant_mount", (x, y, bottom))
+    hardware.tube(GRIP, [(0, 0, 0.265), (0, 0, roof - bottom)], 0.006, 8)
+    for z, r in ((0, 0.09), (0.257, 0.079)):
+        furniture.lathe(hardware.surface(BRASS), [(r, z), (r, z + 0.008)], segments=24)
+    shade = Piece("pendant_paper", (x, y, bottom))
+    furniture.lathe(shade.surface(paper.name), [(0.089, 0.008), (0.096, 0.048), (0.092, 0.206), (0.079, 0.257)], segments=24)
+    lamp = shade.finish()
+    lamp["installationGlow"] = "gym-boxing-pendant"
+    sill = Piece("sill_diffuser", (0, 0, 0))
+    sill.tube(paper.name, [(8.08, -3.765, 0.031), (10.84, -1.723, 0.031)], 0.005, 8)
+    strip = sill.finish()
+    strip["installationGlow"] = "gym-window-sill"
+    return [hardware.finish(), lamp, strip]
 
 
 def floor_at(x, y):
@@ -259,10 +383,13 @@ def main():
         raise ValueError("Open the retained house with the November gym header before installing these stations.")
     for obj in list(bpy.context.scene.objects):
         if obj.name.startswith(PREFIX):
+            mesh = obj.data
             bpy.data.objects.remove(obj, do_unlink=True)
+            if mesh.users == 0:
+                bpy.data.meshes.remove(mesh)
     bpy.context.view_layer.update()
     finishes()
-    objects = [threshold(), *rower(floor_at(*ROWER)), *bike(floor_at(*BIKE))]
+    objects = [threshold(), *rower(floor_at(*ROWER)), *bike(floor_at(*BIKE)), *heavy_bag(), *double_end(), *bag_wall(), *lamps()]
     triangles = sum(sum(len(p.vertices) - 2 for p in obj.data.polygons) for obj in objects)
     print(f"Gym cardio: {len(objects)} pieces, {triangles:,} triangles.", flush=True)
     target = next((arg.split("=", 1)[1] for arg in sys.argv if arg.startswith("--save-as=")), None)

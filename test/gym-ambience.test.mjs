@@ -76,7 +76,7 @@ test("the gym pendant's direct and cached emission face down and soften toward t
 test("the three shielded gym strips light the floor and stop above their physical emitters", () => {
   const lights = createLightInstallations({ equipment: { gym: {} }, retreat: { setbackMetres: 8 } });
   try {
-    lights.update({ minute: 1200, daylight: 0, activity: "work", visit: "gym" });
+    lights.update({ minute: 1200, daylight: 0, activity: "workout", visit: "gym" });
     assert.equal(lights.lines.filter((line) => line.id === "gym").length, 3);
     assert.ok(lights.irradianceAt(new THREE.Vector3(8.5, 0.01, 6.8), new THREE.Vector3(0, 1, 0)).r > 1);
     assert.equal(lights.irradianceAt(new THREE.Vector3(8.5, 3.3, 7.1), new THREE.Vector3(0, -1, 0)).r, 0);
