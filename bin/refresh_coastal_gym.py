@@ -165,6 +165,37 @@ for a, b in zip(mullions, mullions[1:]):
     panes.faces.new(verts)
 shell.append(decor.from_bmesh("core_gym_front_frame", frame, bronze, smooth=False))
 shell.append(decor.from_bmesh("core_gym_front_glass", panes, glass, smooth=False))
+
+# Close the mouth up to the rock (Sirui, November 18, 2026: "make sure there are not weird gap between top
+# of house and rock"). Above the arched head a sandstone header rises, step by step, to whatever is above it
+# (the cliff's underside, found by casting upward) and runs 5 cm into it, so no sky shows between the house
+# and the cliff. bin/probe_coastal_roof_gaps.py measured slits of 0.19 to 1.05 m here before this header.
+bpy.context.view_layer.update()
+deps = bpy.context.evaluated_depsgraph_get()
+across = Vector((-along.y, along.x, 0)) * 0.06
+header = bmesh.new()
+header_steps = 0
+for k in range(steps):
+    p0, p1 = point(k / steps, 0), point((k + 1) / steps, 0)
+    base = [vault_height(p.x) - 0.02 for p in (p0, p1)]
+    tops = []
+    for p, z in zip((p0, p1), base):
+        hit, loc, _n, _i, _o, _m = bpy.context.scene.ray_cast(deps, Vector((p.x, p.y, z + 0.06)), Vector((0, 0, 1)), distance=3.0)
+        tops.append(loc.z + 0.05 if hit else z)
+    if max(t - z for t, z in zip(tops, base)) < 0.03:
+        continue
+    corners = []
+    for p, z, top in ((p0, base[0], tops[0]), (p1, base[1], tops[1])):
+        for side in (-1, 1):
+            o = p + across * side
+            corners += [header.verts.new((o.x, o.y, z)), header.verts.new((o.x, o.y, top))]
+    a0, a1, b0, b1, c0, c1, d0, d1 = corners
+    for quad in ((a0, b0, d0, c0), (a1, c1, d1, b1), (a0, a1, b1, b0), (c0, d0, d1, c1), (a0, c0, c1, a1), (b0, b1, d1, d0)):
+        header.faces.new(quad)
+    header_steps += 1
+report["frontHeaderSteps"] = header_steps
+if header_steps:
+    shell.append(decor.from_bmesh("core_gym_front_header", header, bpy.data.materials["golden coastal sandstone"], smooth=False))
 for obj in shell:
     obj["gymRoom"] = True
 
