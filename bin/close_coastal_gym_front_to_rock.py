@@ -8,7 +8,8 @@ points along it, and builds `core_gym_front_header`, a sandstone header from jus
 whatever is above. Without --save it builds in memory, checks every point again and saves nothing.
 
 Run from the repository root:
-  blender -b --python-exit-code 1 --python bin/close_coastal_gym_front_to_rock.py [-- --save]
+  blender -b --python-exit-code 1 --python bin/close_coastal_gym_front_to_rock.py [-- --save | --preview=DIR]
+(--preview renders the arch from outside and inside, before and after, with the cave roof on, and saves nothing.)
 After --save: export the shell, bake the header's light (bin/bake_coastal_light.py with
 --prefixes=core_gym_front_header), re-bake the static light cache, rebuild the loading sketch, and run the probe.
 """
@@ -22,6 +23,7 @@ from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[1]
 SAVE = "--save" in sys.argv
+PREVIEW = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--preview=")), None)
 bpy.ops.wm.open_mainfile(filepath=str(ROOT / "artwork/coastal-home/coastal-home.blend"))
 scene = bpy.context.scene
 if "core_gym_front_header" in bpy.data.objects:
@@ -47,6 +49,23 @@ for k in range(SLICES + 1):
         tops[k] = tops[k - 1] if k else tops[k + 1]
 
 deps = bpy.context.evaluated_depsgraph_get()
+
+if PREVIEW:
+    sys.path.insert(0, str(ROOT / "bin"))
+    import coastal_preview as preview
+
+    camera = preview.setup(scene, resolution=(1000, 700), cutaway=False)
+    middle = (a + b) / 2
+    outward = Vector((-across.x, -across.y, 0)).normalized()
+    # Which side is the sea: the side away from the gym's vault (higher y here).
+    if outward.y < 0:
+        outward = -outward
+    top = max(p.z for p in points)
+    VIEWS = {
+        "outside": (middle + outward * 5.5 + Vector((0, 0, 1.6)), middle + Vector((0, 0, top * 0.9)), 58),
+        "inside": (middle - outward * 4.5 + Vector((0, 0, 1.6)), middle + Vector((0, 0, top * 0.9)), 64),
+    }
+    preview.render(scene, camera, VIEWS, PREVIEW, prefix="before-")
 
 
 def above(p):
@@ -82,7 +101,11 @@ obj["gymRoom"] = True
 # the header meets the rock's underside first, since the header runs 5 cm into it, so check the gaps, not hits.)
 gaps = [r - p.z for p in tops for r in [above(p)[0]] if r is not None]
 print(f"GYM HEADER: run {length:.2f} m from {tuple(round(c, 2) for c in a)} to {tuple(round(c, 2) for c in b)}; {built} of {SLICES} steps built, filling gaps of {min(gaps):.2f} to {max(gaps):.2f} m", flush=True)
-if SAVE:
+if PREVIEW:
+    bpy.context.view_layer.update()
+    preview.render(scene, camera, VIEWS, PREVIEW, prefix="after-")
+    print("PREVIEW", PREVIEW, flush=True)
+if SAVE and not PREVIEW:
     bpy.context.preferences.filepaths.save_version = 0
     bpy.ops.wm.save_mainfile()
     print("SAVED", bpy.data.filepath, flush=True)
