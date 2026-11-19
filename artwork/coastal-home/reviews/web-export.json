@@ -27,7 +27,7 @@
           "component": 1096,
           "candidateVertices": 61,
           "sourceFaces": 167,
-          "constantNormalDiameterUpperBound": 1.6417220788773135e-07,
+          "constantNormalDiameterUpperBound": 1.6417220788773135e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -45,7 +45,7 @@
           "component": 8134,
           "candidateVertices": 2074,
           "sourceFaces": 4238,
-          "constantNormalDiameterUpperBound": 1.6116321207065756e-07,
+          "constantNormalDiameterUpperBound": 1.6116321207065756e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -63,7 +63,7 @@
           "component": 8267,
           "candidateVertices": 5995,
           "sourceFaces": 12283,
-          "constantNormalDiameterUpperBound": 2.2774656878670612e-07,
+          "constantNormalDiameterUpperBound": 2.2774656878670612e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -81,7 +81,7 @@
           "component": 47281,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 2.2911831097777463e-08,
+          "constantNormalDiameterUpperBound": 2.2911831097777463e-8,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -135,7 +135,7 @@
           "component": 47433,
           "candidateVertices": 2,
           "sourceFaces": 8,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -189,7 +189,7 @@
           "component": 47449,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -225,7 +225,7 @@
           "component": 47468,
           "candidateVertices": 3,
           "sourceFaces": 8,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -243,7 +243,7 @@
           "component": 47469,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -279,7 +279,7 @@
           "component": 47476,
           "candidateVertices": 2,
           "sourceFaces": 7,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -297,7 +297,7 @@
           "component": 47481,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -315,7 +315,7 @@
           "component": 48060,
           "candidateVertices": 3,
           "sourceFaces": 12,
-          "constantNormalDiameterUpperBound": 5.016969206160665e-08,
+          "constantNormalDiameterUpperBound": 5.016969206160665e-8,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -369,7 +369,7 @@
           "component": 48413,
           "candidateVertices": 2,
           "sourceFaces": 8,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -405,7 +405,7 @@
           "component": 48421,
           "candidateVertices": 1,
           "sourceFaces": 5,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -423,7 +423,7 @@
           "component": 48424,
           "candidateVertices": 1,
           "sourceFaces": 5,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -441,7 +441,7 @@
           "component": 48437,
           "candidateVertices": 2,
           "sourceFaces": 8,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -459,7 +459,7 @@
           "component": 48444,
           "candidateVertices": 1,
           "sourceFaces": 5,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -477,7 +477,7 @@
           "component": 48447,
           "candidateVertices": 1,
           "sourceFaces": 5,
-          "constantNormalDiameterUpperBound": 1.902822768999564e-07,
+          "constantNormalDiameterUpperBound": 1.902822768999564e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -495,7 +495,7 @@
           "component": 48449,
           "candidateVertices": 1,
           "sourceFaces": 5,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -513,7 +513,7 @@
           "component": 48453,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -531,7 +531,7 @@
           "component": 48459,
           "candidateVertices": 23,
           "sourceFaces": 37,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -549,7 +549,7 @@
           "component": 50670,
           "candidateVertices": 5,
           "sourceFaces": 16,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -567,7 +567,7 @@
           "component": 50703,
           "candidateVertices": 1,
           "sourceFaces": 5,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -585,7 +585,7 @@
           "component": 50711,
           "candidateVertices": 1,
           "sourceFaces": 5,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -639,7 +639,7 @@
           "component": 50724,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 1.4003507406608427e-07,
+          "constantNormalDiameterUpperBound": 1.4003507406608427e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -675,7 +675,7 @@
           "component": 50932,
           "candidateVertices": 1,
           "sourceFaces": 5,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -693,7 +693,7 @@
           "component": 50935,
           "candidateVertices": 5,
           "sourceFaces": 16,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -783,7 +783,7 @@
           "component": 52203,
           "candidateVertices": 8,
           "sourceFaces": 19,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -819,7 +819,7 @@
           "component": 52783,
           "candidateVertices": 8,
           "sourceFaces": 22,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -837,7 +837,7 @@
           "component": 52890,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 1.5809899887803466e-07,
+          "constantNormalDiameterUpperBound": 1.5809899887803466e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -891,7 +891,7 @@
           "component": 52944,
           "candidateVertices": 6,
           "sourceFaces": 15,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -945,7 +945,7 @@
           "component": 53028,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 8.471255185686407e-08,
+          "constantNormalDiameterUpperBound": 8.471255185686407e-8,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -999,7 +999,7 @@
           "component": 53083,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1017,7 +1017,7 @@
           "component": 53094,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 8.042632518799614e-08,
+          "constantNormalDiameterUpperBound": 8.042632518799614e-8,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1053,7 +1053,7 @@
           "component": 53105,
           "candidateVertices": 4,
           "sourceFaces": 13,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1071,7 +1071,7 @@
           "component": 53115,
           "candidateVertices": 2,
           "sourceFaces": 6,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1089,7 +1089,7 @@
           "component": 53116,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1107,7 +1107,7 @@
           "component": 53120,
           "candidateVertices": 8,
           "sourceFaces": 16,
-          "constantNormalDiameterUpperBound": 1.345050378098634e-07,
+          "constantNormalDiameterUpperBound": 1.345050378098634e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1125,7 +1125,7 @@
           "component": 53127,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1143,7 +1143,7 @@
           "component": 53133,
           "candidateVertices": 2,
           "sourceFaces": 6,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1197,7 +1197,7 @@
           "component": 53157,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1215,7 +1215,7 @@
           "component": 53692,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 4.46987984909311e-08,
+          "constantNormalDiameterUpperBound": 4.46987984909311e-8,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1233,7 +1233,7 @@
           "component": 53980,
           "candidateVertices": 3,
           "sourceFaces": 8,
-          "constantNormalDiameterUpperBound": 1.3188142582031215e-07,
+          "constantNormalDiameterUpperBound": 1.3188142582031215e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1251,7 +1251,7 @@
           "component": 54030,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1269,7 +1269,7 @@
           "component": 54097,
           "candidateVertices": 10,
           "sourceFaces": 19,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1287,7 +1287,7 @@
           "component": 54101,
           "candidateVertices": 3,
           "sourceFaces": 8,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1305,7 +1305,7 @@
           "component": 54696,
           "candidateVertices": 33,
           "sourceFaces": 71,
-          "constantNormalDiameterUpperBound": 8.857354300548785e-08,
+          "constantNormalDiameterUpperBound": 8.857354300548785e-8,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1323,7 +1323,7 @@
           "component": 54726,
           "candidateVertices": 4,
           "sourceFaces": 11,
-          "constantNormalDiameterUpperBound": 1.4734516021417405e-07,
+          "constantNormalDiameterUpperBound": 1.4734516021417405e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1341,7 +1341,7 @@
           "component": 54925,
           "candidateVertices": 5,
           "sourceFaces": 12,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1359,7 +1359,7 @@
           "component": 54953,
           "candidateVertices": 3,
           "sourceFaces": 8,
-          "constantNormalDiameterUpperBound": 1.5437608027577657e-07,
+          "constantNormalDiameterUpperBound": 1.5437608027577657e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1377,7 +1377,7 @@
           "component": 54985,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1395,7 +1395,7 @@
           "component": 55012,
           "candidateVertices": 2,
           "sourceFaces": 6,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1431,7 +1431,7 @@
           "component": 55027,
           "candidateVertices": 4,
           "sourceFaces": 10,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1539,7 +1539,7 @@
           "component": 56165,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1629,7 +1629,7 @@
           "component": 56905,
           "candidateVertices": 9,
           "sourceFaces": 22,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1737,7 +1737,7 @@
           "component": 57017,
           "candidateVertices": 2,
           "sourceFaces": 6,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1773,7 +1773,7 @@
           "component": 57418,
           "candidateVertices": 1,
           "sourceFaces": 4,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1809,7 +1809,7 @@
           "component": 57573,
           "candidateVertices": 4,
           "sourceFaces": 9,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1827,7 +1827,7 @@
           "component": 57581,
           "candidateVertices": 3,
           "sourceFaces": 7,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1845,7 +1845,7 @@
           "component": 57644,
           "candidateVertices": 8,
           "sourceFaces": 19,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1863,7 +1863,7 @@
           "component": 57671,
           "candidateVertices": 3,
           "sourceFaces": 8,
-          "constantNormalDiameterUpperBound": 1.1920928955078125e-07,
+          "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
@@ -1877,527 +1877,202 @@
         {
           "component": 1096,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            11137,
-            11583,
-            11586
-          ],
-          "retainedCandidateVertexIds": [
-            3572
-          ],
+          "originalFaceIds": [11137, 11583, 11586],
+          "retainedCandidateVertexIds": [3572],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original faces at boundary pinches",
-          "originalFaceIds": [
-            20544,
-            20546,
-            20899,
-            20901
-          ],
-          "retainedCandidateVertexIds": [
-            8207,
-            8209
-          ],
+          "originalFaceIds": [20544, 20546, 20899, 20901],
+          "retainedCandidateVertexIds": [8207, 8209],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 8116,
           "reason": "original faces at boundary pinches",
-          "originalFaceIds": [
-            11119,
-            11122,
-            11567,
-            11570,
-            13363,
-            13765,
-            94022,
-            94043
-          ],
-          "retainedCandidateVertexIds": [
-            3339,
-            3789,
-            4661,
-            52867,
-            52908
-          ],
+          "originalFaceIds": [11119, 11122, 11567, 11570, 13363, 13765, 94022, 94043],
+          "retainedCandidateVertexIds": [3339, 3789, 4661, 52867, 52908],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 33207,
           "reason": "original faces at boundary pinches",
-          "originalFaceIds": [
-            202
-          ],
-          "retainedCandidateVertexIds": [
-            33207
-          ],
-          "nonpositiveRenderFaceIds": [
-            202
-          ]
+          "originalFaceIds": [202],
+          "retainedCandidateVertexIds": [33207],
+          "nonpositiveRenderFaceIds": [202]
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            19926,
-            19929,
-            20278,
-            20281,
-            20630,
-            20633,
-            20982,
-            20985
-          ],
-          "retainedCandidateVertexIds": [
-            7896,
-            7897,
-            8073,
-            8074,
-            8250,
-            8251
-          ],
+          "originalFaceIds": [19926, 19929, 20278, 20281, 20630, 20633, 20982, 20985],
+          "retainedCandidateVertexIds": [7896, 7897, 8073, 8074, 8250, 8251],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8116,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [8435, 8436],
+          "retainedCandidateVertexIds": [52896],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [6059, 6060, 6507, 6508, 6955, 6956, 7403, 7404, 7851, 7852],
+          "retainedCandidateVertexIds": [1021, 1022, 1246, 1247, 1471, 1472, 1696, 1697],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8116,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [16390, 16391, 16392, 16393, 16395, 104163],
+          "retainedCandidateVertexIds": [5961, 5962, 53510, 53562, 53759, 53760, 53761],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 5473,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [7401, 7847, 7850, 8293, 8296, 8739, 8742, 9188],
+          "retainedCandidateVertexIds": [1695, 1919, 1920, 2143, 2144, 2368],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 8116,
           "reason": "original face corridor between boundary loops",
           "originalFaceIds": [
-            8435,
-            8436
+            17558, 17561, 17920, 17923, 18276, 18279, 18632, 18635, 18986, 18989, 19338, 19341, 19690, 19693, 20042, 20045, 20394, 20397, 20746, 20749
           ],
-          "retainedCandidateVertexIds": [
-            52896
-          ],
+          "retainedCandidateVertexIds": [6717, 6718, 6894, 6895, 7071, 7072, 7247, 7248, 7424, 7425, 7601, 7602, 7778, 7779, 7955, 7956, 8132, 8133],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            6059,
-            6060,
-            6507,
-            6508,
-            6955,
-            6956,
-            7403,
-            7404,
-            7851,
-            7852
-          ],
-          "retainedCandidateVertexIds": [
-            1021,
-            1022,
-            1246,
-            1247,
-            1471,
-            1472,
-            1696,
-            1697
-          ],
-          "nonpositiveRenderFaceIds": []
-        },
-        {
-          "component": 8116,
-          "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            16390,
-            16391,
-            16392,
-            16393,
-            16395,
-            104163
-          ],
-          "retainedCandidateVertexIds": [
-            5961,
-            5962,
-            53510,
-            53562,
-            53759,
-            53760,
-            53761
-          ],
+          "originalFaceIds": [19604, 19607, 19956, 19959, 20308, 20311, 20660, 20663, 21012, 21015],
+          "retainedCandidateVertexIds": [7734, 7735, 7911, 7912, 8088, 8089, 8265, 8266],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            7401,
-            7847,
-            7850,
-            8293,
-            8296,
-            8739,
-            8742,
-            9188
-          ],
-          "retainedCandidateVertexIds": [
-            1695,
-            1919,
-            1920,
-            2143,
-            2144,
-            2368
-          ],
-          "nonpositiveRenderFaceIds": []
-        },
-        {
-          "component": 8116,
-          "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            17558,
-            17561,
-            17920,
-            17923,
-            18276,
-            18279,
-            18632,
-            18635,
-            18986,
-            18989,
-            19338,
-            19341,
-            19690,
-            19693,
-            20042,
-            20045,
-            20394,
-            20397,
-            20746,
-            20749
-          ],
-          "retainedCandidateVertexIds": [
-            6717,
-            6718,
-            6894,
-            6895,
-            7071,
-            7072,
-            7247,
-            7248,
-            7424,
-            7425,
-            7601,
-            7602,
-            7778,
-            7779,
-            7955,
-            7956,
-            8132,
-            8133
-          ],
+          "originalFaceIds": [18186, 18187, 18544, 18545, 18898, 18901],
+          "retainedCandidateVertexIds": [7025, 7026, 7202, 7203],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            19604,
-            19607,
-            19956,
-            19959,
-            20308,
-            20311,
-            20660,
-            20663,
-            21012,
-            21015
-          ],
-          "retainedCandidateVertexIds": [
-            7734,
-            7735,
-            7911,
-            7912,
-            8088,
-            8089,
-            8265,
-            8266
-          ],
+          "originalFaceIds": [18858, 18860, 18861, 18862, 18863, 18864, 18865, 18866, 18867, 19220, 19221],
+          "retainedCandidateVertexIds": [7183, 7184, 7185, 7186, 7360, 7361, 7362, 7363, 7364],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            18186,
-            18187,
-            18544,
-            18545,
-            18898,
-            18901
-          ],
-          "retainedCandidateVertexIds": [
-            7025,
-            7026,
-            7202,
-            7203
-          ],
+          "originalFaceIds": [18924, 18926, 18927, 18928, 18929, 18930, 18931, 18932, 18933, 18934, 18935, 18936, 18937],
+          "retainedCandidateVertexIds": [7216, 7217, 7218, 7219, 7220, 7221, 7393, 7394, 7395, 7396, 7397],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            18858,
-            18860,
-            18861,
-            18862,
-            18863,
-            18864,
-            18865,
-            18866,
-            18867,
-            19220,
-            19221
-          ],
-          "retainedCandidateVertexIds": [
-            7183,
-            7184,
-            7185,
-            7186,
-            7360,
-            7361,
-            7362,
-            7363,
-            7364
-          ],
+          "originalFaceIds": [17706, 17707, 18064, 18065, 18422, 18423, 18778, 18779, 19132, 19133, 19486, 19487, 103343],
+          "retainedCandidateVertexIds": [6609, 6786, 6787, 6964, 6965, 7141, 7142, 7319, 7320, 7497, 7498],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            18924,
-            18926,
-            18927,
-            18928,
-            18929,
-            18930,
-            18931,
-            18932,
-            18933,
-            18934,
-            18935,
-            18936,
-            18937
-          ],
-          "retainedCandidateVertexIds": [
-            7216,
-            7217,
-            7218,
-            7219,
-            7220,
-            7221,
-            7393,
-            7394,
-            7395,
-            7396,
-            7397
-          ],
+          "originalFaceIds": [11131, 16973, 16974, 16975, 16976, 16977, 16978, 32315, 33697, 33751],
+          "retainedCandidateVertexIds": [6247, 6248, 6249, 6431, 6432, 6433, 6434, 54449, 54508, 54669, 54670],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            17706,
-            17707,
-            18064,
-            18065,
-            18422,
-            18423,
-            18778,
-            18779,
-            19132,
-            19133,
-            19486,
-            19487,
-            103343
-          ],
-          "retainedCandidateVertexIds": [
-            6609,
-            6786,
-            6787,
-            6964,
-            6965,
-            7141,
-            7142,
-            7319,
-            7320,
-            7497,
-            7498
-          ],
+          "originalFaceIds": [15854, 15855, 16240, 16243, 16611, 16614, 56316],
+          "retainedCandidateVertexIds": [5885, 5886, 6068, 6069, 53282, 53339, 53705],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            11131,
-            16973,
-            16974,
-            16975,
-            16976,
-            16977,
-            16978,
-            32315,
-            33697,
-            33751
-          ],
-          "retainedCandidateVertexIds": [
-            6247,
-            6248,
-            6249,
-            6431,
-            6432,
-            6433,
-            6434,
-            54449,
-            54508,
-            54669,
-            54670
-          ],
+          "originalFaceIds": [15138, 16985, 16987, 16988, 16989, 16990, 16991, 16992, 17364, 106256],
+          "retainedCandidateVertexIds": [6253, 6254, 6255, 6256, 6437, 6438, 6439, 49068, 54183],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            15854,
-            15855,
-            16240,
-            16243,
-            16611,
-            16614,
-            56316
-          ],
-          "retainedCandidateVertexIds": [
-            5885,
-            5886,
-            6068,
-            6069,
-            53282,
-            53339,
-            53705
-          ],
+          "originalFaceIds": [18524, 18868, 18869, 18870, 18871, 18872, 18873, 18874, 18875, 18876, 18877, 18878, 18879, 18881],
+          "retainedCandidateVertexIds": [7187, 7188, 7189, 7190, 7191, 7192, 7365, 7366, 7367, 7368, 7369, 7370],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            15138,
-            16985,
-            16987,
-            16988,
-            16989,
-            16990,
-            16991,
-            16992,
-            17364,
-            106256
-          ],
-          "retainedCandidateVertexIds": [
-            6253,
-            6254,
-            6255,
-            6256,
-            6437,
-            6438,
-            6439,
-            49068,
-            54183
-          ],
+          "originalFaceIds": [3011, 17812, 17815, 18168, 18171, 103112, 106264, 106265],
+          "retainedCandidateVertexIds": [6662, 6663, 6839, 6840, 48494, 49073],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            18524,
-            18868,
-            18869,
-            18870,
-            18871,
-            18872,
-            18873,
-            18874,
-            18875,
-            18876,
-            18877,
-            18878,
-            18879,
-            18881
-          ],
-          "retainedCandidateVertexIds": [
-            7187,
-            7188,
-            7189,
-            7190,
-            7191,
-            7192,
-            7365,
-            7366,
-            7367,
-            7368,
-            7369,
-            7370
-          ],
+          "originalFaceIds": [15944, 15945, 15946, 15947, 16334, 16335, 16707, 16708, 42561],
+          "retainedCandidateVertexIds": [5740, 5931, 5932, 6115, 6116, 53180, 53231, 53556, 53713, 53714, 54124, 54659],
           "nonpositiveRenderFaceIds": []
         },
         {
-          "component": 5473,
+          "component": 8267,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            3011,
-            17812,
-            17815,
-            18168,
-            18171,
-            103112,
-            106264,
-            106265
-          ],
-          "retainedCandidateVertexIds": [
-            6662,
-            6663,
-            6839,
-            6840,
-            48494,
-            49073
-          ],
+          "originalFaceIds": [16955, 16957, 16958, 17330, 17331, 17332, 17333, 17334, 17335, 17336, 17337, 17338, 17339, 17340, 17341],
+          "retainedCandidateVertexIds": [6239, 6422, 6423, 6424, 6425, 6426, 6427, 6602, 6603, 6604, 6605, 6606, 6607],
           "nonpositiveRenderFaceIds": []
         },
         {
-          "component": 5473,
+          "component": 8267,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [16951, 17320, 17322, 17323, 17325],
+          "retainedCandidateVertexIds": [6419, 6598, 6599],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8267,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [16573, 16575, 16576, 16947, 16948],
+          "retainedCandidateVertexIds": [6050, 6233, 6234],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8267,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [3609, 15027, 15028, 15420, 15421, 15817, 33507, 33509, 67631, 103780, 106092, 106093],
+          "retainedCandidateVertexIds": [5479, 5480, 5674, 5675, 5865, 5866, 48807, 48992, 53440, 53634, 54497, 54585, 54586],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8267,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [17412, 17414, 17415, 17416, 17417, 17418, 17419, 17420, 17421, 17422, 17423, 17786, 17787, 18144, 18145, 18502, 18503],
+          "retainedCandidateVertexIds": [6465, 6466, 6467, 6468, 6469, 6644, 6645, 6646, 6647, 6648, 6649, 6826, 6827, 7004, 7005],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8267,
+          "reason": "original face corridor between boundary loops",
+          "originalFaceIds": [3529, 15910, 15913, 16299, 17037, 17040, 32234, 32235, 103694, 106146, 106147],
+          "retainedCandidateVertexIds": [5913, 5914, 6096, 6097, 6279, 6280, 48764, 49015, 54444, 54614, 54615],
+          "nonpositiveRenderFaceIds": []
+        },
+        {
+          "component": 8267,
           "reason": "original face corridor between boundary loops",
           "originalFaceIds": [
-            15944,
-            15945,
-            15946,
-            15947,
-            16334,
-            16335,
-            16707,
-            16708,
-            42561
+            3350, 16735, 17105, 17108, 17468, 17469, 17470, 17471, 17472, 17473, 17474, 17475, 17479, 30537, 31659, 31661, 106278, 106279
           ],
           "retainedCandidateVertexIds": [
-            5740,
-            5931,
-            5932,
-            6115,
-            6116,
-            53180,
-            53231,
-            53556,
-            53713,
-            53714,
-            54124,
-            54659
+            6313, 6491, 6492, 6493, 6494, 6495, 6496, 6497, 6671, 6672, 6673, 6674, 6675, 6676, 49080, 54349, 54403, 54699, 54700
           ],
           "nonpositiveRenderFaceIds": []
         },
@@ -2405,36 +2080,12 @@
           "component": 8267,
           "reason": "original face corridor between boundary loops",
           "originalFaceIds": [
-            16955,
-            16957,
-            16958,
-            17330,
-            17331,
-            17332,
-            17333,
-            17334,
-            17335,
-            17336,
-            17337,
-            17338,
-            17339,
-            17340,
-            17341
+            4162, 12786, 13231, 13234, 13629, 13632, 14024, 14027, 14409, 14412, 14785, 14788, 15167, 15170, 15948, 15949, 15950, 15951, 15952, 15953,
+            15955, 104395, 105944, 105945
           ],
           "retainedCandidateVertexIds": [
-            6239,
-            6422,
-            6423,
-            6424,
-            6425,
-            6426,
-            6427,
-            6602,
-            6603,
-            6604,
-            6605,
-            6606,
-            6607
+            4395, 4594, 4595, 4790, 4791, 4982, 4983, 5170, 5171, 5358, 5359, 5549, 5550, 5741, 5742, 5743, 5744, 47624, 48077, 53283, 53340, 53399,
+            53715, 53716, 53717, 53718
           ],
           "nonpositiveRenderFaceIds": []
         },
@@ -2442,16 +2093,12 @@
           "component": 8267,
           "reason": "original face corridor between boundary loops",
           "originalFaceIds": [
-            16951,
-            17320,
-            17322,
-            17323,
-            17325
+            8905, 9339, 15094, 15142, 15144, 15485, 15876, 15879, 15995, 15997, 16262, 16265, 16636, 16993, 16996, 17453, 17455, 30247, 30249, 33691,
+            33693, 67332, 67334, 104739, 104748
           ],
           "retainedCandidateVertexIds": [
-            6419,
-            6598,
-            6599
+            5511, 5512, 5705, 5706, 5896, 5897, 6079, 6080, 6257, 6258, 6259, 6260, 6261, 6262, 6263, 47794, 53392, 53668, 53669, 54122, 54184, 54233,
+            54291, 54342, 54506, 54643, 54644, 54645, 54646, 54647, 54648, 54649
           ],
           "nonpositiveRenderFaceIds": []
         },
@@ -2459,367 +2106,19 @@
           "component": 8267,
           "reason": "original face corridor between boundary loops",
           "originalFaceIds": [
-            16573,
-            16575,
-            16576,
-            16947,
-            16948
+            3412, 16162, 16165, 16533, 16536, 16903, 16906, 17274, 17277, 17636, 17639, 17992, 17995, 18348, 18351, 18702, 18705, 19054, 19057, 19406,
+            19409, 19758, 19761, 20110, 20113, 20462, 20465, 20814, 20817, 103562
           ],
           "retainedCandidateVertexIds": [
-            6050,
-            6233,
-            6234
-          ],
-          "nonpositiveRenderFaceIds": []
-        },
-        {
-          "component": 8267,
-          "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            3609,
-            15027,
-            15028,
-            15420,
-            15421,
-            15817,
-            33507,
-            33509,
-            67631,
-            103780,
-            106092,
-            106093
-          ],
-          "retainedCandidateVertexIds": [
-            5479,
-            5480,
-            5674,
-            5675,
-            5865,
-            5866,
-            48807,
-            48992,
-            53440,
-            53634,
-            54497,
-            54585,
-            54586
-          ],
-          "nonpositiveRenderFaceIds": []
-        },
-        {
-          "component": 8267,
-          "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            17412,
-            17414,
-            17415,
-            17416,
-            17417,
-            17418,
-            17419,
-            17420,
-            17421,
-            17422,
-            17423,
-            17786,
-            17787,
-            18144,
-            18145,
-            18502,
-            18503
-          ],
-          "retainedCandidateVertexIds": [
-            6465,
-            6466,
-            6467,
-            6468,
-            6469,
-            6644,
-            6645,
-            6646,
-            6647,
-            6648,
-            6649,
-            6826,
-            6827,
-            7004,
-            7005
-          ],
-          "nonpositiveRenderFaceIds": []
-        },
-        {
-          "component": 8267,
-          "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            3529,
-            15910,
-            15913,
-            16299,
-            17037,
-            17040,
-            32234,
-            32235,
-            103694,
-            106146,
-            106147
-          ],
-          "retainedCandidateVertexIds": [
-            5913,
-            5914,
-            6096,
-            6097,
-            6279,
-            6280,
-            48764,
-            49015,
-            54444,
-            54614,
-            54615
-          ],
-          "nonpositiveRenderFaceIds": []
-        },
-        {
-          "component": 8267,
-          "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            3350,
-            16735,
-            17105,
-            17108,
-            17468,
-            17469,
-            17470,
-            17471,
-            17472,
-            17473,
-            17474,
-            17475,
-            17479,
-            30537,
-            31659,
-            31661,
-            106278,
-            106279
-          ],
-          "retainedCandidateVertexIds": [
-            6313,
-            6491,
-            6492,
-            6493,
-            6494,
-            6495,
-            6496,
-            6497,
-            6671,
-            6672,
-            6673,
-            6674,
-            6675,
-            6676,
-            49080,
-            54349,
-            54403,
-            54699,
-            54700
-          ],
-          "nonpositiveRenderFaceIds": []
-        },
-        {
-          "component": 8267,
-          "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            4162,
-            12786,
-            13231,
-            13234,
-            13629,
-            13632,
-            14024,
-            14027,
-            14409,
-            14412,
-            14785,
-            14788,
-            15167,
-            15170,
-            15948,
-            15949,
-            15950,
-            15951,
-            15952,
-            15953,
-            15955,
-            104395,
-            105944,
-            105945
-          ],
-          "retainedCandidateVertexIds": [
-            4395,
-            4594,
-            4595,
-            4790,
-            4791,
-            4982,
-            4983,
-            5170,
-            5171,
-            5358,
-            5359,
-            5549,
-            5550,
-            5741,
-            5742,
-            5743,
-            5744,
-            47624,
-            48077,
-            53283,
-            53340,
-            53399,
-            53715,
-            53716,
-            53717,
-            53718
-          ],
-          "nonpositiveRenderFaceIds": []
-        },
-        {
-          "component": 8267,
-          "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            8905,
-            9339,
-            15094,
-            15142,
-            15144,
-            15485,
-            15876,
-            15879,
-            15995,
-            15997,
-            16262,
-            16265,
-            16636,
-            16993,
-            16996,
-            17453,
-            17455,
-            30247,
-            30249,
-            33691,
-            33693,
-            67332,
-            67334,
-            104739,
-            104748
-          ],
-          "retainedCandidateVertexIds": [
-            5511,
-            5512,
-            5705,
-            5706,
-            5896,
-            5897,
-            6079,
-            6080,
-            6257,
-            6258,
-            6259,
-            6260,
-            6261,
-            6262,
-            6263,
-            47794,
-            53392,
-            53668,
-            53669,
-            54122,
-            54184,
-            54233,
-            54291,
-            54342,
-            54506,
-            54643,
-            54644,
-            54645,
-            54646,
-            54647,
-            54648,
-            54649
-          ],
-          "nonpositiveRenderFaceIds": []
-        },
-        {
-          "component": 8267,
-          "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [
-            3412,
-            16162,
-            16165,
-            16533,
-            16536,
-            16903,
-            16906,
-            17274,
-            17277,
-            17636,
-            17639,
-            17992,
-            17995,
-            18348,
-            18351,
-            18702,
-            18705,
-            19054,
-            19057,
-            19406,
-            19409,
-            19758,
-            19761,
-            20110,
-            20113,
-            20462,
-            20465,
-            20814,
-            20817,
-            103562
-          ],
-          "retainedCandidateVertexIds": [
-            5846,
-            5847,
-            6029,
-            6030,
-            6212,
-            6213,
-            6395,
-            6396,
-            6574,
-            6575,
-            6751,
-            6752,
-            6928,
-            6929,
-            7104,
-            7105,
-            7281,
-            7282,
-            7458,
-            7459,
-            7635,
-            7636,
-            7812,
-            7813,
-            7989,
-            7990,
-            8166,
-            8167
+            5846, 5847, 6029, 6030, 6212, 6213, 6395, 6396, 6574, 6575, 6751, 6752, 6928, 6929, 7104, 7105, 7281, 7282, 7458, 7459, 7635, 7636, 7812,
+            7813, 7989, 7990, 8166, 8167
           ],
           "nonpositiveRenderFaceIds": []
         }
       ],
       "retainedInvalidCoverageComponents": 0,
-      "starPlanarityBoundM": 1e-06,
-      "splitNormalBound": 1e-07,
+      "starPlanarityBoundM": 1e-6,
+      "splitNormalBound": 1e-7,
       "emittedSplitNormalField": "Export exact split normal",
       "nonmanifoldEdges": 0,
       "contract": "No quantization or LOD change. Independent whole-surface3um and decoded/rendered controls remain required."
