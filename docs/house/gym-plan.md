@@ -16,6 +16,8 @@ Massing F (`docs/images/gym-garden-massing-f-2026-11-18.webp`) places these on t
 
 ## The idea
 
+The first seated sightline study for the swap uses the delivered rowing pose at 7 am. Hiding the dining shelter opens the horizon, but the separate laundry line and its garments still cross the water. Fit the drying line as a working part of the service area when laying out the lawn and the study-side dining setting. [Matched views from the room and the seat](../images/gym-garden-sightlines-2026-11-19.webp).
+
 The sea is the reason to train in this room, so the cardio faces it, in the light; the bags take the dim side, where hitting something feels right. The rack and platform stay where they are: his lifting already works there (the bar loading and warm-up of November 13 and 14).
 
 ## Layout
