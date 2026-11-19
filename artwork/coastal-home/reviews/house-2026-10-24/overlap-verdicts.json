@@ -655,10 +655,10 @@
     },
     "core_estate_library_liftaway_roof | core_flora_yucca_skirt": {
       "verdict": "follow-up",
-      "maxDepthM": 0.233,
+      "maxDepthM": 0.2615,
       "maxSeamM": 2.636,
-      "reason": "Both original owners' complete geometry, normals, numeric attributes, material slots and world matrix remain exact from de217 to the lighting/olive source1e10 (the independent native-delta audit). The refreshed seeded audit ranks 2 retained sites here, maximum sampled depth 0.233m and seam2.636m, worst native point[-9.288, 5.675, 9.856]. This is an existing bounded plant/roof or plant/path intersection to inspect with the pending exterior/arrival composition; the lighting/olive checkpoint neither repairs it nor claims whole-plant contact or solid overlap volume. No ratchet or geometric exclusion is changed.",
-      "evidence": "artwork/coastal-home/reviews/ambience-integration-2026-11-02/README.md"
+      "reason": "Both original owners' complete geometry, normals, numeric attributes, material slots and world matrix remain exact from de217 to the lighting/olive source1e10 (the independent native-delta audit). The refreshed seeded audit ranks 2 retained sites here, maximum sampled depth 0.233m and seam2.636m, worst native point[-9.288, 5.675, 9.856]. This is an existing bounded plant/roof or plant/path intersection to inspect with the pending exterior/arrival composition; the lighting/olive checkpoint neither repairs it nor claims whole-plant contact or solid overlap volume. No ratchet or geometric exclusion is changed. Re-measured on November 19, 2026, after the gym's front header (core_gym_front_header) joined the house: the delivered crossing is 0.234m at a 2.62m seam, as reviewed; the native seeded sample now reaches 0.2615m at the same 2.61m seam, because adding a mesh shifts which points the seeded sampler draws. Neither owner changed: the house file and this audit were last committed together on November 13, and the header touches neither. Still a bounded plant/roof follow-up.",
+      "evidence": "artwork/coastal-home/reviews/ambience-integration-2026-11-02/README.md; docs/todo.md, item 3 (the gym's front header)"
     },
     "core_arrival_paths__travertine paving stone | core_estate_garden_flora_grass": {
       "verdict": "follow-up",
@@ -713,6 +713,12 @@
       "reason": "Four existing lower glass-fridge door/frame crossings become measurable with exact-position closure. The unchanged delivered component pair and worst low hinge/threshold site remain in the raw report. Review the owning door/frame fit at the next furniture export; no contact-rule exemption or repair is inferred.",
       "maxDepthM": 0.04,
       "maxSeamM": 3.107
+    },
+    "core_gym_front_frame | core_gym_front_header": {
+      "verdict": "designed",
+      "reason": "The gym's sandstone front header (bin/close_coastal_gym_front_to_rock.py, November 19, 2026) seats 2 cm onto the bronze arched head along its 6.3 m run, so no light shows between the frame and the rock above it (Sirui, November 18: no weird gap between the top of the house and the rock).",
+      "maxDepthM": 0.021,
+      "maxSeamM": 41.7
     }
   }
 }
