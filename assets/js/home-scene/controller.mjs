@@ -54,8 +54,9 @@ import { fitSeatToSurface } from "./seat-surface.mjs";
 import { createWorldCompanion } from "./companion.mjs";
 import { companion, pipProjectUrl } from "../companion/bridge.mjs";
 import { createRecordMotion } from "./record-motion.mjs";
+import { createListeningRecord, listeningPerspective } from "./listening-record.mjs";
 import { createCameraMotion, createInertia } from "./camera-motion.mjs";
-import { compileVisitorRail, createFilmScoreCue, createVisitorClearance, createVisitorRailPlayer } from "./visitor-rails.mjs";
+import { compileVisitorRail, createFilmScoreCue, createVisitorClearance, createVisitorRailPlayer, sampleVisitorShot } from "./visitor-rails.mjs";
 import { FILM_STAIR_EYE, visitorRailRegions, visitorRailShots } from "./visitor-rail-shots.mjs";
 import { bindVisitorRailUi } from "./visitor-rail-ui.mjs";
 import { coastalDaylight, LA_JOLLA } from "./daylight.mjs";
@@ -156,6 +157,11 @@ export function createCoastalHome(container, records, artifacts) {
   const clockLabel = ui.querySelector("[data-world-clock]");
   const explore = createExplorationState();
   const recordMotion = createRecordMotion();
+  const houseRecord = createListeningRecord();
+  const houseJacket = new URL("../../img/album_covers/a-pocketful-of-sky.webp", import.meta.url).href;
+  const cabinetPoint = new THREE.Vector3();
+  let houseSleeve = true;
+  let listenerStamp = "";
   const cameraMotion = createCameraMotion();
   const interiorExposure = createInteriorExposure(),
     exposurePoint = [0, 0, 0];
@@ -824,7 +830,24 @@ export function createCoastalHome(container, records, artifacts) {
   const actorDoorPosition = new THREE.Vector3();
   const actorDoorPose = { active: false, position: [0, 0, 0] };
   const railDoorPose = { active: false, position: [0, 0, 0] };
-  const doorVisitors = [actorDoorPose, null, railDoorPose];
+  const approachingRailDoor = { active: false, position: [0, 0, 0] };
+  const doorVisitors = [actorDoorPose, null, railDoorPose, approachingRailDoor];
+  let arrivalDoorSeconds = 0;
+  function placeRailFoot(pose, [x, y, z]) {
+    pose.active = true;
+    pose.position[0] = x;
+    pose.position[1] = y - (config.entrance?.straightDescent ? FILM_STAIR_EYE : WALK.eyeHeight);
+    pose.position[2] = z;
+  }
+  function prepareArrivalDoor(shot, seconds, step) {
+    if (shot.id !== "arrival" || !estateDoors) return;
+    // The oak pivot takes 600 ms. Give it a cue on the admitted path one
+    // swing ahead, then test the actual leaf before the camera takes a step.
+    placeRailFoot(railDoorPose, visit.player.pose.eye);
+    placeRailFoot(approachingRailDoor, sampleVisitorShot(shot, (seconds + step + 0.6) / shot.duration).eye);
+    if (estateDoors.update(step, { visitors: doorVisitors })) refreshVisitBlocks();
+    arrivalDoorSeconds += step;
+  }
   function syncFacadeDoors() {
     if (!routine || !daylight) return;
     const open = daylight.daylight > 0.3 && routine.id !== "sleep";
@@ -2030,7 +2053,12 @@ export function createCoastalHome(container, records, artifacts) {
       if (part === "label") {
         centre.y = bounds.max.y + 0.001;
         const disc = new THREE.CircleGeometry((bounds.max.x - bounds.min.x) * 0.49, 24).rotateX(-Math.PI / 2);
-        barLabel = mesh(disc, material(0xffffff, { map: imageTexture(records[currentRecord].src) }), centre.toArray(), action);
+        barLabel = mesh(
+          disc,
+          material(0xffffff, { map: imageTexture(houseSleeve ? houseJacket : records[currentRecord].src) }),
+          centre.toArray(),
+          action
+        );
         barLabel.castShadow = false;
       } else {
         const size = bounds.getSize(new THREE.Vector3());
@@ -2038,7 +2066,12 @@ export function createCoastalHome(container, records, artifacts) {
         if (facingEast) centre.x = bounds.max.x + 0.001;
         else centre.z = bounds.min.z - 0.001;
         const plane = new THREE.PlaneGeometry((facingEast ? size.z : size.x) - 0.005, size.y - 0.005);
-        barSleeve = mesh(plane, material(0xffffff, { map: imageTexture(records[currentRecord].cover) }), centre.toArray(), action);
+        barSleeve = mesh(
+          plane,
+          material(0xffffff, { map: imageTexture(houseSleeve ? houseJacket : records[currentRecord].cover) }),
+          centre.toArray(),
+          action
+        );
         barSleeve.rotation.y = facingEast ? Math.PI / 2 : Math.PI;
         barSleeve.castShadow = false;
       }
@@ -2048,8 +2081,8 @@ export function createCoastalHome(container, records, artifacts) {
   function updateRecords() {
     container.dataset.activeDeskRecord = String(currentRecord);
     container.dataset.recordSpinning = String(spinning);
-    if (recordSelect) recordSelect.value = String(currentRecord);
-    if (barSleeve && records[currentRecord]) barSleeve.material.map = imageTexture(records[currentRecord].cover);
+    if (recordSelect) recordSelect.value = houseSleeve ? "house" : String(currentRecord);
+    if (barSleeve && records[currentRecord]) barSleeve.material.map = imageTexture(houseSleeve ? houseJacket : records[currentRecord].cover);
     container.dataset.droppedRecords = dropped.join(",");
     sleeves.forEach((s, i) => {
       s.visible = !dropped.includes(i);
@@ -2078,18 +2111,18 @@ export function createCoastalHome(container, records, artifacts) {
   }
 
   function transferVinylRecord(pose) {
-    if (pendingVinylRecord === null || !vinylLabel) return;
+    if (pendingVinylRecord === null || !(vinylLabel || barLabel)) return;
     if (spinning && !reduced && pose.lift <= 0.44) return;
     const next = pendingVinylRecord,
       texture = imageTexture(records[next].src);
     if (!texture.userData.ready && !texture.userData.failed) return;
-    if (texture.userData.ready) {
+    if (texture.userData.ready && vinylLabel) {
       vinylLabel.material.map = texture;
       vinylLabel.material.needsUpdate = true;
-      if (barLabel) barLabel.material.map = texture;
       displayedVinylRecord = next;
       vinylTransfer = { ...pose, index: next };
     }
+    if (barLabel && (houseSleeve || texture.userData.ready)) barLabel.material.map = houseSleeve ? imageTexture(houseJacket) : texture;
     pendingVinylRecord = null;
     recordMotion.completeCue();
   }
@@ -2915,8 +2948,9 @@ export function createCoastalHome(container, records, artifacts) {
     if (!a) return;
     if (a.type === "pip") location.assign(pipProjectUrl);
     else if (a.type === "record" || a.type === "artifact") focusObject(o);
-    else if (a.type === "spin" || a.type === "bar-disc") callbacks.toggleSpin?.();
-    else if (a.type === "bar-sleeves") callbacks.selectRecord?.((currentRecord + 1) % records.length);
+    else if (a.type === "spin") callbacks.toggleSpin?.();
+    else if (a.type === "bar-disc") toggleHouseRecord();
+    else if (a.type === "bar-sleeves") chooseBarSleeve(houseSleeve ? "0" : currentRecord + 1 < records.length ? String(currentRecord + 1) : "house");
     else if (a.type === "window") setRoom("outside");
     else if (a.type === "wildlife") inspectNeighbour(a.id);
     else if (a.type === "library-ladder") rollLibraryLadder();
@@ -2948,13 +2982,50 @@ export function createCoastalHome(container, records, artifacts) {
     }
   }
 
+  function toggleHouseRecord() {
+    if (!spinning) houseRecord.choose();
+    callbacks.toggleSpin?.();
+  }
+
+  function chooseBarSleeve(value) {
+    if (value !== "house" && !records[Number(value)]) return;
+    houseSleeve = value === "house";
+    if (!houseSleeve) callbacks.selectRecord?.(Number(value));
+    if (barSleeve) barSleeve.material.map = imageTexture(houseSleeve ? houseJacket : records[Number(value)].cover);
+    if (barLabel) {
+      pendingVinylRecord = currentRecord;
+      if (spinning && !reduced) recordMotion.cue(true);
+    }
+    if (recordSelect) recordSelect.value = value;
+    requestFrame();
+  }
+
+  function cabinetPlayback() {
+    if (!houseRecord.tracking || !barLabel || !visible || reduced || paused || visit || !camera) return null;
+    barLabel.getWorldPosition(cabinetPoint);
+    camera.worldToLocal(cabinetPoint);
+    const acoustics = listeningPerspective(camera.position, cabinetPoint, config.installationReceivers?.groups?.speakeasy);
+    return acoustics && { ...acoustics, seconds: houseRecord.seconds };
+  }
+
+  function syncCabinetAudio() {
+    if (!houseRecord.tracking && !listenerStamp) return;
+    const pose = document.documentElement.dataset.sound === "on" ? cabinetPlayback() : null;
+    const stamp = pose ? [Math.round(pose.gain * 100), Math.round(pose.pan * 40), Math.round(pose.cutoff / 100)].join("/") : "";
+    if (stamp !== listenerStamp) {
+      listenerStamp = stamp;
+      container.dispatchEvent(new Event("coastal:record"));
+    }
+  }
+
   function bindControls() {
     if (cliffLiftButton) listen(cliffLiftButton, "click", () => walkMode?.useCliffLift());
     if (recordSelect) {
+      recordSelect.add(new Option("A Pocketful of Sky", "house"));
       records.forEach((record, index) => recordSelect.add(new Option(record.title, String(index))));
-      recordSelect.value = String(currentRecord);
-      listen(recordSelect, "change", () => callbacks.selectRecord?.(Number(recordSelect.value)));
-      listen(spinButton, "click", () => callbacks.toggleSpin?.());
+      recordSelect.value = "house";
+      listen(recordSelect, "change", () => chooseBarSleeve(recordSelect.value));
+      listen(spinButton, "click", toggleHouseRecord);
     }
     const ladderButton = stage.querySelector("[data-world-ladder]");
     if (ladderButton) listen(ladderButton, "click", rollLibraryLadder);
@@ -3704,7 +3775,7 @@ export function createCoastalHome(container, records, artifacts) {
     const shots = (kind === "boat" ? itinerary.boat : itinerary.shots).filter((shot) => !shot.lift || cliffLift?.filmAvailable);
     refreshVisitBlocks();
     const program = compileVisitorRail(shots, itinerary.landmarks, visitClearance());
-    const player = createVisitorRailPlayer(program, visitClearance(), { reduced });
+    const player = createVisitorRailPlayer(program, visitClearance(), { reduced, film: kind === "film" });
     if (!player.pose) {
       showHint("This route is unavailable right now.", 4000);
       return false;
@@ -3838,7 +3909,7 @@ export function createCoastalHome(container, records, artifacts) {
     refreshVisitBlocks();
     const { player, lookOverride, kind } = visit;
     player.reduce(reduced);
-    const pose = player.tick(paused ? 0 : delta);
+    const pose = player.tick(paused ? 0 : delta, kind === "film" ? prepareArrivalDoor : undefined);
     if (pose.lift !== null) cliffLift?.stageFilm(pose.lift);
     else cliffLift?.releaseFilm();
     if (currentRoom !== pose.room) walkRoomChanged(pose.room);
@@ -3853,8 +3924,9 @@ export function createCoastalHome(container, records, artifacts) {
         showLook();
       }
     }
-    if (kind === "film") filmScore?.update(printLook.look, !reduced && !paused && !player.state.paused);
-    syncVisit({ ready: true, state: player.state, pose });
+    const state = player.state;
+    if (kind === "film") filmScore?.update(printLook.look, !reduced && !paused && !state.paused, state);
+    syncVisit({ ready: true, state, pose });
     return pose;
   }
 
@@ -3888,6 +3960,8 @@ export function createCoastalHome(container, records, artifacts) {
     lastFrame = now;
     const priorArrival = visit?.player.pose?.shot === "arrival" ? visit.player.pose : null;
     const arrivalTime = priorArrival ? visit.player.state.seconds : 0;
+    arrivalDoorSeconds = 0;
+    approachingRailDoor.active = false;
     const tourPose = updateVisit(delta);
     const moving = !reduced && !paused && (!tourPose || !visit.player.state.paused);
     sceneFoley.setActive(moving && document.documentElement.dataset.sound === "on");
@@ -4276,18 +4350,20 @@ export function createCoastalHome(container, records, artifacts) {
       else coffeeCup.position.copy(cupTarget);
     }
     dining?.props({ cup: coffeeCup, moving, frameDelta });
-    if (vinyl) {
+    if (vinyl || barLabel) {
       if (moving) recordMotion.advance(delta);
       else if (reduced) recordMotion.compose();
       const pose = recordMotion.evidence();
+      if (houseRecord.advance(pose)) callbacks.toggleSpin?.();
       transferVinylRecord(pose);
-      vinyl.rotation.y = pose.angle;
+      if (vinyl) vinyl.rotation.y = pose.angle;
       if (barLabel) barLabel.rotation.y = pose.angle;
       if (tonearm) {
         tonearm.rotation.y = pose.yaw;
         tonearm.position.y = tonearm.userData.restY + (pose.lift - 0.1) * 0.06;
       }
     }
+    syncCabinetAudio();
     if (onsenWater) {
       // The room can finish loading before the parallel avatar request.
       const occupied = Boolean(actor) && !walking && routine?.id === "soak" && !travel;
@@ -4329,14 +4405,10 @@ export function createCoastalHome(container, records, artifacts) {
     if (actorDoorPose.active) actor.getWorldPosition(actorDoorPosition).toArray(actorDoorPose.position);
     doorVisitors[1] = worldCompanion?.doorPose || null;
     railDoorPose.active = tourPose?.shot === "arrival";
-    if (railDoorPose.active) {
-      const [x, y, z] = tourPose.eye;
-      railDoorPose.position[0] = x;
-      railDoorPose.position[1] = y - (config.entrance?.straightDescent ? FILM_STAIR_EYE : WALK.eyeHeight);
-      railDoorPose.position[2] = z;
-    }
+    if (railDoorPose.active) placeRailFoot(railDoorPose, tourPose.eye);
+    else approachingRailDoor.active = false;
     stepFacadeDoors(frameDelta, moving, walkPose, doorVisitors);
-    estateDoors?.update(frameDelta, {
+    estateDoors?.update(Math.max(0, frameDelta - arrivalDoorSeconds), {
       walk: walkPose,
       visitors: doorVisitors,
       reduced: reduced || paused || (railDoorPose.active && visit.player.state.paused),
@@ -5296,6 +5368,19 @@ export function createCoastalHome(container, records, artifacts) {
     };
   // Lab only: switch the quality tier now, to compare tiers and time a switch (quality.mjs).
   if (labEnabled) container.setQualityTier = (tier) => Boolean(quality?.set(tier, "lab") && (applyQuality(tier), true));
+  // Read the cut again when a recording finishes decoding. A slow connection
+  // can span an edit, a scrub or the visitor leaving the film.
+  container.getFilmPlayback = () => {
+    if (visit?.kind !== "film") return null;
+    const state = visit.player.state;
+    return { shot: state.shot, nextShot: state.nextShot, shotSeconds: state.shotSeconds, playing: !reduced && !paused && !state.paused };
+  };
+  container.getListeningPlayback = cabinetPlayback;
+  container.finishListeningRecord = () => {
+    if (!houseRecord.tracking || !spinning) return;
+    houseRecord.finish();
+    callbacks.toggleSpin?.();
+  };
   container.getSceneEvidence = () => ({
     ready: container.dataset.sceneState === "ready",
     style,
@@ -5595,6 +5680,7 @@ export function createCoastalHome(container, records, artifacts) {
     },
     setSpinning(value) {
       spinning = value;
+      if (!value) houseRecord.lift();
       if (spinButton) {
         spinButton.textContent = value ? "Pause record" : "Spin record";
         spinButton.setAttribute("aria-pressed", String(value));
@@ -5660,6 +5746,9 @@ export function createCoastalHome(container, records, artifacts) {
       renderer?.dispose();
       renderer?.domElement.remove();
       delete container.getSceneEvidence;
+      delete container.getFilmPlayback;
+      delete container.getListeningPlayback;
+      delete container.finishListeningRecord;
     },
   };
 }

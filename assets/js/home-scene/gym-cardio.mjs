@@ -144,9 +144,13 @@ export function createCardioStations(room, { onContact = () => {} } = {}) {
     const rowCycles = (t * 24) / 60;
     const bikeTurns = (t * 85) / 60;
     const cycle = id === "rowing" ? Math.floor(rowCycles - 0.06) : id === "riding" ? Math.floor(bikeTurns * 2 - 0.22) : null;
-    if (moving && dt > 0 && dt <= 0.25 && drivePhase !== null && cycle === drivePhase + 1) pendingDrive = { id, cycle };
-    drivePhase = cycle;
     const stroke = rowCycles % 1;
+    // A catch remains attached to the moving handle through the drive.
+    // Even at two frames a second the first visible pull can make its sound.
+    // A recovery pose or a whole missed drive cannot replay an old catch.
+    const timely = id === "rowing" ? dt < (60 / 24) * 0.38 && stroke >= 0.06 && stroke < 0.38 : dt <= 0.25;
+    if (moving && dt > 0 && timely && drivePhase !== null && cycle === drivePhase + 1) pendingDrive = { id, cycle };
+    drivePhase = cycle;
     const drive = stroke < 0.38 ? smooth(stroke / 0.38) : 1 - smooth((stroke - 0.38) / 0.62);
     if (moving) {
       fan = rotorStep(...fan, id === "rowing" && stroke < 0.38 ? 15 : 0, dt, id === "rowing" && stroke < 0.38 ? 0.2 : 1.15);

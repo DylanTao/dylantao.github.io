@@ -157,11 +157,12 @@ export function compileVisitorRail(shots, landmarks, clearance) {
 // A rail can pause at any time, including after a door enters the next segment.
 // Cuts and user scrubs revalidate their destination. Normal playback also checks
 // each segment traversed within the current shot, even on a stalled renderer.
-export function createVisitorRailPlayer(program, clearance, { reduced = false } = {}) {
+export function createVisitorRailPlayer(program, clearance, { reduced = false, film = false } = {}) {
   let seconds = 0;
   let paused = reduced;
   let obstruction = null;
   let last = null;
+  let seekVersion = 0;
   const shotAt = (time) => program.shots.find((shot) => time < shot.end) ?? program.shots.at(-1);
   function seek(time, { cut = true } = {}) {
     if (!Number.isFinite(time)) return false;
@@ -188,6 +189,7 @@ export function createVisitorRailPlayer(program, clearance, { reduced = false } 
       return false;
     }
     seconds = next;
+    if (cut) seekVersion++;
     if (seconds === program.duration) paused = true;
     last = pose;
     return true;
@@ -211,8 +213,19 @@ export function createVisitorRailPlayer(program, clearance, { reduced = false } 
       paused = true;
       seek(seconds);
     },
-    tick(delta) {
-      if (!paused && delta > 0) seek(seconds + Math.min(delta, 0.25), { cut: false });
+    tick(delta, prepareSegment) {
+      // A slow frame must not stretch a five-second shot past its recorded
+      // phrase. Check the whole journey in small steps, including the entrance
+      // to the next shot. Treat a long interruption as a suspended clock.
+      let remaining = film && delta <= 3 ? delta : Math.min(delta, 0.25);
+      while (last && !paused && remaining > 1e-7) {
+        const shot = shotAt(seconds);
+        const step = Math.min(remaining, 0.25, shot.end - seconds);
+        if (step <= 0) break;
+        prepareSegment?.(shot, seconds - shot.start, step);
+        if (!seek(seconds + step, { cut: false })) break;
+        remaining -= step;
+      }
       return last;
     },
     get pose() {
@@ -222,11 +235,14 @@ export function createVisitorRailPlayer(program, clearance, { reduced = false } 
       const index = program.shots.indexOf(shotAt(seconds));
       return {
         seconds,
+        shotSeconds: seconds - (program.shots[index]?.start ?? 0),
+        seekVersion,
         duration: program.duration,
         paused,
         reduced,
         obstruction,
         shot: last?.shot ?? null,
+        nextShot: program.shots[index + 1]?.id ?? null,
         hasPrior: index > 0,
         hasNext: index < program.shots.length - 1,
       };
@@ -234,27 +250,34 @@ export function createVisitorRailPlayer(program, clearance, { reduced = false } 
   };
 }
 
-// This only reports composed, playing film states. The site's sound controller
-// owns permission, synthesis and muting when the tab loses visibility.
+// Report edits and real transport changes. An ordinary animation frame never
+// restarts a musical phrase, even when the renderer runs at a low frame rate.
 export function createFilmScoreCue(emit) {
   let lastLook = null;
+  let lastShot = null;
+  let lastSeek = null;
   let running = false;
   const cue = (action, look) => emit({ kind: "film", action, look });
   return {
-    update(look, playing) {
+    update(look, playing, state) {
       if (!playing) {
         if (running) cue("pause", look);
         running = false;
         return;
       }
       if (!running) cue("start", look);
+      else if (state.shot !== lastShot) cue("cut", look);
+      else if (state.seekVersion !== lastSeek) cue("seek", look);
       else if (lastLook !== look) cue("look", look);
       lastLook = look;
+      lastShot = state.shot;
+      lastSeek = state.seekVersion;
       running = true;
     },
     stop(look) {
       if (lastLook !== null) cue("stop", look);
       lastLook = null;
+      lastShot = lastSeek = null;
       running = false;
     },
   };

@@ -75,3 +75,25 @@ test("a rotor coasts on departure, a paused flywheel holds and a reduced-motion 
   }
   assert.equal(createCardioStations(new THREE.Group()), null);
 });
+
+test("a slow frame can sound a loaded rowing drive once, while a missed drive stays quiet", async () => {
+  const room = (await loadNativeModel("room-gym.glb")).scene;
+  const hits = [];
+  const stations = createCardioStations(room, { onContact: (name) => hits.push(name) });
+  const grip = { hands: [0.012, 0.015] };
+  for (const [seconds, dt] of [
+    [0, 0],
+    [0.52, 0.52],
+    [0.74, 0.22],
+    [2.42, 1.68],
+    [3.54, 1.12],
+  ]) {
+    stations.update("rowing", seconds, dt, moving);
+    stations.observeContact(grip);
+  }
+  assert.deepEqual(hits, ["rower"]);
+  stations.update("rowing", 4.98, 1.44, moving);
+  stations.update("rowing", 5.38, 0.4, moving);
+  stations.observeContact({ hands: [0.1, 0.015] });
+  assert.deepEqual(hits, ["rower"], "a missed wrist never makes a chain contact");
+});

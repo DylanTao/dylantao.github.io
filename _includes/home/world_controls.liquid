@@ -57,10 +57,11 @@
         <div class="home-world-places-rooms" data-world-destinations></div>
         <div class="home-world-listening" data-world-listening hidden>
           <label class="home-world-stations"
-            >Record sleeve
+            >Sleeve artwork
             <select data-world-listening-record></select
           ></label>
           <button type="button" data-world-listening-spin aria-pressed="false">Spin record</button>
+          <span class="home-world-places-note">House recording · A Pocketful of Sky</span>
         </div>
         <label class="home-world-stations" hidden data-world-gym-stations>
           Training station
@@ -72,6 +73,7 @@
         <div class="home-world-places-tools">
           <button type="button" data-world-visit-start="film" hidden>House film</button>
           <button type="button" data-world-visit-start="boat" hidden>Shore by boat</button>
+          {% include home/world_sound_control.liquid %}
           <button type="button" data-world-look aria-pressed="false">Look freely</button>
           <button type="button" data-world-recenter>Reset view</button>
           <button type="button" data-world-follow>Back to Sirui</button>
@@ -99,6 +101,7 @@
     </label>
     <div class="home-world-visit-keys">
       <button type="button" data-world-visit-play>Pause</button>
+      {% include home/world_sound_control.liquid %}
       <button type="button" data-world-visit-prior aria-label="Previous view">←</button>
       <button type="button" data-world-visit-next aria-label="Next view">→</button>
       <button type="button" data-world-visit-takeover>Look here</button>

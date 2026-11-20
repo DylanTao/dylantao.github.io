@@ -126,6 +126,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 - **Next.**
   - [x] Recorded steps by surface, foliage, water entry, swimming and returning to dry ground. A deliberate page or room interaction can receive one short instrumental response after Sound is enabled.
   - [x] Five solo violin drafts informed five original two-player pieces and fifteen short recorded responses. Sirui asked for fewer attacks, time to recognize the opening before the reveal, and more forward motion. [Scores, intent and listening notes](house/world-music.md).
+  - [x] The speakeasy's original pressing plays from the physical needle. The separate stereo instruments keep their place as a visitor turns or crosses the room. [Cover and design record](../artwork/concepts/coastal-home/2026-11-20/README.md).
 - Codex composes and renders locally. The five latest ensembles remain open to Sirui’s musical judgment.
 - **Size.** 0.5 to 1.0 for the sounds; 1.5 to 3 for the music. **Detail:** brief 6; takeover L3, L5.
 
@@ -147,6 +148,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
   - [x] Our sea beside the bar, gaps largest first (T1), November 17: `docs/sea/photoreal-gaps.md` (no surf, no swell, a ripple that repeats, thin foam, wet sand that does not breathe, no underwater view).
   - [x] The first live surf now breaks, washes over sand and drains. Thin-film fine-pattern variation fell 72% in the matched crop after gating focused caustics by physical depth and foam.
   - [x] A 48-sample CPU Cycles shore reference uses the live camera and 81,030 samples of the same wave. The foam edge and brighter reflected sky in Cycles remain useful targets. [Images, camera and method](sea/shore-study/README.md).
+  - [x] The wash opens into irregular pockets at the beach. The sun's refracted footprint softens the repeating pattern on the bed below the fire terrace. [Matched frames from both eyes](../artwork/concepts/coastal-home/2026-11-20/shore-and-terrace-daylight.webp).
 - **Machine: PC.** **Size.** 0.1 for the side by side; 1 to 2 for the sea; 0.5 to 1 for the reference. **Detail:** takeover T.
 
 ### 11. The film
@@ -157,7 +159,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
   - [x] A shot list on one page (N1), November 17: `docs/film/shot-list.md` (nine shots, about two minutes).
   - [x] Thirteen accepted shots over 118 seconds. Film supports scrubbing, pausing, skipping and leaving. Reduced motion holds a still for each cut.
   - [x] Visitors can switch among all five looks during Film.
-  - [x] Recorded cues follow the cuts while Sound is on. [Shot list and live frames](film/shot-list.md).
+  - [x] An original 118-second chamber score follows the actual playhead. A switch beside Pause joins or leaves the performance in place. The stair and gym retain their physical sounds. [Shot list and live frames](film/shot-list.md).
 - **Machine: PC** for overnight renders. **Size.** 1.5 to 3; 4 to 6 weeks. **Detail:** takeover N.
 
 ### 12. More worlds

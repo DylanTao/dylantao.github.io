@@ -963,6 +963,10 @@ html.is-world-immersive {
 .home-world-visit-keys button {
   min-height: 2.4rem;
 }
+.home-world-sound[aria-checked="false"] .fa-volume-low,
+.home-world-sound[aria-checked="true"] .fa-volume-xmark {
+  display: none;
+}
 .is-world-visit .home-world-places-looks {
   display: flex;
 }

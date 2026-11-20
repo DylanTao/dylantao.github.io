@@ -140,14 +140,17 @@ export function createSiteSound({ root = document, view = globalThis, audioConte
     let visible = rect.bottom > 0 && rect.top < view.innerHeight;
     let arrival = false;
     let scrollAt = -Infinity;
-    const rail = scene.getSceneEvidence?.().visitorRail;
-    let film = rail?.kind === "film" ? { look: look(), playing: !rail.reduced && !rail.paused } : null;
     const onRail = () => stage.classList.contains("is-world-visit");
+    const filmClock = () => scene.getFilmPlayback?.();
+    const recordClock = () => scene.getListeningPlayback?.();
+    const liftNeedle = () => scene.finishListeningRecord?.();
     const available = () => visible && !root.hidden && !reduced?.matches && !view.siteMotion?.paused && visible3D() && sound.on;
-    syncCoast = () => {
+    syncCoast = (seek) => {
       if (!visible3D()) coastal.clear();
-      else if (!available() || scene.dataset.sceneState !== "ready" || (onRail() && !film?.playing)) coastal.pause();
-      else coastal.select(film?.look || look());
+      else if (!available() || scene.dataset.sceneState !== "ready") coastal.pause();
+      else if (onRail()) coastal.playFilm(filmClock, seek === true);
+      else if (recordClock()) coastal.playRecord(recordClock, liftNeedle);
+      else coastal.select(look());
     };
     const observer = new view.MutationObserver(syncCoast);
     observer.observe(scene, { attributes: true, attributeFilter: ["data-scene-state", "data-drawing", "aria-hidden"] });
@@ -163,17 +166,11 @@ export function createSiteSound({ root = document, view = globalThis, audioConte
     }
     listen(root, "coastal:score", ({ detail }) => {
       if (detail?.kind !== "film" || !COASTAL_LOOKS.includes(detail.look)) return;
-      if (detail.action === "stop") {
-        film = null;
-        coastal.clear();
-      } else if (detail.action === "pause") {
-        film = { look: detail.look, playing: false };
-      } else if (detail.action === "start" || detail.action === "look") {
-        film = { look: detail.look, playing: true };
-      } else return;
-      syncCoast();
+      if (detail.action === "stop" || detail.action === "pause") coastal.pause();
+      else syncCoast(detail.action === "seek");
     });
     listen(view, "siteMotionChange", syncCoast);
+    listen(scene, "coastal:record", syncCoast);
     if (reduced?.addEventListener) listen(reduced, "change", syncCoast);
     const cue = (type, selected = look()) => {
       if (available() && !onRail()) coastal.motif(selected, type);

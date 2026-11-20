@@ -24,6 +24,13 @@ const makeShot = (id, points, extra = {}) => ({
 });
 const openGrid = () => createCollisionGrid({ min: [-6, -2, -6], max: [6, 5, 6], cell: 0.12 });
 
+test("an empty film can be ticked or scrubbed before any shot is admitted", () => {
+  const player = createVisitorRailPlayer({ shots: [], duration: 0 }, {}, { film: true });
+  assert.equal(player.tick(0.8), null);
+  assert.equal(player.seek(0), false);
+  assert.equal(player.state.shot, null);
+});
+
 test("admitting a rail tests the real occupancy at the start and every segment", () => {
   const grid = openGrid();
   grid.addSolid([-0.2, 0.0, -0.4], [0.2, 2.6, 0.4]);
@@ -112,6 +119,15 @@ test("pause, bounded time, skip, scrub and reduced motion share one clock", () =
   const player = createVisitorRailPlayer(film, clearance);
   player.tick(9);
   assert.equal(player.state.seconds, 0.25);
+  const screening = createVisitorRailPlayer(film, clearance, { film: true });
+  screening.tick(0.8);
+  assert.equal(screening.state.seconds, 0.8, "a slow display preserves the scored film clock");
+  screening.seek(3.75);
+  screening.tick(0.8);
+  assert.equal(screening.state.shot, "two");
+  assert.ok(Math.abs(screening.state.shotSeconds - 0.55) < 1e-8);
+  screening.tick(9);
+  assert.ok(Math.abs(screening.state.shotSeconds - 0.8) < 1e-8, "an interrupted clock resumes in a bounded step");
   player.pause();
   player.tick(0.5);
   assert.equal(player.state.seconds, 0.25);
@@ -265,24 +281,30 @@ test("the packed straight-arrival film follows the public Walk floor positions",
   assert.ok(compileVisitorRail(plan.shots, plan.landmarks, () => null).shots.some(({ id }) => id === "arrival"));
 });
 
-test("film score cues follow playback and effective looks once, leaving paused previews silent", () => {
+test("film score cues report cuts and scrubs once and keep paused previews silent", () => {
   const events = [];
   const signal = createFilmScoreCue((event) => events.push(event));
+  const dawn = { shot: "coast-dawn", seekVersion: 1 };
+  const stair = { shot: "arrival", seekVersion: 1 };
   signal.update("paint", false);
   signal.update("realistic", false);
   signal.stop("realistic");
   assert.deepEqual(events, []);
-  signal.update("realistic", true);
-  signal.update("realistic", true);
-  signal.update("paint", true);
+  signal.update("realistic", true, dawn);
+  signal.update("realistic", true, dawn);
+  signal.update("realistic", true, stair);
+  signal.update("realistic", true, { ...stair, seekVersion: 2 });
+  signal.update("paint", true, { ...stair, seekVersion: 2 });
   signal.update("paint", false);
   signal.update("realistic", false);
   signal.update("paint", false);
-  signal.update("realistic", true);
+  signal.update("realistic", true, dawn);
   signal.stop("realistic");
   signal.stop("realistic");
   assert.deepEqual(events, [
     { kind: "film", action: "start", look: "realistic" },
+    { kind: "film", action: "cut", look: "realistic" },
+    { kind: "film", action: "seek", look: "realistic" },
     { kind: "film", action: "look", look: "paint" },
     { kind: "film", action: "pause", look: "paint" },
     { kind: "film", action: "start", look: "realistic" },
