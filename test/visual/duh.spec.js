@@ -379,7 +379,13 @@ test("duh: homepage mode and Human/AI transitions keep one intentional companion
   const scene = page.locator("[data-home-desk-scene]");
   await scene.evaluate((e) => e.scrollIntoView({ block: "center", behavior: "instant" }));
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: 90000 });
-  await expect.poll(() => scene.evaluate((e) => e.getSceneEvidence().companion?.visible)).toBe(false);
+  // The ready element is already attached. Read the page directly so this
+  // observation does not wait for a cross-world locator handle on software WebGL.
+  await expect
+    .poll(() => page.evaluate(() => document.querySelector("[data-home-desk-scene]")?.getSceneEvidence?.()?.companion?.visible), {
+      timeout: software ? 90000 : 15000,
+    })
+    .toBe(false);
   await expect(page.locator(".duh-companion")).toHaveCount(1);
   await page.screenshot({ path: info.outputPath("duh-home-3d.png") });
   const canvas = scene.locator("canvas");

@@ -5,8 +5,11 @@ const { test, expect } = require("@playwright/test");
 const { PNG } = require("pngjs");
 const { preparePage, collectRuntimeErrors, screenshotMetrics } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
+const { pauseSceneClock } = require("./scene-clock");
 const root = path.resolve(__dirname, "../..");
-const readyTimeout = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1" ? 120000 : 90000;
+const software = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1";
+const readyTimeout = software ? 120000 : 90000;
+const handoffTimeout = 45000;
 const canonical = (value) =>
   Array.isArray(value)
     ? value.map(canonical)
@@ -22,10 +25,10 @@ const drawingDigest = (value) =>
     .update(JSON.stringify(canonical(value)))
     .digest("hex");
 
-const sketchState = (scene) =>
-  scene.evaluate((host) => {
+const sketchState = (scene, { includeScene = false } = {}) =>
+  scene.evaluate((host, includeScene) => {
     const sketch = host.querySelector(".home-world-sketch");
-    return sketch
+    const state = sketch
       ? {
           drawing: sketch.dataset.sketchDrawing,
           allowed: Number(sketch.dataset.sketchAllowed),
@@ -35,7 +38,20 @@ const sketchState = (scene) =>
           stage: host.dataset.loadingStage,
         }
       : null;
-  });
+    if (!includeScene) return state;
+    const canvas = host.querySelector("canvas:not(.home-world-sketch)");
+    const gl = canvas.getContext("webgl2"),
+      extension = gl?.getExtension("WEBGL_debug_renderer_info");
+    return {
+      state,
+      evidence: host.getSceneEvidence(),
+      backend: {
+        buffer: [canvas.width, canvas.height],
+        css: [canvas.clientWidth, canvas.clientHeight],
+        renderer: gl ? gl.getParameter(extension ? extension.UNMASKED_RENDERER_WEBGL : gl.RENDERER) : null,
+      },
+    };
+  }, includeScene);
 
 const bitmapState = async (sketch) => {
   const state = await sketch.evaluate((canvas) => {
@@ -57,16 +73,54 @@ const bitmapState = async (sketch) => {
   return { ...placement, rgbaSha256: createHash("sha256").update(Buffer.from(pixels)).digest("hex") };
 };
 
-const rendererEvidence = (scene) =>
-  scene.locator("canvas:not(.home-world-sketch)").evaluate((canvas) => {
-    const gl = canvas.getContext("webgl2"),
-      extension = gl?.getExtension("WEBGL_debug_renderer_info");
-    return {
-      buffer: [canvas.width, canvas.height],
-      css: [canvas.clientWidth, canvas.clientHeight],
-      renderer: gl ? gl.getParameter(extension ? extension.UNMASKED_RENDERER_WEBGL : gl.RENDERER) : null,
-    };
-  });
+async function captureDrawingPixels(page, scene, sample, artifact, path) {
+  const { sampleBox, artifactBox, viewport } = await scene.evaluate(
+    (host, selectors) => {
+      const select = (selector) => host.closest(selector) || host.querySelector(selector);
+      const target = select(selectors.artifact);
+      target.scrollIntoView({ block: "center", inline: "center", behavior: "instant" });
+      const boundsFor = (element) => {
+        const bounds = element.getBoundingClientRect();
+        // Match Playwright's enclosing pixel rectangle in viewport coordinates.
+        return {
+          left: Math.floor(bounds.left + 0.001),
+          top: Math.floor(bounds.top + 0.001),
+          right: Math.ceil(bounds.right - 0.001),
+          bottom: Math.ceil(bounds.bottom - 0.001),
+        };
+      };
+      return {
+        sampleBox: boundsFor(select(selectors.sample)),
+        artifactBox: boundsFor(target),
+        viewport: { width: window.innerWidth, height: window.innerHeight },
+      };
+    },
+    { sample, artifact }
+  );
+  const { left: x, top: y, right, bottom } = artifactBox;
+  const width = right - x,
+    height = bottom - y;
+  const sampleWidth = sampleBox.right - sampleBox.left,
+    sampleHeight = sampleBox.bottom - sampleBox.top;
+  expect(sampleWidth).toBeGreaterThan(0);
+  expect(sampleHeight).toBeGreaterThan(0);
+  expect(
+    sampleBox.left >= x && sampleBox.top >= y && sampleBox.right <= right && sampleBox.bottom <= bottom,
+    "the measured pixels are fully inside the visible artifact"
+  ).toBe(true);
+  // Measure a crop of the same real composite that is saved as the artifact.
+  expect(
+    x >= 0 && y >= 0 && right <= viewport.width && bottom <= viewport.height,
+    "the whole artifact fits in the visible viewport after centering"
+  ).toBe(true);
+  const png = await page.screenshot({ fullPage: false, scale: "css", clip: { x, y, width, height } });
+  const photo = PNG.sync.read(png);
+  expect([photo.width, photo.height]).toEqual([width, height]);
+  const cropped = new PNG({ width: sampleWidth, height: sampleHeight });
+  PNG.bitblt(photo, cropped, sampleBox.left - x, sampleBox.top - y, sampleWidth, sampleHeight, 0, 0);
+  fs.writeFileSync(path, png);
+  return cropped;
+}
 
 async function open(page, theme, { reduced = false } = {}) {
   await page.emulateMedia({ reducedMotion: reduced ? "reduce" : "no-preference" });
@@ -75,11 +129,22 @@ async function open(page, theme, { reduced = false } = {}) {
 }
 
 test("coastal loading drawing: complete geometric detail stays legible through the real frame handoff", async ({ page, context }, testInfo) => {
-  // The fixture holds only the completed handoff for inspection. It never injects a stage or a
-  // progress fill: every model, program and first frame must finish through the real controller.
+  // Allow the full load and handoff for each visit plus 30 seconds for capture and teardown.
+  if (software) test.setTimeout(2 * (readyTimeout + handoffTimeout + 30000));
+  if (software) {
+    testInfo.annotations.push({
+      type: "functional clock",
+      description: "Both visits load live. Software inspection holds the completed scene while the browser runs the real CSS fade.",
+    });
+  }
+  // The fixture keeps the completed drawing for inspection.
+  // Every model, program and first frame finishes through the real controller.
   for (const [index, theme] of ["light", "dark"].entries()) {
     const current = index ? await context.newPage() : page,
       errors = collectRuntimeErrors(current);
+    // Playwright's clock belongs to the context. Resume it on the blank
+    // return tab before any viewer code is loaded.
+    if (software && index > 0) await current.clock.resume();
     await open(current, theme);
     const original = fs.readFileSync(path.join(root, "assets/js/home-scene/loading-sketch.mjs"), "utf8"),
       signature = "export function createLoadingSketch(";
@@ -102,22 +167,15 @@ test("coastal loading drawing: complete geometric detail stays legible through t
     });
     await current.goto(`${publicRouteUrl("/")}?cinematic=live`, { waitUntil: "domcontentloaded" });
     await current.locator('[data-home-desk-mode="3d"]').click();
-    const scene = current.locator("[data-home-desk-scene]"),
-      sketch = scene.locator(".home-world-sketch");
+    const scene = current.locator("[data-home-desk-scene]");
     await scene.scrollIntoViewIfNeeded();
-    await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: readyTimeout });
-    await expect
-      .poll(
-        async () => {
-          const state = await sketchState(scene);
-          return Boolean(state?.drawn === 1 && state.allowed === 1 && !state.pending);
-        },
-        { timeout: 20000 }
-      )
-      .toBe(true);
-    const state = await sketchState(scene),
-      evidence = await scene.evaluate((host) => host.getSceneEvidence()),
-      backend = await rendererEvidence(scene);
+    const completePen = current.locator('.home-world-sketch[data-sketch-drawn="1"][data-sketch-allowed="1"][data-sketch-pending=""]');
+    // A single browser-side wait observes both ready states when later renderer calls are delayed.
+    await expect(scene.filter({ has: completePen })).toHaveAttribute("data-scene-state", "ready", { timeout: readyTimeout });
+    // Hold the already-rendered frame for software inspection. The real CSS
+    // transition still advances in browser time and removes the drawing.
+    if (software) await pauseSceneClock(current, { advanceDate: false });
+    const { state, evidence, backend } = await sketchState(scene, { includeScene: true });
     // Both pages share the visitor's storage. The second visit opens with Sirui at his desk.
     const destination = index === 0 ? "entrance" : "study";
     expect(evidence.currentRoom).toBe(index === 0 ? "outside" : "study");
@@ -132,7 +190,13 @@ test("coastal loading drawing: complete geometric detail stays legible through t
       const authored = JSON.parse(fs.readFileSync(path.join(root, "assets/models/home", drawing.file), "utf8"));
       expect(drawing.digest, `${drawing.file}: the rendered route must use the authored drawing family`).toBe(drawingDigest(authored));
     }
-    const pixels = PNG.sync.read(await sketch.screenshot());
+    const pixels = await captureDrawingPixels(
+      current,
+      scene,
+      ".home-world-sketch",
+      ".home-hero-media",
+      testInfo.outputPath(`drawing-complete-${theme}.png`)
+    );
     let foreground = 0;
     for (let p = 0; p < pixels.data.length; p += 4) {
       const value = 0.2126 * pixels.data[p] + 0.7152 * pixels.data[p + 1] + 0.0722 * pixels.data[p + 2];
@@ -141,18 +205,25 @@ test("coastal loading drawing: complete geometric detail stays legible through t
     const coverage = foreground / (pixels.width * pixels.height);
     expect(coverage, "the final pen drawing is visibly populated").toBeGreaterThan(0.005);
     expect(coverage, "fine form lines preserve open paper around the structure").toBeLessThan(0.35);
-    await current.locator(".home-hero-media").screenshot({ path: testInfo.outputPath(`drawing-complete-${theme}.png`) });
     await current.evaluate(() => window.__releaseInspectedDrawing());
-    await expect(sketch).toHaveCount(0, { timeout: 45000 });
-    await expect.poll(() => scene.locator("canvas").evaluate((canvas) => getComputedStyle(canvas).opacity)).toBe("1");
-    const frame = screenshotMetrics(await scene.locator("canvas").screenshot());
+    const revealed = scene.filter({ hasNot: current.locator(".home-world-sketch") }).locator("canvas");
+    await expect(revealed).toHaveCSS("opacity", "1", { timeout: handoffTimeout });
+    const revealedPixels = await captureDrawingPixels(
+      current,
+      scene,
+      "canvas",
+      "[data-home-desk-scene]",
+      testInfo.outputPath(`drawing-handed-off-${theme}.png`)
+    );
+    const frame = screenshotMetrics(PNG.sync.write(revealedPixels));
     expect(frame.uniqueColors, "the handoff exposes a complete nonblank WebGL frame").toBeGreaterThan(64);
-    await scene.screenshot({ path: testInfo.outputPath(`drawing-handed-off-${theme}.png`) });
     fs.writeFileSync(
       testInfo.outputPath(`drawing-complete-${theme}.json`),
       JSON.stringify(
         {
-          method: "Real completed progress and first frame; only overlay removal is held for inspection.",
+          method: software
+            ? "Real load and first frame. Software inspection holds the completed scene while the browser runs the CSS fade."
+            : "Real load and first frame. The completed drawing is held for inspection.",
           state,
           coverage,
           requested,
@@ -244,10 +315,8 @@ test("coastal loading drawing: reduced-motion page fallback stays still while un
     release();
     await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: readyTimeout });
     await expect(sketch).toHaveCount(0);
-    fs.writeFileSync(
-      testInfo.outputPath("drawing-page-fallback.json"),
-      JSON.stringify({ state, before, after, backend: await rendererEvidence(scene), errors }, null, 2)
-    );
+    const { backend } = await sketchState(scene, { includeScene: true });
+    fs.writeFileSync(testInfo.outputPath("drawing-page-fallback.json"), JSON.stringify({ state, before, after, backend, errors }, null, 2));
     expect(errors).toEqual([]);
   } finally {
     release();
