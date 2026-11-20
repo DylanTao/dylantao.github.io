@@ -4321,21 +4321,29 @@ test("coastal gym: the training dialog releases held walk input while gravity co
   });
   await canvas.focus();
   await page.keyboard.press("Home");
-  await expect.poll(async () => (await evidence(scene)).walk.gamepads).toBe(1);
+  // The software renderer may have a walk frame in flight while the pad connects.
+  // Observe its input on the page without transferring the entire scene each poll.
+  const waitForPadState = (field, expected) =>
+    page.waitForFunction(
+      ({ field, expected }) => document.querySelector("[data-home-desk-scene]").getSceneEvidence().walk[field] === expected,
+      { field, expected },
+      { timeout: SCENE_READY_TIMEOUT }
+    );
+  await waitForPadState("gamepads", 1);
   await page.keyboard.press("t");
   await expect(dialog).toBeVisible();
   const padOpen = await evidence(scene);
   rows.push({ phase: "held-pad-open", walk: padOpen.walk });
   expect(padOpen.walk.inputSuspended).toBe(true);
   await page.keyboard.press("Escape");
-  await expect.poll(async () => (await evidence(scene)).walk.padNeedsNeutral).toBe(true);
+  await waitForPadState("padNeedsNeutral", true);
   const p0 = (await evidence(scene)).walk.position;
   await page.waitForTimeout(150);
   expect((await evidence(scene)).walk.position).toEqual(p0);
   await page.evaluate(() => {
     window.__trainingPad.axes = [0, 0, 0, 0];
   });
-  await expect.poll(async () => (await evidence(scene)).walk.padNeedsNeutral).toBe(false);
+  await waitForPadState("padNeedsNeutral", false);
   await page.evaluate(() => {
     window.__trainingPad.axes = [0, 0, 0.7, 0];
   });
