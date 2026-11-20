@@ -378,10 +378,16 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       vec3 bottomLight=vec3(1.);
       vec3 rho=vec3(0.);
       float causticContrast=coastalCausticContrast(swashState.g,swashState.b,swashWeight);
+      // A pixel reflected in the surface and a pixel looking through it cover
+      // different areas. Follow the refracted rays all the way to the bed.
+      vec2 entry=bedXZ-sunInWater.xz/cosSun*bedDepth;
+      float bedFootprint=max(footprint,max(length(dFdx(entry)),length(dFdy(entry))));
+      float angularSpread=(1.-cosEye/(1.333*cosView))*roughnessFactor*roughnessFactor;
+      float beamWidth=angularSpread*bedDepth/cosView;
+      float focusFootprint=length(vec2(bedFootprint,beamWidth));
       if(bedDepth<14.){
         float path=bedDepth/cosSun;
         // Where the sun ray that lands here crossed the surface: its shadow and its ripples' focus.
-        vec2 entry=bedXZ-sunInWater.xz/cosSun*bedDepth;
         float lit=1.;
         #if defined( USE_SHADOWMAP ) && NUM_DIR_LIGHT_SHADOWS > 0
           // Looked up a little above both the water and the seabed, so sand just under the surface
@@ -401,14 +407,14 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
         #endif
         // Past a 30 cm footprint every ripple is blurred away and the gain is one.
         float caustic=1.;
-        if(sunUp>.02&&footprint<.3&&causticContrast>.001){
-          caustic=mix(1.,seaCaustics(entry-oceanWindOrigin,pacificTime,path,footprint),causticContrast);
+        if(sunUp>.02&&focusFootprint<.3&&causticContrast>.001){
+          caustic=mix(1.,seaCaustics(entry-oceanWindOrigin,pacificTime,path,focusFootprint),causticContrast);
         }
         bottomLight=(sunIrradiance*lit*caustic+skyIrradiance)/max(sunIrradiance+skyIrradiance,vec3(1e-5));
         float sandWeight=swashWeight*(1.-clamp(bed.y,0.,1.));
         float wetSubstrate=sandWeight*(1.-smoothstep(.18,.54,bedDepth));
         float rippleContrast=mix(1.,smoothstep(.11,.48,swashState.g),sandWeight);
-        rho=seabedAlbedo(vec3(bedXZ.x,bed.x,bedXZ.y),captured?bed.y:0.,bedDepth,captured?bed.w:0.,footprint,rippleContrast);
+        rho=seabedAlbedo(vec3(bedXZ.x,bed.x,bedXZ.y),captured?bed.y:0.,bedDepth,captured?bed.w:0.,bedFootprint,rippleContrast);
         rho*=coastalWetSand(wetSubstrate*.62);
       }
       // In the surf zone the breakers keep fine sand in suspension, so the water there turns milky.
@@ -469,7 +475,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     `
     );
   };
-  physicalWater.customProgramCacheKey = () => `pacific-optics-film-20261120${surf ? ":swash" : ""}${seaDebug ? `:${seaDebugMode}` : ""}`;
+  physicalWater.customProgramCacheKey = () => `pacific-optics-footprint-20261120${surf ? ":swash" : ""}${seaDebug ? `:${seaDebugMode}` : ""}`;
   const modelWater = new THREE.MeshStandardMaterial({ color: 0x8db9bb, roughness: 0.95 });
   const printWater = new THREE.MeshToonMaterial({ color: 0x287b8a });
   if (surf)

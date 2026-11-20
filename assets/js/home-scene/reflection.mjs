@@ -92,7 +92,7 @@ export function createSeaReflection(renderer, scene, ocean, material) {
         float fresnel=seaFresnel(cosine), meanCosine=max(-incoming.y,0.);
         // A coarse grazing pixel sees a distribution of slopes. When both mirror
         // samples reach the sky, temper the local Fresnel by the mean incidence.
-        if(depth>=.999999&&footprint>.18&&meanCosine<.135&&swashWeight<.02){
+        if(depth>=.999999&&footprint>.18&&meanCosine<.29&&swashWeight<.02){
           float resolvedDepth=texture2D(coastalReflectionDepth,clamp(reflectedUv,vec2(0.),vec2(1.))).r;
           if(resolvedDepth>=.999999){
             // Project half the isotropic slope variance onto the viewing direction.
@@ -100,7 +100,13 @@ export function createSeaReflection(renderer, scene, ocean, material) {
             float overlap=variance/(variance+meanCosine*meanCosine+1e-6);
             float aperture=smoothstep(.18,.82,footprint);
             float grazing=1.-smoothstep(.035,.135,meanCosine);
-            fresnel=mix(fresnel,seaFresnel(meanCosine),aperture*grazing*overlap);
+            // A broad grazing sky reflection samples many facet angles. The reflected sky
+            // radiance is still looked up along the real wave; temper only the resolved
+            // Fresnel swing in sky-to-sky pixels beyond the local rippling shallows.
+            float range=length(rainSurfaceWorld.xz-cameraPosition.xz);
+            float broad=smoothstep(.18,.60,footprint)*(1.-smoothstep(.14,.29,meanCosine))*smoothstep(16.,32.,range);
+            float aggregate=1.-(1.-aperture*grazing*overlap)*(1.-.67*broad);
+            fresnel=mix(fresnel,seaFresnel(meanCosine),aggregate);
           }
         }
         float inside=smoothstep(.001,.028,mirrorEdge(reflectedUv));

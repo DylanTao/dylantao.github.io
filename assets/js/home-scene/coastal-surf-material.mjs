@@ -42,11 +42,22 @@ float coastalFoamNoise(vec2 p) {
              mix(coastalFoamHash(i+vec2(0.,1.)),coastalFoamHash(i+vec2(1.,1.)),f.x),f.y);
 }
 float coastalBubbleCover(vec2 p, float mass, float footprint) {
-  float patches=coastalFoamNoise(p*vec2(4.2,9.));
-  float cells=mix(coastalFoamNoise(p*vec2(17.,28.)+14.),.5,smoothstep(.018,.075,footprint));
-  float porosity=smoothstep(.30,.68,.64*patches+.36*cells+.24*mass);
-  float packed=mix(.50,.84,smoothstep(.15,.68,mass));
-  return smoothstep(.009,.40,mass)*mix(packed,1.,porosity);
+  // Rafts have openings several hands across. Bubble mass fills these
+  // openings progressively. Returning water can still reflect the cliff
+  // between them, even when the neighbouring breaking lip is white.
+  vec2 coast=vec2(.94*p.x+.34*p.y,-.34*p.x+.94*p.y);
+  vec2 raft=coast*vec2(1.4,2.7);
+  float bend=coastalFoamNoise(raft*.52+7.3)-.5;
+  float pools=coastalFoamNoise(raft+vec2(bend*2.4,-bend*1.7));
+  float grain=coastalFoamNoise(coast*vec2(6.2,11.4)+vec2(2.3*bend,11.7));
+  grain=mix(grain,.5,smoothstep(.025,.12,footprint));
+  float scatter=mix(coastalFoamNoise(coast*vec2(15.,23.)+raft*.4),.5,smoothstep(.015,.065,footprint));
+  float edge=pools+.39*(grain-.5)+.21*(scatter-.5);
+  float threshold=mix(.73,.35,clamp(mass,0.,1.));
+  float sheet=smoothstep(threshold-.19,threshold+.25,edge);
+  float meanCover=1.-exp(-1.30*mass);
+  float closeCover=.14*meanCover+smoothstep(.012,.39,mass)*sheet*(.65+.24*scatter);
+  return mix(closeCover,meanCover,smoothstep(.10,.50,footprint));
 }
 vec3 coastalWetSand(float wet) {
   return mix(vec3(1.),vec3(.66,.73,.77),clamp(wet,0.,1.));
@@ -121,7 +132,7 @@ export function createSurfMaterials(surf, pools) {
         "#include <roughnessmap_fragment>\nroughnessFactor=mix(roughnessFactor,.35,sandWet*.78);"
       );
     };
-    material.customProgramCacheKey = () => key + ":swash-sand-v2";
+    material.customProgramCacheKey = () => key + ":swash-sand-v3";
     material.needsUpdate = true;
   }
   return {
