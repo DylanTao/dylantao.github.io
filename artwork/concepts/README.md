@@ -19,3 +19,7 @@ The sixth listening-room fit introduced round horns, a carved ceiling and a curv
 In the eighth fit the counter runs across the room, opening the sightline to the records. The lift passes through the same rock that forms the listening vault. [Drawing and three working views](coastal-home/2026-11-19/listening-room-round-08.webp) · [Three moments during the actual ride](coastal-home/2026-11-19/cliff-lift-descent-08.webp) · [Ocean bath and bedroom](coastal-home/2026-11-19/ocean-bath-and-bedroom-08.webp).
 
 The second painted living room concentrates its darks around the hanging hearth. A small white flame describes the heat and the shadow beneath the dining chairs holds the composition together. [Watercolour hearth study](coastal-home/2026-11-19/watercolour-hearth-02.png).
+
+From the ocean the arch, pool edge and rock bearings establish the house. The upper garden makes a shaded place to arrive. This sheet puts the gym, sheltered supper terrace, embedded lift and entry into one plan for the next build. [Coast and arrival](coastal-home/2026-11-19/coast-and-arrival-01.png).
+
+The next drawing follows a guest from the sheltered listening seat to a fire terrace and into the descending cab. The wider view of the Pacific comes from the opening in the rock. The bench conceals its heating under the seat. [Listening room, loggia and lift](coastal-home/2026-11-19/listening-loggia-and-lift-02.png).

@@ -203,6 +203,10 @@ So he does not have to say it twice. Dated; newest last. The list above says whe
 
 - **November 19, on keeping the artwork.** “you cana lsso save these cool refrence iamges you crewated throguh out so later they can be part of proejct storytelling asets or for fable 5,2 to leanr from”. The full-resolution originals, prompts and comparative frames live in the [concept archive](../artwork/concepts/README.md).
 
+- **November 19, on the second hearth drawing.** “i liek the gernal vibe more, like the cold warm alternation, but i don't likie teh green in teh background”. He wants “a very stable anchor of belife” within the turmoil, and asked for the structure under the pool, the speakeasy and elevator, gym, entrance and entry garden to be designed from the whole house down to the details.
+
+- **November 19, on the whole-house drawing and violin take 03.** “03 is beter, teh transition in 46 sec is a bit sharp” and “overall a bit dsijoointed”. He asked for the mono opening to lead to a groove. He wants a more enclosed part of the speakeasy and a more open part, “an aethttic firepalce and hidden heating to keep guest wearm”, and a clearer view of the ocean throughout the lift ride.
+
 ## Sixth round (November 15 to 16)
 
 Sirui judged the cartoon's colour ("lame, not vivid and boring") and the sound ("okish", minor places, backlog), asked for Tzu-Mao Li's novelty slides in a blog post, and set a new bar with outside references and a direction for music. His words are in the section above; the references are in the notebook card "The bar, November 15".
@@ -557,6 +561,16 @@ Ideas wait here until someone tries them. Each names what it would change, why i
 
 ## Notebook
 
+### November 19 · A listening pocket and an outdoor fire
+
+The new drawing keeps the horn cabinet and curved seat inside a low fan of walnut. An offset opening in the seaward wall leads outside to a limestone bench and a bronze-rimmed fire. The heating grille can sit in the shadow beneath the cushion. The horizon drawn across the lift window gives the native excavation a measure. [Original triptych and its two inputs](../artwork/concepts/coastal-home/2026-11-19/prompts.md#listening-room-02--the-sheltered-seat-open-fire-terrace-and-ocean-window).
+
+The ninth house fit put 198 ceramic folds directly on the pool girder. In the first browser comparison, only the east bay read well from the beach. Rays from a visitor’s standing height hit another lip of shore rock in front of the other two bays. The entrance tree and stone seat are also on opposite sides of the portal, so a photograph looking through the side wall conceals them. The next comparison uses the actual head of the stair and its garden paths.
+
+At the two ends of the listening room, the tenth native fit gives the banquette two felt shoulders and opens a walkable 1.22-metre doorway to a small fire terrace. The shaft stays within the rock. Its clear, faceted ocean window has a splayed stone reveal. Six passenger heights across the 6.45-metre trip have a continuous 39 to 59 degrees of open horizon, up from 8 to 10 degrees through the previous narrow slot. The finished glazing and passenger ride still need the browser comparison.
+
+The fourth violin study, _Breakwater_, puts the returning D on a pulse. A low pluck appears at 8.2 seconds. An A pickup carries it through the entrance of the groove at 20.8 seconds, then the same pattern holds under the crest at 40.3 seconds. The F falling to E from the opening comes back in the high line. The 61.8-second mono mix uses 46 distinct recorded violin gestures. Sirui has heard take 03 and received this mix for comparison. [Fourth score](../bin/render_coastal_breakwater.py) · [Third score](../bin/render_coastal_landing.py) · [Philharmonia recording library](https://philharmonia.co.uk/resources/sound-samples/).
+
 ### November 19 · Two seats at the glass, first fit
 
 Sirui wants to see the Pacific while he trains. From the Gym button the camera watches the lifting platform, so I also put a camera at the height of a seated rider. The pavilion occupies much of the left window. Open water is visible between its rail and the headland.
@@ -640,6 +654,16 @@ From the bath, the bamboo stands to the right and leaves the open horizon clear.
 Sirui heard the first violin sketch as “so sad” and “too much weird syntheetic.” Its long modeled bow and repeated return to low D explain what he heard. He asked for the energy and explosive emotion of Paganini’s Caprice No. 24. The second original, _The Match_, sets a springing figure in A major against a very quiet answer, then brings it back in double stops. The 25-second performance uses 48 recorded solo-violin takes. The short bows and sustained bows use different octave conventions in the library. Measuring their A samples against 440 Hz fixed the octave before rendering. Sirui’s response to the first sketch changed the instrument design in the brief. [Original score and renderer](../bin/render_coastal_caprice.py) · [Recorded bows and recording credits](https://github.com/sgossner/VSCO-2-CE).
 
 Sirui liked the shadows in the first watercolour and asked for “explosive volcanic energy underneath calmness.” He also asked to see the wood burn, keep dry cut logs somewhere beautiful, and give the fire a different meaning in each rendering style. The second drawing puts the darkest indigo in the hood, reserves a tiny stroke of white for the flame and repeats its heat at the rim. Six split ends in a low oak niche sit along the wall behind it. That gives the artist three places to describe the same wood over time: dry, burning and ash. Both drawings and their prompts are kept together. [First drawing](../artwork/concepts/coastal-home/2026-11-19/watercolour-living-01.png) · [Second drawing](../artwork/concepts/coastal-home/2026-11-19/watercolour-hearth-02.png).
+
+### November 19 · The house in section
+
+Sirui likes “the cold warm alternation” in the second hearth drawing. The green reflection in the rear kitchen gave him the loneliness he associates with Edward Hopper’s _Nighthawks_. His direction is stranger and more inhabited. A restless surface can still have “a very stable anchor of belief.” In this room the long table and the fire hold their places as the surrounding light and pigment move. The kitchen takes its cool from slate and violet.
+
+He asked to return to the scale of the entire house. In the new coast sheet, the pool bears into the rock between the sunken gym lawn and the covered supper terrace. A ceramic relief translates the water’s movement into solid fins under the lip. The garden on the crest has a tree large enough to cast a shadow over a person, a seat along one side and an open path into the descent. The timber gate at the bottom holds back the horizon until the visitor reaches it. The drawing introduces a second outdoor table near the gym. The built plan keeps the single table for six at the grill and leaves the lawn free for training. [Coast and entrance study](../artwork/concepts/coastal-home/2026-11-19/coast-and-arrival-01.png).
+
+On _The Match_, Sirui said “the quite part and exciting part come too quick feel like no reveal” and “a bit too synthetic.” He pointed to the exposed opening of Kanye West’s _Runaway_. The next violin piece leaves time after an isolated bow and gives the player’s whole recorded gestures room to sound before the first climb.
+
+_The Long Landing_ lasts 70 seconds. The first 20 seconds stay with low, separated bows. The line gradually rises for another 22 seconds before the first accented phrase. Complete Philharmonia recordings keep the player’s attacks, changing bow pressure and releases at their original pitch and speed. The 20 gestures form one continuous monophonic score, with an 11.7 dB difference in average level between threshold and reveal. A low D closes the piece after the upper-register crest. Sirui received the finished mix for listening. [Score](../bin/render_coastal_landing.py) · [Philharmonia musicians and recording terms](https://philharmonia.co.uk/resources/sound-samples/).
 
 ### What the Design Review video teaches, and what it means here
 
