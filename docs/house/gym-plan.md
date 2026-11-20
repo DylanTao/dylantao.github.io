@@ -16,7 +16,9 @@ Massing F (`docs/images/gym-garden-massing-f-2026-11-18.webp`) places these on t
 
 ## The idea
 
-The first seated sightline study for the swap uses the delivered rowing pose at 7 am. Hiding the dining shelter opens the horizon, but the separate laundry line and its garments still cross the water. Fit the drying line as a working part of the service area when laying out the lawn and the study-side dining setting. [Matched views from the room and the seat](../images/gym-garden-sightlines-2026-11-19.webp).
+The first seated sightline study uses the delivered rowing pose at 7 am. Taking out the dining shelter exposed a second obstruction. Two pieces of washing still hung across the Pacific. Sirui asked to take them down and give the fabric simulation a fitting place in the house. A pair of flax linen curtains will hang inside the onsen door, which already has a deep stone reveal and a sliding oak leaf. The garden keeps an uninterrupted view from the two exercise machines. [Matched views from the room and the seat](../images/gym-garden-sightlines-2026-11-19.webp).
+
+**Construction after the sightline review.** The old poolside patio carries most of the lawn. A short apron meets the gym at floor level, the front glass stacks beside the south jamb, and a low basalt spout spills into a planted trough. A second vault farther north fits a cedar soaking tub and a glazed cold room. Shifting those baths past the rower’s shoulder keeps its view of the ocean open. The dining table, all six seats, the grill and the wet bar move to the sheltered study loggia. As built, morning coffee and meals use the kitchen. The old coffee-chair study was a separate experiment.
 
 The sea is the reason to train in this room, so the cardio faces it, in the light; the bags take the dim side, where hitting something feels right. The rack and platform stay where they are: his lifting already works there (the bar loading and warm-up of November 13 and 14).
 

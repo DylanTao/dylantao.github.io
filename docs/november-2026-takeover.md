@@ -193,6 +193,8 @@ So he does not have to say it twice. Dated; newest last. The list above says whe
 - **November 17, night, on the work itself:** "have a clear todo lsit for any device or model with good reference i give you, link and image, and video link and your anlaysiuts, etc. and itnermeidate thougths and progress etc." (that is `docs/todo.md`); "if laptop has more work to be done in pc, we also have fable 5.2 and opus access in pc"; "don't make me nudge you to kepe doign mroe thigns . keep working on moerhitng and pushing often until we are out of token"; "MAYBE CLEAN UP and finsih more local 42 branches so laptop don't have ot do repeted work" (triaged: nothing needs folding in); "just modify the promto that it will work no matter however amny more commits you push". On the visitor numbers: "so gi guess i don't have lots of vistors, that sucks, let's make sure our researtch is good, adn website is cool".
 - **November 15, music:** "seems making music is possible with code ... you can leanr music theory and compose music i think. i like violin. maybe you can start with classical music and bob dylan and beatle instrument vibes, cello and piano and clarinet are also instructments i like. i also liek bob dylan whistle and guitar, so you can be really creative here to form our own musci and art idenitfy and apply those in 3d dewsign and website design. of course, feel free to add more."
 
+- **November 19, on the gym sightline frames.** “i like teh soft cloth simlaution and thinking in what other way we can use these simualtion but in a more appropriate decoration for house instead of those werid cloth in my backyard”. He asked for the architectural remodel of the gym and the space in front of it.
+
 ## Sixth round (November 15 to 16)
 
 Sirui judged the cartoon's colour ("lame, not vivid and boring") and the sound ("okish", minor places, backlog), asked for Tzu-Mao Li's novelty slides in a blog post, and set a new bar with outside references and a direction for music. His words are in the section above; the references are in the notebook card "The bar, November 15".
@@ -582,6 +584,14 @@ Claude accepted the second indoor frame and the split bag layout after seeing bo
 I kept the 7 am rowing pose and camera fixed and hid thirteen dining batches for a second exposure. They contain the pergola, dining furniture, grill, sink and cabinet. I repeated the pair from seated eye height. The deck, glass guard, pool, laundry frame and baked shadows are present in all four frames. The study changes visibility only. [Compare both camera positions](images/gym-garden-sightlines-2026-11-19.webp).
 
 Taking down the shelter opens a band of sky and water to the left of the mullion. Two drying garments still hang directly across the horizon. The service bay therefore matters to the garden plan as much as the table does. The next fit should give the laundry its own working place and test the view with the line occupied, the coffee chair in use on the study side, and the proposed lawn at the gym. The house overhang on the right gives the seat its sheltered feeling.
+
+### November 19 · Opening the gym and moving the table
+
+The yard in the morning study looked like a drying area to Sirui. I took that as a change to the plan. The outdoor line, its posts and both garments come out. The same cloth physics has an architectural job at the onsen entrance. A split linen noren can offer privacy behind the existing oak pocket door, with its bronze rail seated in the stone reveal.
+
+The first built frame locates the lawn on the old dining patio. Six dining chairs, the oval table, grill and wet bar fit under the roof by the study. The breakfast and dinner scripts both use the kitchen in the delivered house. The separate coffee-chair prototype had made the earlier handover misidentify the occupied seat. We moved the working dining furniture, its lights and its approach together.
+
+The pool fixes one edge of the lawn. I moved the hot bath and cold room north of the position in massing F, so the bike and the rower can both look down a clear line to the horizon. The first eye-level fit showed a turf pattern repeating in squares and the cold room presenting a blank wall to the bath. I softened the turf grain, opened the partition above a low stone sill, and added a screen of cedar battens where the entry needs privacy. The bench stops short of the door so a visitor can walk through to the ocean window. The long timber floor at Horai and the low horizon at Water / Glass were the architectural references for this round. [Horai Onsen Bath House](https://kkaa.co.jp/en/project/horai-onsen-bath-house/). [Water / Glass](https://kkaa.co.jp/en/project/water-glass/).
 
 ### What the Design Review video teaches, and what it means here
 
