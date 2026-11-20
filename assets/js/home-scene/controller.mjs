@@ -974,7 +974,7 @@ export function createCoastalHome(container, records, artifacts) {
     return true;
   }
 
-  function prepareModel(root, { outdoor = false, group = null } = {}) {
+  function prepareModel(root, { outdoor = false, group = null, plantSupport = root } = {}) {
     root.traverse((o) => {
       terraceHearth.bind(o);
       if (o.isMesh) {
@@ -1027,7 +1027,7 @@ export function createCoastalHome(container, records, artifacts) {
     syncBedding();
     syncFacadeDoors();
     art.apply(root, style);
-    coastalWind?.bind(root);
+    coastalWind?.bind(root, plantSupport);
     plantBrush.add(root);
     bindReceiver(root, group || (outdoor ? "exterior" : "architecture"), { outdoor });
     configureStaticModelIndices(root, style);
@@ -1154,10 +1154,10 @@ export function createCoastalHome(container, records, artifacts) {
     if (detailRoots.has(entry.file)) return Promise.resolve(detailRoots.get(entry.file));
     if (detailPending.has(entry.file)) return detailPending.get(entry.file);
     const pending = loadModel(new URL(entry.file, manifestUrl).href)
-      .then(({ scene: part }) => {
+      .then(({ scene: root }) => {
         const host = entry.room ? rooms.get(entry.room) : shellRoot;
         if (disposed || !host) {
-          release(part);
+          release(root);
           if (!disposed) throw new Error("Detail has no room: " + entry.file);
           return null;
         }
@@ -1165,16 +1165,16 @@ export function createCoastalHome(container, records, artifacts) {
         const donors = new Map();
         const carriers = [];
         const members = entry.members && new Set(entry.members.map((name) => THREE.PropertyBinding.sanitizeNodeName(name)));
-        part.traverse((o) => {
+        root.traverse((o) => {
           if (!o.isMesh) return;
           for (const material of [o.material].flat()) if (finishes.has(material.name)) donors.set(material.name, material);
           if (!members) return;
-          for (let p = o; p && p !== part; p = p.parent) if (members.has(p.name)) return;
+          for (let p = o; p && p !== root; p = p.parent) if (members.has(p.name)) return;
           carriers.push(o);
         });
         for (const name of finishes) {
           if (!donors.has(name)) {
-            release(part);
+            release(root);
             throw new Error("Missing streamed material " + name);
           }
         }
@@ -1193,12 +1193,16 @@ export function createCoastalHome(container, records, artifacts) {
             material.needsUpdate = true;
           }
         });
-        const root = prepareModel(part, { group: entry.room ? receiverForRoom(entry.room) : null });
-        root.name = "streamed:" + entry.file;
         host.add(root);
+        try {
+          prepareModel(root, { group: entry.room ? receiverForRoom(entry.room) : null, plantSupport: host });
+        } catch (error) {
+          release(root);
+          throw error;
+        }
+        root.name = "streamed:" + entry.file;
         warmPracticals.bindModel(root);
         if (entry.room === "onsen") bindOnsenStone(root);
-        if (!entry.room) coastalWind?.bind(root);
         if (entry.room !== "sleep") {
           cameraField?.addRoot(root);
           visitFields.forEach((field) => field.addRoot(root));

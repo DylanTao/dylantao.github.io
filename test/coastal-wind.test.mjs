@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { performance } from "node:perf_hooks";
 import { ShaderLib } from "../assets/js/three.module.min.js";
 import {
@@ -24,6 +25,7 @@ import {
 import { createWindParticles } from "../assets/js/home-scene/wind-particles.mjs";
 import { createCoastalWind } from "../assets/js/home-scene/coastal-wind.mjs";
 import { loadNativeModel } from "./helpers/coastal-native-avatar.mjs";
+import { nativeHouseGeometry } from "./helpers/coastal-native-geometry.mjs";
 
 const dot = (a, b) => a.reduce((s, v, i) => s + v * b[i], 0);
 const derivative = (sample, p, t, axis, component, h) => {
@@ -49,6 +51,38 @@ test("all garden olive leaves meet their delivered twigs, including between bran
     wind.dispose();
   }
 });
+
+test("streamed onsen foliage takes its roots from the room once", async () => {
+  const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
+  const room = await nativeHouseGeometry("room-onsen.glb", manifest);
+  const detail = room.children.find((child) => child.name === manifest.streamedDetails.find((entry) => entry.room === "onsen").file);
+  const wind = createCoastalWind();
+  try {
+    detail.removeFromParent();
+    room.position.set(-6.5, 2.1, 1.7);
+    room.rotation.y = 0.61;
+    wind.bind(room);
+    assert.equal(wind.evidence().plants.length, 0);
+    room.add(detail);
+    wind.bind(detail, room);
+    const [olive] = wind.evidence().plants;
+    assert.deepEqual([olive.components, olive.enabled, olive.disabled], [11, 11, 0]);
+    let leaves;
+    detail.traverse((mesh) => {
+      if (mesh.isMesh && /olive leaf/i.test(mesh.material.name)) leaves = mesh;
+    });
+    const roots = leaves.geometry.getAttribute("coastalPlantRoot");
+    const shadow = leaves.customDepthMaterial;
+    wind.bind(detail, room);
+    wind.bind(room);
+    assert.equal(wind.evidence().plants.length, 1);
+    assert.equal(leaves.geometry.getAttribute("coastalPlantRoot"), roots);
+    assert.equal(leaves.customDepthMaterial, shadow);
+  } finally {
+    wind.dispose();
+  }
+});
+
 test("bounded modal velocities are the analytic curl of their potentials", () => {
   assert.ok(Math.abs(WIND_MODES.reduce((sum, m) => sum + Math.hypot(...m.velocity), 0) - 1) < 1e-12);
   for (const m of WIND_MODES) {

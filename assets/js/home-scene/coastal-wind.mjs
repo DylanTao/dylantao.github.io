@@ -52,6 +52,7 @@ export function createCoastalWind({ coast: coastSource = coastWind } = {}) {
     },
     plants = createPlantUniforms(),
     entries = [],
+    boundLeaves = new WeakSet(),
     scratch = new THREE.Vector3();
   let seconds = 0;
 
@@ -78,22 +79,26 @@ export function createCoastalWind({ coast: coastSource = coastWind } = {}) {
     material.needsUpdate = true;
   }
 
-  function bind(root) {
-    root.updateWorldMatrix(true, true);
-    const leaves = [],
-      wood = [];
+  const plantMesh = (mesh) => mesh.isMesh && !mesh.isSkinnedMesh && !mesh.userData.outline;
+
+  function bind(root, supportRoot = root) {
+    const leaves = [];
     root.traverse((mesh) => {
-      if (!mesh.isMesh || mesh.isSkinnedMesh || mesh.userData.outline) return;
+      if (plantMesh(mesh) && !boundLeaves.has(mesh) && [mesh.material].flat().some((m) => /olive leaf/i.test(m.name))) leaves.push(mesh);
+    });
+    if (!leaves.length) return;
+    supportRoot.updateWorldMatrix(true, true);
+    const wood = [];
+    // Streamed foliage can use the room's existing bark without re-rigging that room's leaves.
+    supportRoot.traverse((mesh) => {
+      if (!plantMesh(mesh)) return;
       const materials = [mesh.material].flat();
-      // Stems: the room plants' honey ash and the terrace olive's bark twigs.
       if (materials.some((m) => /honey ash|olive bark/i.test(m.name))) {
         const points = positionsInWorld(mesh);
         wood.push(points);
         if (materials.some((m) => /olive bark/i.test(m.name))) wood.push(barkEdgeSamples(mesh.geometry, points));
       }
-      if (materials.some((m) => /olive leaf/i.test(m.name))) leaves.push(mesh);
     });
-    if (!leaves.length) return;
     const supports = new Float32Array(wood.reduce((sum, array) => sum + array.length, 0));
     let offset = 0;
     for (const array of wood) {
@@ -129,6 +134,7 @@ export function createCoastalWind({ coast: coastSource = coastWind } = {}) {
       mesh.customDistanceMaterial = new THREE.MeshDistanceMaterial();
       patch(mesh.customDepthMaterial);
       patch(mesh.customDistanceMaterial);
+      boundLeaves.add(mesh);
       entries.push({
         mesh,
         evidence: { name: mesh.name, ...attributes.evidence, buildMilliseconds: performance.now() - started },

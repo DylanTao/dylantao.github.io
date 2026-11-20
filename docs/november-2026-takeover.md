@@ -572,6 +572,8 @@ The same walk exposed the study ottoman across the bookcase threshold. Turning t
 
 **Round 17.** From the beach a dark strip moved from one edge of the water to the other as the visitor turned. The real-time sea mirror was fading into a darker sky colour just inside the visible picture. Its camera now captures 18% more width and height at the same 384 × 384 resolution in the measured view. At the same eye, time and wave phase, the twelve-pixel strip rose from 14% to 101% of the luminance of nearby water. The sandstone reflection retained its fine detail. The Cycles comparison still shows a softer distant sea and a stronger reflection on draining sand. [The water before and after, with edge and cliff crops](../artwork/concepts/coastal-home/2026-11-19/shore-reflection-before-and-after-17.webp).
 
+At the ocean bath, the potted olive looked still beside the leaves that moved in the same breeze. Its eleven leaf clusters arrive with the room detail. Their woody stems had already arrived with the room itself. The wind now finds those stems when the leaves arrive. A second visit keeps the same roots and shadows.
+
 ### November 20 · What the floor and the beach asked of the drawing
 
 **Round 13.** The sinuous acoustic ceiling and continuous linen back finally read together from the record seat. Real joints gave the loggia floor a scale, but its first limestone had broad repeating stripes. The shoreline study showed a related problem in the ceramic band under the pool. It lined up from one intended eye and almost disappeared in profile.
