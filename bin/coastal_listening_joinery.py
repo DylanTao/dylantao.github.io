@@ -212,15 +212,23 @@ def vault(j):
     nx, ny = 26, 25
     rows = []
     for ix in range(nx + 1):
-        x = -12.68 + ix * 4.28 / nx
-        t = ix / nx
+        # Meet the inward jamb and window faces. Their outer sides and the
+        # two end gables have their own stone and plaster closure.
+        x = -12.48 + ix * 3.86 / nx
+        t = (x + 12.68) / 4.28
+        blend = min(1.0, min(ix, nx - ix) * 3.86 / (nx * 0.23))
+        eave = blend * blend * (3 - 2 * blend)
         row = []
         for iy in range(ny + 1):
-            y = 6.033 + iy * 4.127 / ny
+            y = 6.319 + iy * 3.602 / ny
             strata = y + 0.24 * math.sin(x * 1.54) + 0.065 * math.sin(3.61 * x)
             shelf = 0.048 * math.tanh(2.65 * math.sin(5.8 * strata)) + 0.017 * math.sin(15.43 * strata + 0.27 * x)
             roll = 0.020 * math.sin(4.63 * x + 2.49 * y) + 0.010 * math.sin(8.13 * x - 5.88 * y)
             z = 2.211 + 0.448 * (1 - (2 * t - 1) ** 2) + shelf + roll
+            # Gently level the last course under the inward jamb face.
+            z = 2.29 + (z - 2.29) * eave
+            if iy in (0, ny):
+                z = min(z, 2.277 + 0.47 * (1 - (2 * t - 1) ** 2))
             row.append(bm.verts.new((x, y, z)))
         rows.append(row)
     for a, b in zip(rows, rows[1:]):
@@ -244,9 +252,9 @@ def banquette(j):
     cx, cy = -9.468, 8.57
     angles = np.linspace(-1.38, 1.38, 33)
 
-    def sweep(piece, finish, section):
+    def sweep(piece, finish, section, sweep_angles=angles):
         profiles = []
-        for a in angles:
+        for a in sweep_angles:
             profiles.append([(cx + r * math.cos(a), cy + r * math.sin(a), z + h * math.cos(a)) for r, z, h in section])
         contours(j, piece, finish, profiles, True)
 
@@ -255,8 +263,8 @@ def banquette(j):
         "sofa_seat",
         "bar moss mohair",
         [
-            (0.376, 0.316, 0),
-            (0.768, 0.316, 0),
+            (0.376, 0.337, 0),
+            (0.768, 0.337, 0),
             (0.797, 0.356, 0),
             (0.793, 0.447, 0),
             (0.755, 0.476, 0),
@@ -277,6 +285,7 @@ def banquette(j):
             (0.680, 0.799, 0.118),
             (0.658, 0.554, 0.028),
         ],
+        np.linspace(-1.362, 1.362, len(angles)),
     )
     for index in range(1, 16):
         a = -1.38 + index * 2.76 / 16

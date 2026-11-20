@@ -40,7 +40,7 @@ def structure(j):
     # A low light follows the gallery around the turn, under a projecting
     # bronze lip. All metal stays above the two stone steps and outside Walk.
     j.block("gallery_reveal", COPPER, (-12.78, 12.302, -6.13), (-11.66, 12.342, -6.076), 0.004)
-    j.block("gallery_lamp", LAMP, (-12.76, 12.335, -6.13), (-11.684, 12.347, -6.110), 0.002)
+    j.block("gallery_lamp", LAMP, (-12.76, 12.335, -6.126), (-11.684, 12.347, -6.110), 0.002)
     j.block("gallery_reveal", COPPER, (-11.88, 12.32, -4.190), (-11.83, 13.59, -4.133), 0.004)
     j.block("gallery_lamp", LAMP, (-11.855, 12.35, -4.201), (-11.839, 13.55, -4.183), 0.002)
     for plane, floor, side in ((X1, TOP, "east"), (Y1, BEACH, "north")):

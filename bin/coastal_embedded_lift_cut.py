@@ -153,7 +153,7 @@ def in_zone(points, margin):
     )
 
 
-def far_faces(obj, margin=0.35):
+def far_faces(obj, margin=0.35, *, touches_cut=in_zone):
     """Fingerprint positions, corner UV and baked colour with directed loop order."""
     mesh, world = obj.data, obj.matrix_world
     world_points = [world @ v.co for v in mesh.vertices]
@@ -166,7 +166,7 @@ def far_faces(obj, margin=0.35):
     colour = colour_layer.data
     ledger = Counter()
     for face in mesh.polygons:
-        if in_zone([world_points[i] for i in face.vertices], margin):
+        if touches_cut([world_points[i] for i in face.vertices], margin):
             continue
         corners = tuple(
             struct.pack("<9f", *points[mesh.loops[i].vertex_index], *uv[i].uv, *colour[i].color)
@@ -196,14 +196,15 @@ def paint_new_face(face, uv, ao, rgba, world):
         loop[ao] = rgba
 
 
-def splice_cut(rock, cutter):
+def splice_cut(rock, cutter, *, touches_cut=in_zone, cut_distance=face_gap, seam_limit=0.95,
+               solver=boolean, stop_at_retained_edges=False):
     """Use Blender Exact on a duplicate. Preserve the released polygons outside the excavation."""
     before = qualify_static_ports(rock)
     # The lower foundation has larger triangles where its outer faces meet the new portal.
     margin = 0.065
     world = rock.matrix_world
     points = [world @ v.co for v in rock.data.vertices]
-    local = {f.index for f in rock.data.polygons if in_zone([points[i] for i in f.vertices], margin)}
+    local = {f.index for f in rock.data.polygons if touches_cut([points[i] for i in f.vertices], margin)}
     if not local:
         raise ValueError("Excavation misses " + rock.name)
     bounce = rock.data.color_attributes[BOUNCE].data
@@ -221,7 +222,7 @@ def splice_cut(rock, cutter):
         vertex_field = trial.data.attributes.new(SOURCE_VERT, "INT", "POINT")
         vertex_field.data.foreach_set("value", np.arange(1, len(vertex_field.data) + 1, dtype=np.int32))
         bpy.context.view_layer.update()
-        boolean(trial, cutter, "DIFFERENCE")
+        solver(trial, cutter, "DIFFERENCE")
         source.from_mesh(rock.data)
         source.faces.ensure_lookup_table()
         originals = list(source.verts)
@@ -244,7 +245,7 @@ def splice_cut(rock, cutter):
             source_index = face[sid] - 1
             if source_index >= 0:
                 mapped.setdefault(source_index, []).append(face)
-            elif in_zone([world @ v.co for v in face.verts], 0.11):
+            elif touches_cut([world @ v.co for v in face.verts], 0.11):
                 cut_faces.append(face)
 
         # Exact re-resolves overlapping remote boulders. Keep only the full connected
@@ -257,7 +258,18 @@ def splice_cut(rock, cutter):
         changed_faces = [source.faces[i] for i in sorted(local) if source.faces[i] in altered]
         reached = set(changed_faces)
         for face in changed_faces:
+            retained_edges = None
+            if stop_at_retained_edges:
+                retained_edges = {
+                    frozenset(key(v) for v in edge.verts)
+                    for replacement in mapped.get(face.index, ())
+                    for edge in replacement.edges
+                }
             for edge in face.edges:
+                # The retessellation can change unrelated triangles beyond an
+                # intact seam. Preserve the original directed edge chart there.
+                if retained_edges is not None and frozenset(key(v) for v in edge.verts) in retained_edges:
+                    continue
                 for neighbor in edge.link_faces:
                     if neighbor in altered and neighbor not in reached:
                         reached.add(neighbor)
@@ -273,17 +285,15 @@ def splice_cut(rock, cutter):
             by_position.setdefault(key(vertex), []).append(vertex)
 
         keep = [face for i in changed for face in mapped.get(i, ())] + cut_faces
-        source_seam = max(face_gap([world @ v.co for v in f.verts]) for f in local_faces)
-        result_seam = max(face_gap([world @ v.co for v in f.verts]) for f in keep)
+        source_seam = max(cut_distance([world @ v.co for v in f.verts]) for f in local_faces)
+        result_seam = max(cut_distance([world @ v.co for v in f.verts]) for f in keep)
         seam = max(source_seam, result_seam)
-        if seam > 0.95:
-            raise RuntimeError(
-                "Excavation edits geometry more than 950 mm from the cutter on " + rock.name + " " + repr(seam)
-            )
+        if seam > seam_limit:
+            raise RuntimeError(f"{rock.name}: excavation seam reaches {seam:.4f} m; bound is {seam_limit:.3f} m")
         # The connected native seam sometimes includes a coarse triangle outside a
         # fixed offset. Measure it and verify every face beyond that bounded reach.
         far_margin = max(0.365, seam + 0.005)
-        far = far_faces(rock, far_margin)
+        far = far_faces(rock, far_margin, touches_cut=touches_cut)
         bmesh.ops.delete(source, geom=local_faces, context="FACES_ONLY")
         uv = source.loops.layers.uv.get(UV)
         ao = source.loops.layers.float_color.get(BOUNCE) or source.loops.layers.color.get(BOUNCE)
@@ -337,7 +347,7 @@ def splice_cut(rock, cutter):
         discard(trial)
 
     after = qualify_static_ports(rock)
-    retained = far_faces(rock, far_margin)
+    retained = far_faces(rock, far_margin, touches_cut=touches_cut)
     if retained != far:
         raise RuntimeError("Distant face tuples changed on " + rock.name + " " + repr((far, retained)))
     return {

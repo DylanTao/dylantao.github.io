@@ -63,9 +63,12 @@ class Joinery:
         for bm in self.meshes.values():
             bmesh.ops.transform(bm, matrix=matrix, verts=list(bm.verts))
 
-    def finish(self):
+    def finish(self, pieces=None):
         result = []
         for (piece, material), bm in self.meshes.items():
+            if pieces is not None and piece not in pieces:
+                bm.free()
+                continue
             smooth = [face.smooth for face in bm.faces]
             obj = decor.from_bmesh(
                 self.prefix + piece + "__" + material, bm, bpy.data.materials[material], smooth=False
@@ -101,8 +104,9 @@ def gable(j, y0, y1):
     bm = j.mesh("gable", LINING)
     sections = []
     for i in range(17):
-        t = i / 16
-        x = -12.68 + 4.28 * t
+        # The existing stone jamb owns the west return above the lift.
+        x = -12.48 + 4.08 * i / 16
+        t = (x + 12.68) / 4.28
         h = 2.28 + 0.47 * (1 - (2 * t - 1) ** 2)
         sections.append([bm.verts.new((x, y, z)) for y, z in ((y0, 2.185), (y1, 2.185), (y1, h), (y0, h))])
     for a, b in zip(sections, sections[1:]):
@@ -147,7 +151,8 @@ def ocean_reveal(j):
 
 
 def architecture(j):
-    j.block("plinth", "warm cut stone", (-12.70, 6.031, -0.473), (-8.40, 10.16, -0.046))
+    # Keep a 196 mm stone edge above the separate native shore rock.
+    j.block("plinth", "warm cut stone", (-12.70, 6.031, -0.242), (-8.40, 10.16, -0.046))
     j.block("paving", STONE, (-12.40, 6.031, -0.046), (-8.40, 10.16, 0.001))
     for y0, y1 in ((6.031, 8.74), (9.90, 10.16)):
         j.block("paving", STONE, (-12.68, y0, -0.046), (-12.40, y1, 0.001))
@@ -173,14 +178,17 @@ def architecture(j):
     # The seaward end is one deep picture window. The lift is behind the
     # rock jamb to the west, entered directly through the room's copper portal.
     j.block("walls", listening.CUT_ROCK, (-12.48, 9.92, 0.002), (-11.51, 10.16, 2.185))
-    j.block("walls", LINING, (-11.51, 9.92, 0.002), (-8.74, 10.16, 0.75))
+    # The seaward bay has an offset, level opening onto the fire loggia.
+    # Its other half keeps the deep window seat inside the listening room.
+    j.block("walls", LINING, (-10.24, 9.92, 0.002), (-8.74, 10.16, 0.75))
     j.block("walls", listening.CUT_ROCK, (-8.74, 9.92, 0.002), (-8.40, 10.16, 2.185))
-    j.block("walls", listening.CUT_ROCK, (-11.51, 9.92, 1.835), (-8.74, 10.16, 2.185))
-    j.block("window_seat", listening.WALNUT, (-11.51, 9.80, 0.75), (-8.74, 10.163, 0.802), 0.013)
-    for x in (-11.509, -8.767):
+    j.block("walls", listening.CUT_ROCK, (-10.24, 9.92, 1.835), (-8.74, 10.16, 2.185))
+    j.block("walls", listening.CUT_ROCK, (-11.51, 9.92, 2.143), (-10.24, 10.16, 2.185))
+    j.block("window_seat", listening.WALNUT, (-10.24, 9.80, 0.75), (-8.74, 10.163, 0.802), 0.013)
+    for x in (-10.239, -8.767):
         j.block("window_liner", listening.WALNUT, (x, 9.914, 0.802), (x + 0.026, 10.165, 1.843), 0.003)
-    j.block("window_liner", listening.WALNUT, (-11.51, 9.914, 1.81), (-8.74, 10.165, 1.837), 0.004)
-    j.block("panorama", GLASS, (-11.481, 10.115, 0.802), (-8.768, 10.125, 1.81))
+    j.block("window_liner", listening.WALNUT, (-10.24, 9.914, 1.81), (-8.74, 10.165, 1.837), 0.004)
+    j.block("panorama", GLASS, (-10.210, 10.115, 0.802), (-8.768, 10.125, 1.81))
     gable(j, 6.033, 6.319)
     gable(j, 9.921, 10.16)
     listening.vault(j)
@@ -230,15 +238,15 @@ def listening_end(j):
     j.turned(
         "small_tables",
         listening.COPPER,
-        (-9.31, 8.54, 0.002),
+        (-9.37, 8.54, 0.002),
         [(0.145, 0), (0.147, 0.024), (0.026, 0.055), (0.026, 0.455)],
         18,
     )
     j.turned(
         "small_tables",
         listening.WALNUT,
-        (-9.31, 8.54, 0.455),
-        [(0.236, 0), (0.259, 0.019), (0.259, 0.032), (0.250, 0.040)],
+        (-9.37, 8.54, 0.455),
+        [(0.220, 0), (0.239, 0.019), (0.239, 0.032), (0.230, 0.040)],
         36,
     )
     shaded_lamp(j, -9.23, 8.56, 0.495)
@@ -253,7 +261,7 @@ def listening_end(j):
     j.span("tonearm", BRASS, (x + 0.152, y + 0.126, z + 0.105), (x + 0.042, y + 0.021, z + 0.087), 0.006, 8)
     j.block("tonearm", STEEL, (x + 0.028, y + 0.003, z + 0.080), (x + 0.056, y + 0.032, z + 0.09), 0.002)
     for i in range(4):
-        x0 = -12.305 + i * 0.012
+        x0 = -12.252 + i * 0.012
         y0 = 6.482 + i * 0.050
         j.block(
             "featured_sleeve" if i == 3 else "record_sleeves",
@@ -261,10 +269,10 @@ def listening_end(j):
             (x0, y0, 0.955),
             (x0 + 0.008, y0 + 0.216, 1.174),
         )
-    j.block("sleeve_ledge", listening.WALNUT, (-12.355, 6.466, 0.929), (-12.214, 6.870, 0.955), 0.003)
+    j.block("sleeve_ledge", listening.WALNUT, (-12.254, 6.466, 0.929), (-12.203, 6.870, 0.955), 0.003)
 
 
-def reading_threshold():
+def reading_threshold(pieces=None):
     scene = bpy.context.scene
     x0, x1, y = -11.34, -10.04, -0.82
     if not scene.get("studyReadingThresholdCut"):
@@ -287,7 +295,7 @@ def reading_threshold():
     j.block("reveal", OAK, (x0 - 0.03, -0.919, 2.149), (x1 + 0.03, -0.697, 2.21), 0.004)
     # A two-sided reading pocket shields the study from the barbecue. The
     # seaward opening remains wide enough for a person carrying a tray.
-    j.block("nook", LINING, (-11.93, -0.77, 0.033), (-11.82, 1.40, 2.38), 0.008)
+    j.block("nook", LINING, (-11.93, -0.77, 0.033), (-11.82, 1.32, 2.35), 0.008)
     j.block("bench", OAK, (-11.815, -0.51, 0.032), (-11.43, 0.94, 0.405), 0.02)
     j.block("bench", WOOL, (-11.8, -0.50, 0.405), (-11.42, 0.93, 0.476), 0.028)
     j.block("pocket_screen", OAK, (-11.93, 1.32, 0.031), (-10.93, 1.45, 0.91), 0.007)
@@ -327,11 +335,13 @@ def reading_threshold():
                 (x + rng.uniform(0.026, 0.052), -0.819, z + rng.uniform(0.15, 0.25)),
                 0.002,
             )
-    for name, obj in j.finish():
+    pieces_built = j.finish(pieces)
+    for name, obj in pieces_built:
         if name.startswith("pivot_"):
             obj["estateDoor"] = "study-bookcase"
         if name == "pocket_roof":
             obj["caveRoof"] = True
+    return pieces_built
 
 
 def build():
