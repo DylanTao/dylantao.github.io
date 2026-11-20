@@ -1,5 +1,5 @@
 {
-  "outputSha256": "67bc77cf8933f303e0e827e8f07e254b810d2ed8d5fc2b74686dd8d1259f2a67",
+  "outputSha256": "c8b1aed04667ca0426dbbca38c05a6d38d9e2bf999491840175b95c6f2ede19f",
   "routeSourceSha256": "5a05e72dbce6b89bbc30226f3ded087fad2bbea1e0537934734ef05929e17e73",
   "rows": [
     {
@@ -2666,7 +2666,7 @@
   "scope": "Actual native Blender triangles with no cut masks. Glass and water are skipped for the ray test, so delivered walking remains necessary.",
   "retainedRouteGeometrySha256": "b596d1cb8f175e09a67d65fe73222f86e944f4601ec7ecb30646c41f588c66ed",
   "sectionSkin": {
-    "proofSha256": "9af6500a31f4e47f75ba55a49c0c6d3d87583201d45d6d7645472b40f5b33c3b",
+    "proofSha256": "2a3ca9e936272c6bd0824338dd3477e836642e17b5d2b8d96b6aae76b075f0a0",
     "protectedFaces": 1792,
     "retainedDistantFaces": 108357,
     "plateauDifferenceSquareMetres": 0.0

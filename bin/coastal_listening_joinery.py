@@ -86,6 +86,10 @@ def finishes():
     bsdf.inputs["Emission Strength"].default_value = 0.42
 
 
+def stone_uv(u, v):
+    return (u + 0.056 * math.sin(v * 1.14)) / 1.81, (v + 0.052 * math.sin(u * 1.47)) / 1.67
+
+
 def map_finish(obj):
     surface = obj.data.materials[0].name
     if surface not in (WALNUT, HORN, HORN_EDGE, SOAPSTONE, CUT_ROCK):
@@ -110,7 +114,7 @@ def map_finish(obj):
             else:
                 u, v = x, z
             if surface == CUT_ROCK:
-                uv.data[loop].uv = ((u + 0.056 * math.sin(v * 1.14)) / 1.81, (v + 0.052 * math.sin(u * 1.47)) / 1.67)
+                uv.data[loop].uv = stone_uv(u, v)
             elif surface == SOAPSTONE:
                 uv.data[loop].uv = (u / 1.41, v / 1.23)
             else:

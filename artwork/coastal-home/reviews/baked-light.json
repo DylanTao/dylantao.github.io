@@ -4449,12 +4449,6 @@
       "max": 0.9442268097152313
     },
     {
-      "mesh": "core_speakeasy_loggia_felt_wings__speaker charcoal felt",
-      "corners": 528,
-      "min": 0.68,
-      "max": 0.7389299068289499
-    },
-    {
       "mesh": "core_speakeasy_loggia_door_lining__listening room quarter-cut w",
       "corners": 288,
       "min": 0.68,
@@ -4861,6 +4855,12 @@
       "corners": 832,
       "min": 0.6800000071525574,
       "max": 0.7300000190734863
+    },
+    {
+      "mesh": "core_speakeasy_loggia_shoulder_backing__walnut and mohair",
+      "corners": 2112,
+      "min": 0.6800000071525574,
+      "max": 0.8037499785423279
     }
   ]
 }

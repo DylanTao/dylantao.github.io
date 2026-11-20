@@ -164,6 +164,11 @@ function authoredInstallations(config) {
         throw new RangeError(`Invalid installation cone: ${source.id}`);
       entry.position = new THREE.Vector3(...source.position);
       entry.cone = source.cone || null;
+      if (
+        source.shadeTransmission !== undefined &&
+        (!entry.cone?.[3] || !Number.isFinite(source.shadeTransmission) || source.shadeTransmission < 0 || source.shadeTransmission > 1)
+      )
+        throw new RangeError(`Invalid lamp shade transmission: ${source.id}`);
       if (source.shadowDepth !== undefined) {
         if (!source.shadowDepth || kind !== "point") throw new RangeError(`Invalid point shadow: ${source.id}`);
         entry.shadow = pointShadow(source);
@@ -305,6 +310,19 @@ float installationLine(vec3 p, vec3 n, vec3 a, vec3 b) {
 bool installationInside(vec3 p, vec3 lo, vec3 hi) {
   return all(greaterThanEqual(p, lo - vec3(${RECEIVER_TOLERANCE}))) && all(lessThanEqual(p, hi + vec3(${RECEIVER_TOLERANCE})));
 }
+float installationAperture(int i, float alignment) {
+  float cutoff = installPointCone[i].w;
+  if (cutoff <= 0.0) return 1.0;
+  float opening = smoothstep(cutoff, 1.0, alignment);
+#ifdef INSTALLATION_SHADE
+  // Projected area of the translucent side of the shade, seen from the receiver.
+  // Its opaque cap covers the upper axis. The open lower rim passes the full beam.
+  float side = installShadeTransmission[i] * sqrt(max(0.0, 1.0 - alignment * alignment));
+  return mix(side, 1.0, opening);
+#else
+  return opening;
+#endif
+}
 vec3 installationIrradiance(vec3 p, vec3 n) {
   vec3 sum = vec3(0.0);
   for (int i = 0; i < ${MAX_LINES}; i++) {
@@ -318,7 +336,7 @@ vec3 installationIrradiance(vec3 p, vec3 n) {
     vec3 l = installPointPosition[i] - p;
     float r2 = max(dot(l, l), 1e-4);
     vec3 dir = l * inversesqrt(r2);
-    float cone = installPointCone[i].w > 0.0 ? smoothstep(installPointCone[i].w, 1.0, dot(-dir, installPointCone[i].xyz)) : 1.0;
+    float cone = installationAperture(i, dot(-dir, installPointCone[i].xyz));
 #ifdef INSTALLATION_POINT_SHADOW
     if (i == installShadowPoint && cone > 0.0) cone *= installationPointVisibility(-dir, sqrt(r2));
 #endif
@@ -358,7 +376,7 @@ void reflectInstallationLamp(int i, float radius, vec3 p, vec3 n, vec3 v, Physic
   float inverseDistance = inversesqrt(distanceSquared);
   vec3 lightAxis = toLamp * inverseDistance;
   vec4 cone = installPointCone[i];
-  float aperture = cone.w > 0.0 ? smoothstep(cone.w, 1.0, dot(-lightAxis, mat3(viewMatrix) * cone.xyz)) : 1.0;
+  float aperture = installationAperture(i, dot(-lightAxis, mat3(viewMatrix) * cone.xyz));
 #ifdef INSTALLATION_POINT_SHADOW
   if (i == installShadowPoint && aperture > 0.0)
     aperture *= installationPointVisibility((p - installPointPosition[i]) * inverseDistance, sqrt(distanceSquared));
@@ -562,6 +580,11 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
         `Light installation capacity exceeded: ${selectedLines.length}/${MAX_LINES} lines, ${selectedPoints.length}/${MAX_POINTS} points in receiver ${name}`
       );
     const pack = { name, regions, lines: selectedLines, points: selectedPoints, uniforms: name === defaultGroup ? uniforms : installationUniforms() };
+    if (selectedPoints.some((source) => source.shadeTransmission > 0)) {
+      const transmission = new Float32Array(MAX_POINTS);
+      selectedPoints.forEach((source, index) => (transmission[index] = source.shadeTransmission ?? 0));
+      pack.uniforms.installShadeTransmission = { value: transmission };
+    }
     const shadowed = selectedPoints.filter((source) => source.shadow);
     if (shadowed.length > 1) throw new RangeError(`More than one authored point shadow in installation receiver ${name}`);
     if (shadowed.length) {
@@ -822,6 +845,7 @@ uniform vec3 installLineMax[${MAX_LINES}];
 uniform vec3 installPointPosition[${MAX_POINTS}];
 uniform vec3 installPointColor[${MAX_POINTS}];
 uniform vec4 installPointCone[${MAX_POINTS}];
+${pack.uniforms.installShadeTransmission ? `#define INSTALLATION_SHADE\nuniform float installShadeTransmission[${MAX_POINTS}];` : ""}
 uniform vec3 installPointMin[${MAX_POINTS}];
 uniform vec3 installPointMax[${MAX_POINTS}];
 uniform float installActive;
@@ -847,7 +871,7 @@ ${reflectedLamps}
         );
     };
     material.customProgramCacheKey = function () {
-      return `${cache.call(this)}|light-installations-v2${pack.pointShadow ? "-point-shadow" : ""}${lampReflections.length ? "|lamp-reflections:" + lampReflections.join("|") : ""}`;
+      return `${cache.call(this)}|light-installations-v2${pack.uniforms.installShadeTransmission ? "-shade" : ""}${pack.pointShadow ? "-point-shadow" : ""}${lampReflections.length ? "|lamp-reflections:" + lampReflections.join("|") : ""}`;
     };
     material.needsUpdate = true;
     bindings.set(material, { group: pack.name, compile, cache, origin: sourceMaterial });
@@ -931,8 +955,14 @@ ${reflectedLamps}
         const toLight = p.position.clone().sub(point),
           r2 = Math.max(normal ? 1e-4 : 0.04, toLight.lengthSq()),
           direction = toLight.normalize(),
-          cosine = normal ? Math.max(0, normal.dot(direction)) : 1,
-          cone = normal && p.cone ? smooth(p.cone[3], 1, -direction.dot(new THREE.Vector3(...p.cone))) : 1;
+          cosine = normal ? Math.max(0, normal.dot(direction)) : 1;
+        let cone = 1;
+        if (normal && p.cone?.[3] > 0) {
+          const alignment = -direction.dot(new THREE.Vector3(...p.cone));
+          const opening = smooth(p.cone[3], 1, alignment);
+          const side = (p.shadeTransmission ?? 0) * Math.sqrt(Math.max(0, 1 - alignment * alignment));
+          cone = opening + (1 - opening) * side;
+        }
         const visible = normal && p.shadow ? pointVisible(p.shadow, direction, Math.sqrt(r2)) : 1;
         total.add(p.color.clone().multiplyScalar((p.intensity * level * cosine * cone * visible) / r2));
       }

@@ -42,6 +42,30 @@ const shader = () => ({
   fragmentShader: "#include <common>\n#include <lights_physical_pars_fragment>\n#include <aomap_fragment>",
 });
 
+test("the settee lamp lights the tabletop through its opening and the sofa through its parchment", () => {
+  const house = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
+  const lamp = house.installationPoints.find((point) => point.id === "listening-banquette-lamp");
+  assert.ok(lamp.shadeTransmission > 0 && lamp.shadeTransmission < 1);
+  const lights = createLightInstallations({ installationPoints: [lamp] });
+  const bulb = new THREE.Vector3(...lamp.position);
+  function measure(direction) {
+    const surface = bulb.clone().addScaledVector(direction, 0.35);
+    return lights.irradianceAt(surface, direction.clone().negate()).r;
+  }
+  try {
+    for (const daylight of [1, 0]) {
+      lights.update({ minute: daylight ? 865 : 1240, daylight, activity: "reading" });
+      const table = measure(new THREE.Vector3(0, -1, 0));
+      const seatBack = measure(new THREE.Vector3(1, 0, 0));
+      assert.ok(table > 0);
+      assert.ok(Math.abs(seatBack / table - lamp.shadeTransmission) < 1e-5);
+      assert.equal(measure(new THREE.Vector3(0, 1, 0)), 0);
+    }
+  } finally {
+    lights.dispose();
+  }
+});
+
 test("a polished surface reflects the finite lamps assigned to its room", () => {
   const config = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
   const lights = createLightInstallations(config);

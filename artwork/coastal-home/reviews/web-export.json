@@ -1,7 +1,7 @@
 {
   "bakedColorQuantization": "32 grayscale steps, shared per vertex",
   "dracoColorBits": 6,
-  "sourceSha256": "67bc77cf8933f303e0e827e8f07e254b810d2ed8d5fc2b74686dd8d1259f2a67",
+  "sourceSha256": "c8b1aed04667ca0426dbbca38c05a6d38d9e2bf999491840175b95c6f2ede19f",
   "activeStaticGeologyAO": true,
   "constantPlanarCompaction": [
     {
@@ -5914,11 +5914,6 @@
       "facesExported": 60
     },
     {
-      "mesh": "core_speakeasy_loggia_felt_wings__speaker charcoal felt",
-      "facesBefore": 132,
-      "facesExported": 132
-    },
-    {
       "mesh": "core_speakeasy_loggia_door_lining__listening room quarter-cut w",
       "facesBefore": 78,
       "facesExported": 78
@@ -6562,6 +6557,11 @@
       "mesh": "core_speakeasy_stone_mount__dark bronze",
       "facesBefore": 172,
       "facesExported": 172
+    },
+    {
+      "mesh": "core_speakeasy_loggia_shoulder_backing__walnut and mohair",
+      "facesBefore": 516,
+      "facesExported": 516
     }
   ]
 }

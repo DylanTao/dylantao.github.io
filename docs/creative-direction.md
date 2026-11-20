@@ -78,6 +78,8 @@ From the speakeasy's landing a glass cab runs in a glass and steel shaft set int
 
 **November 20.** A visitor can walk from the study bookcase past the kitchen and listening room, ride the glass lift, step onto dry sand and return. The hearth terrace is open to the Pacific. In the enclosed room, the cut stone above the turntable and both horn lips are visible from the aisle and the settee. [Cabinet study and playable room](../artwork/concepts/coastal-home/2026-11-19/listening-room-stone-between-the-horns-25.webp) · [Kitchen at a standing eye](../artwork/concepts/coastal-home/2026-11-19/terrace-steel-in-reflected-cliff-light-24.webp).
 
+Turn from the cabinet toward the terrace. Low walnut shoulders cradle the olive settee beneath the side window. The little lamp leaves a pool of light on the table and sends a softer glow through its parchment onto the seat. This reverse view was drawn from a guest's footsteps before it was rebuilt. [The window seat in the drawing and the house](../artwork/concepts/coastal-home/2026-11-19/listening-seat-and-pacific-window-26.webp).
+
 ### 4. The bedroom, as a room (O7)
 
 **His words.** "the bedroom can be bigger and much better well designed instead of just having a bed"; and on November 3, "when i am sleeping, my bedroom should maybe have curtain".

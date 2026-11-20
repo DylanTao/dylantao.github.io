@@ -10,7 +10,8 @@ from mathutils import Vector
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import coastal_decor as decor
 from coastal_listening_bar import GLASS, Joinery, architecture
-from coastal_listening_joinery import COPPER, FELT, WALNUT, contours, map_finish
+from coastal_listening_joinery import COPPER, WALNUT, contours, map_finish
+from coastal_listening_settee import fit_settee
 from refresh_coastal_listening_contacts import install, originals_for
 
 PREFIX = "core_speakeasy_loggia_"
@@ -78,26 +79,6 @@ def slab(j):
 
 
 def shelter(j):
-    # The cheek pieces hug the outer shoulders of the existing curved sofa.
-    # Leave its central sidelight and the walk along the counter clear.
-    for sign in (-1, 1):
-        rings = []
-        for i in range(17):
-            t = i / 16
-            a = sign * (0.78 + 0.59 * t)
-            height = 1.18 + 0.32 * math.sin(math.pi * t)
-            rings.append(
-                [
-                    (-9.468 + r * math.cos(a), 8.57 + r * math.sin(a), z)
-                    for r, z in (
-                        (0.849, 0.828),
-                        (0.902, 0.828),
-                        (0.902, height),
-                        (0.854, height),
-                    )
-                ]
-            )
-        contours(j, "felt_wings", FELT, rings, smooth=True)
     # Split-sawn fins fan over the listener. Each has its own changing bevel
     # and section as it meets the sound-absorbing pads above the seat.
     for i in range(11):
@@ -281,6 +262,7 @@ def build():
             ob["radiantSeat"] = True
         if part in ("heat_fins", "guard_cap", "ceiling_fan"):
             ob["walk"] = "through"
+    fit_settee(scene)
     bpy.context.view_layer.update()
     deps = bpy.context.evaluated_depsgraph_get()
     for x, y in (

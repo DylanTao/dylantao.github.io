@@ -85,6 +85,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
   - [x] Seat the twelve walnut legs against the leather and paving. From the counter the two reading lamps now turn visibly around the horn bells and trace the edges of the stools. [The night visit beside the drawing](../artwork/concepts/coastal-home/2026-11-19/listening-room-lamplight-and-joinery-20.webp).
   - [x] Fit the 60 cm fridge beside the terrace grill and light its steel from the real cliff. [A cook’s view](../artwork/concepts/coastal-home/2026-11-19/terrace-steel-in-reflected-cliff-light-24.webp).
   - [x] Seat the illuminated stone in the listening cabinet so the whole face and rim can be seen between the horn mouths from the aisle and the settee. [The cabinet and its drawing](../artwork/concepts/coastal-home/2026-11-19/listening-room-stone-between-the-horns-25.webp).
+  - [x] Open the side window above the interior settee. Fit the acoustic backing into the seat, carry sandstone over the doorway and let the parchment lamp reveal the walnut grain after dark. [The settee and the Pacific](../artwork/concepts/coastal-home/2026-11-19/listening-seat-and-pacific-window-26.webp).
   - The lower stop opens onto dry shore. The walk from there leads through the shallows into swimming and diving.
 - Codex directs the massing studies and builds the room on the laptop. Sirui approved the November 19 listening-room drawing.
 - **Size.** 1.1 to 1.9 for both; about 2 weeks. **Detail:** brief 3; takeover O5, O6.

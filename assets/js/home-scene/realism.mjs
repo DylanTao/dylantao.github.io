@@ -273,6 +273,32 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
   }
   // This joinery carries its own metre-scaled stone, bent veneer and woven
   // finishes, including the maps hydrated when the bar first streams in.
+  if (name === "listening room olive mohair") {
+    if (!surfaceLook.sheen && m.isMeshPhysicalMaterial) m.sheen = 0;
+    m.onBeforeCompile = (shader) => {
+      shader.vertexShader = "varying vec3 mohairPoint;\n" + shader.vertexShader;
+      shader.vertexShader = shader.vertexShader.replace(
+        "#include <project_vertex>",
+        "#include <project_vertex>\nmohairPoint = (modelMatrix * vec4(transformed, 1.0)).xyz;"
+      );
+      shader.fragmentShader = `varying vec3 mohairPoint;\n${surfaceNoise}\n` + shader.fragmentShader;
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <color_fragment>",
+        `#include <color_fragment>
+        // Hand-brushed pile changes direction over a few centimetres. Individual
+        // tufts lose contrast once a pixel covers several millimetres of cloth.
+        float clothPixel = max(length(dFdx(mohairPoint)), length(dFdy(mohairPoint)));
+        float brush = (grainNoise(mohairPoint * vec3(31., 11., 27.)) - .5) * (1.0 - smoothstep(.012, .042, clothPixel));
+        float tufts = (grainNoise(mohairPoint * vec3(270., 145., 250.)) - .5) * (1.0 - smoothstep(.001, .006, clothPixel));
+        diffuseColor.rgb *= 1.0 + .27 * brush + .21 * tufts;`
+      );
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <roughnessmap_fragment>",
+        "#include <roughnessmap_fragment>\nroughnessFactor = clamp(roughnessFactor + .09 * brush, .72, 1.0);"
+      );
+    };
+    m.customProgramCacheKey = () => "listening-mohair-pile-v1";
+  }
   if (name.startsWith("listening room ") || name === "Loggia · sawn fossil limestone") {
     return bindContactLighting(m, contactLighting);
   }

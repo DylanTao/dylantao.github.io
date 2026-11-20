@@ -24,7 +24,7 @@ BAR_DETAIL = (
     "stool_stretchers", "saddle_seats", "saddle_legs", "saddle_backs",
     "saddle_stays", "saddle_stretchers", "island_staves", "cabinet_crown",
     "cabinet_dividers", "bolsters", "cofactors", "lp_shelves",
-    "loggia_ceiling_fan", "loggia_heat_fins", "loggia_felt_wings",
+    "loggia_ceiling_fan", "loggia_heat_fins", "loggia_shoulder_backing",
     "loggia_bench_seat", "loggia_bench_back", "loggia_bench_welt", "loggia_bench_apron",
     "loggia_scatter_cushions", "loggia_saddle_backs", "loggia_fire_coals", "loggia_paving",
     "records", "sofa_channels", "loose_cushion", "footrail", "lamp_cap", "entry_reeds",

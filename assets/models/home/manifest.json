@@ -6089,8 +6089,8 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "2b2b532bad6ffc14c9ce7acbbf7dbfd2e43276502150949e9c79f4af3e145cf5",
-    "sha256": "6ec1bdb2673fd113956783eab4233ce4675a0d61cce42287afe2934343fa24f7"
+    "signature": "c40cfdd70716d1c0d7066699828cc921eec45ed97a77a4d78756f8c2726391a7",
+    "sha256": "544f3fe016f4b1e037e08eaa750b11027ac44f728ae2fa86648570e33391dce7"
   },
   "estateDoors": [
     {
@@ -8026,8 +8026,10 @@
       "reflectionGroup": "speakeasy",
       "schedule": "listening",
       "position": [-9.23, 0.694, -8.56],
-      "intensity": 4.8,
+      "intensity": 0.9,
       "color": [1, 0.79, 0.58],
+      "cone": [0, -1, 0, 0.58],
+      "shadeTransmission": 0.32,
       "region": {
         "min": [-12.69, 0, -10.16],
         "max": [-8.4, 2.82, -6.038]
@@ -8502,7 +8504,7 @@
         "core_speakeasy_coasters__listening room quarter-cut walnut",
         "core_speakeasy_glassware__bar amber bottle",
         "core_speakeasy_glassware__celadon glaze",
-        "core_speakeasy_loggia_felt_wings__speaker charcoal felt",
+        "core_speakeasy_loggia_shoulder_backing__walnut and mohair",
         "core_speakeasy_loggia_heat_fins__listening room brushed copper",
         "core_speakeasy_loggia_ceiling_fan__listening room quarter-cut w",
         "core_speakeasy_loggia_saddle_backs__listening room cordovan lea",
