@@ -13,6 +13,7 @@ import numpy as np
 from scipy import signal
 from scipy.io import wavfile
 
+import coastal_film_score as film
 from coastal_world_scores import CHORDS, SCORES
 from render_coastal_landing import RATE, SOURCE
 
@@ -66,13 +67,15 @@ class Recordings:
             hashlib.sha256(data).hexdigest(),
         )
 
-    def choose(self, part, note, seconds):
+    def choose(self, part, note, seconds, *, firm=False):
         family = part.split("-")[0]
         base = f"Strings/{family}/{family}_{note.rstrip('*')}_"
         if note.endswith("*"):
             return base + "phrase_mezzo-forte_arco-legato.mp3"
         if family in ("guitar", "banjo", "mandolin"):
             choices = ("very-long_piano_normal", "very-long_forte_normal")
+            if firm:
+                choices = choices[::-1]
         elif part.endswith("-pizz"):
             choices = [
                 f"{length}_{level}_pizz-normal"
@@ -126,9 +129,13 @@ def guitar_phrase(style, bar, chord, total):
     return [(0, root, 1.61, -1)] if bar % 2 == 0 else [(0.98, color, 1.11, -2)]
 
 
-def stereo_note(library, mix, log, at, part, pitch, seconds, db, pan):
-    path = library.choose(part, pitch, seconds)
+def stereo_note(library, mix, log, at, part, pitch, seconds, db, pan, *, firm=False):
+    path = library.choose(part, pitch, seconds, firm=firm)
     audio, body_rms, digest = library.read(path)
+    # This second G2 take has 60 ms of finger preparation before the pick.
+    # Line up the pick itself with the thumb beat of the opening guitar.
+    if path == "Strings/guitar/guitar_G2_very-long_forte_normal.mp3":
+        audio = audio[round(0.060 * RATE):]
     pluck = part in ("guitar", "banjo", "mandolin") or part.endswith("pizz")
     count = min(len(audio), round((seconds + (0.12 if pluck else 0.11)) * RATE), len(mix) - round(at * RATE))
     if count <= 0:
@@ -220,6 +227,9 @@ def piece(library, style, out, private):
                 length * beat,
                 level + accent + np.interp(bar, time, dynamic),
                 0.65,
+                firm=style == "watercolour" and t == 0 and (
+                    (pitch == "G2" and bar in (1, 5, 10, 17)) or (pitch == "D3" and bar in (7, 15))
+                ),
             )
     for bar, t, pitch, length in score["line"]:
         stereo_note(
@@ -279,6 +289,44 @@ def responses(library, out):
     return marks
 
 
+def film_music(library, out, private):
+    total = sum(length for _, length in film.CUTS)
+    mix = np.zeros((total * RATE, 2))
+    events = []
+    cuts = {}
+    at = 0
+    for shot, length in film.CUTS:
+        parts = film.PARTS.get(shot, {})
+        for part, phrase in parts.items():
+            # A single centred player out on the bluff. The open room and
+            # sunset separate the guitar on the left from the bows on the right.
+            pan = 0.785 if shot == "coast-dawn" else {"guitar": 0.56, "cello": 0.86, "violin": 1.03}[part]
+            for beat, pitch, beats, db in phrase:
+                stereo_note(library, mix, events, at + beat * film.BEAT, part, pitch, beats * film.BEAT, db, pan)
+        cuts[shot] = {"seconds": length, "scored": bool(parts)}
+        at += length
+
+    # One master across the whole film preserves the quiet of the stair
+    # and the level of the late reveal on every supported rail edit.
+    pcm = master(mix, -3.6)
+    wavfile.write(private / "the-door-is-open.wav", RATE, pcm)
+    at = 0
+    for shot, length in film.CUTS:
+        if cuts[shot]["scored"]:
+            samples = pcm[at * RATE : (at + length) * RATE].astype(float)
+            edge = round(0.018 * RATE)
+            ramp = np.sin(np.linspace(0, np.pi / 2, edge))[:, None] ** 2
+            samples[:edge] *= ramp
+            samples[-edge:] *= ramp[::-1]
+            write_audio(np.rint(samples).astype("<i2"), out / "film" / (shot + ".mp3"))
+        at += length
+    (private / "film-performance.json").write_text(
+        json.dumps({"source": SOURCE, "cuts": cuts, "events": sorted(events, key=lambda e: e["start"])}, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return {"title": film.TITLE, "cuts": cuts}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--strings", type=Path, required=True)
@@ -290,12 +338,14 @@ def main():
     try:
         pieces = {style: piece(library, style, args.output, args.review) for style in SCORES}
         cues = responses(library, args.output)
+        film_index = film_music(library, args.output, args.review)
     finally:
         library.archive.close()
     index = {
         "version": 1,
         "themes": {key: {k: v for k, v in s.items() if k in ("title", "seconds")} for key, s in pieces.items()},
         "cues": cues,
+        "film": film_index,
     }
     (args.output / "score.json").write_text(json.dumps(index, indent=2) + "\n", encoding="utf-8")
     (args.review / "performance.json").write_text(

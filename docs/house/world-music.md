@@ -18,8 +18,32 @@ The melody, timing, harmony and arrangements are original. Each sounding note co
 
 The visitor owns the first sound. A full piece belongs to time spent in a world. A page or room interaction takes only a small fragment of the same instrumental language. The fifteen responses reuse tones from the corresponding composition. A choice gets two light notes, a page-section arrival opens an interval, and a room threshold gets a three-note answer. A long scroll or a sequence of rapid choices needs space between responses. The walker's shoes, oars, water and training equipment have a separate physical sound.
 
+## The film score
+
+_The Door Is Open_ began with a question about the visitor. What should it feel like to come home through this particular door? Hans Zimmer describes writing the first music for _Interstellar_ from the feeling of being a father, before he knew how large the story would be. Keith Leary describes how the _Journey_ team let the harp signal another player's approach, and gave important sounds room in the mix. I took two decisions from those accounts. Give our house one short phrase the visitor can recognize when the view opens. Let their feet or the machine in front of them carry a scene when it has something to say. [Zimmer on writing the theme](https://www.classicfm.com/composers/zimmer/how-wrote-interstellar-music/) · [Leary on mixing Journey](https://mcvuk.com/development-news/heard-about-journey/)
+
+| Film time | What happens in the music                                                                                                                                                              |
+| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0–26 s    | A guitar near the centre repeats D. Its little rise to G and fall to F♯ give the opening a shape. For the first nine seconds of the stair, shoes on stone have the room to themselves. |
+| 26–56 s   | At the living floor a cello takes the phrase. The guitarist starts answering between the beats. That pulse carries across the table, the breakfast seat and the desk.                  |
+| 56–76 s   | The five-second row belongs to the chain and flywheel. Two quiet guitar notes follow at the bath. A low cello returns under the house section.                                         |
+| 76–98 s   | The cabinet brings the first violin. The lift holds the open fifth underneath it.                                                                                                      |
+| 98–118 s  | The return to the Pacific opens the violin up to high D. A low D, shared by cello and guitar, brings the film home.                                                                    |
+
+The players share 96 beats per minute across the edits. I rendered one continuous performance, then cut the recordings at the actual camera times. In the first take a guitar E crossed the listening-room edit. The two playback ramps took 10.7 dB out of its decay at the join. In the second take the hand releases the string 105 ms before the cut. That gives the next picked bass note a little space. The first bowed entrance stays on the other side of the door. [Written score](../../bin/coastal_film_score.py) · [Playable shot list](../film/shot-list.md)
+
+The film can start with Sound off. Enabling it, seeking, or returning from a pause finds the live position in that shot. A five-second row has no accompanying music file. The next scored cut can prepare while the present one plays. Leaving the film returns to the piece and position the visitor had in their own world.
+
+## Two changes to the room pieces
+
+The two low Gs near the start of _A Pocketful of Sky_ were almost identical picks. Giving the second one to a different recorded attack gave the guitarist a second inflection. The new take's crest initially landed 60 ms late. Trimming its preparation brought the crest back to the same part of the beat. In _The Water on the Sill_, the cello let go of F♯ more than half a second before the answering bow. Extending the same recorded bow leaves 49 ms for the hand to turn. Both changes are in the shipped masters.
+
+## The house pressing
+
+_A Pocketful of Sky_ also sits on the speakeasy turntable. With Sound enabled, the piece enters when the stylus settles. Pausing lifts the needle and holds the groove. Turning one's head places the horns to the left or right. Crossing the doorway takes treble out of the pair. The cabinet gives the room back to the visitor's own music beyond earshot. The spin, the jacket art and the original house recording share one place in the room. [Front cover and its design record](../../artwork/concepts/coastal-home/2026-11-20/README.md)
+
 ## Reproducing a take
 
-Keep the Philharmonia Strings ZIP outside this checkout. The Python renderer uses NumPy, SciPy and imageio-ffmpeg. Pass the archive to `python bin/render_coastal_world_music.py --strings <Strings.zip> --output assets/audio/coastal-score --review <private-directory>`. It writes the five finished pieces, the cue sprite and its timed index. The review directory receives the lossless mixes and the onset, source file and SHA-256 for each played event. The source musicians' individual samples stay in their archive.
+Keep the Philharmonia Strings ZIP outside this checkout. The Python renderer uses NumPy, SciPy and imageio-ffmpeg. Pass the archive to `python bin/render_coastal_world_music.py --strings <Strings.zip> --output assets/audio/coastal-score --review <private-directory>`. It writes the five pieces, fifteen interaction cues, twelve scored film cuts and a timed index. The review directory receives the uninterrupted lossless film, room mixes and the onset, source file and SHA-256 for each played event. The source musicians' individual samples stay in their archive.
 
 For a revision, listen through the guitar entrance, the change in rhythmic feel and the landing as one performance. Compare at the same playback level. Check the attack and the fundamental early in each source note. A dying guitar string can ring most strongly at an overtone. On this take the dominant harmonics of six flagged guitar files were measured again in their first half-second and matched the score. The judgment still open is whether the music carries the house's energy for Sirui.

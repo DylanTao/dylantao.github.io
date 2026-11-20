@@ -48,5 +48,62 @@
       "arrival": [14.96, 0.9],
       "threshold": [16.21, 0.89]
     }
+  },
+  "film": {
+    "title": "The Door Is Open",
+    "cuts": {
+      "coast-dawn": {
+        "seconds": 12,
+        "scored": true
+      },
+      "arrival": {
+        "seconds": 14,
+        "scored": true
+      },
+      "living-floor": {
+        "seconds": 15,
+        "scored": true
+      },
+      "dining-terrace": {
+        "seconds": 5,
+        "scored": true
+      },
+      "breakfast": {
+        "seconds": 5,
+        "scored": true
+      },
+      "desk": {
+        "seconds": 5,
+        "scored": true
+      },
+      "training": {
+        "seconds": 5,
+        "scored": false
+      },
+      "onsen": {
+        "seconds": 5,
+        "scored": true
+      },
+      "section": {
+        "seconds": 10,
+        "scored": true
+      },
+      "listening-room": {
+        "seconds": 10,
+        "scored": true
+      },
+      "glass-lift": {
+        "seconds": 12,
+        "scored": true
+      },
+      "coast-dusk": {
+        "seconds": 14,
+        "scored": true
+      },
+      "coast-night": {
+        "seconds": 6,
+        "scored": true
+      }
+    }
   }
 }
