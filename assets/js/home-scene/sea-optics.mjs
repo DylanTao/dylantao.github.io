@@ -322,13 +322,13 @@ float seaCaustics(vec2 p, float time, float path, float footprint) {
 // The seabed's albedo (irradiance reflectance) at a world point: rippled sand, rock with algae, coralline
 // crust and surfgrass in the shallows, and patchy reef with kelp where the seabed continues past the
 // authored coast (reach: metres from it).
-vec3 seabedAlbedo(vec3 p, float rock, float depth, float reach, float footprint) {
+vec3 seabedAlbedo(vec3 p, float rock, float depth, float reach, float footprint, float rippleContrast) {
   float patches = seaNoise(p.xz * .21) * .7 + seaNoise(p.xz * .53 + 17.) * .3;
   // Detail a pixel cannot resolve is not computed: the grain past a 12 cm footprint, the ripples past 5 cm.
   float grain = footprint < .12 ? seaNoise(p.xz * 6.3) : .5;
   // Wave ripples run along the shore, about 9 cm apart, bending with the sand; filtered with distance.
   float ripple = footprint < .05 ? sin(p.z * 69.8 + patches * 9. + grain * 1.5) * exp(-.5 * pow(footprint * 69.8, 2.)) : 0.;
-  vec3 sand = vec3(.62, .57, .47) * (.84 + .18 * patches + .05 * grain) * (1. + .08 * ripple);
+  vec3 sand = vec3(.62, .57, .47) * (.84 + .18 * patches + .05 * grain) * (1. + .08 * ripple * rippleContrast);
   // Reef offshore: rock in patches with sand channels between, kelp on the deeper rock.
   float reef = reach > 2. ? smoothstep(.58, .74, .72 * seaNoise(p.xz * .13 + 83.) + .28 * patches) * smoothstep(2., 8., reach) : 0.;
   float r = max(rock, reef * .85);
