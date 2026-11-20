@@ -1070,7 +1070,7 @@ async function beginClockedMotion(page, canvas) {
   await expect(page.locator("[data-world-pause]")).toBeEnabled();
   await page.clock.runFor(1400);
 }
-async function sceneInputFrame(page, { scene, canvas }, input, { clockStep = 200, frameTimeout = 60000 } = {}) {
+async function sceneInputFrame(page, { scene, canvas }, input, { clockStep = 200, frameTimeout = 60000, acceptFrame } = {}) {
   const frames = (await evidence(scene)).frames;
   await input();
   await canvas.scrollIntoViewIfNeeded();
@@ -1078,16 +1078,19 @@ async function sceneInputFrame(page, { scene, canvas }, input, { clockStep = 200
   // Fullscreen transitions use smaller steps so one poll cannot queue several
   // expensive full-viewport draws before checking its frame predicate.
   // Visibility observers and late model callbacks can queue the input's draw
-  // after the first step. Keep advancing virtual time until that draw occurs.
+  // after the first step. Keep advancing virtual time until a qualifying draw occurs.
+  let state;
   await expect
     .poll(
       async () => {
         await page.clock.runFor(clockStep);
-        return (await evidence(scene)).frames;
+        state = await evidence(scene);
+        return acceptFrame && !acceptFrame(state) ? frames : state.frames;
       },
       { timeout: frameTimeout }
     )
     .toBeGreaterThan(frames);
+  return state;
 }
 async function explore(ui) {
   const details = ui.locator("[data-world-lab]");
@@ -3900,16 +3903,12 @@ test("coastal home: the gym frames the face and full exercise poses, then restor
     await ui.locator("[data-world-time]").fill(String(minute));
     await ui.locator('[data-world-room="gym"]').click();
     const sequenceBaseline = (await evidence(scene)).animationSeconds;
-    await sceneInputFrame(page, view, () => ui.locator("[data-world-pause]").click());
-    // Scrolling the controls can suspend a mobile canvas. Wait for a real moving
-    // frame before advancing the phase clock, then subtract that frame's advance.
-    await expect
-      .poll(async () => {
-        await page.clock.runFor(100);
-        return (await evidence(scene)).animationSeconds;
-      })
-      .toBeGreaterThan(sequenceBaseline);
-    const resumedAdvance = (await evidence(scene)).animationSeconds - sequenceBaseline;
+    // Scrolling the controls can suspend a mobile canvas. Sample the first
+    // rendered frame that advances the rig and subtract its actual advance.
+    const resumed = await sceneInputFrame(page, view, () => ui.locator("[data-world-pause]").click(), {
+      acceptFrame: (state) => state.animationSeconds > sequenceBaseline,
+    });
+    const resumedAdvance = resumed.animationSeconds - sequenceBaseline;
     const targetAdvance = seconds - (minute - 1080) * 60 + 0.6;
     expect(resumedAdvance).toBeLessThan(targetAdvance);
     await page.clock.fastForward((targetAdvance - resumedAdvance) * 1000);
