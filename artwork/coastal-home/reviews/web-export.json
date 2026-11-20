@@ -1,7 +1,7 @@
 {
   "bakedColorQuantization": "32 grayscale steps, shared per vertex",
   "dracoColorBits": 6,
-  "sourceSha256": "e3cfd6a27f06ca9ba7965ee726e96ddf7dec0f80f9b0d7f96ecad7d13329c710",
+  "sourceSha256": "c1aed8ca764002a0783e5c66a6216279b21a041975218e8d7c69d5897ea22673",
   "activeStaticGeologyAO": true,
   "constantPlanarCompaction": [
     {
@@ -3110,13 +3110,13 @@
     },
     {
       "mesh": "core_estate_pavilion__pale oak",
-      "facesBefore": 2716,
-      "facesExported": 2716
+      "facesBefore": 2662,
+      "facesExported": 2662
     },
     {
       "mesh": "core_estate_pavilion__brushed brass",
-      "facesBefore": 120,
-      "facesExported": 120
+      "facesBefore": 110,
+      "facesExported": 110
     },
     {
       "mesh": "core_estate_pavilion__warm cut stone",
@@ -3125,8 +3125,8 @@
     },
     {
       "mesh": "core_estate_pavilion__honey ash",
-      "facesBefore": 1311,
-      "facesExported": 1311
+      "facesBefore": 1314,
+      "facesExported": 1314
     },
     {
       "mesh": "core_estate_pavilion__festoon bulb glass",
@@ -6532,6 +6532,31 @@
       "mesh": "core_garden_threshold_oak_portal",
       "facesBefore": 500,
       "facesExported": 500
+    },
+    {
+      "mesh": "core_study_bbq_fridge_chassis__BBQ graphite seal",
+      "facesBefore": 78,
+      "facesExported": 78
+    },
+    {
+      "mesh": "core_study_bbq_fridge_door__BBQ brushed charcoal steel",
+      "facesBefore": 44,
+      "facesExported": 44
+    },
+    {
+      "mesh": "core_study_bbq_fridge_grille__BBQ brushed charcoal steel",
+      "facesBefore": 104,
+      "facesExported": 104
+    },
+    {
+      "mesh": "core_study_bbq_fridge_grille__BBQ graphite seal",
+      "facesBefore": 16,
+      "facesExported": 16
+    },
+    {
+      "mesh": "core_study_bbq_fridge_seal__BBQ graphite seal",
+      "facesBefore": 16,
+      "facesExported": 16
     }
   ]
 }

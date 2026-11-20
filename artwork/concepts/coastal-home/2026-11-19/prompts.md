@@ -87,3 +87,5 @@ The record wall study pairs the approved architectural drawing with a visitor se
 The night study returns to that spot at 8:40 p.m. The lower row follows one stool from the original illustration to its fitted walnut legs in the playable room. [Lamplight and joinery](listening-room-lamplight-and-joinery-20.webp).
 
 The watercolour fire study supplied the relationship between a narrow flame and a dark suspended hood. Two 9 p.m. visits test that idea in the Painted room. The six-view sheet follows the same living room, kitchen and cliff through the selected hours. [Fire study](painted-hearth-lamplight-21.webp) · [Six views of the house](painted-house-six-views-21.webp).
+
+The study-side outdoor kitchen sheet follows the same 1.615 m standing eye from the old three oak cupboards through the Blender fitting and back into the playable room. The 60 cm fridge fills the dry bay beside the sink. [The terrace kitchen](bbq-fridge-from-the-terrace-22.webp).

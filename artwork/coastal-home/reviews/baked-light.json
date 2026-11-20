@@ -2680,15 +2680,15 @@
     },
     {
       "mesh": "core_estate_pavilion__pale oak",
-      "corners": 10848,
-      "min": 0.68,
-      "max": 0.8962910672898095
+      "corners": 10632,
+      "min": 0.6800000071525574,
+      "max": 0.8962910771369934
     },
     {
       "mesh": "core_estate_pavilion__brushed brass",
-      "corners": 600,
-      "min": 0.68,
-      "max": 0.8409321673711142
+      "corners": 552,
+      "min": 0.6800000071525574,
+      "max": 0.8409321904182434
     },
     {
       "mesh": "core_estate_pavilion__warm cut stone",
@@ -2698,9 +2698,9 @@
     },
     {
       "mesh": "core_estate_pavilion__honey ash",
-      "corners": 3998,
-      "min": 0.68,
-      "max": 0.8512790245811146
+      "corners": 4064,
+      "min": 0.6800000071525574,
+      "max": 0.8512790203094482
     },
     {
       "mesh": "core_estate_pavilion__festoon bulb glass",
@@ -4825,6 +4825,36 @@
       "corners": 250,
       "min": 0.68,
       "max": 0.9510322292490553
+    },
+    {
+      "mesh": "core_study_bbq_fridge_chassis__BBQ graphite seal",
+      "corners": 288,
+      "min": 0.6800000071525574,
+      "max": 0.7138980031013489
+    },
+    {
+      "mesh": "core_study_bbq_fridge_door__BBQ brushed charcoal steel",
+      "corners": 172,
+      "min": 0.6800000071525574,
+      "max": 0.7832379341125488
+    },
+    {
+      "mesh": "core_study_bbq_fridge_grille__BBQ brushed charcoal steel",
+      "corners": 384,
+      "min": 0.6800000071525574,
+      "max": 0.761854350566864
+    },
+    {
+      "mesh": "core_study_bbq_fridge_grille__BBQ graphite seal",
+      "corners": 64,
+      "min": 0.6800000071525574,
+      "max": 0.7513195276260376
+    },
+    {
+      "mesh": "core_study_bbq_fridge_seal__BBQ graphite seal",
+      "corners": 64,
+      "min": 0.6800000071525574,
+      "max": 0.7734860181808472
     }
   ]
 }

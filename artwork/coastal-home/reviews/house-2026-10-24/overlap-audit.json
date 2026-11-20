@@ -5,8 +5,8 @@
     "bin/pack_coastal_streamed_models.py": "efe8b5bc26f4eecc4320bbebd78cce49c120676ef683be5059c184f690b4a255"
   },
   "source": "artwork/coastal-home/coastal-home.blend",
-  "sourceSha256": "e3cfd6a27f06ca9ba7965ee726e96ddf7dec0f80f9b0d7f96ecad7d13329c710",
-  "manifestSha256": "35bd96b4eee590481e5c2012ab4417b27dbcd615f41d9613bd8e7e2ddd7b081e",
+  "sourceSha256": "c1aed8ca764002a0783e5c66a6216279b21a041975218e8d7c69d5897ea22673",
+  "manifestSha256": "cd26a195ad8a3687322717dc2a3834c5594e104336a26835f1c8a2996a4091b0",
   "modelCoverage": {
     "home-shell.glb": null,
     "coast.glb": null,
@@ -191,7 +191,7 @@
     "detail-onsen.glb": "4c2f740b38886108142d509dd0f69160dae74285896451b6e8c93c27ce1f277e",
     "detail-pool-relief.glb": "b28992017de962edc5a2e66d5f9d90a9f22360c6d2acf673272bc0920a2aa1ab",
     "flora.glb": "b90cf95449e17ed80337cbf03d437ba5fee3515cbb1d21efc91fdb48b8069e68",
-    "home-shell.glb": "0136885a2673833d5a0d7a7157c36f8d324fa5eb4e9e8b4cacd3dd8a3b84cbb9",
+    "home-shell.glb": "8e3d9ef460a5e3374d6dbeb75566dc291fe353cf263a890ecbdd91b20e17b8ed",
     "room-bath-bedroom.glb": "a4b0fc22296454f0bf5f22d0e470f2930f3077ce0ce48328b61bf2f1b45fa1e4",
     "room-bath-living.glb": "6a7eb3ba01c6fec1c9f505e52b7b7e8993215e8112cb981846f3c5bb44fc0941",
     "room-gym.glb": "11dcb5613a9345a461433d763f75a58e8f90291d2d2f85a8bf133d6f2d5ef192",
@@ -422,16 +422,16 @@
     "never-drawn": 1
   },
   "counts": {
-    "meshes": 939,
-    "triangles": 1406207,
-    "closedMeshes": 783,
-    "pairsTested": 7702,
+    "meshes": 944,
+    "triangles": 1406587,
+    "closedMeshes": 788,
+    "pairsTested": 7733,
     "crossingPairs": 1507,
     "sites": 21320,
     "offenders": 1203,
-    "coplanarPairs": 616,
+    "coplanarPairs": 617,
     "zFightingPairs": 46,
-    "coplanarTrianglePairsTested": 83853
+    "coplanarTrianglePairsTested": 83857
   },
   "ruleCounts": {
     "unclassified": 1203,
@@ -454,7 +454,7 @@
     "grazingSeamM": 3.638,
     "deepSites": 1178,
     "deepSitesOver5cm": 349,
-    "deepSeverity": 42532.4,
+    "deepSeverity": 42532.6,
     "maxDeepSeverity": 1338.8
   },
   "before": {
@@ -477,7 +477,7 @@
   },
   "delivered": {
     "exportsSha256": {
-      "home-shell.glb": "0136885a2673833d5a0d7a7157c36f8d324fa5eb4e9e8b4cacd3dd8a3b84cbb9",
+      "home-shell.glb": "8e3d9ef460a5e3374d6dbeb75566dc291fe353cf263a890ecbdd91b20e17b8ed",
       "coast.glb": "63eebc03a1218565d8d3722e5ddd4d46839f911b1c893551c905cd8e06a0ebd8",
       "flora.glb": "b90cf95449e17ed80337cbf03d437ba5fee3515cbb1d21efc91fdb48b8069e68",
       "room-study.glb": "1de86040cb6c173c72e9f00061d6add31a70e3d6907495413cd7ac21586daf8a",
@@ -520,7 +520,7 @@
       "grazingSeamM": 5.192,
       "deepSites": 1071,
       "deepSitesOver5cm": 203,
-      "deepSeverity": 31391.1,
+      "deepSeverity": 31391.3,
       "maxDeepSeverity": 1379.0
     },
     "zFighting": [
@@ -663,15 +663,15 @@
         "normal": [0.0, 1.0, 0.0]
       },
       {
-        "pair": "bath-bedroom__bathroom clear shower glass | bath-bedroom__pale oak",
-        "visibleAreaM2": 0.002376,
-        "at": [-7.693, -11.014, 3.274],
-        "normal": [-0.0, 1.0, 0.0]
-      },
-      {
         "pair": "bath-living__bathroom clear shower glass | bath-living__pale oak",
         "visibleAreaM2": 0.002376,
         "at": [-7.693, -11.014, 0.674],
+        "normal": [-0.0, 1.0, 0.0]
+      },
+      {
+        "pair": "bath-bedroom__bathroom clear shower glass | bath-bedroom__pale oak",
+        "visibleAreaM2": 0.002376,
+        "at": [-7.693, -11.014, 3.274],
         "normal": [-0.0, 1.0, 0.0]
       },
       {
