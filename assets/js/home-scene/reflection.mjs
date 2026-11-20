@@ -6,6 +6,9 @@ import { SEA_LEVEL } from "./sea-optics.mjs";
 // (resolution.mjs detailFor) through setMirrorSize, applied at the mirror's next update, so the
 // controller needs no handle on the sea's own objects.
 const mirrorSize = { width: 384, height: 384 };
+// Keep the beauty viewport and the wave filter away from the mirror's fade at its edge.
+const MIRROR_LENS_SCALE = 1 / 1.18;
+const mirrorLens = new THREE.Matrix4().makeScale(MIRROR_LENS_SCALE, MIRROR_LENS_SCALE, 1);
 export function setMirrorSize(width, height) {
   mirrorSize.width = Math.max(1, Math.round(width));
   mirrorSize.height = Math.max(1, Math.round(height));
@@ -88,7 +91,7 @@ export function createSeaReflection(renderer, scene, ocean, material) {
         float cosine=max(0.,dot(normal,normalize(vViewPosition)));
         float inside=smoothstep(.001,.028,mirrorEdge(reflectedUv));
         float streak=clamp(.0015+.54*sqrt(max(slopeVariance,0.))+roughnessFactor*.003,.0015,.055);
-        streak*=mix(1.14,.72,cosine);
+        streak*=mix(1.14,.72,cosine)*${MIRROR_LENS_SCALE.toFixed(8)};
         vec2 across=vec2(max(coastalMirrorTexel.x,streak*.12),0.);
         vec2 along=vec2(0.,max(coastalMirrorTexel.y,streak));
         vec3 reflectedColor=texture2D(coastalReflection,reflectedUv).rgb*.24;
@@ -121,6 +124,8 @@ export function createSeaReflection(renderer, scene, ocean, material) {
       mirror.up.set(0, -1, 0);
       mirror.lookAt(direction.add(mirror.position));
       mirror.updateMatrixWorld();
+      // Open the mirrored frustum at the same target size. Both lookup and depth clipping use it.
+      mirror.projectionMatrix.premultiply(mirrorLens);
       // Construct the texture transform before changing the clipping plane.
       textureMatrix
         .set(0.5, 0, 0, 0.5, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0.5, 0, 0, 0, 1)

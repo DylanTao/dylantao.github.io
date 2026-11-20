@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "../assets/js/three.module.min.js";
 import { createSeaReflection, setMirrorSize } from "../assets/js/home-scene/reflection.mjs";
+import { SEA_LEVEL } from "../assets/js/home-scene/sea-optics.mjs";
 
 function fixture() {
   const scene = new THREE.Scene(),
@@ -110,6 +111,34 @@ test("the existing mirror draw binds actual oblique depth and reconstructs its w
     assert.equal(f.reflection.evidence().depthReprojection, true);
   } finally {
     setMirrorSize(384, 384);
+    f.reflection.dispose();
+  }
+});
+
+test("the visible water keeps a reflection margin even at the four beauty-viewport corners", () => {
+  const f = fixture();
+  f.camera.lookAt(-1, -9, 1);
+  f.camera.updateMatrixWorld();
+  const shader = { uniforms: {}, vertexShader: "#include <project_vertex>", fragmentShader: "#include <lights_fragment_end>" };
+  f.material.onBeforeCompile(shader);
+  const water = new THREE.Plane(new THREE.Vector3(0, 1, 0), -SEA_LEVEL);
+  f.renderer.render = () => {
+    const projection = shader.uniforms.coastalProjection.value;
+    for (const x of [-1, 1]) {
+      for (const y of [-1, 1]) {
+        const direction = new THREE.Vector3(x, y, 0.5).unproject(f.camera).sub(f.camera.position).normalize();
+        const hit = new THREE.Ray(f.camera.position, direction).intersectPlane(water, new THREE.Vector3());
+        assert.ok(hit, "the beauty ray reaches the water");
+        const uv = new THREE.Vector4(...hit.toArray(), 1).applyMatrix4(projection);
+        const edge = Math.min(uv.x / uv.w, 1 - uv.x / uv.w, uv.y / uv.w, 1 - uv.y / uv.w);
+        assert.ok(edge > 0.07, "the visible water is inside the full reflection and blur footprint");
+      }
+    }
+    assert.deepEqual([f.renderer.getRenderTarget().width, f.renderer.getRenderTarget().height], [384, 384]);
+  };
+  try {
+    f.reflection.update(f.camera, true);
+  } finally {
     f.reflection.dispose();
   }
 });
