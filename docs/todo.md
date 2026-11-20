@@ -161,6 +161,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
   - [x] Visitors can switch among all five looks during Film.
   - [x] An original 118-second chamber score follows the actual playhead. A switch beside Pause joins or leaves the performance in place. The stair and gym retain their physical sounds. [Shot list and live frames](film/shot-list.md).
   - [x] The first guitar phrase reveals the arch from offshore. The violin retraces that track at dusk. Film uses clear air and matches the sun’s height across seasons. Return restores the visitor’s own weather. [Drawing, desktop and phone](../artwork/concepts/coastal-home/2026-11-20/house-from-the-water.webp).
+  - [x] Recorded La Jolla surf enters after the opening guitar. The same wave carries the returning violin through the cut into night. [Field recording and listening notes](house/world-music.md#the-sound-of-the-cliff).
 - **Machine: PC** for overnight renders. **Size.** 1.5 to 3; 4 to 6 weeks. **Detail:** takeover N.
 
 ### 12. More worlds
@@ -197,7 +198,7 @@ Item 2's data says where to start.
 - [ ] The outside view at 2K (E1): three see-through surfaces cost a fifth of the frame.
 - [ ] The sun's bounce in the sea-facing rooms (R2).
 - [ ] The review panel as agents (I1, I2).
-- [ ] A smaller light cache (S). The November 20 build moved the list of authoring-file hashes alongside the Blender receipts. Visitors fetch its signature and the actual radiance field. This saved about 6.5 KB compressed at equal numerical precision. The fitted cabinet and final light field leave 3,934 bytes in the first scene's 4 MiB budget. The proposed quantized network still needs its own accuracy and size comparison.
+- [ ] A smaller light cache (S). The November 20 build moved the authoring-file hashes alongside the Blender receipts, saving about 6.5 KB compressed. The current coast and light field leave 2,585 bytes in the first scene's 4 MiB budget. A trial of 91 reversible packings found that a bitmap and two byte shuffles took the gzip-compressed field from 174,146 to 153,933 bytes with every sample bit intact. Keep the shipped decoder for now. That 20,213-byte option buys less than half a percent of the scene transfer and is available when the next room needs it. The proposed quantized network still needs its own accuracy comparison.
 
 **Machine: PC** for measurements. **Detail:** takeover E, R, I, S.
 

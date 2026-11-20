@@ -24,6 +24,15 @@ test("the recorded cuts follow the house edit and include a five-second rest for
   }
 });
 
+test("the downloadable cuts with La Jolla surf carry the field recordist and license", () => {
+  for (const shot of ["coast-dawn", "coast-dusk", "coast-night"]) {
+    const bytes = readFileSync(new URL("film/" + shot + ".mp3", source));
+    for (const credit of ["Xavier Serra", "https://freesound.org/people/xserra/sounds/262593/", "https://creativecommons.org/licenses/by/4.0/"]) {
+      assert.ok(bytes.includes(credit), shot + " credits " + credit);
+    }
+  }
+});
+
 function fixture({ delay } = {}) {
   const requested = [];
   const started = [];

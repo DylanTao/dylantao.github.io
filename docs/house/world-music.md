@@ -34,6 +34,12 @@ The players share 96 beats per minute across the edits. I rendered one continuou
 
 The film can start with Sound off. Enabling it, seeking, or returning from a pause finds the live position in that shot. A five-second row has no accompanying music file. The next scored cut can prepare while the present one plays. Leaving the film returns to the piece and position the visitor had in their own world.
 
+### The sound of the cliff
+
+The camera could see the beach when the guitar took a breath. There was nothing of that place in the pause. Xavier Serra recorded ten minutes of water from a La Jolla cliff in January 2015. At dawn the guitarist has the first 1.45 seconds alone. At dusk the water rises underneath the returning violin. One continuous wave crosses the cut into night and falls away with the low D. Water and instruments share the existing three exterior recordings, so a visitor who joins partway through hears the same part of the wave. [Serra's original stereo recording](https://freesound.org/people/xserra/sounds/262593/) · [Attribution and edits](../../assets/audio/coastal-score/CREDITS.md)
+
+I kept 03:20–03:58 of the source in stereo at 24 kHz. The renderer rolls off wind below 70 Hz and the brightest foam above 4.1 kHz. Across the three complete shots the water averages 14.5, 16.1 and 16.7 dB below the players. Summing the water to mono costs less than 0.5 dB. When revising, listen for the break between guitar phrases and follow the same wash through the night edit. The crest of the bow should still come through. [Retained authoring excerpt](../../artwork/coastal-home/audio/la-jolla-cliff-2015.flac) · [Mix and fades](../../bin/render_coastal_world_music.py)
+
 ## Two changes to the room pieces
 
 The two low Gs near the start of _A Pocketful of Sky_ were almost identical picks. Giving the second one to a different recorded attack gave the guitarist a second inflection. The new take's crest initially landed 60 ms late. Trimming its preparation brought the crest back to the same part of the beat. In _The Water on the Sill_, the cello let go of F♯ more than half a second before the answering bow. Extending the same recorded bow leaves 49 ms for the hand to turn. Both changes are in the shipped masters.
@@ -46,6 +52,6 @@ The cover stands on its own walnut cradle beside the right horn. A visitor at th
 
 ## Reproducing a take
 
-Keep the Philharmonia Strings ZIP outside this checkout. The Python renderer uses NumPy, SciPy and imageio-ffmpeg. Pass the archive to `python bin/render_coastal_world_music.py --strings <Strings.zip> --output assets/audio/coastal-score --review <private-directory>`. It writes the five pieces, fifteen interaction cues, twelve scored film cuts and a timed index. The review directory receives the uninterrupted lossless film, room mixes and the onset, source file and SHA-256 for each played event. The source musicians' individual samples stay in their archive.
+Keep the Philharmonia Strings ZIP outside this checkout. The Python renderer uses NumPy, SciPy and imageio-ffmpeg. Pass the archive to `python bin/render_coastal_world_music.py --strings <Strings.zip> --output assets/audio/coastal-score --review <private-directory>`. It writes the five pieces, fifteen interaction cues, twelve scored film cuts and a timed index. The review directory receives two uninterrupted lossless prints, one with the players alone and one with the surf. It also receives the room mixes, the field recording levels and original time offsets, and the onset, source file and SHA-256 for each played note. The source musicians' individual samples stay in their archive.
 
 For a revision, listen through the guitar entrance, the change in rhythmic feel and the landing as one performance. Compare at the same playback level. Check the attack and the fundamental early in each source note. A dying guitar string can ring most strongly at an overtone. On this take the dominant harmonics of six flagged guitar files were measured again in their first half-second and matched the score. The judgment still open is whether the music carries the house's energy for Sirui.

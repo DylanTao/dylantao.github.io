@@ -17,6 +17,13 @@ import coastal_film_score as film
 from coastal_world_scores import CHORDS, SCORES
 from render_coastal_landing import RATE, SOURCE
 
+SHORE = Path(__file__).resolve().parents[1] / "artwork/coastal-home/audio/la-jolla-cliff-2015.flac"
+SHORE_CREDIT = (
+    "Coastal field recording: ocean-LaJolla.wav by Xavier Serra (xserra), January 28, 2015; "
+    "edited and mixed under CC BY 4.0. https://freesound.org/people/xserra/sounds/262593/ "
+    "https://creativecommons.org/licenses/by/4.0/"
+)
+
 
 def pitch_number(name):
     return (int(name[-1]) + 1) * 12 + {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}[name[0]] + ("s" in name)
@@ -169,7 +176,7 @@ def master(mix, peak):
     return np.rint(np.clip(mix, -1, 1) * 32767).astype("<i2")
 
 
-def write_audio(pcm, path):
+def write_audio(pcm, path, credit=None):
     path.parent.mkdir(parents=True, exist_ok=True)
     subprocess.run(
         [
@@ -187,6 +194,7 @@ def write_audio(pcm, path):
             "pipe:0",
             "-map_metadata",
             "-1",
+            *(["-metadata", "comment=" + credit] if credit else []),
             "-c:a",
             "libmp3lame",
             "-q:a",
@@ -289,13 +297,58 @@ def responses(library, out):
     return marks
 
 
+def mix_coast(pcm, starts, cuts):
+    """Return the film mix and retain the musicians' separate, unchanged master."""
+    decoded = subprocess.check_output(
+        [imageio_ffmpeg.get_ffmpeg_exe(), "-v", "error", "-i", str(SHORE),
+         "-ac", "2", "-ar", str(RATE), "-f", "f32le", "pipe:1"]
+    )
+    field = np.frombuffer(decoded, dtype="<f4").reshape(-1, 2)
+    # The recording is from the cliff. Keep the swell and the stereo spread;
+    # ease the wind on the microphones and the close fizz above the surf.
+    band = signal.butter(2, [70, 4100], btype="bandpass", fs=RATE, output="sos")
+    field = signal.sosfilt(band, field, axis=0)
+    reference = np.sqrt(np.mean(field**2))
+    mixed = pcm.copy()
+    takes = {}
+    # The evening wave keeps its original time across the cut from paint to night.
+    for shot, source, delay, attack, release, level in (
+        ("coast-dawn", 4, 1.45, 1.25, 1.2, -38),
+        ("coast-dusk", 17, 0, 1.0, 0, -36.5),
+        ("coast-night", 17 + cuts["coast-dusk"]["seconds"], 0, 0, 1.65, -36.5),
+    ):
+        length = cuts[shot]["seconds"] * RATE
+        water = field[source * RATE : source * RATE + length].copy()
+        if len(water) != length:
+            raise ValueError(f"The retained La Jolla recording is too short for {shot}")
+        water *= 10 ** (level / 20) / reference
+        hold, rise, fall = (round(seconds * RATE) for seconds in (delay, attack, release))
+        water[:hold] = 0
+        if rise:
+            water[hold : hold + rise] *= np.sin(np.linspace(0, np.pi / 2, rise))[:, None] ** 2
+        if fall:
+            water[-fall:] *= np.cos(np.linspace(0, np.pi / 2, fall))[:, None] ** 2
+        region = slice(starts[shot] * RATE, starts[shot] * RATE + length)
+        summed = np.rint(pcm[region] + 32768 * water)
+        if summed.max() > 32767 or summed.min() < -32768:
+            raise ValueError(f"Coast mix clips in {shot}")
+        mixed[region] = summed.astype("<i2")
+        takes[shot] = {
+            "originalStartSeconds": 200 + source,
+            "fieldRmsDbFS": round(float(10 * np.log10(np.mean(water**2))), 2),
+        }
+    return mixed, takes
+
+
 def film_music(library, out, private):
     total = sum(length for _, length in film.CUTS)
     mix = np.zeros((total * RATE, 2))
     events = []
     cuts = {}
+    starts = {}
     at = 0
     for shot, length in film.CUTS:
+        starts[shot] = at
         parts = film.PARTS.get(shot, {})
         for part, phrase in parts.items():
             # A single centred player out on the bluff. The open room and
@@ -310,6 +363,8 @@ def film_music(library, out, private):
     # and the level of the late reveal on every supported rail edit.
     pcm = master(mix, -3.6)
     wavfile.write(private / "the-door-is-open.wav", RATE, pcm)
+    pcm, shore_takes = mix_coast(pcm, starts, cuts)
+    wavfile.write(private / "the-door-is-open-on-the-coast.wav", RATE, pcm)
     at = 0
     for shot, length in film.CUTS:
         if cuts[shot]["scored"]:
@@ -318,11 +373,17 @@ def film_music(library, out, private):
             ramp = np.sin(np.linspace(0, np.pi / 2, edge))[:, None] ** 2
             samples[:edge] *= ramp
             samples[-edge:] *= ramp[::-1]
-            write_audio(np.rint(samples).astype("<i2"), out / "film" / (shot + ".mp3"))
+            credit = SHORE_CREDIT if shot in shore_takes else None
+            write_audio(np.rint(samples).astype("<i2"), out / "film" / (shot + ".mp3"), credit)
         at += length
+    performance = {
+        "source": SOURCE,
+        "shore": {"credit": SHORE_CREDIT, "takes": shore_takes},
+        "cuts": cuts,
+        "events": sorted(events, key=lambda event: event["start"]),
+    }
     (private / "film-performance.json").write_text(
-        json.dumps({"source": SOURCE, "cuts": cuts, "events": sorted(events, key=lambda e: e["start"])}, indent=2) + "\n",
-        encoding="utf-8",
+        json.dumps(performance, indent=2) + "\n", encoding="utf-8"
     )
     return {"title": film.TITLE, "cuts": cuts}
 
