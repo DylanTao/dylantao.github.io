@@ -476,6 +476,18 @@ test("a deliberate room destination starts on its floor without changing the ord
   assert.equal(spawnPlan(arrival, { ...view, room: "outside" }, { entrance: false }).searchFrom, 3.4);
 });
 
+test("Walk here keeps a visitor's last look at the selected standing place", () => {
+  const place = { position: [2, 0, 3], yaw: -1.3, pitch: -0.1, portrait: { yaw: -0.98 } };
+  const house = { walk: { places: { speakeasy: place } } };
+  const standing = { destination: "speakeasy", shownYaw: 0.4, shownPitch: 0.12 };
+  const view = { aspect: 0.49, standing };
+  const viewPlan = spawnPlan(house, view, { destination: "speakeasy" });
+  assert.deepEqual([viewPlan.yaw, viewPlan.pitch], [standing.shownYaw, standing.shownPitch]);
+  view.standing = { ...standing, destination: "entrance" };
+  const newPlace = spawnPlan(house, view, { destination: "speakeasy" });
+  assert.deepEqual([newPlace.yaw, newPlace.pitch], [place.portrait.yaw, place.pitch]);
+});
+
 test("a collision worker failure replays native geometry and restores walking in fallback slices", async () => {
   const previousWorker = globalThis.Worker;
   let worker;

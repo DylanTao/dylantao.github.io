@@ -81,3 +81,5 @@ The original architectural study supplies the garden view. The comparison follow
 The coastal comparison holds the camera and moving water at the same instant. The enlarged details show the sea at the edge of the frame and the reflection of the cliff farther in. [Shore reflection study](shore-reflection-before-and-after-17.webp).
 
 The next study looks just below the horizon, where the same swell reads differently from the beach and the elevated fire terrace. The three beach frames use the same standing eye, lens and phase. The enlarged strips show the real-time water before and after the change beside the Blender render. [Distant water from the beach](shore-horizon-cycles-and-live-18.webp).
+
+The record wall study pairs the approved architectural drawing with a visitor selecting Speakeasy from Rooms. The desktop and phone now open at the same place beside the counter, with the phone turning toward the horns. All four visitor frames use a clear 3:45 p.m. The detail shows how light reaches the walnut in the drawing and the browser. [The first view of the listening room](listening-room-arrival-concept-and-build-19.webp).

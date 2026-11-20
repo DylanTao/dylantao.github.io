@@ -832,6 +832,14 @@ export function portraitFov(fov, aspect, { minAspect = 1, max = 80 } = {}) {
   return Math.min(max, (half * 360) / Math.PI);
 }
 
+// A named arrival can frame a closer subject on a narrow canvas from the same feet.
+export function standingYaw(place, aspect) {
+  if (!Number.isFinite(place.portrait?.yaw) || !(aspect > 0)) return place.yaw;
+  const t = clamp((aspect - 0.6) / (1.35 - 0.6), 0, 1);
+  const turn = place.yaw - place.portrait.yaw;
+  return place.portrait.yaw + t * t * (3 - 2 * t) * Math.atan2(Math.sin(turn), Math.cos(turn));
+}
+
 // A camera on a tripod: it keeps the authored position (`authored` is a room camera with its
 // target) and turns to look at `point`, returning the orbit about that point which puts it there.
 export function tripodLook(authored, point) {

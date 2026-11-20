@@ -5991,10 +5991,11 @@
       "speakeasy": {
         "label": "Speakeasy",
         "room": "study",
-        "position": [-9.78, 0.001, -7.718],
-        "yaw": -1.89,
-        "pitch": -0.103,
-        "fov": 68
+        "position": [-9.785, 0.00102436, -9.15],
+        "yaw": -1.37,
+        "pitch": -0.11,
+        "fov": 74,
+        "portrait": { "yaw": -0.98021, "maxFov": 88 }
       },
       "arrival-hall": {
         "label": "Arrival hall",
@@ -6088,8 +6089,8 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "65783abaae068a29576edc7b1511d6573a31923386ac5639412113c11fc0dd0f",
-    "sha256": "5f4024330555d7dc028acd2a72150c45303a350acd41ce3e63aca11d68d5b10c"
+    "signature": "8da562ddcbcc3a0c69491506dd753f2aa4dcae950f217c544bb827a48533dbe1",
+    "sha256": "ad5cae067616e74ea7e7996ebfd69a99c7ae5192b409c314d0a0f4d8353d2d65"
   },
   "estateDoors": [
     {

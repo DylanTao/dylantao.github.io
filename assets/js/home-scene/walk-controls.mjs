@@ -1,6 +1,6 @@
 import * as THREE from "../three.module.min.js";
 import { BODY, createWalkFieldBuilder, isWater, walkKind } from "./colliders.mjs";
-import { collisionBounds, ORBIT_DIRECTION, portraitFov } from "./camera.mjs";
+import { collisionBounds, ORBIT_DIRECTION, portraitFov, standingYaw } from "./camera.mjs";
 import { createGamepads } from "./gamepad.mjs";
 import { createVirtualJoysticks } from "./virtual-joysticks.mjs";
 import { stepFlight } from "./walk-flight.mjs";
@@ -195,10 +195,18 @@ function authoredRoomEntry(room, contact) {
 
 export function spawnPlan(config, view, { entrance = true, destination } = {}) {
   const rooms = config?.rooms || [];
-  const place = config?.walk?.places?.[destination ?? (entrance ? "entrance" : null)];
+  const placeId = destination ?? (entrance ? "entrance" : null);
+  const place = config?.walk?.places?.[placeId];
   if (place) {
     const [x, floor, z] = place.position;
-    return { candidates: [[x, z]], floor, yaw: place.yaw, pitch: place.pitch, strict: true };
+    const standing = view?.standing?.destination === placeId ? view.standing : null;
+    return {
+      candidates: [[x, z]],
+      floor,
+      yaw: standing?.shownYaw ?? standingYaw(place, view?.aspect),
+      pitch: standing?.shownPitch ?? place.pitch,
+      strict: true,
+    };
   }
   const start = entrance && (config?.walk?.start ?? (config?.entrance?.portal ? { position: config.entrance.portal } : null));
   if (start?.position) {

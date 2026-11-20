@@ -31,6 +31,7 @@ import {
   farView,
   outsideClearance,
   portraitFov,
+  standingYaw,
   tripodLook,
   ORBIT_DIRECTION,
   BLOCKING,
@@ -2834,7 +2835,12 @@ export function createCoastalHome(container, records, artifacts) {
     const entry =
       destination === "entrance"
         ? arrivalStandingView(config, { eyeHeight: WALK.eyeHeight, fov: WALK.fov })
-        : place && { ...place, destination, position: [place.position[0], place.position[1] + WALK.eyeHeight, place.position[2]] };
+        : place && {
+            ...place,
+            destination,
+            yaw: standingYaw(place, aspect),
+            position: [place.position[0], place.position[1] + WALK.eyeHeight, place.position[2]],
+          };
     if (entry) {
       freeLook = { ...entry, position: new THREE.Vector3().fromArray(entry.position), shownYaw: entry.yaw, shownPitch: entry.pitch };
       desiredFov = entry.fov;
@@ -3408,7 +3414,14 @@ export function createCoastalHome(container, records, artifacts) {
     // composer was built with, so the one size handed to both moves them together.
     const size = resolution?.size(rect.width, rect.height) ?? rect;
     renderer.setSize(size.width, size.height, false);
-    aspect = rect.width / rect.height;
+    const nextAspect = rect.width / rect.height;
+    if (freeLook?.portrait && nextAspect !== aspect) {
+      const place = config.walk.places[freeLook.destination];
+      // Recompose an untouched arrival when the embed opens or the device turns.
+      // A visitor who has already looked around keeps that line of sight.
+      if (freeLook.yaw === standingYaw(place, aspect)) freeLook.yaw = freeLook.shownYaw = standingYaw(place, nextAspect);
+    }
+    aspect = nextAspect;
     perspective.aspect = aspect;
     perspective.updateProjectionMatrix();
     applyDetail();
@@ -3932,7 +3945,8 @@ export function createCoastalHome(container, records, artifacts) {
     for (const axis of ["x", "y", "z"]) target[axis] = cameraMotion.step(axis, target[axis], desiredTarget[axis], frameDelta, stillCamera);
     radius = cameraMotion.step("radius", radius, desiredRadius, frameDelta, stillCamera);
     // A portrait screen in full screen keeps the authored horizontal coverage; page embeds keep the lens.
-    const fov = cameraMotion.step("fov", perspective.fov, fullscreen.mode ? portraitFov(desiredFov, aspect) : desiredFov, frameDelta, stillCamera);
+    const framedFov = fullscreen.mode ? portraitFov(desiredFov, aspect, { max: freeLook?.portrait?.maxFov }) : desiredFov;
+    const fov = cameraMotion.step("fov", perspective.fov, framedFov, frameDelta, stillCamera);
     // A composed still reaches the exact lens, including a residual smaller
     // than the live camera's projection-update threshold.
     if (fov !== perspective.fov && (reduced || paused || Math.abs(fov - perspective.fov) > 0.00001)) {
@@ -4912,7 +4926,7 @@ export function createCoastalHome(container, records, artifacts) {
           ...(cliffLift?.gateObjects || []),
         ],
         getCliffLift: () => cliffLift,
-        view: () => ({ room: currentRoom, routineRoom: routine?.room, camera: camera.position.toArray() }),
+        view: () => ({ room: currentRoom, routineRoom: routine?.room, camera: camera.position.toArray(), aspect, standing: freeLook }),
         isFullscreen: () => Boolean(fullscreen.mode),
         isReady: () => compositionReady,
         isReduced: () => reduced || paused,

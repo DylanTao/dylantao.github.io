@@ -26,6 +26,7 @@ import {
   farView,
   outsideClearance,
   portraitFov,
+  standingYaw,
   tripodLook,
   cutawayFootprint,
   ORBIT_DIRECTION,
@@ -40,6 +41,31 @@ const manifestURL = process.env.COASTAL_MANIFEST_PATH
   ? pathToFileURL(resolve(process.env.COASTAL_MANIFEST_PATH))
   : new URL("../assets/models/home/manifest.json", import.meta.url);
 const c = JSON.parse(fs.readFileSync(manifestURL));
+
+test("the ordinary speakeasy arrival frames both delivered horn rims from the same standing position", async () => {
+  const place = c.walk.places.speakeasy;
+  const bar = await nativeGeometry("detail-listening-bar.glb", new URL("./", manifestURL));
+  const rim = [];
+  bar.traverse((mesh) => {
+    if (!mesh.isMesh || !mesh.parent.name.startsWith("core_speakeasy_horn_lip")) return;
+    const position = mesh.geometry.getAttribute("position");
+    for (let i = 0; i < position.count; i++) rim.push(new THREE.Vector3().fromBufferAttribute(position, i).applyMatrix4(mesh.matrixWorld));
+  });
+  assert.ok(rim.length > 100, "the two turned lips are measured on their actual vertices");
+  const eye = new THREE.Vector3(...place.position);
+  eye.y += 1.6;
+  for (const aspect of [1440 / 1000, 1280 / 800, 768 / 1024, 390 / 790, 390 / 1000]) {
+    const camera = new THREE.PerspectiveCamera(portraitFov(place.fov, aspect, { max: place.portrait.maxFov }), aspect, 0.025, 300);
+    camera.position.copy(eye);
+    camera.lookAt(eye.clone().add(new THREE.Vector3(...ORBIT_DIRECTION(standingYaw(place, aspect), place.pitch))));
+    camera.updateMatrixWorld();
+    const points = rim.map((p) => p.clone().project(camera));
+    assert.ok(
+      points.every((p) => p.z > -1 && p.z < 1 && Math.abs(p.x) < 0.97 && Math.abs(p.y) < 0.95),
+      `both horns clear the viewport at ${aspect}`
+    );
+  }
+});
 
 test("desktop orbit gestures keep their angular scale across large canvas sizes", () => {
   const gestures = [
