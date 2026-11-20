@@ -671,6 +671,10 @@ On _The Match_, Sirui said “the quite part and exciting part come too quick fe
 
 _The Long Landing_ lasts 70 seconds. The first 20 seconds stay with low, separated bows. The line gradually rises for another 22 seconds before the first accented phrase. Complete Philharmonia recordings keep the player’s attacks, changing bow pressure and releases at their original pitch and speed. The 20 gestures form one continuous monophonic score, with an 11.7 dB difference in average level between threshold and reveal. A low D closes the piece after the upper-register crest. Sirui received the finished mix for listening. [Score](../bin/render_coastal_landing.py) · [Philharmonia musicians and recording terms](https://philharmonia.co.uk/resources/sound-samples/).
 
+### November 20 · The guitar takes the first two bars
+
+Sirui heard the third solo improve, wanted a gentler join near 46 seconds, and found the fifth still sharp, sad and overloaded with technique. He explicitly asked to widen the instrumentation and score each world. _A Pocketful of Sky_ opens with an acoustic guitar alone and brings a single violin into a gradually syncopated duet. One connected bow has the foreground. The five mixes and fifteen responses preserve the written notes, articulation choices and the reason for the change. [World music](house/world-music.md).
+
 ### What the Design Review video teaches, and what it means here
 
 Source: [Design Review, Marvin Schwaibold (Shopify)](https://youtu.be/eojywvxqoLc). I read the full transcript and looked at the frames around 9:20 and 20:05, the two moments Sirui pointed to.

@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "themes": {
+    "watercolour": {
+      "title": "A Pocketful of Sky",
+      "seconds": 42.395
+    },
+    "realistic": {
+      "title": "The Water on the Sill",
+      "seconds": 26.587
+    },
+    "paint": {
+      "title": "Copper in the Last Light",
+      "seconds": 24.352
+    },
+    "print": {
+      "title": "Five Cuts in Pearwood",
+      "seconds": 23.526
+    },
+    "toon": {
+      "title": "The Spare Key",
+      "seconds": 20.018
+    }
+  },
+  "cues": {
+    "watercolour": {
+      "select": [0.15, 0.62],
+      "arrival": [1.12, 0.9],
+      "threshold": [2.37, 0.89]
+    },
+    "realistic": {
+      "select": [3.61, 0.62],
+      "arrival": [4.58, 0.9],
+      "threshold": [5.83, 0.89]
+    },
+    "paint": {
+      "select": [7.07, 0.62],
+      "arrival": [8.04, 0.9],
+      "threshold": [9.29, 0.89]
+    },
+    "print": {
+      "select": [10.53, 0.62],
+      "arrival": [11.5, 0.9],
+      "threshold": [12.75, 0.89]
+    },
+    "toon": {
+      "select": [13.99, 0.62],
+      "arrival": [14.96, 0.9],
+      "threshold": [16.21, 0.89]
+    }
+  }
+}

@@ -92,7 +92,7 @@ From the speakeasy's landing a glass cab runs in a glass and steel shaft set int
 
 **His words.** On a walk where every step is heard: the same "when people in our thing walk past grass, scroll, enter water, swimming". On the first synthesised sounds: "okish, maybe just use them in minor places". On music: violin first, then cello, piano, clarinet, guitar and a Bob Dylan style whistle; classical writing with the instrument feel of Bob Dylan and the Beatles; original music only.
 
-**Direction.** Recorded quality or nothing. Steps change with the ground (stone, oak, sand, grass), plants are heard brushing past, wading and swimming have their own sounds, scrolling the page has one. Instruments modelled offline and rendered on this PC, checked by measurement (pitch, level, spectrum). One short piece goes to Sirui before anything is built wide. Sound stays off until the visitor turns it on.
+**Direction.** Steps change with stone, oak, sand and grass. Brushing plants, entering water and swimming have their own sounds. On November 20, after five solo violin sketches, Sirui asked for violin with guitar, a piece for each drawing style and subtle musical responses to meaningful clicks and scrolls. Give the opening time, keep the pulse legible and leave room around a difficult gesture. Sound begins with the visitor's choice. The five original duets use recorded instruments. [Scores, intent and revision notes](house/world-music.md).
 
 ### 7. La Jolla's sea under the surface (U)
 
