@@ -1,5 +1,7 @@
 # The beach at 15:12
 
+Just below the horizon one pixel can see several wave faces. At this distance the real-time mirror now blends their reflectance toward that of the mean water surface where the unperturbed and wave-directed views both reach open sky. The 1.60 m shore view showed 1.6% vertical band contrast, down from 6.1%. Cycles measured 1.4% with its own sky model. Pixel comparisons at the cliff reflection and surf found no change in the two sampled areas. [The same waterline in all three frames](../../../artwork/concepts/coastal-home/2026-11-19/shore-horizon-cycles-and-live-18.webp).
+
 In the playable frame a dark strip followed the edge of the screen as the visitor turned. A matched replay traced it to the reflected camera ending inside the visible sea. The mirror now covers an extra 18% of width and height at the same texture size. The edge measured 101% of the luminance of adjacent water, up from 14%. The central reflection still carries the fine detail of the cliff. [Matched browser frames and enlarged water details](../../../artwork/concepts/coastal-home/2026-11-19/shore-reflection-before-and-after-17.webp).
 
 The standing view looks along the sedimentary cliff and shallow Pacific at La Jolla. It uses a 1.60 m eye height at a verified dry Walk position and a 44° vertical lens. [Camera, render settings, and measured selection](preset.json).

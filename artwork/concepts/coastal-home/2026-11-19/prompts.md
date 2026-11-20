@@ -79,3 +79,5 @@ The first laid floor picked up broad, regular ripples in the live view. In this 
 The original architectural study supplies the garden view. The comparison follows the old standing eye, the first playable viewpoint on the limestone flags and the same doorway at dusk. The traced loading drawing shares the new eye and lens. [Drawing and entrance](entrance-garden-concept-and-build-16.webp) · [Dusk light on the flags](entrance-garden-dusk-16.webp) · [Pen drawing and game frame](entrance-garden-drawing-16.webp).
 
 The coastal comparison holds the camera and moving water at the same instant. The enlarged details show the sea at the edge of the frame and the reflection of the cliff farther in. [Shore reflection study](shore-reflection-before-and-after-17.webp).
+
+The next study looks just below the horizon, where the same swell reads differently from the beach and the elevated fire terrace. The three beach frames use the same standing eye, lens and phase. The enlarged strips show the real-time water before and after the change beside the Blender render. [Distant water from the beach](shore-horizon-cycles-and-live-18.webp).

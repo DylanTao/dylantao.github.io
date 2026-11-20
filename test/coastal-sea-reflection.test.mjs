@@ -142,3 +142,19 @@ test("the visible water keeps a reflection margin even at the four beauty-viewpo
     f.reflection.dispose();
   }
 });
+
+test("the distant slope average needs open sky in both the planar and wave-directed samples", () => {
+  const f = fixture();
+  try {
+    const shader = { uniforms: {}, vertexShader: "#include <project_vertex>", fragmentShader: "#include <lights_fragment_end>" };
+    f.material.onBeforeCompile(shader);
+    const source = shader.fragmentShader;
+    assert.match(source, /float depth=texture2D\(coastalReflectionDepth,clamp\(planarUv/);
+    assert.match(source, /if\(depth>=\.999999&&footprint>\.18&&meanCosine<\.135&&swashWeight<\.02\)/);
+    assert.match(source, /float resolvedDepth=texture2D\(coastalReflectionDepth,clamp\(reflectedUv/);
+    assert.match(source, /if\(resolvedDepth>=\.999999\)\{[^}]*fresnel=mix\(fresnel,seaFresnel\(meanCosine\)/s);
+    assert.ok(source.includes("reflectedColor*fresnel"), "the accepted reflectance reaches the rendered mirror");
+  } finally {
+    f.reflection.dispose();
+  }
+});

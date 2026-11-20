@@ -574,6 +574,8 @@ The same walk exposed the study ottoman across the bookcase threshold. Turning t
 
 At the ocean bath, the potted olive looked still beside the leaves that moved in the same breeze. Its eleven leaf clusters arrive with the room detail. Their woody stems had already arrived with the room itself. The wind now finds those stems when the leaves arrive. A second visit keeps the same roots and shadows.
 
+**Round 18.** Looking out from the dry beach, the distant swells drew dark parallel lines beneath the horizon. The Blender frame carried the same swell with softer edges. Replaying one wave showed that the lines came mainly from how much sky each small patch of water reflected. At this shallow viewing angle, one distant pixel covers many little slopes. The browser now averages their reflectance where both reflected rays reach open sky. In the matched crop, vertical contrast fell from 6.1% to 1.6%. Cycles measured 1.4%. The nearby rock reflection and the foam kept their detail. From the fire terrace the larger swells still move visibly below the visitor. [Before, after and Cycles from the same standing eye](../artwork/concepts/coastal-home/2026-11-19/shore-horizon-cycles-and-live-18.webp).
+
 ### November 20 · What the floor and the beach asked of the drawing
 
 **Round 13.** The sinuous acoustic ceiling and continuous linen back finally read together from the record seat. Real joints gave the loggia floor a scale, but its first limestone had broad repeating stripes. The shoreline study showed a related problem in the ceramic band under the pool. It lined up from one intended eye and almost disappeared in profile.

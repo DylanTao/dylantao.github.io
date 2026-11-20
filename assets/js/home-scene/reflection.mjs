@@ -89,6 +89,20 @@ export function createSeaReflection(renderer, scene, ocean, material) {
         float available=smoothstep(.001,.055,mirrorEdge(aimedUv))*smoothstep(0.,.045,ray.y)*step(.001,aimed.w);
         vec2 reflectedUv=mix(planarUv,aimedUv,available);
         float cosine=max(0.,dot(normal,normalize(vViewPosition)));
+        float fresnel=seaFresnel(cosine), meanCosine=max(-incoming.y,0.);
+        // A coarse grazing pixel sees a distribution of slopes. When both mirror
+        // samples reach the sky, temper the local Fresnel by the mean incidence.
+        if(depth>=.999999&&footprint>.18&&meanCosine<.135&&swashWeight<.02){
+          float resolvedDepth=texture2D(coastalReflectionDepth,clamp(reflectedUv,vec2(0.),vec2(1.))).r;
+          if(resolvedDepth>=.999999){
+            // Project half the isotropic slope variance onto the viewing direction.
+            float variance=.5*slopeVariance*(1.-meanCosine*meanCosine);
+            float overlap=variance/(variance+meanCosine*meanCosine+1e-6);
+            float aperture=smoothstep(.18,.82,footprint);
+            float grazing=1.-smoothstep(.035,.135,meanCosine);
+            fresnel=mix(fresnel,seaFresnel(meanCosine),aperture*grazing*overlap);
+          }
+        }
         float inside=smoothstep(.001,.028,mirrorEdge(reflectedUv));
         float streak=clamp(.0015+.54*sqrt(max(slopeVariance,0.))+roughnessFactor*.003,.0015,.055);
         streak*=mix(1.14,.72,cosine)*${MIRROR_LENS_SCALE.toFixed(8)};
@@ -101,7 +115,7 @@ export function createSeaReflection(renderer, scene, ocean, material) {
         reflectedColor+=texture2D(coastalReflection,reflectedUv-along*.45).rgb*.15;
         reflectedColor+=texture2D(coastalReflection,reflectedUv+along).rgb*.13;
         reflectedColor+=texture2D(coastalReflection,reflectedUv-along).rgb*.13;
-        reflectedLight.indirectSpecular=mix(reflectedLight.indirectSpecular,reflectedColor*seaFresnel(cosine),reflectionStrength*inside);
+        reflectedLight.indirectSpecular=mix(reflectedLight.indirectSpecular,reflectedColor*fresnel,reflectionStrength*inside);
       }
     `
     );
