@@ -76,6 +76,8 @@ From the speakeasy's landing a glass cab runs in a glass and steel shaft set int
 
 **Decided by Sirui, November 18, replacing the direction above where they differ:** not into the headland (massings A to C) but into the empty court in front of the study, under its rock overhang (massing D), with a semi-open outdoor dining terrace between the study and the bar, by the pool, holding the BBQ, grill and fridge (massing E), so the study quarter stays quiet and private. Both rooms must feel protected and comfortable and still have a great view; the section (`docs/images/speakeasy-massing-e-section-2026-11-18.webp`) shows the court is already a cave under the rock, open only to the sea. The bookcase door, the bar's character and the glass lift stand. Underwater exploration and swimming follow later (brief 7). Drawings: `bin/render_speakeasy_massings.py`; steps: docs/todo.md, item 4.
 
+**November 20.** A visitor can walk from the study bookcase past the kitchen and listening room, ride the glass lift, step onto dry sand and return. The hearth terrace is open to the Pacific. In the enclosed room, the cut stone above the turntable and both horn lips are visible from the aisle and the settee. [Cabinet study and playable room](../artwork/concepts/coastal-home/2026-11-19/listening-room-stone-between-the-horns-25.webp) · [Kitchen at a standing eye](../artwork/concepts/coastal-home/2026-11-19/terrace-steel-in-reflected-cliff-light-24.webp).
+
 ### 4. The bedroom, as a room (O7)
 
 **His words.** "the bedroom can be bigger and much better well designed instead of just having a bed"; and on November 3, "when i am sleeping, my bedroom should maybe have curtain".

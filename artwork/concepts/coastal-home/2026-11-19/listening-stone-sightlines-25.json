@@ -1,0 +1,83 @@
+{
+  "sourceSha256": {
+    "blenderMaster": "67bc77cf8933f303e0e827e8f07e254b810d2ed8d5fc2b74686dd8d1259f2a67",
+    "browserShell": "21155aaabe01b8571e48046b4da633f94afdba7f75fc93b576d58d1ea4f8f3af"
+  },
+  "earlierShellSha256": "8e3d9ef460a5e3374d6dbeb75566dc291fe353cf263a890ecbdd91b20e17b8ed",
+  "method": "Cast 448 rays to the cut sandstone and 252 to its surrounding lamp from each eye. Project both mouth lips at the view lens and resolution. Negative gap indicates overlap.",
+  "rimOutsideDiameterM": 0.44,
+  "forwardM": 0.335,
+  "upM": 0.175,
+  "splayDegrees": 8,
+  "recessBehindTurntableFrontM": 0.028,
+  "views": {
+    "ordinary desktop": {
+      "earlierNative": {
+        "clearStoneSamples": 255,
+        "clearRimSamples": 94,
+        "gapToHornLipsPx": [43.486, -65.15]
+      },
+      "fittedNative": {
+        "clearStoneSamples": 448,
+        "clearRimSamples": 252,
+        "gapToHornLipsPx": [5.778, 4.43]
+      },
+      "delivered": {
+        "clearStoneSamples": 448,
+        "clearRimSamples": 252,
+        "gapToHornLipsPx": [5.795, 4.431]
+      }
+    },
+    "ordinary portrait": {
+      "earlierNative": {
+        "clearStoneSamples": 255,
+        "clearRimSamples": 94,
+        "gapToHornLipsPx": [21.363, -36.243]
+      },
+      "fittedNative": {
+        "clearStoneSamples": 448,
+        "clearRimSamples": 252,
+        "gapToHornLipsPx": [2.841, 2.349]
+      },
+      "delivered": {
+        "clearStoneSamples": 448,
+        "clearRimSamples": 252,
+        "gapToHornLipsPx": [2.849, 2.35]
+      }
+    },
+    "cabinet normal": {
+      "earlierNative": {
+        "clearStoneSamples": 438,
+        "clearRimSamples": 198,
+        "gapToHornLipsPx": [-9.239, -9.239]
+      },
+      "fittedNative": {
+        "clearStoneSamples": 448,
+        "clearRimSamples": 252,
+        "gapToHornLipsPx": [4.625, 8.91]
+      },
+      "delivered": {
+        "clearStoneSamples": 448,
+        "clearRimSamples": 252,
+        "gapToHornLipsPx": [4.621, 8.904]
+      }
+    },
+    "across the settee": {
+      "earlierNative": {
+        "clearStoneSamples": 436,
+        "clearRimSamples": 192,
+        "gapToHornLipsPx": [-10.411, -9.819]
+      },
+      "fittedNative": {
+        "clearStoneSamples": 448,
+        "clearRimSamples": 252,
+        "gapToHornLipsPx": [3.891, 7.849]
+      },
+      "delivered": {
+        "clearStoneSamples": 448,
+        "clearRimSamples": 252,
+        "gapToHornLipsPx": [3.887, 7.845]
+      }
+    }
+  }
+}

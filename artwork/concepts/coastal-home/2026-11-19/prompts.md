@@ -95,3 +95,5 @@ The sandstone study guided the scale of the worn beds and the hollows between th
 The charcoal steel in the kitchen fitting became a test of the reflected landscape. The eye, lens, sun and appliance stay fixed between the two browser visits. The Blender fitting gives a separate material reference. [The terrace steel](terrace-steel-in-reflected-cliff-light-24.webp).
 
 The original listening-room illustration sits beside two renders of the built room at the ordinary Speakeasy arrival. The native and browser cameras share the same standing eye, direction and lens. [The listening counter in three views](listening-counter-study-cycles-and-webgl-24.webp).
+
+The drawing leaves a narrow interval between each walnut horn and the glowing cut stone. The final cabinet study follows that interval through a mounted native piece, the playable room and a portrait arrival. [The stone between the walnut horns](listening-room-stone-between-the-horns-25.webp).

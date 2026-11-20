@@ -3898,15 +3898,15 @@
     },
     {
       "mesh": "core_speakeasy_stone_halo__listening room gold parchment",
-      "corners": 720,
-      "min": 0.68,
-      "max": 0.7031863902043551
+      "corners": 1728,
+      "min": 0.6800000071525574,
+      "max": 0.7363569736480713
     },
     {
       "mesh": "core_speakeasy_stone_medallion__listening room sedimentary ston",
       "corners": 720,
-      "min": 0.68,
-      "max": 0.7143077452325574
+      "min": 0.6800000071525574,
+      "max": 0.7269141674041748
     },
     {
       "mesh": "core_speakeasy_bottles__bar olive bottle",
@@ -4855,6 +4855,12 @@
       "corners": 64,
       "min": 0.6800000071525574,
       "max": 0.7734860181808472
+    },
+    {
+      "mesh": "core_speakeasy_stone_mount__dark bronze",
+      "corners": 832,
+      "min": 0.6800000071525574,
+      "max": 0.7300000190734863
     }
   ]
 }

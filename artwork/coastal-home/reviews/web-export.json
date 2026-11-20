@@ -1,7 +1,7 @@
 {
   "bakedColorQuantization": "32 grayscale steps, shared per vertex",
   "dracoColorBits": 6,
-  "sourceSha256": "c1aed8ca764002a0783e5c66a6216279b21a041975218e8d7c69d5897ea22673",
+  "sourceSha256": "67bc77cf8933f303e0e827e8f07e254b810d2ed8d5fc2b74686dd8d1259f2a67",
   "activeStaticGeologyAO": true,
   "constantPlanarCompaction": [
     {
@@ -5280,8 +5280,8 @@
     },
     {
       "mesh": "core_speakeasy_stone_halo__listening room gold parchment",
-      "facesBefore": 146,
-      "facesExported": 146
+      "facesBefore": 432,
+      "facesExported": 432
     },
     {
       "mesh": "core_speakeasy_stone_medallion__listening room sedimentary ston",
@@ -6557,6 +6557,11 @@
       "mesh": "core_study_bbq_fridge_seal__BBQ graphite seal",
       "facesBefore": 16,
       "facesExported": 16
+    },
+    {
+      "mesh": "core_speakeasy_stone_mount__dark bronze",
+      "facesBefore": 172,
+      "facesExported": 172
     }
   ]
 }

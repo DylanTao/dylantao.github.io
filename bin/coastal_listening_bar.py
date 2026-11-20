@@ -17,6 +17,7 @@ from mathutils.bvhtree import BVHTree
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import coastal_decor as decor
 import coastal_listening_joinery as listening
+from coastal_listening_roundel import fit_roundel
 from coastal_office import box, cylinder, lathe
 from coastal_shell import boolean_preserving_islands
 
@@ -402,11 +403,14 @@ def build():
             obj["barRecordPart"] = name
         if name in ("vault", "cut_vault"):
             obj["caveRoof"] = True
+    fit_roundel()
     fit_stool_supports()
 
 
 if __name__ == "__main__":
-    if "--fit-stools" in sys.argv:
+    if "--fit-roundel" in sys.argv:
+        fit_roundel()
+    elif "--fit-stools" in sys.argv:
         fit_stool_supports()
     else:
         build()

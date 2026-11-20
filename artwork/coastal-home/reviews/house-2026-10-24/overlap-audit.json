@@ -5,8 +5,8 @@
     "bin/pack_coastal_streamed_models.py": "efe8b5bc26f4eecc4320bbebd78cce49c120676ef683be5059c184f690b4a255"
   },
   "source": "artwork/coastal-home/coastal-home.blend",
-  "sourceSha256": "c1aed8ca764002a0783e5c66a6216279b21a041975218e8d7c69d5897ea22673",
-  "manifestSha256": "9493d42ad07eff7fd009c8c8dd775441da1bbd9fc13eceb6a34f70c940690a66",
+  "sourceSha256": "67bc77cf8933f303e0e827e8f07e254b810d2ed8d5fc2b74686dd8d1259f2a67",
+  "manifestSha256": "fe1c1be1fa86a44679124d48ca2f9c4612d1a31a501ce9cc00273b2e1e3d6b94",
   "modelCoverage": {
     "home-shell.glb": null,
     "coast.glb": null,
@@ -191,7 +191,7 @@
     "detail-onsen.glb": "4c2f740b38886108142d509dd0f69160dae74285896451b6e8c93c27ce1f277e",
     "detail-pool-relief.glb": "b28992017de962edc5a2e66d5f9d90a9f22360c6d2acf673272bc0920a2aa1ab",
     "flora.glb": "b90cf95449e17ed80337cbf03d437ba5fee3515cbb1d21efc91fdb48b8069e68",
-    "home-shell.glb": "8e3d9ef460a5e3374d6dbeb75566dc291fe353cf263a890ecbdd91b20e17b8ed",
+    "home-shell.glb": "21155aaabe01b8571e48046b4da633f94afdba7f75fc93b576d58d1ea4f8f3af",
     "room-bath-bedroom.glb": "a4b0fc22296454f0bf5f22d0e470f2930f3077ce0ce48328b61bf2f1b45fa1e4",
     "room-bath-living.glb": "6a7eb3ba01c6fec1c9f505e52b7b7e8993215e8112cb981846f3c5bb44fc0941",
     "room-gym.glb": "11dcb5613a9345a461433d763f75a58e8f90291d2d2f85a8bf133d6f2d5ef192",
@@ -422,22 +422,22 @@
     "never-drawn": 1
   },
   "counts": {
-    "meshes": 944,
-    "triangles": 1406587,
-    "closedMeshes": 788,
-    "pairsTested": 7733,
-    "crossingPairs": 1507,
-    "sites": 21320,
+    "meshes": 945,
+    "triangles": 1407511,
+    "closedMeshes": 789,
+    "pairsTested": 7748,
+    "crossingPairs": 1509,
+    "sites": 21322,
     "offenders": 1203,
-    "coplanarPairs": 617,
+    "coplanarPairs": 619,
     "zFightingPairs": 46,
-    "coplanarTrianglePairsTested": 83857
+    "coplanarTrianglePairsTested": 83873
   },
   "ruleCounts": {
     "unclassified": 1203,
     "one-sided-embed": 3128,
     "support-rest": 290,
-    "shallow-seam": 11766,
+    "shallow-seam": 11768,
     "water-in-basin": 197,
     "structural-joint": 157,
     "planting-root": 2144,
@@ -454,7 +454,7 @@
     "grazingSeamM": 3.638,
     "deepSites": 1178,
     "deepSitesOver5cm": 349,
-    "deepSeverity": 42532.6,
+    "deepSeverity": 42550.1,
     "maxDeepSeverity": 1338.8
   },
   "before": {
@@ -477,7 +477,7 @@
   },
   "delivered": {
     "exportsSha256": {
-      "home-shell.glb": "8e3d9ef460a5e3374d6dbeb75566dc291fe353cf263a890ecbdd91b20e17b8ed",
+      "home-shell.glb": "21155aaabe01b8571e48046b4da633f94afdba7f75fc93b576d58d1ea4f8f3af",
       "coast.glb": "63eebc03a1218565d8d3722e5ddd4d46839f911b1c893551c905cd8e06a0ebd8",
       "flora.glb": "b90cf95449e17ed80337cbf03d437ba5fee3515cbb1d21efc91fdb48b8069e68",
       "room-study.glb": "1de86040cb6c173c72e9f00061d6add31a70e3d6907495413cd7ac21586daf8a",
@@ -518,9 +518,9 @@
       "zFightingVisibleAreaM2": 1.1366,
       "grazingSites": 27,
       "grazingSeamM": 5.192,
-      "deepSites": 1071,
-      "deepSitesOver5cm": 203,
-      "deepSeverity": 31391.3,
+      "deepSites": 1067,
+      "deepSitesOver5cm": 202,
+      "deepSeverity": 31376.0,
       "maxDeepSeverity": 1379.0
     },
     "zFighting": [
@@ -1903,20 +1903,10 @@
       "sites": 4,
       "seamM": 1.656,
       "maxDepthM": 0.0969,
-      "severity": 143.3,
+      "severity": 143.8,
       "worstSite": [3.043, -31.443, 8.617],
       "categories": ["plant", "shell"],
       "verdict": "designed"
-    },
-    {
-      "pair": "furniture:kitchen-glass-fridge/glass-fridge.lod0::fridge door_ | furniture:kitchen-glass-fridge/glass-fridge.lod0__furniture pol",
-      "sites": 4,
-      "seamM": 3.106,
-      "maxDepthM": 0.0395,
-      "severity": 137.4,
-      "worstSite": [-4.062, -11.355, 2.001],
-      "categories": ["furniture"],
-      "verdict": "follow-up"
     },
     {
       "pair": "core_arrival_hall__golden coastal sandstone | core_arrival_hall__warm cut stone",
@@ -1927,6 +1917,16 @@
       "worstSite": [3.3, -16.365, 4.738],
       "categories": ["rock", "shell"],
       "verdict": "designed"
+    },
+    {
+      "pair": "furniture:kitchen-glass-fridge/glass-fridge.lod0::fridge door_ | furniture:kitchen-glass-fridge/glass-fridge.lod0__furniture pol",
+      "sites": 4,
+      "seamM": 3.106,
+      "maxDepthM": 0.0395,
+      "severity": 135.9,
+      "worstSite": [-4.062, -11.355, 2.001],
+      "categories": ["furniture"],
+      "verdict": "follow-up"
     },
     {
       "pair": "core__chalk limestone | onsen_privacy__warm cut stone",
