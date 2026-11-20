@@ -91,7 +91,22 @@ const SIDES = [
   ["R", 1],
 ];
 
-export function createLiftRig(actor) {
+// Each row is measured on the delivered, posed skin in metres. The upright and deep poses share
+// the same torso frame. Back fits give height, then forward offset when upright and at depth. Front
+// fits give height, forward offset, grip half-width, optional elbow directions and optional grip reach.
+// The arm targets keep the shaft on the upper body while clearing sleeves and forearms.
+const RACK_FIT = {
+  lizard: { back: [-0.098, -0.158, -0.176], front: [0.02, 0.122, 0.4, -0.035, -0.5, 0.079] },
+  "south-park": { back: [-0.076, -0.157, -0.17], front: [-0.054, 0.146, 0.23] },
+  simpsons: { back: [0.032, -0.122], front: [0.041, 0.102, 0.4, 0.019, -0.5] },
+  ghibli: { back: [0.044, -0.112], front: [0.041, 0.102, 0.4, 0.019, -0.5] },
+  "rick-and-morty": { back: [0.032, -0.122], front: [0.038, 0.104, 0.424, 0.391, -0.405] },
+};
+
+export function createLiftRig(actor, avatarId) {
+  const fit = RACK_FIT[avatarId];
+  const nativeBench = Boolean(fit);
+  const lizard = avatarId === "lizard";
   const bones = {};
   actor.traverse((o) => {
     if (o.isBone) bones[o.name.replaceAll(".", "")] = o;
@@ -178,11 +193,11 @@ export function createLiftRig(actor) {
   }
 
   // Two-bone IK toward a target and a pole hint, both in the actor's frame.
-  function solveLimb(upper, lower, end, targetLocal, hintLocal) {
+  function solveLimb(upper, lower, end, targetLocal, hintLocal, gripExtension = 0) {
     const a = upper.getWorldPosition(V()),
       b = lower.getWorldPosition(V());
     const l1 = a.distanceTo(b),
-      l2 = end.getWorldPosition(V()).distanceTo(b);
+      l2 = end.getWorldPosition(V()).distanceTo(b) + gripExtension;
     const goal = toWorld(targetLocal);
     const direction = goal.clone().sub(a);
     const distance = clamp(direction.length(), Math.abs(l1 - l2) + 1e-4, l1 + l2 - 1e-4);
@@ -250,9 +265,14 @@ export function createLiftRig(actor) {
     if (toward.lengthSq() < 1e-8) return grip.clone();
     return grip.clone().addScaledVector(toward.normalize(), dims.palm);
   }
-  function arms(grips, hints) {
+  function arms(grips, hints, gripping = 0, gripDistance = dims.palm) {
     SIDES.forEach(([side], i) => {
-      if (grips[i]) solveLimb(bones["Arm" + side], bones["Forearm" + side], bones["Hand" + side], wristFor(side, grips[i]), hints[i]);
+      const grip = grips[i];
+      if (!grip) return;
+      const wrist = wristFor(side, grip).lerp(grip, gripping);
+      // For a barbell grip, extend the forearm by the palm along the solved forearm line.
+      // The two-bone solve then places the hand on the shaft as the elbow bends.
+      solveLimb(bones["Arm" + side], bones["Forearm" + side], bones["Hand" + side], wrist, hints[i], gripDistance * gripping);
     });
   }
   // Alternate feet lifting a few centimetres while the body moves a step.
@@ -302,10 +322,12 @@ export function createLiftRig(actor) {
       // when the head comes down to the shoulders.
       const { up, forward, shoulders: s } = torsoAxes();
       const place = backBarPlace();
-      const onBack = s.addScaledVector(up, place.up).addScaledVector(forward, place.forward);
+      const [height, forwardStart, forwardDeep = forwardStart] = fit?.back ?? [place.up, place.forward];
+      const onBack = s.addScaledVector(up, height).addScaledVector(forward, lerp(forwardStart, forwardDeep, e));
       const carry = ctx.carry ?? 1;
       const bar = ctx.hooks && carry < 1 ? fromRoom(ctx.hooks).lerp(onBack, smooth(carry)) : onBack;
-      arms(sideways(place.grip, bar), hintsOut(0.3, -1, -0.6));
+      const elbow = avatarId === "south-park" ? hintsOut(1, -0.2, -0.6) : hintsOut(0.3, -1, -0.6);
+      arms(sideways(place.grip, bar), elbow);
       return { bar, axis: V(1, 0, 0) };
     },
     "front-squat"(u, ctx) {
@@ -317,9 +339,20 @@ export function createLiftRig(actor) {
       // The bar on the front of the shoulders, elbows high, clear of the chin.
       const { up, forward, shoulders: s } = torsoAxes();
       const front = frontRackPlace();
-      const rack = s.addScaledVector(up, front.up).addScaledVector(forward, front.forward);
+      const [height, forwardOffset, grip, elbowOut, elbowUp, gripDistance] = fit?.front ?? [front.up, front.forward, 0.21];
+      const rack = s.addScaledVector(up, height).addScaledVector(forward, forwardOffset);
       const bar = ctx.hooks && take < 1 ? fromRoom(ctx.hooks).lerp(rack, smooth(take)) : rack;
-      arms(sideways(0.21, bar), hintsOut(0.25, 0.25, 1));
+      if (elbowOut != null) {
+        // Fix the sleeve and forearm roll for this grip across idle phases and prior lifts.
+        for (const [side] of SIDES) {
+          for (const name of ["Arm", "Forearm", "Hand"]) {
+            const joint = bones[name + side];
+            joint.quaternion.copy(bindOf(joint));
+          }
+        }
+        bones.Spine.updateMatrixWorld(true);
+      }
+      arms(sideways(grip, bar), hintsOut(elbowOut ?? 0.25, elbowUp ?? 0.25, 1), fit ? smooth(take) : 0, gripDistance);
       return { bar, axis: V(1, 0, 0) };
     },
     ohp(u, ctx) {
@@ -352,7 +385,7 @@ export function createLiftRig(actor) {
         hold = 1 - smooth((height - (dims.neck + dims.head.max.y + 0.03)) / 0.08);
       if (hold > 0) bar.addScaledVector(forward, hold * Math.max(0, dims.head.max.z + 0.035 - bar.clone().sub(s).dot(forward)));
       if (ctx.hooks && take < 1) bar = fromRoom(ctx.hooks).lerp(rack, smooth(take));
-      arms(sideways(0.25, bar), hintsOut(0.4 + 0.6 * e, -0.4 + 0.4 * e, 1 - e));
+      arms(sideways(0.25, bar), hintsOut(0.4 + 0.6 * e, -0.4 + 0.4 * e, 1 - e), fit ? smooth(take) : 0);
       return { bar, axis: V(1, 0, 0) };
     },
     deadlift(u, ctx, sumo = false) {
@@ -416,12 +449,36 @@ export function createLiftRig(actor) {
       const sit = smooth(mount / 0.45),
         back = smooth((mount - 0.45) / 0.4),
         grab = smooth((mount - 0.8) / 0.12);
-      // Lying hips: on the pad short of its middle; on the incline just ahead of the hinge.
-      const lying = incline ? V(0, 0.56, hinge.z + 0.1) : V(0, 0.55, lie.z + 0.16);
+      // The saddle cushions are 50 mm above the pivot at rest. Raise the bench pose to their
+      // surface and slide up the incline as the pelvis rises, keeping the back on the same plane.
+      const pivotToPad = 0.05;
+      const padY = hinge.y + pivotToPad;
+      const rise = lizard ? 0.063 : 0.051;
+      const flatHeight = lizard ? 0.143 : 0.152;
+      const flatLean = nativeBench && !lizard ? -0.1 : -0.05;
+      const lying = incline
+        ? V(0, nativeBench ? padY + 0.115 + rise : 0.56, hinge.z + 0.1 - (nativeBench ? rise / Math.tan(incline) : 0))
+        : V(0, nativeBench ? padY + flatHeight : 0.55, lie.z + 0.16);
       const seated = V(0, 0.56, lie.z + 0.5);
       const standing = V(0, dims.hip - 0.005, 0);
       const hips = standing.clone().lerp(seated, sit).lerp(lying, back);
-      body({ hips, pitch: lerp(0, -Math.PI / 2 + incline, back), lean: lerp(0.12 * sit, -0.05, back), head: lerp(0, 0.05, back) });
+      body({
+        hips,
+        pitch: lerp(0, -Math.PI / 2 + incline, back),
+        lean: lerp(0.12 * sit, incline ? -0.05 : flatLean, back),
+        head: lerp(0, 0.05, back),
+      });
+      // Keep trouser twist repeatable when coming from another lift. The knee and ankle targets
+      // fix positions; the bind roll sets the surface that rests on the seat.
+      if (nativeBench) {
+        for (const [side] of SIDES) {
+          for (const joint of ["Thigh", "Shin"]) {
+            const bone = bones[joint + side];
+            bone.quaternion.copy(bindOf(bone));
+          }
+        }
+        bones.Hips.updateMatrixWorld(true);
+      }
       // Feet: together standing, astride the bench seated, planted wide while lying.
       const feetStand = stance(0.13, 0.02),
         feetSeat = stance(0.3, lie.z + 0.7),
@@ -445,7 +502,8 @@ export function createLiftRig(actor) {
       const thighs = sideways(0.17, V(0, hips.y + 0.08, hips.z + 0.24));
       arms(
         sideways(gripHalf, bar).map((g, i) => thighs[i].clone().lerp(g, grab)),
-        variant === "close" ? hintsOut(0.35, -1, 0.3) : hintsOut(1, -0.8, 0.2)
+        variant === "close" ? hintsOut(0.35, -1, 0.3) : hintsOut(1, -0.8, 0.2),
+        nativeBench ? grab : 0
       );
       return grab > 0.98 ? { bar, axis: V(1, 0, 0) } : null;
     },
