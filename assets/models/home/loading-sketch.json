@@ -59,6 +59,12 @@
       "count": 3418,
       "points": 14221,
       "ink": 207.57
+    },
+    "entrance": {
+      "file": "loading-sketch/entrance.json",
+      "count": 2877,
+      "points": 13991,
+      "ink": 152.81
     }
   },
   "focus": {
@@ -89,6 +95,10 @@
     "study": {
       "u": 0.8795,
       "v": -0.1259
+    },
+    "entrance": {
+      "u": 0.531,
+      "v": -0.7614
     }
   },
   "report": {
@@ -193,6 +203,17 @@
         "furniture": 769,
         "plants": 2,
         "detail": 1954
+      }
+    },
+    "entrance": {
+      "aspect": 1.615,
+      "bytes": 40121,
+      "formStrokes": 201,
+      "layers": {
+        "shell": 1432,
+        "cliff": 141,
+        "plants": 1103,
+        "detail": 201
       }
     }
   }

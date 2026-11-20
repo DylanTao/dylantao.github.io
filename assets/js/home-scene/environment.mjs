@@ -3,7 +3,7 @@ import { createRainSurface, rainSurfaceGLSL } from "./rain-surface.mjs";
 import * as THREE from "../three.module.min.js";
 import { mergeGeometries } from "../vendor/three-r164/utils/BufferGeometryUtils.js";
 import { surfaceNoise } from "./realism.mjs";
-import { createSeaReflection } from "./reflection.mjs";
+import { createSeaReflection } from "./reflection.mjs?v=sea-mirror-20261120";
 import { createWildlife } from "./wildlife.mjs?v=contact-regions-20261101";
 import { beachPoint } from "./shore.mjs";
 import { COASTAL_SURF, createCoastalSurf, insideCoastalTidePool } from "./coastal-surf.mjs";

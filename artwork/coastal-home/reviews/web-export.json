@@ -1,7 +1,7 @@
 {
   "bakedColorQuantization": "32 grayscale steps, shared per vertex",
   "dracoColorBits": 6,
-  "sourceSha256": "4c4f9bcdd49e9b966cb2f46de4b383e832aa48536c44fe06b50a048ac91f62a4",
+  "sourceSha256": "a420701dca2193065297517499a93ab85f6d40752deec69194e76ba542755140",
   "activeStaticGeologyAO": true,
   "constantPlanarCompaction": [
     {
@@ -6517,6 +6517,21 @@
       "mesh": "core_pool_tide_relief_saddle_oxide",
       "facesBefore": 268,
       "facesExported": 268
+    },
+    {
+      "mesh": "core_garden_threshold_apron_bearing",
+      "facesBefore": 52,
+      "facesExported": 52
+    },
+    {
+      "mesh": "core_garden_threshold_apron_flags",
+      "facesBefore": 222,
+      "facesExported": 222
+    },
+    {
+      "mesh": "core_garden_threshold_oak_portal",
+      "facesBefore": 500,
+      "facesExported": 500
     }
   ]
 }

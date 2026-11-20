@@ -32,6 +32,17 @@ test("older entrances retain their existing orbit", () => {
   }
 });
 
+test("the garden lens stands on its named Walk destination while the stair keeps its route anchor", () => {
+  const config = manifest();
+  const garden = { room: "outside", position: [1, 8.2, 33], yaw: -2.75, pitch: -0.32, fov: 71 };
+  config.walk.places = { entrance: garden };
+  const view = arrivalStandingView(config, lens);
+  assert.deepEqual(view, { destination: "entrance", position: [1, 8.2 + lens.eyeHeight, 33], yaw: garden.yaw, pitch: garden.pitch, fov: 71 });
+  assert.deepEqual(config.entrance.portal, config.walk.start.position);
+  garden.position[2] = config.walk.region.max[2] + 1;
+  assert.equal(arrivalStandingView(config, lens), null);
+});
+
 test("invalid standing locations, portal mismatch and insufficient headroom never create a free camera", () => {
   const edits = [
     (c) => (c.walk.start.position[0] = NaN),

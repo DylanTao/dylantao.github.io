@@ -1,0 +1,41 @@
+{
+  "source": "artwork/coastal-home/coastal-home.blend",
+  "sourceSha256": "a420701dca2193065297517499a93ab85f6d40752deec69194e76ba542755140",
+  "manifestSha256": "b2810cee038a56c34711746f3ad56071e9e27d4fdb05a36eb05f9ebeb8da5884",
+  "route": {
+    "walkPlace": {
+      "label": "Main entrance",
+      "room": "outside",
+      "position": [1.06, 8.17489362, 34.3],
+      "yaw": -2.830594372984252,
+      "pitch": -0.0734960671244633,
+      "fov": 70
+    },
+    "eyeHeightM": 1.6,
+    "retainedStairHead": [0.19499999284744263, 8.300000190734863, 31.360000610351562],
+    "stations": 321,
+    "spacingM": 0.009576897269618415,
+    "minHeadroomM": 2.147999677658081,
+    "minCenterToSolidM": 0.790963351726532,
+    "maxFootprintHeightChangeM": 0.012257575988769531,
+    "maxStationHeightChangeM": 0.0004711151123046875,
+    "startAndFinishSupportErrorM": [0.0, 0.0],
+    "supportedBy": ["core_arrival_B_portal_plinth", "core_garden_threshold_apron_bearing"]
+  },
+  "overlap": {
+    "scannedMeshes": [
+      "core__golden coastal sandstone",
+      "core_arrival_B_continuous_soffit",
+      "core_arrival_B_east_wall",
+      "core_arrival_B_portal_plinth",
+      "core_entry_landscape_sandstone",
+      "core_entry_landscape_grass_light",
+      "core_garden_threshold_apron_bearing",
+      "core_garden_threshold_apron_flags",
+      "core_garden_threshold_oak_portal"
+    ],
+    "bearingSites": 85,
+    "offenders": 0,
+    "zFightingPairs": 0
+  }
+}

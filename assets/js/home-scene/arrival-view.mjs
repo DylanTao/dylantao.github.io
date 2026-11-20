@@ -1,5 +1,5 @@
-// The straight descent is inspected from its real standing entry. The older
-// entrance keeps its authored orbit until its geometry and metadata are replaced.
+// The original stair head remains the route anchor. When a garden approach is authored,
+// its standing view and Walk share the same supported sole position and heading.
 export function arrivalStandingView(config, { eyeHeight, fov }) {
   const entrance = config?.entrance;
   const start = config?.walk?.start;
@@ -11,7 +11,13 @@ export function arrivalStandingView(config, { eyeHeight, fov }) {
   if (!Number.isFinite(entrance.headroom) || eyeHeight + 0.05 >= entrance.headroom) return null;
   if (!Number.isFinite(entrance.top) || Math.abs(start.position[1] - entrance.top) > 0.00001) return null;
   if (!start.position.every((v, axis) => Math.abs(v - entrance.portal[axis]) <= 0.00001)) return null;
-  const position = start.position.map((v, axis) => v + (axis === 1 ? eyeHeight : 0));
+  const garden = config.walk.places?.entrance;
+  const stand = garden || start;
+  const viewFov = garden?.fov ?? fov;
+  if (garden && (garden.room !== "outside" || !vector(garden.position))) return null;
+  if (!Number.isFinite(stand.yaw) || !Number.isFinite(stand.pitch) || Math.abs(stand.pitch) > 1.4) return null;
+  if (!Number.isFinite(viewFov) || viewFov < 24 || viewFov > 75) return null;
+  const position = stand.position.map((v, axis) => v + (axis === 1 ? eyeHeight : 0));
   if (!position.every((v, axis) => region.min[axis] < region.max[axis] && v > region.min[axis] && v < region.max[axis])) return null;
-  return { position, yaw: start.yaw, pitch: start.pitch, fov, destination: "entrance" };
+  return { position, yaw: stand.yaw, pitch: stand.pitch, fov: viewFov, destination: "entrance" };
 }

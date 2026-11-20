@@ -247,6 +247,12 @@
       "maxDepthM": 0.405,
       "maxSeamM": 2.54
     },
+    "core_arrival_B_continuous_soffit | core_garden_threshold_oak_portal": {
+      "verdict": "designed",
+      "reason": "The oak lining returns into the head of the retained stair. At its deepest contact the 47 mm fixing is overhead at the west side of the portal. The measured clear headroom along the approach is 2.148 m.",
+      "maxDepthM": 0.048,
+      "maxSeamM": 12.3
+    },
     "core_arrival_B_east_wall | core_reno_floorboards_lower": {
       "verdict": "hidden",
       "reason": "The oak at the edge of the compression floor terminates under the east wall, with the deepest crossing at floor elevation −0.009 m. The exposed oak and inset stone surfaces meet edge to edge.",

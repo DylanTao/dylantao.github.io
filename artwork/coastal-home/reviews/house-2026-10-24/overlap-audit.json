@@ -5,8 +5,8 @@
     "bin/pack_coastal_streamed_models.py": "efe8b5bc26f4eecc4320bbebd78cce49c120676ef683be5059c184f690b4a255"
   },
   "source": "artwork/coastal-home/coastal-home.blend",
-  "sourceSha256": "4c4f9bcdd49e9b966cb2f46de4b383e832aa48536c44fe06b50a048ac91f62a4",
-  "manifestSha256": "66df715fc52e560b9d11c2e30ccb7e2a0fb89b5b56ec720f65a0340125e04793",
+  "sourceSha256": "a420701dca2193065297517499a93ab85f6d40752deec69194e76ba542755140",
+  "manifestSha256": "b2810cee038a56c34711746f3ad56071e9e27d4fdb05a36eb05f9ebeb8da5884",
   "modelCoverage": {
     "home-shell.glb": null,
     "coast.glb": null,
@@ -183,21 +183,21 @@
     "coast.glb": "63eebc03a1218565d8d3722e5ddd4d46839f911b1c893551c905cd8e06a0ebd8",
     "detail-bath-bedroom.glb": "b5bc4125e8cfdd51f4655c4bf33a6b1bb9975f7aaf0a4b3efe87529839e8f293",
     "detail-bath-living.glb": "46fc28df054069aa15d4340b635af1662666f42a564d56aec90e009951f8c7cc",
-    "detail-court-garden.glb": "d8b7bfbbd6a83a54c5a6903962d3099308b1d61bf86e97a5bbf01838593d78cd",
-    "detail-entry-art.glb": "f1084f32c482cc6ce215f98965fb2056f3f8c23e9a5fc7a3ba8d2ccace560630",
-    "detail-library.glb": "21b20cb932c12415aa1381a3207e05f970a256c5cfe247614014fc60178d2005",
-    "detail-listening-bar.glb": "cd23e52c1c799383cc687aa21080a9b6ee7372de6db78cab126f850d1d075831",
-    "detail-ocean-baths.glb": "ae5f8dc9dc0d84fee2ed4f7984faf18c1cfb20f89e562bfe0b6e806cb8286d82",
+    "detail-court-garden.glb": "59040409823d74d4004abcfa2fb6c6191409ce2f5ed05c15401c7b459f1cd445",
+    "detail-entry-art.glb": "57ac2ba707b727ef760e3f502c2e0e02b34561898e9de02c76d0afe30698a822",
+    "detail-library.glb": "c042c568d7546a8b7d61066010bd7f333b92d204d2c54ebb27d1f43c708520e6",
+    "detail-listening-bar.glb": "5f46a2713c68b38d1b8ad5d9868de36f69d3f2ecc15f3bf210c39433ecf677f8",
+    "detail-ocean-baths.glb": "71e5d5fb6d423787b1e344fa8e96772ae31046a095dc1c628fe03acc8b94e7ce",
     "detail-onsen.glb": "4c2f740b38886108142d509dd0f69160dae74285896451b6e8c93c27ce1f277e",
-    "detail-pool-relief.glb": "660a961355e472e5d513331f14839ed1c0add957d44313c6627c6a8ac4fc37eb",
+    "detail-pool-relief.glb": "b28992017de962edc5a2e66d5f9d90a9f22360c6d2acf673272bc0920a2aa1ab",
     "flora.glb": "b90cf95449e17ed80337cbf03d437ba5fee3515cbb1d21efc91fdb48b8069e68",
-    "home-shell.glb": "e6b6fdd2e68273f0b85c7b1b179f3db3088027f597c84d5d116d08c169c8a0e2",
+    "home-shell.glb": "0136885a2673833d5a0d7a7157c36f8d324fa5eb4e9e8b4cacd3dd8a3b84cbb9",
     "room-bath-bedroom.glb": "a4b0fc22296454f0bf5f22d0e470f2930f3077ce0ce48328b61bf2f1b45fa1e4",
     "room-bath-living.glb": "6a7eb3ba01c6fec1c9f505e52b7b7e8993215e8112cb981846f3c5bb44fc0941",
     "room-gym.glb": "11dcb5613a9345a461433d763f75a58e8f90291d2d2f85a8bf133d6f2d5ef192",
     "room-kitchen.glb": "3e53294af4d0aee4f9965080c847f6ee2ae0021b223c0ccd323623e64c3f56ea",
     "room-library-upper.glb": "91534441cda1fc3823623a61f979bb5ad9478b222df7de03f26a62202cbdfaaa",
-    "room-library.glb": "6bf759f85488721d71387788d7b010b729244244679430f111fbc7da975c3e5c",
+    "room-library.glb": "fdf551d143704fe81d3ed10a443d74ee03e2171227dfb4bb9db18b670844fc2b",
     "room-lounge.glb": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390",
     "room-onsen.glb": "cb5a1bc7d1708a8c2a191164442e31411e1680f2f8755db3bb7f285439003d29",
     "room-sleep.glb": "70c3b70971026d563a7b7dd00c9ea3aa9e8cde093ed4a07d9a5676f4f69aac59",
@@ -343,7 +343,7 @@
       "sha256": "b33a347333fb60c47f18c0df317117a8f94a1c47081af557bc4b99b1d5cb51bd"
     }
   ],
-  "furnitureAnchorsSha256": "c8de3af1aa4251cb0e76a742637fb0a156646e2762fb84c8dd5ecbfff4972c9b",
+  "furnitureAnchorsSha256": "a2852cd5ebc9e1def5cb2f16522a8dbb397539313694fa98d6a4d587d3952be8",
   "scope": "Native source triangles (shell, rooms, fixtures, planting, coast) plus the streamed furniture items placed exactly as furniture.mjs places them. Delivered Draco geometry of the repaired families is checked separately in test/coastal-overlap-delivered.test.mjs; browser poses of people and animals are separate captured evidence.",
   "tolerances": {
     "planeMm": 1.0,
@@ -422,22 +422,22 @@
     "never-drawn": 1
   },
   "counts": {
-    "meshes": 936,
-    "triangles": 1404571,
-    "closedMeshes": 781,
-    "pairsTested": 7651,
-    "crossingPairs": 1498,
-    "sites": 21131,
-    "offenders": 1171,
-    "coplanarPairs": 612,
+    "meshes": 939,
+    "triangles": 1406207,
+    "closedMeshes": 783,
+    "pairsTested": 7701,
+    "crossingPairs": 1505,
+    "sites": 21296,
+    "offenders": 1191,
+    "coplanarPairs": 615,
     "zFightingPairs": 46,
-    "coplanarTrianglePairsTested": 83772
+    "coplanarTrianglePairsTested": 83795
   },
   "ruleCounts": {
-    "unclassified": 1171,
-    "one-sided-embed": 3108,
+    "unclassified": 1191,
+    "one-sided-embed": 3128,
     "support-rest": 290,
-    "shallow-seam": 11629,
+    "shallow-seam": 11754,
     "water-in-basin": 197,
     "structural-joint": 157,
     "planting-root": 2144,
@@ -452,9 +452,9 @@
     "zFightingVisibleAreaM2": 0.8465,
     "grazingSites": 25,
     "grazingSeamM": 3.638,
-    "deepSites": 1146,
+    "deepSites": 1166,
     "deepSitesOver5cm": 349,
-    "deepSeverity": 42005.7,
+    "deepSeverity": 42505.8,
     "maxDeepSeverity": 1338.8
   },
   "before": {
@@ -472,12 +472,12 @@
   },
   "beforeProvenance": {
     "file": "artwork\\coastal-home\\reviews\\house-2026-10-24\\overlap-audit.json",
-    "sha256": "fc2c76e3ddb79407ef223d5dea76cd3264a4024ed7aa559a230c855720d22f83",
+    "sha256": "2cf1b90ef93cfd9ce3096913b3af47f9eef0f060acb493d23f5d0fcbcc5e76ab",
     "kind": "retained-before-record-in-compact-audit"
   },
   "delivered": {
     "exportsSha256": {
-      "home-shell.glb": "e6b6fdd2e68273f0b85c7b1b179f3db3088027f597c84d5d116d08c169c8a0e2",
+      "home-shell.glb": "0136885a2673833d5a0d7a7157c36f8d324fa5eb4e9e8b4cacd3dd8a3b84cbb9",
       "coast.glb": "63eebc03a1218565d8d3722e5ddd4d46839f911b1c893551c905cd8e06a0ebd8",
       "flora.glb": "b90cf95449e17ed80337cbf03d437ba5fee3515cbb1d21efc91fdb48b8069e68",
       "room-study.glb": "1de86040cb6c173c72e9f00061d6add31a70e3d6907495413cd7ac21586daf8a",
@@ -486,16 +486,16 @@
       "room-onsen.glb": "cb5a1bc7d1708a8c2a191164442e31411e1680f2f8755db3bb7f285439003d29",
       "room-lounge.glb": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390",
       "room-sleep.glb": "70c3b70971026d563a7b7dd00c9ea3aa9e8cde093ed4a07d9a5676f4f69aac59",
-      "room-library.glb": "6bf759f85488721d71387788d7b010b729244244679430f111fbc7da975c3e5c",
+      "room-library.glb": "fdf551d143704fe81d3ed10a443d74ee03e2171227dfb4bb9db18b670844fc2b",
       "room-library-upper.glb": "91534441cda1fc3823623a61f979bb5ad9478b222df7de03f26a62202cbdfaaa",
       "room-bath-living.glb": "6a7eb3ba01c6fec1c9f505e52b7b7e8993215e8112cb981846f3c5bb44fc0941",
       "room-bath-bedroom.glb": "a4b0fc22296454f0bf5f22d0e470f2930f3077ce0ce48328b61bf2f1b45fa1e4",
-      "detail-listening-bar.glb": "cd23e52c1c799383cc687aa21080a9b6ee7372de6db78cab126f850d1d075831",
-      "detail-ocean-baths.glb": "ae5f8dc9dc0d84fee2ed4f7984faf18c1cfb20f89e562bfe0b6e806cb8286d82",
-      "detail-court-garden.glb": "d8b7bfbbd6a83a54c5a6903962d3099308b1d61bf86e97a5bbf01838593d78cd",
-      "detail-entry-art.glb": "f1084f32c482cc6ce215f98965fb2056f3f8c23e9a5fc7a3ba8d2ccace560630",
-      "detail-pool-relief.glb": "660a961355e472e5d513331f14839ed1c0add957d44313c6627c6a8ac4fc37eb",
-      "detail-library.glb": "21b20cb932c12415aa1381a3207e05f970a256c5cfe247614014fc60178d2005",
+      "detail-listening-bar.glb": "5f46a2713c68b38d1b8ad5d9868de36f69d3f2ecc15f3bf210c39433ecf677f8",
+      "detail-ocean-baths.glb": "71e5d5fb6d423787b1e344fa8e96772ae31046a095dc1c628fe03acc8b94e7ce",
+      "detail-court-garden.glb": "59040409823d74d4004abcfa2fb6c6191409ce2f5ed05c15401c7b459f1cd445",
+      "detail-entry-art.glb": "57ac2ba707b727ef760e3f502c2e0e02b34561898e9de02c76d0afe30698a822",
+      "detail-pool-relief.glb": "b28992017de962edc5a2e66d5f9d90a9f22360c6d2acf673272bc0920a2aa1ab",
+      "detail-library.glb": "c042c568d7546a8b7d61066010bd7f333b92d204d2c54ebb27d1f43c708520e6",
       "detail-bath-living.glb": "46fc28df054069aa15d4340b635af1662666f42a564d56aec90e009951f8c7cc",
       "detail-bath-bedroom.glb": "b5bc4125e8cfdd51f4655c4bf33a6b1bb9975f7aaf0a4b3efe87529839e8f293",
       "detail-onsen.glb": "4c2f740b38886108142d509dd0f69160dae74285896451b6e8c93c27ce1f277e",
@@ -518,9 +518,9 @@
       "zFightingVisibleAreaM2": 1.1366,
       "grazingSites": 27,
       "grazingSeamM": 5.192,
-      "deepSites": 1044,
+      "deepSites": 1059,
       "deepSitesOver5cm": 203,
-      "deepSeverity": 30995.3,
+      "deepSeverity": 31364.7,
       "maxDeepSeverity": 1379.0
     },
     "zFighting": [
@@ -663,15 +663,15 @@
         "normal": [0.0, 1.0, 0.0]
       },
       {
-        "pair": "bath-living__bathroom clear shower glass | bath-living__pale oak",
-        "visibleAreaM2": 0.002376,
-        "at": [-7.693, -11.014, 0.674],
-        "normal": [-0.0, 1.0, 0.0]
-      },
-      {
         "pair": "bath-bedroom__bathroom clear shower glass | bath-bedroom__pale oak",
         "visibleAreaM2": 0.002376,
         "at": [-7.693, -11.014, 3.274],
+        "normal": [-0.0, 1.0, 0.0]
+      },
+      {
+        "pair": "bath-living__bathroom clear shower glass | bath-living__pale oak",
+        "visibleAreaM2": 0.002376,
+        "at": [-7.693, -11.014, 0.674],
         "normal": [-0.0, 1.0, 0.0]
       },
       {
@@ -1509,6 +1509,16 @@
       "verdict": "designed"
     },
     {
+      "pair": "core_arrival_B_continuous_soffit | core_garden_threshold_oak_portal",
+      "sites": 20,
+      "seamM": 12.265,
+      "maxDepthM": 0.047,
+      "severity": 500.1,
+      "worstSite": [-0.812, -31.627, 10.5],
+      "categories": ["shell"],
+      "verdict": "designed"
+    },
+    {
       "pair": "core_arrival_paths__travertine paving stone | core_retreat_liftaway_roof",
       "sites": 6,
       "seamM": 3.653,
@@ -2137,16 +2147,6 @@
       "worstSite": [-4.407, -13.523, 8.725],
       "categories": ["rock", "shell"],
       "verdict": null
-    },
-    {
-      "pair": "core_arrival_paths__travertine paving stone | core_estate_garden_flora_grass",
-      "sites": 4,
-      "seamM": 0.236,
-      "maxDepthM": 0.0987,
-      "severity": 77.9,
-      "worstSite": [5.623, -17.954, 7.373],
-      "categories": ["plant", "shell"],
-      "verdict": "follow-up"
     }
   ]
 }

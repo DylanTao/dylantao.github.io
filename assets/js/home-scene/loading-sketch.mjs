@@ -7,7 +7,7 @@
 // arrives in; bin/build_loading_sketch.cjs traces them from the scene's own views.
 import { createSketchEngine, loadSketches } from "./loading-sketch-core.mjs?v=packed-20261031";
 
-const SKETCHES = new URL("../../models/home/loading-sketch.json", import.meta.url);
+const SKETCHES = new URL("../../models/home/loading-sketch.json?v=garden-arrival-20261120", import.meta.url);
 const STAGES = new Set(["home", "coast", "room", "lighting", "first-frame", "ready"]);
 // The render arrives beneath the drawing, then the drawing goes; never more than 1.4 s in all.
 const REVEAL_DELAY = 240,

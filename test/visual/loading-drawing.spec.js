@@ -118,10 +118,14 @@ test("coastal loading drawing: complete geometric detail stays legible through t
     const state = await sketchState(scene),
       evidence = await scene.evaluate((host) => host.getSceneEvidence()),
       backend = await rendererEvidence(scene);
-    expect(state.drawing).toBe(evidence.currentRoom);
+    // Both pages share the visitor's storage. The second visit opens with Sirui at his desk.
+    const destination = index === 0 ? "entrance" : "study";
+    expect(evidence.currentRoom).toBe(index === 0 ? "outside" : "study");
+    if (index === 0) expect(evidence.walk.destination).toBe("entrance");
+    expect(state.drawing).toBe(destination);
     expect(state.drawn).toBeLessThanOrEqual(state.allowed);
     expect(evidence.loading.firstFrameMilliseconds).toBeGreaterThan(0);
-    expect(requested).toEqual(["loading-sketch.json", `loading-sketch/${evidence.currentRoom}.json`]);
+    expect(requested).toEqual(["loading-sketch.json", `loading-sketch/${destination}.json`]);
     await Promise.all(responseWork);
     expect(received).toHaveLength(2);
     for (const drawing of received) {

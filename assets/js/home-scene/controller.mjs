@@ -1,7 +1,7 @@
 import * as THREE from "../three.module.min.js";
 import { createModelLoader } from "./model-loader.mjs";
 import { createArtDirection } from "./materials.mjs";
-import { createPacific } from "./environment.mjs?v=rain-contact-20261102";
+import { createPacific } from "./environment.mjs?v=sea-mirror-20261120";
 import { createFinish, physicalTime, surfaceLook } from "./realism.mjs";
 import { readLook } from "./look.mjs";
 import { createPrintLook, readDrawnLook, writeDrawnLook } from "./print-look.mjs";
@@ -12,7 +12,7 @@ import { createExplorationState, resolveRoutine, routineRoom, formatMinute, choo
 import { createFootContacts } from "./locomotion.mjs";
 import { createResolutionGovernor, detailFor } from "./resolution.mjs";
 import { createQualityGovernor, initialTier, lowerTier, QUALITY_CAP_KEY, QUALITY_TIERS, requestedTier, targetMemory } from "./quality.mjs";
-import { setMirrorSize } from "./reflection.mjs";
+import { setMirrorSize } from "./reflection.mjs?v=sea-mirror-20261120";
 import { createShadowCache } from "./shadow-cache.mjs";
 import { shadowDrift, steppedShadowExtent } from "./shadow-fit.mjs";
 import { sortOpaqueByProgram } from "./draw-order.mjs";
@@ -58,7 +58,7 @@ import { compileVisitorRail, createFilmScoreCue, createVisitorClearance, createV
 import { FILM_STAIR_EYE, visitorRailRegions, visitorRailShots } from "./visitor-rail-shots.mjs";
 import { bindVisitorRailUi } from "./visitor-rail-ui.mjs";
 import { coastalDaylight, LA_JOLLA } from "./daylight.mjs";
-import { createLoadingSketch } from "./loading-sketch.mjs?v=packed-20261031";
+import { createLoadingSketch } from "./loading-sketch.mjs?v=garden-arrival-20261120";
 import { createLightWell } from "./light-well.mjs";
 import { bindContactLighting, withoutContactLighting } from "./contact-occlusion.mjs";
 import { createCharacterPerformance } from "./character-performance.mjs";
@@ -83,8 +83,8 @@ import { prepareFramePrograms } from "./program-warmup.mjs";
 import { retireCompiledMaterials } from "./program-lifetime.mjs";
 import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
 import { createWorldFullscreen } from "./world-fullscreen.mjs?v=layout-20261031";
-import { createWalkMode, WALK } from "./walk-controls.mjs?v=garden-20261119";
-import { arrivalStandingView } from "./arrival-view.mjs";
+import { createWalkMode, WALK } from "./walk-controls.mjs?v=garden-approach-20261120";
+import { arrivalStandingView } from "./arrival-view.mjs?v=garden-arrival-20261120";
 import { createLightInstallations, roomLightSources } from "./light-installations.mjs?v=gym-stations-20261119";
 import { createFurniture } from "./furniture.mjs";
 import { createTerraceHearth } from "./terrace-hearth.mjs";
@@ -145,6 +145,12 @@ export function createCoastalHome(container, records, artifacts) {
   function setRoomFinishing(value) {
     roomFinishing = value;
     if (walkButton) walkButton.disabled = value;
+  }
+  function cancelPendingRoom() {
+    if (roomFinishing) {
+      roomSelection++;
+      setRoomFinishing(false);
+    }
   }
   const clockLabel = ui.querySelector("[data-world-clock]");
   const explore = createExplorationState();
@@ -462,8 +468,9 @@ export function createCoastalHome(container, records, artifacts) {
   }
 
   // The loading sketch (loading-sketch.mjs) follows the work: it receives each stage with the
-  // occupied room once that is known, and every change of the progress bar's fills.
-  let loadingSketch = null;
+  // visitor's opening view once it is known, and every change of the progress bar's fills.
+  let loadingSketch = null,
+    startupView = null;
   function loadingStage(stage, message) {
     startupStages.push({ stage, milliseconds: performance.now() - startupStart });
     container.dataset.loadingStage = stage;
@@ -473,7 +480,7 @@ export function createCoastalHome(container, records, artifacts) {
     const places = ui.querySelector("[data-world-places]");
     places.inert = stage !== "ready";
     places.querySelector("summary").setAttribute("aria-disabled", String(stage !== "ready"));
-    loadingSketch?.stage(stage, routine?.room);
+    loadingSketch?.stage(stage, startupView);
   }
 
   // An honest loading bar: one segment per piece of first-view work, each filled only by what has
@@ -1239,9 +1246,9 @@ export function createCoastalHome(container, records, artifacts) {
       needsPrograms ||= !detailRoots.has(config.streamedBedding[variant]);
       needed.push(loadBedding(variant));
     }
-    if (!needed.length) return null;
+    if (!needsPrograms) return null;
     return Promise.all(needed).then(() => {
-      if (needsPrograms && firstFrameMilliseconds !== null) return compilePrograms(null, { wait: false });
+      if (firstFrameMilliseconds !== null) return compilePrograms(null, { wait: false });
     });
   }
 
@@ -2693,6 +2700,7 @@ export function createCoastalHome(container, records, artifacts) {
     stationLook = id === "gym";
     inertia.stop();
     if (manual) {
+      cancelPendingRoom();
       explore.explore();
       followClock = false;
     }
@@ -2755,6 +2763,8 @@ export function createCoastalHome(container, records, artifacts) {
 
   function syncVisitorNavigation() {
     const viewedDestination = walkPlace || freeLook?.destination || currentRoom;
+    const skipArrival = ui.querySelector("[data-world-arrival-skip]");
+    if (skipArrival && (viewedDestination !== "entrance" || walkMode?.active)) skipArrival.hidden = true;
     const atGym = viewedDestination === "gym";
     gymDashboard?.setAvailable(atGym);
     if (listeningPanel) listeningPanel.hidden = viewedDestination !== "speakeasy" || !records.length;
@@ -2816,9 +2826,10 @@ export function createCoastalHome(container, records, artifacts) {
 
   function frameStandingView(destination) {
     const place = config.walk?.places?.[destination];
-    const entry = place
-      ? { ...place, destination, position: [place.position[0], place.position[1] + WALK.eyeHeight, place.position[2]] }
-      : arrivalStandingView(config, { eyeHeight: WALK.eyeHeight, fov: WALK.fov });
+    const entry =
+      destination === "entrance"
+        ? arrivalStandingView(config, { eyeHeight: WALK.eyeHeight, fov: WALK.fov })
+        : place && { ...place, destination, position: [place.position[0], place.position[1] + WALK.eyeHeight, place.position[2]] };
     if (entry) {
       freeLook = { ...entry, position: new THREE.Vector3().fromArray(entry.position), shownYaw: entry.yaw, shownPitch: entry.pitch };
       desiredFov = entry.fov;
@@ -2985,6 +2996,7 @@ export function createCoastalHome(container, records, artifacts) {
     listen(ui, "click", async (event) => {
       const b = event.target.closest("button");
       if (!b) return;
+      if (b.matches("[data-world-follow], [data-world-now], [data-world-recenter], [data-world-look], [data-world-view]")) cancelPendingRoom();
       if (b.hasAttribute("data-world-arrival-skip")) {
         b.hidden = true;
         ui.querySelector("[data-world-follow]").click();
@@ -2997,9 +3009,11 @@ export function createCoastalHome(container, records, artifacts) {
       if (b.dataset.worldDestination) {
         const destination = b.dataset.worldDestination;
         const selection = ++roomSelection;
+        closePlaces();
         const finishing = loadDestinationDetail(destination);
         setRoomFinishing(Boolean(finishing));
         if (finishing) {
+          status.textContent = `Opening ${b.textContent.trim()}…`;
           b.disabled = true;
           try {
             await finishing;
@@ -3010,13 +3024,12 @@ export function createCoastalHome(container, records, artifacts) {
             b.disabled = false;
             if (selection === roomSelection) setRoomFinishing(false);
           }
-          if (selection !== roomSelection || disposed || !visible || !places.open) return;
+          if (selection !== roomSelection || disposed || !visible) return;
         }
         const place = config.walk?.places?.[destination];
         setRoom(place?.room || (destination === "entrance" ? "outside" : destination));
         walkMode?.chooseDestination(destination === "overview" ? null : destination);
         if (place || destination === "entrance") frameStandingView(destination);
-        closePlaces();
         requestFrame();
       }
       if (b.hasAttribute("data-world-recenter")) {
@@ -4459,6 +4472,7 @@ export function createCoastalHome(container, records, artifacts) {
       container.removeAttribute("aria-busy");
       if (progressBar) progressBar.hidden = true;
       loadingStage("ready", routine.label);
+      syncVisitorNavigation();
       // The pen sketch hands over to the drawn view. It must never stop the render loop, so a
       // failure only removes it.
       try {
@@ -4954,9 +4968,9 @@ export function createCoastalHome(container, records, artifacts) {
       // sandstone and the plaster walls are the slowest, 10-25 s each on ANGLE/D3D11) start now,
       // while the rooms download; the warmup before the first frame waits for every program.
       compilePrograms(null, { wait: false });
-      loadingStage("room", "Furnishing the home.");
       const firstArrival = wantsFirstArrival();
-      const startupView = firstArrival ? "entrance" : currentRoom;
+      startupView = firstArrival ? "entrance" : currentRoom;
+      loadingStage("room", "Furnishing the home.");
       const initialDetail = (config.streamedDetails || []).filter((entry) => entry.firstFrame?.includes(startupView));
       let furnishedRooms = 0;
       // The cutaway shows adjacent rooms too. Loading only the occupied room left a visibly
@@ -5530,6 +5544,7 @@ export function createCoastalHome(container, records, artifacts) {
     },
     async setVisible(value) {
       visible = value;
+      if (!value) cancelPendingRoom();
       if (!value) gymDashboard?.close();
       if (!value) companion.paused = false;
       container.classList.toggle("is-visible", value);

@@ -3,14 +3,17 @@
 //   node bin/build_loading_sketch.cjs              capture the passes, then trace
 //   node bin/build_loading_sketch.cjs --reuse      re-trace the cached passes
 //   node bin/build_loading_sketch.cjs --check      re-trace the cached passes; fail if any drawing file would change
+//   node bin/build_loading_sketch.cjs --capture-only --capture-view=entrance
+//                                                 replace only the arrival passes, then run --reuse
+// On the first entrance capture, collect its new dive point with the _outside_ view too.
 //
 // It writes loading-sketch.json, an index with the plans, the dive points and the coast view's
-// drawing, which every load draws, and one file per room in loading-sketch/, so a load fetches only
-// the room the visitor arrives in.
+// drawing, which every load draws, and one file per destination in loading-sketch/, so a load
+// fetches only the drawing the visitor arrives in.
 //
 // The sketch draws the coast view while the house and coast stream in, then the room the visitor
-// will arrive in while the rooms, Sirui and the view's programs load (loading-sketch.mjs). So only
-// those views are traced: "outside" and every room an activity can open in. For each, the running
+// will arrive in while the rooms, Sirui and the view's programs load (loading-sketch.mjs). We trace
+// "outside", every occupied routine room, and the first public standing entrance. For each, the running
 // preview (VISUAL_BASE_URL, default Docker on 127.0.0.1:8080) renders three passes with characters,
 // wildlife and glass hidden: object IDs, view-space normals and depth. Scene modules and models are
 // served from this working tree, so a stale server never feeds the trace. Object outlines, depth
@@ -32,6 +35,7 @@ const CACHE = path.join(ROOT, ".jekyll-cache/visual-qa/loading-sketch");
 const REUSE = process.argv.includes("--reuse") || process.argv.includes("--check");
 const CHECK = process.argv.includes("--check");
 const CAPTURE_ONLY = process.argv.includes("--capture-only");
+const CAPTURE_VIEW = process.argv.find((arg) => arg.startsWith("--capture-view="))?.slice("--capture-view=".length);
 const RANGE = { u: 1.65, v: 1 };
 const MANIFEST = JSON.parse(fs.readFileSync(path.join(ROOT, "assets/models/home/manifest.json"), "utf8"));
 const ROOMS = [
@@ -44,7 +48,8 @@ const ROOMS = [
       ])
   ),
 ].sort();
-const VIEWS = ["outside", ...ROOMS];
+const ENTRANCE = MANIFEST.entrance?.firstVisit === true && MANIFEST.entrance.straightDescent === true ? ["entrance"] : [];
+const VIEWS = ["outside", ...ROOMS, ...ENTRANCE];
 const LIVE = /pip|companion|wildlife|gull|rabbit|raccoon|seal|lion|sandpiper|neighbou?r|active-Sirui|sirui-/i;
 const SEA = /ocean|pacific|sea\b|surf|wave|foam|swash|onsen.*water|water/i;
 const TYPES = {
@@ -60,13 +65,13 @@ function injectedController() {
     .replace(/\r\n/g, "\n")
     .replace(
       "  scene.add(world);\n",
-      "  scene.add(world);\n  window.__sketchScene = { scene, world, THREE, get camera() { return camera; }, get renderer() { return renderer; } };\n"
+      "  scene.add(world);\n  window.__sketchScene = { scene, world, THREE, get camera() { return camera; }, get renderer() { return renderer; }, get entrance() { return arrivalStandingView(config, { eyeHeight: WALK.eyeHeight, fov: WALK.fov }); } };\n"
     );
   if (!source.includes("__sketchScene")) throw new Error("controller injection point not found");
   return source;
 }
 
-async function capture() {
+async function capture(views, { firstArrival = false } = {}) {
   const { chromium } = require("playwright");
   const controller = injectedController();
   const browser = await chromium.launch({
@@ -84,7 +89,7 @@ async function capture() {
   });
   await page.route("**/livereload.js*", (route) => route.fulfill({ contentType: "application/javascript", body: "" }));
   await page.clock.install({ time: new Date("2026-10-02T13:20:00-07:00") });
-  await page.goto(`${BASE}/?scene-lab=1`, { waitUntil: "domcontentloaded" });
+  await page.goto(`${BASE}/${firstArrival ? "" : "?scene-lab=1"}`, { waitUntil: "domcontentloaded" });
   await page.locator('[data-home-desk-mode="3d"]').click();
   const scene = page.locator("[data-home-desk-scene]");
   await scene.scrollIntoViewIfNeeded();
@@ -99,23 +104,45 @@ async function capture() {
     await page.clock.runFor(1500);
   };
   await settle();
-  await page.locator("[data-world-lab]>summary").click();
+  if (firstArrival) {
+    await page.waitForFunction(() => {
+      const host = document.querySelector("[data-home-desk-scene]"),
+        evidence = host.getSceneEvidence(),
+        entrance = window.__sketchScene.entrance,
+        view = evidence.freeLook;
+      return (
+        entrance &&
+        view &&
+        document.querySelector("[data-world-arrival-skip]")?.hidden === false &&
+        entrance.position.every((value, axis) => Math.abs(evidence.camera[axis] - value) < 1e-5) &&
+        Math.abs(view.yaw - entrance.yaw) < 1e-5 &&
+        Math.abs(view.pitch - entrance.pitch) < 1e-5 &&
+        Math.abs(evidence.cameraFov - entrance.fov) < 1e-5
+      );
+    });
+  } else await page.locator("[data-world-lab]>summary").click();
   fs.mkdirSync(CACHE, { recursive: true });
-  for (const view of VIEWS) {
-    await page.locator(`[data-world-room="${view}"]`).first().click();
-    await settle();
+  for (const view of views) {
+    if (!firstArrival) {
+      await page.locator(`[data-world-room="${view}"]`).first().click();
+      await settle();
+    }
     const pass = await page.evaluate(
-      ({ livePattern, rooms, outside }) => {
+      ({ livePattern, rooms, outside, entrancePoint }) => {
         const { scene, world, THREE, camera, renderer } = window.__sketchScene;
         // Where each room the sketch can move into sits in the coast view, in sketch units.
         const focus = {};
-        if (outside)
+        if (outside) {
+          const diveTo = (id, point) => {
+            point.project(camera);
+            focus[id] = { u: +(point.x * camera.aspect).toFixed(4), v: +(-point.y).toFixed(4) };
+          };
           for (const id of rooms) {
             const root = world.getObjectByName(`room-${id}`);
-            if (!root) continue;
-            const centre = new THREE.Box3().setFromObject(root).getCenter(new THREE.Vector3()).project(camera);
-            focus[id] = { u: +(centre.x * camera.aspect).toFixed(4), v: +(-centre.y).toFixed(4) };
+            if (root) diveTo(id, new THREE.Box3().setFromObject(root).getCenter(new THREE.Vector3()));
           }
+          if (entrancePoint) diveTo("entrance", new THREE.Vector3().fromArray(entrancePoint));
+        }
         const live = new RegExp(livePattern, "i");
         const canvas = renderer.domElement,
           width = canvas.width * 2,
@@ -204,7 +231,12 @@ async function capture() {
           camera: { position: camera.position.toArray(), fov: camera.fov, aspect: camera.aspect },
         };
       },
-      { livePattern: LIVE.source, rooms: ROOMS, outside: view === "outside" }
+      {
+        livePattern: LIVE.source,
+        rooms: ROOMS,
+        outside: view === "outside",
+        entrancePoint: ENTRANCE.length ? (MANIFEST.walk?.places?.entrance?.position ?? MANIFEST.entrance.portal) : null,
+      }
     );
     for (const name of ["ids", "normals", "depth"]) fs.writeFileSync(path.join(CACHE, `${view}-${name}.bin`), Buffer.from(pass[name], "base64"));
     const meta = {
@@ -863,7 +895,14 @@ module.exports = {
 
 if (require.main === module)
   (async () => {
-    if (!REUSE) await capture();
+    if (CAPTURE_VIEW !== undefined && (!CAPTURE_ONLY || REUSE || !VIEWS.includes(CAPTURE_VIEW)))
+      throw new Error("--capture-view needs --capture-only and an authored view id");
+    if (!REUSE) {
+      const views = CAPTURE_VIEW === undefined ? VIEWS : [CAPTURE_VIEW];
+      const roomViews = views.filter((view) => view !== "entrance");
+      if (roomViews.length) await capture(roomViews);
+      if (views.includes("entrance")) await capture(["entrance"], { firstArrival: true });
+    }
     if (CAPTURE_ONLY) return;
     writeSketch({ check: CHECK });
   })().catch((error) => {

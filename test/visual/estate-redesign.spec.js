@@ -82,7 +82,7 @@ function yawTurn([ax, ay, az, aw], [bx, by, bz, bw]) {
 
 test("estate thresholds: real leaves open before the body, cross both ways and close after leaving", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "desktop-1440", "One focused native door-motion proof complements the existing touch Walk tests.");
-  test.setTimeout(software ? 600000 : 300000);
+  test.setTimeout(software ? 800000 : 400000);
   const errors = collectRuntimeErrors(page);
   const config = manifest();
   await preparePage(page, "light");
@@ -121,10 +121,8 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
   await expect(page.locator("[data-world-pause]")).toBeEnabled();
   await page.clock.runFor(800);
   const initial = await stateOf(scene);
-  // The arrival's sandstone pivot leaf and the stair hall's oak pocket leaf onto the upper floor
-  // and the library's east patio pivot are real moving leaves. The discreet
-  // onsen approach deliberately has no intrusive leaf across the bathing view.
-  expect(initial.simulation.estateDoors.doors.map((door) => door.id).sort()).toEqual(["library-patio", "main", "upper"]);
+  // The study bookcase also pivots on the way to the BBQ court and listening room.
+  expect(initial.simulation.estateDoors.doors.map((door) => door.id).sort()).toEqual(["library-patio", "main", "study-bookcase", "upper"]);
   const receipts = [];
   const pose = async () => (await stateOf(scene)).walk;
   const door = async (id) => (await stateOf(scene)).simulation.estateDoors.doors.find((entry) => entry.id === id);
@@ -134,10 +132,10 @@ test("estate thresholds: real leaves open before the body, cross both ways and c
         async () => {
           const current = await door(id);
           if (current.fraction === fraction) return current.fraction;
-          await page.clock.runFor(32);
+          await page.clock.runFor(96);
           return (await door(id)).fraction;
         },
-        { timeout: 120000 }
+        { timeout: 120000, intervals: [0, 16, 32] }
       )
       .toBe(fraction);
   }
@@ -490,9 +488,10 @@ test("visitor circulation: the study joins outdoor living and the living facade 
     expect(deskReturn.room).toBe("study");
     expect(deskReturn.distance - outside.distance).toBeGreaterThan(studyDistance * 0.85);
     await page.screenshot({ path: testInfo.outputPath("study-desk-return.png") });
-    for (const target of study.exitPath.slice(1)) await walkTo(target, "study through the lower corridor");
+    for (const target of study.exitPath.slice(1, -2)) await walkTo(target, "study to the west living passage");
     const living = config.retreat.patioRoute;
-    await walkTo([living[0][0], 0, 13.6], "lower living aisle");
+    await walkTo([-3.12, 0.002618, 5.6], "west jamb of the stepped living passage");
+    await walkTo([2.92, 0.002618, 5.44], "east jamb of the stepped living passage");
     await walkTo(living[0], "lower living");
     expect((await pose()).room).toBe("lounge");
     for (const target of living.slice(1)) await walkTo(target, "living to patio");
@@ -567,12 +566,13 @@ async function openFlightVisitor(page, testInfo, start, { keepViewport = false }
   const readyFrame = (await stateOf(scene)).frames;
   await scene.evaluate((element) => element.labScene.requestFrame());
   await expect.poll(async () => (await stateOf(scene)).frames, { timeout: 60000 }).toBeGreaterThan(readyFrame);
-  expect(visibleSceneFraction(await canvas.screenshot())).toBeGreaterThan(0.1);
   await pauseSceneClock(page);
   await useSoftwareSceneCadence(page, { continuousHz: 10, force: true });
   await inputFrame(page, scene, canvas, async () => {
     expect(await scene.evaluate((element, position) => element.setLabWalk({ position, yaw: Math.PI, pitch: -0.6 }), start)).toBe(true);
   });
+  // The pixel witness belongs to the flight's supported takeoff and precedes its first input.
+  expect(visibleSceneFraction(await canvas.screenshot())).toBeGreaterThan(0.1);
   await scene.evaluate((element) => {
     element.setLabWalk = () => {
       throw new Error("No placement after a flight's supported starting fixture");

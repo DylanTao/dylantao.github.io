@@ -291,10 +291,11 @@ test("a resting drawing's breath eases in, never exceeds its depth and decays to
   assert.ok(breathDepth(40) > 0, "it never stops entirely");
 });
 
-test("the shipped drawings cover the coast and every room an activity opens in, within budget", async () => {
+test("the shipped drawings cover the coast, first entrance and every occupied opening room, within budget", async () => {
   assert.equal(sketch.version, 4);
   // Include the actual daily routine's furniture stations as well as each base activity.
   const rooms = [
+    "entrance",
     ...new Set(
       Array.from({ length: 7 }, (_, day) =>
         Object.entries(manifest.activities)
@@ -303,8 +304,8 @@ test("the shipped drawings cover the coast and every room an activity opens in, 
       ).flat()
     ),
   ].sort();
-  assert.deepEqual(Object.keys(sketch.views), ["outside", ...rooms]);
-  // The index carries the coast view; each room is its own file beside it, and nothing else is there.
+  assert.deepEqual(Object.keys(sketch.views).sort(), ["outside", ...rooms].sort());
+  // The coast is embedded in the index. Each possible destination has its own file.
   assert.ok(sketch.views.outside.strokes);
   assert.deepEqual(
     rooms.map((room) => sketch.views[room].file),

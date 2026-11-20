@@ -195,7 +195,7 @@ function authoredRoomEntry(room, contact) {
 
 export function spawnPlan(config, view, { entrance = true, destination } = {}) {
   const rooms = config?.rooms || [];
-  const place = config?.walk?.places?.[destination];
+  const place = config?.walk?.places?.[destination ?? (entrance ? "entrance" : null)];
   if (place) {
     const [x, floor, z] = place.position;
     return { candidates: [[x, z]], floor, yaw: place.yaw, pitch: place.pitch, strict: true };
@@ -613,7 +613,7 @@ export function createWalkMode({
         ? resume.plan
         : spawnPlan(config, currentView, { entrance: !destination || destination === "entrance", destination });
     if (!plan) return false;
-    if (destination && destination !== "entrance") {
+    if (plan.strict || (destination && destination !== "entrance")) {
       plan.strict = true;
       if (!builder?.ready) {
         pendingEntry = true;

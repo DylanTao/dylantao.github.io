@@ -4807,6 +4807,24 @@
       "corners": 1092,
       "min": 0.68,
       "max": 0.8484827248255413
+    },
+    {
+      "mesh": "core_garden_threshold_apron_flags",
+      "corners": 918,
+      "min": 0.68,
+      "max": 0.951042979847019
+    },
+    {
+      "mesh": "core_garden_threshold_oak_portal",
+      "corners": 2016,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "core_garden_threshold_apron_bearing",
+      "corners": 250,
+      "min": 0.68,
+      "max": 0.9510322292490553
     }
   ]
 }

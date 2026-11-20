@@ -89,7 +89,7 @@ The two right-hand columns of each table are those estimates. They are sized for
 | The same bar-through-body audit for squat, bench and press, on every avatar                                                        | native contact audit and routine evidence in H5                                         | H5         | 0.15 to 0.25                                | 1 day                                  |
 | A roof that visibly lifts                                                                                                          | real roof pieces rise and fade on the way to Whole home                                 | B2 step 3  | 0.15 to 0.3                                 | 1 to 2 days                            |
 | Hard sunlit edge in the study                                                                                                      | not found twice; closed unless seen again                                               | B3         | 0                                           | closed                                 |
-| Light bake at 734,181 of 750,000 triangles                                                                                         | watch before adding geometry                                                            | B1         | 0.1 to 0.2, only if new geometry needs room | 1 day                                  |
+| Light bake at 735,817 of 750,000 triangles                                                                                         | watch before adding geometry                                                            | B1         | 0.1 to 0.2, only if new geometry needs room | 1 day                                  |
 
 **Looks and worlds**
 
@@ -563,6 +563,14 @@ Ideas wait here until someone tries them. Each names what it would change, why i
 - **A dial panel for the look.** The video's point about exposing the dials: a hidden `?dials=1` panel for line weight, band count and shadow hue would let Sirui tune the print by hand instead of by message.
 
 ## Notebook
+
+### November 20 · From the garden door to the edge of the tide
+
+**Round 16.** At the old starting eye the stair ceiling filled almost the whole view. The approved entrance drawing puts a visitor a few steps back, where the tree frames the timber opening. That spot was beyond the modeled ground. Eighteen split limestone flags now make a short approach to the retained stair. The stone bearing is cut to the actual cliff beneath it. From that spot the visitor sees the oak return, the shaded stair, the garden seat and a strip of sky. The sea first appears when the lower door opens. Across 321 stations the approach had at least 2.148 m headroom. Walk reached the old plinth on foot. A light concealed beneath the oak lintel picks out the first stones at dusk. The first visitor's pen drawing uses this same eye. [Garden drawing and playable doorway](../artwork/concepts/coastal-home/2026-11-19/entrance-garden-concept-and-build-16.webp) · [The entrance at dusk](../artwork/concepts/coastal-home/2026-11-19/entrance-garden-dusk-16.webp) · [Loading drawing and first view](../artwork/concepts/coastal-home/2026-11-19/entrance-garden-drawing-16.webp) · [Native approach audit](../artwork/coastal-home/reviews/arrival-b/garden-threshold.json).
+
+The same walk exposed the study ottoman across the bookcase threshold. Turning the three-piece whiskey setting 37 degrees toward the library glass opens the approach and keeps the chair, footrest and table in reach. All five characters still place either glass on the table. From the record seat, the copper panel visible past the horns is the rear wall of the lift cab. The terrace has its own opening beside the listening area. A visitor can walk out to the fire and return to the lift through its glass gate.
+
+**Round 17.** From the beach a dark strip moved from one edge of the water to the other as the visitor turned. The real-time sea mirror was fading into a darker sky colour just inside the visible picture. Its camera now captures 18% more width and height at the same 384 × 384 resolution in the measured view. At the same eye, time and wave phase, the twelve-pixel strip rose from 14% to 101% of the luminance of nearby water. The sandstone reflection retained its fine detail. The Cycles comparison still shows a softer distant sea and a stronger reflection on draining sand. [The water before and after, with edge and cliff crops](../artwork/concepts/coastal-home/2026-11-19/shore-reflection-before-and-after-17.webp).
 
 ### November 20 · What the floor and the beach asked of the drawing
 

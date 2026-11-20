@@ -225,6 +225,8 @@ test("record: a discovered card keeps its source link keyboard activation", asyn
 test("coastal transport: cold onsen arrival waits for a delayed avatar before filling its footprint", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
+  // On a return visit the camera opens in the occupied bath, where its silhouette and water are inspected.
+  await page.addInitScript(() => localStorage.setItem("coastal-home-first-arrival", "1"));
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.clock.setFixedTime(new Date("2026-10-02T20:10:00-07:00"));
   let releaseAvatar;
@@ -248,6 +250,7 @@ test("coastal transport: cold onsen arrival waits for a delayed avatar before fi
     await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
     await expect.poll(async () => (await evidence(scene)).simulation.onsen.obstacle).not.toBeNull();
     const arrived = await evidence(scene);
+    expect(arrived.currentRoom).toBe("onsen");
     expect(arrived.actorCount).toBe(1);
     expect(arrived.simulation.onsen.obstacle.radius).toBe(0.17);
     expect(Math.abs(arrived.simulation.onsen.relativeMassError)).toBeLessThan(1e-10);
@@ -777,7 +780,11 @@ test("coastal loading: the occupied room and avatar precede the first ready fram
     const ready = await evidence(scene);
     expect(ready.actorCount).toBe(1);
     expect(ready.frames).toBeGreaterThan(0);
-    expect(ready.currentRoom).toBe("study");
+    expect(ready.currentRoom).toBe("outside");
+    expect(ready.walk.destination).toBe("entrance");
+    expect(ready.loading.streamedDetails.ready).toContain("detail-entry-art.glb");
+    await expect(page.locator("[data-world-status]")).toHaveText("Main entrance");
+    // Sirui is already in his study when a first-time visitor stands at the closed entrance.
     for (const name of ["room-study.glb", `sirui-${ready.avatarId}.glb`]) {
       const model = ready.loading.models.find((model) => model.asset === name);
       expect(model.bytes).toBeGreaterThan(0);
@@ -970,13 +977,15 @@ test("coastal loading sketch: the pen draws only what finished work allows, dens
       const previous = samples[k - 1];
       if (previous?.drawing === state.drawing) expect(state.drawn).toBeGreaterThanOrEqual(previous.drawn);
     }
-    // The last drawing before the hand-off is the room the visitor arrives in, at its densest.
+    // The final drawing meets the first visitor at the actual stone gate.
     const last = samples.at(-1),
       room = samples.filter((state) => state.drawing === last.drawing);
-    expect(last.drawing).toBe(ready.currentRoom);
+    expect(ready.currentRoom).toBe("outside");
+    expect(ready.walk.destination).toBe("entrance");
+    expect(last.drawing).toBe("entrance");
     expect(last.drawn).toBe(Math.max(...room.map((state) => state.drawn)));
     // Of the room drawings, only the arrival room's was fetched, after the index with the coast view.
-    expect(sketchFiles).toEqual(["loading-sketch.json", `loading-sketch/${ready.currentRoom}.json`]);
+    expect(sketchFiles).toEqual(["loading-sketch.json", "loading-sketch/entrance.json"]);
     fs.writeFileSync(
       testInfo.outputPath("coastal-loading-sketch-progress.json"),
       JSON.stringify({ samples, sketchFiles, stages: ready.loading.stages }, null, 2)
@@ -1690,6 +1699,12 @@ test("coastal home: quiet public controls, capybara wall art and a new arrival o
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
   const first = (await evidence(scene)).avatarId;
   const ui = page.locator("[data-home-world-controls]");
+  const skipArrival = ui.locator("[data-world-arrival-skip]");
+  await expect(skipArrival).toBeVisible();
+  await expect(scene).toHaveAttribute("data-room", "outside");
+  await skipArrival.click();
+  await expect(skipArrival).toBeHidden();
+  await expect(scene).toHaveAttribute("data-room", "study");
   await expect(ui.locator("button:visible")).toHaveCount(2);
   await expect(ui.locator("[data-world-fullscreen]")).toHaveAccessibleName("Full screen");
   await expect(scene).toHaveAttribute("data-render-style", "realistic");
@@ -1707,6 +1722,8 @@ test("coastal home: quiet public controls, capybara wall art and a new arrival o
   expect((await evidence(scene)).following).toBe(true);
   await page.reload();
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
+  await expect(skipArrival).toBeHidden();
+  await expect(scene).toHaveAttribute("data-room", "study");
   expect((await evidence(scene)).avatarId).not.toBe(first);
   await expect.poll(async () => (await evidence(scene)).portrait).toContain("/img/home/sirui_capy.jpg");
   expect(errors).toEqual([]);
@@ -2121,7 +2138,9 @@ test("coastal neighbours: keyboard inspection, on-animal return, zoom and Back i
   const { scene, canvas, ui } = view;
   await expect.poll(async () => (await evidence(scene)).ecology.wildlife.modelsReady, { timeout: 45000 }).toBe(true);
   const initial = await evidence(scene);
-  await sceneInputFrame(page, view, () => ui.locator("[data-world-view]").click());
+  // The first coast visit attaches its native detail. Pump one display callback at a time so a
+  // software renderer can return its first complete outdoor frame before scheduling another.
+  await sceneInputFrame(page, view, () => ui.locator("[data-world-view]").click(), { clockStep: 8, frameTimeout: SCENE_READY_TIMEOUT });
   const coastline = await evidence(scene);
   const wide = await canvas.screenshot();
   await sceneInputFrame(page, view, () => canvas.press("n"));
@@ -2294,7 +2313,8 @@ test("coastal home: every Rooms destination receives pointer input above followi
   const places = ui.locator("[data-world-places]"),
     summary = places.locator("summary"),
     rows = [];
-  const destinations = ["overview", "outside", "entrance", ...homeManifest().rooms.map((room) => room.id)];
+  const manifest = homeManifest();
+  const destinations = new Set(["overview", "outside", "entrance", ...Object.keys(manifest.walk.places), ...manifest.rooms.map((room) => room.id)]);
   for (const mode of ["embed", "fullscreen"]) {
     if (mode === "fullscreen") {
       await activate(ui.locator("[data-world-fullscreen]"));
@@ -2320,7 +2340,10 @@ test("coastal home: every Rooms destination receives pointer input above followi
       expect(hit.receives, `${mode}/${id}: ${hit.top}`).toBe(true);
       await activate(button);
       await expect(places).not.toHaveAttribute("open");
-      await expect(scene).toHaveAttribute("data-room", id === "entrance" ? "outside" : id);
+      await expect(scene).toHaveAttribute("data-room", manifest.walk.places[id]?.room || (id === "entrance" ? "outside" : id), {
+        timeout: SCENE_READY_TIMEOUT,
+      });
+      await expect(button).toHaveAttribute("aria-pressed", "true", { timeout: SCENE_READY_TIMEOUT });
       rows.push({ mode, ...hit });
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     }
@@ -2335,6 +2358,36 @@ test("coastal home: every Rooms destination receives pointer input above followi
   await expect(stage).not.toHaveClass(/is-world-immersive/, { timeout: SCENE_READY_TIMEOUT });
   expect(errors).toEqual([]);
 });
+
+async function selectClockedRoom(page, view, room) {
+  const destination = view.ui.locator(`[data-world-destination="${room}"]`);
+  await sceneInputFrame(page, view, () => destination.click(), { clockStep: 32 });
+  await expect
+    .poll(
+      async () => {
+        await page.clock.runFor(32);
+        const { currentRoom, walk } = await evidence(view.scene);
+        return { currentRoom, destination: walk.destination };
+      },
+      { timeout: SCENE_READY_TIMEOUT }
+    )
+    .toEqual({ currentRoom: room, destination: room });
+}
+
+async function enterClockedRoomWalk(page, view, destination) {
+  await sceneInputFrame(page, view, () => page.locator("[data-world-walk]").click(), { clockStep: 32 });
+  // The public Walk input requests deferred collision geometry. Advance the
+  // paused clock while those programs attach and the collision field lands.
+  await expect
+    .poll(
+      async () => {
+        await page.clock.runFor(32);
+        return (await evidence(view.scene)).walk;
+      },
+      { timeout: SCENE_READY_TIMEOUT }
+    )
+    .toMatchObject({ active: true, ready: true, placed: true, provisional: false, destination });
+}
 
 test("coastal home: public room navigation works in the embed and starts a safe walk from the chosen room", async ({ page }, testInfo) => {
   test.setTimeout(600000);
@@ -2357,25 +2410,32 @@ test("coastal home: public room navigation works in the embed and starts a safe 
     expect((await button.boundingBox()).height).toBeGreaterThanOrEqual(44);
   }
   await capture(testInfo, "public-embed-rooms", await page.screenshot());
-  await sceneInputFrame(page, view, () => places.locator('[data-world-destination="study"]').click());
+  await selectClockedRoom(page, view, "study");
   await expect(places).not.toHaveAttribute("open");
   await expect(canvas).toBeFocused();
-  expect((await evidence(scene)).currentRoom).toBe("study");
-  expect((await evidence(scene)).simulation.interiorExposure.meter).toEqual({
-    mode: "room-subject",
-    point: homeManifest().rooms.find((room) => room.id === "study").target,
-  });
+  await expect(scene).toHaveAttribute("data-room", "study", { timeout: SCENE_READY_TIMEOUT });
+  // The selected room can change after the preceding animation callback has begun.
+  // Check the meter from the rendered room while servicing the frozen clock.
+  await expect
+    .poll(
+      async () => {
+        await page.clock.runFor(32);
+        return (await evidence(scene)).simulation.interiorExposure.meter;
+      },
+      { timeout: SCENE_READY_TIMEOUT }
+    )
+    .toEqual({ mode: "room-subject", point: homeManifest().rooms.find((room) => room.id === "study").target });
   await summary.click();
   await summary.press("Escape");
   await expect(places).not.toHaveAttribute("open");
   await expect(summary).toBeFocused();
   await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click());
-  await expect.poll(async () => (await evidence(scene)).walk?.ready, { timeout: 90000 }).toBe(true);
+  await expect(stage).toHaveClass(/is-world-immersive/);
   const rows = [];
   for (const room of ["study", "onsen"]) {
     await summary.click();
-    await sceneInputFrame(page, view, () => places.locator(`[data-world-destination="${room}"]`).click());
-    await sceneInputFrame(page, view, () => page.locator("[data-world-walk]").click());
+    await selectClockedRoom(page, view, room);
+    await enterClockedRoomWalk(page, view, room);
     const state = await evidence(scene);
     rows.push(state.walk);
     expect(state.walk).toMatchObject({ active: true, ready: true, placed: true, provisional: false, destination: room });
@@ -2393,7 +2453,7 @@ test("coastal home: public room navigation works in the embed and starts a safe 
     await summary.click();
     await sceneInputFrame(page, view, () => places.locator('[data-world-destination="entrance"]').click());
     const entry = await evidence(scene);
-    const start = homeManifest().walk.start;
+    const start = homeManifest().walk.places.entrance;
     expect(entry.walk.active).toBe(false);
     expect(entry.freeLook.position[0]).toBeCloseTo(start.position[0], 5);
     expect(entry.freeLook.position[1]).toBeCloseTo(start.position[1] + 1.6, 5);
@@ -2428,7 +2488,7 @@ test("coastal home: sleeping privacy drapes retain a usable room view and gather
   const places = ui.locator("[data-world-places]");
   const visit = async () => {
     await places.locator("summary").click();
-    await sceneInputFrame(page, view, () => places.locator('[data-world-destination="sleep"]').click());
+    await selectClockedRoom(page, view, "sleep");
   };
   await visit();
   const asleep = await evidence(scene);
@@ -2443,8 +2503,7 @@ test("coastal home: sleeping privacy drapes retain a usable room view and gather
   expect(fullscreen.simulation.bedroomCurtains.target).toBe(0);
   expect(fullscreen.camera[2]).toBeGreaterThan(3.9);
   await capture(testInfo, "sleep-privacy-fullscreen", await canvas.screenshot());
-  await expect.poll(async () => (await evidence(scene)).walk?.ready, { timeout: 90000 }).toBe(true);
-  await sceneInputFrame(page, view, () => page.locator("[data-world-walk]").click());
+  await enterClockedRoomWalk(page, view, "sleep");
   expect((await evidence(scene)).walk).toMatchObject({ active: true, placed: true, destination: "sleep" });
   await page.locator("[data-world-exit]").click();
   await expect(stage).not.toHaveClass(/is-world-immersive/);
@@ -2470,6 +2529,10 @@ test("coastal home: a public desktop turn continues looking safely after either 
   const errors = collectRuntimeErrors(page);
   const view = await openClockedHome(page, { lab: false, time: "2026-10-23T14:45:00-07:00" });
   const { stage, scene, canvas, ui } = view;
+  await ui.locator("[data-world-places] summary").click();
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-destination="study"]').click());
+  await expect(scene).toHaveAttribute("data-room", "study", { timeout: SCENE_READY_TIMEOUT });
+  expect((await evidence(scene)).freeLook).toBeNull();
   await sceneInputFrame(page, view, () => ui.locator("[data-world-fullscreen]").click(), { clockStep: 100 });
   const bounds = await canvas.boundingBox(),
     rows = [];
@@ -2540,7 +2603,7 @@ test("coastal home: Walk mode walks on the keyboard, stops against the house and
   expect(state.walk).toMatchObject({ active: true, placed: true });
   expect(state.walk.field.meshes).toBeGreaterThan(20);
   const manifest = homeManifest(),
-    entry = manifest.walk.start.position;
+    entry = manifest.walk.places.entrance.position;
   expect(state.walk.room).toBe("outside");
   expect(Math.hypot(...state.walk.position.map((value, axis) => value - entry[axis]))).toBeLessThan(0.15);
   expect(state.camera[1] - state.walk.position[1]).toBeCloseTo(1.6, 1);
@@ -2621,7 +2684,7 @@ test("coastal home: public entrance reaches the living floor and returns to the 
     view = await openClockedHome(page),
     { scene, canvas, ui } = view,
     manifest = homeManifest(),
-    points = manifest.walk.mainEntryRoute,
+    points = [manifest.walk.places.entrance.position, ...manifest.walk.mainEntryRoute],
     WALK = await page.evaluate(async (url) => (await import(url)).WALK, publicRouteUrl("/assets/js/home-scene/walk-controls.mjs"));
   // Load at the normal viewport first: in a 320px-tall document the offscreen scene correctly
   // suspends its first draw, while openClockedHome is still waiting for that draw to finish.
@@ -2704,7 +2767,7 @@ test("coastal home: public entrance reaches the living floor and returns to the 
   await capture(testInfo, "main-entrance-living-arrival", await page.screenshot());
   for (const target of turns.slice(0, -1).reverse()) await walkTo(target);
   const returned = await pose();
-  expect(returned.position[1]).toBeCloseTo(manifest.walk.start.position[1], 1);
+  expect(returned.position[1]).toBeCloseTo(points[0][1], 1);
   expect(returned.room).toBe("outside");
   await capture(testInfo, "main-entrance-clifftop-return", await page.screenshot());
   fs.writeFileSync(testInfo.outputPath("main-entrance-keyboard.json"), JSON.stringify({ turns, samples, living, returned, errors }, null, 2));
