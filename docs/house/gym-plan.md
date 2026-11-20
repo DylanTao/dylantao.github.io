@@ -20,6 +20,8 @@ The first seated sightline study uses the delivered rowing pose at 7 am. Taking 
 
 **Construction after the sightline review.** The old poolside patio carries most of the lawn. A short apron meets the gym at floor level, the front glass stacks beside the south jamb, and a low basalt spout spills into a planted trough. A second vault farther north fits a cedar soaking tub and a glazed cold room. Shifting those baths past the rower’s shoulder keeps its view of the ocean open. The dining table, all six seats, the grill and the wet bar move to the sheltered study loggia. As built, morning coffee and meals use the kitchen. The old coffee-chair study was a separate experiment.
 
+**A walk through the finished room.** The pool steps stay clear on the left. From the cardio bay you cross the recessed door track onto a rounded lawn with a cork mat. The stone runnel is on your right. Beyond it a timber floor leads into the north vault. There is a step up to the soaking tub and an aisle past the cold-room bench to its ocean window. In full screen, Rooms → Workout garden places you on the poolside path. Walk here starts at that same spot. [Finished garden and matched seated views](../images/gym-garden-built-2026-11-19.webp).
+
 The sea is the reason to train in this room, so the cardio faces it, in the light; the bags take the dim side, where hitting something feels right. The rack and platform stay where they are: his lifting already works there (the bar loading and warm-up of November 13 and 14).
 
 ## Layout
