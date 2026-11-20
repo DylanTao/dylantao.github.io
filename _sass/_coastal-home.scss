@@ -970,3 +970,56 @@ html.is-world-immersive {
 .is-world-visit .home-world-places-looks {
   display: flex;
 }
+
+// The film caption takes over the ordinary room/status row. Keep Rooms beside
+// it so a visitor can still change the drawing or leave for a particular room.
+.is-world-immersive.is-world-visit .home-world-controls {
+  grid-template-columns: 1fr;
+  padding: 0.35rem 0.65rem;
+
+  .home-world-status,
+  .home-world-quiet-actions > :not(.home-world-places),
+  .home-world-explore {
+    display: none;
+  }
+
+  .home-world-quiet-actions {
+    grid-area: 1 / 1;
+    z-index: 5;
+    align-self: start;
+    justify-self: end;
+    padding: 0;
+  }
+
+  .home-world-visit {
+    position: static;
+    grid-area: 1 / 1;
+    width: 100%;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+  }
+
+  .home-world-visit p {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline: 0.35rem 5rem;
+  }
+
+  .home-world-visit-keys {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 520px) {
+  .is-world-immersive.is-world-visit .home-world-visit-keys {
+    display: grid;
+    grid-template-columns: auto auto minmax(44px, 1fr) minmax(44px, 1fr);
+
+    [data-world-visit-takeover],
+    [data-world-visit-return] {
+      grid-column: span 2;
+    }
+  }
+}
