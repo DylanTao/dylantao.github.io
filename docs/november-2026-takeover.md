@@ -561,6 +561,12 @@ Ideas wait here until someone tries them. Each names what it would change, why i
 
 ## Notebook
 
+### November 20 · One violin line
+
+Sirui liked the direction of take 04 and heard too many clipped notes, abrupt changes in volume and too little emotional or technical weight. Take 05, _The Sounding Line_, opens with D–A–F–E. The A gains an open D beneath it on its second appearance. The upper answer carries the same intervals into a short cadenza at 43.9 seconds. A recorded position shift returns to F in one bow. A trill and two octave harmonics lead to a sustained high D at 48.4 seconds. The opening register returns for the last fourteen seconds.
+
+The mono sketch lasts 72.5 seconds. Each gesture uses the player's recorded pitch and speed. The lower string in the double stops is a second recorded bow. There are 28 melodic entrances and ten lower bows, against 112 combined entrances in take 04. The melody spends 91 percent of its time on spans of at least 1.4 seconds. I compared the 240 milliseconds immediately before and after each melodic entrance where both sides sound above −50 dBFS. The median level difference went from 8.49 to 2.14 dB and the 90th percentile from 20.40 to 5.14 dB. Sirui received the private WAV for listening. [Reproducible score](../bin/render_coastal_sounding_line.py) · [Philharmonia musicians and recordings](https://philharmonia.co.uk/resources/sound-samples/).
+
 ### November 19 · A listening pocket and an outdoor fire
 
 The new drawing keeps the horn cabinet and curved seat inside a low fan of walnut. An offset opening in the seaward wall leads outside to a limestone bench and a bronze-rimmed fire. The heating grille can sit in the shadow beneath the cushion. The horizon drawn across the lift window gives the native excavation a measure. [Original triptych and its two inputs](../artwork/concepts/coastal-home/2026-11-19/prompts.md#listening-room-02--the-sheltered-seat-open-fire-terrace-and-ocean-window).
