@@ -1302,10 +1302,12 @@ export function createCoastalHome(container, records, artifacts) {
 
   // The clifftop planting (bin/refresh_coastal_flora.py) is only seen from the coast, so it loads the
   // first time the visitor goes outside and appears once its programs are ready.
-  let floraRequested = false;
-  async function loadFlora() {
-    if (floraRequested || !config.flora) return;
-    floraRequested = true;
+  let floraLoad = null;
+  function loadFlora() {
+    if (config.flora) floraLoad ??= attachFlora();
+    return floraLoad;
+  }
+  async function attachFlora() {
     try {
       const gltf = await loadModel(new URL(config.flora, manifestUrl).href);
       if (disposed) return release(gltf.scene);
@@ -1330,11 +1332,14 @@ export function createCoastalHome(container, records, artifacts) {
   // house, and appears once its programs are ready, like the planting above. hinterland.mjs poses
   // the gliders from the scene clock, turns the gliderport's wind sock in the coast wind and extends
   // the camera's terrain grid over the new land.
-  let hinterlandRequested = false,
+  let hinterlandLoad = null,
+    ridgeFlights = null,
     coastRoot = null;
-  async function loadHinterland() {
-    if (hinterlandRequested || !config.hinterland) return;
-    hinterlandRequested = true;
+  function loadHinterland() {
+    if (config.hinterland) hinterlandLoad ??= attachHinterland();
+    return hinterlandLoad;
+  }
+  async function attachHinterland() {
     try {
       const [gltf, { bindHinterland }] = await Promise.all([
         loadModel(new URL(config.hinterland.file, manifestUrl).href),
@@ -1345,7 +1350,8 @@ export function createCoastalHome(container, records, artifacts) {
       root.name = "coastal-hinterland";
       // Distant ground, planting and gliders stay out of the static light field.
       root.traverse((o) => (o.userData.dynamic = true));
-      bindHinterland(root, config, physicalTime);
+      ridgeFlights = bindHinterland(root, config, physicalTime).gliders;
+      if (daylight) ridgeFlights.setSunHeight(daylight.altitude);
       root.visible = false;
       world.add(root);
       await compilePrograms();
@@ -1673,9 +1679,10 @@ export function createCoastalHome(container, records, artifacts) {
   function updateLight() {
     if (!routine) return;
     daylight = coastalDaylight(routine.dateKey, routine.minute);
+    ridgeFlights?.setSunHeight(daylight.altitude);
     const evening = daylight.daylight < 0.15;
     // A live clock lets the stars turn with the page clock between minutes (stars.mjs).
-    pacific?.setPalette(routine.palette, { ...daylight, live: Boolean(routine.live) });
+    pacific?.setPalette(routine.palette, { ...daylight, live: Boolean(routine.live), film: visit?.kind === "film" });
     const sky = style === "realistic" ? pacific?.sky?.() : null;
     if (sky) {
       const moonKey = sky.light.moonLuminance > sky.light.sunLuminance,
@@ -3087,6 +3094,10 @@ export function createCoastalHome(container, records, artifacts) {
     listen(ui, "click", async (event) => {
       const b = event.target.closest("button");
       if (!b) return;
+      if (pendingVisit && (b.dataset.worldDestination || b.matches("[data-world-follow], [data-world-now], [data-world-view]"))) {
+        pendingVisit = null;
+        showHint(null);
+      }
       if (b.matches("[data-world-follow], [data-world-now], [data-world-recenter], [data-world-look], [data-world-view]")) cancelPendingRoom();
       if (b.hasAttribute("data-world-arrival-skip")) {
         b.hidden = true;
@@ -3763,19 +3774,28 @@ export function createCoastalHome(container, records, artifacts) {
 
   const filmScore = labEnabled ? null : createFilmScoreCue((detail) => document.dispatchEvent(new CustomEvent("coastal:score", { detail })));
   let pendingVisit = null;
+  let visitCoastPrepared = false;
   function startVisit(kind) {
     if (visit || !visitReady() || !compositionReady || !["film", "boat"].includes(kind) || walkMode?.evidence().inputSuspended || cliffLift?.boarded)
       return false;
-    if (!walkDetailReady()) {
+    if (!walkDetailReady() || !visitCoastPrepared) {
       if (!pendingVisit) {
         const request = { kind, mode: fullscreen.mode };
         pendingVisit = request;
-        loadWalkDetail().catch(() => {
-          if (pendingVisit !== request) return;
-          pendingVisit = null;
-          showHint("This route could not finish loading. Try again.", 4000);
-          requestFrame();
-        });
+        showHint("Opening the coast…", 6000);
+        // A visitor can start the film while the entrance is already marked
+        // outside. Prepare the coast here so it is present at the first note.
+        Promise.all([loadWalkDetail(), loadFlora(), loadHinterland()])
+          .then(() => {
+            visitCoastPrepared = true;
+            requestFrame();
+          })
+          .catch(() => {
+            if (pendingVisit !== request) return;
+            pendingVisit = null;
+            showHint("This route could not finish loading. Try again.", 4000);
+            requestFrame();
+          });
         requestFrame();
       }
       return true;
@@ -3906,7 +3926,7 @@ export function createCoastalHome(container, records, artifacts) {
 
   function updateVisit(delta) {
     if (pendingVisit && fullscreen.mode !== pendingVisit.mode) pendingVisit = null;
-    if (pendingVisit && walkDetailReady() && visitReady()) {
+    if (pendingVisit && visitCoastPrepared && walkDetailReady() && visitReady()) {
       const { kind } = pendingVisit;
       pendingVisit = null;
       startVisit(kind);

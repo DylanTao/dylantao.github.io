@@ -160,6 +160,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
   - [x] Thirteen accepted shots over 118 seconds. Film supports scrubbing, pausing, skipping and leaving. Reduced motion holds a still for each cut.
   - [x] Visitors can switch among all five looks during Film.
   - [x] An original 118-second chamber score follows the actual playhead. A switch beside Pause joins or leaves the performance in place. The stair and gym retain their physical sounds. [Shot list and live frames](film/shot-list.md).
+  - [x] The first guitar phrase reveals the arch from offshore. The violin retraces that track at dusk. Film uses clear air and matches the sun’s height across seasons. Return restores the visitor’s own weather. [Drawing, desktop and phone](../artwork/concepts/coastal-home/2026-11-20/house-from-the-water.webp).
 - **Machine: PC** for overnight renders. **Size.** 1.5 to 3; 4 to 6 weeks. **Detail:** takeover N.
 
 ### 12. More worlds

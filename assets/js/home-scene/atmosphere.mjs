@@ -754,7 +754,10 @@ export function createAtmosphere(renderer, { site = { latitude: 32.83, longitude
       moon = moonPosition(utc, site),
       moonDirection = apparentDirection(moon.direction),
       baseWeather = weatherAt(dateKey, minute, { utcMilliseconds: utc }),
-      weather = forcedWeather ? { ...baseWeather, ...forcedWeather, source: "authoring-override" } : baseWeather,
+      // The film was photographed on a clear day. Leaving the film restores
+      // the visitor's weather, and an explicit weather study keeps its own sky.
+      override = forcedWeather ?? (daylight.film ? FORCED_WEATHER.clear : null),
+      weather = override ? { ...baseWeather, ...override, source: forcedWeather ? "authoring-override" : "house-film" } : baseWeather,
       marine = marineLayerAt(weather, minute),
       rain = rainAt(weather, minute),
       overcast = Math.max(smoothstepRange(0.62, 1, marine), (weather.cloudCover || 0) * 0.72, rain * 0.95),

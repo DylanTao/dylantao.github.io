@@ -17,3 +17,9 @@ The beach and the fire terrace show the same stretch of water from quite differe
 ## Finding the record
 
 In the first room the counter lamp covered the title. The full-size sleeve now rests on the right-hand LP shelf in a shallow walnut cradle. The upper pair of photographs uses the same visitor eye and 74° lens at 2:25 p.m. In the lower right, a visitor walked to 1.07 m from the cabinet and used the ordinary zoom. The two images on the lower row show what the sandstone opening and the small title retain as they become a physical object in the room. [Original artwork, first cabinet and fitted sleeve](record-sleeve-in-the-listening-room.webp).
+
+## The first guitar note
+
+The coast drawing put an inhabited opening inside a long, planted bluff. The first filmed approach looked down from above the house and cropped out the sky. A lower track from offshore lets the viewer discover the arch in the time it takes to recognize the guitar phrase. The dusk shot returns along the same route. [Concept and actual camera views](house-from-the-water.webp) · [Seasonal light and score](../../../../docs/film/shot-list.md#returning-to-the-first-view).
+
+The drawing at upper left is the coastal panel from the November 19 study. The remaining panels show the playable film with its controls. The two portrait views use a 390 × 844 touch viewport, the same camera and the same November date. The marine layer on the left is the weather a guest encountered before the film gained its own shooting weather. The lower row follows the guitar offshore, the last frame before the stair and the violin’s return across the water.

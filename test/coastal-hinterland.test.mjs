@@ -74,7 +74,7 @@ test("a bound glider moves with its clock and holds still when the clock stops",
   node.add(new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial()));
   root.add(node);
   const clock = { value: 3 };
-  const { gliders } = bindGliders(root, [{ node: "hinterland_glider_0", kind: "paraglider", speed: 8, phase: 0, route: track }], clock);
+  const { gliders, setSunHeight } = bindGliders(root, [{ node: "hinterland_glider_0", kind: "paraglider", speed: 8, phase: 0, route: track }], clock);
   assert.equal(gliders.length, 1);
   const mesh = node.children[0];
   assert.equal(mesh.castShadow, false);
@@ -88,6 +88,10 @@ test("a bound glider moves with its clock and holds still when the clock stops",
   mesh.onBeforeRender();
   assert.ok(Math.abs(node.position.distanceTo(first) - 16) < 0.3, "two seconds at 8 m/s");
   assert.equal(node.userData.glider.seconds, 5);
+  setSunHeight(-8);
+  assert.equal(node.visible, false);
+  setSunHeight(7);
+  assert.equal(node.visible, true);
 });
 
 test("the new land's camera grid merges onto the retained one without changing it", () => {

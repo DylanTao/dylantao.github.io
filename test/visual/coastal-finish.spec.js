@@ -10,6 +10,57 @@ const { pathToFileURL } = require("node:url");
 const readyTimeout = process.platform === "linux" || process.env.VISUAL_TRANSPORT_SOFTWARE === "1" ? 120000 : 90000;
 const sceneEvidence = (scene) => scene.page().evaluate(() => document.querySelector("[data-home-desk-scene]").getSceneEvidence());
 
+test("house film: the first view from the entrance includes the planted coast", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440");
+  test.setTimeout(360000);
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.clock.setFixedTime(new Date("2026-11-20T14:25:00-08:00"));
+  let releaseFlora;
+  const held = new Promise((resolve) => (releaseFlora = resolve));
+  let requested = false;
+  await page.route("**/assets/models/home/flora.glb*", async (route) => {
+    requested = true;
+    await held;
+    await route.continue();
+  });
+  const host = page.locator("[data-home-desk-scene]");
+  try {
+    await page.goto(publicRouteUrl("/?scene-lab=1"), { waitUntil: "domcontentloaded" });
+    await page.locator('[data-home-desk-mode="3d"]').click();
+    await host.scrollIntoViewIfNeeded();
+    await expect(host).toHaveAttribute("data-scene-state", "ready", { timeout: readyTimeout });
+    await page.locator("[data-world-fullscreen]").click();
+    await page.locator("[data-world-places] summary").click();
+    await page.locator('[data-world-visit-start="film"]').click({ timeout: readyTimeout });
+    await expect.poll(() => requested, { timeout: readyTimeout }).toBe(true);
+    expect((await sceneEvidence(host)).visitorRail).toBeNull();
+  } finally {
+    releaseFlora();
+  }
+  await expect.poll(async () => (await sceneEvidence(host)).visitorRail?.shot, { timeout: readyTimeout }).toBe("coast-dawn");
+  expect(
+    await host.evaluate((el) => ["clifftop-flora", "coastal-hinterland"].every((name) => el.labScene.scene.getObjectByName(name)?.visible))
+  ).toBe(true);
+  expect((await sceneEvidence(host)).ecology.atmosphere.weather).toMatchObject({ source: "house-film", marineNow: 0, rain: 0, cloudCover: 0 });
+  await expect(page.locator("[data-world-visit-caption]")).toHaveText("The coast at dawn");
+  const wings = () => host.evaluate((el) => el.labScene.scene.getObjectByName("hinterland_glider_0")?.visible);
+  expect(await wings()).toBe(true);
+  await page.locator("[data-world-visit-scrub]").press("End");
+  await expect(page.locator("[data-world-visit-caption]")).toHaveText("Night on the coast");
+  await expect.poll(wings).toBe(false);
+  await page.locator("[data-world-visit-return]").click();
+  await expect(page.locator("[data-world-visit-controls]")).toBeHidden();
+  const restored = await host.evaluate(async (el) => {
+    const { ecology, daylight } = el.getSceneEvidence();
+    const { weatherAt } = await import(new URL("./assets/js/home-scene/coastal-weather.mjs", location.href).href);
+    return { actual: ecology.atmosphere.weather, expected: weatherAt(daylight.dateKey, daylight.minute) };
+  });
+  expect(restored.actual).toMatchObject({ source: restored.expected.source, cloudCover: restored.expected.cloudCover, rain: restored.expected.rain });
+  expect(errors).toEqual([]);
+});
+
 test("coastal reflection: late models are excluded on the first sea mirror draw and remain in the main scene", async ({ page }, testInfo) => {
   test.skip(
     testInfo.project.name !== "desktop-1440" && testInfo.project.use.browserName !== "webkit",

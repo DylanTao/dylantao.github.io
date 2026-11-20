@@ -1,11 +1,34 @@
 import { ORBIT_DIRECTION } from "./camera.mjs";
+import { coastalDaylight } from "./daylight.mjs";
+import { pacificClock } from "./routine.mjs";
 import { SEA_LEVEL } from "./sea-optics.mjs";
 
 const anchor = (name, offset) => ({ anchor: name, offset });
 const lookAtSea = (eye) => [eye[0] + 12, -6.2, eye[2] - 56];
-const coastFrame = [-25, 38, -96];
-const closerCoast = [-17, 30, -73];
-const subject = [2.5, 0.4, 0];
+// The near headland masks the living-room arch from offshore. A level track
+// along the water uncovers it. At dusk the returning phrase takes the way back.
+const wideCoast = { eye: [-52, 5.8, -64], target: [18, 1.9, -14], fov: 41 };
+const houseAcrossWater = { eye: [-18, 5.8, -66], target: [1, 2.1, 0], fov: 34 };
+// The lighting studies were made on this La Jolla date. An evening minute from
+// that shoot is still broad daylight in June. Match the sun for these exteriors.
+const lightStudyDate = "2026-11-20";
+const sunlitCuts = new Set(["coast-dawn", "training", "glass-lift", "coast-dusk", "boat-west", "boat-east"]);
+
+function matchSun(dateKey, studyMinute) {
+  if (dateKey === lightStudyDate || !Number.isFinite(studyMinute) || studyMinute < 0 || studyMinute >= 1440) return studyMinute;
+  const altitude = coastalDaylight(lightStudyDate, studyMinute).altitude;
+  const morning = studyMinute < 720;
+  let lo = morning ? 240 : 840;
+  let hi = morning ? 660 : 1380;
+  while (hi - lo > 1) {
+    const mid = Math.floor((lo + hi) / 2);
+    const height = coastalDaylight(dateKey, mid).altitude;
+    const earlier = morning ? height < altitude : height > altitude;
+    if (earlier) lo = mid;
+    else hi = mid;
+  }
+  return Math.abs(coastalDaylight(dateKey, lo).altitude - altitude) < Math.abs(coastalDaylight(dateKey, hi).altitude - altitude) ? lo : hi;
+}
 const keys = (eyes, target) =>
   eyes.map((eye, i) => ({
     at: eyes.length === 1 ? 0 : i / (eyes.length - 1),
@@ -79,7 +102,7 @@ export function visitorRailRegions(config) {
   ];
 }
 
-export function visitorRailShots(config) {
+export function visitorRailShots(config, dateKey = pacificClock(new Date(), config.timeZone).dateKey) {
   const extra = config.visitorFilm ?? {};
   const landmarks = extra.landmarks ?? {};
   const shots = [
@@ -87,10 +110,12 @@ export function visitorRailShots(config) {
       id: "coast-dawn",
       caption: "The coast at dawn",
       duration: 12,
-      minute: 390,
+      minute: 425,
       room: "outside",
-      fov: 18,
-      keys: keys([coastFrame, closerCoast], subject),
+      keys: [
+        { ...wideCoast, at: 0 },
+        { ...houseAcrossWater, at: 1 },
+      ],
     },
     {
       id: "living-floor",
@@ -110,7 +135,7 @@ export function visitorRailShots(config) {
     },
     fixed(config, "kitchen", "breakfast", "Breakfast", 486, [-0.74146, 1.602618, 4.76407], undefined, { activity: "breakfast" }),
     fixed(config, "study", "desk", "At the desk", 736, [-10.7, 1.611915, 3.85], [-10.8, 1.35, 5.15], { look: "paint", activity: "work" }),
-    fixed(config, "gym", "training", "Training at dusk", 1115, [9.31, 1.61793, 4.16], [9.48, 1.3, 2.8], {
+    fixed(config, "gym", "training", "Training at dusk", 998, [9.31, 1.61793, 4.16], [9.48, 1.3, 2.8], {
       look: "paint",
       activity: "rowing",
       fov: 47,
@@ -140,13 +165,15 @@ export function visitorRailShots(config) {
       id: "coast-dusk",
       caption: "Dusk from the sea",
       duration: 14,
-      minute: [1120, 1170],
+      minute: [993, 1035],
       room: "outside",
-      fov: 18,
       look: "paint",
-      keys: keys([closerCoast, coastFrame], subject),
+      keys: [
+        { ...houseAcrossWater, at: 0 },
+        { ...wideCoast, at: 1 },
+      ],
     },
-    { id: "coast-night", caption: "Night on the coast", duration: 6, minute: 1275, room: "outside", fov: 18, keys: keys([coastFrame], subject) },
+    { id: "coast-night", caption: "Night on the coast", duration: 6, minute: 1275, room: "outside", keys: [{ ...wideCoast, at: 0 }] },
   ];
   if (config.estateOutdoors?.pavilion?.coveredKitchen) {
     shots.splice(
@@ -212,7 +239,7 @@ export function visitorRailShots(config) {
         id: "glass-lift",
         caption: "The glass lift down",
         duration: 12,
-        minute: 1152,
+        minute: 1006,
         room: "outside",
         fov: 53,
         lift: true,
@@ -243,7 +270,7 @@ export function visitorRailShots(config) {
       id: "boat-west",
       caption: "Along the bluff",
       duration: 17,
-      minute: 1040,
+      minute: 985,
       room: "outside",
       kind: "boat",
       fov: 53,
@@ -253,17 +280,17 @@ export function visitorRailShots(config) {
       id: "boat-east",
       caption: "Past the house",
       duration: 16,
-      minute: 1040,
+      minute: 985,
       room: "outside",
       kind: "boat",
       fov: 53,
       keys: keys(boatEyes.slice(2), (_, i) => boatTargets[i + 2]),
     },
   ];
-  const timed = (shot) => ({
-    ...shot,
-    minute: extra.minutes?.[shot.id] ?? shot.minute,
-    keys: extra.shotKeys?.[shot.id] ?? shot.keys,
-  });
+  const timed = (shot) => {
+    let minute = extra.minutes?.[shot.id] ?? shot.minute;
+    if (sunlitCuts.has(shot.id)) minute = Array.isArray(minute) ? minute.map((at) => matchSun(dateKey, at)) : matchSun(dateKey, minute);
+    return { ...shot, minute, keys: extra.shotKeys?.[shot.id] ?? shot.keys };
+  };
   return { shots: shots.map(timed), boat: boat.map(timed), landmarks };
 }

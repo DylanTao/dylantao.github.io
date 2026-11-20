@@ -284,6 +284,10 @@
     ],
     "scene-exploration": [
       {
+        "file": "coastal-finish.spec.js",
+        "title": "house film: the first view from the entrance includes the planted coast"
+      },
+      {
         "file": "estate-redesign.spec.js",
         "title": "visitor controls: touch jumping stays reachable in portrait and landscape"
       },

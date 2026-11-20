@@ -3,6 +3,7 @@ import { test } from "node:test";
 import { readFileSync } from "node:fs";
 import { createCameraField } from "../assets/js/home-scene/camera-field.mjs";
 import { createCollisionGrid } from "../assets/js/home-scene/camera.mjs";
+import { coastalDaylight } from "../assets/js/home-scene/daylight.mjs";
 import {
   compileVisitorRail,
   createFilmScoreCue,
@@ -23,6 +24,29 @@ const makeShot = (id, points, extra = {}) => ({
   ...extra,
 });
 const openGrid = () => createCollisionGrid({ min: [-6, -2, -6], max: [6, 5, 6], cell: 0.12 });
+
+test("the coast, lift and rower find the photographed light in each season while breakfast keeps its hour", () => {
+  const house = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
+  const program = (date) => {
+    const { shots, boat } = visitorRailShots(house, date);
+    return Object.fromEntries([...shots, ...boat].map((shot) => [shot.id, [shot.minute].flat()]));
+  };
+  const studyDate = "2026-11-20";
+  const study = program(studyDate);
+  for (const date of ["2026-03-08", "2026-06-21", "2026-11-01", "2026-12-21"]) {
+    const run = program(date);
+    for (const cut of ["coast-dawn", "training", "glass-lift", "coast-dusk", "boat-west", "boat-east"]) {
+      for (const [i, time] of run[cut].entries()) {
+        const target = coastalDaylight(studyDate, study[cut][i]).altitude;
+        assert.ok(Math.abs(coastalDaylight(date, time).altitude - target) < 0.13, `${cut} on ${date}`);
+      }
+    }
+    assert.deepEqual(run.breakfast, study.breakfast);
+    assert.deepEqual(run["coast-night"], study["coast-night"]);
+    assert.ok(run["coast-dusk"][0] < run["coast-dusk"][1]);
+  }
+  assert.ok(program("2026-06-21")["glass-lift"][0] > study["glass-lift"][0] + 150);
+});
 
 test("an empty film can be ticked or scrubbed before any shot is admitted", () => {
   const player = createVisitorRailPlayer({ shots: [], duration: 0 }, {}, { film: true });

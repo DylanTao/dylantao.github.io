@@ -116,6 +116,11 @@ export function bindGliders(root, entries = [], clock = physicalTime) {
   }
   return {
     gliders,
+    setSunHeight(degrees) {
+      // The last flights leave the ridge in the evening light. The house
+      // windows are the only inhabited shapes left in the night view.
+      for (const { node } of gliders) node.visible = degrees > 3;
+    },
     evidence: () => gliders.map((g) => ({ kind: g.kind, position: g.pose.position.toArray(), bank: g.pose.bank, length: g.route.length })),
   };
 }

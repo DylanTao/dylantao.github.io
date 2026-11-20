@@ -795,7 +795,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     if (style !== "realistic") starField.points.visible = false;
     const elevation = light.altitude,
       step = Math.abs(elevation) < 14 ? 0.5 : 4,
-      key = `${Math.floor(light.minute / 20)}:${Math.round(elevation / step)}:${state.marine.toFixed(2)}`;
+      key = `${Math.floor(light.minute / 20)}:${Math.round(elevation / step)}:${state.marine.toFixed(2)}:${state.overcast.toFixed(2)}`;
     skyColors.zenith.fromArray(sky0.zenith.map((v) => v * AMBIENT_FILL));
     skyColors.horizon.fromArray(sky0.horizon.map((v) => v * AMBIENT_FILL));
     skyColors.ground.fromArray(sky0.ground.map((v) => v * AMBIENT_FILL));
