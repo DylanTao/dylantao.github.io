@@ -3,7 +3,7 @@
   "toolSha256": "e96b9f3b136bf8a3f189aada7ce279b3fc61224dc34e6b146ca3821c4d9830cb",
   "source": "artwork/coastal-home/coastal-home.blend",
   "sourceSha256": "af2717bdcbad14a16e3da6391ec453c7eab6e3b2c95be71f6fc1faa8b10d6c26",
-  "manifestSha256": "d3255824643b720564eeb8728dc3de6465a51cfaafd64e8db0942691f0ca32ff",
+  "manifestSha256": "bb86da77fe5324bccbb53ad67e90fcebe2ad3644109c48d00659f79bbffcae57",
   "exportsSha256": {
     "coast.glb": "1c00f911f0557a56304b98b5ef7b4ada76e0c637b36576f64f21e56f1611efcf",
     "flora.glb": "6ff05869cd0c74dd59726b336fa81d46a75a95a166b596e019c13eadfecb1bc2",
