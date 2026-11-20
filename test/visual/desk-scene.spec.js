@@ -2377,19 +2377,24 @@ async function selectClockedRoom(page, view, room) {
     .toEqual({ currentRoom: room, destination: room });
 }
 
-async function enterClockedRoomWalk(page, view, destination) {
+async function enterClockedRoomWalk(page, view, destination, { waitForEyeMeter = false } = {}) {
   await sceneInputFrame(page, view, () => page.locator("[data-world-walk]").click(), { clockStep: 32 });
-  // The public Walk input requests deferred collision geometry. Advance the
-  // paused clock while those programs attach and the collision field lands.
+  // Collision placement can finish before the frame that updates the eye meter.
+  let state;
   await expect
     .poll(
       async () => {
         await page.clock.runFor(32);
-        return (await evidence(view.scene)).walk;
+        state = await evidence(view.scene);
+        return { walk: state.walk, meter: state.simulation.interiorExposure.meter };
       },
       { timeout: SCENE_READY_TIMEOUT }
     )
-    .toMatchObject({ active: true, ready: true, placed: true, provisional: false, destination });
+    .toMatchObject({
+      walk: { active: true, ready: true, placed: true, provisional: false, destination },
+      ...(waitForEyeMeter ? { meter: { mode: "eye" } } : {}),
+    });
+  return state;
 }
 
 test("coastal home: public room navigation works in the embed and starts a safe walk from the chosen room", async ({ page }, testInfo) => {
@@ -2438,11 +2443,8 @@ test("coastal home: public room navigation works in the embed and starts a safe 
   for (const room of ["study", "onsen"]) {
     await summary.click();
     await selectClockedRoom(page, view, room);
-    await enterClockedRoomWalk(page, view, room);
-    const state = await evidence(scene);
+    const state = await enterClockedRoomWalk(page, view, room, { waitForEyeMeter: true });
     rows.push(state.walk);
-    expect(state.walk).toMatchObject({ active: true, ready: true, placed: true, provisional: false, destination: room });
-    expect(state.simulation.interiorExposure.meter.mode).toBe("eye");
     for (const axis of [0, 1, 2]) expect(state.simulation.interiorExposure.meter.point[axis]).toBeCloseTo(state.camera[axis], 6);
     expect(state.walk.position[1]).toBeCloseTo(homeManifest().rooms.find((r) => r.id === room).floor, 1);
     expect(state.walk.position[1]).toBeLessThan(3, "an interior destination does not restart on the clifftop");
