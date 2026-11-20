@@ -16,7 +16,8 @@ test("house film: the first view from the entrance includes the planted coast", 
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.clock.setFixedTime(new Date("2026-11-20T14:25:00-08:00"));
+  // This dry November afternoon has a marine morning in the retained seasonal model.
+  await page.clock.setFixedTime(new Date("2025-11-14T14:25:00-08:00"));
   let releaseFlora;
   const held = new Promise((resolve) => (releaseFlora = resolve));
   let requested = false;
