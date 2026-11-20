@@ -196,7 +196,7 @@ Item 2's data says where to start.
 - [ ] The outside view at 2K (E1): three see-through surfaces cost a fifth of the frame.
 - [ ] The sun's bounce in the sea-facing rooms (R2).
 - [ ] The review panel as agents (I1, I2).
-- [ ] A smaller light cache (S).
+- [ ] A smaller light cache (S). The November 20 build moved the list of authoring-file hashes alongside the Blender receipts. Visitors fetch its signature and the actual radiance field. This saved about 6.5 KB compressed at equal numerical precision. The fitted cabinet and final light field leave 3,934 bytes in the first scene's 4 MiB budget. The proposed quantized network still needs its own accuracy and size comparison.
 
 **Machine: PC** for measurements. **Detail:** takeover E, R, I, S.
 

@@ -3,6 +3,7 @@
     blender --background INPUT.blend --python-exit-code 1 --python \
         bin/refresh_coastal_listening_contacts.py -- --save-as=OUTPUT.blend
 
+Pass --fit-sleeve to fit just the featured LP and its walnut cradle.
 Rebake the changed receivers before delivering the refreshed shell.
 """
 
@@ -49,22 +50,26 @@ def install(originals, fresh, prefix):
         print(f"[listening contacts] {name}", flush=True)
 
 
-def refresh():
+def refresh(*, sleeve_only=False):
     scene = bpy.context.scene
     if not scene.get("studyReadingThresholdCut"):
         raise ValueError("This refresh expects the existing listening room, study threshold and lift")
-    for prefix, group, pieces, build in (
+    jobs = (
         (bar.PREFIX, "speakeasy", ARCHITECTURE, bar.architecture),
         (bar.PREFIX, "speakeasy", JOINERY, bar.listening_end),
         (lift.PREFIX, "cliff-lift", {"gallery_lamp"}, lift.structure),
-    ):
+    )
+    if sleeve_only:
+        jobs = ((bar.PREFIX, "speakeasy", {"featured_sleeve", "sleeve_ledge"}, bar.listening_end),)
+    for prefix, group, pieces, build in jobs:
         old = originals_for(prefix, pieces)
         builder = bar.Joinery(prefix, group)
         build(builder)
         install(old, builder.finish(pieces), prefix)
-    study = bar.PREFIX + "study_"
-    old = originals_for(study, {"nook"})
-    install(old, bar.reading_threshold({"nook"}), study)
+    if not sleeve_only:
+        study = bar.PREFIX + "study_"
+        old = originals_for(study, {"nook"})
+        install(old, bar.reading_threshold({"nook"}), study)
     bpy.context.view_layer.update()
 
 
@@ -72,6 +77,6 @@ if __name__ == "__main__":
     dest = Path(next(a.split("=", 1)[1] for a in sys.argv if a.startswith("--save-as="))).resolve()
     if dest == Path(bpy.data.filepath).resolve():
         raise ValueError("Write the refreshed contacts to a separate Blender file")
-    refresh()
+    refresh(sleeve_only="--fit-sleeve" in sys.argv)
     bpy.context.preferences.filepaths.save_version = 0
     bpy.ops.wm.save_as_mainfile(filepath=str(dest), compress=True)

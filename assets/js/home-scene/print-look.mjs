@@ -1904,8 +1904,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
       drawHearth(renderer, readBuffer);
       return;
     }
-    // The meter reads the view a few times a second while it moves, and every frame it is still.
-    if (uniforms.printKey.value.w > 0.5 && (stillFrame || !metered || draws % 6 === 0)) meter(renderer);
+    if (uniforms.printKey.value.w > 0.5) meter(renderer);
     renderer.setRenderTarget(pass.renderToScreen ? null : readBuffer);
     quad.render(renderer);
     // The painted look lays its strokes over that coat.
@@ -1944,13 +1943,9 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     depthBuffer: false,
   });
   const meterPixels = new Uint8Array(METER_SIZE[0] * METER_SIZE[1] * 4);
-  function meter(renderer) {
-    const view = uniforms.printMore.value.y;
-    uniforms.printMore.value.y = 4;
-    renderer.setRenderTarget(meterTarget);
-    quad.render(renderer);
-    renderer.readRenderTargetPixels(meterTarget, 0, 0, METER_SIZE[0], METER_SIZE[1], meterPixels);
-    uniforms.printMore.value.y = view;
+  let pendingMeter = null,
+    meterRoom = null;
+  function applyMeter() {
     const reading = readMeter(meterPixels, dials, day);
     if (!reading) return;
     const ease = stillFrame || !metered ? 1 : 0.35;
@@ -1958,6 +1953,60 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     poolStops += (reading.pool - poolStops) * ease;
     metered++;
     setKey();
+  }
+
+  function releaseMeter() {
+    if (!pendingMeter) return;
+    const { gl, fence, buffer } = pendingMeter;
+    gl.deleteSync(fence);
+    gl.deleteBuffer(buffer);
+    pendingMeter = null;
+  }
+
+  function meter(renderer) {
+    // A moving picture can use the previous light reading while the GPU draws
+    // this one. A synchronous read here was stopping the film at the bath.
+    if (pendingMeter) {
+      const { gl, fence, buffer, room, drawing } = pendingMeter;
+      if (!stillFrame && room === meterRoom && drawing === look) {
+        const state = gl.clientWaitSync(fence, 0, 0);
+        if (state === gl.TIMEOUT_EXPIRED) return;
+        if (state !== gl.WAIT_FAILED) {
+          gl.bindBuffer(gl.PIXEL_PACK_BUFFER, buffer);
+          gl.getBufferSubData(gl.PIXEL_PACK_BUFFER, 0, meterPixels);
+          gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+          applyMeter();
+        }
+      }
+      releaseMeter();
+    }
+    if (!stillFrame && metered && draws % 6 !== 0) return;
+    const view = uniforms.printMore.value.y;
+    const gl = renderer.getContext?.();
+    uniforms.printMore.value.y = 4;
+    try {
+      renderer.setRenderTarget(meterTarget);
+      quad.render(renderer);
+      if (!stillFrame && gl?.fenceSync) {
+        const buffer = gl.createBuffer();
+        gl.bindBuffer(gl.PIXEL_PACK_BUFFER, buffer);
+        gl.bufferData(gl.PIXEL_PACK_BUFFER, meterPixels.byteLength, gl.STREAM_READ);
+        gl.readPixels(0, 0, ...METER_SIZE, gl.RGBA, gl.UNSIGNED_BYTE, 0);
+        gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+        const fence = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+        if (fence) {
+          pendingMeter = { gl, fence, buffer, room: meterRoom, drawing: look };
+          gl.flush();
+          return;
+        }
+        gl.deleteBuffer(buffer);
+      }
+      // A composed still may be the only frame. Its shadows need this reading now.
+      renderer.readRenderTargetPixels(meterTarget, 0, 0, ...METER_SIZE, meterPixels);
+      applyMeter();
+    } finally {
+      uniforms.printMore.value.y = view;
+    }
   }
 
   return {
@@ -2026,6 +2075,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         );
       }
       eye = camera;
+      meterRoom = room;
       setPaintedHearth(room);
       keyLight = key;
       stillFrame = Boolean(still);
@@ -2095,6 +2145,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
       };
     },
     dispose() {
+      releaseMeter();
       quad.dispose();
       material.dispose();
       meterTarget.dispose();

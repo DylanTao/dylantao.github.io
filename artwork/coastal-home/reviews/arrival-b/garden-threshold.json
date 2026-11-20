@@ -1,7 +1,7 @@
 {
   "source": "artwork/coastal-home/coastal-home.blend",
-  "sourceSha256": "c8b1aed04667ca0426dbbca38c05a6d38d9e2bf999491840175b95c6f2ede19f",
-  "manifestSha256": "ed4565a2ecb137c2d0670329ffa4f09b5a0fb521d9748233c9e14ec5f8e6898d",
+  "sourceSha256": "16d50b1f697cfe8b2f26b9bdec9e39360cde4ecba48bbe915c800eaabdc41e5e",
+  "manifestSha256": "e77ea4f21a2f7a8b94770ed5f3d6b1082c1b7699218f999f03f2d57b9f6e481f",
   "route": {
     "walkPlace": {
       "label": "Main entrance",

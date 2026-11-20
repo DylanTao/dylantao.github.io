@@ -13,3 +13,7 @@ Generated with the built-in image generator on November 20, 2026. The WebP is a 
 ## Shore study
 
 The beach and the fire terrace show the same stretch of water from quite different eyes. The comparison holds the time of day, tide and cameras fixed. The beach row also includes the matched Cycles study. [Before and after in the playable house](shore-and-terrace-daylight.webp) · [Water and camera notes](../../../../docs/sea/shore-study/README.md)
+
+## Finding the record
+
+In the first room the counter lamp covered the title. The full-size sleeve now rests on the right-hand LP shelf in a shallow walnut cradle. The upper pair of photographs uses the same visitor eye and 74° lens at 2:25 p.m. In the lower right, a visitor walked to 1.07 m from the cabinet and used the ordinary zoom. The two images on the lower row show what the sandstone opening and the small title retain as they become a physical object in the room. [Original artwork, first cabinet and fitted sleeve](record-sleeve-in-the-listening-room.webp).

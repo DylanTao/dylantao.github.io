@@ -263,16 +263,22 @@ def listening_end(j):
     j.span("tonearm", BRASS, (x + 0.152, y + 0.126, z + 0.067), (x + 0.152, y + 0.126, z + 0.105), 0.022, 10)
     j.span("tonearm", BRASS, (x + 0.152, y + 0.126, z + 0.105), (x + 0.042, y + 0.021, z + 0.087), 0.006, 8)
     j.block("tonearm", STEEL, (x + 0.028, y + 0.003, z + 0.080), (x + 0.056, y + 0.032, z + 0.09), 0.002)
-    for i in range(4):
+    # Three small sleeves stay on the original left ledge. The full-size LP
+    # sits on the right LP shelf, clear of the lamp from the guest's seat.
+    for i in range(3):
         x0 = -12.252 + i * 0.012
         y0 = 6.482 + i * 0.050
         j.block(
-            "featured_sleeve" if i == 3 else "record_sleeves",
-            (PAPER, WOOL, HIDE, PAPER)[i],
+            "record_sleeves",
+            (PAPER, WOOL, HIDE)[i],
             (x0, y0, 0.955),
             (x0 + 0.008, y0 + 0.216, 1.174),
         )
     j.block("sleeve_ledge", listening.WALNUT, (-12.254, 6.466, 0.929), (-12.203, 6.870, 0.955), 0.003)
+    j.block("featured_sleeve", PAPER, (-12.090, 8.1225, 0.775), (-12.080, 8.4375, 1.090))
+    j.block("sleeve_ledge", listening.WALNUT, (-12.133, 8.110, 0.751945), (-12.047, 8.450, 0.775), 0.002)
+    j.block("sleeve_ledge", listening.WALNUT, (-12.103, 8.129, 0.775), (-12.090, 8.431, 0.830), 0.0015)
+    j.block("sleeve_ledge", listening.WALNUT, (-12.080, 8.121, 0.775), (-12.073, 8.439, 0.780), 0.001)
 
 
 def reading_threshold(pieces=None):

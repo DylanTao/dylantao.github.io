@@ -317,7 +317,9 @@ float installationAperture(int i, float alignment) {
 #ifdef INSTALLATION_SHADE
   // Projected area of the translucent side of the shade, seen from the receiver.
   // Its opaque cap covers the upper axis. The open lower rim passes the full beam.
-  float side = installShadeTransmission[i] * sqrt(max(0.0, 1.0 - alignment * alignment));
+  float transmission = installShadeTransmission[i];
+  if (transmission <= 0.0) return opening;
+  float side = transmission * sqrt(max(0.0, 1.0 - alignment * alignment));
   return mix(side, 1.0, opening);
 #else
   return opening;
@@ -567,6 +569,10 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   ];
   const receivers = config.installationReceivers;
   const defaultGroup = receivers?.default || "all";
+  // A visitor or resident can cross these lighting groups on a single cut.
+  // Use one shade-capable program throughout a house that has a shade.
+  // Each group supplies only the transmissions of its own fixtures.
+  const hasShade = points.some((source) => source.shadeTransmission > 0);
   const packs = new Map();
   const shadowMaps = new Map();
   const addPack = (name, regions = null) => {
@@ -580,7 +586,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
         `Light installation capacity exceeded: ${selectedLines.length}/${MAX_LINES} lines, ${selectedPoints.length}/${MAX_POINTS} points in receiver ${name}`
       );
     const pack = { name, regions, lines: selectedLines, points: selectedPoints, uniforms: name === defaultGroup ? uniforms : installationUniforms() };
-    if (selectedPoints.some((source) => source.shadeTransmission > 0)) {
+    if (hasShade) {
       const transmission = new Float32Array(MAX_POINTS);
       selectedPoints.forEach((source, index) => (transmission[index] = source.shadeTransmission ?? 0));
       pack.uniforms.installShadeTransmission = { value: transmission };

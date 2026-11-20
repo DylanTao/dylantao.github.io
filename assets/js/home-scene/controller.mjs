@@ -160,6 +160,7 @@ export function createCoastalHome(container, records, artifacts) {
   const houseRecord = createListeningRecord();
   const houseJacket = new URL("../../img/album_covers/a-pocketful-of-sky.webp", import.meta.url).href;
   const cabinetPoint = new THREE.Vector3();
+  let listeningRoomBounds = null;
   let houseSleeve = true;
   let listenerStamp = "";
   const cameraMotion = createCameraMotion();
@@ -2041,7 +2042,12 @@ export function createCoastalHome(container, records, artifacts) {
   function bindBarRecords(root) {
     if (!records.length) return;
     root.updateWorldMatrix(true, true);
+    let floor, lintel;
     root.traverse((piece) => {
+      // The lighting group reaches the outdoor hearth. Music leaves the
+      // enclosed room at the edge of its own laid stone floor.
+      if (piece.isMesh && piece.name.startsWith("core_speakeasy_paving__")) floor = new THREE.Box3().setFromObject(piece);
+      if (piece.isMesh && piece.name.startsWith("core_speakeasy_lintel__")) lintel = new THREE.Box3().setFromObject(piece);
       const part = piece.userData.barRecordPart;
       if (!piece.isMesh || !part) return;
       const action = { type: part.includes("sleeve") ? "bar-sleeves" : "bar-disc" };
@@ -2076,6 +2082,7 @@ export function createCoastalHome(container, records, artifacts) {
         barSleeve.castShadow = false;
       }
     });
+    if (floor && lintel) listeningRoomBounds = { min: floor.min.toArray(), max: [floor.max.x, lintel.max.y, floor.max.z] };
   }
 
   function updateRecords() {
@@ -2694,7 +2701,9 @@ export function createCoastalHome(container, records, artifacts) {
     // ceilings stay seated when entering a named room or walking.
     roofLift.sync(roofs, cutawayPlantSupports, !closedRoof, {
       dt,
-      instant: instant || Boolean(walkMode?.active),
+      // The overnight bath cuts directly to a daytime architectural section.
+      // Its first image is the finished section on the same beat as the score.
+      instant: instant || Boolean(walkMode?.active) || visit?.kind === "film",
       overview: currentRoom === "overview",
     });
     sectionCut?.sync(roofLift.sectionPieces, roofLift.sectionOpen);
@@ -3004,7 +3013,7 @@ export function createCoastalHome(container, records, artifacts) {
     if (!houseRecord.tracking || !barLabel || !visible || reduced || paused || visit || !camera) return null;
     barLabel.getWorldPosition(cabinetPoint);
     camera.worldToLocal(cabinetPoint);
-    const acoustics = listeningPerspective(camera.position, cabinetPoint, config.installationReceivers?.groups?.speakeasy);
+    const acoustics = listeningPerspective(camera.position, cabinetPoint, listeningRoomBounds);
     return acoustics && { ...acoustics, seconds: houseRecord.seconds };
   }
 

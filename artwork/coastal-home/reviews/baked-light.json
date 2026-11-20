@@ -3777,18 +3777,6 @@
       "max": 0.6805301194420705
     },
     {
-      "mesh": "core_speakeasy_featured_sleeve__bar uncoated paper",
-      "corners": 24,
-      "min": 0.68,
-      "max": 0.6916748281723509
-    },
-    {
-      "mesh": "core_speakeasy_sleeve_ledge__listening room quarter-cut walnut",
-      "corners": 96,
-      "min": 0.68,
-      "max": 0.6916658632224426
-    },
-    {
       "mesh": "core_speakeasy_cabinet_plinth__listening room quarter-cut walnu",
       "corners": 96,
       "min": 0.68,
@@ -4861,6 +4849,18 @@
       "corners": 2112,
       "min": 0.6800000071525574,
       "max": 0.8037499785423279
+    },
+    {
+      "mesh": "core_speakeasy_featured_sleeve__bar uncoated paper",
+      "corners": 24,
+      "min": 0.6800000071525574,
+      "max": 0.7030175924301147
+    },
+    {
+      "mesh": "core_speakeasy_sleeve_ledge__listening room quarter-cut walnut",
+      "corners": 384,
+      "min": 0.6800000071525574,
+      "max": 0.7259457111358643
     }
   ]
 }

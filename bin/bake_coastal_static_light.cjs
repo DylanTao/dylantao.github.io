@@ -81,7 +81,6 @@ const base = new URL(process.env.COASTAL_CACHE_URL || "http://127.0.0.1:4170/");
     snapshot.transport = pack(snapshot.transport, 8);
     snapshot.moments = pack(snapshot.moments, 4);
     snapshot.version = 2;
-    snapshot.inputs = inputs;
     const body = JSON.stringify(snapshot) + "\n";
     if (Buffer.byteLength(body) > 800000) throw new Error("Static transport cache exceeds its explicit 800 KB JSON budget");
     if ((await coastalLightInputs(root)).signature !== signature)
@@ -100,6 +99,10 @@ const base = new URL(process.env.COASTAL_CACHE_URL || "http://127.0.0.1:4170/");
         : source.replace(/\n\}\s*$/, ',\n  "staticLightFieldCache": ' + descriptor + "\n}\n");
     if (!isDeepStrictEqual(JSON.parse(updated), manifest)) throw new Error("Cache descriptor update changed unrelated manifest data");
     await fs.writeFile(manifestPath, updated);
+    // The signed dependency inventory is for authors. A visitor only needs its
+    // digest and the radiance field, both of which the delivered manifest binds.
+    const inventory = path.join(root, "artwork/coastal-home/reviews/static-light-inputs.json");
+    await fs.writeFile(inventory, JSON.stringify({ signature, inputs }, null, 2) + "\n");
     console.log(JSON.stringify({ bytes: Buffer.byteLength(body), signature, sha256: digest(body), bake: snapshot.statistics }, null, 2));
   } finally {
     await browser.close();

@@ -707,7 +707,48 @@ test("cast shadows come from the key light's own map, and the open sky from a ma
   drawn.tap.render(renderer, null, frame);
   structure.onBeforeRender(null, null, null, null, cliff, null);
   assert.equal(structure.uniforms.structureLand.value, 0);
+
+  // A moving view keeps one outstanding read. A cut discards its former
+  // room's light without waiting on the driver.
+  let pending = 0,
+    released = 0,
+    copied = 0,
+    signalled = false;
+  const gl = {
+    TIMEOUT_EXPIRED: 1,
+    WAIT_FAILED: 2,
+    createBuffer: () => ({}),
+    bindBuffer() {},
+    bufferData() {},
+    deleteBuffer() {},
+    flush() {},
+    readPixels() {
+      pending++;
+    },
+    fenceSync: () => ({}),
+    deleteSync() {
+      released++;
+    },
+    clientWaitSync: () => (signalled ? 3 : 1),
+    getBufferSubData(_target, _offset, pixels) {
+      copied++;
+      pixels.fill(160);
+    },
+  };
+  renderer.getContext = () => gl;
+  renderer.readRenderTargetPixels = () => assert.fail("a moving frame must not wait for the GPU");
+  drawn.prepare(camera, { scene, key: sun, room: "onsen", still: false });
+  for (let i = 0; i < 12; i++) drawn.pass.render(renderer, null, frame);
+  assert.deepEqual([pending, released, copied], [1, 0, 0]);
+  drawn.prepare(camera, { scene, key: sun, room: "overview", still: false });
+  for (let i = 0; i < 7; i++) drawn.pass.render(renderer, null, frame);
+  assert.equal(released, 1);
+  assert.equal(copied, 0);
+  signalled = true;
+  drawn.pass.render(renderer, null, frame);
+  assert.equal(copied, 1);
   drawn.dispose();
+  assert.equal(released, pending);
 });
 
 test("the painted look turns forms from the light, lights shade from the sky and the ground, and puts air before far things", () => {

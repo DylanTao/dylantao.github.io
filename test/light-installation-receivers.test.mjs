@@ -91,6 +91,27 @@ test("a polished surface reflects the finite lamps assigned to its room", () => 
   }
 });
 
+test("a matte actor moving between shade and open light keeps one program and receives the room's own fixtures", () => {
+  const config = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
+  const lights = createLightInstallations(config);
+  const base = new THREE.MeshStandardMaterial({ roughness: 0.91 });
+  try {
+    const shaded = lights.bindMaterial(base, "speakeasy");
+    const open = lights.bindMaterial(base, "gym");
+    const a = shader(),
+      b = shader();
+    shaded.onBeforeCompile(a, {});
+    open.onBeforeCompile(b, {});
+    assert.equal(a.fragmentShader, b.fragmentShader);
+    assert.equal(shaded.customProgramCacheKey(), open.customProgramCacheKey());
+    assert.ok(a.uniforms.installShadeTransmission.value.some((v) => v > 0));
+    assert.ok(b.uniforms.installShadeTransmission.value.every((v) => v === 0));
+  } finally {
+    lights.dispose();
+    base.dispose();
+  }
+});
+
 test("a larger fixture registry retains every source while each physical receiver stays at the existing shader cost", () => {
   const lights = createLightInstallations(fixtureWorld());
   assert.equal(lights.lines.length, 25);

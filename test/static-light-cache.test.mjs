@@ -17,7 +17,9 @@ test("published indirect-light cache binds to current scene geometry, manifest a
     snapshot = JSON.parse(body);
   assert.equal(cacheInputs.digest(body), descriptor.sha256, "cache bytes do not match their manifest digest");
   assert.equal(snapshot.signature, signature);
-  assert.deepEqual(snapshot.inputs, inputs);
+  const receipt = JSON.parse(await fs.readFile(path.join(root, "artwork/coastal-home/reviews/static-light-inputs.json"), "utf8"));
+  assert.deepEqual(receipt, { signature, inputs });
+  assert.equal(snapshot.inputs, undefined, "visitors fetch only the signed field");
   assert.equal(snapshot.version, 2);
   assert.ok(body.byteLength <= 800000, "cache exceeds its 800 KB JSON budget");
   assert.ok(snapshot.statistics.triangles > 1000, "cache must come from the actual home, not an empty fixture");

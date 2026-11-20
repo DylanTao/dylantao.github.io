@@ -42,6 +42,8 @@ The two low Gs near the start of _A Pocketful of Sky_ were almost identical pick
 
 _A Pocketful of Sky_ also sits on the speakeasy turntable. With Sound enabled, the piece enters when the stylus settles. Pausing lifts the needle and holds the groove. Turning one's head places the horns to the left or right. Crossing the doorway takes treble out of the pair. The cabinet gives the room back to the visitor's own music beyond earshot. The spin, the jacket art and the original house recording share one place in the room. [Front cover and its design record](../../artwork/concepts/coastal-home/2026-11-20/README.md)
 
+The cover stands on its own walnut cradle beside the right horn. A visitor at the threshold sees both the illustrated sleeve and the turntable. The cabinet radiates into the room between the paving and the lintel. On the terrace just outside it, the same pressing has about half the indoor gain and rolls off above 4.2 kHz. The room's full-size jacket can be refitted with `bin/refresh_coastal_listening_contacts.py -- --fit-sleeve --save-as=OUTPUT.blend`, followed by baking the featured sleeve and sleeve ledge.
+
 ## Reproducing a take
 
 Keep the Philharmonia Strings ZIP outside this checkout. The Python renderer uses NumPy, SciPy and imageio-ffmpeg. Pass the archive to `python bin/render_coastal_world_music.py --strings <Strings.zip> --output assets/audio/coastal-score --review <private-directory>`. It writes the five pieces, fifteen interaction cues, twelve scored film cuts and a timed index. The review directory receives the uninterrupted lossless film, room mixes and the onset, source file and SHA-256 for each played event. The source musicians' individual samples stay in their archive.
