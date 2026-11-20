@@ -1,0 +1,27 @@
+{
+  "method": "Vertical intersections across the projected area of every walnut cap, evaluated against the lower and upper faces of the installed leather.",
+  "units": "millimetres",
+  "stools": 3,
+  "native": {
+    "beforeSha256": "a420701dca2193065297517499a93ab85f6d40752deec69194e76ba542755140",
+    "sourceSha256": "e3cfd6a27f06ca9ba7965ee726e96ddf7dec0f80f9b0d7f96ecad7d13329c710",
+    "previousGapAtCapCentre": [13.979, 47.974],
+    "verifiedWholeCaps": 12,
+    "insertionIntoSaddle": [3.933, 7.289],
+    "minimumLeatherAboveWood": 16.12
+  },
+  "delivered": {
+    "beforeSha256": {
+      "detail-listening-bar.glb": "5f46a2713c68b38d1b8ad5d9868de36f69d3f2ecc15f3bf210c39433ecf677f8",
+      "home-shell.glb": "0136885a2673833d5a0d7a7157c36f8d324fa5eb4e9e8b4cacd3dd8a3b84cbb9"
+    },
+    "sourceSha256": {
+      "detail-listening-bar.glb": "578c971ebfe7b4e9b1f0873de25c4793fe6d5a9b963a70c9f833d369a5a923ad",
+      "home-shell.glb": "0136885a2673833d5a0d7a7157c36f8d324fa5eb4e9e8b4cacd3dd8a3b84cbb9"
+    },
+    "previousGapAtCapCentre": [13.951, 47.929],
+    "verifiedWholeCaps": 12,
+    "insertionIntoSaddle": [3.929, 7.354],
+    "minimumLeatherAboveWood": 16.184
+  }
+}

@@ -6089,8 +6089,8 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "8da562ddcbcc3a0c69491506dd753f2aa4dcae950f217c544bb827a48533dbe1",
-    "sha256": "ad5cae067616e74ea7e7996ebfd69a99c7ae5192b409c314d0a0f4d8353d2d65"
+    "signature": "e452ac341d54b52b98c5b338cac7ac501cc6548816d7e1f49f907a395d3564a1",
+    "sha256": "1188bcb5f364b2f52eda709b71a4efaa3b85114bd5284c01df43d630d0a4465b"
   },
   "estateDoors": [
     {
@@ -8008,6 +8008,7 @@
     },
     {
       "id": "listening-counter-lamp",
+      "reflectionGroup": "speakeasy",
       "schedule": "listening",
       "position": [-11.815, 1.279, -7.22],
       "intensity": 1.24,
@@ -8022,9 +8023,10 @@
     },
     {
       "id": "listening-banquette-lamp",
+      "reflectionGroup": "speakeasy",
       "schedule": "listening",
       "position": [-9.23, 0.694, -8.56],
-      "intensity": 1.12,
+      "intensity": 4.8,
       "color": [1, 0.79, 0.58],
       "region": {
         "min": [-12.69, 0, -10.16],

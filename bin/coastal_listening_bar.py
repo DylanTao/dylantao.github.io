@@ -12,6 +12,7 @@ from pathlib import Path
 import bmesh
 import bpy
 from mathutils import Matrix, Vector
+from mathutils.bvhtree import BVHTree
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import coastal_decor as decor
@@ -344,6 +345,46 @@ def reading_threshold(pieces=None):
     return pieces_built
 
 
+def fit_stool_supports():
+    """Scribe each walnut leg to the actual underside of its leather saddle and the laid floor."""
+    def surface(obj):
+        mesh = obj.data
+        mesh.calc_loop_triangles()
+        return BVHTree.FromPolygons(
+            [obj.matrix_world @ v.co for v in mesh.vertices],
+            [triangle.vertices for triangle in mesh.loop_triangles],
+            all_triangles=True,
+        )
+
+    bpy.context.view_layer.update()
+    objects = bpy.context.scene.objects
+    legs = objects[PREFIX + "stool_legs__" + listening.WALNUT]
+    seat = surface(objects[PREFIX + "saddle_seats__" + listening.OXBLOOD])
+    floor = surface(objects[PREFIX + "paving__" + STONE])
+    world = legs.matrix_world
+    local = world.inverted()
+    up = Vector((0, 0, 1))
+    fitted = []
+    for v in legs.data.vertices:
+        p = world @ v.co
+        # Each tapered leg has two rings. Preserve its splay in plan while
+        # cutting the end faces to follow the compound seat and the stone.
+        if p.z > 0.40:
+            hit = seat.ray_cast(Vector((p.x, p.y, 0.40)), up, 0.55)[0]
+            inset = 0.004
+        elif p.z < 0.10:
+            hit = floor.ray_cast(Vector((p.x, p.y, 0.105)), -up, 0.25)[0]
+            inset = -0.00075
+        else:
+            raise ValueError(f"Unexpected interior vertex on a tapered stool leg at {tuple(p)}")
+        if hit is None:
+            raise ValueError(f"Missing support at stool leg {tuple(p)}")
+        fitted.append(local @ Vector((p.x, p.y, hit.z + inset)))
+    for v, p in zip(legs.data.vertices, fitted):
+        v.co = p
+    legs.data.update()
+
+
 def build():
     for obj in list(bpy.context.scene.objects):
         if obj.name.startswith(PREFIX):
@@ -361,11 +402,14 @@ def build():
             obj["barRecordPart"] = name
         if name in ("vault", "cut_vault"):
             obj["caveRoof"] = True
-    bpy.context.view_layer.update()
+    fit_stool_supports()
 
 
 if __name__ == "__main__":
-    build()
+    if "--fit-stools" in sys.argv:
+        fit_stool_supports()
+    else:
+        build()
     output = next(s.split("=", 1)[1] for s in sys.argv if s.startswith("--save-as="))
     bpy.context.preferences.filepaths.save_version = 0
     bpy.ops.wm.save_as_mainfile(filepath=str(Path(output).resolve()), compress=True)

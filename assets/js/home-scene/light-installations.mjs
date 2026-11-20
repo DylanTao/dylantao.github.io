@@ -346,6 +346,33 @@ function installationUniforms() {
   };
 }
 
+// A shaded lamp has a visible width in a varnished bell or a leather seat.
+// Find the point on its spherical diffuser nearest the reflected eye ray.
+// Broaden the lobe by its apparent size, conserving its energy at close range.
+const LAMP_REFLECTION_GLSL = /* glsl */ `
+void reflectInstallationLamp(int i, float radius, vec3 p, vec3 n, vec3 v, PhysicalMaterial surface, inout vec3 specular) {
+  if (!installationInside(p, installPointMin[i], installPointMax[i])) return;
+  vec3 toLamp = mat3(viewMatrix) * (installPointPosition[i] - p);
+  float distanceSquared = dot(toLamp, toLamp);
+  if (distanceSquared <= radius * radius) return;
+  float inverseDistance = inversesqrt(distanceSquared);
+  vec3 lightAxis = toLamp * inverseDistance;
+  vec4 cone = installPointCone[i];
+  float aperture = cone.w > 0.0 ? smoothstep(cone.w, 1.0, dot(-lightAxis, mat3(viewMatrix) * cone.xyz)) : 1.0;
+#ifdef INSTALLATION_POINT_SHADOW
+  if (i == installShadowPoint && aperture > 0.0)
+    aperture *= installationPointVisibility((p - installPointPosition[i]) * inverseDistance, sqrt(distanceSquared));
+#endif
+  vec3 ray = reflect(-v, n);
+  vec3 towardRay = ray * max(dot(toLamp, ray), 0.0) - toLamp;
+  vec3 representative = toLamp + towardRay * min(1.0, radius / max(length(towardRay), 0.0001));
+  vec3 l = representative * inversesqrt(max(dot(representative, representative), 0.000001));
+  float alpha = max(0.01, surface.roughness * surface.roughness);
+  float normalization = alpha / (alpha + 0.5 * radius * inverseDistance);
+  vec3 irradiance = installPointColor[i] * (aperture / distanceSquared) * max(dot(n, l), 0.0);
+  specular += irradiance * (normalization * normalization) * BRDF_GGX(l, v, n, surface);
+}`;
+
 export function createLightInstallations(config, { bind = (m) => m } = {}) {
   const uniforms = installationUniforms();
   const scaled = new THREE.Vector3();
@@ -764,6 +791,18 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     }
     const compile = material.onBeforeCompile,
       cache = material.customProgramCacheKey;
+    const lampReflections = [];
+    if (material.roughness <= 0.65) {
+      for (const [index, point] of pack.points.entries()) {
+        if (point.reflectionGroup === pack.name && point.emitterRadius > 0) lampReflections.push([index, point.emitterRadius]);
+      }
+    }
+    const reflectedLamps = lampReflections
+      .map(
+        ([i, radius]) =>
+          `reflectInstallationLamp(${i}, ${radius.toFixed(4)}, installWorldPosition, normal, geometryViewDir, material, reflectedLight.directSpecular);`
+      )
+      .join("\n");
     material.onBeforeCompile = function (shader, renderer) {
       compile.call(this, shader, renderer);
       Object.assign(shader.uniforms, pack.uniforms);
@@ -796,11 +835,19 @@ ${LINE_GLSL}`
         )
         .replace(
           "#include <aomap_fragment>",
-          "if(installActive>0.5)reflectedLight.directDiffuse+=installationIrradiance(installWorldPosition,inverseTransformDirection(normal,viewMatrix))*BRDF_Lambert(material.diffuseColor);\n#include <aomap_fragment>"
+          `if(installActive>0.5){reflectedLight.directDiffuse+=installationIrradiance(installWorldPosition,inverseTransformDirection(normal,viewMatrix))*BRDF_Lambert(material.diffuseColor);
+${reflectedLamps}
+}
+#include <aomap_fragment>`
+        );
+      if (lampReflections.length)
+        shader.fragmentShader = shader.fragmentShader.replace(
+          "#include <lights_physical_pars_fragment>",
+          `#include <lights_physical_pars_fragment>\n${LAMP_REFLECTION_GLSL}`
         );
     };
     material.customProgramCacheKey = function () {
-      return `${cache.call(this)}|light-installations-v2${pack.pointShadow ? "-point-shadow" : ""}`;
+      return `${cache.call(this)}|light-installations-v2${pack.pointShadow ? "-point-shadow" : ""}${lampReflections.length ? "|lamp-reflections:" + lampReflections.join("|") : ""}`;
     };
     material.needsUpdate = true;
     bindings.set(material, { group: pack.name, compile, cache, origin: sourceMaterial });

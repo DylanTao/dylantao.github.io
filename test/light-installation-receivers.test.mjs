@@ -39,7 +39,32 @@ function fixtureWorld() {
 const shader = () => ({
   uniforms: {},
   vertexShader: "#include <common>\n#include <project_vertex>",
-  fragmentShader: "#include <common>\n#include <aomap_fragment>",
+  fragmentShader: "#include <common>\n#include <lights_physical_pars_fragment>\n#include <aomap_fragment>",
+});
+
+test("a polished surface reflects the finite lamps assigned to its room", () => {
+  const config = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url), "utf8"));
+  const lights = createLightInstallations(config);
+  const material = new THREE.MeshStandardMaterial({ roughness: 0.39 });
+  const matte = new THREE.MeshStandardMaterial({ roughness: 0.91 });
+  try {
+    const polished = lights.bindMaterial(material, "speakeasy");
+    const scene = shader();
+    polished.onBeforeCompile(scene, {});
+    assert.equal((scene.fragmentShader.match(/reflectInstallationLamp\(\d+, 0\.1000/g) || []).length, 2);
+    assert.match(scene.fragmentShader, /distanceSquared <= radius \* radius/);
+    assert.match(scene.fragmentShader, /BRDF_GGX\(l, v, n, surface\)/);
+    for (const receiver of [lights.bindMaterial(matte, "speakeasy"), lights.bindMaterial(material, "architecture")]) {
+      const other = shader();
+      receiver.onBeforeCompile(other, {});
+      assert.doesNotMatch(other.fragmentShader, /reflectInstallationLamp/);
+      assert.notEqual(receiver.customProgramCacheKey(), polished.customProgramCacheKey());
+    }
+  } finally {
+    lights.dispose();
+    material.dispose();
+    matte.dispose();
+  }
 });
 
 test("a larger fixture registry retains every source while each physical receiver stays at the existing shader cost", () => {
