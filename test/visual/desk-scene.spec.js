@@ -4214,13 +4214,30 @@ test("coastal gym: the training dialog releases held walk input while gravity co
   await page.waitForTimeout(100);
   // Date is pinned, but a real Space jump still follows native RAF gravity under the dialog.
   await canvas.focus();
+  // Observe the real jump in the renderer; a CDP round trip can span the whole flight.
+  await scene.evaluate((element) => {
+    const trigger = document.querySelector("[data-home-world-controls] [data-world-training]");
+    const before = element.getSceneEvidence().walk.jumps;
+    const expires = performance.now() + 30000;
+    window.__trainingAirborne = null;
+    function observe() {
+      const current = element.getSceneEvidence();
+      if (current.walk.jumps > before && !current.walk.grounded) {
+        trigger.click();
+        window.__trainingAirborne = { started: before, beforeOpen: current.walk, walk: element.getSceneEvidence().walk };
+      } else if (performance.now() < expires) {
+        requestAnimationFrame(observe);
+      }
+    }
+    requestAnimationFrame(observe);
+  });
   await page.keyboard.press("Space");
-  await expect.poll(async () => (await evidence(scene)).walk.grounded).toBe(false);
-  await page.keyboard.press("t");
+  await page.waitForFunction(() => Boolean(window.__trainingAirborne), null, { timeout: 30000 });
+  const airborne = await page.evaluate(() => window.__trainingAirborne);
   await expect(dialog).toBeVisible();
-  const airborne = await evidence(scene);
+  expect(airborne.beforeOpen).toMatchObject({ grounded: false, inputSuspended: false });
+  expect(airborne.walk).toMatchObject({ jumps: airborne.started + 1, grounded: false, inputSuspended: true });
   rows.push({ phase: "airborne-open", walk: airborne.walk });
-  expect(airborne.walk.inputSuspended).toBe(true);
   await expect.poll(async () => (await evidence(scene)).walk.grounded, { timeout: 30000 }).toBe(true);
   const landed = await evidence(scene);
   rows.push({ phase: "landed-with-dialog", walk: landed.walk });
@@ -4241,7 +4258,8 @@ test("coastal gym: the training dialog releases held walk input while gravity co
   await canvas.focus();
   await page.keyboard.press("Home");
   await expect.poll(async () => (await evidence(scene)).walk.gamepads).toBe(1);
-  await activate(ui.locator("[data-world-training]"));
+  await page.keyboard.press("t");
+  await expect(dialog).toBeVisible();
   const padOpen = await evidence(scene);
   rows.push({ phase: "held-pad-open", walk: padOpen.walk });
   expect(padOpen.walk.inputSuspended).toBe(true);
