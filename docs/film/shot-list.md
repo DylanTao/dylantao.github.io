@@ -30,3 +30,9 @@ docs/todo.md, item 11, step N1: the film on one page, before any camera code. De
 - **Capture for a file** (a trailer, a social clip): frame-exact capture of the canvas (CCapture.js, from the tools list in `docs/creative-direction.md`), rendered overnight on the PC, never rented GPUs.
 - **Music:** item 8's first composed piece, cut to the shot lengths above.
 - **Judge it** like a film: a contact sheet of every shot's first, middle and last frame beside the references before any full render.
+
+## Playable cut · November 20
+
+From Rooms, choose Film. Thirteen shots take 1 minute 58 seconds. The separate Boat trip has two legs and takes 33 seconds. The opening holds on the coast, follows the actual stair through stone, and releases into the living room. A short shot under the study roof lets the viewer place the table between study and bar. Breakfast, the desk, rowing and the upper bath cover the working day. The section, record wall and moving lift carry the viewer back out to dusk and night. The day opens in Realistic. The kitchen and desk furniture, the rower and the horn are native camera anchors. [Contact sheet of the thirteen shots and two boat legs](../../artwork/concepts/coastal-home/2026-11-19/film-and-boat-12.webp).
+
+The visitor can change the look, pause, scrub, skip or leave. Reduced motion holds a composed still at each cut. The 1.50 m eye in the descent clears the measured soffit throughout. Boat verification sampled 11,855 positions over the two legs and found at least 0.605 m of water. Exiting restored the saved camera with zero measured drift. Sound follows the cuts when the visitor enables it. Each world has its own score and recorded interaction replies. [Music and cue sheet](../house/world-music.md).

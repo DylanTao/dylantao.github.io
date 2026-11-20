@@ -1,0 +1,74 @@
+{
+  "capture": {
+    "standing": {
+      "originNative": [-10.302706718444824, 14.98447036743164, -5.066640853881836],
+      "directionNative": [0.9851478338241577, 0.12096095085144043, -0.12186934053897858],
+      "azimuthFromSeawardDeg": 83,
+      "depressionDeg": 7,
+      "verticalFov": 44,
+      "shares": {
+        "sky": 16.9,
+        "rock": 22.8,
+        "built": 0.2,
+        "water": 42.0,
+        "sand": 18.1
+      },
+      "nativeFoot": [-10.302706718444824, 14.98447036743164, -6.666640758514404]
+    },
+    "overwater": {
+      "originNative": [-15.0, 20.0, -4.920000076293945],
+      "directionNative": [0.9848432540893555, -0.13841070234775543, -0.10452846437692642],
+      "azimuthFromSeawardDeg": 98,
+      "depressionDeg": 6,
+      "verticalFov": 45,
+      "shares": {
+        "sky": 15.3,
+        "rock": 28.1,
+        "built": 1.5,
+        "water": 45.9,
+        "sand": 9.3
+      }
+    },
+    "date": "2026-11-20T15:12:00-08:00",
+    "seaLevel": -7.35,
+    "waterStudySeconds": 9.6,
+    "viewport": [1440, 900]
+  },
+  "reference": {
+    "nativeSourceSha256": "e4db4143d98f56e4b6a7de3139a15381662f9699a0062f46bb68680cfea53984",
+    "sampledT2GridSha256": "0f2410cd6c7fa3f5866ac111133728c9085a8e4ae7e5a840ebaf2726d630851b",
+    "nativeSource": "historical assembled V10 prelight",
+    "engine": "Blender Cycles",
+    "blender": "4.5.9 LTS",
+    "device": "CPU",
+    "samples": 48,
+    "threads": 8,
+    "seed": 94,
+    "denoise": "OpenImageDenoise on CPU",
+    "viewTransform": "AgX, Medium High Contrast, exposure -0.35",
+    "adaptiveThreshold": 0.028,
+    "dataLayout": ["surfaceY", "foam", "moisture", "capturedBedY", "swashDepth"],
+    "actualT2Seconds": 9.595238095238074
+  },
+  "comparison": {
+    "comparisonImage": "../../../artwork/concepts/coastal-home/2026-11-19/shore-cycles-and-webgl-11.webp",
+    "normalization": "Linear-light median of the identical foreground sandstone rectangle, scaled to the Cycles median",
+    "frameRegionsPx": {
+      "rock_exposure": [1040, 130, 1340, 253],
+      "water_near_film": [520, 622, 695, 834],
+      "water_warm_reflection": [770, 540, 887, 689],
+      "water_foam": [125, 607, 336, 746],
+      "water_open": [60, 333, 420, 380],
+      "wet_sand": [1000, 456, 1115, 493],
+      "dry_sand": [1315, 455, 1415, 523]
+    },
+    "lumaBandPassSigmaPixels": [1.4, 8.0],
+    "nearFilmNormalizedContrast": {
+      "Previous WebGL": 0.10738566400694866,
+      "Updated WebGL": 0.029920828044180964,
+      "Cycles reference": 0.012707667027192936
+    },
+    "deepOpenWaterLinearLumaMAE": 0.0026143397423721423,
+    "medianNearFilmDepthMetres": 0.18117735534906387
+  }
+}
