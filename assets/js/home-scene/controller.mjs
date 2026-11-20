@@ -1,7 +1,7 @@
 import * as THREE from "../three.module.min.js";
 import { createModelLoader } from "./model-loader.mjs";
 import { createArtDirection } from "./materials.mjs";
-import { createPacific } from "./environment.mjs?v=sea-mirror-20261120";
+import { createPacific } from "./environment.mjs?v=terrain-reflections-20261120";
 import { createFinish, physicalTime, surfaceLook } from "./realism.mjs";
 import { readLook } from "./look.mjs";
 import { createPrintLook, readDrawnLook, writeDrawnLook } from "./print-look.mjs";
@@ -4790,7 +4790,7 @@ export function createCoastalHome(container, records, artifacts) {
       cameraField?.addRoot(shell.scene);
       visitFields.forEach((field) => field.addRoot(shell.scene));
       loadingStage("coast", "Opening the coast.");
-      pacific = createPacific(scene, renderer, config, { atmosphere });
+      pacific = createPacific(scene, renderer, config, { atmosphere, requestFrame });
       infinityPool = createInfinityPool(shellRoot, { waterSky: () => pacific?.waterSky(), requestFrame });
       cleanup.push(() => infinityPool?.dispose());
       arrivalRill = createArrivalRill(shellRoot, config.entrance?.rill, physicalTime);

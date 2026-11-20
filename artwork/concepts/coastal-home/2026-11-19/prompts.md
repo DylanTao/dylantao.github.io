@@ -91,3 +91,7 @@ The watercolour fire study supplied the relationship between a narrow flame and 
 The study-side outdoor kitchen sheet follows the same 1.615 m standing eye from the old three oak cupboards through the Blender fitting and back into the playable room. The 60 cm fridge fills the dry bay beside the sink. [The terrace kitchen](bbq-fridge-from-the-terrace-22.webp).
 
 The sandstone study guided the scale of the worn beds and the hollows between them. The beach and cook’s wall show how the same surface catches open sun and shaded terrace light. [Sandstone between the tide and the terrace](sandstone-from-the-tide-to-the-terrace-23.webp).
+
+The charcoal steel in the kitchen fitting became a test of the reflected landscape. The eye, lens, sun and appliance stay fixed between the two browser visits. The Blender fitting gives a separate material reference. [The terrace steel](terrace-steel-in-reflected-cliff-light-24.webp).
+
+The original listening-room illustration sits beside two renders of the built room at the ordinary Speakeasy arrival. The native and browser cameras share the same standing eye, direction and lens. [The listening counter in three views](listening-counter-study-cycles-and-webgl-24.webp).

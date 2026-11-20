@@ -87,6 +87,8 @@ test("coastal reflection: late models are excluded on the first sea mirror draw 
     await draw();
     expect(held).toBe(true);
     expect(await page.evaluate(() => window.__lateSeaProbe.passes.length)).toBeGreaterThan(0);
+    const coastOnlySky = await scene.evaluate((element) => element.labScene.scene.environment?.uuid);
+    expect(coastOnlySky).toBeTruthy();
     release();
     await expect
       .poll(() => scene.evaluate((element) => Boolean(element.labScene.scene.getObjectByName("coastal-hinterland")?.visible)), {
@@ -94,6 +96,22 @@ test("coastal reflection: late models are excluded on the first sea mirror draw 
       })
       .toBe(true);
     await draw();
+    // A clock parked on one afternoon used to keep the open-water reflection on all
+    // the metals even after the sunlit land was visible. Wait for both terrain inputs.
+    await expect
+      .poll(
+        () =>
+          scene.evaluate((element) => {
+            const terrain = element.getSceneEvidence().ecology.farField;
+            return Boolean(terrain.far.ready && terrain.near.complete);
+          }),
+        { timeout: readyTimeout }
+      )
+      .toBe(true);
+    const fullSky = await scene.evaluate((element) => element.labScene.scene.environment.uuid);
+    expect(fullSky).not.toBe(coastOnlySky);
+    await draw();
+    expect(await scene.evaluate((element) => element.labScene.scene.environment.uuid)).toBe(fullSky);
     const first = await scene.evaluate((element) => {
       const root = element.labScene.scene.getObjectByName("coastal-hinterland"),
         water = [],

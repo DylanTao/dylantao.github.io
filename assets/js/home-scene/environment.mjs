@@ -91,7 +91,7 @@ import { createFarField } from "./far-field.mjs";
 
 // Geometry, light, and a procedural sky. No photograph or illustration is
 // placed behind the home. Blender supplies the connected coastal headlands.
-export function createPacific(scene, renderer, config, { atmosphere: sharedAtmosphere = null } = {}) {
+export function createPacific(scene, renderer, config, { atmosphere: sharedAtmosphere = null, requestFrame } = {}) {
   const root = new THREE.Group();
   root.name = "Pacific environment";
   scene.add(root);
@@ -113,6 +113,8 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
   let style = "realistic",
     palette = "afternoon",
     skyKey = "",
+    capturedSky = "",
+    disposed = false,
     environment;
   // The water's body colour comes from its optics (sea-optics.mjs). Its diffuse colour (the palette's)
   // only lets the shader read the light arriving at each point (totalDiffuse / diffuseColor) and does
@@ -739,17 +741,32 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     }
   }
   function makeEnvironment() {
-    if (environment) environment.dispose();
+    if (disposed || style !== "realistic" || !skyKey) return false;
+    // Until the regional height map arrives the dome sees only sky and sea. The near
+    // height map subsequently distinguishes the first strip of coast from the whole bluff.
+    const terrain = atmosphere.uniforms.farParams.value;
+    const key = `${skyKey}:${terrain.y ? 1 + terrain.z : 0}`;
+    if (capturedSky === key) return false;
     // The capture leaves out the sun's disc and the stars: the sun's light and its highlights come
     // from the directional light, and a disc in the environment would add a second sun.
+    const previous = environment;
+    const viewLimit = terrain.w;
+    farField.setEye(0); // fromScene's six cameras share the world origin.
     atmosphere.setCapture(true);
     try {
       environment = pmrem.fromScene(capture, 0.04, 0.1, 180);
     } finally {
       atmosphere.setCapture(false);
+      terrain.w = viewLimit;
     }
     scene.environment = environment.texture;
+    capturedSky = key;
+    previous?.dispose();
+    return true;
   }
+  farField.ready.then(() => {
+    if (makeEnvironment()) requestFrame?.();
+  });
   // The light step's colours (atmosphere.mjs skyLighting), kept for the scene's lights.
   let sky0 = null;
   const skyColors = { zenith: new THREE.Color(), horizon: new THREE.Color(), ground: new THREE.Color() };
@@ -780,12 +797,12 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     physicalWater.color.set(night ? 0x122a3c : 0x185462);
     modelWater.color.set(night ? 0x526d86 : 0x8db9bb);
     printWater.color.set(night ? 0x273e66 : 0x267787);
+    skyKey = key;
     if (style === "realistic") {
-      if (skyKey !== key || !environment) makeEnvironment();
+      makeEnvironment();
       // The sea mirror keeps three's fog (the beauty pass draws its haze in haze.mjs).
       (submerged ? surfacedFog : scene.fog)?.color.fromArray(sky0.horizon);
     }
-    skyKey = key;
   }
   function bindSand(root) {
     root.traverse((object) => {
@@ -811,6 +828,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     spray.visible = style === "realistic";
     dust.visible = style === "realistic";
     printSun.visible = style === "illustrated";
+    if (style === "realistic") makeEnvironment();
     scene.environment = style === "realistic" ? environment?.texture || null : null;
     // Three's linear fog stays defined, so programs keep their keys and the sea mirror keeps a haze;
     // the beauty pass's haze is the atmosphere's (haze.mjs), which follows height and the sun.
@@ -950,6 +968,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     syncWakes();
   }
   function dispose() {
+    disposed = true;
     rainEventTexture.dispose();
     rainBinTexture.dispose();
     disposeOceanFFT();
@@ -1100,6 +1119,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     // frame; the hinterland's coves later without waiting on the GPU (`done` runs once it lands).
     captureSeabed: (roots) => {
       farField.captureNear(roots, false);
+      makeEnvironment();
       wildlife.captureGround([scene]);
       const result = bathymetry.capture(roots);
       if (result.captured) underwater.refreshBed();
@@ -1113,6 +1133,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     captureSeabedAsync: (roots, done) => {
       // The modelled land, seen from above, becomes the far field's near land (far-field.mjs).
       farField.captureNear(roots, true);
+      makeEnvironment();
       return bathymetry.captureAsync(roots, () => {
         underwater.refreshBed();
         done?.();
