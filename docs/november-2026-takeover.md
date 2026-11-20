@@ -195,6 +195,8 @@ So he does not have to say it twice. Dated; newest last. The list above says whe
 
 - **November 19, on the gym sightline frames.** “i like teh soft cloth simlaution and thinking in what other way we can use these simualtion but in a more appropriate decoration for house instead of those werid cloth in my backyard”. He asked for the architectural remodel of the gym and the space in front of it.
 
+- **November 19, after walking the garden.** “the coean bath can be more zen with japanese garden little peeble desing and maybe some plants for shadow and bambooo for decoration.” The speakeasy belongs “on the other side of the new bbq asrea further away from teh study”. He asked Codex to continue through its remaining 3D assignments.
+
 ## Sixth round (November 15 to 16)
 
 Sirui judged the cartoon's colour ("lame, not vivid and boring") and the sound ("okish", minor places, backlog), asked for Tzu-Mao Li's novelty slides in a blog post, and set a new bar with outside references and a direction for music. His words are in the section above; the references are in the notebook card "The bar, November 15".

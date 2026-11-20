@@ -49,3 +49,9 @@ Read: the rooms go into the empty court in front of the study, between its glass
 - Read the light bake's triangle budget (B1) and the arrival's plan (item 6), which shares the architecture pass.
 - Keep every room reachable in walk mode and by the Rooms panel; give each new room its own entry in the manifest.
 - Judge from the sea at noon and at night, and from inside at night, beside the references.
+
+## The built BBQ terrace and its far end · November 19
+
+Sirui placed the speakeasy on the far side of the new barbecue, farther from his study. In the native house, positive Y runs toward the ocean. The dining floor already reaches Y 6.03 m. The bar picks up there, where massing E leaves room for a sheltered chamber. From the study the sequence is a quiet reading threshold, the open dining table, the entrance to the listening bar, and the framed horizon. The lift must have a dry landing at each end and carry a visitor in both directions.
+
+The design question is what happens from a seat. Keep a deep reveal around a horizontal slice of sea, put the counter and amber bottle shelves against the rock, and light the record player and the hands of someone sitting at the bar. Leave enough space to walk behind the stools to the lift. The library bar at K5 Tokyo is a reference for how books, records, cedar and local pools of light can give a small room a life of its own. [K5 Tokyo, Claesson Koivisto Rune](https://www.claessonkoivistorune.se/projects/k5-tokyo-2/).
