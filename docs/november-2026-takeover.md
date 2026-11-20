@@ -43,7 +43,7 @@ Sirui, November 14: "show me a high level list of the todos ... so we can align 
 
 **The list to work from is now `docs/todo.md`** (November 17): everything open in priority order, with references, analysis and the machine each item needs. The tables below keep the estimates and their history.
 
-**Who does what, from November 17:** Claude directs and Codex builds, with freedom to interpret. The roles, the references with their makers, and the briefs are in `docs/creative-direction.md`.
+Sirui handed creative direction and development to Codex on November 19. Claude’s November 17 briefs and references guide the work. Sirui’s own words guide each revision. [Creative direction](creative-direction.md).
 
 This is that list. It is the first thing to read and the first thing to update. Letters point to the sections under "Todo"; the detail and the evidence live there. Nothing here needs to finish in one session.
 
@@ -626,6 +626,20 @@ The first bar occupied the far end of the dining terrace. The study gained a piv
 Sirui's correction changes the section. The stair-and-shaft study must cut into the native mountain, with a door inside the speakeasy, daylight through a recess, and a dry door below. The interior study starts with the listening experience. Two cabinetmaker's horns give the seats a focus, a curved stone bar brings people within speaking distance, and the window keeps the evening sea in view. The Austin reference shows how the entry, loudspeakers and record storage can be designed as one room. The four early studies stay in the private review as the rejected fit. [Equipment Room, RIOS and Bunkhouse](https://www.rios.com/projects/equipment-room/).
 
 The fifth fit introduced a record cabinet. From the sofa its square horns and overhead beams still belonged to a timber room. Sirui approved the drawing with round horns and a sandstone ceiling. In the sixth fit the cabinet holds two round carved horns, a turntable and record spines. A curved upholstered bench surrounds its own table. The lift opens from the room into the actual mountain. From the seat, a point light burns a bright white spot in the stone disc and the counter hides the records. The next fit turns the counter across the room and brings the light down from its crown. [Drawing beside the sixth playable fit](../artwork/concepts/coastal-home/2026-11-19/listening-room-round-06.webp).
+
+### November 19 · Turning the counter and riding through the mountain
+
+In the seventh fit the soapstone counter turns across the room. From the sofa, the aisle now leads past three curved saddle stools to the needle and record spines. A narrow light at the crown rakes down the stone disc. Its mineral beds stay visible at night. The eighth fit ends the bronze reveal above the lower passage and moves a low lamp into a side pocket. A walking visitor had clipped the earlier trim at head height. [Eighth fit beside the approved drawing](../artwork/concepts/coastal-home/2026-11-19/listening-room-round-08.webp).
+
+Two visitors selected the speakeasy in Rooms, entered Walk, boarded from the bar, rode down, walked out on dry shore and returned through the upper gate. The desktop used the keyboard. The 390 × 844 touch viewport used its two on-screen sticks and the lift button, including 51 stick gestures. Both returned to the same stone threshold at x −12.11, z −9.32. Three frames taken during the descent keep the rider’s eye turned toward the Pacific as the cliff passes the window. The beach landing is 6.45 metres below the bar. [Window during the descent](../artwork/concepts/coastal-home/2026-11-19/cliff-lift-descent-08.webp).
+
+From the bath, the bamboo stands to the right and leaves the open horizon clear. Along the other side of the house the enlarged bedroom has a window chair, a dressing bench and two lights aimed across the bed. The standing bedroom frame and the frame at water level show where each room finds the ocean. [Four visitor views](../artwork/concepts/coastal-home/2026-11-19/ocean-bath-and-bedroom-08.webp).
+
+### November 19 · A match in the living room
+
+Sirui heard the first violin sketch as “so sad” and “too much weird syntheetic.” Its long modeled bow and repeated return to low D explain what he heard. He asked for the energy and explosive emotion of Paganini’s Caprice No. 24. The second original, _The Match_, sets a springing figure in A major against a very quiet answer, then brings it back in double stops. The 25-second performance uses 48 recorded solo-violin takes. The short bows and sustained bows use different octave conventions in the library. Measuring their A samples against 440 Hz fixed the octave before rendering. Sirui’s response to the first sketch changed the instrument design in the brief. [Original score and renderer](../bin/render_coastal_caprice.py) · [Recorded bows and recording credits](https://github.com/sgossner/VSCO-2-CE).
+
+Sirui liked the shadows in the first watercolour and asked for “explosive volcanic energy underneath calmness.” He also asked to see the wood burn, keep dry cut logs somewhere beautiful, and give the fire a different meaning in each rendering style. The second drawing puts the darkest indigo in the hood, reserves a tiny stroke of white for the flame and repeats its heat at the rim. Six split ends in a low oak niche sit along the wall behind it. That gives the artist three places to describe the same wood over time: dry, burning and ash. Both drawings and their prompts are kept together. [First drawing](../artwork/concepts/coastal-home/2026-11-19/watercolour-living-01.png) · [Second drawing](../artwork/concepts/coastal-home/2026-11-19/watercolour-hearth-02.png).
 
 ### What the Design Review video teaches, and what it means here
 

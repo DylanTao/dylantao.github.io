@@ -12,4 +12,10 @@ The [November 19 studio record](coastal-home/2026-11-19/prompts.md) contains the
 
 ### Playable comparisons
 
+The [living-room watercolour study](coastal-home/2026-11-19/watercolour-living-01.png) follows the [camera from the house film](coastal-home/2026-11-19/living-room-source.png). The fireplace keeps its weight in violet and indigo, while paper shows through the front sofa. This is the colour study for the first watercolour room.
+
 The sixth listening-room fit introduced round horns, a carved ceiling and a curved sofa. The seated frame shows how the counter hid the records and where the centre light overwhelmed the stone. [Concept and browser frame side by side](coastal-home/2026-11-19/listening-room-round-06.webp).
+
+In the eighth fit the counter runs across the room, opening the sightline to the records. The lift passes through the same rock that forms the listening vault. [Drawing and three working views](coastal-home/2026-11-19/listening-room-round-08.webp) · [Three moments during the actual ride](coastal-home/2026-11-19/cliff-lift-descent-08.webp) · [Ocean bath and bedroom](coastal-home/2026-11-19/ocean-bath-and-bedroom-08.webp).
+
+The second painted living room concentrates its darks around the hanging hearth. A small white flame describes the heat and the shadow beneath the dining chairs holds the composition together. [Watercolour hearth study](coastal-home/2026-11-19/watercolour-hearth-02.png).
