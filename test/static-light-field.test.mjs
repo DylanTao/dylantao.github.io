@@ -1,6 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "../assets/js/three.module.min.js";
+import { createLightInstallations } from "../assets/js/home-scene/light-installations.mjs";
+import { createLightWell } from "../assets/js/home-scene/light-well.mjs";
+import { retireCompiledMaterials } from "../assets/js/home-scene/program-lifetime.mjs";
+import { cloneWalkSkeleton } from "../assets/js/home-scene/walk-presence.mjs";
 import {
   accumulateL1,
   createTriangleBVH,
@@ -711,6 +715,57 @@ test("PBR adapter replaces diffuse environment once and restores pre-existing sh
   another.bindMaterial(material);
   assert.notEqual(material.customProgramCacheKey(), replacementKey);
   another.dispose();
+});
+
+test("releasing a material retained by Walk leaves one static field under the live lighting hooks", async () => {
+  const actor = new THREE.Group(),
+    hand = new THREE.Bone(),
+    geometry = new THREE.BoxGeometry(),
+    material = new THREE.MeshStandardMaterial(),
+    prop = new THREE.Mesh(geometry, material);
+  actor.add(hand);
+  hand.add(prop);
+  const installations = createLightInstallations({}),
+    field = createStaticLightField({ regions }),
+    well = createLightWell(
+      { aperture: [0, 2, 0], top: [0, 3, 0], apertureRadius: 0.2, topRadius: 0.2, floor: 0, axis: [0, 1, 0] },
+      { region: regions[0] }
+    );
+  installations.bindMaterial(material);
+  const oldRelease = field.bindMaterial(material);
+  well.bindMaterial(material);
+  const retained = cloneWalkSkeleton(actor).children[0].children[0].material;
+  assert.equal(retained, material);
+
+  try {
+    prop.removeFromParent();
+    await retireCompiledMaterials(null, [material]);
+    const currentRelease = field.bindMaterial(retained);
+
+    const shader = { uniforms: {}, vertexShader: THREE.ShaderLib.standard.vertexShader, fragmentShader: THREE.ShaderLib.standard.fragmentShader };
+    retained.onBeforeCompile(shader, {});
+    for (const name of ["slfWorldPosition", "wellWorldPosition", "installWorldPosition"]) {
+      assert.equal(shader.vertexShader.split("varying vec3 " + name + ";").length - 1, 1, name);
+    }
+    assert.equal(shader.fragmentShader.split("vec2 slfOct(").length - 1, 1);
+    assert.equal(
+      retained
+        .customProgramCacheKey()
+        .split("|")
+        .filter((part) => part.startsWith("static-light-field")).length,
+      1
+    );
+    assert.equal(shader.uniforms.wellAperture, well.uniforms.wellAperture);
+    assert.ok(shader.uniforms.installActive);
+    oldRelease();
+    assert.equal(field.bindMaterial(retained), currentRelease);
+  } finally {
+    field.dispose();
+    well.dispose();
+    installations.dispose();
+    material.dispose();
+    geometry.dispose();
+  }
 });
 
 test("abort and disposal fail closed without a stale ready completion", async () => {

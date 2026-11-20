@@ -942,8 +942,11 @@ vec3 slfIrradiance(vec3 n) {
     if (bindings.has(material)) return bindings.get(material).dispose;
     const compile = material.onBeforeCompile,
       cache = material.customProgramCacheKey;
+    let attached = true;
     const hook = function (shader, renderer) {
       compile.call(this, shader, renderer);
+      // A later material hook may retain this closure after its owner releases the binding.
+      if (!attached) return;
       Object.assign(shader.uniforms, uniforms);
       shader.vertexShader = shader.vertexShader
         .replace("#include <common>", "#include <common>\nvarying vec3 slfWorldPosition;")
@@ -959,12 +962,15 @@ if(slfReady>.5) {
       );
     };
     const key = function () {
-      return `${cache.call(this)}|static-light-field-l1-${regions.length}-${side}-${fieldIdentity}`;
+      const previous = cache.call(this);
+      return attached ? `${previous}|static-light-field-l1-${regions.length}-${side}-${fieldIdentity}` : previous;
     };
     material.onBeforeCompile = hook;
     material.customProgramCacheKey = key;
     material.needsUpdate = true;
     const disposeBinding = () => {
+      if (!attached) return;
+      attached = false;
       material.removeEventListener("dispose", disposeBinding);
       if (material.onBeforeCompile === hook) material.onBeforeCompile = compile;
       if (material.customProgramCacheKey === key) material.customProgramCacheKey = cache;

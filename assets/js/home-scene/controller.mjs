@@ -77,7 +77,7 @@ import { createBedroomCurtains } from "./bedroom-curtains.mjs";
 import { createWarmPracticals, practicalSourcesFor } from "./warm-practicals.mjs?v=ambience-20261102";
 import { createSteamDensity } from "./steam-density.mjs";
 import { createSteamVolume } from "./steam-volume.mjs";
-import { createStaticLightField, staticLightRegions } from "./static-light-field.mjs?v=diffuse-20261103";
+import { createStaticLightField, staticLightRegions } from "./static-light-field.mjs?v=retained-material-20261120";
 import { createInteriorExposure, exposureMeterPoint } from "./interior-exposure.mjs?v=room-subject-20261103";
 import { prepareFramePrograms } from "./program-warmup.mjs";
 import { retireCompiledMaterials } from "./program-lifetime.mjs";
@@ -1585,6 +1585,7 @@ export function createCoastalHome(container, records, artifacts) {
     selectedProp = group;
     propHand = hand;
     group.userData.kind = kind;
+    group.userData.activityProp = kind;
     art.apply(group, style);
     container.dataset.prop = kind;
   }
