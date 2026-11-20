@@ -55,3 +55,13 @@ Read: the rooms go into the empty court in front of the study, between its glass
 Sirui placed the speakeasy on the far side of the new barbecue, farther from his study. In the native house, positive Y runs toward the ocean. The dining floor already reaches Y 6.03 m. The bar picks up there, where massing E leaves room for a sheltered chamber. From the study the sequence is a quiet reading threshold, the open dining table, the entrance to the listening bar, and the framed horizon. The lift must have a dry landing at each end and carry a visitor in both directions.
 
 The design question is what happens from a seat. Keep a deep reveal around a horizontal slice of sea, put the counter and amber bottle shelves against the rock, and light the record player and the hands of someone sitting at the bar. Leave enough space to walk behind the stools to the lift. The library bar at K5 Tokyo is a reference for how books, records, cedar and local pools of light can give a small room a life of its own. [K5 Tokyo, Claesson Koivisto Rune](https://www.claessonkoivistorune.se/projects/k5-tokyo-2/).
+
+## The lift belongs to the mountain
+
+Sirui rejected the exterior tower on November 19. Keep his order of rooms beyond the bookcase and the grill. Put the upper gate inside the listening room, carry the cab within an excavation in the native cliff and bring it out through a low beach portal. Draw the actual rock cover and the ocean-facing opening at several heights. The beach should read as one continuous cliff with a small human presence in it.
+
+The bar needs one thing a guest would remember the next morning. Design from the listener's seat toward a pair of flared wooden horns, the record console between them and a low mineral-green counter. Use the warmth of timber beside the sedimentary rock and let the evening water be the coolest bright surface in the room. The original shelf-and-two-pendants study failed that test. [Equipment Room, Austin](https://www.rios.com/projects/equipment-room/).
+
+Sirui approved the interior and cliff study below. The bent seat and small table, shaped leather stools, carved ceiling, green stone counter and large wood horns all matter to him. From the beach, the car is visible through a recess in the sandstone. Keep a matched interior view and a beach view when comparing the built room. [Original and prompt](../../artwork/concepts/coastal-home/2026-11-19/prompts.md#speakeasy-01--approved-architectural-concept).
+
+![Concept drawing of the curved listening bar and its lift nested in sandstone](../images/speakeasy-approved-concept-2026-11-19.webp)

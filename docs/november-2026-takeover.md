@@ -197,6 +197,12 @@ So he does not have to say it twice. Dated; newest last. The list above says whe
 
 - **November 19, after walking the garden.** “the coean bath can be more zen with japanese garden little peeble desing and maybe some plants for shadow and bambooo for decoration.” The speakeasy belongs “on the other side of the new bbq asrea further away from teh study”. He asked Codex to continue through its remaining 3D assignments.
 
+- **November 19, on the fourth bar and lift study.** “the design is not beatuiful, like eavaltor should be mebedding within the mountain body and also be part of teh speakeasy, also teh speak easy now is lame, imagein if it is one of the coolest speakeasy in us”.
+
+- **November 19, after the listening-room drawing.** “you have fulol creative cotnrol on the whole website from 3d to other page lemetns” and “think this as a gaem dev progress, wher eyou sketch out these conceptual draws and working as delveoper to recrerate tehem in eithe 3d or the page design, such as layout, motion, anaimtion, interaction, etc”. He highlighted the cozy stools, counter, curved sofa, wooden speakers, lighting and stone ceiling. Codex now directs and implements the site. [Approved drawing](images/speakeasy-approved-concept-2026-11-19.webp).
+
+- **November 19, on keeping the artwork.** “you cana lsso save these cool refrence iamges you crewated throguh out so later they can be part of proejct storytelling asets or for fable 5,2 to leanr from”. The full-resolution originals, prompts and comparative frames live in the [concept archive](../artwork/concepts/README.md).
+
 ## Sixth round (November 15 to 16)
 
 Sirui judged the cartoon's colour ("lame, not vivid and boring") and the sound ("okish", minor places, backlog), asked for Tzu-Mao Li's novelty slides in a blog post, and set a new bar with outside references and a direction for music. His words are in the section above; the references are in the notebook card "The bar, November 15".
@@ -610,6 +616,16 @@ On a slow desktop runner a gym visit exposed a gap in the Training dialog check.
 ### November 19 · Finding the linen a place in the house
 
 The bronze rail sits in the upstairs onsen’s stone doorway. Two lengths of flax move separately in the sheltered air. From the garden the horizon is clear. The first bath-entry close-up made the fabric look like a single pale rectangle. A wider frame put the oak door, stair rail and stone reveal back around it. Separating the two hems let the dark door show through. At that distance Claude still found the fabric flat. The settled leaves already had 57–70 mm of relief through their middle. Their dense weave needed to catch light on the room-facing side. A stitched sleeve, a fine dyed selvedge and light across the solved folds brought out the grain at the same camera position. Both leaves still use the same 330 particles and two draws. As a visitor approaches, the oak door slides into its pocket behind them. The native house, its web model, both walks and the cloth are together in `0de7212c3`. [Gym and garden frames](images/gym-garden-built-2026-11-19.webp).
+
+### November 19 · Gravel at the bath and the first listening room
+
+The first tub-eye frame showed bare boards against the Pacific. A narrow raked bed follows the stone and cedar, with a small maple shading the approach and bamboo rooted at the sheltered corner. In the second frame the individual pebbles and a seam overpowered the rake marks. Claude compared it with the Sand and Stone Garden in Portland. The fourth frame uses one grade of gravel and longer furrows that bend around the setting stones. From the water, the canes frame the right edge of the ocean. [Portland Japanese Garden](https://japanesegarden.org/garden-spaces/sand-stone-garden/).
+
+The first bar occupied the far end of the dining terrace. The study gained a pivoting bookcase and a reading pocket. From the table, too much of the room was visible through the first doorway. The next fit turned the entry behind a low timber return, closed daylight gaps above the vault and shortened the bench where a walking visitor turned for the lift. The interior and the descent worked in the browser. The beach frame also showed exactly what Sirui rejected. Four visible steel posts carried a glass box in front of the cliff. On the inside the counter and straight bottle shelves could have belonged to any bar.
+
+Sirui's correction changes the section. The stair-and-shaft study must cut into the native mountain, with a door inside the speakeasy, daylight through a recess, and a dry door below. The interior study starts with the listening experience. Two cabinetmaker's horns give the seats a focus, a curved stone bar brings people within speaking distance, and the window keeps the evening sea in view. The Austin reference shows how the entry, loudspeakers and record storage can be designed as one room. The four early studies stay in the private review as the rejected fit. [Equipment Room, RIOS and Bunkhouse](https://www.rios.com/projects/equipment-room/).
+
+The fifth fit introduced a record cabinet. From the sofa its square horns and overhead beams still belonged to a timber room. Sirui approved the drawing with round horns and a sandstone ceiling. In the sixth fit the cabinet holds two round carved horns, a turntable and record spines. A curved upholstered bench surrounds its own table. The lift opens from the room into the actual mountain. From the seat, a point light burns a bright white spot in the stone disc and the counter hides the records. The next fit turns the counter across the room and brings the light down from its crown. [Drawing beside the sixth playable fit](../artwork/concepts/coastal-home/2026-11-19/listening-room-round-06.webp).
 
 ### What the Design Review video teaches, and what it means here
 

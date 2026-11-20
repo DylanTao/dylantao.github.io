@@ -7,10 +7,10 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 **Machines.**
 
 - **PC**, the desktop with the RTX 3080 Ti, Blender 4.5.9 and Docker. Claude (Fable 5.2 and Opus 5.5) runs there. Items marked **PC** need its GPU or Blender: renders, path tracing, Blender exports, GPU measurements.
-- **Laptop**, where Codex on GPT-6.2 Astra leads, with Sol subagents when available. Everything else.
+- **Laptop.** Codex on GPT-6.2 Astra leads here with local Blender 4.5.9, CPU Cycles, Intel Arc WebGL and Playwright. Reserve the desktop for like-for-like RTX measurements and large overnight renders.
 - Never rent cloud GPUs (Sirui, November 15). Each machine keeps its own Google Analytics key in its Downloads folder.
 
-**Models** (Sirui's split, November 17). Astra leads and builds; Sol takes mundane parts; Claude directs, judges frames and does look research where range matters. The other model reviews any large change.
+**Direction, November 19.** Sirui placed creative direction and development of the whole site with Codex on GPT-6.2 Astra. Sol can support mechanical work. The lead judges concepts against his references, implements them and checks what visitors actually see. [Design process](creative-direction.md#from-a-visitor-view-to-a-playable-design).
 
 **Images.** `docs/images/` holds Sirui's own screenshots and our frames. Other people's works are linked, never committed.
 
@@ -33,7 +33,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
   - [ ] Paint the plants. Why they show only the coat: plants are instanced meshes marked `flora`, and water is see-through, so neither is scattered. How, as Claude reads it (November 17): plants get strokes scattered once per plant model in its own space and drawn with each instance's matrix (one stroke set per model, not per copy), shaded like land's scrub; the pool and the bath are flat water at known heights, so they can be painted like the sea (`seaPaint`), with strokes pinned to their planes, the bottom's tile showing through where shallow, and the room's light in the reflection. Start with the pool: one plane, the most seen. (The pool and the bath were since painted in the coat, below.) One more thing the plants need, found November 17: the clifftop planting sways in the coast's wind in its vertex shader (`floraSwayGLSL` in `plant-motion.mjs`, with its own reach and frequency per plant), so strokes scattered on a plant must be moved by the same sway, with that plant's own settings, or they will peel off its leaves in any wind. The cheapest correct order: scatter once per plant model in its own space, copy per instance on the CPU at load (the stroke budget allows it), and give the stroke shader the sway with a per-stroke plant index.
   - [x] Strokes follow curvature (November 17: a rounded made thing is painted around its form where it bends faster than 2.5 radians a metre; boards, walls and posts keep their grain).
   - [x] A public look switch (H4), November 17: "Drawn as: Realistic / Painted" inside the Rooms panel, so the homepage keeps its two buttons. Hidden on touch screens until the paint is scaled for phones; then show it there too.
-- **Fit.** Claude for the look and the judging; Astra for device scaling and the switch. **Machine:** any; frames from the PC are the steadiest.
+- Codex directs the look, compares the frames, and handles device scaling and the switch. The laptop supplies repeatable frames. A physical phone supplies the touch and thermal check.
 - **Size.** 1.5 to 3 billion tokens; 3 to 5 weeks. **Detail:** brief 1; record entry `painted-strokes`; takeover J10.
 
 ### 2. Learn from visitors, then fix what loses them
@@ -69,7 +69,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
   - [x] Check all five characters on the rower, riding seated and standing, and at the three bags. Closest sampled shin-to-handle clearance was 3 mm at the decoded triangle witnesses.
   - [x] Drive the three suspensions from hand contact and let both rotors coast. The browser holds the scene still under reduced motion.
   - [x] Compare the morning and evening room and sea-side views. The final transport bake accounts for 749,151 of 750,000 triangles. [Room review](images/gym-in-use-2026-11-19.webp).
-- **Fit.** Astra builds; Claude judges frames. **Machine: PC** for Blender.
+- Codex directs and builds the gym in Blender and checks the athlete and the view from the seat on the laptop.
 - **Size.** 0.3 to 0.5; 2 to 3 days. **Detail:** brief 2; takeover O4.
 
 ### 4. The speakeasy, a longer study, and the glass lift
@@ -80,10 +80,10 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 - **Next.**
   - [x] Three massings on paper, rendered in Blender's workbench (November 17): `docs/house/speakeasy-massing.md` (behind the bookcase, along the cliff face, a half level down; recommendation: along the cliff face with the bookcase door), drawn from the sea and in plan in `docs/images/speakeasy-massings-2026-11-17.webp` by `bin/render_speakeasy_massings.py`. The ring on his screenshot is the sandstone headland south of the cave study: it rises about 11 m above the study's floor, its sea face stands about 14 m out from the study's glass and about 7.5 m above the beach, which sets the lift's ride.
   - [ ] One chosen with Sirui. **His answer, November 18:** "instead of abc, should be more like using the empty space in front of study instead further moving to left, same for the unused flat space instead of gym, to better use them. also the study and speakeasy should also have more protected and comfy feeling for safety instead of all exposed, though should still have great view". So none of A, B or C: the bar and the longer study go into the empty court in front of the study (between its glass and the cliff edge, under the overhang), not further south into the headland. And both rooms are refuges with a view (Appleton's prospect and refuge): the back to the rock, thick walls and deep reveals, a lower ceiling over the bar, the sea framed in a band or in openings rather than a room of glass, so it feels safe and comfortable and still looks out. Massing D, drawn the same night: `docs/images/speakeasy-massing-d-2026-11-18.webp` (`bin/render_speakeasy_massings.py --options=d-in-front-of-the-study`): the study grows forward under the overhang, the bar sits beyond it with a low ceiling and its back to the study and the rock, one deep framed opening to the sea, the lift at the court's sea edge. **His eye on D (November 18): the concept makes sense** (connected to the study but separate; the glass lift down to the ocean; the underwater exploration and swimming later, item 9). His addition: between the study and the bar, a semi-open leisure space with a function of its own, so he can go back to a quiet, private study quarter that stays connected to the living space: a chill outdoor dining place with access to the pool, and the BBQ, grill and mini fridge on this side. Massing E, drawn the same night: `docs/images/speakeasy-massing-e-2026-11-18.webp` (`--options=e-dining-terrace-between`): the study grows forward under the overhang; then the dining terrace, open to the pool's end on its north side, with the BBQ, grill and fridge in a counter against the rock on its south side; then the bar, low-ceilinged, with its framed opening to the sea; the lift at the court's edge. Its section across the study, `docs/images/speakeasy-massing-e-section-2026-11-18.webp` (`--views=section`): the court sits in a cave under a deep rock overhang about 10 m up, so the bar and the terrace are sheltered from above and behind and open only toward the sea, which is the protected-with-a-view feeling he asked for. Waiting for his eye; then the sheltering details at a closer scale (walls, reveals, the terrace's screens toward the study). Found from eye level the same night (`bin/render_coastal_rooms.py --rooms=none --only-views` with views at x -10.5, eye height 1.6, toward the sea and back toward the study): the court is not level; the sandstone rises on its south side and a deck with a brass rail sits at the pool's end, so the terrace and the bar need a level platform cut or built. Rendered again with the roof on (`docs/images/court-in-front-of-study-2026-11-18.webp`, Eevee, `preview.setup(..., cutaway=False)`): at x -10.5 the space in front of the study is a narrow passage, walled on both sides and roofed, that frames the sea at its end and looks back to the arched study glass with the pool to one side. It is already a refuge with a view; the design move is to widen it into the terrace and the bar while keeping its walls and its roof.
-  - [ ] Build the study's extension and the bar.
+  - [ ] Bring the native room up to Sirui's [approved concept](images/speakeasy-approved-concept-2026-11-19.webp). The fourth working fit had a turning entrance and a rideable lift. He rejected the room and the free-standing shaft. The new section places the upper gate directly in the bar's west wall and the cab inside the original cliff.
   - [ ] Build the lift and ride it in walk mode.
   - [ ] Ask Sirui whether the shaft goes below the tide line.
-- **Fit.** Astra builds; Claude critiques the massings. **Machine: PC.**
+- Codex directs the massing studies and builds the room on the laptop. Sirui approved the November 19 listening-room drawing.
 - **Size.** 1.1 to 1.9 for both; about 2 weeks. **Detail:** brief 3; takeover O5, O6.
 
 ### 5. The bedroom, as a room
@@ -122,7 +122,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 - **Next.**
   - [ ] Steps by ground; brushing plants; wading and swimming; scrolling. Recorded quality or nothing.
   - [ ] One short composed piece, checked by measurement, for his ears before anything wide.
-- **Fit.** Claude for composition and direction; Astra for building it. **Machine:** offline renders on the PC.
+- Codex composes, renders and listens on the laptop. Sirui hears the first solo violin before the larger score is produced.
 - **Size.** 0.5 to 1.0 for the sounds; 1.5 to 3 for the music. **Detail:** brief 6; takeover L3, L5.
 
 ### 9. La Jolla's sea under the surface

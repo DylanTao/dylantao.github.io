@@ -384,6 +384,8 @@ Source: Susan Kare, [Designing Icons & Graphics for the Original Mac](https://ww
 
 ### Reflective Practice
 
+For architecture, an unfamiliar drawn style or a substantive page redesign, put a framed concept beside the same view from the running site. Choose what the concept asks the implementation to achieve. It might be the way an oak horn catches light, a line of brushwork that follows the rock, or the way one figure guides the reader to the next paragraph. Judge the result at the visitor's actual distance, viewport and input. Sirui adopted this game-development approach after the cliff listening-room study. [Creative direction and example](docs/creative-direction.md#from-a-visitor-view-to-a-playable-design).
+
 Start with an observation, separate it from your interpretation, and choose a change that can produce an observable benefit. During the work, inspect the result and revise the move if it misses the intended effect. Afterward, record what improved, what remains uncertain, and the next decision. A sentence or two is enough for a small fix; a substantial experiment can retain comparable captures and measurements in its existing evidence record.
 
 Use this small decision record inside the existing experiment or review note, not a parallel checklist:

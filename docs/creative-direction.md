@@ -1,19 +1,20 @@
 # Creative direction
 
-Written by Claude on November 17, 2026, as the hand-over to Codex. Sirui asked that day for Claude to act as creative director and finish the design, and for Codex to be the engineer who builds it, "and in that process, also has its creative freedom of interpretation and execution while semi-respect your original goal, yet also try to interpret my original request".
-
-So this file holds three things: who does what, the bar every frame is judged against, and the briefs. The list of open work with estimates, and Sirui's requests in his own words, stay in `docs/november-2026-takeover.md` ("The list" and "What Sirui has asked for"). Read those first, and `docs/todo.md`, the list of everything open. When a brief here and his words there disagree, his words win. Quotes here are lightly corrected for spelling; the verbatim words are in the takeover notes.
+Claude wrote the original handover on November 17, 2026. On November 19 Sirui gave Codex creative direction and development of the entire site. The briefs below preserve the ideas and reference works he wants carried forward. His latest words take precedence. [Sirui’s requests and the round-by-round notebook](november-2026-takeover.md#what-sirui-has-asked-for). [Current work](todo.md).
 
 ## Who does what
 
-- **Sirui** owns the site and has the last word on taste. He judges frames, not code. Ask him for taste and for facts only he has; verify everything else yourself in the browser.
-- **Codex on GPT-6.2 Astra, the lead.** The one agent this hands over to (Sirui, November 17: "consider you have one boss agent to hand over to"). It owns the website work end to end: the briefs (three.js and shaders, the Blender pipeline, the frontend), the writing and content passes with `.codex/skills/portfolio-writing-voice/SKILL.md`, the maintenance, and the analytics pipeline. It may hand mundane parts (branch triage, data refreshes, CI flakes, test upkeep, audits) to GPT-6.2 Sol subagents when Sol is available; on November 17 it was not.
-- **Claude, creative director.** Wrote these briefs and is called in for direction and review: revising briefs after Sirui's verdicts, judging frames against the references, look and shader research where range matters (the painted world, the thermal view, the watercolour world), and reading diffs with fresh eyes.
-- **A review across models.** Before a large change reaches `main`, the other model reads the diff and the frames. Each catches different faults.
+- **Sirui** owns the site and has the last word on taste, his history and the work that bears his name.
+- **Codex on GPT-6.2 Astra** directs and builds the house, art and sound, page design, illustration, writing, motion and interaction. It also owns maintenance, analytics, implementation, verification and delivery. GPT-6.2 Sol can handle mechanical work such as surveying geometry, testing routes, triaging archives and checking releases.
+- **Peer review** brings fresh eyes to substantial changes. Give a reviewer the visitor's view, the concept, the reference and the relevant diff. Codex decides the direction and accounts for it in the notebook.
 
-**Creative freedom.** A brief gives a goal and a direction, not a specification. Change how, and even what, when it serves the goal and Sirui's words better. Write down what you changed and why in the takeover notes, and show the frames. Never change the mood: calm and beautiful, not eerie (his words, November 16).
+## From a visitor view to a playable design
 
-**The loop for every piece.** Read his words and the brief, build the smallest version that can be judged, put frames on a labelled sheet beside the references, criticise it honestly, then show him. Record each round in the takeover notes. One representative view while iterating; the full matrix only at a checkpoint (AGENTS.md, "Proportional Visual QA").
+Walk to the place, or use the page through its normal entry. Save one frame and say what a visitor should see, hear, feel or do there. Use an original concept drawing when light, silhouette, materials, staging or interaction needs a design decision. Critique that drawing against Sirui's words and the reference works. Refine it until a concrete choice can be built.
+
+For the coastal house, translate the drawing into measured stone, joinery and furniture, a light with a physical source, camera height, surface response and motion. For a drawn world, specify where marks lie, how they follow a form, how the hour changes their colour, and what should happen when the visitor moves. On a page the equivalents are reading order, typography, illustration, layout at more than one width, and what happens when a visitor taps, scrolls, focuses or reduces motion.
+
+Use the same framing to compare the concept with the actual browser result. Label each by its origin. Record the largest remaining difference and the next change in the takeover notes. Sirui approved this process when he saw the listening-room concept with its wooden horns, carved ceiling, curved seating and concealed cliff lift. [Approved speakeasy drawing](images/speakeasy-approved-concept-2026-11-19.webp).
 
 ## The bar
 
