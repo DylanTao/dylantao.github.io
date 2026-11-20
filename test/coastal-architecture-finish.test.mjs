@@ -12,6 +12,17 @@ const base = process.env.COASTAL_MODELS_ROOT
   : new URL("../assets/models/home/", import.meta.url);
 const config = JSON.parse(readFileSync(new URL("manifest.json", base), "utf8"));
 
+test("the workout lawn maps its packed bentgrass swatch onto the delivered surface", async () => {
+  const { scene } = await loadNativeModel(config.shell, base);
+  const turf = scene.getObjectsByProperty("isMesh", true).find((mesh) => mesh.material.name === "coastal bentgrass turf");
+  assert.ok(turf?.geometry.attributes.uv, "authored turf coordinates");
+  const image = turf.material.map?.image;
+  assert.ok(image?.width > 1 && image.height > 1, "decoded packed image");
+  const greens = new Set();
+  for (let i = 1; i < image.data.length; i += 4) greens.add(image.data[i]);
+  assert.ok(greens.size > 4, "the turf retains its fine tonal variation");
+});
+
 test("delivered static geology retains active nonwhite COLOR_0 AO and finite split normals", async (t) => {
   const records = [];
   for (const file of [config.shell, config.coast]) {

@@ -470,12 +470,16 @@ test("visitor circulation: the study joins outdoor living and the living facade 
     }
     throw new Error(`${label}: visitor stopped before ${JSON.stringify(target)} at ${JSON.stringify(await pose())}`);
   }
-  const studyPatio = [standing, [-9.41, 0, 4.3], ...config.estateLibrary.patioDoor.route, ...config.retreat.patioRoute.slice(3)];
+  const studyPatio = [standing, ...config.retreat.patioCirculation.studyRoute.slice(1)];
+  const studyDistance = studyPatio.slice(1).reduce((total, point, i) => {
+    const before = studyPatio[i];
+    return total + Math.hypot(point[0] - before[0], point[2] - before[2]);
+  }, 0);
   try {
     for (const target of studyPatio.slice(1)) await walkTo(target, "study to outdoor living");
     const outside = await pose();
     expect(outside.room).toBe("outside");
-    expect(outside.distance - beginning.distance).toBeGreaterThan(18);
+    expect(outside.distance - beginning.distance).toBeGreaterThan(studyDistance * 0.85);
     const outdoorPixels = await page.screenshot({ path: testInfo.outputPath("study-usable-patio.png") });
     expect(
       visibleSceneFraction(outdoorPixels),
@@ -484,7 +488,7 @@ test("visitor circulation: the study joins outdoor living and the living facade 
     for (const target of studyPatio.slice(0, -1).reverse()) await walkTo(target, "outdoor living back to study");
     const deskReturn = await pose();
     expect(deskReturn.room).toBe("study");
-    expect(deskReturn.distance - outside.distance).toBeGreaterThan(18);
+    expect(deskReturn.distance - outside.distance).toBeGreaterThan(studyDistance * 0.85);
     await page.screenshot({ path: testInfo.outputPath("study-desk-return.png") });
     for (const target of study.exitPath.slice(1)) await walkTo(target, "study through the lower corridor");
     const living = config.retreat.patioRoute;

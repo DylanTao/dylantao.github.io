@@ -28,7 +28,7 @@ record_url: /projects/homepage-desk-scene/record/
 json_url: /assets/json/design-records/homepage-desk-scene.json
 repository: https://github.com/DylanTao/dylantao.github.io
 branch: main
-updated: "2026-10-23"
+updated: "2026-11-19"
 summary: >-
   How the homepage's 3D coastal home is built: the Blender scripts that author the cave house, the cliff, five cartoon
   versions of me and their animal neighbours; the browser runtime that loads, lights and animates them; and the light lab
@@ -1439,47 +1439,63 @@ systems:
           - move: Self-collision for a gathered stack by a spatial hash, once a step, in place of the ordering constraints.
             readiness: needs-measurement
             why: About 0.3 ms per panel per step is the budget.
-      - id: terrace-laundry
-        name: Laundry on the terrace
+      - id: onsen-noren
+        name: Flax at the Onsen entry
         status: shipped
-        since: "2026-10-18"
-        what: Three linen towels and Sirui's white linen shirt hang pegged on a cotton line between the first two festoon posts on the parapet, lifting toward the house in the afternoon sea breeze with the sea behind them; they are out while the house is open and in at dusk.
+        since: "2026-11-19"
+        what: Two opaque flax-linen drops hang from a low bronze rail inside the Onsen's upper pocket-door reveal. A narrow split widens toward the hems, which stir in the hall's air.
         how: >-
-          `createLaundryLine` builds one `cloth-solver.mjs` island. The line is a chain of particles with long-range
-          attachments to both posts, sagging 6 cm under the load; each 8 g wooden peg welds a cloth corner to a line node,
-          so the towels' weight pulls the line into a V at every peg. The towels (indigo with natural warp stripes, natural
-          with an ochre band, and terracotta; flat-woven linen, 230 g/m², 3.0 cm bending length) are pegged with slack, the
-          pegs 72 % of the fabric apart, so their tops scallop and folds run down from the pegs. The shirt's front and back
-          are welded at the shoulders and side seams, its rolled sleeves are tubes welded to the armholes, separation
-          constraints keep its layers apart, and a placket runs down the front. The wind is the coast's open wind at a 42 %
-          exposure (authored, against 12 % for the olive under the cave lip) plus eddies at 34 % of the local speed,
-          advected onshore (`createTerraceDraft`), and `laundryOut` follows the doors' daylight rule. `createLaundryRig`
-          draws one mesh per item from one shared buffer, the line as a tube and the pegs as one instanced mesh; it steps
-          while any item's box is on screen and the laundry is about 40 px tall, at 30 Hz with six substeps, holds under
-          Pause and composes a settled drape under reduced motion. Dense linen casts an ordinary shadow, which the shadow
-          cache keeps once the laundry sleeps.
+          `install_onsen_noren` seats the bronze returns in the stone and exports the rail's world frame, 1.08 m wide with
+          a 0.96 m drop. `norenFrameFromScene` reads it. `createNorenCloth` pins both shaped headings and tethers their rows
+          in a 330-particle XPBD island. The 28 mm split broadens toward the hems, and ordering constraints keep the lips
+          staggered. `norenWind` samples the indoor field and caps the breeze at 0.62 m/s. Pale flax, deeper heading folds
+          and fine green-gray selvedges give the two drops shape. They share an opaque woven material and cast
+          ordinary shadows. They take daylight from the house's light field and the hall's night fixtures through the
+          `upper` installation group. `createNorenRig` builds the cloth when the doorway is in view within 5 m and appears
+          taller than 60 px. It steps at 30 Hz with six substeps and at most two steps per frame while in view. Pause holds
+          the hems mid-fold and reduced motion settles them.
         files:
-          - path: assets/js/home-scene/laundry-line.mjs
-            role: The line, the pegs, the towels, the shirt and the terrace wind.
-            functions: [createLaundryLine, createTerraceDraft, laundryOut, parapetPath]
-          - path: assets/js/home-scene/laundry-rig.mjs
-            role: The live laundry.
-            functions: [createLaundryRig]
+          - path: bin/coastal_onsen_noren.py
+            role: The bronze rail, stone returns and native frame.
+            functions: [install_onsen_noren]
+          - path: assets/js/home-scene/onsen-noren.mjs
+            role: The split linen, sheltered air and visibility gate.
+            functions: [norenFrameFromScene, createNorenCloth, norenWind, createNorenRig]
+          - path: assets/js/home-scene/curtain-rig.mjs
+            role: The shared cloth update, with pause, reduced motion and light binding.
+            functions: [createCurtainRig]
           - path: assets/js/home-scene/PHYSICS.md
-            role: '"Laundry on the terrace".'
+            role: The cloth solver, fabric shading, indoor draft and tests.
         tests:
-          - test/laundry-line.test.mjs
+          - test/cloth-solver.test.mjs
+          - test/onsen-noren.test.mjs
           - test/visual/desk-scene.spec.js
         sources: [macklin2019smallsteps, bergou2006bending, kim2012lra, keckeisen2004wind]
+        related:
+          - record: graphics-lab
+            techniques: [curtains]
         limits:
-          - The towels and the shirt have no self-collision beyond the shirt's layer separation.
-          - One pass per substep, so the towels stretch at most about 8 % locally, but a few edges at the shirt's shoulder pegs and armholes reach about 20 %.
-          - The exposure is authored, not a shelter model of the terrace.
-          - While it steps the laundry costs 1.4 ms a frame (2.7 ms at the 95th percentile) and 13 draws with its shadows; it is culled from room views.
-        next:
-          - move: Let Sirui hang the laundry and take it in himself in the routine, a short walk to the terrace after breakfast.
-            readiness: needs-decision
-            why: The routine's rooms do not include the terrace yet.
+          - The cloth screens sampled eye-level approaches. The open split leaves a narrow sightline and the walk controller lets visitors pass through the drops.
+          - The order constraints keep the seam staggered. The fabric uses authored material and wind parameters and has no general self-collision.
+        next: []
+      - id: terrace-laundry
+        name: Laundry on the terrace
+        status: retired
+        since: "2026-10-18"
+        what: Three linen towels and a white linen shirt once hung on a cotton line above the terrace, rising in the afternoon sea breeze and coming in at dusk.
+        how: >-
+          The pegs welded fabric corners to the line, so the weight of the towels sagged the line at each attachment.
+          Slack let the towels fold down from the pegs. The shirt's front and back were welded at the shoulders and side
+          seams, with layer separation and stitched sleeves. The rig sampled a share of the outside wind and stepped
+          only while the laundry was in view. The October 18 design entry records the earlier solver and timings.
+          [October 19 golden-hour still](https://github.com/DylanTao/dylantao.github.io/blob/96db85991f59bfd37d597bb87b7a1519f26e6928/assets/img/project_pics/graphics-lab/curtains.webp).
+        files: []
+        sources: [macklin2019smallsteps, bergou2006bending, kim2012lra, keckeisen2004wind]
+        limits: []
+        next: []
+        retired:
+          date: "2026-11-19"
+          reason: Sirui wanted to move the cloth indoors. The terrace line and its posts gave way to a flax noren that screens the Onsen entry.
       - id: clifftop-sway
         name: Clifftop planting in the breeze
         status: shipped
@@ -3218,11 +3234,9 @@ open_problems:
     title: The cloth's open choices
     system: wind-plants
     why_hard: >-
-      The linen and the laundry follow a reference Sirui chose, but how much cloth the house shows, how lively it is and
-      what it costs are taste calls, and each one moves a schedule, an authored exposure or the frame's budget.
+      The facade curtains make the breeze through an open door visible. The noren's movement is quieter in the sheltered
+      hall. Changes to the facade heading, daylight coverage or solver can change how the linen reads or costs to draw.
     candidate_moves:
-      - Keep, move or restyle the laundry (an indigo towel with natural stripes, the white linen shirt, a natural towel with an ochre band and a terracotta towel), and choose whether it hangs whenever the house is open or Sirui hangs it himself in the routine.
-      - How lively the terrace is, at 42 % of the open coast's wind (towels lift 30 to 45 degrees toward the house) or calmer at about 30 %.
       - The doorway breeze on the curtains (0.55 of the onshore breeze, damping 0.22 per second), and the hardware (dark bronze rods with ball finials, six clipped rings and a pinch-pleated heading, against light oak or brass, eyelets or a ripple fold on a hidden track).
       - More linen by day, the panels over fixed glass half drawn, which changes the schedule; `?sheer=coverage` restores the October 16 grain for comparison.
       - Accept the cloth's cost, or step the panels on a worker or try vertex block descent to cut the substeps.

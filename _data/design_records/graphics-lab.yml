@@ -37,7 +37,7 @@ record_url: /projects/graphics-lab/record/
 json_url: /assets/json/design-records/graphics-lab.json
 repository: https://github.com/DylanTao/dylantao.github.io
 branch: main
-updated: "2026-11-13"
+updated: "2026-11-19"
 summary: >-
   The rendering and simulation experiments behind the homepage's coastal home, one technique at a time: what each does
   in the scene now and which files and functions hold it, the papers it adapts, what it cannot do yet, and newer papers
@@ -122,8 +122,8 @@ tests:
     covers: Steam transport across frame rates, positive diffusion and Beer–Lambert composition.
     command: node --test test/steam-transport.test.mjs
   - path: test/cloth-solver.test.mjs
-    covers: Bending weights, stretch bounds, energy decay, no tunnelling, determinism and allocation-free steps.
-    command: node --test test/cloth-solver.test.mjs test/curtain-cloth.test.mjs test/curtain-schedule.test.mjs test/laundry-line.test.mjs
+    covers: Bending weights, stretch bounds, energy decay, no tunnelling, determinism and allocation-free steps. The Onsen test also checks the pinned headers, open split, capped indoor wind, opaque shadows and the pause and reduced-motion states.
+    command: node --test test/cloth-solver.test.mjs test/curtain-cloth.test.mjs test/curtain-schedule.test.mjs test/onsen-noren.test.mjs
   - path: test/sea-optics.test.mjs
     covers: The seawater optics, the shallow-water reflectance, the caustic lens, the seabed fill and the setting sun's light on the sea, and the onsen's caustics and sub-grid ripples.
     command: node --test test/sea-optics.test.mjs test/onsen-caustics.test.mjs
@@ -1053,26 +1053,24 @@ systems:
       bodies and animals posed on the house's real geometry.
     techniques:
       - id: curtains
-        name: Linen curtains and laundry
+        name: Facade curtains and an Onsen noren
         status: shipped
         since: "2026-10-16"
         thumbnail:
-          path: assets/img/project_pics/graphics-lab/curtains.webp
-          alt: The terrace laundry at golden hour seen from the sea, a terracotta towel, a natural towel with an ochre band, Sirui's white linen shirt and an indigo striped towel pegged on a line, with the linen curtains hanging behind the glass front
-          frame: Lab camera off the terrace, 17:40 on Friday, October 16, 2026, reduced motion (settled drape).
-        what: Four sheer linen panels on rings and bronze rods, and three towels and a shirt on a terrace line, in one small-step XPBD cloth with isometric bending, blowing in the coast's one wind.
+          path: assets/img/project_pics/graphics-lab/onsen-noren.webp
+          alt: Pale flax noren panels with fine green-gray edges, hung from a bronze rail in the Onsen's stone doorway
+          frame: Bath-side camera, scene clock 7:00 a.m., November 19, 2026 browser capture.
+        what: Four sheer linen panels hang beside the sliding doors. Since November 19, two opaque flax drops soften the view through the Onsen's upper pocket-door reveal.
         how: >-
-          Rebuilt on October 18. `createClothIsland` in `cloth-solver.mjs` steps welded pattern meshes at 30 Hz with six
-          substeps: colour-batched stretch and shear distance constraints on the fabric's own rest lengths, the isometric
-          quadratic bending of Bergou and colleagues (`bendingWeights`), long-range attachments, ordering constraints that
-          keep a gathered stack's folds from crossing, and contacts. `createCurtainCloth` hangs each panel from six rings on
-          a pinch-pleated heading whose tape bows between pinches, and `createFacadeDraft` blows the coast's onshore breeze
-          and the room's eddies through each open door. `createLaundryLine` pegs the towels and the shirt onto a line chain,
-          each peg welding a corner to a line node, with the shirt's layers welded at the seams and kept apart, in the open
-          coast's wind at an authored 42 % exposure (`createTerraceDraft`). `createSheerFabric` blends linen's translucency
-          with slubs along the warp and a forward-scattering back light, and `createCurtainMeshes` draws each panel through a
-          Catmull–Rom spline at three times the simulated resolution, column by column, so a stack's blended layers keep one
-          order. `createCurtainRig` and `createLaundryRig` step only what is on screen and tall enough to see.
+          Both use the small-step XPBD solver in `cloth-solver.mjs` at 30 Hz with six substeps. It solves stretch and shear
+          at the fabric's rest lengths, isometric bending and long-range attachments. `createCurtainCloth` hangs each
+          facade panel from six rings on a pinch-pleated heading. `createFacadeDraft` carries the coast's onshore breeze
+          and indoor eddies through the open doors. `createSheerFabric` and `createCurtainMeshes` shade the linen and draw
+          its folds through a refined spline mesh. The facade panels blend transmitted light and cast partial shadows.
+          `createNorenRig` reads the bronze rail's native frame and settles two staggered drops in one 330-particle island
+          when the doorway comes into view. Their shared opaque weave casts a solid shadow and receives the scene's
+          daylight and the upper hall's `upper` installation lights after dark. The noren hangs in both lighting states,
+          samples a capped indoor breeze and stops stepping off screen or under Pause. Reduced motion settles the drape.
         files:
           - path: assets/js/home-scene/cloth-solver.mjs
             role: The small-step XPBD cloth.
@@ -1086,19 +1084,20 @@ systems:
           - path: assets/js/home-scene/curtain-rig.mjs
             role: The live curtains, their hardware and their budget.
             functions: [createCurtainRig]
-          - path: assets/js/home-scene/laundry-line.mjs
-            role: The line, the pegs, the towels, the shirt and the terrace wind.
-            functions: [createLaundryLine, createTerraceDraft]
-          - path: assets/js/home-scene/laundry-rig.mjs
-            role: The live laundry.
-            functions: [createLaundryRig]
+          - path: assets/js/home-scene/onsen-noren.mjs
+            role: The pinned flax drops, their sheltered draft and their view-dependent rig.
+            functions: [norenFrameFromScene, createNorenCloth, norenWind, createNorenRig]
+          - path: bin/coastal_onsen_noren.py
+            role: The bronze rail set into the stone reveal, with its exported cloth frame.
+            functions: [install_onsen_noren]
           - path: assets/js/home-scene/PHYSICS.md
-            role: Equations, sources, cost and limits ("Curtain cloth" and "Laundry on the terrace").
+            role: The solver, fabric, draft, and the Onsen entry's shared lighting and motion budget.
         tests:
           - test/cloth-solver.test.mjs
           - test/curtain-cloth.test.mjs
           - test/curtain-schedule.test.mjs
-          - test/laundry-line.test.mjs
+          - test/onsen-noren.test.mjs
+          - test/visual/desk-scene.spec.js
         sources:
           [
             macklin2016xpbd,
@@ -1116,11 +1115,11 @@ systems:
           ]
         related:
           - record: homepage-desk-scene
-            techniques: [facade-curtains, terrace-laundry]
+            techniques: [facade-curtains, onsen-noren]
         limits:
-          - No general self-collision; ordering constraints keep a stack's folds in order, and the shirt's layers are kept apart, but nothing else stops cloth from passing through cloth.
-          - One pass per substep leaves a few percent of local stretch, more at the shirt's shoulder pegs.
-          - The air model has no shielding or vortex shedding, and the fabric is authored, not measured.
+          - Ordering constraints keep gathered facade folds and the noren's staggered seam in place. General self-collision remains outside the solver.
+          - One pass per substep leaves a few percent of local stretch near the facade clips. The noren's fixed heading and seam are authored for the stone opening.
+          - The fabric parameters and sheltered draft are authored. The air field omits shielding, wake and vortex shedding.
         watchlist:
           - source: zhu2023yarn
             effort: medium
@@ -1130,7 +1129,7 @@ systems:
             adds: Repulsion-based self-collision for cloth on the GPU, so gathered stacks would stop passing through themselves.
           - source: chen2024vbd
             effort: large
-            adds: Solves the cloth one vertex block at a time with local Newton steps, stable at large time steps, so the panels and the laundry could step at 30 Hz without the six substeps that now set the cloth's cost; worth an A/B on one panel.
+            adds: Solves the cloth one vertex block at a time with local Newton steps, stable at large time steps, so the curtains and noren could step at 30 Hz without the six substeps that now set the cloth's cost; worth an A/B on one panel.
         next: []
       - id: bedding
         name: A fitted duvet with live cloth constraints

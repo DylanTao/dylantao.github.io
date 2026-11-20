@@ -2,7 +2,7 @@ import * as THREE from "../three.module.min.js";
 import { coastWind } from "./wind-field.mjs";
 import { CURTAIN_FACADE, CURTAIN_HARDWARE, CURTAIN_TRACKS, createFacadeCurtains, curtainSchedule } from "./curtain-cloth.mjs";
 import { createCurtainMeshes, createSheerFabric } from "./sheer-fabric.mjs";
-import { createLaundryRig } from "./laundry-rig.mjs";
+import { createNorenRig } from "./onsen-noren.mjs";
 import { localSceneOffset, localSceneWind } from "./local-scene-frame.mjs";
 
 // The linen curtains in the live scene (Sirui, 2026-10-16; rebuilt 2026-10-18): the four panels of
@@ -31,7 +31,6 @@ export function createCurtainRig({
   plan = {},
   bindMaterial = () => {},
   coverage = null,
-  laundry: withLaundry = true,
   offset = [0, 0, 0],
 }) {
   const translation = new THREE.Vector3(...localSceneOffset(offset));
@@ -118,19 +117,18 @@ export function createCurtainRig({
   const hardware = createCurtainHardware(cloth, bindMaterial);
   group.add(hardware.rods, hardware.rings);
   scene.add(group);
-  // The facade's other cloth: the laundry on the terrace outside it (laundry-rig.mjs).
-  const laundry = withLaundry ? createLaundryRig({ scene, coast, reduced, bindMaterial, offset }) : null;
-  // The starting drapes settle on background tasks while the page loads (one panel, then the laundry, a
-  // task each of a few tens of milliseconds), so no frame has to; a frame that comes first settles what
-  // is left, one a frame. scheduler.postTask keeps working under a paused page clock.
+  // The onsen entry lives in the native shell's coordinate frame. Its fabric
+  // is constructed on the first near view and adds no solver work to startup.
+  const noren = createNorenRig({ scene, coast, bindMaterial });
+  // Settle one facade panel per background task. The frame can settle a pending
+  // panel first. scheduler.postTask keeps working under a paused page clock.
   let disposed = false;
   const later = (fn) =>
     typeof globalThis.scheduler?.postTask === "function" ? globalThis.scheduler.postTask(fn, { priority: "background" }) : setTimeout(fn, 0);
   const settleInBackground = () => {
     if (disposed) return;
-    if (cloth.pending) cloth.settlePending(1);
-    else if (laundry?.pending) laundry.settleNow();
-    else return;
+    if (!cloth.pending) return;
+    cloth.settlePending(1);
     meshes.update(readRevisions());
     later(settleInBackground);
   };
@@ -199,10 +197,8 @@ export function createCurtainRig({
           drawTimings.shift();
         }
       }
-      // The laundry composes its starting drape once the panels have theirs, so no frame does both.
-      laundry?.step({ delta, moving, reduced: still, time, daylight, routine, camera, canvasHeight, settle: cloth.pending === 0 });
+      noren?.step({ delta, moving, reduced: still, time, camera, canvasHeight });
     },
-    laundry,
     evidence() {
       const sorted = [...timings].sort((a, b) => a - b),
         median = (list) => [...list].sort((a, b) => a - b)[Math.floor(list.length / 2)] ?? null;
@@ -211,8 +207,7 @@ export function createCurtainRig({
         offset: translation.toArray(),
         inView,
         stepping,
-        // Starting drapes still to settle (panels, then the laundry); zero once the page has loaded.
-        pendingDrapes: cloth.pending + (laundry?.pending ? 1 : 0),
+        pendingDrapes: cloth.pending,
         coverage: fabric.blend ? "blend" : "coverage",
         frameMilliseconds: {
           samples: sorted.length,
@@ -227,12 +222,12 @@ export function createCurtainRig({
         draws: meshes.meshes.length + 2,
         cloth: cloth.evidence(),
         draft: curtains.draft.evidence(),
-        laundry: laundry?.evidence() ?? null,
+        noren: noren?.evidence() ?? null,
       };
     },
     dispose() {
       disposed = true;
-      laundry?.dispose();
+      noren?.dispose();
       meshes.dispose();
       fabric.dispose();
       hardware.dispose();

@@ -68,7 +68,7 @@ import { createCoastalWind } from "./coastal-wind.mjs";
 import { coastWind, livePacificMinute, COAST_SHELTER } from "./wind-field.mjs";
 import { syncOceanWind } from "./ocean-spectrum.mjs";
 import { SEA_LEVEL } from "./sea-optics.mjs";
-import { createCurtainRig } from "./curtain-rig.mjs";
+import { createCurtainRig } from "./curtain-rig.mjs?v=onsen-noren-20261119";
 import { createBedroomCurtains } from "./bedroom-curtains.mjs";
 import { createWarmPracticals, practicalSourcesFor } from "./warm-practicals.mjs?v=ambience-20261102";
 import { createSteamDensity } from "./steam-density.mjs";
@@ -79,7 +79,7 @@ import { prepareFramePrograms } from "./program-warmup.mjs";
 import { retireCompiledMaterials } from "./program-lifetime.mjs";
 import { createGlazing, glaze, GLASS_NAME } from "./glazing.mjs";
 import { createWorldFullscreen } from "./world-fullscreen.mjs?v=layout-20261031";
-import { createWalkMode, WALK } from "./walk-controls.mjs?v=gym-close-20261101";
+import { createWalkMode, WALK } from "./walk-controls.mjs?v=garden-20261119";
 import { arrivalStandingView } from "./arrival-view.mjs";
 import { createLightInstallations, roomLightSources } from "./light-installations.mjs?v=gym-stations-20261119";
 import { createFurniture } from "./furniture.mjs";
@@ -87,7 +87,7 @@ import { createDining } from "./dining.mjs";
 import { createAtmosphere } from "./atmosphere.mjs";
 import { createHaze } from "./haze.mjs";
 import { createInfinityPool } from "./infinity-pool.mjs";
-import { createArrivalRill } from "./arrival-rill.mjs";
+import { createArrivalRill } from "./arrival-rill.mjs?v=garden-20261119";
 import { createInteriorReflections } from "./interior-reflections.mjs";
 import { createWalkPresence } from "./walk-presence.mjs?v=gym-close-20261101";
 import { createEstateDoors, nearDoor } from "./estate-doors.mjs";
@@ -2533,13 +2533,22 @@ export function createCoastalHome(container, records, artifacts) {
       const label =
         viewedDestination === "entrance"
           ? "Main entrance"
-          : config?.rooms.find((r) => r.id === currentRoom)?.label || (currentRoom === "overview" ? "Whole home" : "Patio & coast");
-      status.textContent = walkMode?.active ? `Walking · ${label}` : currentRoom === "gym" && routine?.sequence === "cardio" ? routine.label : label;
+          : config?.walk?.places?.[viewedDestination]?.label ||
+            config?.rooms.find((r) => r.id === currentRoom)?.label ||
+            (currentRoom === "overview" ? "Whole home" : "Patio & coast");
+      status.textContent = walkMode?.active
+        ? `Walking · ${label}`
+        : !freeLook?.destination && currentRoom === "gym" && routine?.sequence === "cardio"
+          ? routine.label
+          : label;
     }
   }
 
-  function frameEntrance() {
-    const entry = arrivalStandingView(config, { eyeHeight: WALK.eyeHeight, fov: WALK.fov });
+  function frameStandingView(destination) {
+    const place = config.walk?.places?.[destination];
+    const entry = place
+      ? { ...place, destination, position: [place.position[0], place.position[1] + WALK.eyeHeight, place.position[2]] }
+      : arrivalStandingView(config, { eyeHeight: WALK.eyeHeight, fov: WALK.fov });
     if (entry) {
       freeLook = { ...entry, position: new THREE.Vector3().fromArray(entry.position), shownYaw: entry.yaw, shownPitch: entry.pitch };
       desiredFov = entry.fov;
@@ -2681,16 +2690,17 @@ export function createCoastalHome(container, records, artifacts) {
       if (!b) return;
       if (b.dataset.worldDestination) {
         const destination = b.dataset.worldDestination;
-        setRoom(destination === "entrance" ? "outside" : destination);
+        const place = config.walk?.places?.[destination];
+        setRoom(place?.room || (destination === "entrance" ? "outside" : destination));
         walkMode?.chooseDestination(destination === "overview" ? null : destination);
-        if (destination === "entrance") frameEntrance();
+        if (place || destination === "entrance") frameStandingView(destination);
         closePlaces();
         requestFrame();
       }
       if (b.hasAttribute("data-world-recenter")) {
-        const entrance = freeLook?.destination === "entrance";
+        const standingDestination = freeLook?.destination;
         setRoom(currentRoom);
-        if (entrance) frameEntrance();
+        if (standingDestination) frameStandingView(standingDestination);
         closePlaces();
       }
       if (b.hasAttribute("data-world-follow")) {
@@ -2770,6 +2780,7 @@ export function createCoastalHome(container, records, artifacts) {
         followClock = false;
         updateRoutine(true);
         setRoom("gym");
+        walkMode?.chooseDestination("gym");
         ui.querySelector("[data-world-places]").open = false;
         renderer.domElement.focus({ preventScroll: true });
       });
@@ -3914,7 +3925,9 @@ export function createCoastalHome(container, records, artifacts) {
       config = await response.json();
       poolVisit = config.infinityPool?.activity?.path ? createPoolActivity(config.infinityPool.activity) : null;
       // The arrival avatar is still chosen later, so seeded captures draw it at the same point.
-      prefetch(new URL(config.shell, manifestUrl).href, { step: "house", priority: "high" });
+      const shellUrl = new URL(config.shell, manifestUrl);
+      shellUrl.search = manifestUrl.search;
+      prefetch(shellUrl.href, { step: "house", priority: "high" });
       prefetch(new URL(config.coast, manifestUrl).href, { step: "coast", priority: "high" });
       for (const room of config.rooms) prefetch(new URL(room.file, manifestUrl).href);
       prefetchLightCache();
@@ -4103,7 +4116,7 @@ export function createCoastalHome(container, records, artifacts) {
       }
       container.append(renderer.domElement);
       loadingSketch?.cover(renderer.domElement);
-      const shell = await loadModel(new URL(config.shell, manifestUrl).href, "house");
+      const shell = await loadModel(shellUrl.href, "house");
       if (disposed) {
         release(shell.scene);
         return;
@@ -4118,7 +4131,14 @@ export function createCoastalHome(container, records, artifacts) {
       infinityPool = createInfinityPool(shellRoot, { waterSky: () => pacific?.waterSky(), requestFrame });
       cleanup.push(() => infinityPool?.dispose());
       arrivalRill = createArrivalRill(shellRoot, config.entrance?.rill, physicalTime);
-      cleanup.push(() => arrivalRill?.dispose());
+      const gardenRill = createArrivalRill(shellRoot, config.estateOutdoors?.gardenRill, physicalTime, [
+        "garden collecting water",
+        "garden falling water",
+      ]);
+      cleanup.push(() => {
+        arrivalRill?.dispose();
+        gardenRill?.dispose();
+      });
       pacific.bindLamps(lightInstallations, warmPracticals);
       const coast = await loadModel(new URL(config.coast, manifestUrl).href, "coast");
       if (disposed) {

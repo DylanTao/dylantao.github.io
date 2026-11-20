@@ -1,5 +1,5 @@
 // Small-step XPBD cloth for the coastal home (Sirui, 2026-10-18): the linen curtains in the glass front
-// and the laundry on the terrace share this solver. Pure JavaScript, no three.js, so it runs under
+// and the onsen noren share this solver. Pure JavaScript, no three.js, so it runs under
 // `node --test`.
 //
 // A cloth is a triangle mesh of particles built from flat patterns (a curtain panel, a towel, the two
@@ -61,18 +61,6 @@ export const TOWEL_LINEN = Object.freeze({
   frictionCoefficient: 0.02,
   thickness: 0.004,
 });
-export const SHIRT_LINEN = Object.freeze({
-  name: "shirt linen",
-  arealDensity: 0.14, // kg/m^2: shirting linen
-  stretchCompliance: 0,
-  shearCompliance: 0.01,
-  bendingRigidity: 6e-5, // N m: 3.5 cm
-  damping: 0.35,
-  pressureCoefficient: 0.95,
-  frictionCoefficient: 0.02,
-  thickness: 0.004,
-});
-
 const clamp = (x, lo, hi) => (x < lo ? lo : x > hi ? hi : x);
 
 export function mulberry32(seed) {

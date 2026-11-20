@@ -5,7 +5,7 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { BODY, createWalkField, walkKind, WATER_BLOCK } from "../assets/js/home-scene/colliders.mjs";
 import { nativeGeometry } from "./helpers/coastal-native-geometry.mjs";
-import { spawnPlan } from "../assets/js/home-scene/walk-controls.mjs";
+import { roomAt, spawnPlan } from "../assets/js/home-scene/walk-controls.mjs";
 
 const modelBase = process.env.COASTAL_MODELS_ROOT
   ? pathToFileURL(`${resolve(process.env.COASTAL_MODELS_ROOT)}/`)
@@ -153,9 +153,7 @@ test("the public patio destination starts on dry delivered paving rather than th
 
 test("the study patio door joins the whole dry promenade and returns without squeezing behind old furniture", async (t) => {
   const field = await deliveredField();
-  const study = manifest.rooms.find((room) => room.id === "study");
-  const threshold = manifest.estateLibrary.patioDoor.route;
-  const route = [study.walkActor, [-9.41, 0, 4.3], ...threshold, ...manifest.retreat.patioRoute.slice(3)];
+  const { studyRoute: route, cookRoute } = manifest.retreat.patioCirculation;
   const outward = traverse(field, route);
   const inward = traverse(field, [...route].reverse());
   // This is a usable promenade, rather than the former 0.74m slot behind an
@@ -172,20 +170,21 @@ test("the study patio door joins the whole dry promenade and returns without squ
       }
     }
   }
-  for (let z = 1.7; z >= -0.1; z -= 0.1) {
-    const x = 4.6,
-      resolved = field.resolve(x, z, 0, generous);
-    assert.ok(
-      resolved.clear && Math.hypot(resolved.x - x, resolved.z - z) < 0.015,
-      `a real 1.2m entry reaches the covered cook aisle at ${x},${z.toFixed(2)}`
-    );
-    for (const dz of [-0.1, 0.1]) {
-      const step = field.move(x, z, 0, 0, dz, generous);
-      assert.ok(Math.abs(step.z - (z + dz)) < 0.02, `the generous body enters or leaves the pavilion at ${z.toFixed(2)}`);
-    }
+  const branch = route.findIndex((point) => point.every((value, axis) => value === cookRoute[0][axis]));
+  assert.ok(branch > 0, "the actual cook aisle branches from the measured approach");
+  const cooking = [...route.slice(0, branch), ...cookRoute];
+  const cookOut = traverse(field, cooking);
+  const cookBack = traverse(field, [...cooking].reverse());
+  for (const journey of [outward, cookOut]) {
+    const { x, z, foot } = journey.state;
+    assert.equal(roomAt(manifest, x, z, foot), "outside");
+    assert.ok(x < -8.5 && z < -2.2, "the visitor reached the study-side terrace");
   }
-  assert.ok(outward.travelled > 18 && inward.travelled > 18, "the proof reaches the covered cooking and dining area, rather than the service bay");
-  t.diagnostic(JSON.stringify({ route, outward, inward }));
+  for (const journey of [inward, cookBack]) {
+    const { x, z, foot } = journey.state;
+    assert.equal(roomAt(manifest, x, z, foot), "study");
+  }
+  t.diagnostic(JSON.stringify({ route, outward, inward, cooking, cookOut, cookBack }));
 });
 
 test("the stair hall's landing door joins the upper floor in both directions", async (t) => {

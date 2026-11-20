@@ -258,11 +258,9 @@ test("the scene's rig steps only the panels a camera can see, follows the doors 
     ["curtain kitchen-south", "curtain kitchen-north", "curtain lounge-south", "curtain lounge-north", "curtain rods", "curtain rings"]
   );
   assert.equal(rig.group.getObjectByName("curtain rings").count, 24, "six rings a panel");
-  // The laundry hangs outside, in its own group.
-  assert.ok(scene.getObjectByName("Terrace laundry"), "the terrace laundry joins the scene");
-  // The light field and installations bind every material once: the linen, the bronze, and the
-  // laundry's four linens, cotton line and beech pegs.
-  assert.equal(bound.length, 8);
+  assert.equal(rig.evidence().noren, null, "this fixture has no native onsen rail");
+  // The facade still binds one linen and one bronze material.
+  assert.equal(bound.length, 2);
   assert.equal(new Set(bound).size, bound.length);
   assert.equal(bound.filter((m) => m.name === "coastal sheer voile").length, 1);
   // The kitchen camera of the manifest, looking in through the door opening.

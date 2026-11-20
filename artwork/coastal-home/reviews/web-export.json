@@ -1,22 +1,22 @@
 {
   "bakedColorQuantization": "32 grayscale steps, shared per vertex",
   "dracoColorBits": 6,
-  "sourceSha256": "4bcd3566d13f5d80f3bd4472d8824cc038cdd3135d8d435b3e1c801fb2926457",
+  "sourceSha256": "af2717bdcbad14a16e3da6391ec453c7eab6e3b2c95be71f6fc1faa8b10d6c26",
   "activeStaticGeologyAO": true,
   "constantPlanarCompaction": [
     {
       "mesh": "core__golden coastal sandstone",
       "method": "Interior constant-color, constant-split-normal, single-material coplanar stars only",
       "before": {
-        "vertices": 57678,
-        "triangles": 115376
+        "vertices": 57379,
+        "triangles": 114778
       },
       "after": {
-        "vertices": 48110,
-        "triangles": 96240
+        "vertices": 47807,
+        "triangles": 95634
       },
-      "removedVertices": 9568,
-      "removedVertexIdsSha256": "967f7b444a9618307a84e6b34ea811b3bc51cd6f9909be0d3912b250f328e16e",
+      "removedVertices": 9572,
+      "removedVertexIdsSha256": "880c6d471e9cca80b57820e83bd7f23bbe8ab666cbcac65ce771e3c291c48df0",
       "coverageComponents": [
         {
           "passed": true,
@@ -57,18 +57,18 @@
         {
           "passed": true,
           "boundaryLoops": 1,
-          "boundaryArea2": 5622.882417657307,
-          "triangles": 12793,
+          "boundaryArea2": 5628.365497206232,
+          "triangles": 12802,
           "maximumPlaneErrorM": 0.0,
           "component": 8267,
-          "candidateVertices": 5995,
-          "sourceFaces": 12283,
+          "candidateVertices": 5999,
+          "sourceFaces": 12292,
           "constantNormalDiameterUpperBound": 2.2774656878670612e-7,
           "proposedCoverage": {
             "passed": true,
             "boundaryLoops": 1,
-            "boundaryArea2": 5622.882417657307,
-            "triangles": 803,
+            "boundaryArea2": 5628.365497206232,
+            "triangles": 804,
             "maximumPlaneErrorM": 0.0
           }
         },
@@ -78,7 +78,7 @@
           "boundaryArea2": 0.04479299085778621,
           "triangles": 4,
           "maximumPlaneErrorM": 0.0,
-          "component": 47281,
+          "component": 46852,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 2.2911831097777463e-8,
@@ -96,7 +96,7 @@
           "boundaryArea2": 0.13259805433654037,
           "triangles": 8,
           "maximumPlaneErrorM": 0.0,
-          "component": 47299,
+          "component": 46870,
           "candidateVertices": 2,
           "sourceFaces": 6,
           "constantNormalDiameterUpperBound": 0.0,
@@ -114,7 +114,7 @@
           "boundaryArea2": 0.04320802086158437,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 47302,
+          "component": 46873,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 0.0,
@@ -132,7 +132,7 @@
           "boundaryArea2": 0.39396067055531603,
           "triangles": 11,
           "maximumPlaneErrorM": 0.0,
-          "component": 47433,
+          "component": 47004,
           "candidateVertices": 2,
           "sourceFaces": 8,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -150,7 +150,7 @@
           "boundaryArea2": 0.22606189602799986,
           "triangles": 7,
           "maximumPlaneErrorM": 0.0,
-          "component": 47439,
+          "component": 47010,
           "candidateVertices": 2,
           "sourceFaces": 7,
           "constantNormalDiameterUpperBound": 0.0,
@@ -168,7 +168,7 @@
           "boundaryArea2": 0.07436114351867218,
           "triangles": 5,
           "maximumPlaneErrorM": 0.0,
-          "component": 47444,
+          "component": 47015,
           "candidateVertices": 1,
           "sourceFaces": 5,
           "constantNormalDiameterUpperBound": 0.0,
@@ -186,7 +186,7 @@
           "boundaryArea2": 0.0027747455228421813,
           "triangles": 4,
           "maximumPlaneErrorM": 0.0,
-          "component": 47449,
+          "component": 47020,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -204,7 +204,7 @@
           "boundaryArea2": 0.15883986583708065,
           "triangles": 5,
           "maximumPlaneErrorM": 0.0,
-          "component": 47465,
+          "component": 47036,
           "candidateVertices": 1,
           "sourceFaces": 5,
           "constantNormalDiameterUpperBound": 0.0,
@@ -222,7 +222,7 @@
           "boundaryArea2": 0.1459998741149775,
           "triangles": 11,
           "maximumPlaneErrorM": 0.0,
-          "component": 47468,
+          "component": 47039,
           "candidateVertices": 3,
           "sourceFaces": 8,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -240,7 +240,7 @@
           "boundaryArea2": 0.02052174911685256,
           "triangles": 4,
           "maximumPlaneErrorM": 0.0,
-          "component": 47469,
+          "component": 47040,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -258,7 +258,7 @@
           "boundaryArea2": 0.3933483682769747,
           "triangles": 5,
           "maximumPlaneErrorM": 0.0,
-          "component": 47473,
+          "component": 47044,
           "candidateVertices": 1,
           "sourceFaces": 5,
           "constantNormalDiameterUpperBound": 0.0,
@@ -276,7 +276,7 @@
           "boundaryArea2": 3.2343231912122974,
           "triangles": 7,
           "maximumPlaneErrorM": 0.0,
-          "component": 47476,
+          "component": 47047,
           "candidateVertices": 2,
           "sourceFaces": 7,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -294,7 +294,7 @@
           "boundaryArea2": 4.4952648400794715,
           "triangles": 4,
           "maximumPlaneErrorM": 0.0,
-          "component": 47481,
+          "component": 47052,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -312,7 +312,7 @@
           "boundaryArea2": 1.3127096320240526,
           "triangles": 12,
           "maximumPlaneErrorM": 0.0,
-          "component": 48060,
+          "component": 47631,
           "candidateVertices": 3,
           "sourceFaces": 12,
           "constantNormalDiameterUpperBound": 5.016969206160665e-8,
@@ -330,7 +330,7 @@
           "boundaryArea2": 0.7888142762717507,
           "triangles": 4,
           "maximumPlaneErrorM": 0.0,
-          "component": 48314,
+          "component": 47885,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 0.0,
@@ -348,7 +348,7 @@
           "boundaryArea2": 2.766699183784908,
           "triangles": 13,
           "maximumPlaneErrorM": 0.0,
-          "component": 48402,
+          "component": 47973,
           "candidateVertices": 2,
           "sourceFaces": 8,
           "constantNormalDiameterUpperBound": 0.0,
@@ -366,7 +366,7 @@
           "boundaryArea2": 2.3379994697565962,
           "triangles": 8,
           "maximumPlaneErrorM": 0.0,
-          "component": 48413,
+          "component": 47984,
           "candidateVertices": 2,
           "sourceFaces": 8,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -384,7 +384,7 @@
           "boundaryArea2": 2.313161337091856,
           "triangles": 5,
           "maximumPlaneErrorM": 0.0,
-          "component": 48420,
+          "component": 47991,
           "candidateVertices": 1,
           "sourceFaces": 5,
           "constantNormalDiameterUpperBound": 0.0,
@@ -402,7 +402,7 @@
           "boundaryArea2": 63.42464879760655,
           "triangles": 5,
           "maximumPlaneErrorM": 0.0,
-          "component": 48421,
+          "component": 47992,
           "candidateVertices": 1,
           "sourceFaces": 5,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -420,7 +420,7 @@
           "boundaryArea2": 12.618368884741358,
           "triangles": 5,
           "maximumPlaneErrorM": 0.0,
-          "component": 48424,
+          "component": 47995,
           "candidateVertices": 1,
           "sourceFaces": 5,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -438,7 +438,7 @@
           "boundaryArea2": 1.4859134154667117,
           "triangles": 8,
           "maximumPlaneErrorM": 0.0,
-          "component": 48437,
+          "component": 48008,
           "candidateVertices": 2,
           "sourceFaces": 8,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -456,7 +456,7 @@
           "boundaryArea2": 0.9648311814585213,
           "triangles": 5,
           "maximumPlaneErrorM": 0.0,
-          "component": 48444,
+          "component": 48015,
           "candidateVertices": 1,
           "sourceFaces": 5,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -474,7 +474,7 @@
           "boundaryArea2": 0.8417438083633897,
           "triangles": 5,
           "maximumPlaneErrorM": 0.0,
-          "component": 48447,
+          "component": 48018,
           "candidateVertices": 1,
           "sourceFaces": 5,
           "constantNormalDiameterUpperBound": 1.902822768999564e-7,
@@ -492,7 +492,7 @@
           "boundaryArea2": 0.9942450993876264,
           "triangles": 5,
           "maximumPlaneErrorM": 0.0,
-          "component": 48449,
+          "component": 48020,
           "candidateVertices": 1,
           "sourceFaces": 5,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -510,7 +510,7 @@
           "boundaryArea2": 0.2609941228001844,
           "triangles": 4,
           "maximumPlaneErrorM": 0.0,
-          "component": 48453,
+          "component": 48024,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -528,7 +528,7 @@
           "boundaryArea2": 64.46256828481353,
           "triangles": 57,
           "maximumPlaneErrorM": 0.0,
-          "component": 48459,
+          "component": 48030,
           "candidateVertices": 23,
           "sourceFaces": 37,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -546,7 +546,7 @@
           "boundaryArea2": 3.920623696337401,
           "triangles": 22,
           "maximumPlaneErrorM": 0.0,
-          "component": 50670,
+          "component": 50201,
           "candidateVertices": 5,
           "sourceFaces": 16,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -564,7 +564,7 @@
           "boundaryArea2": 9.59877090088844,
           "triangles": 5,
           "maximumPlaneErrorM": 0.0,
-          "component": 50703,
+          "component": 50234,
           "candidateVertices": 1,
           "sourceFaces": 5,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -582,7 +582,7 @@
           "boundaryArea2": 14.937988457319534,
           "triangles": 5,
           "maximumPlaneErrorM": 0.0,
-          "component": 50711,
+          "component": 50242,
           "candidateVertices": 1,
           "sourceFaces": 5,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -600,7 +600,7 @@
           "boundaryArea2": 1.2756338271985896,
           "triangles": 7,
           "maximumPlaneErrorM": 0.0,
-          "component": 50713,
+          "component": 50244,
           "candidateVertices": 2,
           "sourceFaces": 7,
           "constantNormalDiameterUpperBound": 0.0,
@@ -618,7 +618,7 @@
           "boundaryArea2": 1.5925041343546127,
           "triangles": 5,
           "maximumPlaneErrorM": 0.0,
-          "component": 50720,
+          "component": 50251,
           "candidateVertices": 1,
           "sourceFaces": 5,
           "constantNormalDiameterUpperBound": 0.0,
@@ -636,7 +636,7 @@
           "boundaryArea2": 10.938074455422111,
           "triangles": 4,
           "maximumPlaneErrorM": 0.0,
-          "component": 50724,
+          "component": 50255,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 1.4003507406608427e-7,
@@ -654,7 +654,7 @@
           "boundaryArea2": 0.0860235736706727,
           "triangles": 4,
           "maximumPlaneErrorM": 0.0,
-          "component": 50931,
+          "component": 50456,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 0.0,
@@ -672,7 +672,7 @@
           "boundaryArea2": 1.0153969120819433,
           "triangles": 5,
           "maximumPlaneErrorM": 0.0,
-          "component": 50932,
+          "component": 50457,
           "candidateVertices": 1,
           "sourceFaces": 5,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -690,7 +690,7 @@
           "boundaryArea2": 9.287126681524342,
           "triangles": 18,
           "maximumPlaneErrorM": 0.0,
-          "component": 50935,
+          "component": 50460,
           "candidateVertices": 5,
           "sourceFaces": 16,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -708,7 +708,7 @@
           "boundaryArea2": 4.615000813721679,
           "triangles": 5,
           "maximumPlaneErrorM": 0.0,
-          "component": 50945,
+          "component": 50470,
           "candidateVertices": 1,
           "sourceFaces": 5,
           "constantNormalDiameterUpperBound": 0.0,
@@ -726,7 +726,7 @@
           "boundaryArea2": 5.330008896718482,
           "triangles": 5,
           "maximumPlaneErrorM": 0.0,
-          "component": 50953,
+          "component": 50478,
           "candidateVertices": 1,
           "sourceFaces": 5,
           "constantNormalDiameterUpperBound": 0.0,
@@ -744,7 +744,7 @@
           "boundaryArea2": 7.070515449395771,
           "triangles": 14,
           "maximumPlaneErrorM": 0.0,
-          "component": 51585,
+          "component": 51110,
           "candidateVertices": 3,
           "sourceFaces": 10,
           "constantNormalDiameterUpperBound": 0.0,
@@ -762,7 +762,7 @@
           "boundaryArea2": 6.805651900763678,
           "triangles": 14,
           "maximumPlaneErrorM": 0.0,
-          "component": 51587,
+          "component": 51112,
           "candidateVertices": 3,
           "sourceFaces": 10,
           "constantNormalDiameterUpperBound": 0.0,
@@ -780,7 +780,7 @@
           "boundaryArea2": 2.2844075882981087,
           "triangles": 31,
           "maximumPlaneErrorM": 0.0,
-          "component": 52203,
+          "component": 51728,
           "candidateVertices": 8,
           "sourceFaces": 19,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -798,7 +798,7 @@
           "boundaryArea2": 1.0223830944967176,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 52296,
+          "component": 51821,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 0.0,
@@ -816,7 +816,7 @@
           "boundaryArea2": 3.120159153473651,
           "triangles": 30,
           "maximumPlaneErrorM": 0.0,
-          "component": 52783,
+          "component": 52308,
           "candidateVertices": 8,
           "sourceFaces": 22,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -834,7 +834,7 @@
           "boundaryArea2": 1.0708113439959561,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 52890,
+          "component": 52415,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 1.5809899887803466e-7,
@@ -852,7 +852,7 @@
           "boundaryArea2": 1.9395743483466958,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 52937,
+          "component": 52462,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 0.0,
@@ -870,7 +870,7 @@
           "boundaryArea2": 1.0992152153617383,
           "triangles": 9,
           "maximumPlaneErrorM": 0.0,
-          "component": 52940,
+          "component": 52465,
           "candidateVertices": 2,
           "sourceFaces": 6,
           "constantNormalDiameterUpperBound": 0.0,
@@ -888,7 +888,7 @@
           "boundaryArea2": 25.572837662457914,
           "triangles": 22,
           "maximumPlaneErrorM": 0.0,
-          "component": 52944,
+          "component": 52469,
           "candidateVertices": 6,
           "sourceFaces": 15,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -906,7 +906,7 @@
           "boundaryArea2": 1948.7654030496838,
           "triangles": 2953,
           "maximumPlaneErrorM": 0.0,
-          "component": 52954,
+          "component": 52479,
           "candidateVertices": 1135,
           "sourceFaces": 2266,
           "constantNormalDiameterUpperBound": 0.0,
@@ -924,7 +924,7 @@
           "boundaryArea2": 32.52720466811206,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 52965,
+          "component": 52490,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 0.0,
@@ -942,7 +942,7 @@
           "boundaryArea2": 0.9953707459644647,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 53028,
+          "component": 52553,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 8.471255185686407e-8,
@@ -960,7 +960,7 @@
           "boundaryArea2": 0.3914724240562464,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 53071,
+          "component": 52596,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 0.0,
@@ -978,7 +978,7 @@
           "boundaryArea2": 0.10850913572207332,
           "triangles": 9,
           "maximumPlaneErrorM": 0.0,
-          "component": 53080,
+          "component": 52605,
           "candidateVertices": 2,
           "sourceFaces": 6,
           "constantNormalDiameterUpperBound": 0.0,
@@ -996,7 +996,7 @@
           "boundaryArea2": 4.7229013868332,
           "triangles": 7,
           "maximumPlaneErrorM": 0.0,
-          "component": 53083,
+          "component": 52608,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1014,7 +1014,7 @@
           "boundaryArea2": 23.875012742621493,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 53094,
+          "component": 52619,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 8.042632518799614e-8,
@@ -1032,7 +1032,7 @@
           "boundaryArea2": 1.1036428669522422,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 53103,
+          "component": 52628,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1050,7 +1050,7 @@
           "boundaryArea2": 7.175247447225047,
           "triangles": 17,
           "maximumPlaneErrorM": 0.0,
-          "component": 53105,
+          "component": 52630,
           "candidateVertices": 4,
           "sourceFaces": 13,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1068,7 +1068,7 @@
           "boundaryArea2": 1.6597346722194288,
           "triangles": 10,
           "maximumPlaneErrorM": 0.0,
-          "component": 53115,
+          "component": 52640,
           "candidateVertices": 2,
           "sourceFaces": 6,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1086,7 +1086,7 @@
           "boundaryArea2": 7.404911475598055,
           "triangles": 9,
           "maximumPlaneErrorM": 0.0,
-          "component": 53116,
+          "component": 52641,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1104,7 +1104,7 @@
           "boundaryArea2": 8.003197171019565,
           "triangles": 23,
           "maximumPlaneErrorM": 0.0,
-          "component": 53120,
+          "component": 52645,
           "candidateVertices": 8,
           "sourceFaces": 16,
           "constantNormalDiameterUpperBound": 1.345050378098634e-7,
@@ -1122,7 +1122,7 @@
           "boundaryArea2": 4.464400687562829,
           "triangles": 7,
           "maximumPlaneErrorM": 0.0,
-          "component": 53127,
+          "component": 52652,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1140,7 +1140,7 @@
           "boundaryArea2": 13.034037362872368,
           "triangles": 9,
           "maximumPlaneErrorM": 0.0,
-          "component": 53133,
+          "component": 52658,
           "candidateVertices": 2,
           "sourceFaces": 6,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1158,7 +1158,7 @@
           "boundaryArea2": 0.07171791580185527,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 53152,
+          "component": 52677,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1176,7 +1176,7 @@
           "boundaryArea2": 0.004886750774403481,
           "triangles": 7,
           "maximumPlaneErrorM": 0.0,
-          "component": 53154,
+          "component": 52679,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1194,7 +1194,7 @@
           "boundaryArea2": 0.2623123243199501,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 53157,
+          "component": 52682,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1212,7 +1212,7 @@
           "boundaryArea2": 0.6039523985200503,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 53692,
+          "component": 53217,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 4.46987984909311e-8,
@@ -1230,7 +1230,7 @@
           "boundaryArea2": 7.78757290196836,
           "triangles": 15,
           "maximumPlaneErrorM": 0.0,
-          "component": 53980,
+          "component": 53505,
           "candidateVertices": 3,
           "sourceFaces": 8,
           "constantNormalDiameterUpperBound": 1.3188142582031215e-7,
@@ -1248,7 +1248,7 @@
           "boundaryArea2": 0.7416432606240733,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 54030,
+          "component": 53555,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1266,7 +1266,7 @@
           "boundaryArea2": 1.6339006511809657,
           "triangles": 30,
           "maximumPlaneErrorM": 0.0,
-          "component": 54097,
+          "component": 53622,
           "candidateVertices": 10,
           "sourceFaces": 19,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1284,7 +1284,7 @@
           "boundaryArea2": 0.1346988227842303,
           "triangles": 11,
           "maximumPlaneErrorM": 0.0,
-          "component": 54101,
+          "component": 53626,
           "candidateVertices": 3,
           "sourceFaces": 8,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1302,7 +1302,7 @@
           "boundaryArea2": 17.973806030103788,
           "triangles": 97,
           "maximumPlaneErrorM": 0.0,
-          "component": 54696,
+          "component": 54221,
           "candidateVertices": 33,
           "sourceFaces": 71,
           "constantNormalDiameterUpperBound": 8.857354300548785e-8,
@@ -1320,7 +1320,7 @@
           "boundaryArea2": 1.5400008383128352,
           "triangles": 15,
           "maximumPlaneErrorM": 0.0,
-          "component": 54726,
+          "component": 54251,
           "candidateVertices": 4,
           "sourceFaces": 11,
           "constantNormalDiameterUpperBound": 1.4734516021417405e-7,
@@ -1338,7 +1338,7 @@
           "boundaryArea2": 4.888352832877672,
           "triangles": 18,
           "maximumPlaneErrorM": 0.0,
-          "component": 54925,
+          "component": 54450,
           "candidateVertices": 5,
           "sourceFaces": 12,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1356,7 +1356,7 @@
           "boundaryArea2": 54.319995336532656,
           "triangles": 13,
           "maximumPlaneErrorM": 0.0,
-          "component": 54953,
+          "component": 54478,
           "candidateVertices": 3,
           "sourceFaces": 8,
           "constantNormalDiameterUpperBound": 1.5437608027577657e-7,
@@ -1374,7 +1374,7 @@
           "boundaryArea2": 16.79265953515616,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 54985,
+          "component": 54510,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1392,7 +1392,7 @@
           "boundaryArea2": 4.798878026217338,
           "triangles": 10,
           "maximumPlaneErrorM": 0.0,
-          "component": 55012,
+          "component": 54537,
           "candidateVertices": 2,
           "sourceFaces": 6,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1410,7 +1410,7 @@
           "boundaryArea2": 1.7568978840620275,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 55019,
+          "component": 54544,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1428,7 +1428,7 @@
           "boundaryArea2": 0.6532494098191819,
           "triangles": 17,
           "maximumPlaneErrorM": 0.0,
-          "component": 55027,
+          "component": 54552,
           "candidateVertices": 4,
           "sourceFaces": 10,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1446,7 +1446,7 @@
           "boundaryArea2": 0.0008730589256629173,
           "triangles": 10,
           "maximumPlaneErrorM": 0.0,
-          "component": 55068,
+          "component": 54593,
           "candidateVertices": 2,
           "sourceFaces": 6,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1464,7 +1464,7 @@
           "boundaryArea2": 1.8986766782602444,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 55367,
+          "component": 54892,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1482,7 +1482,7 @@
           "boundaryArea2": 10.265161428553938,
           "triangles": 23,
           "maximumPlaneErrorM": 0.0,
-          "component": 55437,
+          "component": 54962,
           "candidateVertices": 7,
           "sourceFaces": 16,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1500,7 +1500,7 @@
           "boundaryArea2": 5.529722609214446,
           "triangles": 15,
           "maximumPlaneErrorM": 0.0,
-          "component": 55446,
+          "component": 54971,
           "candidateVertices": 4,
           "sourceFaces": 10,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1518,7 +1518,7 @@
           "boundaryArea2": 1.5044784016408812,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 56121,
+          "component": 55646,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1536,7 +1536,7 @@
           "boundaryArea2": 0.6279341119725359,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 56165,
+          "component": 55690,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1554,7 +1554,7 @@
           "boundaryArea2": 1.8669504945546578,
           "triangles": 9,
           "maximumPlaneErrorM": 0.0,
-          "component": 56620,
+          "component": 56145,
           "candidateVertices": 2,
           "sourceFaces": 6,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1572,7 +1572,7 @@
           "boundaryArea2": 16.98339378059609,
           "triangles": 27,
           "maximumPlaneErrorM": 0.0,
-          "component": 56859,
+          "component": 56384,
           "candidateVertices": 8,
           "sourceFaces": 18,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1590,7 +1590,7 @@
           "boundaryArea2": 3.8848946942625844,
           "triangles": 12,
           "maximumPlaneErrorM": 0.0,
-          "component": 56866,
+          "component": 56391,
           "candidateVertices": 3,
           "sourceFaces": 8,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1608,7 +1608,7 @@
           "boundaryArea2": 10.333125637069315,
           "triangles": 15,
           "maximumPlaneErrorM": 0.0,
-          "component": 56901,
+          "component": 56426,
           "candidateVertices": 4,
           "sourceFaces": 10,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1626,7 +1626,7 @@
           "boundaryArea2": 22.1674415022228,
           "triangles": 30,
           "maximumPlaneErrorM": 0.0,
-          "component": 56905,
+          "component": 56430,
           "candidateVertices": 9,
           "sourceFaces": 22,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1644,7 +1644,7 @@
           "boundaryArea2": 20.005352575792244,
           "triangles": 26,
           "maximumPlaneErrorM": 0.0,
-          "component": 56908,
+          "component": 56433,
           "candidateVertices": 8,
           "sourceFaces": 19,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1662,7 +1662,7 @@
           "boundaryArea2": 4.82620187628163,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 56919,
+          "component": 56444,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1680,7 +1680,7 @@
           "boundaryArea2": 4.555979972245382,
           "triangles": 12,
           "maximumPlaneErrorM": 0.0,
-          "component": 56931,
+          "component": 56456,
           "candidateVertices": 3,
           "sourceFaces": 8,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1698,7 +1698,7 @@
           "boundaryArea2": 8.720140443811943,
           "triangles": 12,
           "maximumPlaneErrorM": 0.0,
-          "component": 56937,
+          "component": 56462,
           "candidateVertices": 3,
           "sourceFaces": 8,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1716,7 +1716,7 @@
           "boundaryArea2": 14.518870424421948,
           "triangles": 27,
           "maximumPlaneErrorM": 0.0,
-          "component": 56954,
+          "component": 56479,
           "candidateVertices": 8,
           "sourceFaces": 18,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1734,7 +1734,7 @@
           "boundaryArea2": 1.9925814208218071,
           "triangles": 9,
           "maximumPlaneErrorM": 0.0,
-          "component": 57017,
+          "component": 56542,
           "candidateVertices": 2,
           "sourceFaces": 6,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1752,7 +1752,7 @@
           "boundaryArea2": 6.46358192290927,
           "triangles": 15,
           "maximumPlaneErrorM": 0.0,
-          "component": 57387,
+          "component": 56912,
           "candidateVertices": 4,
           "sourceFaces": 10,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1770,7 +1770,7 @@
           "boundaryArea2": 4.429619225926217,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 57418,
+          "component": 56943,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1788,7 +1788,7 @@
           "boundaryArea2": 4.329185478426552,
           "triangles": 6,
           "maximumPlaneErrorM": 0.0,
-          "component": 57469,
+          "component": 56994,
           "candidateVertices": 1,
           "sourceFaces": 4,
           "constantNormalDiameterUpperBound": 0.0,
@@ -1806,7 +1806,7 @@
           "boundaryArea2": 2.596799056243981,
           "triangles": 15,
           "maximumPlaneErrorM": 0.0,
-          "component": 57573,
+          "component": 57098,
           "candidateVertices": 4,
           "sourceFaces": 9,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1824,7 +1824,7 @@
           "boundaryArea2": 3.9623781765753847,
           "triangles": 13,
           "maximumPlaneErrorM": 0.0,
-          "component": 57581,
+          "component": 57106,
           "candidateVertices": 3,
           "sourceFaces": 7,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1842,7 +1842,7 @@
           "boundaryArea2": 9.111803006736007,
           "triangles": 27,
           "maximumPlaneErrorM": 0.0,
-          "component": 57644,
+          "component": 57169,
           "candidateVertices": 8,
           "sourceFaces": 19,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1860,7 +1860,7 @@
           "boundaryArea2": 1.672050622087454,
           "triangles": 15,
           "maximumPlaneErrorM": 0.0,
-          "component": 57671,
+          "component": 57196,
           "candidateVertices": 3,
           "sourceFaces": 8,
           "constantNormalDiameterUpperBound": 1.1920928955078125e-7,
@@ -1877,63 +1877,63 @@
         {
           "component": 1096,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [11137, 11583, 11586],
+          "originalFaceIds": [11111, 11557, 11560],
           "retainedCandidateVertexIds": [3572],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original faces at boundary pinches",
-          "originalFaceIds": [20544, 20546, 20899, 20901],
+          "originalFaceIds": [20518, 20520, 20873, 20875],
           "retainedCandidateVertexIds": [8207, 8209],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 8116,
           "reason": "original faces at boundary pinches",
-          "originalFaceIds": [11119, 11122, 11567, 11570, 13363, 13765, 94022, 94043],
-          "retainedCandidateVertexIds": [3339, 3789, 4661, 52867, 52908],
+          "originalFaceIds": [11093, 11096, 11541, 11544, 13337, 13739, 93227, 93233],
+          "retainedCandidateVertexIds": [3339, 3789, 4661, 52392, 52433],
           "nonpositiveRenderFaceIds": []
         },
         {
-          "component": 33207,
+          "component": 32991,
           "reason": "original faces at boundary pinches",
-          "originalFaceIds": [202],
-          "retainedCandidateVertexIds": [33207],
-          "nonpositiveRenderFaceIds": [202]
+          "originalFaceIds": [197],
+          "retainedCandidateVertexIds": [32991],
+          "nonpositiveRenderFaceIds": [197]
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [19926, 19929, 20278, 20281, 20630, 20633, 20982, 20985],
+          "originalFaceIds": [19900, 19903, 20252, 20255, 20604, 20607, 20956, 20959],
           "retainedCandidateVertexIds": [7896, 7897, 8073, 8074, 8250, 8251],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 8116,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [8435, 8436],
-          "retainedCandidateVertexIds": [52896],
+          "originalFaceIds": [8409, 8410],
+          "retainedCandidateVertexIds": [52421],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [6059, 6060, 6507, 6508, 6955, 6956, 7403, 7404, 7851, 7852],
+          "originalFaceIds": [6033, 6034, 6481, 6482, 6929, 6930, 7377, 7378, 7825, 7826],
           "retainedCandidateVertexIds": [1021, 1022, 1246, 1247, 1471, 1472, 1696, 1697],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 8116,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [16390, 16391, 16392, 16393, 16395, 104163],
-          "retainedCandidateVertexIds": [5961, 5962, 53510, 53562, 53759, 53760, 53761],
+          "originalFaceIds": [16364, 16365, 16366, 16367, 16369, 103313],
+          "retainedCandidateVertexIds": [5961, 5962, 53035, 53087, 53284, 53285, 53286],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [7401, 7847, 7850, 8293, 8296, 8739, 8742, 9188],
+          "originalFaceIds": [7375, 7821, 7824, 8267, 8270, 8713, 8716, 9162],
           "retainedCandidateVertexIds": [1695, 1919, 1920, 2143, 2144, 2368],
           "nonpositiveRenderFaceIds": []
         },
@@ -1941,7 +1941,7 @@
           "component": 8116,
           "reason": "original face corridor between boundary loops",
           "originalFaceIds": [
-            17558, 17561, 17920, 17923, 18276, 18279, 18632, 18635, 18986, 18989, 19338, 19341, 19690, 19693, 20042, 20045, 20394, 20397, 20746, 20749
+            17532, 17535, 17894, 17897, 18250, 18253, 18606, 18609, 18960, 18963, 19312, 19315, 19664, 19667, 20016, 20019, 20368, 20371, 20720, 20723
           ],
           "retainedCandidateVertexIds": [6717, 6718, 6894, 6895, 7071, 7072, 7247, 7248, 7424, 7425, 7601, 7602, 7778, 7779, 7955, 7956, 8132, 8133],
           "nonpositiveRenderFaceIds": []
@@ -1949,130 +1949,130 @@
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [19604, 19607, 19956, 19959, 20308, 20311, 20660, 20663, 21012, 21015],
+          "originalFaceIds": [19578, 19581, 19930, 19933, 20282, 20285, 20634, 20637, 20986, 20989],
           "retainedCandidateVertexIds": [7734, 7735, 7911, 7912, 8088, 8089, 8265, 8266],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [18186, 18187, 18544, 18545, 18898, 18901],
+          "originalFaceIds": [18160, 18161, 18518, 18519, 18872, 18875],
           "retainedCandidateVertexIds": [7025, 7026, 7202, 7203],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [18858, 18860, 18861, 18862, 18863, 18864, 18865, 18866, 18867, 19220, 19221],
+          "originalFaceIds": [18832, 18834, 18835, 18836, 18837, 18838, 18839, 18840, 18841, 19194, 19195],
           "retainedCandidateVertexIds": [7183, 7184, 7185, 7186, 7360, 7361, 7362, 7363, 7364],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [18924, 18926, 18927, 18928, 18929, 18930, 18931, 18932, 18933, 18934, 18935, 18936, 18937],
+          "originalFaceIds": [18898, 18900, 18901, 18902, 18903, 18904, 18905, 18906, 18907, 18908, 18909, 18910, 18911],
           "retainedCandidateVertexIds": [7216, 7217, 7218, 7219, 7220, 7221, 7393, 7394, 7395, 7396, 7397],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [17706, 17707, 18064, 18065, 18422, 18423, 18778, 18779, 19132, 19133, 19486, 19487, 103343],
+          "originalFaceIds": [17680, 17681, 18038, 18039, 18396, 18397, 18752, 18753, 19106, 19107, 19460, 19461, 102493],
           "retainedCandidateVertexIds": [6609, 6786, 6787, 6964, 6965, 7141, 7142, 7319, 7320, 7497, 7498],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [11131, 16973, 16974, 16975, 16976, 16977, 16978, 32315, 33697, 33751],
-          "retainedCandidateVertexIds": [6247, 6248, 6249, 6431, 6432, 6433, 6434, 54449, 54508, 54669, 54670],
+          "originalFaceIds": [11105, 16947, 16948, 16949, 16950, 16951, 16952, 32289, 33671, 33725],
+          "retainedCandidateVertexIds": [6247, 6248, 6249, 6431, 6432, 6433, 6434, 53974, 54033, 54194, 54195],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [15854, 15855, 16240, 16243, 16611, 16614, 56316],
-          "retainedCandidateVertexIds": [5885, 5886, 6068, 6069, 53282, 53339, 53705],
+          "originalFaceIds": [15828, 15829, 16214, 16217, 16585, 16588, 55819],
+          "retainedCandidateVertexIds": [5885, 5886, 6068, 6069, 52807, 52864, 53230],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [15138, 16985, 16987, 16988, 16989, 16990, 16991, 16992, 17364, 106256],
-          "retainedCandidateVertexIds": [6253, 6254, 6255, 6256, 6437, 6438, 6439, 49068, 54183],
+          "originalFaceIds": [15112, 16959, 16961, 16962, 16963, 16964, 16965, 16966, 17338, 105406],
+          "retainedCandidateVertexIds": [6253, 6254, 6255, 6256, 6437, 6438, 6439, 48639, 53708],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [18524, 18868, 18869, 18870, 18871, 18872, 18873, 18874, 18875, 18876, 18877, 18878, 18879, 18881],
+          "originalFaceIds": [18498, 18842, 18843, 18844, 18845, 18846, 18847, 18848, 18849, 18850, 18851, 18852, 18853, 18855],
           "retainedCandidateVertexIds": [7187, 7188, 7189, 7190, 7191, 7192, 7365, 7366, 7367, 7368, 7369, 7370],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [3011, 17812, 17815, 18168, 18171, 103112, 106264, 106265],
-          "retainedCandidateVertexIds": [6662, 6663, 6839, 6840, 48494, 49073],
+          "originalFaceIds": [2985, 17786, 17789, 18142, 18145, 102262, 105414, 105415],
+          "retainedCandidateVertexIds": [6662, 6663, 6839, 6840, 48065, 48644],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 5473,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [15944, 15945, 15946, 15947, 16334, 16335, 16707, 16708, 42561],
-          "retainedCandidateVertexIds": [5740, 5931, 5932, 6115, 6116, 53180, 53231, 53556, 53713, 53714, 54124, 54659],
+          "originalFaceIds": [15918, 15919, 15920, 15921, 16308, 16309, 16681, 16682, 42330],
+          "retainedCandidateVertexIds": [5740, 5931, 5932, 6115, 6116, 52705, 52756, 53081, 53238, 53239, 53649, 54184],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 8267,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [16955, 16957, 16958, 17330, 17331, 17332, 17333, 17334, 17335, 17336, 17337, 17338, 17339, 17340, 17341],
+          "originalFaceIds": [16929, 16931, 16932, 17304, 17305, 17306, 17307, 17308, 17309, 17310, 17311, 17312, 17313, 17314, 17315],
           "retainedCandidateVertexIds": [6239, 6422, 6423, 6424, 6425, 6426, 6427, 6602, 6603, 6604, 6605, 6606, 6607],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 8267,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [16951, 17320, 17322, 17323, 17325],
+          "originalFaceIds": [16925, 17294, 17296, 17297, 17299],
           "retainedCandidateVertexIds": [6419, 6598, 6599],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 8267,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [16573, 16575, 16576, 16947, 16948],
+          "originalFaceIds": [16547, 16549, 16550, 16921, 16922],
           "retainedCandidateVertexIds": [6050, 6233, 6234],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 8267,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [3609, 15027, 15028, 15420, 15421, 15817, 33507, 33509, 67631, 103780, 106092, 106093],
-          "retainedCandidateVertexIds": [5479, 5480, 5674, 5675, 5865, 5866, 48807, 48992, 53440, 53634, 54497, 54585, 54586],
+          "originalFaceIds": [3583, 15001, 15002, 15394, 15395, 15791, 33481, 33483, 67134, 102930, 105242, 105243],
+          "retainedCandidateVertexIds": [5479, 5480, 5674, 5675, 5865, 5866, 48378, 48563, 52965, 53159, 54022, 54110, 54111],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 8267,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [17412, 17414, 17415, 17416, 17417, 17418, 17419, 17420, 17421, 17422, 17423, 17786, 17787, 18144, 18145, 18502, 18503],
+          "originalFaceIds": [17386, 17388, 17389, 17390, 17391, 17392, 17393, 17394, 17395, 17396, 17397, 17760, 17761, 18118, 18119, 18476, 18477],
           "retainedCandidateVertexIds": [6465, 6466, 6467, 6468, 6469, 6644, 6645, 6646, 6647, 6648, 6649, 6826, 6827, 7004, 7005],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 8267,
           "reason": "original face corridor between boundary loops",
-          "originalFaceIds": [3529, 15910, 15913, 16299, 17037, 17040, 32234, 32235, 103694, 106146, 106147],
-          "retainedCandidateVertexIds": [5913, 5914, 6096, 6097, 6279, 6280, 48764, 49015, 54444, 54614, 54615],
+          "originalFaceIds": [3503, 15884, 15887, 16273, 17011, 17014, 32208, 32209, 102844, 105296, 105297],
+          "retainedCandidateVertexIds": [5913, 5914, 6096, 6097, 6279, 6280, 48335, 48586, 53969, 54139, 54140],
           "nonpositiveRenderFaceIds": []
         },
         {
           "component": 8267,
           "reason": "original face corridor between boundary loops",
           "originalFaceIds": [
-            3350, 16735, 17105, 17108, 17468, 17469, 17470, 17471, 17472, 17473, 17474, 17475, 17479, 30537, 31659, 31661, 106278, 106279
+            3324, 16709, 17079, 17082, 17442, 17443, 17444, 17445, 17446, 17447, 17448, 17449, 17453, 30511, 31633, 31635, 105428, 105429
           ],
           "retainedCandidateVertexIds": [
-            6313, 6491, 6492, 6493, 6494, 6495, 6496, 6497, 6671, 6672, 6673, 6674, 6675, 6676, 49080, 54349, 54403, 54699, 54700
+            6313, 6491, 6492, 6493, 6494, 6495, 6496, 6497, 6671, 6672, 6673, 6674, 6675, 6676, 48651, 53874, 53928, 54224, 54225
           ],
           "nonpositiveRenderFaceIds": []
         },
@@ -2080,12 +2080,12 @@
           "component": 8267,
           "reason": "original face corridor between boundary loops",
           "originalFaceIds": [
-            4162, 12786, 13231, 13234, 13629, 13632, 14024, 14027, 14409, 14412, 14785, 14788, 15167, 15170, 15948, 15949, 15950, 15951, 15952, 15953,
-            15955, 104395, 105944, 105945
+            4136, 12760, 13205, 13208, 13603, 13606, 13998, 14001, 14383, 14386, 14759, 14762, 15141, 15144, 15922, 15923, 15924, 15925, 15926, 15927,
+            15929, 103545, 105094, 105095
           ],
           "retainedCandidateVertexIds": [
-            4395, 4594, 4595, 4790, 4791, 4982, 4983, 5170, 5171, 5358, 5359, 5549, 5550, 5741, 5742, 5743, 5744, 47624, 48077, 53283, 53340, 53399,
-            53715, 53716, 53717, 53718
+            4395, 4594, 4595, 4790, 4791, 4982, 4983, 5170, 5171, 5358, 5359, 5549, 5550, 5741, 5742, 5743, 5744, 47195, 47648, 52808, 52865, 52924,
+            53240, 53241, 53242, 53243
           ],
           "nonpositiveRenderFaceIds": []
         },
@@ -2093,12 +2093,12 @@
           "component": 8267,
           "reason": "original face corridor between boundary loops",
           "originalFaceIds": [
-            8905, 9339, 15094, 15142, 15144, 15485, 15876, 15879, 15995, 15997, 16262, 16265, 16636, 16993, 16996, 17453, 17455, 30247, 30249, 33691,
-            33693, 67332, 67334, 104739, 104748
+            8879, 9313, 15068, 15116, 15118, 15459, 15850, 15853, 15969, 15971, 16236, 16239, 16610, 16967, 16970, 17427, 17429, 30221, 30223, 33665,
+            33667, 66835, 66837, 103889, 103898
           ],
           "retainedCandidateVertexIds": [
-            5511, 5512, 5705, 5706, 5896, 5897, 6079, 6080, 6257, 6258, 6259, 6260, 6261, 6262, 6263, 47794, 53392, 53668, 53669, 54122, 54184, 54233,
-            54291, 54342, 54506, 54643, 54644, 54645, 54646, 54647, 54648, 54649
+            5511, 5512, 5705, 5706, 5896, 5897, 6079, 6080, 6257, 6258, 6259, 6260, 6261, 6262, 6263, 47365, 52917, 53193, 53194, 53647, 53709, 53758,
+            53816, 53867, 54031, 54168, 54169, 54170, 54171, 54172, 54173, 54174
           ],
           "nonpositiveRenderFaceIds": []
         },
@@ -2106,8 +2106,8 @@
           "component": 8267,
           "reason": "original face corridor between boundary loops",
           "originalFaceIds": [
-            3412, 16162, 16165, 16533, 16536, 16903, 16906, 17274, 17277, 17636, 17639, 17992, 17995, 18348, 18351, 18702, 18705, 19054, 19057, 19406,
-            19409, 19758, 19761, 20110, 20113, 20462, 20465, 20814, 20817, 103562
+            3386, 16136, 16139, 16507, 16510, 16877, 16880, 17248, 17251, 17610, 17613, 17966, 17969, 18322, 18325, 18676, 18679, 19028, 19031, 19380,
+            19383, 19732, 19735, 20084, 20087, 20436, 20439, 20788, 20791, 102712
           ],
           "retainedCandidateVertexIds": [
             5846, 5847, 6029, 6030, 6212, 6213, 6395, 6396, 6574, 6575, 6751, 6752, 6928, 6929, 7104, 7105, 7281, 7282, 7458, 7459, 7635, 7636, 7812,
@@ -2263,8 +2263,8 @@
     },
     {
       "mesh": "core__golden coastal sandstone",
-      "facesBefore": 90390,
-      "facesExported": 90390
+      "facesBefore": 89531,
+      "facesExported": 89531
     },
     {
       "mesh": "coast_shared_dry beach sand",
@@ -2448,13 +2448,8 @@
     },
     {
       "mesh": "core_gym_front_frame",
-      "facesBefore": 2916,
-      "facesExported": 2916
-    },
-    {
-      "mesh": "core_gym_front_glass",
-      "facesBefore": 4,
-      "facesExported": 4
+      "facesBefore": 290,
+      "facesExported": 290
     },
     {
       "mesh": "gym__gym rubber",
@@ -3108,8 +3103,8 @@
     },
     {
       "mesh": "core_estate_terrace__brushed brass",
-      "facesBefore": 338,
-      "facesExported": 338
+      "facesBefore": 268,
+      "facesExported": 268
     },
     {
       "mesh": "core_estate_terrace__charcoal",
@@ -3118,8 +3113,8 @@
     },
     {
       "mesh": "core_estate_guard__facade low-iron glass",
-      "facesBefore": 162,
-      "facesExported": 162
+      "facesBefore": 126,
+      "facesExported": 126
     },
     {
       "mesh": "core_estate_pool__warm cut stone",
@@ -3158,13 +3153,13 @@
     },
     {
       "mesh": "core_estate_pavilion__pale oak",
-      "facesBefore": 3958,
-      "facesExported": 3958
+      "facesBefore": 2716,
+      "facesExported": 2716
     },
     {
       "mesh": "core_estate_pavilion__brushed brass",
-      "facesBefore": 336,
-      "facesExported": 336
+      "facesBefore": 120,
+      "facesExported": 120
     },
     {
       "mesh": "core_estate_pavilion__warm cut stone",
@@ -3173,13 +3168,13 @@
     },
     {
       "mesh": "core_estate_pavilion__honey ash",
-      "facesBefore": 1851,
-      "facesExported": 1851
+      "facesBefore": 1311,
+      "facesExported": 1311
     },
     {
       "mesh": "core_estate_pavilion__festoon bulb glass",
-      "facesBefore": 174,
-      "facesExported": 174
+      "facesBefore": 70,
+      "facesExported": 70
     },
     {
       "mesh": "core_estate_pavilion__travertine paving stone",
@@ -4407,11 +4402,6 @@
       "facesExported": 392
     },
     {
-      "mesh": "core_laundry_frame_posts",
-      "facesBefore": 172,
-      "facesExported": 172
-    },
-    {
       "mesh": "core_walkflow_pavilion_cabinet__pale oak",
       "facesBefore": 54,
       "facesExported": 54
@@ -4650,6 +4640,226 @@
       "mesh": "gym_cardio_pendant_mount",
       "facesBefore": 62,
       "facesExported": 62
+    },
+    {
+      "mesh": "core_study_loggia__warm cut stone",
+      "facesBefore": 26,
+      "facesExported": 26
+    },
+    {
+      "mesh": "core_study_loggia__travertine paving stone",
+      "facesBefore": 910,
+      "facesExported": 910
+    },
+    {
+      "mesh": "core_study_loggia_entry_post__brushed brass",
+      "facesBefore": 14,
+      "facesExported": 14
+    },
+    {
+      "mesh": "core_onsen_noren__onsen noren oiled bronze",
+      "facesBefore": 322,
+      "facesExported": 322
+    },
+    {
+      "mesh": "core_workout_garden_retracting_frames__dark bronze",
+      "facesBefore": 140,
+      "facesExported": 140
+    },
+    {
+      "mesh": "core_workout_garden_parked_glazing__facade low-iron glass",
+      "facesBefore": 4,
+      "facesExported": 4
+    },
+    {
+      "mesh": "core_workout_garden_rock_apron__honed travertine",
+      "facesBefore": 26,
+      "facesExported": 26
+    },
+    {
+      "mesh": "core_workout_garden_threshold__honed travertine",
+      "facesBefore": 15,
+      "facesExported": 15
+    },
+    {
+      "mesh": "core_workout_garden_lawn__coastal bentgrass turf",
+      "facesBefore": 40,
+      "facesExported": 40
+    },
+    {
+      "mesh": "core_workout_garden_mat__garden cork",
+      "facesBefore": 94,
+      "facesExported": 94
+    },
+    {
+      "mesh": "core_workout_garden_mat__garden cork selvedge",
+      "facesBefore": 52,
+      "facesExported": 52
+    },
+    {
+      "mesh": "core_workout_garden_gravel_beds__garden river gravel",
+      "facesBefore": 72,
+      "facesExported": 72
+    },
+    {
+      "mesh": "core_workout_garden_river_stones__garden flamed basalt",
+      "facesBefore": 360,
+      "facesExported": 360
+    },
+    {
+      "mesh": "core_workout_garden_sedge__salt meadow leaf",
+      "facesBefore": 180,
+      "facesExported": 180
+    },
+    {
+      "mesh": "core_workout_garden_sedge__coastal sedge leaf",
+      "facesBefore": 576,
+      "facesExported": 576
+    },
+    {
+      "mesh": "core_workout_garden_olive_boughs__olive bark",
+      "facesBefore": 485,
+      "facesExported": 485
+    },
+    {
+      "mesh": "core_workout_garden_olive_crown__olive leaf",
+      "facesBefore": 672,
+      "facesExported": 672
+    },
+    {
+      "mesh": "core_workout_garden_rill__garden flamed basalt",
+      "facesBefore": 104,
+      "facesExported": 104
+    },
+    {
+      "mesh": "core_workout_garden_rill__garden collecting water",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "core_workout_garden_spout__dark bronze",
+      "facesBefore": 26,
+      "facesExported": 26
+    },
+    {
+      "mesh": "core_workout_garden_fall_sheet__garden falling water",
+      "facesBefore": 88,
+      "facesExported": 88
+    },
+    {
+      "mesh": "core_workout_garden_sea_parapet__facade low-iron glass",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "core_workout_garden_cap_rail__dark bronze",
+      "facesBefore": 60,
+      "facesExported": 60
+    },
+    {
+      "mesh": "core_workout_garden_rail_shoes__dark bronze",
+      "facesBefore": 72,
+      "facesExported": 72
+    },
+    {
+      "mesh": "core_workout_garden_ofuro__spa oiled cedar wood",
+      "facesBefore": 120,
+      "facesExported": 120
+    },
+    {
+      "mesh": "core_workout_garden_ofuro_staves__spa oiled cedar wood",
+      "facesBefore": 40,
+      "facesExported": 40
+    },
+    {
+      "mesh": "core_workout_garden_ofuro_inner__garden bath basalt",
+      "facesBefore": 160,
+      "facesExported": 160
+    },
+    {
+      "mesh": "core_workout_garden_ofuro_hoops__dark bronze",
+      "facesBefore": 240,
+      "facesExported": 240
+    },
+    {
+      "mesh": "core_workout_garden_soaking_surface__spring bath water",
+      "facesBefore": 1,
+      "facesExported": 1
+    },
+    {
+      "mesh": "core_workout_garden_ofuro_step__spa oiled cedar wood",
+      "facesBefore": 26,
+      "facesExported": 26
+    },
+    {
+      "mesh": "core_workout_garden_filler__dark bronze",
+      "facesBefore": 52,
+      "facesExported": 52
+    },
+    {
+      "mesh": "core_workout_garden_cold_room__honed travertine",
+      "facesBefore": 78,
+      "facesExported": 78
+    },
+    {
+      "mesh": "core_workout_garden_cold_room__spa oiled cedar wood",
+      "facesBefore": 26,
+      "facesExported": 26
+    },
+    {
+      "mesh": "core_workout_garden_cold_window__facade low-iron glass",
+      "facesBefore": 12,
+      "facesExported": 12
+    },
+    {
+      "mesh": "core_workout_garden_bath_screen__spa oiled cedar wood",
+      "facesBefore": 312,
+      "facesExported": 312
+    },
+    {
+      "mesh": "core_workout_garden_cold_frame__dark bronze",
+      "facesBefore": 24,
+      "facesExported": 24
+    },
+    {
+      "mesh": "core_workout_garden_cold_sill__spa oiled cedar wood",
+      "facesBefore": 26,
+      "facesExported": 26
+    },
+    {
+      "mesh": "core_workout_garden_cold_back__spa oiled cedar wood",
+      "facesBefore": 104,
+      "facesExported": 104
+    },
+    {
+      "mesh": "core_workout_garden_cold_bench__spa oiled cedar wood",
+      "facesBefore": 156,
+      "facesExported": 156
+    },
+    {
+      "mesh": "core_workout_garden_cold_bench__garden flamed basalt",
+      "facesBefore": 52,
+      "facesExported": 52
+    },
+    {
+      "mesh": "core_workout_garden_bath_deck__spa oiled cedar wood",
+      "facesBefore": 90,
+      "facesExported": 90
+    },
+    {
+      "mesh": "core_workout_garden_cold_leaf__facade low-iron glass",
+      "facesBefore": 6,
+      "facesExported": 6
+    },
+    {
+      "mesh": "core_workout_garden_cold_pull__dark bronze",
+      "facesBefore": 26,
+      "facesExported": 26
+    },
+    {
+      "mesh": "core_workout_garden_bath_lights__spa opal lamp",
+      "facesBefore": 52,
+      "facesExported": 52
     }
   ]
 }

@@ -432,13 +432,13 @@ async function measureRun(variant, runIndex, browserCDPInfo) {
               windowAvoidedBytes: after.uniformArrays.avoidedBytes - (before.uniformArrays?.avoidedBytes || 0),
             }
           : null,
-        // The facade curtains' and the terrace laundry's own per-frame time while they step.
+        // The facade curtains' and the onsen noren's own per-frame times while they step.
         cloth: after.simulation?.curtains
           ? {
               curtainsStepping: after.simulation.curtains.stepping,
               curtainMs: after.simulation.curtains.frameMilliseconds,
-              laundryStepping: after.simulation.curtains.laundry?.stepping ?? null,
-              laundryMs: after.simulation.curtains.laundry?.frameMilliseconds ?? null,
+              norenStepping: after.simulation.curtains.noren?.stepping ?? null,
+              norenMs: after.simulation.curtains.noren?.frameMilliseconds ?? null,
             }
           : null,
       };

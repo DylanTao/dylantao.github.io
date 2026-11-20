@@ -191,8 +191,13 @@ function authoredRoomEntry(room, contact) {
   return { candidates: [[point[0], point[2]]], floor: entry.floor, look: room.target, room: room.id, strict: true };
 }
 
-export function spawnPlan(config, view, { entrance = true } = {}) {
+export function spawnPlan(config, view, { entrance = true, destination } = {}) {
   const rooms = config?.rooms || [];
+  const place = config?.walk?.places?.[destination];
+  if (place) {
+    const [x, floor, z] = place.position;
+    return { candidates: [[x, z]], floor, yaw: place.yaw, pitch: place.pitch, strict: true };
+  }
   const start = entrance && (config?.walk?.start ?? (config?.entrance?.portal ? { position: config.entrance.portal } : null));
   if (start?.position) {
     const route = config?.entrance?.route || [];
@@ -525,7 +530,7 @@ export function createWalkMode({
     plan =
       resume?.config === config && resume.room === currentView.room
         ? resume.plan
-        : spawnPlan(config, currentView, { entrance: !destination || destination === "entrance" });
+        : spawnPlan(config, currentView, { entrance: !destination || destination === "entrance", destination });
     if (!plan) return false;
     if (destination && destination !== "entrance") {
       plan.strict = true;
@@ -991,7 +996,7 @@ export function createWalkMode({
     chooseDestination(id) {
       if (active) return false;
       const config = getConfig();
-      if (id && !["entrance", "outside", ...config.rooms.map((r) => r.id)].includes(id)) return false;
+      if (id && !config.walk?.places?.[id] && !["entrance", "outside", ...config.rooms.map((r) => r.id)].includes(id)) return false;
       destination = id;
       resume = null;
       pendingEntry = false;

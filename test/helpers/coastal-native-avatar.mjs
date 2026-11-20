@@ -2,6 +2,7 @@
 // This helper creates no renderer/browser and keeps skin attributes, morphs and bone bindings.
 import fs from "node:fs";
 import { createRequire } from "node:module";
+import { PNG } from "pngjs";
 import * as THREE from "../../assets/js/three.module.min.js";
 import { GLTFLoader } from "../../assets/js/vendor/three-r164/loaders/GLTFLoader.js";
 export { THREE };
@@ -70,7 +71,25 @@ export async function loadNativeModel(file, baseUrl = new URL("assets/models/hom
     },
   };
   const bytes = fs.readFileSync(new URL(file, baseUrl));
-  return new GLTFLoader().setDRACOLoader(decoder).parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), baseUrl.href);
+  const loader = new GLTFLoader().setDRACOLoader(decoder);
+  // The house embeds its turf swatch. Decode the actual RGBA pixels in Node,
+  // leaving the pinned glTF parser in charge of UVs, samplers and materials.
+  loader.register((parser) => {
+    const original = parser.loadImageSource.bind(parser);
+    parser.loadImageSource = (index, imageLoader) => {
+      const image = parser.json.images[index];
+      if (image.mimeType !== "image/png" || image.bufferView === undefined) return original(index, imageLoader);
+      return parser.getDependency("bufferView", image.bufferView).then((buffer) => {
+        const { data, width, height } = PNG.sync.read(Buffer.from(buffer));
+        const texture = new THREE.DataTexture(data, width, height);
+        texture.userData.mimeType = image.mimeType;
+        texture.needsUpdate = true;
+        return texture;
+      });
+    };
+    return { name: "NodeEmbeddedPng" };
+  });
+  return loader.parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), baseUrl.href);
 }
 
 export async function loadNativeAvatar(id) {

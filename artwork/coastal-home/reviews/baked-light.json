@@ -765,22 +765,10 @@
       "max": 0.8600000053644181
     },
     {
-      "mesh": "core_gym_ledge",
-      "corners": 132,
-      "min": 0.68,
-      "max": 0.9208427168801427
-    },
-    {
       "mesh": "core_gym_passage_floor",
       "corners": 24,
       "min": 0.68,
       "max": 0.68
-    },
-    {
-      "mesh": "core_gym_front_frame",
-      "corners": 11664,
-      "min": 0.68,
-      "max": 0.8600000053644181
     },
     {
       "mesh": "core_reno_slab_ground",
@@ -1591,66 +1579,6 @@
       "corners": 168,
       "min": 0.68,
       "max": 0.7035409311950207
-    },
-    {
-      "mesh": "core_estate_pavilion__pale oak",
-      "corners": 16248,
-      "min": 0.68,
-      "max": 0.9548576242600879
-    },
-    {
-      "mesh": "core_estate_pavilion__brushed brass",
-      "corners": 1560,
-      "min": 0.68,
-      "max": 0.9332224149753651
-    },
-    {
-      "mesh": "core_estate_pavilion__warm cut stone",
-      "corners": 1152,
-      "min": 0.68,
-      "max": 0.8182983813683192
-    },
-    {
-      "mesh": "core_estate_pavilion__honey ash",
-      "corners": 3652,
-      "min": 0.68,
-      "max": 0.9289249883840482
-    },
-    {
-      "mesh": "core_estate_pavilion__festoon bulb glass",
-      "corners": 720,
-      "min": 0.68,
-      "max": 0.8257838777204355
-    },
-    {
-      "mesh": "core_estate_pavilion__travertine paving stone",
-      "corners": 1088,
-      "min": 0.68,
-      "max": 0.8897594545781613
-    },
-    {
-      "mesh": "core_estate_pavilion__polished nickel",
-      "corners": 1920,
-      "min": 0.68,
-      "max": 0.8262500053644181
-    },
-    {
-      "mesh": "core_estate_pavilion__charcoal",
-      "corners": 960,
-      "min": 0.68,
-      "max": 0.7981016865124306
-    },
-    {
-      "mesh": "core_estate_pavilion__linen",
-      "corners": 2304,
-      "min": 0.68,
-      "max": 0.8678625352680684
-    },
-    {
-      "mesh": "core_estate_sink__polished nickel",
-      "corners": 1280,
-      "min": 0.68,
-      "max": 0.78125
     },
     {
       "mesh": "core_estate_garden__warm cut stone",
@@ -2655,12 +2583,6 @@
       "max": 0.9562056937565406
     },
     {
-      "mesh": "core__golden coastal sandstone",
-      "corners": 186288,
-      "min": 0.68,
-      "max": 0.9583623684942723
-    },
-    {
       "mesh": "core__blue sage agave leaf",
       "corners": 8208,
       "min": 0.68,
@@ -2917,6 +2839,336 @@
       "corners": 336,
       "min": 0.68,
       "max": 0.7275686992704868
+    },
+    {
+      "mesh": "core__golden coastal sandstone",
+      "corners": 333250,
+      "min": 0.68,
+      "max": 0.9595640691618126
+    },
+    {
+      "mesh": "core_gym_ledge",
+      "corners": 132,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "core_gym_front_frame",
+      "corners": 1164,
+      "min": 0.68,
+      "max": 0.7960606447358927
+    },
+    {
+      "mesh": "core_estate_pavilion__pale oak",
+      "corners": 10848,
+      "min": 0.68,
+      "max": 0.8962910672898095
+    },
+    {
+      "mesh": "core_estate_pavilion__brushed brass",
+      "corners": 600,
+      "min": 0.68,
+      "max": 0.8409321673711142
+    },
+    {
+      "mesh": "core_estate_pavilion__warm cut stone",
+      "corners": 1152,
+      "min": 0.68,
+      "max": 0.7757358019798994
+    },
+    {
+      "mesh": "core_estate_pavilion__honey ash",
+      "corners": 3998,
+      "min": 0.68,
+      "max": 0.8512790245811146
+    },
+    {
+      "mesh": "core_estate_pavilion__festoon bulb glass",
+      "corners": 336,
+      "min": 0.68,
+      "max": 0.7762871223439773
+    },
+    {
+      "mesh": "core_estate_pavilion__travertine paving stone",
+      "corners": 1818,
+      "min": 0.68,
+      "max": 0.8937500053644181
+    },
+    {
+      "mesh": "core_estate_pavilion__polished nickel",
+      "corners": 1920,
+      "min": 0.68,
+      "max": 0.8825000000000001
+    },
+    {
+      "mesh": "core_estate_pavilion__charcoal",
+      "corners": 960,
+      "min": 0.68,
+      "max": 0.8317768408358097
+    },
+    {
+      "mesh": "core_estate_pavilion__linen",
+      "corners": 2304,
+      "min": 0.68,
+      "max": 0.8540727112938962
+    },
+    {
+      "mesh": "core_estate_sink__polished nickel",
+      "corners": 1280,
+      "min": 0.68,
+      "max": 0.8037500026822091
+    },
+    {
+      "mesh": "core_walkflow_pavilion_cabinet__pale oak",
+      "corners": 216,
+      "min": 0.68,
+      "max": 0.8099465370674929
+    },
+    {
+      "mesh": "core_walkflow_pavilion_cabinet__brushed brass",
+      "corners": 48,
+      "min": 0.6825229238594572,
+      "max": 0.7854220138241848
+    },
+    {
+      "mesh": "core_study_loggia__travertine paving stone",
+      "corners": 3360,
+      "min": 0.68,
+      "max": 0.8760972719142835
+    },
+    {
+      "mesh": "core_study_loggia_entry_post__brushed brass",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.8210857441276312
+    },
+    {
+      "mesh": "core_onsen_noren__onsen noren oiled bronze",
+      "corners": 1296,
+      "min": 0.68,
+      "max": 0.7038133407446245
+    },
+    {
+      "mesh": "core_workout_garden_retracting_frames__dark bronze",
+      "corners": 624,
+      "min": 0.68,
+      "max": 0.760687984948357
+    },
+    {
+      "mesh": "core_workout_garden_rock_apron__honed travertine",
+      "corners": 144,
+      "min": 0.68,
+      "max": 0.9121694380789995
+    },
+    {
+      "mesh": "core_workout_garden_threshold__honed travertine",
+      "corners": 78,
+      "min": 0.68,
+      "max": 0.7644334572553635
+    },
+    {
+      "mesh": "core_workout_garden_lawn__coastal bentgrass turf",
+      "corners": 228,
+      "min": 0.68,
+      "max": 0.8985390257338683
+    },
+    {
+      "mesh": "core_workout_garden_mat__garden cork",
+      "corners": 372,
+      "min": 0.68,
+      "max": 0.8884001460671426
+    },
+    {
+      "mesh": "core_workout_garden_mat__garden cork selvedge",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.8960501523936789
+    },
+    {
+      "mesh": "core_workout_garden_gravel_beds__garden river gravel",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.8370643363396327
+    },
+    {
+      "mesh": "core_workout_garden_river_stones__garden flamed basalt",
+      "corners": 1080,
+      "min": 0.68,
+      "max": 0.9114384447286527
+    },
+    {
+      "mesh": "core_workout_garden_sedge__salt meadow leaf",
+      "corners": 720,
+      "min": 0.68,
+      "max": 0.7858884135261178
+    },
+    {
+      "mesh": "core_workout_garden_sedge__coastal sedge leaf",
+      "corners": 2304,
+      "min": 0.68,
+      "max": 0.8037880646189055
+    },
+    {
+      "mesh": "core_workout_garden_olive_boughs__olive bark",
+      "corners": 2034,
+      "min": 0.68,
+      "max": 0.8752727473278841
+    },
+    {
+      "mesh": "core_workout_garden_olive_crown__olive leaf",
+      "corners": 2016,
+      "min": 0.68,
+      "max": 0.8880545145645738
+    },
+    {
+      "mesh": "core_workout_garden_rill__garden flamed basalt",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7963835725684961
+    },
+    {
+      "mesh": "core_workout_garden_rill__garden collecting water",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7718909564676384
+    },
+    {
+      "mesh": "core_workout_garden_spout__dark bronze",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.8075360150883596
+    },
+    {
+      "mesh": "core_workout_garden_fall_sheet__garden falling water",
+      "corners": 352,
+      "min": 0.68,
+      "max": 0.6909317504540862
+    },
+    {
+      "mesh": "core_workout_garden_cap_rail__dark bronze",
+      "corners": 288,
+      "min": 0.68,
+      "max": 0.9143863418201605
+    },
+    {
+      "mesh": "core_workout_garden_rail_shoes__dark bronze",
+      "corners": 288,
+      "min": 0.68,
+      "max": 0.8892756598194441
+    },
+    {
+      "mesh": "core_workout_garden_ofuro__spa oiled cedar wood",
+      "corners": 480,
+      "min": 0.68,
+      "max": 0.9013726706554492
+    },
+    {
+      "mesh": "core_workout_garden_ofuro_staves__spa oiled cedar wood",
+      "corners": 160,
+      "min": 0.68,
+      "max": 0.8865008597696822
+    },
+    {
+      "mesh": "core_workout_garden_ofuro_inner__garden bath basalt",
+      "corners": 640,
+      "min": 0.68,
+      "max": 0.7853632979094982
+    },
+    {
+      "mesh": "core_workout_garden_ofuro_hoops__dark bronze",
+      "corners": 960,
+      "min": 0.68,
+      "max": 0.8860616554319859
+    },
+    {
+      "mesh": "core_workout_garden_soaking_surface__spring bath water",
+      "corners": 40,
+      "min": 0.68,
+      "max": 0.6804171216549973
+    },
+    {
+      "mesh": "core_workout_garden_ofuro_step__spa oiled cedar wood",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.8086398040751617
+    },
+    {
+      "mesh": "core_workout_garden_filler__dark bronze",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.8162648743266862
+    },
+    {
+      "mesh": "core_workout_garden_cold_room__honed travertine",
+      "corners": 288,
+      "min": 0.68,
+      "max": 0.8439346690227589
+    },
+    {
+      "mesh": "core_workout_garden_cold_room__spa oiled cedar wood",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.8663720385481914
+    },
+    {
+      "mesh": "core_workout_garden_bath_screen__spa oiled cedar wood",
+      "corners": 1152,
+      "min": 0.68,
+      "max": 0.8068383060892423
+    },
+    {
+      "mesh": "core_workout_garden_cold_frame__dark bronze",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.8187409541507562
+    },
+    {
+      "mesh": "core_workout_garden_cold_sill__spa oiled cedar wood",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.833330000291268
+    },
+    {
+      "mesh": "core_workout_garden_cold_back__spa oiled cedar wood",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7387583435202639
+    },
+    {
+      "mesh": "core_workout_garden_cold_bench__spa oiled cedar wood",
+      "corners": 576,
+      "min": 0.68,
+      "max": 0.7484923666405182
+    },
+    {
+      "mesh": "core_workout_garden_cold_bench__garden flamed basalt",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.7265503644539665
+    },
+    {
+      "mesh": "core_workout_garden_cold_pull__dark bronze",
+      "corners": 96,
+      "min": 0.680000060676183,
+      "max": 0.7266916791660091
+    },
+    {
+      "mesh": "core_workout_garden_bath_lights__spa opal lamp",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.7850475876902541
+    },
+    {
+      "mesh": "core_study_loggia__warm cut stone",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.8877928888549408
+    },
+    {
+      "mesh": "core_workout_garden_bath_deck__spa oiled cedar wood",
+      "corners": 360,
+      "min": 0.68,
+      "max": 0.8467792685329916
     }
   ]
 }

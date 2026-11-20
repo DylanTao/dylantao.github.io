@@ -3,7 +3,7 @@ import * as THREE from "../three.module.min.js";
 // The native channel and ballistic spill sheets carry the water's actual shape.
 // These sub-centimetre travelling normals keep its surveyed level and clear
 // walking lane fixed. This is prescribed flow, not a free-surface fluid solver.
-export function createArrivalRill(root, descriptor, time) {
+export function createArrivalRill(root, descriptor, time, finishes = ["arrival flowing spring water", "arrival spring rill spill"]) {
   if (!descriptor) return null;
   const origin = descriptor.origin,
     direction = descriptor.direction,
@@ -31,9 +31,9 @@ export function createArrivalRill(root, descriptor, time) {
   root.traverse((mesh) => {
     if (!mesh.isMesh) return;
     for (const material of [mesh.material].flat()) {
-      if (!/^arrival (flowing spring water|spring rill spill)$/.test(material?.name)) continue;
+      if (!finishes.includes(material?.name)) continue;
       if (!material.isMeshPhysicalMaterial) throw new TypeError("Arrival water must retain its native physical material");
-      const falling = material.name === "arrival spring rill spill";
+      const falling = material.name === finishes[1];
       mesh.castShadow = false;
       mesh.userData.fixedMaterial = mesh.userData.noContactOcclusion = mesh.userData.noVolumeDepth = true;
       mesh.userData.walk = "through";

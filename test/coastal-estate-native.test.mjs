@@ -128,11 +128,11 @@ function traverse(field, BODY, points, label, body = BODY) {
 function dryPromenade(field, BODY, config) {
   const deck = config.estateOutdoors.terrace.bounds;
   const pool = config.estateOutdoors.pool.bounds;
-  const pavilion = config.estateOutdoors.pavilion.bounds;
   const body = { ...BODY, radius: Math.max(BODY.radius, 0.28) };
   const cell = 0.14;
   const x0 = deck.x[0] + 0.5;
-  const x1 = Math.min(deck.x[1] - 0.5, pavilion.x[0] + 1.25);
+  // The dry rear span reaches the gym-side coping independently of the moved dining pavilion.
+  const x1 = Math.min(deck.x[1] - 0.5, pool.x[1] + 1.9);
   const z0 = -(pool.y[0] - 0.35);
   const z1 = -(deck.y[0] + 0.4);
   const nx = Math.floor((x1 - x0) / cell);

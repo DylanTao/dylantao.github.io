@@ -3,7 +3,6 @@ import assert from "node:assert/strict";
 import * as THREE from "../assets/js/three.module.min.js";
 import { localSceneOffset, localSceneWind } from "../assets/js/home-scene/local-scene-frame.mjs";
 import { createCurtainRig } from "../assets/js/home-scene/curtain-rig.mjs";
-import { createLaundryRig } from "../assets/js/home-scene/laundry-rig.mjs";
 
 test("local installation samplers query the actual translated wind once and preserve its state", () => {
   const calls = [];
@@ -53,7 +52,7 @@ function windRecorder() {
 test("translated curtains retain local collision buffers and use world culling and glass order", () => {
   const scene = new THREE.Scene();
   const { coast, observed } = windRecorder();
-  const rig = createCurtainRig({ scene, coast, offset, laundry: false, plan: { routine, daylight: day } });
+  const rig = createCurtainRig({ scene, coast, offset, plan: { routine, daylight: day } });
   const camera = new THREE.PerspectiveCamera(38, 545 / 462, 0.05, 300);
   camera.position.fromArray(world([-0.97, 3.1, -6.3]));
   camera.lookAt(...world([-3.18, 1.03, -1.85]));
@@ -68,20 +67,5 @@ test("translated curtains retain local collision buffers and use world culling a
   camera.lookAt(...world([-3.18, 1.03, -6]));
   rig.step({ delta: 1 / 60, moving: false, reduced: true, time: 3, daylight: day, routine, camera, canvasHeight: 462 });
   assert.equal(mesh.renderOrder, 3, "an indoor camera draws linen after glazing");
-  rig.dispose();
-});
-
-test("translated laundry draws and culls at its new world position while the solver remains local", () => {
-  const scene = new THREE.Scene();
-  const { coast, observed } = windRecorder();
-  const rig = createLaundryRig({ scene, coast, offset });
-  const camera = new THREE.PerspectiveCamera(40, 545 / 461, 0.05, 300);
-  camera.position.fromArray(world([-0.7, 1.6, -5.3]));
-  camera.lookAt(...world([-1, 1.5, -7.25]));
-  rig.step({ delta: 1 / 30, moving: true, reduced: false, time: 2, daylight: day, routine, camera, canvasHeight: 461 });
-  assert.deepEqual(rig.group.position.toArray(), offset);
-  assert.ok(rig.evidence().out && rig.evidence().inView);
-  assert.ok(rig.laundry.island.positions[2] < 0, "constraint coordinates are not shifted");
-  assert.ok(observed.calls > 0 && observed.minimumZ > 70, "the outdoor sampler receives world coordinates once");
   rig.dispose();
 });
