@@ -97,7 +97,11 @@ const fragmentShader = /* glsl */ `
       if(art==1) rgb=mix(vec3(.85,.24,.052),vec3(.999,.959,.83),smoothstep(.13,.35,peak));
       else if(art==2) rgb=peak>.34 ? vec3(.995,.89,.66) : vec3(.79,.38,.14);
       else if(art==3) rgb=peak>.29 ? vec3(1.,.90,.48) : vec3(.97,.47,.12);
-      else rgb=mix(vec3(.86,.28,.095),vec3(.999,.85,.53),smoothstep(.11,.48,peak));
+      else {
+        float load=peak+.09*density+.018*sin(hotAt.x*133.+hotAt.z*43.);
+        rgb=mix(vec3(.88,.25,.095),vec3(.998,.72,.32),smoothstep(.075,.27,load));
+        rgb=mix(rgb,vec3(1.,.955,.76),smoothstep(.23,.40,load));
+      }
     }
     colour=vec4(rgb,alpha);
   }`;

@@ -1051,6 +1051,28 @@ vec3 spotFill(vec3 mine, vec3 own3, float seen, float kind, float reach, float o
   // A lamp prints as the light itself.
   return mix(fill, vec3(mix(fill.x, 1.0, 0.8), frameHue * 1.5 + printLightMix.xy * 0.5), step(0.5, kind) * step(kind, 1.5));
 }
+// In the painted night interior the lit logs are the subject. The lip of the
+// steel bowl and the inward faces of the sofa pick up reflected firelight.
+uniform vec4 printHearth; // centre of the visible fire in metres, weight for this viewing direction and hour
+vec3 hearthPigment(vec3 pigment, vec3 surface, vec3 normal, float kind, float open) {
+  if (printHearth.w < .001 || kind > 1.5 || open > .99) return pigment;
+  vec3 delta = printHearth.xyz - surface;
+  float r2 = max(dot(delta,delta), .015);
+  float facing = max(dot(normal, delta * inversesqrt(r2)), 0.0);
+  // The opening is between the 45 cm bowl at .90 m and the hood at 1.13 m.
+  // Project the ray to their common lip and soften it by the flame's height.
+  float lipHeight = -delta.y * min(1., .45 / max(length(delta.xz), .001));
+  float opening = smoothstep(-.21,-.035,lipHeight) * (1.0-smoothstep(.11,.29,lipHeight));
+  float returnLight = (.045 + .955 * facing) * opening / (1.0 + .62 * r2);
+  float nearby = 1.0 - smoothstep(.7, 3.7, sqrt(r2));
+  // Close values in the far wall and cabinets leave their local colours legible.
+  // Keep the paper lamps warm and leave the palest values to the burning wood.
+  vec3 shade = vec3(pigment.x * mix(.60,.82,nearby),
+    mix(pigment.yz, vec2(.013,-.025), mix(.43,.13,nearby)));
+  if (kind > .5) shade = vec3(pigment.x * .65, pigment.yz * .67);
+  vec3 warmed = shade + vec3(.32,.054,.143) * returnLight;
+  return mix(pigment, warmed, printHearth.w * (1.0 - open));
+}
 // Reserve one sheltered amber accent for the existing glazed living-room door.
 uniform vec4 printWindow; // left, right, pane depth, evening weight
 uniform vec2 printWindowY;
@@ -1344,6 +1366,7 @@ void main() {
     vec4 geo = vec4(dot(faces, printSun.xyz), (mat3(printWorld) * faces).y, surface.y - printSea.x, dot(faces, printGlow.xyz));
     vec3 read;
     vec3 fill=spotFill(mine, ownMix(labLinear(mine)), seen / weight, kind.x, reach, open, block.yz, 0.0, geo, read);
+    fill = hearthPigment(fill, surface, mat3(printWorld) * faces, kind.x, open);
     colour = unlab(airFill(shelteredWindow(fill,printWorld[3].xyz,surface,seen/weight,kind.x), lies.w));
     stops = read.x;
   }
@@ -1629,6 +1652,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     printBounce: { value: new THREE.Vector4() },
     printAir: { value: new THREE.Vector2(900, 0) },
     printCoastDusk: { value: 0 },
+    printHearth: { value: new THREE.Vector4() },
     printWindow: { value: new THREE.Vector4() },
     printWindowY: { value: new THREE.Vector2() },
     printSunDir: { value: new THREE.Vector4(0, 1, 0, 0) },
@@ -1821,6 +1845,25 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
   const pass = new Pass();
   const windowBounds = new THREE.Box3();
   let livingWindow = null;
+  let livingFire = null;
+  const fireCentre = new THREE.Vector3(),
+    towardFire = new THREE.Vector3();
+  function setPaintedHearth(room) {
+    const uniform = uniforms.printHearth.value;
+    uniform.w = 0;
+    if (look !== "paint" || room !== "lounge" || !world || !eye?.isPerspectiveCamera) return;
+    const night = 1 - THREE.MathUtils.smoothstep(sunward.y, -0.1, 0.1);
+    if (!night) return;
+    if (!livingFire?.parent) livingFire = world.getObjectByName("Living hearth · flame volume");
+    if (!livingFire) return;
+    for (let part = livingFire; part; part = part.parent) if (!part.visible) return;
+    livingFire.getWorldPosition(fireCentre);
+    towardFire.subVectors(fireCentre, eye.getWorldPosition(gaze));
+    const metres = towardFire.length();
+    const aim = towardFire.normalize().dot(eye.getWorldDirection(gaze));
+    const weight = night * (1 - THREE.MathUtils.smoothstep(metres, 6, 10)) * THREE.MathUtils.smoothstep(aim, 0.5, 0.92);
+    uniform.set(fireCentre.x, fireCentre.y, fireCentre.z, weight);
+  }
   function setLivingWindow() {
     uniforms.printWindow.value.w = 0;
     uniforms.printCoastDusk.value = 0;
@@ -1962,10 +2005,14 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         day: nextDay = day,
         sea = seaLevel,
         outdoors: nextOutdoors = outdoors,
+        room = null,
         sky = null,
       } = {}
     ) {
-      if (scene && scene !== poolScene) findPool(scene);
+      if (scene && scene !== poolScene) {
+        livingFire = null;
+        findPool(scene);
+      }
       world = scene;
       if (sky?.sun) sunward.fromArray(sky.sun).normalize();
       // The day's weather, as the scene has it: heaped cloud, high streaks, the marine layer.
@@ -1979,6 +2026,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         );
       }
       eye = camera;
+      setPaintedHearth(room);
       keyLight = key;
       stillFrame = Boolean(still);
       const height = key?.target ? gaze.copy(key.position).sub(key.target.position).normalize().y : 1,

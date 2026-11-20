@@ -85,3 +85,5 @@ The next study looks just below the horizon, where the same swell reads differen
 The record wall study pairs the approved architectural drawing with a visitor selecting Speakeasy from Rooms. The desktop and phone now open at the same place beside the counter, with the phone turning toward the horns. All four visitor frames use a clear 3:45 p.m. The detail shows how light reaches the walnut in the drawing and the browser. [The first view of the listening room](listening-room-arrival-concept-and-build-19.webp).
 
 The night study returns to that spot at 8:40 p.m. The lower row follows one stool from the original illustration to its fitted walnut legs in the playable room. [Lamplight and joinery](listening-room-lamplight-and-joinery-20.webp).
+
+The watercolour fire study supplied the relationship between a narrow flame and a dark suspended hood. Two 9 p.m. visits test that idea in the Painted room. The six-view sheet follows the same living room, kitchen and cliff through the selected hours. [Fire study](painted-hearth-lamplight-21.webp) · [Six views of the house](painted-house-six-views-21.webp).

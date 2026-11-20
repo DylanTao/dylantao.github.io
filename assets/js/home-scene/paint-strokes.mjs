@@ -760,6 +760,8 @@ void main() {
   dark = mix(dark, vec3(dark.x, dark.yz * 0.6 + printBounce.xy * 1.2 + printLightMix.xy * 0.3), accent);
   // Oil goes deeper in its darks than gouache does.
   dark = vec3(dark.x * mix(1.03, 0.94, paintManner.z), dark.yz * mix(0.95, 1.1, paintManner.z));
+  lit = hearthPigment(lit, world.xyz, up, spot.x, spot.y);
+  dark = hearthPigment(dark, world.xyz, up, spot.x, spot.y);
   lit = shelteredWindow(lit, cameraPosition, world.xyz, light, spot.x);
   dark = shelteredWindow(dark, cameraPosition, world.xyz, light, spot.x);
   vLit = unlab(airFill(lit, depth));
@@ -1073,6 +1075,7 @@ export function createPaint({ glsl, uniforms: look, tools }) {
       "printSun",
       "printGlow",
       "printCoastDusk",
+      "printHearth",
       "printBounce",
       "printSkyLow",
       "printAir",

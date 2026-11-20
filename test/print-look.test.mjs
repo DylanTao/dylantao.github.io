@@ -743,6 +743,36 @@ test("the painted look turns forms from the light, lights shade from the sky and
   look.dispose();
 });
 
+test("painted firelight follows the visible living hearth, the visitor's gaze and the hour", () => {
+  const look = createPrintLook({ look: "paint" });
+  const scene = new THREE.Scene();
+  const furniture = new THREE.Group();
+  const fire = new THREE.Object3D();
+  fire.name = "Living hearth · flame volume";
+  furniture.position.set(0.95, -0.42, 6.85);
+  fire.position.y = 0.971;
+  furniture.add(fire);
+  scene.add(furniture);
+  const camera = new THREE.PerspectiveCamera(40);
+  camera.position.set(0.34, 2.6, 1.99);
+  camera.lookAt(0.55, 0.67, 7.45);
+  const frame = (room = "lounge", sun = -0.3) => {
+    look.prepare(camera, { scene, room, sky: { sun: [1, sun, 0] } });
+    return look.material.uniforms.printHearth.value;
+  };
+  const source = frame();
+  assert.ok(source.w > 0.99);
+  assert.ok(new THREE.Vector3(source.x, source.y, source.z).distanceTo(fire.getWorldPosition(new THREE.Vector3())) < 1e-6);
+  assert.equal(frame("kitchen").w, 0);
+  assert.equal(frame("lounge", 0.5).w, 0);
+  furniture.visible = false;
+  assert.equal(frame().w, 0);
+  furniture.visible = true;
+  camera.lookAt(-8, 2, 1);
+  assert.equal(frame().w, 0);
+  look.dispose();
+});
+
 test("painted foliage keeps an object ID in the view mask while ordinary structure keeps its original exclusions", () => {
   const structure = createStructure(),
     scene = new THREE.Scene(),

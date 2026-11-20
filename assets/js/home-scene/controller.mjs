@@ -4437,6 +4437,7 @@ export function createCoastalHome(container, records, artifacts) {
       day: daylight?.sunlight ?? 1,
       sea: SEA_LEVEL,
       outdoors: currentRoom === "outside",
+      room: currentRoom,
       sky: atmosphere?.state,
     });
     walkPresence?.withoutHead(() => {
