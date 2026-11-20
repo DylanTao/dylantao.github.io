@@ -48,9 +48,9 @@ In order of priority. Letters point to the sections of the takeover notes, where
 
 **Direction.** A painting first, a game second. One motivated light per view and real darks. The views a visitor arrives at composed as a painter would compose them, with a place for the eye to rest. Paint follows form. The hour changes the manner of the paint as well as its colour.
 
-**Done since the second pass (November 17):** calmer strokes at night, a dusk with warm and cool planes, rock modelled as masses, strokes that wrap rounded things, half the strokes on phones and small machines, its GPU cost measured (0.4 to 4.4 ms over the cartoon on the PC), and a public "Drawn as: Realistic / Painted" choice in the Rooms panel, hidden on touch screens for now.
+**Done since the second pass (November 17):** calmer strokes at night, a dusk with warm and cool planes, rock modelled as masses, strokes that wrap rounded things, half the strokes on phones and small machines, its GPU cost measured (0.4 to 4.4 ms over the cartoon on the PC), and a public "Drawn as: Realistic / Painted" choice in the Rooms panel, then available only on desktop.
 
-**Next, in order.** Judge it on a real phone, then show the choice on touch screens. One motivated light and real darks in the views a visitor arrives at, composed as a painter would. Paint the plants, the pool and the bath (the approach is in `docs/todo.md`, item 1). The cliff's remaining cast-shadow shapes, if they still read as noise.
+**November 20.** Rooms offers all five looks on desktop and touch. The plants carry wind-bound dabs and the pool and bath retain their depth through the paint. The coast studies compare the same headland at afternoon, dusk and night. A thermal session on a physical phone remains open. [Painted coast studies](../artwork/concepts/coastal-home/2026-11-19/painted-coast-hours-10.webp).
 
 ### 2. The gym, used (O4)
 
