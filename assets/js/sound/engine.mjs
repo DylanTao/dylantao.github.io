@@ -1,10 +1,11 @@
 // The site's sound, played. score.mjs says which notes; this turns them into oscillators.
 //
 // Nothing here runs until a visitor asks for sound: createSound() makes no audio context, and start()
-// makes one inside the gesture that asked. Everything is synthesised (there are no audio files), goes
+// makes one inside the gesture that asked. Notes are synthesized and scene Foley uses a short recording. Both go
 // through one limiter, and stops when the tab is hidden. The voices take any BaseAudioContext, so the
 // same code renders offline for the level checks (render()) and for looking at a spectrogram.
 import { bedNotes, midiToHz, play as scoreOf } from "./score.mjs";
+import { createFoley } from "./foley.mjs";
 
 // The master chain's numbers. `gain` puts a switch's peak near -16 dBFS, a pointed-at link near -25
 // and the bed's average near -38; the limiter's threshold is where a pile of gestures stops getting
@@ -243,11 +244,17 @@ export async function render(notes, { seconds, sampleRate = 44100, OfflineContex
 }
 
 // The page's instrument. `mode` returns the hour's theme mode when a note is asked for.
-export function createSound({ mode = () => "noon", AudioContextClass = globalThis.AudioContext || globalThis.webkitAudioContext } = {}) {
+export function createSound({
+  mode = () => "noon",
+  audioContext = null,
+  AudioContextClass = globalThis.AudioContext || globalThis.webkitAudioContext,
+} = {}) {
   let graph = null,
+    foley = null,
     on = false,
     bed = null,
-    played = 0;
+    played = 0,
+    intent = 0;
   // The bed is scheduled a few seconds ahead, on the context's own clock, so a suspended tab simply
   // stops where it is and carries on from there.
   function startBed() {
@@ -275,26 +282,35 @@ export function createSound({ mode = () => "noon", AudioContextClass = globalThi
     get on() {
       return on;
     },
+    get graph() {
+      return graph;
+    },
     // Call inside the click or key press that asked for sound: browsers allow audio only then.
     async start({ withBed = true } = {}) {
-      if (!AudioContextClass) return false;
-      if (!graph) graph = buildGraph(new AudioContextClass({ latencyHint: "interactive" }));
+      const request = ++intent;
+      if (!audioContext && !AudioContextClass) return false;
+      if (!graph) graph = buildGraph(audioContext ?? new AudioContextClass({ latencyHint: "interactive" }));
       if (graph.context.state !== "running") await graph.context.resume();
+      if (request !== intent || graph.context.state !== "running") return false;
       on = true;
       if (withBed) startBed();
       return true;
     },
     // Off: the bed stops being written and what is sounding fades with the context suspended.
     async stop() {
+      intent++;
       on = false;
       stopBed();
+      foley?.quiet();
       if (graph && graph.context.state === "running") await graph.context.suspend();
     },
     // A hidden tab makes no sound; a shown one picks up where it stopped.
     async hidden(isHidden) {
       if (!graph || !on) return;
-      if (isHidden) await graph.context.suspend();
-      else await graph.context.resume();
+      if (isHidden) {
+        foley?.quiet();
+        await graph.context.suspend();
+      } else await graph.context.resume();
     },
     setBed(enabled) {
       if (enabled && on) startBed();
@@ -307,8 +323,14 @@ export function createSound({ mode = () => "noon", AudioContextClass = globalThi
       played += count;
       return count;
     },
+    foley(name, strength) {
+      if (name === "quiet") return foley?.quiet();
+      if (!on || !graph || graph.context.state !== "running") return 0;
+      foley ||= createFoley(graph);
+      return name === "prepare" ? foley.prepare() : foley.play(name, strength);
+    },
     evidence() {
-      return { on, context: graph ? graph.context.state : null, bed: Boolean(bed), played, mode: mode() };
+      return { on, context: graph ? graph.context.state : null, bed: Boolean(bed), played, mode: mode(), foley: foley?.evidence() ?? null };
     },
   };
 }

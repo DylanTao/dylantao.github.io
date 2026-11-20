@@ -1,7 +1,7 @@
-// The page played as an instrument: what a visitor does becomes notes in the hour's key
-// (score.mjs), on the engine (engine.mjs). site-sound.mjs loads this only for a visitor who has been
-// offered sound, and nothing here makes an audio context until start() is called from a gesture.
+// Ordinary visits play the authored house recordings after opt-in. The
+// instrument lab keeps the synthesized gestures in the current hour's key.
 import { createSound } from "./engine.mjs";
+import { COASTAL_LOOKS, createCoastalMusic } from "./coastal-music.mjs";
 
 const PRESSABLE = "a[href], button, summary, [role='button'], [role='option'], [role='tab']";
 const SWITCH = "[role='switch'], input[type='checkbox']";
@@ -12,14 +12,17 @@ const ROWS = [
   { row: ".theme-stops", item: ".theme-option" },
 ];
 
-export function createSiteSound({ root = document, view = globalThis } = {}) {
+export function createSiteSound({ root = document, view = globalThis, audioContext = null, instrumentLab = false } = {}) {
   const mode = () => root.documentElement.dataset.themeMode || "noon";
-  const sound = createSound({ mode });
+  const sound = createSound({ mode, audioContext });
+  const reduced = view.matchMedia?.("(prefers-reduced-motion: reduce)");
   const listeners = [];
   const listen = (target, type, handler, options) => {
     target.addEventListener(type, handler, options);
     listeners.push(() => target.removeEventListener(type, handler, options));
   };
+  let coastal = null;
+  let syncCoast = null;
   let pointed = null,
     lastPoint = 0,
     lastArrive = 0,
@@ -45,8 +48,7 @@ export function createSiteSound({ root = document, view = globalThis } = {}) {
     pointed = null;
   }
 
-  function bind() {
-    if (listeners.length) return;
+  function bindInstrument() {
     listen(root, "pointerover", (event) => event.pointerType === "mouse" && point(event.target), { passive: true });
     listen(root, "focusin", (event) => event.target.matches?.(":focus-visible") && point(event.target));
     // A press: a knock, unless the control makes its own sound (a switch, something that opens).
@@ -98,8 +100,6 @@ export function createSiteSound({ root = document, view = globalThis } = {}) {
     });
     // A thrown row coming to rest (shelf.mjs).
     listen(root, "shelf:rest", () => sound.play("land", { force: 0.35 }));
-    // A hidden tab is silent.
-    listen(root, "visibilitychange", () => sound.hidden(root.hidden));
     // The homepage's sections arrive as the page scrolls: one soft bar each, never on load and
     // never the same section twice running.
     listen(view, "scroll", () => (scrolled = true), { passive: true, once: true });
@@ -123,11 +123,117 @@ export function createSiteSound({ root = document, view = globalThis } = {}) {
     }
   }
 
+  function bindCoastal() {
+    // This preview uses a separate rendering clock. The public soundtrack follows
+    // actual visitor playback and never a lab pose or an authored test still.
+    const params = new URLSearchParams(view.location.search);
+    const scene = root.querySelector("[data-home-desk-scene]");
+    const stage = scene?.closest("[data-home-artifact-stage]");
+    if (!stage || params.get("scene-lab") === "1") return;
+    coastal ??= createCoastalMusic(sound.graph);
+    const look = () => {
+      const style = scene.dataset.drawing || stage.querySelector("[data-world-drawing][aria-pressed=true]")?.dataset.worldDrawing;
+      return COASTAL_LOOKS.includes(style) ? style : "realistic";
+    };
+    const visible3D = () => stage.dataset.deskMode === "3d" && scene.getAttribute("aria-hidden") !== "true";
+    const rect = scene.getBoundingClientRect();
+    let visible = rect.bottom > 0 && rect.top < view.innerHeight;
+    let arrival = false;
+    let scrollAt = -Infinity;
+    const rail = scene.getSceneEvidence?.().visitorRail;
+    let film = rail?.kind === "film" ? { look: look(), playing: !rail.reduced && !rail.paused } : null;
+    const onRail = () => stage.classList.contains("is-world-visit");
+    const available = () => visible && !root.hidden && !reduced?.matches && !view.siteMotion?.paused && visible3D() && sound.on;
+    syncCoast = () => {
+      if (!visible3D()) coastal.clear();
+      else if (!available() || scene.dataset.sceneState !== "ready" || (onRail() && !film?.playing)) coastal.pause();
+      else coastal.select(film?.look || look());
+    };
+    const observer = new view.MutationObserver(syncCoast);
+    observer.observe(scene, { attributes: true, attributeFilter: ["data-scene-state", "data-drawing", "aria-hidden"] });
+    observer.observe(stage, { attributes: true, attributeFilter: ["data-desk-mode", "class"] });
+    listeners.push(() => observer.disconnect());
+    if (view.IntersectionObserver) {
+      const exposure = new view.IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        syncCoast();
+      });
+      exposure.observe(scene);
+      listeners.push(() => exposure.disconnect());
+    }
+    listen(root, "coastal:score", ({ detail }) => {
+      if (detail?.kind !== "film" || !COASTAL_LOOKS.includes(detail.look)) return;
+      if (detail.action === "stop") {
+        film = null;
+        coastal.clear();
+      } else if (detail.action === "pause") {
+        film = { look: detail.look, playing: false };
+      } else if (detail.action === "start" || detail.action === "look") {
+        film = { look: detail.look, playing: true };
+      } else return;
+      syncCoast();
+    });
+    listen(view, "siteMotionChange", syncCoast);
+    if (reduced?.addEventListener) listen(reduced, "change", syncCoast);
+    const cue = (type, selected = look()) => {
+      if (available() && !onRail()) coastal.motif(selected, type);
+    };
+    const route = "button[data-world-room], button[data-world-destination], button[data-world-view], button[data-world-visit-start]";
+    listen(
+      stage,
+      "click",
+      (event) => {
+        const target = event.target.closest?.(route);
+        if (event.isTrusted && target && !target.disabled && !target.hidden) cue("select");
+      },
+      true
+    );
+    listen(scene, "coastal:threshold", ({ detail }) => cue("threshold", detail?.look));
+    const markScroll = (event) => {
+      if (event.isTrusted) scrollAt = view.performance.now();
+    };
+    listen(view, "wheel", markScroll, { passive: true });
+    listen(view, "touchmove", markScroll, { passive: true });
+    listen(view, "keydown", (event) => {
+      if (["ArrowDown", "PageDown", " ", "End"].includes(event.key) && !event.target.closest?.("input, button, select, textarea")) markScroll(event);
+    });
+    listen(
+      view,
+      "scroll",
+      () => {
+        if (!arrival && view.performance.now() - scrollAt < 1100 && available() && !onRail()) {
+          arrival = true;
+          cue("arrival");
+        }
+      },
+      { passive: true }
+    );
+    syncCoast();
+    if (!root.hidden && !reduced?.matches) coastal.prepareMotifs();
+  }
+
+  function bind() {
+    if (listeners.length) return;
+    if (instrumentLab) bindInstrument();
+    else bindCoastal();
+    listen(root, "coastal:foley", ({ detail }) => {
+      if (detail?.name === "quiet") sound.foley("quiet");
+      else if (!root.hidden && !reduced?.matches) sound.foley(detail?.name, detail?.strength);
+    });
+    if (reduced?.addEventListener) listen(reduced, "change", (event) => event.matches && sound.foley("quiet"));
+    // A hidden tab is silent.
+    listen(root, "visibilitychange", async () => {
+      if (root.hidden) coastal?.pause({ hard: true });
+      await sound.hidden(root.hidden);
+      if (!root.hidden && sound.on) syncCoast?.();
+    });
+  }
+
   return {
     sound,
     // Call from the click or key press that asked for sound.
     async start() {
-      const started = await sound.start();
+      const started = await sound.start({ withBed: instrumentLab });
       if (started) {
         bind();
         lastMode = mode();
@@ -135,9 +241,11 @@ export function createSiteSound({ root = document, view = globalThis } = {}) {
       return started;
     },
     async stop() {
-      await sound.stop();
+      coastal?.clear({ hard: true });
+      syncCoast = null;
       while (listeners.length) listeners.pop()();
+      await sound.stop();
     },
-    evidence: () => ({ ...sound.evidence(), bound: listeners.length > 0 }),
+    evidence: () => ({ ...sound.evidence(), bound: listeners.length > 0, instrumentLab, coastal: coastal?.evidence() ?? null }),
   };
 }

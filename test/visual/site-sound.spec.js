@@ -2,9 +2,8 @@ const { test, expect } = require("@playwright/test");
 const { preparePage, collectRuntimeErrors } = require("./helpers");
 const { publicRouteUrl } = require("./public-routes");
 
-// The site's sound is a trial behind ?sound=1 (assets/js/site-sound.mjs). These cases hold it to its
-// promises: an ordinary visitor is offered nothing and pays nothing, an offered visitor hears
-// nothing until they turn the switch, and what it then plays is quiet.
+// The ordinary switch only builds a graph after opt-in. The explicit instrument
+// lab preserves the synthesized gestures, offline level measurements and bed.
 const evidence = (page) => page.evaluate(() => globalThis.siteSound?.evidence() ?? null);
 // Count every audio context the page makes, from before any of its scripts run.
 const countContexts = (page) =>
@@ -27,56 +26,63 @@ async function openPanel(page) {
   return page.locator("[data-sound-toggle]:visible").first();
 }
 
-test("site sound: nothing is offered, fetched or made until a visitor is given the switch and turns it", async ({ page }, testInfo) => {
+test("site sound: the normal switch is visible, silent and lazy before consent", async ({ page }, testInfo) => {
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
   const errors = collectRuntimeErrors(page);
   const fetched = [];
   page.on("request", (request) => {
-    if (/\/assets\/js\/sound\//.test(request.url())) fetched.push(request.url());
+    const pathname = new URL(request.url()).pathname;
+    if (pathname.includes("/assets/js/sound/") || pathname.includes("/assets/audio/")) fetched.push(request.url());
   });
   await countContexts(page);
   await preparePage(page, "noon");
-
-  // An ordinary visit: no switch, no instrument, no audio.
   await page.goto(publicRouteUrl("/cv/"), { waitUntil: "load" });
-  await page.locator("[data-theme-toggle]:visible").first().click();
-  await expect(page.locator("[data-motion-toggle]:visible").first()).toBeVisible();
-  await expect(page.locator("[data-sound-toggle]:visible")).toHaveCount(0);
-  expect(await evidence(page)).toBeNull();
+  const control = await openPanel(page);
+  await expect(control).toHaveAttribute("aria-checked", "false");
+  expect(await evidence(page)).toMatchObject({ offered: true, on: false, context: null });
   expect(fetched).toEqual([]);
   expect(await contexts(page)).toBe(0);
 
-  // Offered: the switch shows and the instrument is fetched, but there is still no audio.
-  await page.goto(publicRouteUrl("/cv/?sound=1"), { waitUntil: "load" });
-  await expect.poll(() => fetched.some((url) => url.includes("engine.mjs"))).toBe(true);
-  expect(await evidence(page)).toMatchObject({ offered: true, on: false, context: null });
-  const control = await openPanel(page);
-  await expect(control).toHaveAttribute("aria-checked", "false");
-  await page.waitForTimeout(300);
-  expect(await contexts(page)).toBe(0);
-
-  // Turned on, inside the visitor's click: one context, running, with the bed under it.
   await control.click();
   await expect.poll(async () => (await evidence(page)).context).toBe("running");
   await expect(control).toHaveAttribute("aria-checked", "true");
   expect(await contexts(page)).toBe(1);
-  const started = await evidence(page);
-  expect(started).toMatchObject({ on: true, bed: true, bound: true, mode: "noon" });
-  expect(started.played, "the switch's own two notes and the bed's first").toBeGreaterThanOrEqual(2);
+  expect(await evidence(page)).toMatchObject({ on: true, bed: false, played: 0, instrumentLab: false });
+  expect(fetched.some((url) => url.includes("/assets/audio/"))).toBe(false);
+  await control.click();
+  await expect.poll(async () => (await evidence(page)).context).toBe("suspended");
+  expect(await evidence(page)).toMatchObject({ on: false, bed: false, bound: false });
 
-  // What the visitor does is played: another switch speaks, and a pointed-at link is a note.
-  let before = (await evidence(page)).played;
+  await page.goto(publicRouteUrl("/cv/?sound=0"), { waitUntil: "load" });
+  await page.locator("[data-theme-toggle]:visible").first().click();
+  await expect(page.locator("[data-sound-toggle]:visible")).toHaveCount(0);
+  expect(await evidence(page)).toBeNull();
+  expect(await contexts(page)).toBe(0);
+  await page.goto(publicRouteUrl("/cv/"), { waitUntil: "load" });
+  expect(await evidence(page)).toMatchObject({ offered: true, on: false, context: null });
+  expect(errors).toEqual([]);
+});
+
+test("site sound: the explicit instrument lab keeps its original gestures and visibility handling", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440");
+  const errors = collectRuntimeErrors(page);
+  await countContexts(page);
+  await preparePage(page, "noon");
+  await page.goto(publicRouteUrl("/cv/?sound-lab=1"), { waitUntil: "load" });
+  const control = await openPanel(page);
+  expect(await contexts(page)).toBe(0);
+  await control.click();
+  await expect.poll(async () => (await evidence(page)).context).toBe("running");
+  expect(await evidence(page)).toMatchObject({ on: true, bed: true, bound: true, mode: "noon", instrumentLab: true });
+  const before = (await evidence(page)).played;
   await page.locator("[data-motion-toggle]:visible").first().click();
   await expect.poll(async () => (await evidence(page)).played).toBeGreaterThanOrEqual(before + 2);
   await page.locator("[data-motion-toggle]:visible").first().click();
-  if (testInfo.project.name === "desktop-1440") {
-    await page.keyboard.press("Escape");
-    before = (await evidence(page)).played;
-    await page.locator(".navbar-nav .nav-link").nth(1).hover();
-    await expect.poll(async () => (await evidence(page)).played).toBeGreaterThan(before);
-  }
+  await page.keyboard.press("Escape");
+  const notes = (await evidence(page)).played;
+  await page.locator(".navbar-nav .nav-link").nth(1).hover();
+  await expect.poll(async () => (await evidence(page)).played).toBeGreaterThan(notes);
 
-  // A hidden tab is silent, and picks up where it stopped.
   const hide = (hidden) =>
     page.evaluate((hidden) => {
       Object.defineProperty(document, "hidden", { value: hidden, configurable: true });
@@ -86,20 +92,9 @@ test("site sound: nothing is offered, fetched or made until a visitor is given t
   await expect.poll(async () => (await evidence(page)).context).toBe("suspended");
   await hide(false);
   await expect.poll(async () => (await evidence(page)).context).toBe("running");
-
-  // Turned off: silent, unbound, and remembered as off on the next page, which still offers it.
   await (await openPanel(page)).click();
   await expect.poll(async () => (await evidence(page)).context).toBe("suspended");
   expect(await evidence(page)).toMatchObject({ on: false, bed: false, bound: false });
-  await page.goto(publicRouteUrl("/"), { waitUntil: "load" });
-  expect(await evidence(page)).toMatchObject({ offered: true, on: false, context: null });
-  expect(await contexts(page)).toBe(0);
-
-  // ?sound=0 withdraws the offer.
-  await page.goto(publicRouteUrl("/cv/?sound=0"), { waitUntil: "load" });
-  expect(await evidence(page)).toBeNull();
-  await page.goto(publicRouteUrl("/cv/"), { waitUntil: "load" });
-  expect(await evidence(page)).toBeNull();
   expect(errors).toEqual([]);
 });
 
@@ -107,7 +102,7 @@ test("site sound: every sound it can make is quiet, and the bed quieter still", 
   test.skip(testInfo.project.name !== "desktop-1440", "the sounds are the same at every width");
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "noon");
-  await page.goto(publicRouteUrl("/cv/?sound=1"), { waitUntil: "load" });
+  await page.goto(publicRouteUrl("/cv/?sound-lab=1"), { waitUntil: "load" });
   // Rendered without a speaker, by the page's own instrument.
   const rows = await page.evaluate(async () => {
     const base = document.querySelector('script[src*="site-sound.mjs"]').src.replace(/site-sound\.mjs.*$/, "sound/");

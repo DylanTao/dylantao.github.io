@@ -1,10 +1,8 @@
-// The site's sound switch. Sound is a trial: the switch appears in the theme panel only for a visitor
-// who has opened a page with ?sound=1 (remembered until ?sound=0), and nothing is loaded for anyone
-// else. Even then no audio exists until the switch is turned on: the instrument (sound/site.mjs) is
-// fetched when the switch is first shown, and its audio context is made inside the click that asks
-// for it. Sirui, November 14, 2026: "sound is soul of game and animation".
-const OFFERED = "site-sound-offered",
-  CHOICE = "site-sound";
+// A Sound switch is offered by default. Only a deliberate gesture opens the audio
+// context. A visitor who left it on still needs a fresh gesture after reloading.
+const params = new URLSearchParams(location.search);
+const instrumentLab = params.get("sound-lab") === "1";
+const CHOICE = instrumentLab ? "site-sound-instrument" : "site-sound";
 const store = {
   get(key) {
     try {
@@ -18,60 +16,86 @@ const store = {
       if (value === null) localStorage.removeItem(key);
       else localStorage.setItem(key, value);
     } catch {
-      // Private browsing: the choice lasts for this page.
+      // The preference still applies to this page.
     }
   },
 };
 
-const asked = new URLSearchParams(location.search).get("sound");
-if (asked === "1") store.set(OFFERED, "1");
-if (asked === "0") {
-  store.set(OFFERED, null);
-  store.set(CHOICE, null);
-}
-const offered = asked === "1" || (asked !== "0" && store.get(OFFERED) === "1");
+if (params.get("sound") === "0") {
+  store.set("site-sound", null);
+  store.set("site-sound-instrument", null);
+  document.documentElement.dataset.sound = "off";
+} else {
+  const controls = [...document.querySelectorAll("[data-sound-toggle]")];
+  let site = null;
+  let loading = null;
+  let audioContext = null;
+  let requested = false;
+  let on = false;
+  let generation = 0;
 
-if (offered) {
-  const switches = () => [...document.querySelectorAll("[data-sound-toggle]")];
-  let site = null,
-    loading = null,
-    on = false;
-  const reflect = () => {
+  function reflect() {
     document.documentElement.dataset.sound = on ? "on" : "off";
-    for (const control of switches()) control.setAttribute("aria-checked", String(on));
-  };
-  const load = () => (loading ||= import("./sound/site.mjs").then(({ createSiteSound }) => (site = createSiteSound())));
-  async function turn(next) {
-    if (next) {
-      // A first click that beats the fetch still counts: browsers keep the page's activation.
-      if (!site) await load();
-      on = await site.start();
-    } else {
-      on = false;
-      await site?.stop();
-    }
-    store.set(CHOICE, on ? "on" : "off");
-    reflect();
-    return on;
+    for (const control of controls) control.setAttribute("aria-checked", String(on));
   }
-  for (const control of switches()) {
+
+  function load() {
+    return (loading ||= import("./sound/site.mjs").then(({ createSiteSound }) => (site = createSiteSound({ audioContext, instrumentLab }))));
+  }
+
+  async function turn(next) {
+    const ticket = ++generation;
+    requested = next;
+    if (!next) {
+      on = false;
+      reflect();
+      store.set(CHOICE, "off");
+      if (site) await site.stop();
+      else if (audioContext?.state !== "closed") await audioContext?.suspend();
+      return;
+    }
+    try {
+      const Context = globalThis.AudioContext || globalThis.webkitAudioContext;
+      if (!Context) throw new Error("Audio context unavailable");
+      audioContext ||= new Context({ latencyHint: "interactive" });
+      // Resume synchronously during the trusted gesture, even when the module
+      // is still on the network or Safari has only transient activation.
+      const unlocked = audioContext.state === "running" ? null : audioContext.resume();
+      const [session] = await Promise.all([load(), unlocked]);
+      if (ticket !== generation) return;
+      const started = await session.start();
+      if (ticket !== generation) return;
+      on = requested = started;
+      if (instrumentLab && started) session.sound.play("switch", { on: true });
+      store.set(CHOICE, on ? "on" : "off");
+    } catch {
+      if (ticket !== generation) return;
+      on = requested = false;
+      loading = null;
+      await audioContext?.suspend().catch(() => {});
+    }
+    if (ticket === generation) reflect();
+  }
+
+  const gesture = (event) => {
+    if (!event.isTrusted || event.target.closest?.("[data-sound-toggle]")) return;
+    window.removeEventListener("pointerdown", gesture, true);
+    window.removeEventListener("keydown", gesture, true);
+    if (store.get(CHOICE) === "on" && !requested) void turn(true);
+  };
+  for (const control of controls) {
     control.hidden = false;
-    control.addEventListener("click", () => {
-      turn(!on).then((now) => now && site.sound.play("switch", { on: true }));
+    control.addEventListener("click", (event) => {
+      if (!event.isTrusted) return;
+      window.removeEventListener("pointerdown", gesture, true);
+      window.removeEventListener("keydown", gesture, true);
+      void turn(!requested).catch(() => {});
     });
   }
   reflect();
-  load();
-  // A visitor who left sound on hears it again from their first press or key on this page: a
-  // browser will not start audio before one.
   if (store.get(CHOICE) === "on") {
-    const resume = (event) => {
-      if (event.target.closest?.("[data-sound-toggle]")) return;
-      turn(true);
-    };
-    addEventListener("pointerdown", resume, { once: true, capture: true });
-    addEventListener("keydown", resume, { once: true, capture: true });
+    window.addEventListener("pointerdown", gesture, true);
+    window.addEventListener("keydown", gesture, true);
   }
-  // What the page's sound is doing, for tests and the curious.
-  globalThis.siteSound = { evidence: () => ({ offered: true, on, ...(site?.evidence() ?? { context: null, bound: false }) }) };
+  globalThis.siteSound = { evidence: () => ({ offered: true, on, ...(site?.evidence() ?? { context: null, bound: false, instrumentLab }) }) };
 }
