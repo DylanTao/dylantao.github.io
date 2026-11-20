@@ -359,25 +359,32 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
         bed += .35*sin(bed*1.9 + 1.3) + .2*sin(bed*4.1);
         float bedDistance = abs(fract(bed + .5) - .5);
         float bedWidth = sandFoot / .26;
-        float bedShow = smoothstep(.45, .75, stoneNoise(vec3(p.x*.12, floor(bed)*2.3, p.z*.12)));
-        float bedLine = (1.-smoothstep(.05, .05 + bedWidth*1.5, bedDistance)) * (1.-smoothstep(.06, .3, bedWidth)) * smoothstep(.92, .6, sandUp) * bedShow;
+        float bedShow = smoothstep(.45, .75, stoneNoise(vec3(p.x*.46, floor(bed+.5)*2.3, p.z*.38)));
+        float steep = 1. - smoothstep(.6, .92, sandUp);
+        float bedResolved = 1. - smoothstep(.075,.39,bedWidth);
+        float bedLine = (1.-smoothstep(.025 + .35*bedWidth,.22 + .70*bedWidth,bedDistance)) * bedResolved * steep * (.12+.88*bedShow);
+        // Raking light catches the fine lamination in short exposed runs. Weathering cuts
+        // back through the other beds. Filter each run by its projected pixel width.
+        float finePhase = bed*16. + 8.*erosion + 1.3*detail;
+        float lamina = .5*cos(finePhase) * smoothstep(.48,.70,layers) * bedShow * steep
+                     * (1. - smoothstep(.6,2.6,fwidth(finePhase)));
         float stain = stoneNoise(vec3(p.x*.12, floor(bed)*1.37, p.z*.12));
         // Honeycomb weathering (tafoni), the pitted cells of La Jolla's sandstone, in patches on
-        // steep faces: Worley cells whose walls stand proud of their hollows.
+        // steep faces: rounded cavities worn into individual patches of a bed.
         vec2 sandFace = abs(sandFlat.x) > abs(sandFlat.z) ? p.zy : p.xy;
-        float tafoniZone = smoothstep(.6, .74, stoneNoise(vec3(p.x*.17, p.y*.23, p.z*.17))) * smoothstep(.75, .35, sandUp);
+        float tafoniZone = smoothstep(.6, .74, stoneNoise(vec3(p.x*.17, p.y*.23, p.z*.17))) * (1. - smoothstep(.35, .75, sandUp));
         float sandPit = 0.;
         float tafoniFade = 1.-smoothstep(.012, .045, sandFoot);
         if (tafoniZone * tafoniFade > 0.) {
-          vec2 cells = sandCells(sandFace / .16);
-          // Rounded hollows: the depth eases in from the cell walls rather than stepping.
-          sandPit = sqrt(smoothstep(.02, .6, cells.y - cells.x)) * tafoniZone * tafoniFade;
+          vec2 cells = sandCells(sandFace * vec2(5.2,8.3) + vec2(.9*erosion,1.4*detail));
+          // Local relief ends before the neighbouring cavity.
+          sandPit = (1.-smoothstep(.09,.47,cells.x)) * smoothstep(.035,.38,cells.y-cells.x) * tafoniZone * tafoniFade;
         }
         // Desert varnish: dark streaks where runoff stains the faces.
-        float varnish = smoothstep(.6, .86, stoneNoise(vec3(p.x*1.4, p.y*.06, p.z*1.4))) * smoothstep(.8, .3, sandUp);
-        diffuseColor.rgb *= pigment * (1. - .08*bedLine) * (1. - .12*sandPit);
+        float varnish = smoothstep(.6, .86, stoneNoise(vec3(p.x*1.4, p.y*.06, p.z*1.4))) * (1. - smoothstep(.3, .8, sandUp));
+        diffuseColor.rgb *= pigment * (1. - .22*bedLine + .036*lamina) * (1. - .15*sandPit);
         diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(1.06,.96,.84), smoothstep(.5,.85,erosion)*.18);
-        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(1.08,.93,.78), smoothstep(.55,.8,stain)*.3*smoothstep(.9,.6,sandUp));
+        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(1.08,.93,.78), smoothstep(.55,.8,stain)*.42*steep);
         diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb*vec3(.72,.68,.64), varnish*.45);
         // The clifftop: dusty topsoil with patches of dry grass between the scrub.
         float ground = smoothstep(.72, .92, sandUp) * smoothstep(4.5, 5.5, p.y);
@@ -392,7 +399,8 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
         diffuseColor.rgb *= 1. - .38*sandWet;
         diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.12,.14,.06), algae*.55);
         diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.62,.6,.55), barnacles*.7);
-        float sandHeight = -.014*sandPit + .002*barnacles;
+        float sandHeight = -.006*sandPit - .009*bedLine + .0009*lamina + .002*barnacles;
+        float tidalFilm = sandWet * (1. - smoothstep(-7.04,-6.35,p.y+.13*(detail-.5)));
       `
               : kind === 4
                 ? `
@@ -470,7 +478,7 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
     if (kind === 3)
       shader.fragmentShader = shader.fragmentShader.replace(
         "#include <roughnessmap_fragment>",
-        "#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, .3, sandWet);"
+        "#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, mix(.32,.51,erosion), tidalFilm);"
       );
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <normal_fragment_maps>",

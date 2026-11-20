@@ -6,7 +6,7 @@
   },
   "source": "artwork/coastal-home/coastal-home.blend",
   "sourceSha256": "c1aed8ca764002a0783e5c66a6216279b21a041975218e8d7c69d5897ea22673",
-  "manifestSha256": "cd26a195ad8a3687322717dc2a3834c5594e104336a26835f1c8a2996a4091b0",
+  "manifestSha256": "205d833364bd5a524b80edb8e58256f6c502086941be70b470f307ce23659846",
   "modelCoverage": {
     "home-shell.glb": null,
     "coast.glb": null,

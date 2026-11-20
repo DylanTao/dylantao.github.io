@@ -89,3 +89,5 @@ The night study returns to that spot at 8:40 p.m. The lower row follows one stoo
 The watercolour fire study supplied the relationship between a narrow flame and a dark suspended hood. Two 9 p.m. visits test that idea in the Painted room. The six-view sheet follows the same living room, kitchen and cliff through the selected hours. [Fire study](painted-hearth-lamplight-21.webp) · [Six views of the house](painted-house-six-views-21.webp).
 
 The study-side outdoor kitchen sheet follows the same 1.615 m standing eye from the old three oak cupboards through the Blender fitting and back into the playable room. The 60 cm fridge fills the dry bay beside the sink. [The terrace kitchen](bbq-fridge-from-the-terrace-22.webp).
+
+The sandstone study guided the scale of the worn beds and the hollows between them. The beach and cook’s wall show how the same surface catches open sun and shaded terrace light. [Sandstone between the tide and the terrace](sandstone-from-the-tide-to-the-terrace-23.webp).
