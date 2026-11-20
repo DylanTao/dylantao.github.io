@@ -9,8 +9,38 @@ import {
   patchPlantShader,
 } from "./plant-motion.mjs";
 
-// One field and one active clock for the room. Attachment inference happens
-// once on actual authored stem vertices, in world meters before TRS conversion.
+const STEM_REACH = 0.025;
+
+// Leaves can sprout halfway along a twig. Sample its actual bark edges so a
+// long, sparsely tessellated branch provides support between its end rings.
+function barkEdgeSamples(geometry, positions) {
+  const vertices = geometry.index?.array;
+  const count = positions.length / 3;
+  const length = vertices?.length ?? count;
+  const edges = new Set();
+  const points = [];
+  const a = new THREE.Vector3(),
+    b = new THREE.Vector3(),
+    point = new THREE.Vector3();
+  for (let i = 0; i < length; i += 3) {
+    for (let side = 0; side < 3; side++) {
+      const from = vertices?.[i + side] ?? i + side;
+      const next = i + ((side + 1) % 3);
+      const to = vertices?.[next] ?? next;
+      const key = Math.min(from, to) * count + Math.max(from, to);
+      if (edges.has(key)) continue;
+      edges.add(key);
+      a.fromArray(positions, 3 * from);
+      b.fromArray(positions, 3 * to);
+      const segments = Math.ceil(a.distanceTo(b) / STEM_REACH);
+      for (let j = 1; j < segments; j++) point.lerpVectors(a, b, j / segments).toArray(points, points.length);
+    }
+  }
+  return points;
+}
+
+// One field and one active clock for the room. Attachment inference runs once
+// on authored wood in world metres before conversion to each leaf's frame.
 // Given the coast's wind (wind-field.mjs createCoastWind / coastWind), the plants take its breeze,
 // gust fronts and indoor share each frame: the room's olives feel the air the glass front lets in
 // (more with the doors open), and the terrace olive outside feels the sheltered breeze directly.
@@ -56,7 +86,11 @@ export function createCoastalWind({ coast: coastSource = coastWind } = {}) {
       if (!mesh.isMesh || mesh.isSkinnedMesh || mesh.userData.outline) return;
       const materials = [mesh.material].flat();
       // Stems: the room plants' honey ash and the terrace olive's bark twigs.
-      if (materials.some((m) => /honey ash|olive bark/i.test(m.name))) wood.push(positionsInWorld(mesh));
+      if (materials.some((m) => /honey ash|olive bark/i.test(m.name))) {
+        const points = positionsInWorld(mesh);
+        wood.push(points);
+        if (materials.some((m) => /olive bark/i.test(m.name))) wood.push(barkEdgeSamples(mesh.geometry, points));
+      }
       if (materials.some((m) => /olive leaf/i.test(m.name))) leaves.push(mesh);
     });
     if (!leaves.length) return;
@@ -66,7 +100,7 @@ export function createCoastalWind({ coast: coastSource = coastWind } = {}) {
       supports.set(array, offset);
       offset += array.length;
     }
-    const attachmentIndex = createPlantAttachmentIndex(supports, 0.025);
+    const attachmentIndex = createPlantAttachmentIndex(supports, STEM_REACH);
     for (const mesh of leaves) {
       const started = performance.now(),
         geometry = mesh.geometry,

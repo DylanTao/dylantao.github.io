@@ -1228,11 +1228,13 @@ test("coastal transport: native skin, rooted wind and conserved onsen waves surv
   expect(still.simulation.onsen.caustics.overheadFloorGain.maximum).toBeCloseTo(1, 4);
   expect(still.simulation.onsen.optics.opaqueShadow).toBe(false);
   expect(still.simulation.onsen.optics.normalDepthOccluder).toBe(false);
-  // The retreat replaces the old facade/study planters and terrace olive with fitted planting.
-  // Its retained animated inventory is 22 core, 40 kitchen, 11 onsen, seven lounge and 11 sleep
-  // rooted groups. No unsupported hanging group survives the native replacement.
-  expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.enabled, 0)).toBe(91);
-  expect(still.simulation.wind.plants.reduce((sum, p) => sum + p.disabled, 0)).toBe(0);
+  // The garden olive carries six leaves on each of 56 twigs. Check it alongside
+  // the existing 22 core, 40 kitchen, 11 onsen, seven lounge and 11 sleep groups.
+  const plants = still.simulation.wind.plants;
+  const olive = plants.find((plant) => plant.name === "core_workout_garden_olive_crown__olive_leaf");
+  expect(olive).toMatchObject({ components: 336, enabled: 336, disabled: 0 });
+  expect(plants.filter((plant) => plant !== olive).reduce((sum, p) => sum + p.enabled, 0)).toBe(91);
+  expect(plants.reduce((sum, p) => sum + p.disabled, 0)).toBe(0);
   const before = await canvas.screenshot();
   await explore(ui);
   await ui.locator("[data-world-pause]").click();

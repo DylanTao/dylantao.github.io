@@ -64,7 +64,7 @@ import { createOnsenWater } from "./onsen-water.mjs";
 import { measurePoolGeometry } from "./pool-geometry.mjs";
 import { createPoolStroke } from "./pool-stroke.mjs";
 import { createPoolActivity, poolActivityRoom } from "./pool-activity.mjs";
-import { createCoastalWind } from "./coastal-wind.mjs";
+import { createCoastalWind } from "./coastal-wind.mjs?v=olive-twigs-20261119";
 import { coastWind, livePacificMinute, COAST_SHELTER } from "./wind-field.mjs";
 import { syncOceanWind } from "./ocean-spectrum.mjs";
 import { SEA_LEVEL } from "./sea-optics.mjs";

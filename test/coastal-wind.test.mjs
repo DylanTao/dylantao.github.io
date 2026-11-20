@@ -22,6 +22,8 @@ import {
   patchPlantShader,
 } from "../assets/js/home-scene/plant-motion.mjs";
 import { createWindParticles } from "../assets/js/home-scene/wind-particles.mjs";
+import { createCoastalWind } from "../assets/js/home-scene/coastal-wind.mjs";
+import { loadNativeModel } from "./helpers/coastal-native-avatar.mjs";
 
 const dot = (a, b) => a.reduce((s, v, i) => s + v * b[i], 0);
 const derivative = (sample, p, t, axis, component, h) => {
@@ -31,6 +33,22 @@ const derivative = (sample, p, t, axis, component, h) => {
   hi[axis] += h;
   return (sample(hi, t)[component] - sample(lo, t)[component]) / (2 * h);
 };
+
+test("all garden olive leaves meet their delivered twigs, including between branch vertices", async () => {
+  const { scene } = await loadNativeModel("home-shell.glb");
+  const wind = createCoastalWind();
+  try {
+    wind.bind(scene);
+    const plants = wind.evidence().plants;
+    const crown = plants.find((plant) => plant.name === "core_workout_garden_olive_crown__olive_leaf");
+    assert.equal(crown.components, 7 * 8 * 6);
+    assert.equal(crown.enabled, crown.components);
+    assert.equal(crown.disabled, 0);
+    assert.equal(plants.find((plant) => plant.name === "core__olive_leaf").enabled, 22);
+  } finally {
+    wind.dispose();
+  }
+});
 test("bounded modal velocities are the analytic curl of their potentials", () => {
   assert.ok(Math.abs(WIND_MODES.reduce((sum, m) => sum + Math.hypot(...m.velocity), 0) - 1) < 1e-12);
   for (const m of WIND_MODES) {
