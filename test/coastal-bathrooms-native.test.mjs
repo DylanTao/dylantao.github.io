@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import * as THREE from "../assets/js/three.module.min.js";
 import { BODY, createWalkField, walkKind, WATER_BLOCK } from "../assets/js/home-scene/colliders.mjs";
-import { nativeGeometry } from "./helpers/coastal-native-geometry.mjs";
+import { nativeHouseGeometry } from "./helpers/coastal-native-geometry.mjs";
 
 // Use delivered, decoded triangles and the same capsule solver as Walk. Authored routes name
 // destinations; their Y coordinates are assertions, never positions injected during a journey.
@@ -44,7 +44,7 @@ async function deliveredHouse(cutaway = false) {
         ]);
         for (const file of files) {
           if (!file) continue;
-          const root = await nativeGeometry(file);
+          const root = await nativeHouseGeometry(file, manifest);
           roots.set(file, root);
           if (cutaway)
             root.traverse((object) => {

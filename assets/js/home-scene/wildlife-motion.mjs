@@ -504,7 +504,7 @@ export function swimmerActing(time, index, lane, sea = null) {
     ? (Math.cos(Math.PI * a) * height * Math.PI) / (0.58 * leapPeriod)
     : (-Math.cos(Math.PI * a) * 0.42 * Math.PI) / (0.42 * leapPeriod);
   const z = lane.z + noise(t * 0.05, index + 9) * 1.5;
-  const surface = sampleOcean(x, z + 28, raw, 1.1, sea).displacement[1] - 7.35;
+  const surface = sea?.surfaceAt?.(x, z, raw, 1.1) ?? sampleOcean(x, z + 28, raw, 1.1, sea).displacement[1] - 7.35;
   const rafting = 1 - porpoising;
   const rest = Math.max(0, cycle - SWIM_RUN);
   const turn = smooth((cycle - (SWIM_PERIOD - 6)) / 5);

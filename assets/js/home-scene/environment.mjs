@@ -6,6 +6,8 @@ import { surfaceNoise } from "./realism.mjs";
 import { createSeaReflection } from "./reflection.mjs";
 import { createWildlife } from "./wildlife.mjs?v=contact-regions-20261101";
 import { beachPoint } from "./shore.mjs";
+import { COASTAL_SURF, createCoastalSurf, insideCoastalTidePool } from "./coastal-surf.mjs";
+import { coastalSurfAppearanceGLSL, coastalSurfGLSL, createSurfMaterials, shoreGridZ } from "./coastal-surf-material.mjs";
 import {
   OCEAN_WAVES,
   bindOceanWind,
@@ -20,6 +22,8 @@ import {
 import { createWindParticles } from "./wind-particles.mjs";
 import { coastWind } from "./wind-field.mjs";
 import { createBathymetry } from "./bathymetry.mjs";
+import { DIVE, insideDiveArea } from "./pacific-diving.mjs";
+import { continuousDiveBed, createDiveSurface, createPacificUnderwater } from "./pacific-underwater.mjs";
 import { LA_JOLLA_WATER, SEA_LEVEL, SEA_PLANE, SUN_SOLID_ANGLE, causticUniforms, seaOpticsGLSL, seawaterIOPs } from "./sea-optics.mjs";
 
 const SAND_NAME = /beach sand|tideline sand/i;
@@ -92,7 +96,15 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
   root.name = "Pacific environment";
   scene.add(root);
   const beach = config.beach;
-  const wildlife = createWildlife(root, config);
+  let sharedWater;
+  const wildlife = createWildlife(root, config, { surfaceAt: (x, z, seconds, footprint) => sharedWater?.(x, z, seconds, footprint) });
+  const pools = config.terrain.tidePools ?? [];
+  const surfaceEnabled = new URLSearchParams(globalThis.location?.search ?? "").get("surf") !== "0" && !oceanFFTEvidence().enabled;
+  const compact =
+    (globalThis.navigator?.hardwareConcurrency ?? 8) <= 4 ||
+    (globalThis.navigator?.deviceMemory ?? 8) <= 4 ||
+    globalThis.matchMedia?.("(pointer: coarse)").matches;
+  const sandRoots = new Set();
   const shoreData = new Float32Array(beach.samples.flatMap((row) => [row[3], row[1], row[2], 1]));
   const shoreTexture = new THREE.DataTexture(shoreData, beach.samples.length, 1, THREE.RGBAFormat, THREE.FloatType);
   shoreTexture.minFilter = shoreTexture.magFilter = THREE.LinearFilter;
@@ -114,8 +126,29 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
   });
   // The seabed under the sea, captured from the coast's geometry once it loads (bathymetry.mjs), and
   // the sun (or the night's moon light) that lights it through the water.
-  const bathymetry = createBathymetry(renderer),
-    caustics = causticUniforms(),
+  const bathymetry = createBathymetry(renderer);
+  const diveBedAt = (x, z) => continuousDiveBed(bathymetry.sample, x, z);
+  const isolatedWater = (x, z) => insideCoastalTidePool(x, z, pools);
+  const underwater = createPacificUnderwater(root, { bedAt: diveBedAt, excluded: isolatedWater, compact });
+  const diveFog = new THREE.Fog(underwater.color, 0.6, 10);
+  let surfacedFog = null,
+    surfacedBackground = null,
+    submerged = false;
+  const surf = surfaceEnabled
+    ? createCoastalSurf({
+        beach,
+        seaLevel: SEA_LEVEL,
+        pools,
+        bedAt: bathymetry.sample,
+        lanes: compact ? 34 : COASTAL_SURF.lanes,
+        cells: compact ? 52 : COASTAL_SURF.cells,
+        // The offshore boundary is the same onshore swell the open-water material draws.
+        incoming: (x, z, seconds) => sampleOcean(x - SEA_PLANE.center[0], z - SEA_PLANE.center[1], seconds, 1.1, visitorSea).displacement[1],
+      })
+    : null;
+  const surfMaterials = surf ? createSurfMaterials(surf, pools) : null;
+  const surfGLSL = surf ? coastalSurfGLSL : "";
+  const caustics = causticUniforms(),
     seaIOPs = seawaterIOPs(LA_JOLLA_WATER),
     seaLight = {
       seaSunDirection: { value: new THREE.Vector3(0, 1, 0) },
@@ -157,6 +190,8 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       seabed: "outgoingLight=vec3((seabed.x+9.)*.5,seabed.y,seabed.z*.2);",
       light: "outgoingLight=bottomLight*.5;",
       leaving: "outgoingLight=waterLeaving*4.;",
+      reflection: "outgoingLight=reflectedLight.indirectSpecular;",
+      film: "outgoingLight=vec3(swashState.g,causticContrast,swashState.b);",
       lamps: "outgoingLight=lampStreaks*20.;",
       wake: "outgoingLight=vec3(abs(wake)*8.,wakeFoam);",
       glints: "outgoingLight=vec3(clamp(log(max(glints,1e-9))*.1+.5,0.,1.),clamp(sparkle*.1,0.,1.),glints>=1.?1.:0.);",
@@ -165,11 +200,11 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     shader.uniforms.pacificTime = time;
     // The coast's one wind turns and grows the wind sea, and drives ripples and whitecaps per pixel.
     bindOceanWind(shader, ocean.position);
-    Object.assign(shader.uniforms, bathymetry.uniforms, seaLight, caustics, rainField.uniforms);
+    Object.assign(shader.uniforms, bathymetry.uniforms, seaLight, caustics, rainField.uniforms, surfMaterials?.uniforms);
     shader.uniforms.shoreProfile = { value: shoreTexture };
     shader.uniforms.shoreRange = { value: new THREE.Vector2(beach.samples[0][0], beach.samples.at(-1)[0] - beach.samples[0][0]) };
     shader.vertexShader =
-      `varying vec3 rainSurfaceWorld; uniform float pacificTime; varying vec2 oceanXZ;\n${oceanFieldGLSL}\n` + shader.vertexShader;
+      `varying vec3 rainSurfaceWorld; uniform float pacificTime; varying vec2 oceanXZ;\n${oceanFieldGLSL}\n${surfGLSL}\n` + shader.vertexShader;
     shader.vertexShader = shader.vertexShader.replace(
       "#include <beginnormal_vertex>",
       `
@@ -177,6 +212,15 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       // Geometry carries the resolvable swells; the pixel stage carries the
       // shorter ripples, avoiding undersampled high-frequency vertices.
       oceanField(position.xz,pacificTime,1.1,oceanDisplacement,oceanTx,oceanTz,vertexVariance);
+      ${
+        surf
+          ? `
+        float vertexSurfWeight;
+        vec4 vertexSurf = coastalSurfAt((modelMatrix*vec4(position,1.)).xz, vertexSurfWeight);
+        oceanDisplacement=mix(oceanDisplacement,vec3(0.,vertexSurf.r,0.),vertexSurfWeight);
+      `
+          : ""
+      }
       vec3 objectNormal = normalize(cross(oceanTz,oceanTx));
     `
     );
@@ -202,7 +246,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       `varying vec3 rainSurfaceWorld; uniform float pacificTime; uniform sampler2D shoreProfile; uniform vec2 shoreRange; varying vec2 oceanXZ;
       uniform vec3 seaSunDirection; uniform vec3 seaSunColor; uniform vec3 seaSunTint; uniform mat4 seaShadowMatrix;
       uniform vec3 seaLampPosition[${SEA_LAMPS}]; uniform vec3 seaLampColor[${SEA_LAMPS}]; uniform int seaLampCount;
-      uniform vec4 seaWakeA[${SEA_WAKES}]; uniform vec4 seaWakeB[${SEA_WAKES}]; uniform int seaWakeCount;\n${rainSurfaceGLSL}\n${surfaceNoise}\n${SEA_WAKE_GLSL}\n${oceanFieldGLSL}\n${oceanRipplesGLSL}\n${seaOpticsGLSL(seaIOPs)}\n` +
+      uniform vec4 seaWakeA[${SEA_WAKES}]; uniform vec4 seaWakeB[${SEA_WAKES}]; uniform int seaWakeCount;\n${rainSurfaceGLSL}\n${surfaceNoise}\n${SEA_WAKE_GLSL}\n${oceanFieldGLSL}\n${oceanRipplesGLSL}\n${seaOpticsGLSL(seaIOPs)}\n${surfGLSL}\n${coastalSurfAppearanceGLSL}\n` +
       shader.fragmentShader;
     shader.fragmentShader = shader.fragmentShader
       .replace("#include <lights_physical_pars_fragment>", `#include <lights_physical_pars_fragment>\n${SEA_SUN_GLSL}`)
@@ -214,6 +258,20 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       float footprint=max(length(dFdx(oceanXZ)),length(dFdy(oceanXZ)));
       vec3 fieldDisplacement, fieldTx, fieldTz; float slopeVariance;
       oceanField(oceanXZ,pacificTime,footprint,fieldDisplacement,fieldTx,fieldTz,slopeVariance);
+      float swashWeight=0.;
+      vec4 swashState=vec4(0.);
+      ${
+        surf
+          ? `
+        vec2 swashXZ=rainSurfaceWorld.xz;
+        if (coastalPool(swashXZ)) discard;
+        swashState=coastalSurfAt(swashXZ,swashWeight);
+        if(swashWeight>.995 && swashState.g<.008) discard;
+        fieldDisplacement=mix(fieldDisplacement,vec3(0.,swashState.r,0.),swashWeight);
+      `
+          : ""
+      }
+      float thinFilm=swashWeight*(1.-smoothstep(.045,.38,swashState.g));
       vec3 ripple=oceanRipples(oceanXZ,pacificTime,footprint);
       // Rings where an animal broke the surface and V wakes behind the swimmers, as slopes and foam.
       float wakeFoam=0.;
@@ -225,6 +283,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       fieldTx.y+=ripple.x;
       fieldTz.y+=ripple.y;
       slopeVariance+=ripple.z;
+      slopeVariance*=mix(1.,.22,thinFilm);
       // Unresolved wave energy broadens the GGX lobe instead of vanishing
       // or flickering. This scalar isotropic fit is not the full ocean BRDF.
       roughnessFactor=clamp(pow(pow(roughnessFactor,4.)+slopeVariance,.25),.14,.65);
@@ -235,6 +294,16 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       `
       #include <normal_fragment_maps>
       vec3 waveNormal=normalize(cross(fieldTz,fieldTx));
+      ${
+        surf
+          ? `
+        vec3 smoothSurf=vec3(rainSurfaceWorld.x,swashState.r,rainSurfaceWorld.z);
+        vec3 swashNormal=normalize(cross(dFdx(smoothSurf),dFdy(smoothSurf)));
+        swashNormal*=swashNormal.y<0.?-1.:1.;
+        waveNormal=normalize(mix(waveNormal,swashNormal+vec3(-ripple.x,0.,-ripple.y)*mix(.22,.065,thinFilm),swashWeight*.92));
+      `
+          : ""
+      }
       float slopeX=-waveNormal.x/max(.1,waveNormal.y);
       float slopeZ=-waveNormal.z/max(.1,waveNormal.y);
       normal=normalize(mat3(viewMatrix)*waveNormal);
@@ -270,6 +339,10 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       float front = fract(swash);
       float breaker = exp(-pow((distanceToBeach-mix(3.2,.4,front))/.16,2.))*(1.-front)*(1.-front);
       foam = max(foam, max(edgeFoam*smoothstep(.4,.7,swashLace+.2*(1.-smoothstep(0.,.6,distanceToBeach))), breaker*smoothstep(.45,.75,swashLace)*.6));
+      if(swashWeight>.001){
+        float foamCover=coastalBubbleCover(seaPoint.xz,swashState.b,footprint)*(1.-smoothstep(1.15,2.3,swashState.g));
+        foam=mix(foam,foamCover,swashWeight);
+      }
       foam = max(foam, wakeFoam*smoothstep(.3,.6,lace+.15));
       // Lambertian radiance per unit albedo under this pixel's light, so the seabed and the foam are
       // lit like the beach and dim with the evening instead of glowing.
@@ -302,6 +375,7 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       vec3 skyIrradiance=PI*reflectedLight.indirectDiffuse/max(material.diffuseColor,vec3(1e-4))*.94;
       vec3 bottomLight=vec3(1.);
       vec3 rho=vec3(0.);
+      float causticContrast=coastalCausticContrast(swashState.g,swashState.b,swashWeight);
       if(bedDepth<14.){
         float path=bedDepth/cosSun;
         // Where the sun ray that lands here crossed the surface: its shadow and its ripples' focus.
@@ -324,12 +398,20 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
           }
         #endif
         // Past a 30 cm footprint every ripple is blurred away and the gain is one.
-        float caustic=sunUp>.02&&footprint<.3?seaCaustics(entry-oceanWindOrigin,pacificTime,path,footprint):1.;
+        float caustic=1.;
+        if(sunUp>.02&&footprint<.3&&causticContrast>.001){
+          caustic=mix(1.,seaCaustics(entry-oceanWindOrigin,pacificTime,path,footprint),causticContrast);
+        }
         bottomLight=(sunIrradiance*lit*caustic+skyIrradiance)/max(sunIrradiance+skyIrradiance,vec3(1e-5));
-        rho=seabedAlbedo(vec3(bedXZ.x,bed.x,bedXZ.y),captured?bed.y:0.,bedDepth,captured?bed.w:0.,footprint);
+        float sandWeight=swashWeight*(1.-clamp(bed.y,0.,1.));
+        float wetSubstrate=sandWeight*(1.-smoothstep(.18,.54,bedDepth));
+        float rippleContrast=mix(1.,smoothstep(.11,.48,swashState.g),sandWeight);
+        rho=seabedAlbedo(vec3(bedXZ.x,bed.x,bedXZ.y),captured?bed.y:0.,bedDepth,captured?bed.w:0.,footprint,rippleContrast);
+        rho*=coastalWetSand(wetSubstrate*.62);
       }
       // In the surf zone the breakers keep fine sand in suspension, so the water there turns milky.
       float silt=.006*(1.-smoothstep(1.,9.,distanceToBeach))*(.45+.55*max(crest,compression))*smoothstep(-.3,.3,distanceToBeach);
+      silt=mix(silt,.009*swashState.b*(1.-smoothstep(.55,1.45,swashState.g)),swashWeight);
       vec3 waterLeaving=seaReflectance(bedDepth,rho,cosSun,cosView,bottomLight,silt)*PI*lambert*(1.-seaFresnel(cosEye))/.98;
       // Glitter: the sun's (or the moon's) path is made of single facets tilted to mirror its disc. A
       // patch of sea (9 cm, or the pixel's footprint in power-of-two steps) holds on average glints =
@@ -385,18 +467,43 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     `
     );
   };
-  physicalWater.customProgramCacheKey = () => `pacific-optics-rain-20261102${seaDebug ? `:${seaDebugMode}` : ""}`;
+  physicalWater.customProgramCacheKey = () => `pacific-optics-film-20261120${surf ? ":swash" : ""}${seaDebug ? `:${seaDebugMode}` : ""}`;
   const modelWater = new THREE.MeshStandardMaterial({ color: 0x8db9bb, roughness: 0.95 });
   const printWater = new THREE.MeshToonMaterial({ color: 0x287b8a });
+  if (surf)
+    for (const mat of [modelWater, printWater]) {
+      mat.onBeforeCompile = (shader) => {
+        Object.assign(shader.uniforms, surfMaterials.uniforms);
+        shader.vertexShader = "varying vec2 vSwashModel;\n" + surfGLSL + shader.vertexShader;
+        shader.vertexShader = shader.vertexShader.replace(
+          "#include <begin_vertex>",
+          `#include <begin_vertex>
+        vSwashModel=(modelMatrix*vec4(position,1.)).xz;
+        float swashWeight;
+        vec4 swashState=coastalSurfAt(vSwashModel,swashWeight);
+        transformed.y+=swashState.r*swashWeight;`
+        );
+        shader.fragmentShader = "varying vec2 vSwashModel;\n" + surfGLSL + shader.fragmentShader;
+        shader.fragmentShader = shader.fragmentShader.replace(
+          "#include <color_fragment>",
+          `#include <color_fragment>
+        float swashWeight;
+        vec4 swashState=coastalSurfAt(vSwashModel,swashWeight);
+        if(coastalPool(vSwashModel)||(swashWeight>.995&&swashState.g<.008)) discard;
+        diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.84,.86,.79),swashState.b*swashWeight);`
+        );
+      };
+    }
   const waterGeometry = new THREE.PlaneGeometry(SEA_PLANE.size, SEA_PLANE.size, 160, 160);
   waterGeometry.rotateX(-Math.PI / 2);
   // Concentrate vertices near the inhabited coast without growing a uniform
   // high-resolution grid over all 400 meters of the distant sea.
   const waterPositions = waterGeometry.getAttribute("position");
+  const nearZ = surf ? Array.from({ length: 161 }, (_, row) => shoreGridZ(row / 160, beach.samples, SEA_PLANE.center[1])) : null;
   for (let i = 0; i < waterPositions.count; i++) {
     for (const axis of ["X", "Z"]) {
       const value = waterPositions[`get${axis}`](i) / 200;
-      waterPositions[`set${axis}`](i, Math.sign(value) * value * value * 200);
+      waterPositions[`set${axis}`](i, nearZ && axis === "Z" ? nearZ[Math.floor(i / 161)] : Math.sign(value) * value * value * 200);
     }
   }
   waterGeometry.computeBoundingSphere();
@@ -412,8 +519,98 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
   ocean.userData.noContactOcclusion = true;
   root.add(ocean);
   const reflection = createSeaReflection(renderer, scene, ocean, physicalWater);
-  const rainWater = createRenderedWaterSampler(waterGeometry, ocean.position.toArray(), sampleOcean);
-  const rainWaterBound = OCEAN_WAVES.reduce((s, w) => s + w.amplitude, 0) + 0.001;
+  const diveSurface = createDiveSurface({
+    time,
+    surfaceUniforms: surfMaterials?.uniforms,
+    surfaceShader: surfGLSL,
+    seaLight,
+    origin: ocean.position,
+    tint: underwater.color,
+  });
+  function renderedSpectrum(x, z, seconds, footprint, wind) {
+    const deep =
+      style === "realistic" ? sampleOcean(x, z, seconds, footprint, wind) : { displacement: [0, 0, 0], tangentX: [1, 0, 0], tangentZ: [0, 0, 1] };
+    const local = surf?.sample(x + ocean.position.x, z + ocean.position.z);
+    if (!local?.blend) return deep;
+    const keep = 1 - local.blend;
+    deep.displacement = [deep.displacement[0] * keep, deep.displacement[1] * keep + (local.y - SEA_LEVEL) * local.blend, deep.displacement[2] * keep];
+    deep.tangentX = [1 + (deep.tangentX[0] - 1) * keep, deep.tangentX[1] * keep, deep.tangentX[2] * keep];
+    deep.tangentZ = [deep.tangentZ[0] * keep, deep.tangentZ[1] * keep, 1 + (deep.tangentZ[2] - 1) * keep];
+    return deep;
+  }
+  const rainWater = createRenderedWaterSampler(waterGeometry, ocean.position.toArray(), surf ? renderedSpectrum : sampleOcean);
+  const currentSea = () => oceanWindState(coastWind.state.meanSpeed, coastWind.state.yaw, visitorSea);
+  sharedWater = (x, z, seconds, footprint = 1.1) => {
+    const wind = currentSea();
+    const inSurf = surf?.sample(x, z);
+    if (inSurf?.blend > 0.001) {
+      if (Math.abs(seconds - time.value) > 0.075) return inSurf.y;
+      return rainWater.sample(x, z, seconds, wind)?.y ?? inSurf.y;
+    }
+    const wave = renderedSpectrum(x - ocean.position.x, z - ocean.position.z, seconds, footprint, wind);
+    return SEA_LEVEL + wave.displacement[1];
+  };
+  function waterAt(x, z) {
+    if (Math.abs(x - ocean.position.x) > SEA_PLANE.size / 2 || Math.abs(z - ocean.position.z) > SEA_PLANE.size / 2) return null;
+    if (surfaceEnabled && insideCoastalTidePool(x, z, pools)) return null;
+    const local = surf?.sample(x, z);
+    if (local?.blend > 0.995 && local.depth < 0.008) return null;
+    const height = surf
+      ? sharedWater(x, z, time.value, 1.1)
+      : SEA_LEVEL + sampleOcean(x - ocean.position.x, z - ocean.position.z, time.value, 0.24, currentSea()).displacement[1];
+    const floor = bathymetry.sample(x, z);
+    if (surfaceEnabled && floor && floor.height >= height - 0.001) return null;
+    const diveBed = floor && insideDiveArea(x, z, DIVE.opticalMargin) && !isolatedWater(x, z) ? diveBedAt(x, z) : null;
+    return { id: "pacific", y: height, ...(diveBed ? { floor: diveBed.height } : {}) };
+  }
+  function classifyWaterAt(x, y, z) {
+    const surface = waterAt(x, z);
+    if (!surface || !Number.isFinite(y) || isolatedWater(x, z)) return null;
+    const floor = surface.floor ?? bathymetry.sample(x, z)?.height ?? SEA_LEVEL - 14;
+    return { submerged: y < surface.y && y > floor, depth: surface.y - y, surface: surface.y, floor };
+  }
+  function updateUnderwater(camera, enabled) {
+    const { x, y, z } = camera.position;
+    const column =
+      enabled && insideDiveArea(x, z, DIVE.opticalMargin) && y < SEA_LEVEL + rainWaterBound && Number.isFinite(diveBedAt(x, z)?.height)
+        ? classifyWaterAt(x, y, z)
+        : null;
+    const date = daylightNow?.dateKey;
+    const month = date ? Number(date.slice(5, 7)) : 10;
+    const below = underwater.view(column, {
+      seconds: time.value,
+      daylight: daylightNow?.daylight,
+      sunDirection: seaLight.seaSunDirection.value,
+      season: 0.5 + 0.5 * Math.cos(((month - 10) * Math.PI) / 6),
+    });
+    camera.userData.pacificSubmerged = below;
+    if (!below && !submerged) return false;
+    const surfaceMaterial = style === "realistic" ? physicalWater : style === "illustrated" ? printWater : modelWater;
+    if (below) {
+      if (!submerged || scene.fog !== diveFog) surfacedFog = scene.fog;
+      if (!submerged) surfacedBackground = scene.background;
+      diveFog.color.copy(underwater.color);
+      diveFog.near = 0.55;
+      diveFog.far = underwater.visibility();
+      scene.fog = diveFog;
+      scene.background = underwater.color;
+      diveSurface.uniforms.diveOpenSwell.value = !surf || style === "realistic" ? 1 : 0;
+      ocean.material = diveSurface;
+    } else {
+      if (scene.fog === diveFog) scene.fog = surfacedFog;
+      scene.background = surfacedBackground;
+      ocean.material = surfaceMaterial;
+    }
+    submerged = below;
+    sky.visible = !below && style === "realistic";
+    starField.points.visible = !below && style === "realistic" && starField.awake;
+    caps.visible = !below && style !== "realistic";
+    spray.visible = !below && style === "realistic";
+    dust.visible = !below && style === "realistic";
+    printSun.visible = !below && style === "illustrated";
+    return below;
+  }
+  const rainWaterBound = surf ? 0.82 : OCEAN_WAVES.reduce((s, w) => s + w.amplitude, 0) + 0.001;
   const particleSystems = [];
   function particles(kind, emitters, bounds, warmSeconds, size, maxSize, glow, color, falloff) {
     const started = performance.now(),
@@ -479,6 +676,9 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
   // Last of the opaque draws, on the far plane (atmosphere.mjs skyVertex): the dome, which now marches
   // the far land, shades only the pixels nothing else covers.
   sky.renderOrder = 900;
+  sky.onBeforeRender = (_renderer, _scene, camera) => {
+    atmosphere.uniforms.atmoRasterFar.value = camera.isPerspectiveCamera ? camera.far : 0;
+  };
   root.add(sky);
   // The land past the modelled world, ray-marched in the dome (far-field.mjs).
   const farField = createFarField(renderer, atmosphere.uniforms);
@@ -583,12 +783,23 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     if (style === "realistic") {
       if (skyKey !== key || !environment) makeEnvironment();
       // The sea mirror keeps three's fog (the beauty pass draws its haze in haze.mjs).
-      scene.fog.color.fromArray(sky0.horizon);
+      (submerged ? surfacedFog : scene.fog)?.color.fromArray(sky0.horizon);
     }
     skyKey = key;
   }
+  function bindSand(root) {
+    root.traverse((object) => {
+      if (!object.isMesh) return;
+      for (const material of [object.material].flat()) {
+        if (!SAND_NAME.test(material?.name || "")) continue;
+        object.castShadow = false;
+        surfMaterials?.paintSand(material);
+      }
+    });
+  }
   function setStyle(next) {
     style = next;
+    for (const sandRoot of sandRoots) bindSand(sandRoot);
     ocean.material = style === "realistic" ? physicalWater : style === "illustrated" ? printWater : modelWater;
     sky.visible = style === "realistic";
     starField.points.visible = style === "realistic" && starField.awake;
@@ -720,6 +931,10 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
   function update(elapsed, delta = 0) {
     time.value = elapsed;
     syncOceanFFT(elapsed);
+    if (surf?.ready) {
+      currentSea();
+      if (surf.advance(elapsed)) surfMaterials.upload();
+    }
 
     // The stars twinkle only while the scene moves: a reduced-motion scene, which never steps this
     // clock, keeps them steady, and a paused one holds them as they were.
@@ -739,6 +954,10 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     rainBinTexture.dispose();
     disposeOceanFFT();
     shoreTexture.dispose();
+    surfMaterials?.dispose();
+    sandRoots.clear();
+    underwater.dispose();
+    diveSurface.dispose();
     bathymetry.dispose();
     wildlife.dispose();
     reflection.dispose();
@@ -779,16 +998,26 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
       if (style !== "realistic" || oceanFFTEvidence().enabled || bottom > SEA_LEVEL + rainWaterBound || top < SEA_LEVEL - rainWaterBound) return null;
       const wind = oceanWindState(coastWind.state.meanSpeed, coastWind.state.yaw, visitorSea);
       const hit = rainWater.sample(x, z, seconds, wind);
-      if (!hit) return null;
+      if (!hit || (surf && !waterAt(x, z))) return null;
       const bed = bathymetry.sample(x, z);
       if (bed && bed.height >= hit.y) return { kind: "solid", id: "captured-seabed", y: bed.height };
       return { ...hit, kind: "water", id: "pacific" };
     },
-    waterAt(x, z) {
-      if (Math.abs(x - ocean.position.x) > SEA_PLANE.size / 2 || Math.abs(z - ocean.position.z) > SEA_PLANE.size / 2) return null;
-      const wind = oceanWindState(coastWind.state.meanSpeed, coastWind.state.yaw, visitorSea),
-        surface = sampleOcean(x - ocean.position.x, z - ocean.position.z, time.value, 0.24, wind);
-      return { id: "pacific", y: SEA_LEVEL + surface.displacement[1] };
+    waterAt,
+    classifyWaterAt,
+    updateUnderwater,
+    underwaterEvidence: underwater.evidence,
+    surfEvidence(x, z) {
+      return {
+        enabled: Boolean(surf),
+        compact: Boolean(compact),
+        seconds: surf?.seconds,
+        uploads: surf?.uploads,
+        shape: surf ? [surf.lanes, surf.cells] : null,
+        sample: surf?.sample(x, z) ?? null,
+        physical: waterAt(x, z),
+        seabed: bathymetry.sample(x, z),
+      };
     },
     // The sky's colours for the house's light (linear radiance: the probe field's three-colour sky,
     // the steam's ambient, the light well's skylight), with the interior's bounce fill.
@@ -872,19 +1101,29 @@ export function createPacific(scene, renderer, config, { atmosphere: sharedAtmos
     captureSeabed: (roots) => {
       farField.captureNear(roots, false);
       wildlife.captureGround([scene]);
-      return bathymetry.capture(roots);
+      const result = bathymetry.capture(roots);
+      if (result.captured) underwater.refreshBed();
+      if (surf && !surf.ready) {
+        currentSea();
+        surf.rebuild(time.value);
+        surfMaterials.upload(true);
+      }
+      return result;
     },
     captureSeabedAsync: (roots, done) => {
       // The modelled land, seen from above, becomes the far field's near land (far-field.mjs).
       farField.captureNear(roots, true);
-      return bathymetry.captureAsync(roots, done);
+      return bathymetry.captureAsync(roots, () => {
+        underwater.refreshBed();
+        done?.();
+      });
     },
     // Beach sand stops casting sun shadows: it lies within a shadow-map texel of the shallow water
     // over it and shaded that water in straight-edged patches.
     quietSand(root) {
-      root?.traverse((object) => {
-        if (object.isMesh && [object.material].flat().some((m) => SAND_NAME.test(m?.name || ""))) object.castShadow = false;
-      });
+      if (!root) return;
+      sandRoots.add(root);
+      bindSand(root);
     },
     seabedAt: (x, z) => bathymetry.sample(x, z),
   };

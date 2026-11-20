@@ -87,7 +87,7 @@ const PALM_SETBACK = {
   "rick-and-morty": { bagwork: -0.002, "double-end": 0.02, "speed-bag": 0.0425 },
 };
 
-export function createCardioStations(room) {
+export function createCardioStations(room, { onContact = () => {} } = {}) {
   const ids = [
     "rower",
     "rower_fan",
@@ -120,6 +120,8 @@ export function createCardioStations(room) {
     wheel = [0, 0],
     previous = null,
     lastBeat = -1,
+    drivePhase = null,
+    pendingDrive = null,
     pending = null,
     contacts = null,
     settling = false;
@@ -130,13 +132,21 @@ export function createCardioStations(room) {
   function update(id, seconds, dt, { moving, reduced, avatar }) {
     const changed = previous !== id;
     if (!id && !previous && !settling) return null;
-    pending = null;
+    pending = pendingDrive = null;
     if (changed) {
+      drivePhase = null;
       lastBeat = -1;
       contacts = null;
     }
     const t = reduced ? 0 : seconds;
-    const stroke = ((t * 24) / 60) % 1;
+    // The rower's catch and the bike's alternating pedal loads share their
+    // actual drive clock. Seed each station first and drop pulses during stalls.
+    const rowCycles = (t * 24) / 60;
+    const bikeTurns = (t * 85) / 60;
+    const cycle = id === "rowing" ? Math.floor(rowCycles - 0.06) : id === "riding" ? Math.floor(bikeTurns * 2 - 0.22) : null;
+    if (moving && dt > 0 && dt <= 0.25 && drivePhase !== null && cycle === drivePhase + 1) pendingDrive = { id, cycle };
+    drivePhase = cycle;
+    const stroke = rowCycles % 1;
     const drive = stroke < 0.38 ? smooth(stroke / 0.38) : 1 - smooth((stroke - 0.38) / 0.62);
     if (moving) {
       fan = rotorStep(...fan, id === "rowing" && stroke < 0.38 ? 15 : 0, dt, id === "rowing" && stroke < 0.38 ? 0.2 : 1.15);
@@ -253,9 +263,14 @@ export function createCardioStations(room) {
   }
   function observeContact(solved) {
     contacts = solved;
+    if (pendingDrive?.id === "rowing" && Math.max(...solved.hands) < 0.035) onContact("rower", 0.58, rest.rower);
+    if (pendingDrive?.id === "riding" && solved.feet?.[pendingDrive.cycle % 2] < 0.035) onContact("bike", 0.35, rest.bike);
+    pendingDrive = null;
     if (pending && solved.hands[pending.hitSide] < 0.035) {
       bags[pending.key][1] += BAG[pending.key].impulse;
       lastBeat = pending.beat;
+      const strength = { bagwork: 0.74, "double-end": 0.54, "speed-bag": 0.39 }[pending.key];
+      onContact(pending.key, strength, parts[BAG[pending.key].part].position);
     }
     pending = null;
   }

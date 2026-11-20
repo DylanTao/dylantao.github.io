@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { THREE, loadNativeModel } from "./helpers/coastal-native-avatar.mjs";
+import { THREE, loadNativeHouseModel } from "./helpers/coastal-native-avatar.mjs";
 import { bedroomCurtainLayout, bedroomCurtainOpen, createBedroomCurtains } from "../assets/js/home-scene/bedroom-curtains.mjs";
 
 test("bedroom privacy follows sleep while other activities retain the open prospect", () => {
@@ -44,7 +44,9 @@ test("the bedroom orbit remains on the room side of the actual curtains througho
 });
 
 test("the actual bedroom drapes retain their aperture, opaque privacy and side access through a complete draw cycle", async () => {
-  const model = await loadNativeModel("room-sleep.glb");
+  const config = JSON.parse(fs.readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
+  const bedroomFile = config.rooms.find((room) => room.id === "sleep").file;
+  const model = await loadNativeHouseModel(bedroomFile, config);
   const scene = new THREE.Scene();
   scene.add(model.scene);
   const rig = createBedroomCurtains({ scene, room: model.scene, floor: 1.5, reduced: true, routine: { id: "sleep" } });
@@ -86,14 +88,13 @@ test("the actual bedroom drapes retain their aperture, opaque privacy and side a
       assert.ok(b.min.z > 3.45 && b.max.z < 3.8, `actual drawn cloth depth at frame${n}`);
       assert.ok(b.min.y >= 1.49, `actual hem at frame${n}`);
     }
-    const config = JSON.parse(fs.readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
     const files = [...new Set([config.shell, ...config.rooms.map((room) => room.file), "coast.glb", "hinterland.glb"])];
     const a = new THREE.Vector3();
     const b = new THREE.Vector3();
     const c = new THREE.Vector3();
     const triangle = new THREE.Triangle(a, b, c);
     for (const file of files) {
-      const source = file === "room-sleep.glb" ? model : await loadNativeModel(file);
+      const source = file === bedroomFile ? model : await loadNativeHouseModel(file, config);
       const room = config.rooms.find((entry) => entry.file === file);
       if (room?.offset) source.scene.position.fromArray(room.offset);
       source.scene.updateMatrixWorld(true);

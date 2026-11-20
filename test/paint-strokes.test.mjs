@@ -19,6 +19,8 @@ import {
   STROKE_SIZES,
   brushSheetPixels,
   createPaint,
+  exteriorPaintManner,
+  repeatFloraDabs,
   finestStroke,
   landAlong,
   landClass,
@@ -556,4 +558,45 @@ test("a phone or a small machine carries half the paint, and the dial can say ot
   const full = scatterStrokes(floor, { focus, tools }).count,
     half = scatterStrokes(floor, { focus, tools, thin: 0.5 }).count;
   assert.ok(Math.abs(half / full - 0.5) < 0.08, `${half} of ${full}`);
+});
+
+test("retained foliage dabs inherit squared leaf weight and reuse the prototype across transformed copies", () => {
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute([0, 0, 0, 1, 0, 0, 0, 1, 0], 3));
+  geometry.setAttribute("uv", new THREE.Float32BufferAttribute([0.25, 0, 0.6, 0, 1, 1], 2));
+  const material = new THREE.MeshStandardMaterial({ color: 0x657c30 });
+  material.name = "coastal sage leaf";
+  const object = new THREE.InstancedMesh(geometry, material, 2);
+  object.name = "Sample coastal sage";
+  object.userData.flora = true;
+  const frames = [new THREE.Matrix4().makeTranslation(-4, 8, 1), new THREE.Matrix4().makeRotationY(Math.PI / 3).setPosition(5, 12, -5)];
+  frames.forEach((frame, i) => object.setMatrixAt(i, frame));
+  const tools = { structureId: () => 15, structureKind: () => 0, structureSkips: () => false };
+  const options = { focus: new THREE.Vector3(), tools };
+  assert.equal(scatterStrokes(object, options), null);
+  const prototype = scatterStrokes(object, { ...options, flora: true });
+  assert.ok(prototype.count > 6);
+  for (let i = 0; i < prototype.count; i++) {
+    const [u, v] = prototype.places.subarray(i * 3, i * 3 + 2);
+    const expected = (1 - u - v) * 0.25 ** 2 + u * 0.6 ** 2 + v;
+    assert.ok(Math.abs(prototype.weights[i] / 65535 - expected) < 1 / 65535);
+  }
+  const dabs = repeatFloraDabs(prototype, object, 250, 15);
+  assert.equal(dabs.count, 15);
+  assert.equal(dabs.bytes, 15 * 32);
+  for (let i = 0; i < dabs.count; i++) {
+    const which = Math.floor(i / 2),
+      expected = new THREE.Vector3().fromArray(prototype.places, which * 3).applyMatrix4(frames[i % 2]),
+      actual = new THREE.Vector3().fromArray(dabs.places, i * 3);
+    assert.ok(expected.distanceTo(actual) < 1e-6);
+    assert.equal(dabs.ids[i], 250);
+    assert.equal(dabs.weights[i], prototype.weights[which]);
+  }
+});
+
+test("the exterior moves from matte daylight to loaded sunset oil and back to quiet dusk", () => {
+  assert.equal(exteriorPaintManner(0.316), 0);
+  assert.equal(exteriorPaintManner(0.0049), 1);
+  assert.ok(exteriorPaintManner(-0.094) < 0.1);
+  assert.equal(exteriorPaintManner(-0.3), 0);
 });

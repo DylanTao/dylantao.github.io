@@ -16,6 +16,7 @@ import {
   afterglow,
   colourwayAt,
   createPrintLook,
+  createStructure,
   displayToOklab,
   isLand,
   linearToOklab,
@@ -127,7 +128,9 @@ test("the cartoon is the same pass with brighter, flatter, fuller settings, and 
   assert.equal(drawn.look, "print", "the older switch returns to the look last drawn");
   assert.equal(drawn.setLook("toon"), "toon");
   assert.equal(uniforms.printTone.value.x, toon.bands);
-  assert.equal(drawn.setLook("watercolour"), "realistic", "an unknown look is the render itself");
+  assert.equal(drawn.setLook("watercolour"), "watercolour", "the public watercolour look is supported");
+  assert.equal(drawn.enabled, true);
+  assert.equal(drawn.setLook("unknown-look"), "realistic", "an unknown look uses the realistic renderer");
   assert.equal(drawn.material.version, version, "a look is uniforms only: no program is rebuilt");
   assert.equal(drawn.evidence().look, "realistic");
   // The older option still works for callers that only know on and off.
@@ -723,9 +726,7 @@ test("the painted look turns forms from the light, lights shade from the sky and
   const look = createPrintLook({ look: "paint" }),
     shader = look.material.fragmentShader;
   for (const name of ["skyClear", "skyPaint", "seaPaint"]) assert.ok(FIELD_GLSL.includes(`vec3 ${name}(`) && shader.includes(`vec3 ${name}(`), name);
-  assert.ok(
-    shader.includes("airFill(spotFill(mine, ownMix(labLinear(mine)), seen / weight, kind.x, reach, open, block.yz, 0.0, geo, read), lies.w)")
-  );
+  assert.ok(shader.includes("airFill(shelteredWindow(fill,printWorld[3].xyz,surface,seen/weight,kind.x), lies.w)"));
   // The scene's sky reaches the look: the sun below the horizon too, and the day's weather.
   const camera = new THREE.PerspectiveCamera(40, 16 / 9, 0.05, 300),
     uniforms = look.material.uniforms;
@@ -740,4 +741,39 @@ test("the painted look turns forms from the light, lights shade from the sky and
   assert.ok(Math.abs(uniforms.printWeather.value.x - 0.81) < 1e-9, "an overcast sky is cloud");
   assert.equal(uniforms.printWeather.value.w, 0, "and a still view holds its clouds still");
   look.dispose();
+});
+
+test("painted foliage keeps an object ID in the view mask while ordinary structure keeps its original exclusions", () => {
+  const structure = createStructure(),
+    scene = new THREE.Scene(),
+    camera = new THREE.PerspectiveCamera();
+  const leaf = new THREE.Mesh(new THREE.PlaneGeometry(), new THREE.MeshStandardMaterial());
+  leaf.userData.flora = leaf.userData.noContactOcclusion = true;
+  const unsupported = leaf.clone();
+  unsupported.geometry = leaf.geometry.clone();
+  unsupported.geometry.setAttribute("coastalPlantRoot", new THREE.Float32BufferAttribute([0, 0, 0], 3));
+  scene.add(leaf, unsupported);
+  const visibility = [];
+  const renderer = {
+    shadowMap: { autoUpdate: true },
+    info: { render: { calls: 0 } },
+    getRenderTarget: () => null,
+    getClearAlpha: () => 1,
+    getClearColor: (colour) => colour.set(0),
+    setRenderTarget() {},
+    setClearColor() {},
+    clear() {},
+    render() {
+      visibility.push([leaf.visible, unsupported.visible]);
+    },
+  };
+  structure.render(renderer, scene, camera);
+  structure.render(renderer, scene, camera, null, { paintFoliage: true });
+  assert.deepEqual(visibility, [
+    [false, false],
+    [true, false],
+  ]);
+  assert.equal(leaf.visible, true);
+  assert.equal(unsupported.visible, true);
+  structure.dispose();
 });

@@ -1,0 +1,3541 @@
+{
+  "sourceSha256": "4c4f9bcdd49e9b966cb2f46de4b383e832aa48536c44fe06b50a048ac91f62a4",
+  "summary": {
+    "rows": 504,
+    "failed": 0,
+    "minimumHeadroom": 2.113017664782769,
+    "maximumSupportError": 0.0033229707025848043,
+    "passes": true
+  },
+  "failedRows": [],
+  "probes": [
+    {
+      "at": [0.195, 2.59375, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1999998092651367, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.195, 2.59375, 19.38],
+      "side": 0,
+      "floor": [0.0, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1999998092651367, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.195, 2.59375, 19.57],
+      "side": 0.19,
+      "floor": [0.0, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1999998092651367, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.24132075471698114, 2.593811320754717, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-6.132075471709797e-5, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1999384885104196, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.24132075471698114, 2.593811320754717, 19.38],
+      "side": 0,
+      "floor": [-6.132075471709797e-5, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1999384885104196, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.24132075471698114, 2.593811320754717, 19.57],
+      "side": 0.19,
+      "floor": [-6.132075471709797e-5, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1999384885104196, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.2876415094339623, 2.5938726415094338, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.00012264150943375185, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199877167755703, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.2876415094339623, 2.5938726415094338, 19.38],
+      "side": 0,
+      "floor": [-0.00012264150943375185, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199877167755703, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.2876415094339623, 2.5938726415094338, 19.57],
+      "side": 0.19,
+      "floor": [-0.00012264150943375185, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199877167755703, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.33396226415094343, 2.593933962264151, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.00018396226415084982, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199815847000986, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.33396226415094343, 2.593933962264151, 19.38],
+      "side": 0,
+      "floor": [-0.00018396226415084982, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199815847000986, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.33396226415094343, 2.593933962264151, 19.57],
+      "side": 0.19,
+      "floor": [-0.00018396226415084982, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199815847000986, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.38028301886792454, 2.593995283018868, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.0002452830188679478, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1997545262462688, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.38028301886792454, 2.593995283018868, 19.38],
+      "side": 0,
+      "floor": [-0.0002452830188679478, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1997545262462688, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.38028301886792454, 2.593995283018868, 19.57],
+      "side": 0.19,
+      "floor": [-0.0002452830188679478, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1997545262462688, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.4266037735849057, 2.594056603773585, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.00030660377358504576, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1996932054915517, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.4266037735849057, 2.594056603773585, 19.38],
+      "side": 0,
+      "floor": [-0.00030660377358504576, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1996932054915517, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.4266037735849057, 2.594056603773585, 19.57],
+      "side": 0.19,
+      "floor": [-0.00030660377358504576, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1996932054915517, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.4729245283018868, 2.5941179245283017, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.00036792452830169964, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199631884736835, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.4729245283018868, 2.5941179245283017, 19.38],
+      "side": 0,
+      "floor": [-0.00036792452830169964, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199631884736835, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.4729245283018868, 2.5941179245283017, 19.57],
+      "side": 0.19,
+      "floor": [-0.00036792452830169964, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199631884736835, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.5192452830188679, 2.594179245283019, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.0004292452830187976, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199570563982118, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.5192452830188679, 2.594179245283019, 19.38],
+      "side": 0,
+      "floor": [-0.0004292452830187976, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199570563982118, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.5192452830188679, 2.594179245283019, 19.57],
+      "side": 0.19,
+      "floor": [-0.0004292452830187976, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199570563982118, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.5655660377358491, 2.594240566037736, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.0004905660377358956, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199509243227401, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.5655660377358491, 2.594240566037736, 19.38],
+      "side": 0,
+      "floor": [-0.0004905660377358956, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199509243227401, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.5655660377358491, 2.594240566037736, 19.57],
+      "side": 0.19,
+      "floor": [-0.0004905660377358956, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199509243227401, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.6118867924528302, 2.594301886792453, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.0005518867924529935, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1994479224726837, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.6118867924528302, 2.594301886792453, 19.38],
+      "side": 0,
+      "floor": [-0.0005518867924529935, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1994479224726837, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.6118867924528302, 2.594301886792453, 19.57],
+      "side": 0.19,
+      "floor": [-0.0005518867924529935, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1994479224726837, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.6582075471698114, 2.5943632075471696, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.0006132075471696474, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199386601717967, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.6582075471698114, 2.5943632075471696, 19.38],
+      "side": 0,
+      "floor": [-0.0006132075471696474, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199386601717967, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.6582075471698114, 2.5943632075471696, 19.57],
+      "side": 0.19,
+      "floor": [-0.0006132075471696474, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199386601717967, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.7045283018867925, 2.5944245283018867, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.0006745283018867454, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.19932528096325, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.7045283018867925, 2.5944245283018867, 19.38],
+      "side": 0,
+      "floor": [-0.0006745283018867454, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.19932528096325, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.7045283018867925, 2.5944245283018867, 19.57],
+      "side": 0.19,
+      "floor": [-0.0006745283018867454, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.19932528096325, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.7508490566037735, 2.594485849056604, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.0007358490566038434, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199263960208533, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.7508490566037735, 2.594485849056604, 19.38],
+      "side": 0,
+      "floor": [-0.0007358490566038434, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199263960208533, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.7508490566037735, 2.594485849056604, 19.57],
+      "side": 0.19,
+      "floor": [-0.0007358490566038434, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199263960208533, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.7971698113207548, 2.594547169811321, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.0007971698113209413, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1992026394538158, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.7971698113207548, 2.594547169811321, 19.38],
+      "side": 0,
+      "floor": [-0.0007971698113209413, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1992026394538158, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.7971698113207548, 2.594547169811321, 19.57],
+      "side": 0.19,
+      "floor": [-0.0007971698113209413, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1992026394538158, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.8434905660377359, 2.5946084905660376, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.0008584905660375952, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199141318699099, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.8434905660377359, 2.5946084905660376, 19.38],
+      "side": 0,
+      "floor": [-0.0008584905660375952, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199141318699099, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.8434905660377359, 2.5946084905660376, 19.57],
+      "side": 0.19,
+      "floor": [-0.0008584905660375952, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199141318699099, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.8898113207547169, 2.5946698113207547, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.0009198113207546932, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199079997944382, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.8898113207547169, 2.5946698113207547, 19.38],
+      "side": 0,
+      "floor": [-0.0009198113207546932, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199079997944382, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.8898113207547169, 2.5946698113207547, 19.57],
+      "side": 0.19,
+      "floor": [-0.0009198113207546932, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199079997944382, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.9361320754716982, 2.594731132075472, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.0009811320754717912, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199018677189665, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.9361320754716982, 2.594731132075472, 19.38],
+      "side": 0,
+      "floor": [-0.0009811320754717912, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199018677189665, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.9361320754716982, 2.594731132075472, 19.57],
+      "side": 0.19,
+      "floor": [-0.0009811320754717912, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.199018677189665, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.9824528301886792, 2.594792452830189, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.0010424528301888891, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.198957356434948, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.9824528301886792, 2.594792452830189, 19.38],
+      "side": 0,
+      "floor": [-0.0010424528301888891, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.198957356434948, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [0.9824528301886792, 2.594792452830189, 19.57],
+      "side": 0.19,
+      "floor": [-0.0010424528301888891, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.198957356434948, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.0287735849056603, 2.5948537735849055, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.001103773584905543, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.198896035680231, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.0287735849056603, 2.5948537735849055, 19.38],
+      "side": 0,
+      "floor": [-0.001103773584905543, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.198896035680231, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.0287735849056603, 2.5948537735849055, 19.57],
+      "side": 0.19,
+      "floor": [-0.001103773584905543, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.198896035680231, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.0750943396226416, 2.5949150943396226, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.001165094339622641, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.198834714925514, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.0750943396226416, 2.5949150943396226, 19.38],
+      "side": 0,
+      "floor": [-0.001165094339622641, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.198834714925514, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.0750943396226416, 2.5949150943396226, 19.57],
+      "side": 0.19,
+      "floor": [-0.001165094339622641, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.198834714925514, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.1214150943396228, 2.5949764150943397, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.001226415094339739, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.198773394170797, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.1214150943396228, 2.5949764150943397, 19.38],
+      "side": 0,
+      "floor": [-0.001226415094339739, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.198773394170797, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.1214150943396228, 2.5949764150943397, 19.57],
+      "side": 0.19,
+      "floor": [-0.001226415094339739, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.198773394170797, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.1677358490566039, 2.5950377358490564, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.0012877358490563928, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1987120734160803, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.1677358490566039, 2.5950377358490564, 19.38],
+      "side": 0,
+      "floor": [-0.0012877358490563928, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1987120734160803, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.1677358490566039, 2.5950377358490564, 19.57],
+      "side": 0.19,
+      "floor": [-0.0012877358490563928, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1987120734160803, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.2140566037735852, 2.5950990566037735, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.0013490566037734908, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1986507526613632, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.2140566037735852, 2.5950990566037735, 19.38],
+      "side": 0,
+      "floor": [-0.0013490566037734908, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1986507526613632, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.2140566037735852, 2.5950990566037735, 19.57],
+      "side": 0.19,
+      "floor": [-0.0013490566037734908, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.1986507526613632, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.2603773584905662, 2.5951603773584906, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-0.0014103773584905888, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.198589431906646, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.2603773584905662, 2.5951603773584906, 19.38],
+      "side": 0,
+      "floor": [-0.0014103773584905888, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.198589431906646, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.2603773584905662, 2.5951603773584906, 19.57],
+      "side": 0.19,
+      "floor": [-0.0014103773584905888, "core_arrival_B_treads__pale oak"],
+      "overhead": [2.198589431906646, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.3066981132075473, 2.5952216981132077, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0017781855385257117, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.198528111151929, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.3066981132075473, 2.5952216981132077, 19.38],
+      "side": 0,
+      "floor": [0.0017781855385257117, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.198528111151929, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.3066981132075473, 2.5952216981132077, 19.57],
+      "side": 0.19,
+      "floor": [0.0017781855385257117, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.198528111151929, "core_arrival_B_continuous_soffit"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.3530188679245285, 2.5952830188679243, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0017168647838090578, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115716469962642, "core_arrival_B_east_wall"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.3530188679245285, 2.5952830188679243, 19.38],
+      "side": 0,
+      "floor": [0.0017168647838090578, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1157174236369585, "core_arrival_B_east_wall"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.3530188679245285, 2.5952830188679243, 19.57],
+      "side": 0.19,
+      "floor": [0.0017168647838090578, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1157174236369585, "core_arrival_B_east_wall"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.3993396226415096, 2.5953443396226414, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0016555440290919599, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115655626045083, "core_arrival_B_east_wall"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.3993396226415096, 2.5953443396226414, 19.38],
+      "side": 0,
+      "floor": [0.0016555440290919599, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115655626045083, "core_arrival_B_east_wall"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.3993396226415096, 2.5953443396226414, 19.57],
+      "side": 0.19,
+      "floor": [0.0016555440290919599, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115655626045083, "core_arrival_B_east_wall"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.4456603773584906, 2.5954056603773585, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0015942232743748619, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115594305290366, "core_arrival_B_east_wall"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.4456603773584906, 2.5954056603773585, 19.38],
+      "side": 0,
+      "floor": [0.0015942232743748619, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115594305290366, "core_arrival_B_east_wall"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.4456603773584906, 2.5954056603773585, 19.57],
+      "side": 0.19,
+      "floor": [0.0015942232743748619, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115594305290366, "core_arrival_B_east_wall"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.4919811320754717, 2.5954669811320756, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.001532902519657764, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115532984535649, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.4919811320754717, 2.5954669811320756, 19.38],
+      "side": 0,
+      "floor": [0.001532902519657764, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115532984535649, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.4919811320754717, 2.5954669811320756, 19.57],
+      "side": 0.19,
+      "floor": [0.001532902519657764, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115532984535649, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.538301886792453, 2.5955283018867923, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.00147158176494111, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1154716637809323, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.538301886792453, 2.5955283018867923, 19.38],
+      "side": 0,
+      "floor": [0.00147158176494111, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1154716637809323, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.538301886792453, 2.5955283018867923, 19.57],
+      "side": 0.19,
+      "floor": [0.00147158176494111, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1154716637809323, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.584622641509434, 2.5955896226415094, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.001410261010224012, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1154103430262152, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.584622641509434, 2.5955896226415094, 19.38],
+      "side": 0,
+      "floor": [0.001410261010224012, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1154103430262152, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.584622641509434, 2.5955896226415094, 19.57],
+      "side": 0.19,
+      "floor": [0.001410261010224012, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1154103430262152, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.630943396226415, 2.5956509433962265, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.001348940255506914, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115349022271498, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.630943396226415, 2.5956509433962265, 19.38],
+      "side": 0,
+      "floor": [0.001348940255506914, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1153494991086563, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.630943396226415, 2.5956509433962265, 19.57],
+      "side": 0.19,
+      "floor": [0.001348940255506914, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1153494991086563, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.6772641509433963, 2.5957122641509436, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0012876195007898161, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1152881783539392, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.6772641509433963, 2.5957122641509436, 19.38],
+      "side": 0,
+      "floor": [0.0012876195007898161, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1152881783539392, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.6772641509433963, 2.5957122641509436, 19.57],
+      "side": 0.19,
+      "floor": [0.0012876195007898161, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115287224679623, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.7235849056603774, 2.5957735849056602, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0012262987460731622, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1152263807620644, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.7235849056603774, 2.5957735849056602, 19.38],
+      "side": 0,
+      "floor": [0.0012262987460731622, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1152263807620644, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.7235849056603774, 2.5957735849056602, 19.57],
+      "side": 0.19,
+      "floor": [0.0012262987460731622, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115225903924906, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.7699056603773584, 2.5958349056603773, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0011649779913560643, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115164583170189, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.7699056603773584, 2.5958349056603773, 19.38],
+      "side": 0,
+      "floor": [0.0011649779913560643, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115164583170189, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.7699056603773584, 2.5958349056603773, 19.57],
+      "side": 0.19,
+      "floor": [0.0011649779913560643, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1151650600073473, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.8162264150943397, 2.5958962264150944, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0011036572366389663, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1151042160897884, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.8162264150943397, 2.5958962264150944, 19.38],
+      "side": 0,
+      "floor": [0.0011036572366389663, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.115103262415472, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.8162264150943397, 2.5958962264150944, 19.57],
+      "side": 0.19,
+      "floor": [0.0011036572366389663, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1151042160897884, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.8625471698113207, 2.595957547169811, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0010423364819223124, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1150424184979135, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.8625471698113207, 2.595957547169811, 19.38],
+      "side": 0,
+      "floor": [0.0010423364819223124, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1150424184979135, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.8625471698113207, 2.595957547169811, 19.57],
+      "side": 0.19,
+      "floor": [0.0010423364819223124, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1150424184979135, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.9088679245283018, 2.596018867924528, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0009810157272052145, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1149810977431964, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.9088679245283018, 2.596018867924528, 19.38],
+      "side": 0,
+      "floor": [0.0009810157272052145, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1149810977431964, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.9088679245283018, 2.596018867924528, 19.57],
+      "side": 0.19,
+      "floor": [0.0009810157272052145, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1149810977431964, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.955188679245283, 2.5960801886792453, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0009196949724881165, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1149197769884793, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.955188679245283, 2.5960801886792453, 19.38],
+      "side": 0,
+      "floor": [0.0009196949724881165, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1149197769884793, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [1.955188679245283, 2.5960801886792453, 19.57],
+      "side": 0.19,
+      "floor": [0.0009196949724881165, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1149197769884793, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.001509433962264, 2.5961415094339624, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0008583742177710185, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1148584562337622, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.001509433962264, 2.5961415094339624, 19.38],
+      "side": 0,
+      "floor": [0.0008583742177710185, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1148584562337622, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.001509433962264, 2.5961415094339624, 19.57],
+      "side": 0.19,
+      "floor": [0.0008583742177710185, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1148584562337622, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.0478301886792454, 2.596202830188679, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0007970534630543646, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.114797612316204, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.0478301886792454, 2.596202830188679, 19.38],
+      "side": 0,
+      "floor": [0.0007970534630543646, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1147971354790456, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.0478301886792454, 2.596202830188679, 19.57],
+      "side": 0.19,
+      "floor": [0.0007970534630543646, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1147966586418874, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.0941509433962264, 2.596264150943396, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0007357327083372667, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1147362915614867, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.0941509433962264, 2.596264150943396, 19.38],
+      "side": 0,
+      "floor": [0.0007357327083372667, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1147358147243285, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.0941509433962264, 2.596264150943396, 19.57],
+      "side": 0.19,
+      "floor": [0.0007357327083372667, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1147362915614867, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.1404716981132075, 2.5963254716981132, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0006744119536201687, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1146744939696114, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.1404716981132075, 2.5963254716981132, 19.38],
+      "side": 0,
+      "floor": [0.0006744119536201687, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1146744939696114, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.1404716981132075, 2.5963254716981132, 19.57],
+      "side": 0.19,
+      "floor": [0.0006744119536201687, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1146749708067696, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.186792452830189, 2.5963867924528303, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0006130911989030707, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1146131732148943, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.186792452830189, 2.5963867924528303, 19.38],
+      "side": 0,
+      "floor": [0.0006130911989030707, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1146131732148943, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.186792452830189, 2.5963867924528303, 19.57],
+      "side": 0.19,
+      "floor": [0.0006130911989030707, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1146131732148943, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.23311320754717, 2.596448113207547, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0005517704441864169, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.114552329297336, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.23311320754717, 2.596448113207547, 19.38],
+      "side": 0,
+      "floor": [0.0005517704441864169, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1145518524601776, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.23311320754717, 2.596448113207547, 19.57],
+      "side": 0.19,
+      "floor": [0.0005517704441864169, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1145518524601776, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.279433962264151, 2.596509433962264, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0004904496894693189, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1144905317054605, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.279433962264151, 2.596509433962264, 19.38],
+      "side": 0,
+      "floor": [0.0004904496894693189, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1144905317054605, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.279433962264151, 2.596509433962264, 19.57],
+      "side": 0.19,
+      "floor": [0.0004904496894693189, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1144905317054605, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.325754716981132, 2.596570754716981, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0004291289347522209, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1144287341135852, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.325754716981132, 2.596570754716981, 19.38],
+      "side": 0,
+      "floor": [0.0004291289347522209, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1144287341135852, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.325754716981132, 2.596570754716981, 19.57],
+      "side": 0.19,
+      "floor": [0.0004291289347522209, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1144287341135852, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.372075471698113, 2.5966320754716983, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.00036780818003512294, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1143678901960263, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.372075471698113, 2.5966320754716983, 19.38],
+      "side": 0,
+      "floor": [0.00036780818003512294, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1143678901960263, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.372075471698113, 2.5966320754716983, 19.57],
+      "side": 0.19,
+      "floor": [0.00036780818003512294, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1143678901960263, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.418396226415094, 2.596693396226415, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.00030648742531846906, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1143065694413097, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.418396226415094, 2.596693396226415, 19.38],
+      "side": 0,
+      "floor": [0.00030648742531846906, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.114307046278468, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.418396226415094, 2.596693396226415, 19.57],
+      "side": 0.19,
+      "floor": [0.00030648742531846906, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1143065694413097, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.4647169811320753, 2.596754716981132, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.0002451666706013711, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1142452486865926, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.4647169811320753, 2.596754716981132, 19.38],
+      "side": 0,
+      "floor": [0.0002451666706013711, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1142447718494344, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.4647169811320753, 2.596754716981132, 19.57],
+      "side": 0.19,
+      "floor": [0.0002451666706013711, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1142452486865926, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.5110377358490568, 2.596816037735849, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.00018384591588427313, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1141839279318755, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.5110377358490568, 2.596816037735849, 19.38],
+      "side": 0,
+      "floor": [0.00018384591588427313, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1141839279318755, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.5110377358490568, 2.596816037735849, 19.57],
+      "side": 0.19,
+      "floor": [0.00018384591588427313, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1141839279318755, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.557358490566038, 2.5968773584905662, 19.189999999999998],
+      "side": -0.19,
+      "floor": [0.00012252516116717516, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1141226071771584, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.557358490566038, 2.5968773584905662, 19.38],
+      "side": 0,
+      "floor": [0.00012252516116717516, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1141226071771584, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.557358490566038, 2.5968773584905662, 19.57],
+      "side": 0.19,
+      "floor": [0.00012252516116717516, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1141226071771584, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.603679245283019, 2.596938679245283, 19.189999999999998],
+      "side": -0.19,
+      "floor": [6.120440645052128e-5, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1140612864224417, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.603679245283019, 2.596938679245283, 19.38],
+      "side": 0,
+      "floor": [6.120440645052128e-5, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1140612864224417, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.603679245283019, 2.596938679245283, 19.57],
+      "side": 0.19,
+      "floor": [6.120440645052128e-5, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1140612864224417, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597, 19.189999999999998],
+      "side": -0.19,
+      "floor": [-1.163482665766935e-7, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1139999656677246, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597, 19.38],
+      "side": 0,
+      "floor": [-1.163482665766935e-7, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1139999656677246, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597, 19.57],
+      "side": 0.19,
+      "floor": [-1.163482665766935e-7, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1139999656677246, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.597, 19.38],
+      "side": -0.19,
+      "floor": [-1.163482665766935e-7, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1139999656677246, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597, 19.38],
+      "side": 0,
+      "floor": [-1.163482665766935e-7, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1139999656677246, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.597, 19.38],
+      "side": 0.19,
+      "floor": [-1.163482665766935e-7, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1139999656677246, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5970265486725665, 19.333274336283186],
+      "side": -0.19,
+      "floor": [-2.666502083314981e-5, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113973416995158, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5970265486725665, 19.333274336283186],
+      "side": 0,
+      "floor": [-2.666502083314981e-5, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113973416995158, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5970265486725665, 19.333274336283186],
+      "side": 0.19,
+      "floor": [-2.666502083314981e-5, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113973416995158, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5970530973451327, 19.286548672566372],
+      "side": -0.19,
+      "floor": [-5.321369339927884e-5, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.11394734515975, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5970530973451327, 19.286548672566372],
+      "side": 0,
+      "floor": [-5.321369339927884e-5, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.11394734515975, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5970530973451327, 19.286548672566372],
+      "side": 0.19,
+      "floor": [-5.321369339927884e-5, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113946868322592, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5970796460176993, 19.239823008849555],
+      "side": -0.19,
+      "floor": [-7.976236596585196e-5, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1139203196500254, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5970796460176993, 19.239823008849555],
+      "side": 0,
+      "floor": [-7.976236596585196e-5, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1139203196500254, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5970796460176993, 19.239823008849555],
+      "side": 0.19,
+      "floor": [-7.976236596585196e-5, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1139203196500254, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5971061946902654, 19.193097345132742],
+      "side": -0.19,
+      "floor": [-0.00010631103853198098, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1138937709774592, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5971061946902654, 19.193097345132742],
+      "side": 0,
+      "floor": [-0.00010631103853198098, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1138937709774592, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5971061946902654, 19.193097345132742],
+      "side": 0.19,
+      "floor": [-0.00010631103853198098, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1138937709774592, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.597132743362832, 19.14637168141593],
+      "side": -0.19,
+      "floor": [-0.0001328597110985541, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113867699142051, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597132743362832, 19.14637168141593],
+      "side": 0,
+      "floor": [-0.0001328597110985541, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113867699142051, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.597132743362832, 19.14637168141593],
+      "side": 0.19,
+      "floor": [-0.0001328597110985541, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1138672223048927, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.597159292035398, 19.099646017699115],
+      "side": -0.19,
+      "floor": [-0.00015940838366468313, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1138411504694847, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597159292035398, 19.099646017699115],
+      "side": 0,
+      "floor": [-0.00015940838366468313, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1138406736323265, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.597159292035398, 19.099646017699115],
+      "side": 0.19,
+      "floor": [-0.00015940838366468313, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1138411504694847, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5971858407079647, 19.0529203539823],
+      "side": -0.19,
+      "floor": [-0.00018595705623125625, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.11381412495976, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5971858407079647, 19.0529203539823],
+      "side": 0,
+      "floor": [-0.00018595705623125625, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.11381412495976, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5971858407079647, 19.0529203539823],
+      "side": 0.19,
+      "floor": [-0.00018595705623125625, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113814601796918, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.597212389380531, 19.006194690265485],
+      "side": -0.19,
+      "floor": [-0.00021250572879738527, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113788053124352, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597212389380531, 19.006194690265485],
+      "side": 0,
+      "floor": [-0.00021250572879738527, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113787576287194, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.597212389380531, 19.006194690265485],
+      "side": 0.19,
+      "floor": [-0.00021250572879738527, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113788053124352, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5972389380530974, 18.95946902654867],
+      "side": -0.19,
+      "floor": [-0.0002390544013639584, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1137610276146273, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5972389380530974, 18.95946902654867],
+      "side": 0,
+      "floor": [-0.0002390544013639584, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1137615044517855, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5972389380530974, 18.95946902654867],
+      "side": 0.19,
+      "floor": [-0.0002390544013639584, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1137610276146273, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5972654867256635, 18.912743362831858],
+      "side": -0.19,
+      "floor": [-0.0002656030739300874, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113734478942061, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5972654867256635, 18.912743362831858],
+      "side": 0,
+      "floor": [-0.0002656030739300874, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113734478942061, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5972654867256635, 18.912743362831858],
+      "side": 0.19,
+      "floor": [-0.0002656030739300874, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113734478942061, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.59729203539823, 18.866017699115044],
+      "side": -0.19,
+      "floor": [-0.00029215174649666054, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1137074534323363, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.59729203539823, 18.866017699115044],
+      "side": 0,
+      "floor": [-0.00029215174649666054, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1137079302694946, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.59729203539823, 18.866017699115044],
+      "side": 0.19,
+      "floor": [-0.00029215174649666054, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1137079302694946, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5973185840707966, 18.819292035398227],
+      "side": -0.19,
+      "floor": [-0.00031870041906323365, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113681381596928, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5973185840707966, 18.819292035398227],
+      "side": 0,
+      "floor": [-0.00031870041906323365, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113681381596928, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5973185840707966, 18.819292035398227],
+      "side": 0.19,
+      "floor": [-0.00031870041906323365, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113681381596928, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5973451327433628, 18.772566371681414],
+      "side": -0.19,
+      "floor": [-0.0003452490916293627, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.11365530976152, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5973451327433628, 18.772566371681414],
+      "side": 0,
+      "floor": [-0.0003452490916293627, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113654832924362, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5973451327433628, 18.772566371681414],
+      "side": 0.19,
+      "floor": [-0.0003452490916293627, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1136543560872036, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5973716814159293, 18.7258407079646],
+      "side": -0.19,
+      "floor": [-0.0003717977641959358, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1136282842517953, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5973716814159293, 18.7258407079646],
+      "side": 0,
+      "floor": [-0.0003717977641959358, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1136282842517953, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5973716814159293, 18.7258407079646],
+      "side": 0.19,
+      "floor": [-0.0003717977641959358, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1136282842517953, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5973982300884955, 18.679115044247787],
+      "side": -0.19,
+      "floor": [-0.0003983464367620648, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113601258742071, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5973982300884955, 18.679115044247787],
+      "side": 0,
+      "floor": [-0.0003983464367620648, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113601735579229, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5973982300884955, 18.679115044247787],
+      "side": 0.19,
+      "floor": [-0.0003983464367620648, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113601735579229, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.597424778761062, 18.632389380530974],
+      "side": -0.19,
+      "floor": [-0.00042489510932863794, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1135751869066626, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597424778761062, 18.632389380530974],
+      "side": 0,
+      "floor": [-0.00042489510932863794, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1135751869066626, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.597424778761062, 18.632389380530974],
+      "side": 0.19,
+      "floor": [-0.00042489510932863794, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1135747100695044, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.597451327433628, 18.585663716814157],
+      "side": -0.19,
+      "floor": [-0.00045144378189476697, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1135486382340964, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597451327433628, 18.585663716814157],
+      "side": 0,
+      "floor": [-0.00045144378189476697, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1135491150712546, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.597451327433628, 18.585663716814157],
+      "side": 0.19,
+      "floor": [-0.00045144378189476697, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1135491150712546, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5974778761061947, 18.538938053097343],
+      "side": -0.19,
+      "floor": [-0.0004779924544613401, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.11352208956153, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5974778761061947, 18.538938053097343],
+      "side": 0,
+      "floor": [-0.0004779924544613401, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1135216127243717, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5974778761061947, 18.538938053097343],
+      "side": 0.19,
+      "floor": [-0.0004779924544613401, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.11352208956153, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.597504424778761, 18.49221238938053],
+      "side": -0.19,
+      "floor": [-0.0005045411270274691, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1134950640518055, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597504424778761, 18.49221238938053],
+      "side": 0,
+      "floor": [-0.0005045411270274691, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1134955408889637, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.597504424778761, 18.49221238938053],
+      "side": 0.19,
+      "floor": [-0.0005045411270274691, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1134955408889637, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5975309734513274, 18.445486725663716],
+      "side": -0.19,
+      "floor": [-0.0005310897995940422, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113468992216397, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5975309734513274, 18.445486725663716],
+      "side": 0,
+      "floor": [-0.0005310897995940422, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113468992216397, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5975309734513274, 18.445486725663716],
+      "side": 0.19,
+      "floor": [-0.0005310897995940422, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113468992216397, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.597557522123894, 18.398761061946903],
+      "side": -0.19,
+      "floor": [-0.0005576384721606154, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1134424435438306, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597557522123894, 18.398761061946903],
+      "side": 0,
+      "floor": [-0.0005576384721606154, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113442920380989, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.597557522123894, 18.398761061946903],
+      "side": 0.19,
+      "floor": [-0.0005576384721606154, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1134424435438306, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.59758407079646, 18.352035398230086],
+      "side": -0.19,
+      "floor": [-0.0005841871447267444, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1134158948712645, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.59758407079646, 18.352035398230086],
+      "side": 0,
+      "floor": [-0.0005841871447267444, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1134158948712645, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.59758407079646, 18.352035398230086],
+      "side": 0.19,
+      "floor": [-0.0005841871447267444, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1134163717084227, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5976106194690267, 18.305309734513273],
+      "side": -0.19,
+      "floor": [-0.0006107358172933175, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1133888693615397, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5976106194690267, 18.305309734513273],
+      "side": 0,
+      "floor": [-0.0006107358172933175, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113389346198698, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5976106194690267, 18.305309734513273],
+      "side": 0.19,
+      "floor": [-0.0006107358172933175, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113389823035856, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.597637168141593, 18.25858407079646],
+      "side": -0.19,
+      "floor": [-0.0006372844898594465, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1133627975261318, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597637168141593, 18.25858407079646],
+      "side": 0,
+      "floor": [-0.0006372844898594465, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1133627975261318, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.597637168141593, 18.25858407079646],
+      "side": 0.19,
+      "floor": [-0.0006372844898594465, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1133623206889736, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5976637168141594, 18.211858407079646],
+      "side": -0.19,
+      "floor": [-0.0006638331624260196, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113336248853565, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5976637168141594, 18.211858407079646],
+      "side": 0,
+      "floor": [-0.0006638331624260196, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113336248853565, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5976637168141594, 18.211858407079646],
+      "side": 0.19,
+      "floor": [-0.0006638331624260196, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113336248853565, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5976902654867255, 18.165132743362832],
+      "side": -0.19,
+      "floor": [-0.0006903818349921487, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113309700180999, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5976902654867255, 18.165132743362832],
+      "side": 0,
+      "floor": [-0.0006903818349921487, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113309700180999, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5976902654867255, 18.165132743362832],
+      "side": 0.19,
+      "floor": [-0.0006903818349921487, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1133101770181573, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.597716814159292, 18.118407079646015],
+      "side": -0.19,
+      "floor": [-0.0007169305075587218, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1132831515084325, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597716814159292, 18.118407079646015],
+      "side": 0,
+      "floor": [-0.0007169305075587218, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1132831515084325, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.597716814159292, 18.118407079646015],
+      "side": 0.19,
+      "floor": [-0.0007169305075587218, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1132831515084325, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5977433628318582, 18.071681415929202],
+      "side": -0.19,
+      "floor": [-0.0007434791801248508, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113256125998708, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5977433628318582, 18.071681415929202],
+      "side": 0,
+      "floor": [-0.0007434791801248508, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1132566028358664, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5977433628318582, 18.071681415929202],
+      "side": 0.19,
+      "floor": [-0.0007434791801248508, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1132566028358664, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.597769911504425, 18.02495575221239],
+      "side": -0.19,
+      "floor": [-0.0007700278526914239, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1132300541633, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597769911504425, 18.02495575221239],
+      "side": 0,
+      "floor": [-0.0007700278526914239, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1132300541633, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.597769911504425, 18.02495575221239],
+      "side": 0.19,
+      "floor": [-0.0007700278526914239, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1132300541633, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.597796460176991, 17.978230088495575],
+      "side": -0.19,
+      "floor": [-0.000796576525257553, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1132035054907337, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597796460176991, 17.978230088495575],
+      "side": 0,
+      "floor": [-0.000796576525257553, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1132035054907337, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.597796460176991, 17.978230088495575],
+      "side": 0.19,
+      "floor": [-0.000796576525257553, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1132035054907337, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5978230088495575, 17.931504424778762],
+      "side": -0.19,
+      "floor": [-0.0008231251978241261, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113176956818167, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5978230088495575, 17.931504424778762],
+      "side": 0,
+      "floor": [-0.0008231251978241261, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113176956818167, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5978230088495575, 17.931504424778762],
+      "side": 0.19,
+      "floor": [-0.0008231251978241261, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113176956818167, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.597849557522124, 17.884778761061945],
+      "side": -0.19,
+      "floor": [-0.0008496738703906992, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1131504081456005, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597849557522124, 17.884778761061945],
+      "side": 0,
+      "floor": [-0.0008496738703906992, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1131504081456005, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.597849557522124, 17.884778761061945],
+      "side": 0.19,
+      "floor": [-0.0008496738703906992, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1131504081456005, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5978761061946902, 17.83805309734513],
+      "side": -0.19,
+      "floor": [-0.0008762225429568282, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1131238594730344, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5978761061946902, 17.83805309734513],
+      "side": 0,
+      "floor": [-0.0008762225429568282, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1131238594730344, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5978761061946902, 17.83805309734513],
+      "side": 0.19,
+      "floor": [-0.0008762225429568282, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1131238594730344, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.597902654867257, 17.791327433628318],
+      "side": -0.19,
+      "floor": [-0.0009027712155234013, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113097310800468, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597902654867257, 17.791327433628318],
+      "side": 0,
+      "floor": [-0.0009027712155234013, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113097310800468, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.597902654867257, 17.791327433628318],
+      "side": 0.19,
+      "floor": [-0.0009027712155234013, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113097310800468, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.597929203539823, 17.744601769911505],
+      "side": -0.19,
+      "floor": [-0.0009293198880895304, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1130707621279017, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.597929203539823, 17.744601769911505],
+      "side": 0,
+      "floor": [-0.0009293198880895304, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1130707621279017, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.597929203539823, 17.744601769911505],
+      "side": 0.19,
+      "floor": [-0.0009293198880895304, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1130707621279017, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5979557522123895, 17.69787610619469],
+      "side": -0.19,
+      "floor": [-0.0009558685606561035, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1130446902924933, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5979557522123895, 17.69787610619469],
+      "side": 0,
+      "floor": [-0.0009558685606561035, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113044213455335, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5979557522123895, 17.69787610619469],
+      "side": 0.19,
+      "floor": [-0.0009558685606561035, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.1130446902924933, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5979823008849556, 17.651150442477874],
+      "side": -0.19,
+      "floor": [-0.0009824172332222325, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113017664782769, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5979823008849556, 17.651150442477874],
+      "side": 0,
+      "floor": [-0.0009824172332222325, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113017664782769, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5979823008849556, 17.651150442477874],
+      "side": 0.19,
+      "floor": [-0.0009824172332222325, "core_arrival_B_upper_link__pale oak"],
+      "overhead": [2.113017664782769, "core_arrival_B_upper_link_head"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598008849557522, 17.60442477876106],
+      "side": -0.19,
+      "floor": [0.0019910550750461553, "core_arrival_hall__pale oak"],
+      "overhead": [3.441991112295505, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598008849557522, 17.60442477876106],
+      "side": 0,
+      "floor": [0.0019910550750461553, "core_arrival_hall__pale oak"],
+      "overhead": [3.441991112295505, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598008849557522, 17.60442477876106],
+      "side": 0.19,
+      "floor": [0.0019910550750461553, "core_arrival_hall__pale oak"],
+      "overhead": [3.441991112295505, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5980353982300883, 17.557699115044247],
+      "side": -0.19,
+      "floor": [0.0019645064024800263, "core_arrival_hall__pale oak"],
+      "overhead": [3.441964563622939, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5980353982300883, 17.557699115044247],
+      "side": 0,
+      "floor": [0.0019645064024800263, "core_arrival_hall__pale oak"],
+      "overhead": [3.441964563622939, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5980353982300883, 17.557699115044247],
+      "side": 0.19,
+      "floor": [0.0019645064024800263, "core_arrival_hall__pale oak"],
+      "overhead": [3.441964563622939, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598061946902655, 17.510973451327434],
+      "side": -0.19,
+      "floor": [0.0019379577299134532, "core_arrival_hall__pale oak"],
+      "overhead": [3.4419380149503724, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598061946902655, 17.510973451327434],
+      "side": 0,
+      "floor": [0.0019379577299134532, "core_arrival_hall__pale oak"],
+      "overhead": [3.4419380149503724, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598061946902655, 17.510973451327434],
+      "side": 0.19,
+      "floor": [0.0019379577299134532, "core_arrival_hall__pale oak"],
+      "overhead": [3.4419380149503724, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598088495575221, 17.464247787610617],
+      "side": -0.19,
+      "floor": [0.0019114090573473241, "core_arrival_hall__pale oak"],
+      "overhead": [3.4419114662778063, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598088495575221, 17.464247787610617],
+      "side": 0,
+      "floor": [0.0019114090573473241, "core_arrival_hall__pale oak"],
+      "overhead": [3.4419114662778063, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598088495575221, 17.464247787610617],
+      "side": 0.19,
+      "floor": [0.0019114090573473241, "core_arrival_hall__pale oak"],
+      "overhead": [3.4419114662778063, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5981150442477876, 17.417522123893804],
+      "side": -0.19,
+      "floor": [0.001884860384780751, "core_arrival_hall__pale oak"],
+      "overhead": [3.4418849176052397, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5981150442477876, 17.417522123893804],
+      "side": 0,
+      "floor": [0.001884860384780751, "core_arrival_hall__pale oak"],
+      "overhead": [3.4418849176052397, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5981150442477876, 17.417522123893804],
+      "side": 0.19,
+      "floor": [0.001884860384780751, "core_arrival_hall__pale oak"],
+      "overhead": [3.4418849176052397, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598141592920354, 17.37079646017699],
+      "side": -0.19,
+      "floor": [0.001858311712214178, "core_arrival_hall__pale oak"],
+      "overhead": [3.441858368932673, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598141592920354, 17.37079646017699],
+      "side": 0,
+      "floor": [0.001858311712214178, "core_arrival_hall__pale oak"],
+      "overhead": [3.441858368932673, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598141592920354, 17.37079646017699],
+      "side": 0.19,
+      "floor": [0.001858311712214178, "core_arrival_hall__pale oak"],
+      "overhead": [3.441858368932673, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5981681415929203, 17.324070796460177],
+      "side": -0.19,
+      "floor": [0.0018317630396480489, "core_arrival_hall__pale oak"],
+      "overhead": [3.441831820260107, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5981681415929203, 17.324070796460177],
+      "side": 0,
+      "floor": [0.0018317630396480489, "core_arrival_hall__pale oak"],
+      "overhead": [3.441831820260107, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5981681415929203, 17.324070796460177],
+      "side": 0.19,
+      "floor": [0.0018317630396480489, "core_arrival_hall__pale oak"],
+      "overhead": [3.4418322970972652, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598194690265487, 17.277345132743363],
+      "side": -0.19,
+      "floor": [0.0018052143670814758, "core_arrival_hall__pale oak"],
+      "overhead": [3.4418052715875405, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598194690265487, 17.277345132743363],
+      "side": 0,
+      "floor": [0.0018052143670814758, "core_arrival_hall__pale oak"],
+      "overhead": [3.4418052715875405, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598194690265487, 17.277345132743363],
+      "side": 0.19,
+      "floor": [0.0018052143670814758, "core_arrival_hall__pale oak"],
+      "overhead": [3.4418052715875405, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598221238938053, 17.230619469026546],
+      "side": -0.19,
+      "floor": [0.0017786656945153467, "core_arrival_hall__pale oak"],
+      "overhead": [3.441778246077816, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598221238938053, 17.230619469026546],
+      "side": 0,
+      "floor": [0.0017786656945153467, "core_arrival_hall__pale oak"],
+      "overhead": [3.4417787229149743, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598221238938053, 17.230619469026546],
+      "side": 0.19,
+      "floor": [0.0017786656945153467, "core_arrival_hall__pale oak"],
+      "overhead": [3.4417787229149743, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5982477876106196, 17.183893805309733],
+      "side": -0.19,
+      "floor": [0.0017521170219487736, "core_arrival_hall__pale oak"],
+      "overhead": [3.4417521742424078, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5982477876106196, 17.183893805309733],
+      "side": 0,
+      "floor": [0.0017521170219487736, "core_arrival_hall__pale oak"],
+      "overhead": [3.4417521742424078, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5982477876106196, 17.183893805309733],
+      "side": 0.19,
+      "floor": [0.0017521170219487736, "core_arrival_hall__pale oak"],
+      "overhead": [3.4417521742424078, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5982743362831857, 17.13716814159292],
+      "side": -0.19,
+      "floor": [0.0017255683493826446, "core_arrival_hall__pale oak"],
+      "overhead": [3.4417256255698416, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5982743362831857, 17.13716814159292],
+      "side": 0,
+      "floor": [0.0017255683493826446, "core_arrival_hall__pale oak"],
+      "overhead": [3.4417256255698416, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5982743362831857, 17.13716814159292],
+      "side": 0.19,
+      "floor": [0.0017255683493826446, "core_arrival_hall__pale oak"],
+      "overhead": [3.4417256255698416, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5983008849557523, 17.090442477876106],
+      "side": -0.19,
+      "floor": [0.0016990196768160715, "core_arrival_hall__pale oak"],
+      "overhead": [3.441699076897275, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5983008849557523, 17.090442477876106],
+      "side": 0,
+      "floor": [0.0016990196768160715, "core_arrival_hall__pale oak"],
+      "overhead": [3.441699076897275, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5983008849557523, 17.090442477876106],
+      "side": 0.19,
+      "floor": [0.0016990196768160715, "core_arrival_hall__pale oak"],
+      "overhead": [3.441699076897275, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5983274336283184, 17.043716814159293],
+      "side": -0.19,
+      "floor": [0.0016724710042499424, "core_arrival_hall__pale oak"],
+      "overhead": [3.441672528224709, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5983274336283184, 17.043716814159293],
+      "side": 0,
+      "floor": [0.0016724710042499424, "core_arrival_hall__pale oak"],
+      "overhead": [3.441672528224709, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5983274336283184, 17.043716814159293],
+      "side": 0.19,
+      "floor": [0.0016724710042499424, "core_arrival_hall__pale oak"],
+      "overhead": [3.441672528224709, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598353982300885, 16.996991150442476],
+      "side": -0.19,
+      "floor": [0.0016459223316833693, "core_arrival_hall__pale oak"],
+      "overhead": [3.4416459795521424, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598353982300885, 16.996991150442476],
+      "side": 0,
+      "floor": [0.0016459223316833693, "core_arrival_hall__pale oak"],
+      "overhead": [3.4416459795521424, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598353982300885, 16.996991150442476],
+      "side": 0.19,
+      "floor": [0.0016459223316833693, "core_arrival_hall__pale oak"],
+      "overhead": [3.4416459795521424, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5983805309734516, 16.950265486725662],
+      "side": -0.19,
+      "floor": [0.0016193736591167962, "core_arrival_hall__pale oak"],
+      "overhead": [3.441619430879576, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5983805309734516, 16.950265486725662],
+      "side": 0,
+      "floor": [0.0016193736591167962, "core_arrival_hall__pale oak"],
+      "overhead": [3.441619430879576, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5983805309734516, 16.950265486725662],
+      "side": 0.19,
+      "floor": [0.0016193736591167962, "core_arrival_hall__pale oak"],
+      "overhead": [3.441619430879576, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5984070796460177, 16.90353982300885],
+      "side": -0.19,
+      "floor": [0.0015928249865506672, "core_arrival_hall__pale oak"],
+      "overhead": [3.4415928822070097, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5984070796460177, 16.90353982300885],
+      "side": 0,
+      "floor": [0.0015928249865506672, "core_arrival_hall__pale oak"],
+      "overhead": [3.4415928822070097, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5984070796460177, 16.90353982300885],
+      "side": 0.19,
+      "floor": [0.0015928249865506672, "core_arrival_hall__pale oak"],
+      "overhead": [3.4415928822070097, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5984336283185843, 16.856814159292036],
+      "side": -0.19,
+      "floor": [0.001566276313984094, "core_arrival_hall__pale oak"],
+      "overhead": [3.441566333534443, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5984336283185843, 16.856814159292036],
+      "side": 0,
+      "floor": [0.001566276313984094, "core_arrival_hall__pale oak"],
+      "overhead": [3.441566333534443, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5984336283185843, 16.856814159292036],
+      "side": 0.19,
+      "floor": [0.001566276313984094, "core_arrival_hall__pale oak"],
+      "overhead": [3.441566333534443, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5984601769911504, 16.810088495575222],
+      "side": -0.19,
+      "floor": [0.001539727641417965, "core_arrival_hall__pale oak"],
+      "overhead": [3.441539784861877, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5984601769911504, 16.810088495575222],
+      "side": 0,
+      "floor": [0.001539727641417965, "core_arrival_hall__pale oak"],
+      "overhead": [3.441539784861877, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5984601769911504, 16.810088495575222],
+      "side": 0.19,
+      "floor": [0.001539727641417965, "core_arrival_hall__pale oak"],
+      "overhead": [3.441539784861877, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598486725663717, 16.763362831858405],
+      "side": -0.19,
+      "floor": [0.001513178968851392, "core_arrival_hall__pale oak"],
+      "overhead": [3.4415132361893104, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598486725663717, 16.763362831858405],
+      "side": 0,
+      "floor": [0.001513178968851392, "core_arrival_hall__pale oak"],
+      "overhead": [3.4415132361893104, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598486725663717, 16.763362831858405],
+      "side": 0.19,
+      "floor": [0.001513178968851392, "core_arrival_hall__pale oak"],
+      "overhead": [3.4415132361893104, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598513274336283, 16.71663716814159],
+      "side": -0.19,
+      "floor": [0.0014866302962852629, "core_arrival_hall__pale oak"],
+      "overhead": [3.4414866875167442, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598513274336283, 16.71663716814159],
+      "side": 0,
+      "floor": [0.0014866302962852629, "core_arrival_hall__pale oak"],
+      "overhead": [3.4414866875167442, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598513274336283, 16.71663716814159],
+      "side": 0.19,
+      "floor": [0.0014866302962852629, "core_arrival_hall__pale oak"],
+      "overhead": [3.4414866875167442, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5985398230088497, 16.66991150442478],
+      "side": -0.19,
+      "floor": [0.0014600816237186898, "core_arrival_hall__pale oak"],
+      "overhead": [3.4414601388441777, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5985398230088497, 16.66991150442478],
+      "side": 0,
+      "floor": [0.0014600816237186898, "core_arrival_hall__pale oak"],
+      "overhead": [3.4414601388441777, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5985398230088497, 16.66991150442478],
+      "side": 0.19,
+      "floor": [0.0014600816237186898, "core_arrival_hall__pale oak"],
+      "overhead": [3.4414601388441777, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598566371681416, 16.623185840707965],
+      "side": -0.19,
+      "floor": [0.0014335329511525607, "core_arrival_hall__pale oak"],
+      "overhead": [3.4414335901716115, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598566371681416, 16.623185840707965],
+      "side": 0,
+      "floor": [0.0014335329511525607, "core_arrival_hall__pale oak"],
+      "overhead": [3.4414335901716115, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598566371681416, 16.623185840707965],
+      "side": 0.19,
+      "floor": [0.0014335329511525607, "core_arrival_hall__pale oak"],
+      "overhead": [3.4414335901716115, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5985929203539824, 16.576460176991148],
+      "side": -0.19,
+      "floor": [0.0014069842785859876, "core_arrival_hall__pale oak"],
+      "overhead": [3.441407041499045, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5985929203539824, 16.576460176991148],
+      "side": 0,
+      "floor": [0.0014069842785859876, "core_arrival_hall__pale oak"],
+      "overhead": [3.441407041499045, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5985929203539824, 16.576460176991148],
+      "side": 0.19,
+      "floor": [0.0014069842785859876, "core_arrival_hall__pale oak"],
+      "overhead": [3.441407041499045, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5986194690265485, 16.529734513274335],
+      "side": -0.19,
+      "floor": [0.0013804356060198586, "core_arrival_hall__pale oak"],
+      "overhead": [3.441380492826479, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5986194690265485, 16.529734513274335],
+      "side": 0,
+      "floor": [0.0013804356060198586, "core_arrival_hall__pale oak"],
+      "overhead": [3.441380492826479, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5986194690265485, 16.529734513274335],
+      "side": 0.19,
+      "floor": [0.0013804356060198586, "core_arrival_hall__pale oak"],
+      "overhead": [3.441380492826479, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598646017699115, 16.48300884955752],
+      "side": -0.19,
+      "floor": [0.0013538869334532855, "core_arrival_hall__pale oak"],
+      "overhead": [3.4413539441539123, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598646017699115, 16.48300884955752],
+      "side": 0,
+      "floor": [0.0013538869334532855, "core_arrival_hall__pale oak"],
+      "overhead": [3.4413539441539123, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598646017699115, 16.48300884955752],
+      "side": 0.19,
+      "floor": [0.0013538869334532855, "core_arrival_hall__pale oak"],
+      "overhead": [3.4413539441539123, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5986725663716816, 16.436283185840708],
+      "side": -0.19,
+      "floor": [0.0013273382608867124, "core_arrival_hall__pale oak"],
+      "overhead": [3.4413273954813457, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5986725663716816, 16.436283185840708],
+      "side": 0,
+      "floor": [0.0013273382608867124, "core_arrival_hall__pale oak"],
+      "overhead": [3.4413273954813457, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5986725663716816, 16.436283185840708],
+      "side": 0.19,
+      "floor": [0.0013273382608867124, "core_arrival_hall__pale oak"],
+      "overhead": [3.4413273954813457, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5986991150442478, 16.389557522123894],
+      "side": -0.19,
+      "floor": [0.003300883048403591, "core_arrival_hall__pale oak"],
+      "overhead": [2.2013005988534573, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5986991150442478, 16.389557522123894],
+      "side": 0,
+      "floor": [0.003300883048403591, "core_arrival_hall__pale oak"],
+      "overhead": [2.2013005988534573, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5986991150442478, 16.389557522123894],
+      "side": 0.19,
+      "floor": [0.003300883048403591, "core_arrival_hall__pale oak"],
+      "overhead": [2.2013005988534573, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5987256637168143, 16.34283185840708],
+      "side": -0.19,
+      "floor": [0.003274334375837018, "core_arrival_hall__pale oak"],
+      "overhead": [2.2012740501808907, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5987256637168143, 16.34283185840708],
+      "side": 0,
+      "floor": [0.003274334375837018, "core_arrival_hall__pale oak"],
+      "overhead": [2.2012735733437325, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5987256637168143, 16.34283185840708],
+      "side": 0.19,
+      "floor": [0.003274334375837018, "core_arrival_hall__pale oak"],
+      "overhead": [2.2012740501808907, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5987522123893805, 16.296106194690264],
+      "side": -0.19,
+      "floor": [0.003247785703270889, "core_arrival_hall__pale oak"],
+      "overhead": [2.2012470246711664, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5987522123893805, 16.296106194690264],
+      "side": 0,
+      "floor": [0.003247785703270889, "core_arrival_hall__pale oak"],
+      "overhead": [2.2012475015083246, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5987522123893805, 16.296106194690264],
+      "side": 0.19,
+      "floor": [0.003247785703270889, "core_arrival_hall__pale oak"],
+      "overhead": [2.2012475015083246, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598778761061947, 16.24938053097345],
+      "side": -0.19,
+      "floor": [0.003221237030704316, "core_arrival_hall__pale oak"],
+      "overhead": [2.201220952835758, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598778761061947, 16.24938053097345],
+      "side": 0,
+      "floor": [0.003221237030704316, "core_arrival_hall__pale oak"],
+      "overhead": [2.201220952835758, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598778761061947, 16.24938053097345],
+      "side": 0.19,
+      "floor": [0.003221237030704316, "core_arrival_hall__pale oak"],
+      "overhead": [2.201220952835758, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598805309734513, 16.202654867256637],
+      "side": -0.19,
+      "floor": [0.003194688358138187, "core_arrival_hall__pale oak"],
+      "overhead": [2.2011939273260337, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598805309734513, 16.202654867256637],
+      "side": 0,
+      "floor": [0.003194688358138187, "core_arrival_hall__pale oak"],
+      "overhead": [2.2011939273260337, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598805309734513, 16.202654867256637],
+      "side": 0.19,
+      "floor": [0.003194688358138187, "core_arrival_hall__pale oak"],
+      "overhead": [2.201194404163192, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5988318584070798, 16.155929203539824],
+      "side": -0.19,
+      "floor": [0.0031681396855716137, "core_arrival_hall__pale oak"],
+      "overhead": [2.2011678554906253, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5988318584070798, 16.155929203539824],
+      "side": 0,
+      "floor": [0.0031681396855716137, "core_arrival_hall__pale oak"],
+      "overhead": [2.2011678554906253, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5988318584070798, 16.155929203539824],
+      "side": 0.19,
+      "floor": [0.0031681396855716137, "core_arrival_hall__pale oak"],
+      "overhead": [2.2011678554906253, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598858407079646, 16.109203539823007],
+      "side": -0.19,
+      "floor": [0.0031415910130054847, "core_arrival_hall__pale oak"],
+      "overhead": [2.201141306818059, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598858407079646, 16.109203539823007],
+      "side": 0,
+      "floor": [0.0031415910130054847, "core_arrival_hall__pale oak"],
+      "overhead": [2.201141306818059, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598858407079646, 16.109203539823007],
+      "side": 0.19,
+      "floor": [0.0031415910130054847, "core_arrival_hall__pale oak"],
+      "overhead": [2.2011417836552174, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5988849557522125, 16.062477876106193],
+      "side": -0.19,
+      "floor": [0.0031150423404389116, "core_arrival_hall__pale oak"],
+      "overhead": [2.2011142813083344, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5988849557522125, 16.062477876106193],
+      "side": 0,
+      "floor": [0.0031150423404389116, "core_arrival_hall__pale oak"],
+      "overhead": [2.201115234982651, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5988849557522125, 16.062477876106193],
+      "side": 0.19,
+      "floor": [0.0031150423404389116, "core_arrival_hall__pale oak"],
+      "overhead": [2.201115234982651, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598911504424779, 16.01575221238938],
+      "side": -0.19,
+      "floor": [0.0030884936678723385, "core_arrival_hall__pale oak"],
+      "overhead": [2.201088209472926, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598911504424779, 16.01575221238938],
+      "side": 0,
+      "floor": [0.0030884936678723385, "core_arrival_hall__pale oak"],
+      "overhead": [2.201088209472926, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598911504424779, 16.01575221238938],
+      "side": 0.19,
+      "floor": [0.0030884936678723385, "core_arrival_hall__pale oak"],
+      "overhead": [2.201088209472926, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598938053097345, 15.969026548672566],
+      "side": -0.19,
+      "floor": [0.0030619449953062094, "core_arrival_hall__pale oak"],
+      "overhead": [2.2010611839632017, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598938053097345, 15.969026548672566],
+      "side": 0,
+      "floor": [0.0030619449953062094, "core_arrival_hall__pale oak"],
+      "overhead": [2.20106166080036, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598938053097345, 15.969026548672566],
+      "side": 0.19,
+      "floor": [0.0030619449953062094, "core_arrival_hall__pale oak"],
+      "overhead": [2.20106166080036, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5989646017699117, 15.922300884955751],
+      "side": -0.19,
+      "floor": [0.0030353963227396363, "core_arrival_hall__pale oak"],
+      "overhead": [2.201034635290635, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5989646017699117, 15.922300884955751],
+      "side": 0,
+      "floor": [0.0030353963227396363, "core_arrival_hall__pale oak"],
+      "overhead": [2.2010351121277933, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5989646017699117, 15.922300884955751],
+      "side": 0.19,
+      "floor": [0.0030353963227396363, "core_arrival_hall__pale oak"],
+      "overhead": [2.2010351121277933, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.598991150442478, 15.875575221238938],
+      "side": -0.19,
+      "floor": [0.0030088476501735073, "core_arrival_hall__pale oak"],
+      "overhead": [2.201008086618069, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.598991150442478, 15.875575221238938],
+      "side": 0,
+      "floor": [0.0030088476501735073, "core_arrival_hall__pale oak"],
+      "overhead": [2.201008563455227, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.598991150442478, 15.875575221238938],
+      "side": 0.19,
+      "floor": [0.0030088476501735073, "core_arrival_hall__pale oak"],
+      "overhead": [2.201008563455227, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5990176991150444, 15.828849557522123],
+      "side": -0.19,
+      "floor": [0.002982298977606934, "core_arrival_hall__pale oak"],
+      "overhead": [2.2009815379455024, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5990176991150444, 15.828849557522123],
+      "side": 0,
+      "floor": [0.002982298977606934, "core_arrival_hall__pale oak"],
+      "overhead": [2.2009820147826606, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5990176991150444, 15.828849557522123],
+      "side": 0.19,
+      "floor": [0.002982298977606934, "core_arrival_hall__pale oak"],
+      "overhead": [2.2009820147826606, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5990442477876106, 15.78212389380531],
+      "side": -0.19,
+      "floor": [0.002955750305040805, "core_arrival_hall__pale oak"],
+      "overhead": [2.2009554661100945, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5990442477876106, 15.78212389380531],
+      "side": 0,
+      "floor": [0.002955750305040805, "core_arrival_hall__pale oak"],
+      "overhead": [2.2009554661100945, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5990442477876106, 15.78212389380531],
+      "side": 0.19,
+      "floor": [0.002955750305040805, "core_arrival_hall__pale oak"],
+      "overhead": [2.2009554661100945, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.599070796460177, 15.735398230088496],
+      "side": -0.19,
+      "floor": [0.002929201632474232, "core_arrival_hall__pale oak"],
+      "overhead": [2.200928917437528, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.599070796460177, 15.735398230088496],
+      "side": 0,
+      "floor": [0.002929201632474232, "core_arrival_hall__pale oak"],
+      "overhead": [2.200929394274686, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.599070796460177, 15.735398230088496],
+      "side": 0.19,
+      "floor": [0.002929201632474232, "core_arrival_hall__pale oak"],
+      "overhead": [2.200928917437528, "core_arrival_hall__warm cut stone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5990973451327433, 15.68867256637168],
+      "side": -0.19,
+      "floor": [0.002902652959908103, "core_arrival_hall__pale oak"],
+      "overhead": [2.2109025976467978, "core_arrival_wall__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5990973451327433, 15.68867256637168],
+      "side": 0,
+      "floor": [0.002902652959908103, "core_arrival_hall__pale oak"],
+      "overhead": [2.2109025976467978, "core_arrival_wall__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5990973451327433, 15.68867256637168],
+      "side": 0.19,
+      "floor": [0.002902652959908103, "core_arrival_hall__pale oak"],
+      "overhead": [2.2109025976467978, "core_arrival_wall__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.59912389380531, 15.641946902654867],
+      "side": -0.19,
+      "floor": [0.00287610428734153, "core_arrival_hall__pale oak"],
+      "overhead": [2.210875572137073, "core_arrival_wall__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.59912389380531, 15.641946902654867],
+      "side": 0,
+      "floor": [0.00287610428734153, "core_arrival_hall__pale oak"],
+      "overhead": [2.210875572137073, "core_arrival_wall__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.59912389380531, 15.641946902654867],
+      "side": 0.19,
+      "floor": [0.00287610428734153, "core_arrival_hall__pale oak"],
+      "overhead": [2.210876048974231, "core_arrival_wall__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.599150442477876, 15.595221238938052],
+      "side": -0.19,
+      "floor": [0.002849555614775401, "core_arrival_hall__pale oak"],
+      "overhead": [2.1258494621546924, "core_onsen_noren__onsen noren oiled bronze"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.599150442477876, 15.595221238938052],
+      "side": 0,
+      "floor": [0.002849555614775401, "core_arrival_hall__pale oak"],
+      "overhead": [2.1258499389918506, "core_onsen_noren__onsen noren oiled bronze"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.599150442477876, 15.595221238938052],
+      "side": 0.19,
+      "floor": [0.002849555614775401, "core_arrival_hall__pale oak"],
+      "overhead": [2.1258494621546924, "core_onsen_noren__onsen noren oiled bronze"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5991769911504425, 15.548495575221239],
+      "side": -0.19,
+      "floor": [0.0033229707025848043, "core_reno_floorboards_upper"],
+      "overhead": [2.125822913482126, "core_onsen_noren__onsen noren oiled bronze"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5991769911504425, 15.548495575221239],
+      "side": 0,
+      "floor": [0.0033229707025848043, "core_reno_floorboards_upper"],
+      "overhead": [2.125822913482126, "core_onsen_noren__onsen noren oiled bronze"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5991769911504425, 15.548495575221239],
+      "side": 0.19,
+      "floor": [0.0033229707025848043, "core_reno_floorboards_upper"],
+      "overhead": [2.125822913482126, "core_onsen_noren__onsen noren oiled bronze"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.599203539823009, 15.501769911504425],
+      "side": -0.19,
+      "floor": [0.003296422030018231, "core_reno_floorboards_upper"],
+      "overhead": [2.1258578768029674, "core_onsen_noren__onsen noren oiled bronze"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.599203539823009, 15.501769911504425],
+      "side": 0,
+      "floor": [0.003296422030018231, "core_reno_floorboards_upper"],
+      "overhead": [2.1258578768029674, "core_onsen_noren__onsen noren oiled bronze"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.599203539823009, 15.501769911504425],
+      "side": 0.19,
+      "floor": [0.003296422030018231, "core_reno_floorboards_upper"],
+      "overhead": [2.1258578768029674, "core_onsen_noren__onsen noren oiled bronze"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5992300884955752, 15.45504424778761],
+      "side": -0.19,
+      "floor": [0.003269873357452102, "core_reno_floorboards_upper"],
+      "overhead": [3.0680453402763974, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5992300884955752, 15.45504424778761],
+      "side": 0,
+      "floor": [0.003269873357452102, "core_reno_floorboards_upper"],
+      "overhead": [2.950770102239288, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5992300884955752, 15.45504424778761],
+      "side": 0.19,
+      "floor": [0.003269873357452102, "core_reno_floorboards_upper"],
+      "overhead": [2.943849287725128, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.599256637168142, 15.408318584070797],
+      "side": -0.19,
+      "floor": [0.003243324684885529, "core_reno_floorboards_upper"],
+      "overhead": [3.068018791603831, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.599256637168142, 15.408318584070797],
+      "side": 0,
+      "floor": [0.003243324684885529, "core_reno_floorboards_upper"],
+      "overhead": [2.9507435535667215, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.599256637168142, 15.408318584070797],
+      "side": 0.19,
+      "floor": [0.003243324684885529, "core_reno_floorboards_upper"],
+      "overhead": [2.943821785378245, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.599283185840708, 15.361592920353981],
+      "side": -0.19,
+      "floor": [0.0032167760123194, "core_reno_floorboards_upper"],
+      "overhead": [3.0679922429312647, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.599283185840708, 15.361592920353981],
+      "side": 0,
+      "floor": [0.0032167760123194, "core_reno_floorboards_upper"],
+      "overhead": [2.9507170048941553, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.599283185840708, 15.361592920353981],
+      "side": 0.19,
+      "floor": [0.0032167760123194, "core_reno_floorboards_upper"],
+      "overhead": [2.9437952367056788, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5993097345132745, 15.314867256637168],
+      "side": -0.19,
+      "floor": [0.003190227339752827, "core_reno_floorboards_upper"],
+      "overhead": [3.0679661710958563, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5993097345132745, 15.314867256637168],
+      "side": 0,
+      "floor": [0.003190227339752827, "core_reno_floorboards_upper"],
+      "overhead": [2.9506904562215888, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5993097345132745, 15.314867256637168],
+      "side": 0.19,
+      "floor": [0.003190227339752827, "core_reno_floorboards_upper"],
+      "overhead": [2.943768688033112, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5993362831858406, 15.268141592920355],
+      "side": -0.19,
+      "floor": [0.003163678667186698, "core_reno_floorboards_upper"],
+      "overhead": [3.067939145586132, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5993362831858406, 15.268141592920355],
+      "side": 0,
+      "floor": [0.003163678667186698, "core_reno_floorboards_upper"],
+      "overhead": [2.9506639075490226, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5993362831858406, 15.268141592920355],
+      "side": 0.19,
+      "floor": [0.003163678667186698, "core_reno_floorboards_upper"],
+      "overhead": [2.943742139360546, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.599362831858407, 15.22141592920354],
+      "side": -0.19,
+      "floor": [0.0031371299946201248, "core_reno_floorboards_upper"],
+      "overhead": [3.0679125969135654, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.599362831858407, 15.22141592920354],
+      "side": 0,
+      "floor": [0.0031371299946201248, "core_reno_floorboards_upper"],
+      "overhead": [2.950637358876456, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.599362831858407, 15.22141592920354],
+      "side": 0.19,
+      "floor": [0.0031371299946201248, "core_reno_floorboards_upper"],
+      "overhead": [2.9437155906879795, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5993893805309733, 15.174690265486724],
+      "side": -0.19,
+      "floor": [0.0031105813220539957, "core_reno_floorboards_upper"],
+      "overhead": [3.0678860482409993, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5993893805309733, 15.174690265486724],
+      "side": 0,
+      "floor": [0.0031105813220539957, "core_reno_floorboards_upper"],
+      "overhead": [2.95061081020389, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5993893805309733, 15.174690265486724],
+      "side": 0.19,
+      "floor": [0.0031105813220539957, "core_reno_floorboards_upper"],
+      "overhead": [2.9436895188525716, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.59941592920354, 15.12796460176991],
+      "side": -0.19,
+      "floor": [0.0030840326494874226, "core_reno_floorboards_upper"],
+      "overhead": [3.0678594995684327, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.59941592920354, 15.12796460176991],
+      "side": 0,
+      "floor": [0.0030840326494874226, "core_reno_floorboards_upper"],
+      "overhead": [2.9505842615313234, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.59941592920354, 15.12796460176991],
+      "side": 0.19,
+      "floor": [0.0030840326494874226, "core_reno_floorboards_upper"],
+      "overhead": [2.943662970180005, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.599442477876106, 15.081238938053097],
+      "side": -0.19,
+      "floor": [0.0030574839769212936, "core_reno_floorboards_upper"],
+      "overhead": [3.0678329508958666, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.599442477876106, 15.081238938053097],
+      "side": 0,
+      "floor": [0.0030574839769212936, "core_reno_floorboards_upper"],
+      "overhead": [2.9505577128587572, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.599442477876106, 15.081238938053097],
+      "side": 0.19,
+      "floor": [0.0030574839769212936, "core_reno_floorboards_upper"],
+      "overhead": [2.943636421507439, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5994690265486726, 15.034513274336284],
+      "side": -0.19,
+      "floor": [0.0030309353043547205, "core_reno_floorboards_upper"],
+      "overhead": [3.0678064022233, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5994690265486726, 15.034513274336284],
+      "side": 0,
+      "floor": [0.0030309353043547205, "core_reno_floorboards_upper"],
+      "overhead": [2.9505311641861907, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5994690265486726, 15.034513274336284],
+      "side": 0.19,
+      "floor": [0.0030309353043547205, "core_reno_floorboards_upper"],
+      "overhead": [2.9436098728348723, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.599495575221239, 14.987787610619469],
+      "side": -0.19,
+      "floor": [0.0030043866317881474, "core_reno_floorboards_upper"],
+      "overhead": [3.0677803303878917, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.599495575221239, 14.987787610619469],
+      "side": 0,
+      "floor": [0.0030043866317881474, "core_reno_floorboards_upper"],
+      "overhead": [2.950504615513624, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.599495575221239, 14.987787610619469],
+      "side": 0.19,
+      "floor": [0.0030043866317881474, "core_reno_floorboards_upper"],
+      "overhead": [2.9435828473251475, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5995221238938053, 14.941061946902654],
+      "side": -0.19,
+      "floor": [0.0029778379592220183, "core_reno_floorboards_upper"],
+      "overhead": [3.0677537817153255, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5995221238938053, 14.941061946902654],
+      "side": 0,
+      "floor": [0.0029778379592220183, "core_reno_floorboards_upper"],
+      "overhead": [2.950478066841058, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5995221238938053, 14.941061946902654],
+      "side": 0.19,
+      "floor": [0.0029778379592220183, "core_reno_floorboards_upper"],
+      "overhead": [2.9435562986525814, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.599548672566372, 14.89433628318584],
+      "side": -0.19,
+      "floor": [0.002951289286655445, "core_reno_floorboards_upper"],
+      "overhead": [3.0677267562056008, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.599548672566372, 14.89433628318584],
+      "side": 0,
+      "floor": [0.002951289286655445, "core_reno_floorboards_upper"],
+      "overhead": [2.9504515181684914, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.599548672566372, 14.89433628318584],
+      "side": 0.19,
+      "floor": [0.002951289286655445, "core_reno_floorboards_upper"],
+      "overhead": [2.943529749980015, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.599575221238938, 14.847610619469027],
+      "side": -0.19,
+      "floor": [0.002924740614089316, "core_reno_floorboards_upper"],
+      "overhead": [3.067700684370193, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.599575221238938, 14.847610619469027],
+      "side": 0,
+      "floor": [0.002924740614089316, "core_reno_floorboards_upper"],
+      "overhead": [2.9504249694959253, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.599575221238938, 14.847610619469027],
+      "side": 0.19,
+      "floor": [0.002924740614089316, "core_reno_floorboards_upper"],
+      "overhead": [2.943503678144607, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5996017699115046, 14.800884955752212],
+      "side": -0.19,
+      "floor": [0.002898191941522743, "core_reno_floorboards_upper"],
+      "overhead": [3.067673658860468, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5996017699115046, 14.800884955752212],
+      "side": 0,
+      "floor": [0.002898191941522743, "core_reno_floorboards_upper"],
+      "overhead": [2.9503984208233587, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5996017699115046, 14.800884955752212],
+      "side": 0.19,
+      "floor": [0.002898191941522743, "core_reno_floorboards_upper"],
+      "overhead": [2.943476652634882, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5996283185840707, 14.754159292035396],
+      "side": -0.19,
+      "floor": [0.002871643268956614, "core_reno_floorboards_upper"],
+      "overhead": [3.067647110187902, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5996283185840707, 14.754159292035396],
+      "side": 0,
+      "floor": [0.002871643268956614, "core_reno_floorboards_upper"],
+      "overhead": [2.9503718721507926, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5996283185840707, 14.754159292035396],
+      "side": 0.19,
+      "floor": [0.002871643268956614, "core_reno_floorboards_upper"],
+      "overhead": [2.9503718721507926, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5996548672566373, 14.707433628318583],
+      "side": -0.19,
+      "floor": [0.002845094596390041, "core_reno_floorboards_upper"],
+      "overhead": [3.0676205615153354, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5996548672566373, 14.707433628318583],
+      "side": 0,
+      "floor": [0.002845094596390041, "core_reno_floorboards_upper"],
+      "overhead": [2.950345323478226, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5996548672566373, 14.707433628318583],
+      "side": 0.19,
+      "floor": [0.002845094596390041, "core_reno_floorboards_upper"],
+      "overhead": [2.950345323478226, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5996814159292034, 14.66070796460177],
+      "side": -0.19,
+      "floor": [0.002818545923823912, "core_reno_floorboards_upper"],
+      "overhead": [3.0675940128427692, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5996814159292034, 14.66070796460177],
+      "side": 0,
+      "floor": [0.002818545923823912, "core_reno_floorboards_upper"],
+      "overhead": [2.95031877480566, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5996814159292034, 14.66070796460177],
+      "side": 0.19,
+      "floor": [0.002818545923823912, "core_reno_floorboards_upper"],
+      "overhead": [2.95031877480566, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.59970796460177, 14.613982300884956],
+      "side": -0.19,
+      "floor": [0.0027919972512573388, "core_reno_floorboards_upper"],
+      "overhead": [3.0675674641702027, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.59970796460177, 14.613982300884956],
+      "side": 0,
+      "floor": [0.0027919972512573388, "core_reno_floorboards_upper"],
+      "overhead": [2.9502922261330933, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.59970796460177, 14.613982300884956],
+      "side": 0.19,
+      "floor": [0.0027919972512573388, "core_reno_floorboards_upper"],
+      "overhead": [2.9502922261330933, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5997345132743366, 14.567256637168141],
+      "side": -0.19,
+      "floor": [0.0027654485786907657, "core_reno_floorboards_upper"],
+      "overhead": [3.067540915497636, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5997345132743366, 14.567256637168141],
+      "side": 0,
+      "floor": [0.0027654485786907657, "core_reno_floorboards_upper"],
+      "overhead": [2.9502656774605267, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5997345132743366, 14.567256637168141],
+      "side": 0.19,
+      "floor": [0.0027654485786907657, "core_reno_floorboards_upper"],
+      "overhead": [2.9502656774605267, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5997610619469027, 14.520530973451327],
+      "side": -0.19,
+      "floor": [0.0027388999061246366, "core_reno_floorboards_upper"],
+      "overhead": [3.06751436682507, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5997610619469027, 14.520530973451327],
+      "side": 0,
+      "floor": [0.0027388999061246366, "core_reno_floorboards_upper"],
+      "overhead": [2.9502391287879606, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5997610619469027, 14.520530973451327],
+      "side": 0.19,
+      "floor": [0.0027388999061246366, "core_reno_floorboards_upper"],
+      "overhead": [2.9502391287879606, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5997876106194693, 14.473805309734512],
+      "side": -0.19,
+      "floor": [0.0027123512335580635, "core_reno_floorboards_upper"],
+      "overhead": [3.0674882949896616, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5997876106194693, 14.473805309734512],
+      "side": 0,
+      "floor": [0.0027123512335580635, "core_reno_floorboards_upper"],
+      "overhead": [2.950212580115394, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5997876106194693, 14.473805309734512],
+      "side": 0.19,
+      "floor": [0.0027123512335580635, "core_reno_floorboards_upper"],
+      "overhead": [2.950212580115394, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5998141592920354, 14.427079646017699],
+      "side": -0.19,
+      "floor": [0.0026858025609919345, "core_reno_floorboards_upper"],
+      "overhead": [3.0674617463170955, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5998141592920354, 14.427079646017699],
+      "side": 0,
+      "floor": [0.0026858025609919345, "core_reno_floorboards_upper"],
+      "overhead": [2.950186508279986, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5998141592920354, 14.427079646017699],
+      "side": 0.19,
+      "floor": [0.0026858025609919345, "core_reno_floorboards_upper"],
+      "overhead": [2.950186508279986, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.599840707964602, 14.380353982300885],
+      "side": -0.19,
+      "floor": [0.0026592538884253614, "core_reno_floorboards_upper"],
+      "overhead": [3.0674347208073707, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.599840707964602, 14.380353982300885],
+      "side": 0,
+      "floor": [0.0026592538884253614, "core_reno_floorboards_upper"],
+      "overhead": [2.9501594827702613, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.599840707964602, 14.380353982300885],
+      "side": 0.19,
+      "floor": [0.0026592538884253614, "core_reno_floorboards_upper"],
+      "overhead": [2.9501594827702613, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.599867256637168, 14.33362831858407],
+      "side": -0.19,
+      "floor": [0.0026327052158592323, "core_reno_floorboards_upper"],
+      "overhead": [3.0674081721348045, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.599867256637168, 14.33362831858407],
+      "side": 0,
+      "floor": [0.0026327052158592323, "core_reno_floorboards_upper"],
+      "overhead": [2.950132934097695, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.599867256637168, 14.33362831858407],
+      "side": 0.19,
+      "floor": [0.0026327052158592323, "core_reno_floorboards_upper"],
+      "overhead": [2.950132934097695, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5998938053097347, 14.286902654867257],
+      "side": -0.19,
+      "floor": [0.0026061565432926592, "core_reno_floorboards_upper"],
+      "overhead": [3.067381623462238, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5998938053097347, 14.286902654867257],
+      "side": 0,
+      "floor": [0.0026061565432926592, "core_reno_floorboards_upper"],
+      "overhead": [2.9501063854251286, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5998938053097347, 14.286902654867257],
+      "side": 0.19,
+      "floor": [0.0026061565432926592, "core_reno_floorboards_upper"],
+      "overhead": [2.9501063854251286, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.599920353982301, 14.240176991150442],
+      "side": -0.19,
+      "floor": [0.00257960787072653, "core_reno_floorboards_upper"],
+      "overhead": [3.067355074789672, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.599920353982301, 14.240176991150442],
+      "side": 0,
+      "floor": [0.00257960787072653, "core_reno_floorboards_upper"],
+      "overhead": [2.9500798367525625, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.599920353982301, 14.240176991150442],
+      "side": 0.19,
+      "floor": [0.00257960787072653, "core_reno_floorboards_upper"],
+      "overhead": [2.9500798367525625, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5999469026548674, 14.193451327433628],
+      "side": -0.19,
+      "floor": [0.002553059198159957, "core_reno_floorboards_upper"],
+      "overhead": [3.0673285261171053, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5999469026548674, 14.193451327433628],
+      "side": 0,
+      "floor": [0.002553059198159957, "core_reno_floorboards_upper"],
+      "overhead": [2.950053288079996, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5999469026548674, 14.193451327433628],
+      "side": 0.19,
+      "floor": [0.002553059198159957, "core_reno_floorboards_upper"],
+      "overhead": [2.950053288079996, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.5999734513274335, 14.146725663716815],
+      "side": -0.19,
+      "floor": [0.002526510525593828, "core_reno_floorboards_upper"],
+      "overhead": [3.0673024542816973, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.5999734513274335, 14.146725663716815],
+      "side": 0,
+      "floor": [0.002526510525593828, "core_reno_floorboards_upper"],
+      "overhead": [2.9500267394074298, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.5999734513274335, 14.146725663716815],
+      "side": 0.19,
+      "floor": [0.002526510525593828, "core_reno_floorboards_upper"],
+      "overhead": [2.9500267394074298, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.46, 2.6, 14.1],
+      "side": -0.19,
+      "floor": [0.002499961853027255, "core_reno_floorboards_upper"],
+      "overhead": [3.0672754287719726, "core__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.65, 2.6, 14.1],
+      "side": 0,
+      "floor": [0.002499961853027255, "core_reno_floorboards_upper"],
+      "overhead": [2.950000190734863, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    },
+    {
+      "at": [2.84, 2.6, 14.1],
+      "side": 0.19,
+      "floor": [0.002499961853027255, "core_reno_floorboards_upper"],
+      "overhead": [2.950000190734863, "core_arrival_lid__golden coastal sandstone"],
+      "bodyProbeHits": []
+    }
+  ]
+}

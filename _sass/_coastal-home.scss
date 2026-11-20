@@ -381,8 +381,6 @@
   margin-bottom: 0.5rem;
   border-bottom: 1px solid var(--home-line);
 }
-// Visitors on a desktop choose how the home is drawn. Touch screens keep the realistic render
-// until the painted look is scaled for phones (docs/todo.md, item 1).
 .home-world-places-looks {
   display: flex;
   flex-wrap: wrap;
@@ -399,12 +397,6 @@
   button {
     min-height: 44px;
     line-height: 1.25;
-  }
-}
-
-@media (pointer: coarse) {
-  .home-world-places-looks {
-    display: none;
   }
 }
 
@@ -431,6 +423,10 @@
     border-radius: 0.35rem;
     padding: 0.35rem;
   }
+}
+.home-world-listening:not([hidden]) {
+  display: grid;
+  gap: 0.35rem;
 }
 .home-world-places-tools {
   border-top: 1px solid var(--home-line);
@@ -762,6 +758,13 @@ html.is-world-immersive {
   padding-inline: 0.55rem;
 }
 
+.home-world-cliff-lift {
+  position: absolute;
+  top: calc(100% + 0.55rem);
+  left: 0;
+  white-space: nowrap;
+}
+
 @media (pointer: coarse) {
   .home-world-exit kbd,
   .home-world-walk kbd {
@@ -769,11 +772,16 @@ html.is-world-immersive {
   }
 
   // Within thumb reach above Look; the top bar retains room for the library ladder action.
-  .home-world-jump {
+  .home-world-jump,
+  .home-world-dive {
     position: fixed;
     right: max(1rem, env(safe-area-inset-right, 0px));
     bottom: calc(6.9rem + clamp(6.5rem, 26vmin, 9rem) + env(safe-area-inset-bottom, 0px));
     padding-inline: 0.85rem;
+  }
+
+  .has-world-dive .home-world-jump {
+    display: none;
   }
 }
 
@@ -914,4 +922,47 @@ html.is-world-immersive {
     transition: none;
     animation: none;
   }
+}
+
+.home-world-visit {
+  position: absolute;
+  z-index: 4;
+  right: 0;
+  bottom: calc(100% + 0.75rem);
+  width: min(23rem, 100%);
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.5rem;
+  background: var(--global-bg-color, #fbfaf8);
+  color: var(--global-text-color, #20201d);
+  pointer-events: auto;
+}
+.home-world-visit[hidden],
+.is-world-visit .home-world-sticks,
+.is-world-visit [data-world-walk],
+.is-world-visit [data-world-jump],
+.is-world-visit [data-world-dive],
+.is-world-visit [data-world-cliff-lift],
+.is-world-visit [data-world-ladder] {
+  display: none !important;
+}
+.home-world-visit p {
+  margin: 0;
+  font-size: var(--type-compact);
+}
+.home-world-visit-scrub,
+.home-world-visit-scrub input {
+  display: block;
+  width: 100%;
+  margin: 0.2rem 0;
+}
+.home-world-visit-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.home-world-visit-keys button {
+  min-height: 2.4rem;
+}
+.is-world-visit .home-world-places-looks {
+  display: flex;
 }

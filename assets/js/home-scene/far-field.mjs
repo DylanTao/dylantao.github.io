@@ -237,8 +237,20 @@ float farSurface(vec2 xz) {
 // Distance along d from eye to the first land the ray meets (or -1), before tMax. Earth's curvature
 // (with the usual 13 % of it undone by refraction) lowers the land with distance. A ray that starts
 // inside the land (an eye in the cave, the reflections' capture point) first walks out of it.
-float farMarch(vec3 eye, vec3 d, float tMax) {
+// The house and its cut cliff are raster geometry. The top-down land
+// capture cannot represent openings beneath the surface. A primary camera
+// already resolves the exact native solid within this retained X/Z strip.
+vec2 farMainlandRasterInterval(vec3 eye, vec3 d, float rasterExit) {
+  vec2 safeDirection = sign(d.xz + vec2(1e-9)) * max(abs(d.xz), vec2(1e-6));
+  vec2 t0 = (vec2(-36.0, -24.0) - eye.xz) / safeDirection;
+  vec2 t1 = (vec2(76.0, 32.0) - eye.xz) / safeDirection;
+  vec2 near = min(t0, t1);
+  vec2 far = max(t0, t1);
+  return vec2(max(near.x, near.y), min(min(far.x, far.y), rasterExit));
+}
+float farMarch(vec3 eye, vec3 d, float tMax, float rasterExit) {
   if (farParams.y < 0.5 || d.y > farParams.w) return -1.0;
+  vec2 nativeRaster = farMainlandRasterInterval(eye, d, rasterExit);
   float drop = 0.87 / (2.0 * 6371000.0);
   float t = 2.0;
   int steps = int(farSteps);
@@ -246,6 +258,12 @@ float farMarch(vec3 eye, vec3 d, float tMax) {
   float previous = t;
   for (int i = 0; i < steps; i++) {
     if (t > tMax) break;
+    if (rasterExit > 2.0 && t >= nativeRaster.x && t < nativeRaster.y) {
+      t = nativeRaster.y + 0.01;
+      previous = t;
+      outside = true;
+      continue;
+    }
     vec3 p = eye + d * t;
     float gap = p.y - drop * t * t - farSurface(p.xz);
     if (!outside) {
@@ -270,6 +288,10 @@ float farMarch(vec3 eye, vec3 d, float tMax) {
     t += max(0.6 + t * 0.035, min(gap * 0.5, 40.0 + t * 0.12));
   }
   return -1.0;
+}
+// Stars and environment captures still see the complete terrain proxy.
+float farMarch(vec3 eye, vec3 d, float tMax) {
+  return farMarch(eye, d, tMax, 0.0);
 }
 // The land's own light at a hit: albedo from the near capture's kind and planting or the far map's
 // cover, lit by the sun, the moon and the sky as the scene's terrain is (Lambert).

@@ -97,3 +97,36 @@ export async function nativeGeometry(file, baseUrl = new URL("../../assets/model
   root.updateMatrixWorld(true);
   return root;
 }
+
+export function nativeDetailFor(file, manifest) {
+  const room = manifest.rooms.find((entry) => entry.file === file)?.id;
+  const shell = file === manifest.shell;
+  const details = (manifest.streamedDetails || []).filter((entry) => (shell ? !entry.room : room && entry.room === room));
+  if (room === "sleep" && manifest.streamedBedding?.empty) return [...details, { file: manifest.streamedBedding.empty }];
+  return details;
+}
+
+export async function nativeHouseGeometry(file, manifest, baseUrl) {
+  const root = await nativeGeometry(file, baseUrl);
+  const parts = await Promise.all(
+    nativeDetailFor(file, manifest).map(async (entry) => {
+      const part = await nativeGeometry(entry.file, baseUrl);
+      if (entry.members) {
+        const members = new Set(entry.members);
+        const carriers = [];
+        part.traverse((mesh) => {
+          if (!mesh.isMesh) return;
+          for (let node = mesh; node && node !== part; node = node.parent) if (members.has(node.name)) return;
+          carriers.push(mesh);
+        });
+        carriers.forEach((mesh) => mesh.removeFromParent());
+      }
+      return part;
+    })
+  );
+  if (parts.length) {
+    root.add(...parts);
+    root.updateMatrixWorld(true);
+  }
+  return root;
+}

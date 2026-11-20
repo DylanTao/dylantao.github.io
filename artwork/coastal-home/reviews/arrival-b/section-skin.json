@@ -1,0 +1,106 @@
+{
+  "sourceSha256": "5a05e72dbce6b89bbc30226f3ded087fad2bbea1e0537934734ef05929e17e73",
+  "candidateSha256": "4c4f9bcdd49e9b966cb2f46de4b383e832aa48536c44fe06b50a048ac91f62a4",
+  "lineage": {
+    "arrival": {
+      "facesBefore": 1792,
+      "facesAfter": 1792,
+      "sameFaceGeometry": 1790,
+      "changedMaterialOrSmooth": 0,
+      "changedUV": 0,
+      "changedBounce": 0,
+      "maxUV": 0.0,
+      "maxBounce": 0.0,
+      "angleChanged": 0,
+      "maxNormalDegrees": 0.0,
+      "maxNormalVectorChange": 0.0,
+      "maximumExamples": {},
+      "unmatched": {
+        "lost": 2,
+        "added": 2,
+        "examplesLost": [
+          [-3.9445, -14.77847, 5.83],
+          [-3.9445, -12.46753, 5.83]
+        ],
+        "examplesAdded": [
+          [-4.2771, -11.40804, 5.83],
+          [-4.2771, -14.633, 5.83]
+        ]
+      },
+      "lineage": {
+        "before": "db4cc147fb4ff513129396f081f1296f877cdd6d5e78046c98f5b36e997a4c13",
+        "after": "db4cc147fb4ff513129396f081f1296f877cdd6d5e78046c98f5b36e997a4c13"
+      }
+    },
+    "far": {
+      "facesBefore": 108357,
+      "facesAfter": 108357,
+      "sameFaceGeometry": 108357,
+      "changedMaterialOrSmooth": 0,
+      "changedUV": 0,
+      "changedBounce": 0,
+      "maxUV": 0.0,
+      "maxBounce": 0.0,
+      "angleChanged": 0,
+      "maxNormalDegrees": 0.0,
+      "maxNormalVectorChange": 0.0,
+      "maximumExamples": {},
+      "unmatched": {
+        "lost": 0,
+        "added": 0,
+        "examplesLost": [],
+        "examplesAdded": []
+      },
+      "lineage": {
+        "before": "62771b74046294c0a1b9f19854a513ecf2fb2212f60a9086668d4ba61b345137",
+        "after": "62771b74046294c0a1b9f19854a513ecf2fb2212f60a9086668d4ba61b345137"
+      }
+    }
+  },
+  "protectedPlateau": {
+    "bounds": [
+      [-2.05, -32.0, -0.26],
+      [1.66, -11.4, 11.0]
+    ],
+    "exactPortFaces": 1790,
+    "originalFaces": 1792,
+    "changedBaselineFaces": [
+      [
+        [-5.03000020980835, -12.391096115112305, 5.829999923706055],
+        [-1.7735092639923096, -15.949999809265137, 5.829999923706055],
+        [-5.03000020980835, -9.061494827270508, 5.829999923706055]
+      ],
+      [
+        [-5.03000020980835, -15.99429988861084, 5.829999923706055],
+        [-1.7735092639923096, -15.949999809265137, 5.829999923706055],
+        [-5.03000020980835, -12.391096115112305, 5.829999923706055]
+      ]
+    ],
+    "changedSectionFaces": [
+      [
+        [-5.03000020980835, -15.99429988861084, 5.829999923706055],
+        [-1.7735092639923096, -15.949999809265137, 5.829999923706055],
+        [-4.776000022888184, -12.668684005737305, 5.829999923706055],
+        [-4.776000022888184, -14.2760009765625, 5.829999923706055],
+        [-5.03000020980835, -14.2760009765625, 5.829999923706055]
+      ],
+      [
+        [-5.03000020980835, -9.680000305175781, 5.829999923706055],
+        [-4.776000022888184, -9.680000305175781, 5.829999923706055],
+        [-4.776000022888184, -12.668684005737305, 5.829999923706055],
+        [-1.7735092639923096, -15.949999809265137, 5.829999923706055],
+        [-5.03000020980835, -9.061494827270508, 5.829999923706055]
+      ]
+    ],
+    "clippedAreaBefore": 0.08137486615023626,
+    "clippedAreaAfter": 0.08137486615023626,
+    "clippedAreaInCommon": 0.08137486615023626,
+    "clippedSymmetricDifference": 0.0,
+    "plateauHeight": [5.829999923706055, 5.829999923706055],
+    "attributeVerticesCompared": 26,
+    "maxUVDelta": 0.0,
+    "maxBakedRGBA": 5.488820509214065e-9,
+    "maxNormalComponentDelta": 3.5181784596716175e-7
+  },
+  "passed": true
+}

@@ -34,7 +34,10 @@ function crossedLocalTreads(a, b, terrain) {
     }
     if (leave - enter <= 0.0001) continue;
     const t = (enter + leave) / 2;
-    crossed.push({ t, point: [a[0] + (b[0] - a[0]) * t, support.height, a[2] + (b[2] - a[2]) * t] });
+    crossed.push({
+      t,
+      point: [a[0] + (b[0] - a[0]) * t, support.height, a[2] + (b[2] - a[2]) * t],
+    });
   }
   return crossed.sort((a, b) => a.t - b.t).map((p) => p.point);
 }
@@ -68,7 +71,11 @@ export function roomRoute(config, from, to, start, { companion = false } = {}) {
   // Air departures can clear fitted shelves and screens without changing a
   // human exit, supported floor or riser. Their Y is base position, before hover.
   const airExits = companion ? config.companion?.roomExits : null;
-  from = from && { ...from, ...config.terrain.contacts[from.id], ...airExits?.[from.id] };
+  from = from && {
+    ...from,
+    ...config.terrain.contacts[from.id],
+    ...airExits?.[from.id],
+  };
   to = { ...to, ...config.terrain.contacts[to.id], ...airExits?.[to.id] };
   const ground = (point) => [point[0], supportHeight(point[0], point[2], config.terrain, point[1]), point[2]];
   // Seated/bathing roots are pose offsets, and room.floor is the corridor storey. Neither is the
@@ -99,6 +106,13 @@ export function roomRoute(config, from, to, start, { companion = false } = {}) {
     const joined = joinSharedAisle([...points, ...landing(exit)], [end, ...(to.exitPath || [entry]), ...landing(entry)]);
     points = joined || [...points, ...landing(exit), ...landing(entry).reverse(), ...[...(to.exitPath || [entry])].reverse(), end];
     connection = joined ? "shared-aisle" : connection;
+  } else if (nav.lowerStairExits && upper(exit) !== upper(entry)) {
+    const fromUpper = upper(exit);
+    const lower = fromUpper ? to : from;
+    const route = [...(nav.lowerStairExits[lower?.id] || []), ...nav.lowerStairApproach, ...nav.stairs];
+    if (fromUpper) points.push(...landing(exit), ...route.reverse());
+    else points.push(...route, ...landing(entry).reverse());
+    points.push(...[...(to.exitPath || [entry])].reverse(), end);
   } else {
     points.push(...landing(exit));
     if (upper(exit) !== upper(entry)) {

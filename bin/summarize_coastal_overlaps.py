@@ -64,8 +64,10 @@ def main():
     audit = json.loads(path("audit", ".jekyll-cache/overlap-audit/final.json").read_text(encoding="utf-8"))
     delivered_path = path("delivered", ".jekyll-cache/overlap-audit/delivered.json")
     delivered = json.loads(delivered_path.read_text(encoding="utf-8")) if delivered_path.exists() else None
-    if delivered and (not delivered.get("delivered") or delivered["sourceSha256"] != audit["sourceSha256"]):
-        raise SystemExit(f"{delivered_path} is not a delivered audit of the same source; re-run it with --delivered=1")
+    if delivered and (not delivered.get("delivered") or any(
+        delivered[key] != audit[key] for key in ("sourceSha256", "toolSha256", "toolDependencies", "modelCoverage", "exportsSha256")
+    )):
+        raise SystemExit(f"{delivered_path} must audit the same native source and shipped assets with the same tool")
     before_path = path("before", ".jekyll-cache/overlap-audit/before.json")
     before = json.loads(before_path.read_text(encoding="utf-8")) if before_path.exists() else None
     before_record = None
@@ -122,9 +124,11 @@ def main():
         "tool": audit["tool"],
         # The tool that produced the audit, so a later tool change requires a re-audit.
         "toolSha256": audit.get("toolSha256") or lf_sha(ROOT / "bin/audit_coastal_overlaps.py"),
+        "toolDependencies": audit["toolDependencies"],
         "source": audit["source"],
         "sourceSha256": audit["sourceSha256"],
         "manifestSha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
+        "modelCoverage": audit["modelCoverage"],
         "exportsSha256": exports,
         "furniture": [{k: f[k] for k in ("anchor", "item", "file", "sha256")} for f in audit["furniture"]],
         "furnitureAnchorsSha256": canonical_sha(manifest.get("furniture", [])),
@@ -144,7 +148,8 @@ def main():
         "beforeProvenance": before_provenance,
         # The decoded Draco GLBs, audited the same way: quantization can collapse a few-millimetre
         # native gap into a delivered depth tie, so delivery has its own z-fighting ratchet.
-        "delivered": ({"exportsSha256": {f["file"]: f["sha256"] for f in delivered.get("deliveredFiles", [])},
+        "delivered": ({"exportsSha256": {f["file"]: f["sha256"] for f in delivered["deliveredFiles"]},
+                       "textureCarriers": {f["file"]: f["textureCarriers"] for f in delivered["deliveredFiles"] if f["textureCarriers"]},
                        "totals": totals(delivered),
                        "zFighting": [{"pair": pair_key(r["a"], r["b"]), "visibleAreaM2": r["visibleAreaM2"], "at": r["at"], "normal": r["normal"]}
                                      for r in delivered["coplanar"] if r["verdict"] == "z-fighting"]}

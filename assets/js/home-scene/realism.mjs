@@ -271,6 +271,11 @@ export function finishPhysicalMaterial(source, mesh, contactLighting) {
     mesh.userData.noContactOcclusion = true;
     return bindContactLighting(m, contactLighting);
   }
+  // This joinery carries its own metre-scaled stone, bent veneer and woven
+  // finishes, including the maps hydrated when the bar first streams in.
+  if (name.startsWith("listening room ") || name === "Loggia · sawn fossil limestone") {
+    return bindContactLighting(m, contactLighting);
+  }
   const wood = /wood|oak|\bash\b|walnut/i.test(name);
   const cloth = /linen|textile|cotton|trousers|woven|boucle/i.test(name);
   // The house's walls are lime plaster (Sirui, 2026-10-16); the renovation's stone family is a
@@ -795,7 +800,12 @@ export function createFinish(
         contact.blurMaterial.uniforms.cameraInverseProjectionMatrix.value.copy(activeCamera.projectionMatrixInverse);
         output.enabled = !print?.enabled;
         gpuTimer.begin();
-        haze?.prepare(activeCamera, exterior);
+        if (haze) {
+          // Keep the short Pacific visibility range in the beauty pass. The air
+          // post-process would otherwise replace it with distant atmospheric haze.
+          haze.pass.enabled = !activeCamera.userData.pacificSubmerged;
+          if (haze.pass.enabled) haze.prepare(activeCamera, exterior);
+        }
         if (volume?.object.visible) volumeDepth.render(activeCamera, volume);
         composer.render();
         completed = true;

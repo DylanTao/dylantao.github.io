@@ -12,6 +12,12 @@
   <button type="button" class="home-world-walk home-world-jump" data-world-jump hidden aria-keyshortcuts="Space" title="Jump (Space)">
     <span>Jump ↑</span><kbd aria-hidden="true">Space</kbd>
   </button>
+  <button type="button" class="home-world-walk home-world-dive" data-world-dive hidden aria-keyshortcuts="C" title="Dive below the Pacific (C)">
+    <span>Dive</span><kbd aria-hidden="true">C</kbd>
+  </button>
+  <button type="button" class="home-world-walk home-world-cliff-lift" data-world-cliff-lift hidden aria-keyshortcuts="E">
+    <span>Ride lift</span><kbd aria-hidden="true">E</kbd>
+  </button>
   <button type="button" class="home-world-walk home-world-ladder" data-world-ladder hidden aria-keyshortcuts="L" title="Roll library ladder (L)">
     Roll ladder
   </button>
@@ -34,6 +40,7 @@
     <span class="home-world-clock" data-world-clock>San Diego time</span>
   </div>
   <div class="home-world-quiet-actions">
+    <button type="button" data-world-arrival-skip hidden>Skip arrival</button>
     <details class="home-world-places" data-world-places>
       <summary>Rooms <span aria-hidden="true">⌄</span></summary>
       <nav class="home-world-places-panel" aria-label="Explore the coastal home">
@@ -42,9 +49,19 @@
           <button type="button" data-world-destination="overview">Whole home</button>
           <button type="button" data-world-destination="outside">Patio & coast</button>
           <button type="button" data-world-destination="garden">Workout garden</button>
+          <button type="button" data-world-destination="ocean-baths">Ocean baths</button>
+          <button type="button" data-world-destination="speakeasy">Speakeasy</button>
           <button type="button" data-world-destination="entrance">Clifftop entrance</button>
+          <button type="button" data-world-destination="arrival-hall" hidden>Arrival hall</button>
         </div>
         <div class="home-world-places-rooms" data-world-destinations></div>
+        <div class="home-world-listening" data-world-listening hidden>
+          <label class="home-world-stations"
+            >Record sleeve
+            <select data-world-listening-record></select
+          ></label>
+          <button type="button" data-world-listening-spin aria-pressed="false">Spin record</button>
+        </div>
         <label class="home-world-stations" hidden data-world-gym-stations>
           Training station
           <select data-world-station>
@@ -53,6 +70,8 @@
         </label>
         <p class="home-world-places-note" data-world-places-note>Choose a view. In full screen, Walk starts there.</p>
         <div class="home-world-places-tools">
+          <button type="button" data-world-visit-start="film" hidden>House film</button>
+          <button type="button" data-world-visit-start="boat" hidden>Shore by boat</button>
           <button type="button" data-world-look aria-pressed="false">Look freely</button>
           <button type="button" data-world-recenter>Reset view</button>
           <button type="button" data-world-follow>Back to Sirui</button>
@@ -61,6 +80,9 @@
           <p class="home-world-places-title">Drawn as</p>
           <button type="button" data-world-drawing="realistic" aria-pressed="true">Realistic</button>
           <button type="button" data-world-drawing="paint" aria-pressed="false">Painted</button>
+          <button type="button" data-world-drawing="watercolour" aria-pressed="false">Watercolour</button>
+          <button type="button" data-world-drawing="print" aria-pressed="false">Woodblock</button>
+          <button type="button" data-world-drawing="toon" aria-pressed="false">Cartoon</button>
         </div>
       </nav>
     </details>
@@ -69,6 +91,20 @@
       <i class="fa-solid fa-expand" aria-hidden="true"></i><span class="home-world-fullscreen-label" aria-hidden="true">Full screen</span>
     </button>
   </div>
+  <section class="home-world-visit" data-world-visit-controls hidden aria-label="Guided visit">
+    <p data-world-visit-caption aria-live="polite"></p>
+    <label class="home-world-visit-scrub">
+      <span class="sr-only">Visit progress</span>
+      <input data-world-visit-scrub type="range" min="0" max="1" step="0.05" value="0">
+    </label>
+    <div class="home-world-visit-keys">
+      <button type="button" data-world-visit-play>Pause</button>
+      <button type="button" data-world-visit-prior aria-label="Previous view">←</button>
+      <button type="button" data-world-visit-next aria-label="Next view">→</button>
+      <button type="button" data-world-visit-takeover>Look here</button>
+      <button type="button" data-world-visit-return>Return</button>
+    </div>
+  </section>
   <details class="home-world-explore" data-world-lab hidden inert>
     <summary aria-label="Explore the home" title="Explore the home"><span aria-hidden="true">⋯</span></summary>
     <div class="home-world-panel">
@@ -105,6 +141,7 @@
           <button type="button" data-world-drawing="toon" aria-pressed="false">Cartoon</button>
           <button type="button" data-world-drawing="print" aria-pressed="false">Woodblock</button>
           <button type="button" data-world-drawing="paint" aria-pressed="false">Painted</button>
+          <button type="button" data-world-drawing="watercolour" aria-pressed="false">Watercolour study</button>
         </div>
         <p data-world-study-status role="status" aria-live="polite"></p>
         <div data-world-study-output></div>

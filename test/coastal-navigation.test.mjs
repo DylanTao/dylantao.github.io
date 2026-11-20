@@ -51,8 +51,9 @@ test("all room pairs begin and end on their actual supports and cross the correc
           assert.equal(Math.sign(b[1] - a[1]), direction);
         });
         if (central.length) {
-          assert.equal(central[0][0][1], from.egress[1]);
-          assert.equal(central.at(-1)[1][1], to.egress[1]);
+          const landingHeight = config.navigation.upperLandingHeight;
+          assert.equal(central[0][0][1], from.egress[1] === 2.6 && landingHeight !== undefined ? landingHeight : from.egress[1]);
+          assert.equal(central.at(-1)[1][1], to.egress[1] === 2.6 && landingHeight !== undefined ? landingHeight : to.egress[1]);
         }
       }
       assert.equal(
@@ -96,7 +97,10 @@ test("sunken departures retain the authored pit path and use the crossed native 
   assert.deepEqual(nook.points[0], [-3.95, -0.42, -2.74 + setback], "the seated root at -.475 stands on the nook floor");
   const tread = nook.points.find((p) => p[1] === -0.21);
   assert.ok(tread, "the direct coffee path visits the exported intermediate tread");
-  const nativeTread = { ...config.terrain, supportSurfaces: config.terrain.supportSurfaces.filter((s) => s.id.startsWith("nook-tread-")) };
+  const nativeTread = {
+    ...config.terrain,
+    supportSurfaces: config.terrain.supportSurfaces.filter((s) => s.id.startsWith("nook-tread-")),
+  };
   assert.equal(supportHeight(tread[0], tread[2], nativeTread, -99), -0.21, "the inserted point is inside a real tread, not in open air");
   assert.deepEqual(
     slopes(nook).map(([a, b]) => [a[1], b[1]]),
@@ -127,7 +131,9 @@ test("floor contact follows every actual curved or legacy tread and its supporte
     // Legacy route points include tread edges. Probe the actual polygon's
     // centre, independently of which adjacent edge a half-open test chooses.
     const treads = config.terrain.supportSurfaces.filter(
-      (s) => /^(tread-|retreat-house-tread-|arrival-hall-tread-|arrival-hall-upper-landing)/.test(s.id) && Math.abs(s.height - b[1]) < 1e-4
+      (s) =>
+        /^(tread-|retreat-house-tread-|arrival-hall-tread-|arrival-b-tread-|arrival-hall-upper-landing)/.test(s.id) &&
+        Math.abs(s.height - b[1]) < 1e-4
     );
     const centres = treads.map((s) => [
       s.polygon.reduce((sum, p) => sum + p[0], 0) / s.polygon.length,

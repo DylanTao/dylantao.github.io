@@ -3,6 +3,7 @@
 import fs from "node:fs";
 import { createRequire } from "node:module";
 import { PNG } from "pngjs";
+import { nativeDetailFor } from "./coastal-native-geometry.mjs";
 import * as THREE from "../../assets/js/three.module.min.js";
 import { GLTFLoader } from "../../assets/js/vendor/three-r164/loaders/GLTFLoader.js";
 export { THREE };
@@ -72,14 +73,20 @@ export async function loadNativeModel(file, baseUrl = new URL("assets/models/hom
   };
   const bytes = fs.readFileSync(new URL(file, baseUrl));
   const loader = new GLTFLoader().setDRACOLoader(decoder);
-  // The house embeds its turf swatch. Decode the actual RGBA pixels in Node,
-  // leaving the pinned glTF parser in charge of UVs, samplers and materials.
+  // Decode the target turf pixels in Node. Other embedded image payloads are
+  // represented by their concrete MIME type and byte length for CPU geometry
+  // checks. The browser exercises their actual pixels and sampler settings.
   loader.register((parser) => {
     const original = parser.loadImageSource.bind(parser);
     parser.loadImageSource = (index, imageLoader) => {
       const image = parser.json.images[index];
-      if (image.mimeType !== "image/png" || image.bufferView === undefined) return original(index, imageLoader);
+      if (image.bufferView === undefined || !["image/png", "image/jpeg"].includes(image.mimeType)) return original(index, imageLoader);
       return parser.getDependency("bufferView", image.bufferView).then((buffer) => {
+        if (image.mimeType === "image/jpeg") {
+          const texture = new THREE.Texture();
+          texture.userData = { mimeType: image.mimeType, encodedBytes: buffer.byteLength };
+          return texture;
+        }
         const { data, width, height } = PNG.sync.read(Buffer.from(buffer));
         const texture = new THREE.DataTexture(data, width, height);
         texture.userData.mimeType = image.mimeType;
@@ -87,9 +94,32 @@ export async function loadNativeModel(file, baseUrl = new URL("assets/models/hom
         return texture;
       });
     };
-    return { name: "NodeEmbeddedPng" };
+    return { name: "NodeEmbeddedImages" };
   });
   return loader.parseAsync(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), baseUrl.href);
+}
+
+export async function loadNativeHouseModel(file, manifest, baseUrl = new URL("assets/models/home/", repo)) {
+  const model = await loadNativeModel(file, baseUrl);
+  const parts = nativeDetailFor(file, manifest);
+  const roots = await Promise.all(
+    parts.map(async (entry) => {
+      const { scene } = await loadNativeModel(entry.file, baseUrl);
+      if (entry.members) {
+        const names = new Set(entry.members.map(THREE.PropertyBinding.sanitizeNodeName));
+        const carriers = [];
+        scene.traverse((mesh) => {
+          if (!mesh.isMesh) return;
+          for (let node = mesh; node && node !== scene; node = node.parent) if (names.has(node.name)) return;
+          carriers.push(mesh);
+        });
+        carriers.forEach((carrier) => carrier.removeFromParent());
+      }
+      return scene;
+    })
+  );
+  if (roots.length) model.scene.add(...roots);
+  return model;
 }
 
 export async function loadNativeAvatar(id) {

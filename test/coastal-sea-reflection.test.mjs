@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "../assets/js/three.module.min.js";
-import { createSeaReflection } from "../assets/js/home-scene/reflection.mjs";
+import { createSeaReflection, setMirrorSize } from "../assets/js/home-scene/reflection.mjs";
 
 function fixture() {
   const scene = new THREE.Scene(),
@@ -32,14 +32,15 @@ function fixture() {
         frames.push(visible);
       },
     };
-  const reflection = createSeaReflection(renderer, scene, ocean, new THREE.MeshPhysicalMaterial());
+  const material = new THREE.MeshPhysicalMaterial();
+  const reflection = createSeaReflection(renderer, scene, ocean, material);
   const glass = (name) => {
     const mesh = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshPhysicalMaterial({ transmission: 0.5 }));
     mesh.name = name;
     scene.add(mesh);
     return mesh;
   };
-  return { scene, camera, ocean, renderer, reflection, glass, frames };
+  return { scene, camera, ocean, renderer, reflection, material, glass, frames };
 }
 
 test("late model invalidation suppresses its transmission on the next mirror draw and preserves main visibility", () => {
@@ -83,4 +84,32 @@ test("disabled/style intervals defer invalidation, and hidden objects and render
   assert.equal(f.renderer.toneMapping, tone);
   assert.equal(f.renderer.shadowMap.autoUpdate, true);
   f.reflection.dispose();
+});
+
+test("the existing mirror draw binds actual oblique depth and reconstructs its world witness", () => {
+  const f = fixture(),
+    positions = [new THREE.Vector3(1, -4, -10), new THREE.Vector3(-3, 2, -23)];
+  const shader = { uniforms: {}, vertexShader: "#include <project_vertex>", fragmentShader: "#include <lights_fragment_end>" };
+  f.material.onBeforeCompile(shader);
+  f.renderer.render = (scene, mirror) => {
+    const target = f.renderer.getRenderTarget();
+    assert.deepEqual([target.width, target.height], [620, 350]);
+    assert.deepEqual(shader.uniforms.coastalMirrorTexel.value.toArray(), [1 / 620, 1 / 350]);
+    assert.equal(target.depthTexture, shader.uniforms.coastalReflectionDepth.value);
+    assert.equal(target.texture, shader.uniforms.coastalReflection.value);
+    for (const position of positions) {
+      const ndc = position.clone().project(mirror);
+      const sample = new THREE.Vector4(ndc.x, ndc.y, ndc.z, 1).applyMatrix4(shader.uniforms.coastalWorldFromClip.value);
+      const recovered = new THREE.Vector3(sample.x, sample.y, sample.z).divideScalar(sample.w);
+      assert.ok(recovered.distanceTo(position) < 1e-8, "the depth witness uses the actual clipped projection inverse");
+    }
+  };
+  try {
+    setMirrorSize(620, 350);
+    f.reflection.update(f.camera, true);
+    assert.equal(f.reflection.evidence().depthReprojection, true);
+  } finally {
+    setMirrorSize(384, 384);
+    f.reflection.dispose();
+  }
 });

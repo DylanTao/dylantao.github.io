@@ -454,8 +454,9 @@ test("clifftop species bend with the breeze, gusts and their own sway, within th
   }
   // The shader hook keeps its include markers and shares one bend between position and normal.
   const shader = patchFloraSway({ uniforms: {}, vertexShader: ShaderLib.standard.vertexShader }, FLORA_SWAY.sage);
-  assert.match(shader.vertexShader, /void\s+main\s*\(\s*\)\s*\{\s*vec3 floraBend=/);
-  assert.ok(shader.vertexShader.includes("objectNormal=floraSwayNormal(objectNormal,floraBend);"));
+  assert.match(shader.vertexShader, /void\s+main\s*\(\s*\)\s*\{\s*mat4 floraFrame=modelMatrix;/);
+  assert.ok(shader.vertexShader.includes("floraFrame*=instanceMatrix"), "the wind is evaluated in each instance's own world frame");
+  assert.ok(shader.vertexShader.includes("objectNormal=floraSwayNormal(objectNormal,floraBend,floraFrame);"));
   assert.ok(shader.vertexShader.includes("transformed+=uv.x*uv.x*floraBend;"));
   const depth = patchFloraSway({ uniforms: {}, vertexShader: ShaderLib.depth.vertexShader }, FLORA_SWAY.sage);
   assert.ok(depth.vertexShader.includes("transformed+=uv.x*uv.x*floraBend;"), "shadows sway with the leaves");

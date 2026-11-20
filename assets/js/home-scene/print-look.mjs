@@ -1,6 +1,9 @@
 import * as THREE from "../three.module.min.js";
+import { drawHearths } from "./furniture-fire.mjs";
 import { Pass, FullScreenQuad } from "../vendor/three-r164/postprocessing/Pass.js";
-import { createPaint } from "./paint-strokes.mjs";
+import { createPaint, paintableFlora } from "./paint-strokes.mjs";
+import { floraSwayProfile, floraSwayVector, patchFloraSway } from "./plant-motion.mjs";
+import { createWatercolourWash } from "./watercolour-world.mjs";
 
 // Drawn readings of the finished frame: experiments, off unless ?look=toon, ?look=print, ?print=1
 // or the lab's switch asks for one. The realistic render stays the source; this pass redraws it.
@@ -44,7 +47,7 @@ import { createPaint } from "./paint-strokes.mjs";
 
 export const PRINT_KEY = "scene-print";
 // "realistic" is the render itself; these redraw it.
-export const DRAWN_LOOKS = Object.freeze(["toon", "print", "paint"]);
+export const DRAWN_LOOKS = Object.freeze(["toon", "print", "paint", "watercolour"]);
 // Sirui, November 13, on the woodblock: "a bit too grim", "maybe a bit more rick and morty vibe".
 // The cartoon is what ?print=1 now means; ?look=print keeps the woodblock.
 export const DEFAULT_DRAWN_LOOK = "toon";
@@ -487,6 +490,7 @@ const TOON_LOOK = Object.freeze({
   }),
 });
 export const LOOKS = Object.freeze({
+  watercolour: Object.freeze({ label: "Watercolour", dials: Object.freeze({ structure: 1, localColour: 1 }), way: TOON_LOOK.way }),
   print: Object.freeze({ label: "Woodblock", dials: Object.freeze({}), way: (way) => way }),
   toon: TOON_LOOK,
   // The painted world: the cartoon's designed colour as a coat, no outline, and over it brush
@@ -701,12 +705,21 @@ void main() {
     // Painted vertices are read where a surface has them; one without reads white.
     vertexColors: true,
   });
+  patchFloraSway(material, null);
+  const floraProfiles = new WeakMap();
+  const outsideWind = floraSwayVector(null);
   // Each object brings its id and its own colour, and is culled the way its own material is, so a
   // wall the beauty pass looks through from behind is looked through here too.
   material.onBeforeRender = (_renderer, _scene, _camera, _geometry, object, group) => {
     const index = group?.materialIndex ?? 0,
       source = Array.isArray(object.material) ? object.material[index] : object.material,
       kind = structureKind(source);
+    let profile = source && floraProfiles.get(source);
+    if (source && !profile) {
+      profile = floraSwayVector(floraSwayProfile(source.name));
+      floraProfiles.set(source, profile);
+    }
+    uniforms.floraSway.value = profile || outsideWind;
     uniforms.structureLand.value = outdoors && isLand(object, source) ? 1 : 0;
     uniforms.structureObject.value.set(
       structureId(object.id, index),
@@ -761,7 +774,7 @@ void main() {
   // Points, lines and whatever the contact pass also leaves out (effects, water, the sky's own
   // meshes) are not surfaces a line could follow. The map from above also leaves out figures and
   // animals, which would otherwise leave their outline on the ground where they last stood.
-  function hide(scene, moving) {
+  function hide(scene, moving, paintFoliage = false) {
     scene.traverse((object) => {
       if (!object.visible) {
         // A section view lifts the roof away so the rooms can be seen. The map from above still
@@ -776,9 +789,7 @@ void main() {
         object.isPoints ||
         object.isLine ||
         object.isSprite ||
-        object.userData.noOcclusion ||
-        object.userData.noContactOcclusion ||
-        object.userData.flora ||
+        ((object.userData.noOcclusion || object.userData.noContactOcclusion || object.userData.flora) && !(paintFoliage && paintableFlora(object))) ||
         (moving && object.isSkinnedMesh)
       ) {
         object.visible = false;
@@ -823,7 +834,7 @@ void main() {
     // `key` is the scene's key light (the sun, or the moon at night), a directional light whose
     // shadow map the beauty pass has just used. `outdoors` says the view stands outside the
     // house, and `mass` how wide a cast shadow must be to be kept, in radians of the view.
-    render(renderer, scene, camera, key = null, { outdoors: viewOutdoors = false, mass = 0 } = {}) {
+    render(renderer, scene, camera, key = null, { outdoors: viewOutdoors = false, mass = 0, paintFoliage = false } = {}) {
       outdoors = Boolean(viewOutdoors);
       const shadow = key?.shadow,
         shadowMap = key?.castShadow ? shadow?.map?.texture : null,
@@ -863,7 +874,9 @@ void main() {
         uniforms.structureKey.value.set(0, 0, 1, 0);
         uniforms.structureSky.value.w = 0;
       }
-      hide(scene, false);
+      // Only the painted view needs foliage IDs for its wind-attached dabs.
+      // The sky-height map still excludes the tiny gaps in the canopy.
+      hide(scene, false, paintFoliage);
       draw(renderer, scene, camera, target);
       draws++;
       calls = renderer.info.render.calls - before;
@@ -983,6 +996,7 @@ vec3 threeMixes(vec3 half_, float inHalf, float inLight, float lean) {
 // wall, and after sunset the part of the sky the sun went down in still colours what faces it. A
 // figure is a cel on that background: two flat tones and an edge. By night the key light is the
 // moon, and what it reaches takes moonlight's mix.
+uniform float printCoastDusk;
 vec3 spotFill(vec3 mine, vec3 own3, float seen, float kind, float reach, float open, vec2 frameHue, float wander, vec4 geo, out vec3 read) {
   float stops = log2(max(seen * toneMappingExposure / max(luma(mine), 0.03), 1e-4)) + wander;
   // A room's light fades over a long ramp. Under the open sky there is no such fall: a surface is
@@ -1027,9 +1041,28 @@ vec3 spotFill(vec3 mine, vec3 own3, float seen, float kind, float reach, float o
   float deepSky = mix(printNight * 0.5, 1.0 - smoothstep(printDay.z - 4.6, printDay.z - 2.8, stops), printDay.x);
   float deep = mix(deepRoom, deepSky, open) * (1.0 - inLight) * step(kind, 1.5);
   fill = mix(fill, vec3(fill.x * printDeep.z, mix(fill.yz, printShadeMix.xy * 0.9, printDeep.w)), deep);
+  // Late light stays on the planes turned toward it. Open lee slopes form
+  // one cool foreground mass around the house's clear, sheltered warm spot.
+  float rim=printGlow.w*smoothstep(.3,.82,geo.w);
+  float coastal=printCoastDusk*open*(1.0-inLight)*(1.0-rim*.85)*step(kind,.5);
+  vec3 duskSlate=vec3(fill.x*.71,mix(fill.yz,vec2(.004,-.050),.72));
+  fill=mix(fill,duskSlate,coastal);
   read = vec3(stops, inHalf, inLight);
   // A lamp prints as the light itself.
   return mix(fill, vec3(mix(fill.x, 1.0, 0.8), frameHue * 1.5 + printLightMix.xy * 0.5), step(0.5, kind) * step(kind, 1.5));
+}
+// Reserve one sheltered amber accent for the existing glazed living-room door.
+uniform vec4 printWindow; // left, right, pane depth, evening weight
+uniform vec2 printWindowY;
+vec3 shelteredWindow(vec3 lab, vec3 eye, vec3 surface, float seen, float kind) {
+  if (printWindow.w < .001 || eye.z >= printWindow.z || surface.z <= printWindow.z + .025 || kind >= 2.5) return lab;
+  vec3 pane=mix(eye,surface,(printWindow.z-eye.z)/(surface.z-eye.z));
+  vec2 edge=min(pane.xy-vec2(printWindow.x,printWindowY.x),vec2(printWindow.y,printWindowY.y)-pane.xy);
+  float inside=smoothstep(.01,.20,min(edge.x,edge.y));
+  float light=smoothstep(.018,.23,seen*toneMappingExposure);
+  float accent=printWindow.w*inside*light;
+  vec3 amber=vec3(max(lab.x,.54)+.19*light,lab.yz*.25+vec2(.09,.125));
+  return mix(lab,amber,accent*.67);
 }
 // The air between the eye and a thing far off: it goes toward the colour of the sky at the horizon.
 vec3 airFill(vec3 fill, float metres) {
@@ -1307,9 +1340,11 @@ void main() {
       }
       faces = normalize(faces);
     }
-    vec4 geo = vec4(dot(faces, printSun.xyz), (mat3(printWorld) * faces).y, (printWorld * vec4(placed(at, lies.w), 1.0)).y - printSea.x, dot(faces, printGlow.xyz));
+    vec3 surface=(printWorld * vec4(placed(at, lies.w), 1.0)).xyz;
+    vec4 geo = vec4(dot(faces, printSun.xyz), (mat3(printWorld) * faces).y, surface.y - printSea.x, dot(faces, printGlow.xyz));
     vec3 read;
-    colour = unlab(airFill(spotFill(mine, ownMix(labLinear(mine)), seen / weight, kind.x, reach, open, block.yz, 0.0, geo, read), lies.w));
+    vec3 fill=spotFill(mine, ownMix(labLinear(mine)), seen / weight, kind.x, reach, open, block.yz, 0.0, geo, read);
+    colour = unlab(airFill(shelteredWindow(fill,printWorld[3].xyz,surface,seen/weight,kind.x), lies.w));
     stops = read.x;
   }
   // The meter's reading of a spot: the light on it, and whether it is a room's unlit surface (1),
@@ -1593,6 +1628,9 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     printGlow: { value: new THREE.Vector4(0, 0, 1, 0) },
     printBounce: { value: new THREE.Vector4() },
     printAir: { value: new THREE.Vector2(900, 0) },
+    printCoastDusk: { value: 0 },
+    printWindow: { value: new THREE.Vector4() },
+    printWindowY: { value: new THREE.Vector2() },
     printSunDir: { value: new THREE.Vector4(0, 1, 0, 0) },
     printKeyDir: { value: new THREE.Vector4(0, 1, 0, 1) },
     printWeather: { value: new THREE.Vector4(0, 0, 0, 0) },
@@ -1688,6 +1726,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     seaLevel = null,
     outdoors = false,
     paint = null,
+    watercolour = null,
     day = 1,
     stillFrame = true,
     // Where shade and a lamp's pool begin in a room, as the meter last read them.
@@ -1707,7 +1746,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     if (wanted) {
       structure ||= createStructure();
       structure.resize(readBuffer.width, readBuffer.height);
-      structure.render(renderer, world, eye, keyLight, { outdoors, mass: dials.shadowMass });
+      structure.render(renderer, world, eye, keyLight, { outdoors, mass: dials.shadowMass, paintFoliage: look === "paint" && dials.paint > 0 });
       uniforms.tStructure.value = structure.target.textures[0];
       uniforms.tAlbedo.value = structure.target.textures[1];
     }
@@ -1780,6 +1819,27 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
   // nothing draws into the beauty target again. (A multisampled target discards its depth samples
   // once resolved, so a second resolve would overwrite the scene's depth with nothing.)
   const pass = new Pass();
+  const windowBounds = new THREE.Box3();
+  let livingWindow = null;
+  function setLivingWindow() {
+    uniforms.printWindow.value.w = 0;
+    uniforms.printCoastDusk.value = 0;
+    if (look !== "paint" || !outdoors || !world || !eye?.isPerspectiveCamera) return;
+    uniforms.printCoastDusk.value = (1 - THREE.MathUtils.smoothstep(sunward.y, -0.075, 0.04)) * 0.84;
+    if (!livingWindow?.parent) livingWindow = world.getObjectByName("core_facade_door_lounge");
+    const evening = 1 - THREE.MathUtils.smoothstep(sunward.y, -0.04, 0.12);
+    if (!livingWindow || evening < 0.001) return;
+    windowBounds.setFromObject(livingWindow);
+    if (windowBounds.isEmpty()) return;
+    const { min, max } = windowBounds;
+    uniforms.printWindow.value.set(min.x + 0.08, max.x - 0.08, max.z, evening);
+    uniforms.printWindowY.value.set(min.y + 0.11, max.y - 0.08);
+  }
+
+  function drawHearth(renderer, buffer) {
+    if (!world || !eye) return;
+    drawHearths(renderer, world, eye, sceneDepth || buffer.depthTexture, buffer.width, buffer.height);
+  }
   pass.needsSwap = false;
   pass.enabled = look !== "realistic";
   pass.render = (renderer, _writeBuffer, readBuffer) => {
@@ -1793,6 +1853,14 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     uniforms.tDepth.value = sceneDepth || readBuffer.depthTexture;
     uniforms.printResolution.value.set(readBuffer.width, readBuffer.height);
     uniforms.printCamera.value.w = extent / Math.max(1, readBuffer.height);
+    setLivingWindow();
+    if (look === "watercolour" && uniforms.printStructure.value.x > 0.5) {
+      watercolour ||= createWatercolourWash(uniforms);
+      renderer.setRenderTarget(pass.renderToScreen ? null : readBuffer);
+      watercolour.render(renderer);
+      drawHearth(renderer, readBuffer);
+      return;
+    }
     // The meter reads the view a few times a second while it moves, and every frame it is still.
     if (uniforms.printKey.value.w > 0.5 && (stillFrame || !metered || draws % 6 === 0)) meter(renderer);
     renderer.setRenderTarget(pass.renderToScreen ? null : readBuffer);
@@ -1808,6 +1876,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         dials,
         still: stillFrame,
         sunHeight: sunward.y,
+        outdoors,
       });
       // Edges are drawn back in over the paint.
       if (dials.lineOver > 0) {
@@ -1820,6 +1889,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         uniforms.printMore.value.y = view;
       }
     }
+    drawHearth(renderer, readBuffer);
     draws++;
   };
 
@@ -1972,6 +2042,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         structure: structured ? structure.evidence() : null,
         meter: own ? { room: roomStops, pool: poolStops, readings: metered, day, keyShare } : null,
         paint: own && dials.paint > 0 && paint ? paint.evidence() : null,
+        paintWindow: own && dials.paint > 0 && uniforms.printWindow.value.w > 0 ? uniforms.printWindow.value.toArray() : null,
         dials: { ...dials },
       };
     },
@@ -1981,6 +2052,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
       meterTarget.dispose();
       structure?.dispose();
       paint?.dispose();
+      watercolour?.dispose();
     },
   };
 }

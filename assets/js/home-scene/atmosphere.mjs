@@ -479,7 +479,7 @@ vec3 atmoFarSea(vec3 d, float heightKm, out float distanceM) {
 // past it (far-field.mjs, when land is set and the shader defines ATMO_FAR_FIELD), the sky, or the sea
 // beyond the modelled water. hazeLength is how far the coast's haze reaches along d; sky is 1
 // where nothing but air lies ahead.
-vec3 atmoBackground(vec3 eye, vec3 d, float heightM, bool land, out float hazeLength, out float sky) {
+vec3 atmoBackground(vec3 eye, vec3 d, float heightM, bool land, float rasterExit, out float hazeLength, out float sky) {
   float heightKm = heightM * 0.001;
   float dip = sqrt(2.0 * heightKm / ATMO_BOTTOM);
   hazeLength = atmoHaze.z;
@@ -489,7 +489,7 @@ vec3 atmoBackground(vec3 eye, vec3 d, float heightM, bool land, out float hazeLe
     // The land is met before the sea's horizon distance (and before 60 km above it).
     float b = (ATMO_BOTTOM + heightKm) * d.y, c = heightKm * (2.0 * ATMO_BOTTOM + heightKm);
     float seaKm = sky > 0.5 ? 60.0 : -b - sqrt(max(b * b - c, 0.0));
-    float t = farMarch(eye, d, seaKm * 1000.0);
+    float t = farMarch(eye, d, seaKm * 1000.0, rasterExit);
     if (t > 0.0) {
       sky = 0.0;
       hazeLength = min(atmoHaze.z, t);
@@ -520,7 +520,7 @@ vec3 atmoBackground(vec3 eye, vec3 d, float heightM, bool land, out float hazeLe
 // The dome's colour along d from eye, hazed: what a dissolving distant object gives way to.
 vec3 atmoDome(vec3 eye, vec3 d, float heightM) {
   float len, sky;
-  vec3 color = atmoBackground(eye, d, heightM, true, len, sky);
+  vec3 color = atmoBackground(eye, d, heightM, true, 0.0, len, sky);
   return atmoApplyHaze(color, d, heightM, len, 1.0);
 }
 `;
@@ -537,7 +537,7 @@ void main() {
 const skyFragment = `
 precision highp float;
 #define ATMO_FAR_FIELD
-uniform float atmoCapture, atmoMirror, atmoSunSquash;
+uniform float atmoCapture, atmoMirror, atmoSunSquash, atmoRasterFar;
 uniform vec3 atmoSunCentre, atmoMoonSun;
 uniform vec4 atmoSunDisc, atmoMoonDisc;
 varying vec3 atmoDirection;
@@ -591,7 +591,9 @@ void main() {
   float heightM = max(1.0, cameraPosition.y - ${glslFloat(SEA_LEVEL)});
   float len, sky;
   // The sea mirror keeps the far land out (its camera is under the water).
-  vec3 color = atmoBackground(cameraPosition, d, heightM, atmoMirror < 0.5, len, sky);
+  float alongView = max(-(viewMatrix * vec4(d, 0.0)).z, 0.001);
+  float rasterExit = atmoCapture < 0.5 && atmoMirror < 0.5 ? atmoRasterFar / alongView : 0.0;
+  vec3 color = atmoBackground(cameraPosition, d, heightM, atmoMirror < 0.5, rasterExit, len, sky);
   if (sky > 0.5 && atmoCapture < 0.5) {
     float heightKm = heightM * 0.001;
     color += atmoMoonRadiance(d, heightKm);
@@ -690,6 +692,7 @@ export function createAtmosphere(renderer, { site = { latitude: 32.83, longitude
     atmoHazeAway: { value: new THREE.Vector3() },
     atmoCapture: { value: 0 },
     atmoMirror: { value: 0 },
+    atmoRasterFar: { value: 0 },
     // The land past the modelled world (far-field.mjs fills these in).
     ...farFieldUniforms(),
   };

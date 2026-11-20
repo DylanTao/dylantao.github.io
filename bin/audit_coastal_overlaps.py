@@ -23,12 +23,15 @@ Intentional contacts are classified by the explicit, bounded rules in ``CONTACT_
 each names its geometric test, its reason and its depth bound, so a contact that grows past
 its bound is ranked as an offender again. Only geometry that is never drawn with the house
 (shadow-only copies, furniture placeholders replaced by their streamed items) and mutually
-exclusive bedding variants are excluded before measurement, and the report lists them.
+exclusive bedding variants never intersect one another. Delivered texture carriers
+are listed but excluded because the runtime removes them before entering the scene.
 """
 import hashlib
 import json
 import math
+import re
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -38,6 +41,9 @@ from mathutils import Vector
 from mathutils.bvhtree import BVHTree
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import pack_coastal_streamed_models as streamed
+
 ARGS = {a[2:].split("=", 1)[0]: a.split("=", 1)[1] for a in sys.argv if a.startswith("--") and "=" in a}
 
 
@@ -100,6 +106,10 @@ def sha256(path):
         for block in iter(lambda: f.read(1 << 20), b""):
             h.update(block)
     return h.hexdigest()
+
+
+def lf_sha256(path):
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def log(*parts):
@@ -491,7 +501,9 @@ def coplanar_overlaps(meshes, trees):
         if facing == "opposite":
             verdict = "hidden-interior-contact" if a["closed"] and b["closed"] else "back-to-back-open"
         else:
-            visible_area = rec["area"] * exposed_share(meshes, trees, rec["samples"], {oi, oj})
+            visible_area = rec["area"] * exposed_share(
+                meshes, trees, rec["samples"], {oi, oj}, bedding=a["bedding"] or b["bedding"]
+            )
             verdict = "z-fighting" if visible_area >= MIN_COPLANAR_AREA else "buried-coplanar"
         out.append({"a": a["name"], "materialA": ma, "b": b["name"], "materialB": mb, "facing": facing,
                     "areaM2": round(rec["area"], 6), "visibleAreaM2": round(visible_area, 6),
@@ -508,7 +520,7 @@ SEALED_GAP = 0.025
 _BOUNDS = {}
 
 
-def buried(meshes, trees, point, skip, normal=None, pair_interiors=False):
+def buried(meshes, trees, point, skip, normal=None, pair_interiors=False, bedding=None):
     """True when no camera can see ``point``: it lies inside a closed solid other than ``skip``,
     or (given the face ``normal``) another surface seals it within SEALED_GAP along that normal,
     like the bottom of a floor tile a centimetre above its slab. With
@@ -523,31 +535,32 @@ def buried(meshes, trees, point, skip, normal=None, pair_interiors=False):
     origin = Vector(point)
     direction = Vector(normal) if normal is not None else None
     for k in near:
+        m = meshes[k]
+        if m.get("bedding") and m["bedding"] != bedding:
+            continue
         if k in skip:
             # A material batch can contain several closed pieces. The outward
             # point of one coincident face can be inside another piece of the
             # same batch, e.g. a frame behind its wall liner. Keep the pair's
             # faces out of the short sealing-ray test, but do not discard a
             # genuine closed-solid interior merely because it shares an owner.
-            m = meshes[k]
             if pair_interiors and m["closed"] and np.all(point >= m["lo"]) and np.all(point <= m["hi"]) and is_inside(trees[k], point):
                 return True
             continue
         if direction is not None and trees[k].ray_cast(origin, direction, SEALED_GAP)[0] is not None:
             return True
-        m = meshes[k]
         if m["closed"] and np.all(point >= m["lo"]) and np.all(point <= m["hi"]) and is_inside(trees[k], point):
             return True
     return False
 
 
-def exposed_share(meshes, trees, samples, skip, cap=24):
+def exposed_share(meshes, trees, samples, skip, cap=24, bedding=None):
     """Area share of a same-facing overlap whose outward side is open air."""
     samples = sorted(samples, key=lambda q: -q[0])[:cap]
     total = sum(q[0] for q in samples) or 1.0
     open_area = 0.0
     for area, c, n in samples:
-        if not buried(meshes, trees, c + n * BURY_OFFSET, skip, n, pair_interiors=True):
+        if not buried(meshes, trees, c + n * BURY_OFFSET, skip, n, pair_interiors=True, bedding=bedding):
             open_area += area
     return open_area / total
 
@@ -781,7 +794,10 @@ def interpenetration(meshes, trees):
                     nrm = a["normal"][ij[gsel, 0]] + b["normal"][ij[gsel, 1]]
                     nrm /= np.maximum(np.linalg.norm(nrm, axis=1), 1e-12)[:, None]
                     order = np.argsort(-length[gsel])[:12]
-                    hidden = sum(buried(meshes, trees, mids[q] + nrm[q] * BURY_OFFSET, {i, j}, nrm[q]) for q in order)
+                    hidden = sum(
+                        buried(meshes, trees, mids[q] + nrm[q] * BURY_OFFSET, {i, j}, nrm[q],
+                               bedding=a["bedding"] or b["bedding"]) for q in order
+                    )
                     rec["grazingBuried"] = bool(hidden >= 0.75 * len(order))
                 if seam >= MIN_SEAM:
                     cap = 32 if "plant" in (a["category"], b["category"]) else SAMPLE_CAP
@@ -857,25 +873,79 @@ def classify(rec):
     return rec
 
 
-def import_delivered(scene, config):
-    """Load the shipped Draco GLBs (shell, rooms, coast, flora) exactly as delivered."""
+def model_coverage(config):
+    """Every rendered house GLB, with the runtime's streamed member restrictions."""
     files = [config["shell"], config["coast"], config.get("flora")] + [r["file"] for r in config["rooms"]]
+    coverage = {name: None for name in files if name}
+    for detail in config.get("streamedDetails", []):
+        name = detail["file"]
+        if name in coverage:
+            raise ValueError(f"Multiple roles for house model {name}")
+        coverage[name] = sorted(detail["members"]) if "members" in detail else None
+    coverage.update(dict.fromkeys(config.get("streamedBedding", {}).values()))
+    return coverage
+
+
+def detail_geometry(document, members):
+    """Mirror GLTFLoader's name sanitization and controller's member ancestry."""
+    def binding_name(name):
+        return re.sub(r"[\[\].:/]", "", re.sub(r"\s", "_", name))
+
+    wanted = {binding_name(name) for name in members}
+    nodes = document["nodes"]
+    names = [binding_name(node.get("name", "")) for node in nodes]
+    matches = [name for name in names if name in wanted]
+    if len(matches) != len(wanted) or set(matches) != wanted:
+        raise ValueError("Streamed detail needs a unique glTF node for each manifest member")
+    kept = set()
+    carriers = []
+
+    def visit(index, attached=False):
+        node = nodes[index]
+        attached = attached or names[index] in wanted
+        if "mesh" in node:
+            if attached:
+                kept.add(index)
+            else:
+                carriers.append(node["name"])
+        for child in node.get("children", ()):
+            visit(child, attached)
+
+    for index in document["scenes"][document.get("scene", 0)]["nodes"]:
+        visit(index)
+    return kept, sorted(carriers)
+
+
+def import_delivered(scene, coverage):
+    """Decode the shipped meshes that can actually join the runtime scene."""
     loaded = []
-    for name in [f for f in files if f]:
-        before = set(scene.objects)
-        bpy.ops.import_scene.gltf(filepath=str(MODELS / name))
-        new = [o for o in scene.objects if o not in before]
-        loaded.append({"file": name, "objects": len(new), "sha256": sha256(MODELS / name)})
+    with tempfile.TemporaryDirectory(prefix="coastal-overlap-") as folder:
+        for name, members in coverage.items():
+            shipped = path = MODELS / name
+            carriers = []
+            kept = None
+            if members is not None:
+                document, binary = streamed.read_glb(shipped)
+                kept, carriers = detail_geometry(document, members)
+                if carriers and kept:
+                    path = Path(folder) / name
+                    path.write_bytes(streamed.pack_glb(document, binary, kept))
+            before = set(scene.objects)
+            if kept is None or kept:
+                bpy.ops.import_scene.gltf(filepath=str(path))
+            loaded.append({"file": name, "objects": len(set(scene.objects) - before),
+                           "sha256": sha256(shipped), "textureCarriers": carriers})
     return loaded
 
 
 def main():
     t0 = time.time()
     config = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    coverage = model_coverage(config)
     if DELIVERED:
         bpy.ops.wm.read_factory_settings(use_empty=True)
         scene = bpy.context.scene
-        delivered_files = import_delivered(scene, config)
+        delivered_files = import_delivered(scene, coverage)
         log("delivered", delivered_files)
     else:
         delivered_files = []
@@ -901,16 +971,17 @@ def main():
     rule_counts = {}
     for r in sites:
         rule_counts[r["contactRule"] or "unclassified"] = rule_counts.get(r["contactRule"] or "unclassified", 0) + 1
-    exports = {p.name: sha256(p) for p in sorted(MODELS.glob("*.glb"))
-               if p.name.startswith(("home-shell", "room-", "coast", "flora"))}
+    exports = {name: sha256(MODELS / name) for name in sorted(coverage)}
     report = {
         "tool": "bin/audit_coastal_overlaps.py",
-        "toolSha256": hashlib.sha256(Path(__file__).read_bytes().replace(b"\r\n", b"\n")).hexdigest(),
+        "toolSha256": lf_sha256(Path(__file__)),
+        "toolDependencies": {"bin/pack_coastal_streamed_models.py": lf_sha256(Path(streamed.__file__))},
         "delivered": DELIVERED,
         "deliveredFiles": delivered_files,
         "source": SOURCE.relative_to(ROOT).as_posix() if SOURCE.is_relative_to(ROOT) else str(SOURCE),
         "sourceSha256": sha256(SOURCE),
         "manifestSha256": sha256(MANIFEST),
+        "modelCoverage": coverage,
         "exportsSha256": exports,
         "furniture": furniture,
         "tolerances": {"planeMm": PLANE_TOLERANCE * 1000, "angleDegrees": math.degrees(ANGLE_TOLERANCE),

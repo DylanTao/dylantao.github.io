@@ -34,6 +34,21 @@ export const BODY = Object.freeze({ radius: 0.24, height: 1.75, maxStep: 0.46, m
 // How far water is raised into a block: above any head.
 export const WATER_BLOCK = 2.2;
 
+const SURFACES = ["", "stone", "oak", "sand", "grass"];
+const SURFACE_MATERIAL = [
+  [/\b(?:turf|bentgrass|grass|sod)\b/i, 4, /\b(?:leaf|blades?|oats|stems)\b/i],
+  [/\bsand\b/i, 3],
+  [/\b(?:oak|ash|walnut|cedar|teak|cherry|cypress|timber|wood|hemlock|bamboo)\b/i, 2, /\b(?:bark|limbs?|leaf|stems?)\b/i],
+  [/\b(?:stone|sandstone|limestone|basalt|concrete|granite|pebbles?|gravel|slate|travertine|marble|pavers?|grit)\b/i, 1],
+];
+
+function surfaceId(object, material) {
+  const authored = SURFACES.indexOf(object.userData?.walkSurface);
+  if (authored > 0) return authored;
+  const label = material?.name || "";
+  return SURFACE_MATERIAL.find(([match, , except]) => match.test(label) && !except?.test(label))?.[1] ?? 0;
+}
+
 export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, merge = MERGE }) {
   const [ox, oy, oz] = min;
   // A field larger than MAX_COLUMNS columns coarsens its cells.
@@ -47,6 +62,7 @@ export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, m
     columns = nx * nz;
   let lo = new Float32Array(columns * layers),
     hi = new Float32Array(columns * layers),
+    surface = new Uint8Array(columns * layers),
     count = new Uint8Array(columns);
   // Per-triangle scratch: each column the triangle touches and the y range it covers there.
   const stamp = new Int32Array(columns).fill(-1),
@@ -63,7 +79,7 @@ export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, m
     ez = oz + nz * cell;
 
   // Adds [a, b] to column c, keeping its intervals sorted, disjoint and at most `layers` long.
-  function insert(c, a, b) {
+  function insert(c, a, b, kind) {
     const base = c * layers;
     let n = count[c];
     let first = -1,
@@ -77,12 +93,15 @@ export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, m
     }
     if (first >= 0) {
       lo[base + first] = Math.min(a, lo[base + first]);
-      hi[base + first] = Math.max(b, hi[base + last]);
+      const top = hi[base + last];
+      surface[base + first] = b > top || (b === top && kind) ? kind : surface[base + last];
+      hi[base + first] = Math.max(b, top);
       const removed = last - first;
       if (removed) {
         for (let j = last + 1; j < n; j++) {
           lo[base + j - removed] = lo[base + j];
           hi[base + j - removed] = hi[base + j];
+          surface[base + j - removed] = surface[base + j];
         }
         count[c] = n - removed;
       }
@@ -105,14 +124,19 @@ export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, m
         gapAfter = at < n ? lo[base + at] - b : Infinity;
       if (Math.min(gapBefore, gapAfter) <= best) {
         // The new interval joins its nearer neighbour.
-        if (gapBefore <= gapAfter) hi[base + at - 1] = Math.max(hi[base + at - 1], b);
-        else lo[base + at] = Math.min(lo[base + at], a);
+        if (gapBefore <= gapAfter) {
+          const prior = base + at - 1;
+          if (b > hi[prior]) surface[prior] = kind;
+          hi[prior] = Math.max(hi[prior], b);
+        } else lo[base + at] = Math.min(lo[base + at], a);
         return;
       }
       hi[base + merged] = hi[base + merged + 1];
+      surface[base + merged] = surface[base + merged + 1];
       for (let j = merged + 1; j + 1 < n; j++) {
         lo[base + j] = lo[base + j + 1];
         hi[base + j] = hi[base + j + 1];
+        surface[base + j] = surface[base + j + 1];
       }
       n--;
       if (at > merged) at--;
@@ -120,9 +144,11 @@ export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, m
     for (let j = n; j > at; j--) {
       lo[base + j] = lo[base + j - 1];
       hi[base + j] = hi[base + j - 1];
+      surface[base + j] = surface[base + j - 1];
     }
     lo[base + at] = a;
     hi[base + at] = b;
+    surface[base + at] = kind;
     count[c] = n + 1;
   }
 
@@ -214,21 +240,21 @@ export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, m
   }
 
   // One world-space triangle; `extrude` raises every column it covers by that much (water).
-  function addTriangle(ax, ay, az, bx, by, bz, cx, cy, cz, extrude = 0) {
+  function addTriangle(ax, ay, az, bx, by, bz, cx, cy, cz, extrude = 0, material = 0) {
     triangleId++;
     triangles++;
     touchedCount = 0;
     triangle(ax, ay, az, bx, by, bz, cx, cy, cz, 0);
     for (let t = 0; t < touchedCount; t++) {
       const c = touched[t];
-      insert(c, tmin[c], Math.min(ymax, tmax[c] + extrude));
+      insert(c, tmin[c], Math.min(ymax, tmax[c] + extrude), extrude ? 0 : material);
     }
     touchedCount = 0;
   }
 
   // An object-space mesh: `positions` xyz per vertex, an optional index, its column-major world matrix
   // (three.js Matrix4.elements) and an optional upward extrusion.
-  function addGeometry({ positions, index = null, matrix, extrude = 0 }) {
+  function addGeometry({ positions, index = null, matrix, extrude = 0, material = 0, ranges = [] }) {
     const m = matrix,
       vertices = positions.length / 3,
       world = new Float64Array(vertices * 3);
@@ -241,11 +267,14 @@ export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, m
       world[v * 3 + 2] = m[2] * x + m[6] * y + m[10] * z + m[14];
     }
     const total = (index ? index.length : vertices) / 3;
+    let range = 0;
     for (let t = 0; t < total; t++) {
+      while (range < ranges.length && t * 3 >= ranges[range][1]) range++;
+      const kind = ranges[range]?.[0] <= t * 3 ? ranges[range][2] : material;
       const a = (index ? index[t * 3] : t * 3) * 3,
         b = (index ? index[t * 3 + 1] : t * 3 + 1) * 3,
         c = (index ? index[t * 3 + 2] : t * 3 + 2) * 3;
-      addTriangle(world[a], world[a + 1], world[a + 2], world[b], world[b + 1], world[b + 2], world[c], world[c + 1], world[c + 2], extrude);
+      addTriangle(world[a], world[a + 1], world[a + 2], world[b], world[b + 1], world[b + 2], world[c], world[c + 1], world[c + 2], extrude, kind);
     }
     meshes++;
   }
@@ -255,6 +284,17 @@ export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, m
       k = Math.floor((z - oz) * inv);
     return i < 0 || k < 0 || i >= nx || k >= nz ? -1 : i + nx * k;
   };
+
+  // Use the same interval that supports the walker, including when floors are stacked.
+  function supportMaterial(x, z, foot) {
+    const column = columnOf(x, z);
+    if (column < 0 || !Number.isFinite(foot)) return null;
+    const base = column * layers;
+    for (let i = count[column] - 1; i >= 0; i--) {
+      if (Math.abs(hi[base + i] - foot) < 0.008) return SURFACES[surface[base + i]] || null;
+    }
+    return null;
+  }
 
   // Where feet at `foot` would stand in column c: the highest surface top within a step, if it has
   // head room and lies no deeper than the fall guard allows; NaN when the column is blocked.
@@ -314,7 +354,7 @@ export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, m
       for (let k = k0; k <= k1; k++)
         for (let i = i0; i <= i1; i++) {
           const inside = i >= 0 && k >= 0 && i < nx && k < nz;
-          if (inside && !Number.isNaN(standIn(i + nx * k, foot, body))) continue;
+          if (inside ? !Number.isNaN(standIn(i + nx * k, foot, body)) : body.openWater) continue;
           const x0 = ox + i * cell,
             z0 = oz + k * cell,
             qx = clamp(x, x0, x0 + cell),
@@ -422,9 +462,16 @@ export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, m
   // A visitor may leave a ledge. Sweep the complete capsule vertically as well as horizontally;
   // do not snap to a distant floor or let a long frame cross a thin slab. Grounded movement still
   // uses the existing stair solver. Only genuinely empty air can continue past its fall guard.
-  function sweepBody(start, { dx = 0, dz = 0, dy = 0, grounded = false, stepping = grounded, wading = false }, body = BODY, dynamic = null) {
+  function sweepBody(
+    start,
+    { dx = 0, dz = 0, dy = 0, grounded = false, stepping = grounded, wading = false, openWater = false },
+    body = BODY,
+    dynamic = null
+  ) {
     let { x, z, foot } = start;
-    const air = { ...body, maxStep: 0, air: true },
+    // Outside the stored grid stays a wall except when the flight solver
+    // reaches a verified, connected ocean column. All stored cells still collide.
+    const air = { ...body, maxStep: 0, air: true, openWater },
       steps = Math.max(1, Math.ceil(Math.max(Math.hypot(dx, dz), Math.abs(dy)) / (cell * 0.4))),
       sx = dx / steps,
       sz = dz / steps,
@@ -530,6 +577,7 @@ export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, m
     addGeometry,
     standAt,
     floorBelow,
+    supportMaterial,
     resolve: (x, z, foot, body = BODY, dynamic = null) => resolve(x, z, foot, body, dynamic),
     move,
     sweepBody,
@@ -544,13 +592,14 @@ export function createWalkField({ min, max, cell = WALK_CELL, layers = LAYERS, m
     },
     // Transferable copies of the field: a worker builds it, the page queries it.
     snapshot() {
-      return { lo: lo.slice(), hi: hi.slice(), count: count.slice(), stats: { triangles, samples, overflows, meshes } };
+      return { lo: lo.slice(), hi: hi.slice(), count: count.slice(), surface: surface.slice(), stats: { triangles, samples, overflows, meshes } };
     },
-    load({ lo: nextLo, hi: nextHi, count: nextCount, stats }) {
+    load({ lo: nextLo, hi: nextHi, count: nextCount, surface: nextSurface, stats }) {
       if (nextCount?.length !== columns || nextLo?.length !== columns * layers || nextHi?.length !== columns * layers) return false;
       lo = nextLo;
       hi = nextHi;
       count = nextCount;
+      surface = nextSurface?.length === columns * layers ? nextSurface : new Uint8Array(columns * layers);
       if (stats) ({ triangles, samples, overflows, meshes } = stats);
       return true;
     },
@@ -599,11 +648,12 @@ export function walkKind(object, root) {
     // Cutaways change visibility, never structural transforms: the roof remains clifftop support,
     // and the lower bathroom's ceiling is also the upper bathroom's real floor. A hidden ancestor
     // room still stays out, just as it does for a hidden furniture placeholder.
-    if (node.visible === false && data.furnitureCollision !== true && !data.caveRoof && !data.bathroomCeilingFor && !data.roomCeilingFor) return null;
+    const sectionPiece = data.caveRoof || data.bathroomCeilingFor || data.roomCeilingFor;
+    if (node.visible === false && data.furnitureCollision !== true && !sectionPiece && !data.cutawayCompanionSupport) return null;
     authored ??= data.walk ?? null;
     if (data.shadowOnly || data.facadeDoor || data.estateDoor || data.libraryLadder || data.walkPresence || data.activityProp || data.action)
       return null;
-    if (data.caveRoof || data.bathroomCeilingFor || data.roomCeilingFor) cutawayStructure = true;
+    if (sectionPiece) cutawayStructure = true;
     if (data.glazing) glazing = true;
     if (data.flora) flora = true;
     if (data.noOcclusion) ghost = true;
@@ -705,12 +755,14 @@ export function createWalkFieldBuilder({ bounds, onReady = () => {} }) {
     else setTimeout(run, 0);
   }
   // Main-thread fallback: about 30 000 triangles a slice.
-  const packedJob = ({ geometry, matrix, extrude }) => ({
+  const packedJob = ({ geometry, matrix, extrude, material, ranges }) => ({
     type: "mesh",
     positions: packedPositions(geometry.attributes.position),
     index: geometry.index ? geometry.index.array.slice(0, geometry.index.count) : null,
     matrix,
     extrude,
+    material,
+    ranges,
   });
   function step() {
     if (disposed) return;
@@ -739,6 +791,12 @@ export function createWalkFieldBuilder({ bounds, onReady = () => {} }) {
           geometry: object.geometry,
           matrix: [...object.matrixWorld.elements],
           extrude: kind === "water" ? WATER_BLOCK : 0,
+          material: surfaceId(object, Array.isArray(object.material) ? null : object.material),
+          ranges: Array.isArray(object.material)
+            ? object.geometry.groups
+                .map(({ start, count, materialIndex }) => [start, start + count, surfaceId(object, object.material[materialIndex])])
+                .sort((a, b) => a[0] - b[0])
+            : [],
         };
         sources.push(source);
         sent++;

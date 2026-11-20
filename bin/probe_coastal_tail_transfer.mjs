@@ -19,7 +19,7 @@ if (!["21", "22", "23"].includes(articulationVersion)) throw new Error("A retain
 const articulationURL = articulationSource(articulationVersion);
 const { updateTailArticulation } = await loadArticulation(articulationVersion);
 const rt = pathToFileURL(`${runtime}/`);
-const { THREE, loadNativeModel } = await import(new URL("test/helpers/coastal-native-avatar.mjs", rt));
+const { THREE, loadNativeModel, loadNativeHouseModel } = await import(new URL("test/helpers/coastal-native-avatar.mjs", rt));
 const { roomTransfer } = await import(new URL("assets/js/home-scene/room-journey.mjs", rt));
 const { createPlantedFeet } = await import(new URL("assets/js/home-scene/planted-feet.mjs", rt));
 const { fitSeatToSurface } = await import(new URL("assets/js/home-scene/seat-surface.mjs", rt));
@@ -27,7 +27,7 @@ const sha = (file) => createHash("sha256").update(fs.readFileSync(file)).digest(
 const contacts = JSON.parse(fs.readFileSync(path.join(models, "character-contacts.json"), "utf8"));
 const manifest = JSON.parse(fs.readFileSync(path.join(models, "manifest.json"), "utf8"));
 const room = manifest.rooms.find((entry) => entry.id === "sleep");
-const native = await loadNativeModel("room-sleep.glb", pathToFileURL(`${house}/`));
+const native = await loadNativeHouseModel(room.file, manifest, pathToFileURL(`${house}/`));
 native.scene.updateMatrixWorld(true);
 const cloth = native.scene.getObjectByName("sleep_duvet_empty");
 if (!cloth) throw new Error("Actual made cover is required");
@@ -218,7 +218,8 @@ const receipt = {
   sourceGlbSha256: hash,
   contactsSha256: sha(path.join(models, "character-contacts.json")),
   manifestSha256: sha(path.join(models, "manifest.json")),
-  roomSha256: sha(path.join(house, "room-sleep.glb")),
+  roomSha256: sha(path.join(house, room.file)),
+  ...(manifest.streamedBedding?.empty ? { beddingSha256: sha(path.join(house, manifest.streamedBedding.empty)) } : {}),
   runtimeLfSha256: Object.fromEntries(
     ["room-journey", "planted-feet", "seat-surface"].map((name) => [
       name,

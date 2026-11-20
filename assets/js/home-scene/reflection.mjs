@@ -1,5 +1,6 @@
 import * as THREE from "../three.module.min.js";
 import { WATER_IOR } from "./ocean-spectrum.mjs";
+import { SEA_LEVEL } from "./sea-optics.mjs";
 
 // The mirror's size: 384x384 for the page embed. Full screen widens it to the screen's aspect
 // (resolution.mjs detailFor) through setMirrorSize, applied at the mirror's next update, so the
@@ -13,10 +14,14 @@ export function setMirrorSize(width, height) {
 // A small live mirror of the actual land and home. Oblique near-plane clipping
 // follows Three r164's Water implementation; no landscape image is sampled.
 export function createSeaReflection(renderer, scene, ocean, material) {
-  const target = new THREE.WebGLRenderTarget(384, 384, { type: THREE.HalfFloatType });
+  const target = new THREE.WebGLRenderTarget(384, 384, {
+    type: THREE.HalfFloatType,
+    depthTexture: new THREE.DepthTexture(384, 384, THREE.UnsignedIntType),
+  });
   const mirror = new THREE.PerspectiveCamera();
   const textureMatrix = new THREE.Matrix4();
-  const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 7.35);
+  const worldFromClip = new THREE.Matrix4();
+  const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -SEA_LEVEL);
   const clip = new THREE.Vector4(),
     q = new THREE.Vector4();
   const direction = new THREE.Vector3();
@@ -33,52 +38,68 @@ export function createSeaReflection(renderer, scene, ocean, material) {
     });
     transmissiveAge = 0;
   };
-  const reflected = { value: target.texture },
-    projection = { value: textureMatrix },
-    strength = { value: 0 };
+  const uniforms = {
+    coastalReflection: { value: target.texture },
+    coastalReflectionDepth: { value: target.depthTexture },
+    coastalProjection: { value: textureMatrix },
+    coastalWorldFromClip: { value: worldFromClip },
+    coastalMirrorTexel: { value: new THREE.Vector2(1 / target.width, 1 / target.height) },
+    reflectionStrength: { value: 0 },
+  };
   const compile = material.onBeforeCompile;
   material.onBeforeCompile = (shader) => {
     compile(shader);
-    Object.assign(shader.uniforms, { coastalReflection: reflected, coastalProjection: projection, reflectionStrength: strength });
+    Object.assign(shader.uniforms, uniforms);
     shader.vertexShader = "uniform mat4 coastalProjection; varying vec4 reflectionPoint;\n" + shader.vertexShader;
     shader.vertexShader = shader.vertexShader.replace(
       "#include <project_vertex>",
       "#include <project_vertex>\nreflectionPoint = coastalProjection * modelMatrix * vec4(transformed,1.0);"
     );
     shader.fragmentShader =
-      "uniform sampler2D coastalReflection; uniform float reflectionStrength; varying vec4 reflectionPoint;\n" + shader.fragmentShader;
+      `uniform sampler2D coastalReflection, coastalReflectionDepth;
+      uniform mat4 coastalProjection, coastalWorldFromClip;
+      uniform vec2 coastalMirrorTexel; uniform float reflectionStrength;
+      varying vec4 reflectionPoint;
+      float mirrorEdge(vec2 uv) {
+        vec2 edge=min(uv,1.-uv);
+        return min(edge.x,edge.y);
+      }
+      ` + shader.fragmentShader;
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <lights_fragment_end>",
       `
       #include <lights_fragment_end>
-      vec2 reflectedUv = reflectionPoint.xy / reflectionPoint.w;
-      // A facet tilted across the view shifts the reflection sideways; one tilted along it changes the
-      // reflected ray's elevation, which at a grazing view moves the image far more, so the water's
-      // ripples stretch reflections into vertical bands (screen-space tilt of the wave normal).
-      vec3 flatUp=normalize(mat3(viewMatrix)*vec3(0.,1.,0.));
-      vec3 tilt=normal-flatUp*dot(normal,flatUp);
-      reflectedUv += vec2(tilt.x*.16, tilt.y*.42);
-      float inside = step(.002, reflectedUv.x)*step(.002,reflectedUv.y)*step(reflectedUv.x,.998)*step(reflectedUv.y,.998);
-      // Unresolved ripples spread each reflected ray's elevation by about twice their slope deviation:
-      // a vertical streak whose length follows the slope variance, and a narrow horizontal spread. Lamps
-      // at dusk and night smear into long columns of light, as on real harbour water.
-      float streak=clamp(.0025+1.15*sqrt(max(slopeVariance,0.))+roughnessFactor*.004,.0025,.075);
-      vec2 across=vec2(.0012+streak*.12,0.), along=vec2(0.,streak);
-      vec3 reflectedColor=texture2D(coastalReflection,reflectedUv).rgb*.24;
-      reflectedColor+=texture2D(coastalReflection,reflectedUv+across).rgb*.1;
-      reflectedColor+=texture2D(coastalReflection,reflectedUv-across).rgb*.1;
-      reflectedColor+=texture2D(coastalReflection,reflectedUv+along*.45).rgb*.15;
-      reflectedColor+=texture2D(coastalReflection,reflectedUv-along*.45).rgb*.15;
-      reflectedColor+=texture2D(coastalReflection,reflectedUv+along).rgb*.13;
-      reflectedColor+=texture2D(coastalReflection,reflectedUv-along).rgb*.13;
-      float cosine=max(0.,dot(normal,normalize(vViewPosition))),ior=${WATER_IOR};
-      float transmitted=sqrt(1.-(1.-cosine*cosine)/(ior*ior));
-      float rs=(cosine-ior*transmitted)/(cosine+ior*transmitted);
-      float rp=(ior*cosine-transmitted)/(ior*cosine+transmitted);
-      float fresnel=.5*(rs*rs+rp*rp);
-      // Replace only indirect specular. Keeping direct light and diffuse here
-      // avoids the previous nonphysical blend of the complete shaded surface.
-      reflectedLight.indirectSpecular=mix(reflectedLight.indirectSpecular,reflectedColor*fresnel,reflectionStrength*inside);
+      if(reflectionStrength>.0 && reflectionPoint.w>.0001){
+        vec2 planarUv=reflectionPoint.xy/reflectionPoint.w;
+        // Reproject the real wave's reflection ray at the depth of the planar witness.
+        // The depth comes from the same oblique camera as the color, in one mirror draw.
+        float depth=texture2D(coastalReflectionDepth,clamp(planarUv,vec2(0.),vec2(1.))).r;
+        vec4 witness=coastalWorldFromClip*vec4(planarUv*2.-1.,depth*2.-1.,1.);
+        float reach=clamp(length(witness.xyz-witness.w*rainSurfaceWorld)/max(abs(witness.w),1e-6),.85,100.);
+        if(depth>.99998||witness.w<=.000001) reach=120.;
+        vec3 incoming=normalize(rainSurfaceWorld-cameraPosition);
+        vec3 ray=reflect(incoming,waveNormal);
+        vec4 aimed=coastalProjection*vec4(rainSurfaceWorld+ray*reach,1.);
+        vec2 aimedUv=aimed.xy/max(aimed.w,.001);
+        // Planar and off-axis rays can see different objects; fall back smoothly
+        // at the capture edge or when a very steep facet aims back into the water.
+        float available=smoothstep(.001,.055,mirrorEdge(aimedUv))*smoothstep(0.,.045,ray.y)*step(.001,aimed.w);
+        vec2 reflectedUv=mix(planarUv,aimedUv,available);
+        float cosine=max(0.,dot(normal,normalize(vViewPosition)));
+        float inside=smoothstep(.001,.028,mirrorEdge(reflectedUv));
+        float streak=clamp(.0015+.54*sqrt(max(slopeVariance,0.))+roughnessFactor*.003,.0015,.055);
+        streak*=mix(1.14,.72,cosine);
+        vec2 across=vec2(max(coastalMirrorTexel.x,streak*.12),0.);
+        vec2 along=vec2(0.,max(coastalMirrorTexel.y,streak));
+        vec3 reflectedColor=texture2D(coastalReflection,reflectedUv).rgb*.24;
+        reflectedColor+=texture2D(coastalReflection,reflectedUv+across).rgb*.1;
+        reflectedColor+=texture2D(coastalReflection,reflectedUv-across).rgb*.1;
+        reflectedColor+=texture2D(coastalReflection,reflectedUv+along*.45).rgb*.15;
+        reflectedColor+=texture2D(coastalReflection,reflectedUv-along*.45).rgb*.15;
+        reflectedColor+=texture2D(coastalReflection,reflectedUv+along).rgb*.13;
+        reflectedColor+=texture2D(coastalReflection,reflectedUv-along).rgb*.13;
+        reflectedLight.indirectSpecular=mix(reflectedLight.indirectSpecular,reflectedColor*seaFresnel(cosine),reflectionStrength*inside);
+      }
     `
     );
   };
@@ -87,11 +108,14 @@ export function createSeaReflection(renderer, scene, ocean, material) {
       transmissiveAge = Infinity;
     },
     update(camera, enabled) {
-      strength.value = enabled ? 1 : 0;
+      uniforms.reflectionStrength.value = enabled ? 1 : 0;
       if (!enabled) return;
-      if (target.width !== mirrorSize.width || target.height !== mirrorSize.height) target.setSize(mirrorSize.width, mirrorSize.height);
+      if (target.width !== mirrorSize.width || target.height !== mirrorSize.height) {
+        target.setSize(mirrorSize.width, mirrorSize.height);
+        uniforms.coastalMirrorTexel.value.set(1 / target.width, 1 / target.height);
+      }
       mirror.copy(camera);
-      mirror.position.y = -14.7 - camera.position.y;
+      mirror.position.y = 2 * SEA_LEVEL - camera.position.y;
       camera.getWorldDirection(direction);
       direction.y *= -1;
       mirror.up.set(0, -1, 0);
@@ -111,6 +135,8 @@ export function createSeaReflection(renderer, scene, ocean, material) {
       p[6] = clip.y;
       p[10] = clip.z + 1;
       p[14] = clip.w;
+      mirror.projectionMatrixInverse.copy(mirror.projectionMatrix).invert();
+      worldFromClip.multiplyMatrices(mirror.matrixWorld, mirror.projectionMatrixInverse);
       const previousTarget = renderer.getRenderTarget();
       const previousShadowUpdate = renderer.shadowMap.autoUpdate;
       const previousToneMapping = renderer.toneMapping,
@@ -136,6 +162,13 @@ export function createSeaReflection(renderer, scene, ocean, material) {
     dispose() {
       target.dispose();
     },
-    evidence: () => ({ width: target.width, height: target.height, linear: true, fresnelIOR: WATER_IOR, active: strength.value === 1 }),
+    evidence: () => ({
+      width: target.width,
+      height: target.height,
+      linear: true,
+      fresnelIOR: WATER_IOR,
+      depthReprojection: Boolean(target.depthTexture),
+      active: uniforms.reflectionStrength.value === 1,
+    }),
   };
 }

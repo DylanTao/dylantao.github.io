@@ -12,6 +12,11 @@ self.onmessage = ({ data }) => {
   else if (data.type === "mesh") field.addGeometry(data);
   else if (data.type === "snapshot") {
     const snapshot = field.snapshot();
-    self.postMessage({ type: "field", version: data.version, ...snapshot }, [snapshot.lo.buffer, snapshot.hi.buffer, snapshot.count.buffer]);
+    self.postMessage({ type: "field", version: data.version, ...snapshot }, [
+      snapshot.lo.buffer,
+      snapshot.hi.buffer,
+      snapshot.count.buffer,
+      snapshot.surface.buffer,
+    ]);
   }
 };

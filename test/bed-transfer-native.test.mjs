@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { createHash } from "node:crypto";
-import { THREE, loadNativeModel, loadNativeAvatar, repo } from "./helpers/coastal-native-avatar.mjs";
+import { THREE, loadNativeHouseModel, loadNativeAvatar, repo } from "./helpers/coastal-native-avatar.mjs";
 import { roomTransfer } from "../assets/js/home-scene/room-journey.mjs";
 import { createPlantedFeet } from "../assets/js/home-scene/planted-feet.mjs";
 import { fitSeatToSurface } from "../assets/js/home-scene/seat-surface.mjs";
@@ -16,7 +16,7 @@ const room = config.rooms.find((entry) => entry.id === "sleep");
 
 test("five delivered skins retain sole/leg/mattress constraints; separate hard-tail admission remains required", async () => {
   assert.ok(room.bedTransfer, "native bed-transfer contacts must be delivered");
-  const native = await loadNativeModel("room-sleep.glb");
+  const native = await loadNativeHouseModel(room.file, config);
   native.scene.updateMatrixWorld(true);
   const cloth = native.scene.getObjectByName("sleep_duvet_empty");
   const mattress = native.scene.getObjectByName("sleep__linen");

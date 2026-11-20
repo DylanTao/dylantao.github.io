@@ -1,4 +1,6 @@
 import * as THREE from "../three.module.min.js";
+import { floraSwayGLSL, floraSwayProfile, floraSwayVector } from "./plant-motion.mjs";
+import { coastWind } from "./wind-field.mjs";
 
 // Brush strokes fixed to the scene's surfaces: the painted look's paint.
 //
@@ -60,6 +62,17 @@ export const STROKE_LAYERS = 3;
 export const STROKE_COVER = Object.freeze([0.9, 1.2, 1.5]);
 // The most strokes the scene may hold, and the most one mesh may.
 export const STROKE_LIMITS = Object.freeze({ scene: 1300000, mesh: 260000 });
+export const FLORA_STROKES = Object.freeze({ scene: 48000, batch: 5200, density: 39, minPixels: 2.2 });
+
+export const paintableFlora = (mesh) =>
+  Boolean(
+    mesh.isMesh &&
+    !mesh.isSkinnedMesh &&
+    mesh.userData.flora &&
+    !Array.isArray(mesh.material) &&
+    mesh.geometry?.attributes.position &&
+    !mesh.geometry.attributes.coastalPlantRoot
+  );
 // Close to, the house needs finer paint than its walls and floors carry from across a room. A
 // made thing is given every size below its own finest when the eye comes within `near` metres of
 // it, each covering it `cover` times, and gives them up again past `far`. Only the part of it
@@ -262,11 +275,16 @@ export function brushSheetPixels() {
 // returns the smallest size laid. With `fine` set to a size, only the sizes below it are laid,
 // each covering the surface STROKE_FINE.cover times: the paint a thing takes on when the eye
 // comes close. `eye` then limits each size to the part of the thing within its reach of the eye.
-export function scatterStrokes(mesh, { focus, tools, thin = 1, limit = STROKE_LIMITS.mesh, fine = null, eye = null }) {
+function commonDivisor(a, b) {
+  while (b) [a, b] = [b, a % b];
+  return a;
+}
+
+export function scatterStrokes(mesh, { focus, tools, thin = 1, limit = STROKE_LIMITS.mesh, fine = null, eye = null, flora = false }) {
   const geometry = mesh.geometry,
     position = geometry?.attributes?.position;
-  if (!position || mesh.isSkinnedMesh || mesh.isInstancedMesh || mesh.isPoints || mesh.isLine) return null;
-  if (mesh.userData.noOcclusion || mesh.userData.noContactOcclusion || mesh.userData.flora) return null;
+  if (!position || mesh.isSkinnedMesh || (!flora && mesh.isInstancedMesh) || mesh.isPoints || mesh.isLine) return null;
+  if (!flora && (mesh.userData.noOcclusion || mesh.userData.noContactOcclusion || mesh.userData.flora)) return null;
   const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material],
     index = geometry.index,
     painted = geometry.attributes.color,
@@ -279,8 +297,9 @@ export function scatterStrokes(mesh, { focus, tools, thin = 1, limit = STROKE_LI
   if (!paintable.length) return null;
 
   mesh.updateWorldMatrix(true, false);
-  const world = mesh.matrixWorld,
-    random = strokeRandom(mesh.id * 2654435761),
+  const world = flora ? new THREE.Matrix4() : mesh.matrixWorld,
+    stableSeed = flora ? [...mesh.name].reduce((hash, char) => Math.imul(hash ^ char.charCodeAt(0), 16777619), 2166136261) : mesh.id,
+    random = strokeRandom(stableSeed * 2654435761),
     a = new THREE.Vector3(),
     b = new THREE.Vector3(),
     c = new THREE.Vector3(),
@@ -297,6 +316,7 @@ export function scatterStrokes(mesh, { focus, tools, thin = 1, limit = STROKE_LI
     place = new THREE.Vector3(),
     unturn = new THREE.Matrix3().setFromMatrix4(world).invert(),
     vertexNormals = geometry.attributes.normal,
+    swayWeight = flora && floraSwayProfile(materials[0]?.name) ? geometry.attributes.uv : null,
     bendMatrix = new THREE.Matrix3().getNormalMatrix(world),
     na = new THREE.Vector3(),
     nb = new THREE.Vector3(),
@@ -317,7 +337,8 @@ export function scatterStrokes(mesh, { focus, tools, thin = 1, limit = STROKE_LI
     normals = new Int8Array(capacity * 4),
     alongs = new Int8Array(capacity * 4),
     owns = new Uint8Array(capacity * 4),
-    ids = new Uint16Array(capacity);
+    ids = new Uint16Array(capacity),
+    weights = flora ? new Uint16Array(capacity) : null;
   const grow = () => {
     capacity *= 2;
     const more = (old, Type, width) => {
@@ -330,6 +351,7 @@ export function scatterStrokes(mesh, { focus, tools, thin = 1, limit = STROKE_LI
     alongs = more(alongs, Int8Array, 4);
     owns = more(owns, Uint8Array, 4);
     ids = more(ids, Uint16Array, 1);
+    if (weights) weights = more(weights, Uint16Array, 1);
   };
   const corner = (i) => (index ? index.getX(i) : i);
   const colourOf = (vertex, k) => (painted ? [painted.getX(vertex), painted.getY(vertex), painted.getZ(vertex)][k] : 1);
@@ -340,9 +362,16 @@ export function scatterStrokes(mesh, { focus, tools, thin = 1, limit = STROKE_LI
       own = material.color,
       usesPaint = Boolean(material.vertexColors && painted),
       name = `${mesh.name} ${material.name}`,
-      land = landClass(mesh.name, material.name),
+      land = flora ? 4 : landClass(mesh.name, material.name),
       end = Math.min(group.start + group.count, count);
-    for (let i = group.start; i + 2 < end && made < limit; i += 3) {
+    const triangles = Math.floor((end - group.start) / 3);
+    // Authored batches often store one whole shrub or tree consecutively. A
+    // capped brush budget should still reach the far end of the same prototype.
+    let hop = flora && triangles > 2 ? Math.max(1, Math.floor(triangles * 0.618034)) : 1;
+    if (flora) while (commonDivisor(hop, triangles) > 1) hop++;
+    const start = flora ? Math.floor(random() * triangles) : 0;
+    for (let step = 0; step < triangles && made < limit; step++) {
+      const i = group.start + ((start + step * hop) % triangles) * 3;
       const ia = corner(i),
         ib = corner(i + 1),
         ic = corner(i + 2);
@@ -358,18 +387,23 @@ export function scatterStrokes(mesh, { focus, tools, thin = 1, limit = STROKE_LI
       normal.multiplyScalar(0.5 / area);
       const distance = Math.hypot((wa.x + wb.x + wc.x) / 3 - focus.x, (wa.y + wb.y + wc.y) / 3 - focus.y, (wa.z + wb.z + wc.z) / 3 - focus.z),
         suited = finestStroke(name, distance, length),
-        finest = fine === null ? suited : 0,
-        coarsest = fine === null ? Math.min(finest + STROKE_LAYERS, STROKE_SIZES.length) : Math.min(fine, suited),
+        finest = flora ? 0 : fine === null ? suited : 0,
+        coarsest = flora ? 2 : fine === null ? Math.min(finest + STROKE_LAYERS, STROKE_SIZES.length) : Math.min(fine, suited),
         cover = (size) => (fine === null ? STROKE_COVER[size - finest] : STROKE_FINE.cover);
       if (coarsest <= finest) continue;
       // How many strokes of all its sizes a square metre of this surface holds.
       let each = 0;
       for (let size = finest; size < coarsest; size++) each += STROKE_DENSITY[size] * cover(size);
-      const expected = each * area * thin;
+      const expected = (flora ? FLORA_STROKES.density : each) * area * thin;
       let strokes = Math.floor(expected + random());
       if (!strokes) continue;
       localNormal.crossVectors(edge1.subVectors(b, a), edge2.subVectors(c, a)).normalize();
-      if (!land) {
+      if (flora) {
+        along.subVectors(wb, wa);
+        if (edge1.subVectors(wc, wa).lengthSq() > along.lengthSq()) along.copy(edge1);
+        along.normalize();
+        perpendicular.crossVectors(normal, along);
+      } else if (!land) {
         strokeAlong(normal, longAxis, upright, along);
         if (!upright && vertexNormals) {
           na.fromBufferAttribute(vertexNormals, ia).applyMatrix3(bendMatrix).normalize();
@@ -388,6 +422,7 @@ export function scatterStrokes(mesh, { focus, tools, thin = 1, limit = STROKE_LI
           pick -= STROKE_DENSITY[size] * cover(size);
           size++;
         }
+        if (flora) size = random() < 0.3 ? 0 : 1;
         smallest = Math.min(smallest, size);
         let u = random(),
           v = random();
@@ -412,7 +447,7 @@ export function scatterStrokes(mesh, { focus, tools, thin = 1, limit = STROKE_LI
         // A hand never repeats an angle: each stroke turns a little off the grain, and on land
         // the grain itself wanders from place to place.
         let turn = (random() - 0.5) * 0.3;
-        if (land) {
+        if (land && !flora) {
           place.set(wa.x * w + wb.x * u + wc.x * v, wa.y * w + wb.y * u + wc.y * v, wa.z * w + wb.z * u + wc.z * v);
           turn += landAlong(land, normal, place, longAxis, random(), along);
           perpendicular.crossVectors(normal, along);
@@ -433,6 +468,10 @@ export function scatterStrokes(mesh, { focus, tools, thin = 1, limit = STROKE_LI
         }
         owns[made * 4 + 3] = Math.round(random() * 255);
         ids[made] = id;
+        // The source vertices bend in proportion to uv.x squared. Interpolate
+        // their squared weights, the same order as a rasterised leaf.
+        if (swayWeight)
+          weights[made] = Math.round(65535 * (w * swayWeight.getX(ia) ** 2 + u * swayWeight.getX(ib) ** 2 + v * swayWeight.getX(ic) ** 2));
         made++;
       }
     }
@@ -462,6 +501,7 @@ export function scatterStrokes(mesh, { focus, tools, thin = 1, limit = STROKE_LI
     alongs: sorted(alongs, Int8Array, 4),
     owns: sorted(owns, Uint8Array, 4),
     ids: sorted(ids, Uint16Array, 1),
+    ...(weights ? { weights: sorted(weights, Uint16Array, 1) } : {}),
   };
 }
 
@@ -554,7 +594,48 @@ vec3 landPaint(vec3 lab, float land, vec3 p, vec3 n, float sea, float amount, fl
 }
 `;
 
-const vertexShader = (glsl) => /* glsl */ `
+export function repeatFloraDabs(prototype, object, id, limit) {
+  const instances = object.isInstancedMesh ? object.count : 1,
+    copies = Math.min(instances, limit),
+    count = Math.min(prototype.count * copies, limit);
+  const places = new Float32Array(count * 3),
+    normals = new Int8Array(count * 4),
+    alongs = new Int8Array(count * 4),
+    owns = new Uint8Array(count * 4),
+    ids = new Uint16Array(count).fill(id),
+    weights = new Uint16Array(count),
+    scales = new Float32Array(count);
+  const point = new THREE.Vector3(),
+    normal = new THREE.Vector3(),
+    along = new THREE.Vector3();
+  const matrices = Array.from({ length: copies }, (_, i) => {
+    const transform = new THREE.Matrix4();
+    if (object.isInstancedMesh) object.getMatrixAt(Math.floor((i * instances) / copies), transform);
+    return { transform, normal: new THREE.Matrix3().getNormalMatrix(transform), vector: new THREE.Matrix3().setFromMatrix4(transform) };
+  });
+  for (let i = 0; i < count; i++) {
+    const which = Math.floor(i / copies),
+      i3 = i * 3,
+      i4 = i * 4,
+      p3 = which * 3,
+      p4 = which * 4,
+      basis = matrices[i % copies];
+    point.fromArray(prototype.places, p3).applyMatrix4(basis.transform).toArray(places, i3);
+    normal.fromArray(prototype.normals, p4).applyMatrix3(basis.normal).normalize();
+    along.fromArray(prototype.alongs, p4).applyMatrix3(basis.vector);
+    scales[i] = THREE.MathUtils.clamp(along.length() / 127, 0.22, 3.5);
+    along.normalize();
+    normals.set([Math.round(normal.x * 127), Math.round(normal.y * 127), Math.round(normal.z * 127), prototype.normals[p4 + 3]], i4);
+    alongs.set([Math.round(along.x * 127), Math.round(along.y * 127), Math.round(along.z * 127), prototype.alongs[p4 + 3]], i4);
+    owns.set(prototype.owns.subarray(p4, p4 + 4), i4);
+    weights[i] = prototype.weights[which];
+  }
+  const bytes =
+    places.byteLength + normals.byteLength + alongs.byteLength + owns.byteLength + ids.byteLength + weights.byteLength + scales.byteLength;
+  return { count, places, normals, alongs, owns, ids, weights, scales, bytes };
+}
+
+const vertexShader = (glsl, flora = false) => /* glsl */ `
 uniform sampler2D tStructure;
 uniform sampler2D tAlbedo;
 uniform sampler2D tDiffuse;
@@ -573,6 +654,7 @@ attribute vec4 dabNormal;  // xyz the surface's normal, w its size and what land
 attribute vec4 dabAlong;   // xyz the direction of the stroke, w a number of its own
 attribute vec4 dabOwn;     // rgb the surface's own colour (square root of linear), a another number of its own
 attribute float dabId;
+${flora ? `attribute float dabFloraWeight; attribute float dabFloraScale; uniform float paintFloraGust; ${floraSwayGLSL}` : ""}
 varying vec3 vLit;         // the stroke's colour where the key light reaches (display)
 varying vec3 vShade;       // and where it does not
 varying vec3 vBrush;       // xy across the mark, z which of the eight
@@ -580,6 +662,7 @@ varying vec4 vWhere;       // how far away the stroke is, whose it is, its lengt
 varying vec3 vShape;       // how far the mark is bent, and its width and its length on the picture in pixels
 void main() {
   vec4 world = modelMatrix * vec4(dabPlace, 1.0);
+  ${flora ? "if(floraSway.y>0. && dabFloraWeight>0.) world.xyz+=floraSwayWorld(world.xyz)*dabFloraWeight*paintFloraGust;" : ""}
   vec4 view = viewMatrix * world;
   vec4 clip = projectionMatrix * view;
   float depth = -view.z;
@@ -590,16 +673,16 @@ void main() {
   float size = paintSizes[int(code - land * 8.0)];
   vec2 hand = vec2(dabAlong.w * 0.5 + 0.5, dabOwn.a);
   // A hand varies its reach.
-  float lengthM = size * (0.72 + 0.56 * fract(hand.y * 13.7)) * paintManner.w;
+  float lengthM = size * (0.72 + 0.56 * fract(hand.y * 13.7)) * paintManner.w${flora ? " * dabFloraScale * 1.14" : ""};
   float px = lengthM * paintScale.x / (paintScale.y > 0.5 ? max(depth, 0.05) : 1.0);
   // A stroke is drawn when its own point is what the picture shows there.
   vec4 there = texture2D(tStructure, uv);
-  bool seen = clip.w > 0.0 && abs(ndc.x) < 1.02 && abs(ndc.y) < 1.02 && px > paintScale.z
-    && abs(there.z - dabId) < 0.5 && abs(there.w - depth) < 0.06 + 0.03 * depth
+  bool seen = clip.w > 0.0 && abs(ndc.x) < 1.02 && abs(ndc.y) < 1.02 && px > ${flora ? FLORA_STROKES.minPixels.toFixed(1) : "paintScale.z"}
+    && abs(there.z - dabId) < 0.5 && abs(there.w - depth) < ${flora ? "0.025 + 0.004 * depth" : "0.06 + 0.03 * depth"}
     // What lies under the sea is the sea's to paint.
-    && !(printSea.w > 0.5 && (modelMatrix * vec4(dabPlace, 1.0)).y < printSea.x - 0.03)
+    && !(printSea.w > 0.5 && ${flora ? "world.y" : "(modelMatrix * vec4(dabPlace, 1.0)).y"} < printSea.x - 0.03)
     // Nor what lies under the pool's water: the coat paints its surface.
-    && !underPool((modelMatrix * vec4(dabPlace, 1.0)).xyz);
+    && !underPool(${flora ? "world.xyz" : "(modelMatrix * vec4(dabPlace, 1.0)).xyz"});
   if (!seen) {
     gl_Position = vec4(2.0, 2.0, 2.0, 1.0);
     return;
@@ -644,6 +727,14 @@ void main() {
   vec3 own = dabOwn.rgb * dabOwn.rgb;
   vec3 own3 = ownMix(labLinear(own));
   if (land > 0.5 && paintBroken.w > 0.0) own3 = landPaint(own3, land, world.xyz, up, printSea.x, paintBroken.w, hand.y);
+  ${
+    flora
+      ? `float crown=vnoise(dabPlace.xz * 1.6 + vec2(5.1,8.3) + dabPlace.y * .43);
+  float block=smoothstep(.28,.68,crown*.72+hand.y*.28);
+  own3.x*=mix(.78,1.08,block);
+  own3.yz*=mix(.89,1.24,block);`
+      : ""
+  }
   float wander = (hand.x - 0.5) * 2.0 * paintVary.z * mix(1.0, 0.35, smoothstep(0.5, 4.0, size));
   // Two colours: where the key light reaches the stroke and where it does not. Seen from a spot
   // the sun is on, shade is what the sky alone would leave there, and the other way about.
@@ -669,6 +760,8 @@ void main() {
   dark = mix(dark, vec3(dark.x, dark.yz * 0.6 + printBounce.xy * 1.2 + printLightMix.xy * 0.3), accent);
   // Oil goes deeper in its darks than gouache does.
   dark = vec3(dark.x * mix(1.03, 0.94, paintManner.z), dark.yz * mix(0.95, 1.1, paintManner.z));
+  lit = shelteredWindow(lit, cameraPosition, world.xyz, light, spot.x);
+  dark = shelteredWindow(dark, cameraPosition, world.xyz, light, spot.x);
   vLit = unlab(airFill(lit, depth));
   vShade = unlab(airFill(dark, depth));
   vWhere = vec4(depth, dabId, size, keyHere);
@@ -677,7 +770,7 @@ void main() {
 // A stroke is one colour of its own. Only the key light's reach is read at every pixel, so a cast
 // shadow keeps its edge across a stroke, as a painter goes back over a shadow's edge. The mark's
 // thickness is lit from the upper left, as a canvas is in a room.
-const fragmentShader = (glsl) => /* glsl */ `
+const fragmentShader = (glsl, flora = false) => /* glsl */ `
 uniform sampler2D tStructure;
 uniform sampler2D tAlbedo;
 uniform sampler2D paintBrush;
@@ -706,7 +799,7 @@ void main() {
   vec4 there = texture2D(tStructure, uv);
   bool own = abs(there.z - vWhere.y) < 0.5;
   // (A broad stroke spills no farther than a fine one: a few pixels.)
-  float spill = min(paintStroke.z, 9.0 / max(vShape.z, 1.0));
+  float spill = min(${flora ? "0.42" : "paintStroke.z"}, 9.0 / max(vShape.z, 1.0));
   if (own ? there.w < vWhere.x - max(0.08, 0.35 * vWhere.z) : (there.w < vWhere.x - 0.04 || max(abs(vBrush.x), abs(vBrush.y)) > spill)) discard;
   float key = own ? step(0.5, kindSkyKey(texture2D(tAlbedo, uv).a).z) : vWhere.w;
   vec3 colour = mix(vShade, vLit, key);
@@ -944,6 +1037,11 @@ export function paintManner(sunHeight) {
   return 1 - smooth(0.1, 0.45, sunHeight);
 }
 
+// The last direct light has the loaded brush. Late dusk settles back to matte gouache.
+export function exteriorPaintManner(sunHeight) {
+  return (1 - smooth(0.08, 0.27, sunHeight)) * smooth(-0.1, -0.025, sunHeight);
+}
+
 // `glsl` and `uniforms` are the look's colour source (COLOUR_GLSL and FIELD_GLSL of print-look.mjs)
 // and its uniform objects (shared, so the hour and the dials reach the strokes with no copying);
 // `tools` its tests for what a material is.
@@ -974,6 +1072,7 @@ export function createPaint({ glsl, uniforms: look, tools }) {
       "printNight",
       "printSun",
       "printGlow",
+      "printCoastDusk",
       "printBounce",
       "printSkyLow",
       "printAir",
@@ -981,6 +1080,8 @@ export function createPaint({ glsl, uniforms: look, tools }) {
       "printSunDir",
       "printKeyDir",
       "printWeather",
+      "printWindow",
+      "printWindowY",
       "printSea",
       "printSeaShallow",
       "printSeaDeep",
@@ -1016,6 +1117,26 @@ export function createPaint({ glsl, uniforms: look, tools }) {
     depthWrite: false,
     toneMapped: false,
   });
+  const floraUniforms = {
+    ...uniforms,
+    ...coastWind.uniforms,
+    floraSway: { value: floraSwayVector(null) },
+    paintFloraGust: { value: 1 },
+  };
+  const floraMaterial = new THREE.ShaderMaterial({
+    name: "Foliage brush strokes",
+    uniforms: floraUniforms,
+    vertexShader: vertexShader(glsl, true),
+    fragmentShader: fragmentShader(glsl, true),
+    transparent: true,
+    depthTest: false,
+    depthWrite: false,
+    toneMapped: false,
+  });
+  floraMaterial.onBeforeRender = (_renderer, _scene, _camera, _geometry, object) => {
+    floraUniforms.floraSway.value = object.userData.paintFloraSway;
+    floraMaterial.uniformsNeedUpdate = true;
+  };
   // One quad, drawn once for every stroke.
   const quad = {
     position: new THREE.BufferAttribute(new Float32Array([-0.5, -0.5, 0, 0.5, -0.5, 0, 0.5, 0.5, 0, -0.5, 0.5, 0]), 3),
@@ -1057,7 +1178,14 @@ export function createPaint({ glsl, uniforms: look, tools }) {
   let skyMesh = null,
     seaMesh = null;
   const painted = [],
-    focus = new THREE.Vector3();
+    foliage = [],
+    focus = new THREE.Vector3(),
+    seenRoots = new WeakSet(),
+    prototypes = new WeakMap();
+  let floraQueue = [],
+    floraStrokes = 0,
+    floraBytes = 0,
+    floraPrototypes = 0;
   let queue = null,
     strokes = 0,
     fineStrokes = 0,
@@ -1069,7 +1197,7 @@ export function createPaint({ glsl, uniforms: look, tools }) {
   const eye = new THREE.Vector3(),
     middle = new THREE.Vector3();
 
-  function strokeMesh(found, object, order) {
+  function strokeMesh(found, object, order, flora = false) {
     const geometry = new THREE.InstancedBufferGeometry();
     geometry.setAttribute("position", quad.position);
     geometry.setIndex(quad.index);
@@ -1078,11 +1206,17 @@ export function createPaint({ glsl, uniforms: look, tools }) {
     geometry.setAttribute("dabAlong", new THREE.InstancedBufferAttribute(found.alongs, 4, true));
     geometry.setAttribute("dabOwn", new THREE.InstancedBufferAttribute(found.owns, 4, true));
     geometry.setAttribute("dabId", new THREE.InstancedBufferAttribute(found.ids, 1));
+    if (flora) {
+      geometry.setAttribute("dabFloraWeight", new THREE.InstancedBufferAttribute(found.weights, 1, true));
+      geometry.setAttribute("dabFloraScale", new THREE.InstancedBufferAttribute(found.scales, 1, false));
+    }
     geometry.instanceCount = found.count;
     // A stroke can reach past its mesh by its own length.
-    geometry.boundingSphere = object.geometry.boundingSphere.clone();
-    geometry.boundingSphere.radius += STROKE_SIZES[STROKE_SIZES.length - 1];
-    const mesh = new THREE.Mesh(geometry, material);
+    if (flora && object.isInstancedMesh && !object.boundingSphere) object.computeBoundingSphere();
+    geometry.boundingSphere = (flora && object.isInstancedMesh ? object.boundingSphere : object.geometry.boundingSphere).clone();
+    geometry.boundingSphere.radius += flora ? 1.05 : STROKE_SIZES[STROKE_SIZES.length - 1];
+    const mesh = new THREE.Mesh(geometry, flora ? floraMaterial : material);
+    if (flora) mesh.userData.paintFloraSway = floraSwayVector(floraSwayProfile(object.material.name));
     mesh.matrixAutoUpdate = false;
     mesh.matrixWorldAutoUpdate = false;
     // Fine strokes are laid over every thing's broad ones.
@@ -1153,13 +1287,65 @@ export function createPaint({ glsl, uniforms: look, tools }) {
     seaMesh = fieldMesh(scatterSea(focus), seaMaterial, 1);
     root.updateMatrixWorld();
     root.traverse((object) => {
-      if (!object.isMesh || object.isSkinnedMesh || object.isInstancedMesh || !object.geometry?.attributes?.position) return;
+      if (!object.isMesh || object.isSkinnedMesh || object.isInstancedMesh || object.userData.flora || !object.geometry?.attributes?.position) return;
       if (!object.geometry.boundingSphere) object.geometry.computeBoundingSphere();
       const distance = object.geometry.boundingSphere.center.clone().applyMatrix4(object.matrixWorld).distanceTo(focus);
       queue.push({ object, distance });
     });
     queue.sort((p, q) => q.distance - p.distance);
   }
+  function adoptFlora(root) {
+    // The house group sits below the scene. Flora and late detail roots join its children.
+    const arrivals = root.children.flatMap((child) => (child.isGroup ? child.children : [child]));
+    for (const child of arrivals) {
+      if (seenRoots.has(child)) continue;
+      seenRoots.add(child);
+      child.traverse((object) => {
+        if (!paintableFlora(object)) return;
+        if (!object.geometry.boundingSphere) object.geometry.computeBoundingSphere();
+        const distance = object.geometry.boundingSphere.center.clone().applyMatrix4(object.matrixWorld).distanceTo(focus);
+        floraQueue.push({ object, distance });
+      });
+    }
+    floraQueue.sort((a, b) => b.distance - a.distance);
+  }
+
+  function scatterFlora(milliseconds) {
+    const from = performance.now(),
+      limit = Math.floor(FLORA_STROKES.scene * thin);
+    if (floraStrokes >= limit) {
+      floraQueue.length = 0;
+      return;
+    }
+    while (floraQueue.length && floraStrokes < limit && performance.now() - from < milliseconds) {
+      const { object } = floraQueue.pop();
+      const byMaterial = prototypes.get(object.geometry) || new WeakMap();
+      prototypes.set(object.geometry, byMaterial);
+      const material = object.material;
+      if (!byMaterial.has(material)) {
+        const count = object.isInstancedMesh ? Math.max(1, object.count) : 1;
+        const found = scatterStrokes(object, {
+          focus,
+          tools,
+          thin,
+          flora: true,
+          limit: Math.max(1, Math.floor(FLORA_STROKES.batch / count)),
+        });
+        byMaterial.set(material, found);
+        if (found) floraPrototypes++;
+      }
+      const prototype = byMaterial.get(material);
+      if (!prototype) continue;
+      const found = repeatFloraDabs(prototype, object, tools.structureId(object.id), Math.min(FLORA_STROKES.batch, limit - floraStrokes));
+      if (!found.count) continue;
+      const mesh = strokeMesh(found, object, 2, true);
+      foliage.push({ mesh, source: object });
+      floraStrokes += found.count;
+      floraBytes += found.bytes;
+    }
+    scatterMs += performance.now() - from;
+  }
+
   // Scatter for a few milliseconds; the painting fills in over the first frames.
   function scatter(milliseconds) {
     const from = performance.now(),
@@ -1195,31 +1381,50 @@ export function createPaint({ glsl, uniforms: look, tools }) {
     // of the sun's elevation, which sets the paint's manner unless the dials fix it.
     // A view that holds still (reduced motion, or paused) is painted in one go, since no later
     // frame is promised; a moving one fills in over its first frames.
-    render(renderer, root, camera, { width, height, extent, centre, dials, still = false, sunHeight = 1 }) {
+    render(renderer, root, camera, { width, height, extent, centre, dials, still = false, sunHeight = 1, outdoors = false }) {
       if (world !== root) begin(root, centre || camera.position, dials);
+      adoptFlora(root);
+      if (floraQueue.length) scatterFlora(still ? Infinity : dials.strokeScatter);
       if (queue.length) scatter(still ? Infinity : dials.strokeScatter);
       else refine(camera, still ? Infinity : dials.strokeScatter);
       const perspective = camera.isPerspectiveCamera;
-      oil = Number.isFinite(dials.manner) ? Math.min(Math.max(dials.manner, 0), 1) : paintManner(sunHeight);
+      oil = Number.isFinite(dials.manner)
+        ? Math.min(Math.max(dials.manner, 0), 1)
+        : outdoors
+          ? exteriorPaintManner(sunHeight)
+          : paintManner(sunHeight);
       uniforms.paintResolution.value.set(width, height);
       uniforms.paintScale.value.set(height / Math.max(extent, 1e-6), perspective ? 1 : 0, dials.strokePixels[0], dials.strokePixels[1]);
       // Gouache lies flat; oil stands up from the picture.
-      uniforms.paintStroke.value.set(STROKE_ASPECT, dials.strokeOpacity, dials.strokeSpill, dials.strokeImpasto * between(0.3, 0.6, oil));
+      uniforms.paintStroke.value.set(
+        STROKE_ASPECT,
+        dials.strokeOpacity,
+        dials.strokeSpill,
+        dials.strokeImpasto * (outdoors ? between(0.2, 0.9, oil) : between(0.3, 0.6, oil))
+      );
       uniforms.paintVary.value.set(dials.strokeVary[0], dials.strokeVary[1], dials.strokeVary[2]);
       // Oil is a little more broken than gouache and its bristles part a little sooner. More than
       // this, and a lamp-lit room at night flickered stroke by stroke (November 17).
       const broken = between(0.7, 0.95, oil);
       uniforms.paintBroken.value.set(dials.strokeBroken[0] * broken, dials.strokeBroken[1], dials.strokeBroken[2] * broken, dials.landPaint);
-      uniforms.paintManner.value.set(between(0.24, 0.3, oil), between(0.44, 0.52, oil), oil, between(1.15, 0.92, oil));
+      uniforms.paintManner.value.set(
+        between(0.24, 0.3, oil),
+        between(0.44, 0.52, oil),
+        oil,
+        outdoors ? between(1.25, 0.87, oil) : between(1.15, 0.92, oil)
+      );
       // A stroke goes where its thing goes, and is put away with it.
-      for (const { mesh, source, fine } of painted) {
-        mesh.visible = shown(source);
-        if (mesh.visible) mesh.matrixWorld.copy(source.matrixWorld);
-        if (fine) {
-          fine.visible = mesh.visible;
-          if (fine.visible) fine.matrixWorld.copy(source.matrixWorld);
+      floraUniforms.paintFloraGust.value = dials.floraFollowWind === false ? 0 : 1;
+      for (const entries of [painted, foliage])
+        for (const { mesh, source, fine } of entries) {
+          mesh.visible = shown(source);
+          if (mesh.visible) mesh.matrixWorld.copy(source.matrixWorld);
+          if (fine) {
+            fine.visible = mesh.visible;
+            if (fine.visible) fine.matrixWorld.copy(source.matrixWorld);
+          }
         }
-      }
+      if (dials.floraPaint === false) for (const { mesh } of foliage) mesh.visible = false;
       uniforms.paintField.value.set(dials.skyStrokes, dials.seaStrokes);
       skyMesh.visible = perspective && dials.skyStrokes > 0;
       seaMesh.visible = perspective && dials.seaStrokes > 0;
@@ -1243,10 +1448,11 @@ export function createPaint({ glsl, uniforms: look, tools }) {
         thin,
         sky: skyMesh?.geometry.instanceCount ?? 0,
         sea: seaMesh?.geometry.instanceCount ?? 0,
+        flora: { strokes: floraStrokes, meshes: foliage.length, prototypes: floraPrototypes, bytes: floraBytes, waiting: floraQueue.length },
       };
     },
     dispose() {
-      for (const { mesh, fine } of painted) {
+      for (const { mesh, fine } of [...painted, ...foliage]) {
         mesh.geometry.dispose();
         if (fine) fine.geometry.dispose();
       }
@@ -1257,6 +1463,7 @@ export function createPaint({ glsl, uniforms: look, tools }) {
       skyMaterial.dispose();
       seaMaterial.dispose();
       material.dispose();
+      floraMaterial.dispose();
       sheet.dispose();
     },
   };

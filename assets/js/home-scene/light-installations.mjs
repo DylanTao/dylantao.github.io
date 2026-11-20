@@ -23,8 +23,8 @@ import { DIMMER, dimmerStep } from "./dimmer.mjs";
 // surface, clipped to the surface's upper hemisphere: E = I |d| (2/D) [n0((2A+B)/|L1| - B/|L0|) -
 // n1((B+2C)/|L1| - 2C/|L0|)], with L(t) = L0 + t d, A = d.d, B = 2 L0.d, C = L0.L0,
 // D = 4AC - B^2, n0 = N.L0 and n1 = N.d (a closed form of the integral of N.L / |L|^3 along t).
-// Points are isotropic or cone-limited. No installation adds shadow maps; bathroom coves also
-// contribute bounded, occlusion-tested midpoint energy to the cached diffuse transport.
+// Points are isotropic or cone-limited. A small authored depth map can bound a fixed point source's
+// direct illumination. Bathroom coves also contribute occlusion-tested energy to cached diffuse transport.
 
 export const MAX_LINES = 18;
 export const MAX_POINTS = 10;
@@ -90,6 +90,50 @@ function sourceRegion(region, label) {
 const regionsOverlap = (a, b) =>
   ["x", "y", "z"].every((axis) => a.min[axis] <= b.max[axis] + RECEIVER_TOLERANCE && a.max[axis] >= b.min[axis] - RECEIVER_TOLERANCE);
 
+const SHADOW_BIAS = 0.014;
+
+function pointShadow(source) {
+  const { size, distance, data } = source.shadowDepth;
+  if (
+    !source.cone?.[3] ||
+    !Number.isInteger(size) ||
+    size < 16 ||
+    size > 64 ||
+    !Number.isFinite(distance) ||
+    distance <= 0 ||
+    typeof data !== "string" ||
+    data.length !== 4 * Math.ceil((size * size) / 3) ||
+    !/^[A-Za-z0-9+/]+={0,2}$/.test(data)
+  )
+    throw new RangeError(`Invalid point shadow depth: ${source.id}`);
+  const bytes = Uint8Array.from(atob(data), (c) => c.charCodeAt(0));
+  if (bytes.length !== size * size) throw new RangeError(`Invalid point shadow dimensions: ${source.id}`);
+  const axis = new THREE.Vector3(...source.cone).normalize();
+  const right = new THREE.Vector3().crossVectors(axis, new THREE.Vector3(0, 1, 0));
+  if (right.lengthSq() < 1e-6) throw new RangeError(`Point shadow requires a nonvertical cone: ${source.id}`);
+  right.normalize();
+  const up = new THREE.Vector3().crossVectors(right, axis).normalize();
+  const cosine = source.cone[3];
+  return { bytes, size, distance, axis, right, up, opening: Math.sqrt(1 - cosine * cosine) / cosine };
+}
+
+function pointVisible(shadow, towardLight, distance) {
+  const extent = -shadow.axis.dot(towardLight) * shadow.opening;
+  if (extent <= 0 || distance >= shadow.distance) return 1;
+  const u = 0.5 - shadow.right.dot(towardLight) / (2 * extent);
+  const v = 0.5 - shadow.up.dot(towardLight) / (2 * extent);
+  if (u < 0 || u > 1 || v < 0 || v > 1) return 1;
+  let visible = 0;
+  for (const y of [-0.5, 0.5])
+    for (const x of [-0.5, 0.5]) {
+      const col = THREE.MathUtils.clamp(Math.floor(u * shadow.size + x), 0, shadow.size - 1);
+      const row = THREE.MathUtils.clamp(Math.floor(v * shadow.size + y), 0, shadow.size - 1);
+      const depth = (shadow.bytes[row * shadow.size + col] / 255) * shadow.distance;
+      visible += 1 - smooth(depth + SHADOW_BIAS, depth + 2 * SHADOW_BIAS, distance);
+    }
+  return visible * 0.25;
+}
+
 function authoredInstallations(config) {
   const collect = (source, kind) => {
     if (typeof source.id !== "string" || !source.id) throw new RangeError("Authored installation needs a stable string id");
@@ -120,6 +164,10 @@ function authoredInstallations(config) {
         throw new RangeError(`Invalid installation cone: ${source.id}`);
       entry.position = new THREE.Vector3(...source.position);
       entry.cone = source.cone || null;
+      if (source.shadowDepth !== undefined) {
+        if (!source.shadowDepth || kind !== "point") throw new RangeError(`Invalid point shadow: ${source.id}`);
+        entry.shadow = pointShadow(source);
+      }
     }
     return entry;
   };
@@ -171,6 +219,8 @@ export const SCHEDULES = {
   downlights: ({ dark, activity, visit }) => (MEALS.includes(activity) || visit === "kitchen" ? Math.max(0.55, dark.inside) : 0.2 * dark.inside),
   shelf: ({ dark, activity, visit }) => (MEALS.includes(activity) || visit === "kitchen" ? Math.max(0.55, dark.inside) : 0.2 * dark.inside),
   libraryHearth: ({ dark, visit }) => Math.max(visit === "study" || visit === "library" ? 0.55 : 0, 0.75 * dark.inside),
+  listening: ({ dark }) => 0.34 + 0.57 * dark.inside,
+  bedsideReading: ({ dark, activity, visit }) => (activity === "sleep" ? 0.035 : visit === "sleep" ? 0.32 + 0.44 * dark.inside : 0.12 * dark.inside),
 };
 // The office's screens and RGB (no light of their own, so not an installation above): awake while
 // Sirui works at the desk, a glow otherwise.
@@ -212,6 +262,31 @@ export function lineIrradiance(p, n, a, b) {
   return Math.max(f, 0) * Math.sqrt(A);
 }
 
+const POINT_SHADOW_GLSL = /* glsl */ `
+uniform sampler2D installShadowMap;
+uniform int installShadowPoint;
+uniform vec3 installShadowAxis;
+uniform vec3 installShadowRight;
+uniform vec3 installShadowUp;
+uniform vec3 installShadowExtent;
+float installationShadowTap(vec2 uv, float distance) {
+  float depth = texture2D(installShadowMap, uv).r * installShadowExtent.x;
+  return 1.0 - smoothstep(depth + ${SHADOW_BIAS}, depth + ${2 * SHADOW_BIAS}, distance);
+}
+float installationPointVisibility(vec3 toward, float distance) {
+  float extent = dot(installShadowAxis, toward) * installShadowExtent.y;
+  if (extent <= 0.0 || distance >= installShadowExtent.x) return 1.0;
+  vec2 uv = 0.5 + vec2(dot(installShadowRight, toward), dot(installShadowUp, toward)) / (2.0 * extent);
+  if (any(lessThan(uv,vec2(0.0))) || any(greaterThan(uv,vec2(1.0)))) return 1.0;
+  float d = installShadowExtent.z;
+  return 0.25 * (
+    installationShadowTap(uv + vec2(-d, -d), distance) +
+    installationShadowTap(uv + vec2(d, -d), distance) +
+    installationShadowTap(uv + vec2(-d, d), distance) +
+    installationShadowTap(uv + vec2(d, d), distance)
+  );
+}`;
+
 const LINE_GLSL = /* glsl */ `
 float installationLine(vec3 p, vec3 n, vec3 a, vec3 b) {
   vec3 l0 = a - p, l1 = b - p;
@@ -244,6 +319,9 @@ vec3 installationIrradiance(vec3 p, vec3 n) {
     float r2 = max(dot(l, l), 1e-4);
     vec3 dir = l * inversesqrt(r2);
     float cone = installPointCone[i].w > 0.0 ? smoothstep(installPointCone[i].w, 1.0, dot(-dir, installPointCone[i].xyz)) : 1.0;
+#ifdef INSTALLATION_POINT_SHADOW
+    if (i == installShadowPoint && cone > 0.0) cone *= installationPointVisibility(-dir, sqrt(r2));
+#endif
     sum += installPointColor[i] * max(dot(n, dir), 0.0) * cone / r2;
   }
   return sum;
@@ -434,6 +512,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     lines.push(line);
   }
   const additional = authoredInstallations(config);
+  const authoredSchedules = new Set([...additional.lines, ...additional.points].map((source) => source.id));
   lines.push(...additional.lines);
   points.push(...additional.points);
   const transportSources = [
@@ -444,6 +523,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   const receivers = config.installationReceivers;
   const defaultGroup = receivers?.default || "all";
   const packs = new Map();
+  const shadowMaps = new Map();
   const addPack = (name, regions = null) => {
     const accepts = (source) => !regions || regions.some((region) => regionsOverlap(source.region, region));
     const selectedLines = lines.filter(accepts),
@@ -455,6 +535,27 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
         `Light installation capacity exceeded: ${selectedLines.length}/${MAX_LINES} lines, ${selectedPoints.length}/${MAX_POINTS} points in receiver ${name}`
       );
     const pack = { name, regions, lines: selectedLines, points: selectedPoints, uniforms: name === defaultGroup ? uniforms : installationUniforms() };
+    const shadowed = selectedPoints.filter((source) => source.shadow);
+    if (shadowed.length > 1) throw new RangeError(`More than one authored point shadow in installation receiver ${name}`);
+    if (shadowed.length) {
+      const [source] = shadowed;
+      const { bytes, size, distance, opening, axis, right, up } = source.shadow;
+      let texture = shadowMaps.get(source);
+      if (!texture) {
+        texture = new THREE.DataTexture(bytes, size, size, THREE.RedFormat);
+        texture.needsUpdate = true;
+        shadowMaps.set(source, texture);
+      }
+      pack.pointShadow = true;
+      Object.assign(pack.uniforms, {
+        installShadowMap: { value: texture },
+        installShadowPoint: { value: selectedPoints.indexOf(source) },
+        installShadowAxis: { value: axis },
+        installShadowRight: { value: right },
+        installShadowUp: { value: up },
+        installShadowExtent: { value: new THREE.Vector3(distance, opening, 0.5 / size) },
+      });
+    }
     packs.set(name, pack);
   };
   if (receivers) {
@@ -685,6 +786,12 @@ uniform vec4 installPointCone[${MAX_POINTS}];
 uniform vec3 installPointMin[${MAX_POINTS}];
 uniform vec3 installPointMax[${MAX_POINTS}];
 uniform float installActive;
+${
+  pack.pointShadow
+    ? `#define INSTALLATION_POINT_SHADOW
+${POINT_SHADOW_GLSL}`
+    : ""
+}
 ${LINE_GLSL}`
         )
         .replace(
@@ -693,7 +800,7 @@ ${LINE_GLSL}`
         );
     };
     material.customProgramCacheKey = function () {
-      return `${cache.call(this)}|light-installations-v2`;
+      return `${cache.call(this)}|light-installations-v2${pack.pointShadow ? "-point-shadow" : ""}`;
     };
     material.needsUpdate = true;
     bindings.set(material, { group: pack.name, compile, cache, origin: sourceMaterial });
@@ -722,9 +829,9 @@ ${LINE_GLSL}`
       // A low wayfinding level remains while walking between room visits. It
       // uses the authored coves rather than adding unbounded fill lights.
       for (const room of roomLighting.values()) targets[room.id] = room.visits.has(visit) ? Math.max(0.75, dark.inside) : 0.26 * dark.inside;
-      if (!interior?.entrance?.positions?.length && ![...additional.lines, ...additional.points].some((source) => source.id === "entrance"))
-        targets.entrance = 0;
-      if (!interior?.dining?.length && ![...additional.lines, ...additional.points].some((source) => source.id === "dining")) targets.dining = 0;
+      if (!interior?.entrance?.positions?.length && !authoredSchedules.has("entrance")) targets.entrance = 0;
+      if (!interior?.dining?.length && !authoredSchedules.has("dining")) targets.dining = 0;
+      if (!authoredSchedules.has("listening")) targets.listening = 0;
       desk = deskLevel(activity);
       lantern = lanternLevel({ dark, activity });
       if (ease) settling = Object.keys(targets).some((id) => Math.abs(targets[id] - levels[id]) > DIMMER.epsilon);
@@ -779,7 +886,8 @@ ${LINE_GLSL}`
           direction = toLight.normalize(),
           cosine = normal ? Math.max(0, normal.dot(direction)) : 1,
           cone = normal && p.cone ? smooth(p.cone[3], 1, -direction.dot(new THREE.Vector3(...p.cone))) : 1;
-        total.add(p.color.clone().multiplyScalar((p.intensity * level * cosine * cone) / r2));
+        const visible = normal && p.shadow ? pointVisible(p.shadow, direction, Math.sqrt(r2)) : 1;
+        total.add(p.color.clone().multiplyScalar((p.intensity * level * cosine * cone * visible) / r2));
       }
       if (normal)
         for (const line of selected.lines) {
@@ -806,6 +914,7 @@ ${LINE_GLSL}`
               lines: pack.lines.length,
               points: pack.points.length,
               sources: [...pack.lines, ...pack.points].map((source) => source.source || source.id),
+              ...(pack.pointShadow ? { shadowSource: pack.points[pack.uniforms.installShadowPoint.value].source } : {}),
             },
           ])
         ),
@@ -823,6 +932,8 @@ ${LINE_GLSL}`
       soffitMaterial.dispose();
       stepMaterial.dispose();
       poolMaterial.dispose();
+      for (const texture of shadowMaps.values()) texture.dispose();
+      shadowMaps.clear();
       for (const material of ownedClones) material.dispose();
       ownedClones.clear();
       root.removeFromParent();

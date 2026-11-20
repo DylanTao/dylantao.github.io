@@ -295,6 +295,8 @@ export function createStaticLightField({
   let statistics = {
     ready: false,
     triangles: 0,
+    sourceTriangles: 0,
+    allocatedTriangles: 0,
     meshes: 0,
     skippedMeshes: 0,
     skippedTriangles: 0,
@@ -349,6 +351,7 @@ export function createStaticLightField({
   }
   async function collect(yieldTask, check) {
     const meshes = [];
+    statistics.skippedMeshes = statistics.skippedTriangles = statistics.allocatedTriangles = 0;
     let potential = 0;
     for (const entry of roots) {
       entry.root.updateWorldMatrix(true, true);
@@ -395,56 +398,80 @@ export function createStaticLightField({
         meshes.push({ mesh, position, geometry, materials, groups: accepted });
       });
     }
-    if (potential > maxTriangles)
-      throw new RangeError(`static geometry exceeds explicit ${maxTriangles} triangle budget (${potential} collected); native indirect is retained`);
-    const positions = new Float32Array(potential * 9),
-      albedo = new Float32Array(potential * 3),
-      point = new THREE.Vector3();
-    let n = 0,
-      taskStart = performance.now();
-    for (const { mesh, position, geometry, materials, groups } of meshes) {
-      const world = new Float32Array(position.count * 3);
-      for (let v = 0; v < position.count; v++) {
-        point
-          .fromBufferAttribute(position, v)
-          .applyMatrix4(mesh.matrixWorld)
-          .toArray(world, v * 3);
-        if (v % 1024 === 1023 && performance.now() - taskStart > 6) {
-          statistics.maxTaskMs = Math.max(statistics.maxTaskMs, performance.now() - taskStart);
-          await yieldTask();
-          check();
-          taskStart = performance.now();
-        }
-      }
-      for (const group of groups) {
-        const material = materials[Array.isArray(mesh.material) ? group.materialIndex || 0 : 0],
-          color = rgb(material.color, [1, 1, 1]),
-          diffuse = 1 - clamp(material.metalness ?? 0, 0, 1);
-        for (let i = group.start; i < Math.min(group.start + group.count, geometry.index?.count || position.count) - 2; i += 3) {
-          const indices = [0, 1, 2].map((j) => (geometry.index ? geometry.index.getX(i + j) : i + j) * 3);
-          const outside = [0, 1, 2].some((a) => indices.every((v) => world[v + a] < roiMin[a]) || indices.every((v) => world[v + a] > roiMax[a]));
-          if (outside) {
-            statistics.skippedTriangles++;
-            continue;
-          }
-          for (let v = 0; v < 3; v++) positions.set(world.subarray(indices[v], indices[v] + 3), n * 9 + v * 3);
-          albedo.set(
-            color.map((x) => clamp(x * diffuse, 0, 0.95)),
-            n * 3
-          );
-          n++;
-          if (n % 1024 === 1023 && performance.now() - taskStart > 6) {
+    statistics.sourceTriangles = potential;
+    const point = new THREE.Vector3();
+
+    async function scan(positions, albedo, capacity) {
+      let retained = 0,
+        skipped = 0,
+        visited = 0,
+        taskStart = performance.now();
+      for (const { mesh, position, geometry, materials, groups, matrix } of meshes) {
+        const world = new Float32Array(position.count * 3);
+        for (let v = 0; v < position.count; v++) {
+          point
+            .fromBufferAttribute(position, v)
+            .applyMatrix4(matrix || mesh.matrixWorld)
+            .toArray(world, v * 3);
+          if (v % 1024 === 1023 && performance.now() - taskStart > 6) {
             statistics.maxTaskMs = Math.max(statistics.maxTaskMs, performance.now() - taskStart);
             await yieldTask();
             check();
             taskStart = performance.now();
           }
         }
+        for (const group of groups) {
+          const material = materials[Array.isArray(mesh.material) ? group.materialIndex || 0 : 0],
+            diffuse = 1 - clamp(material.metalness ?? 0, 0, 1),
+            color = positions && rgb(material.color, [1, 1, 1]).map((x) => clamp(x * diffuse, 0, 0.95));
+          for (let i = group.start; i < Math.min(group.start + group.count, geometry.index?.count || position.count) - 2; i += 3) {
+            const indices = [0, 1, 2].map((j) => (geometry.index ? geometry.index.getX(i + j) : i + j) * 3);
+            const outside = [0, 1, 2].some((a) => indices.every((v) => world[v + a] < roiMin[a]) || indices.every((v) => world[v + a] > roiMax[a]));
+            if (outside) {
+              skipped++;
+            } else {
+              if (retained === capacity) {
+                if (positions) throw new Error("static geometry changed during collection; native indirect is retained");
+                throw new RangeError(
+                  `static geometry exceeds explicit ${maxTriangles} triangle budget (${potential} source triangles, at least ${retained + 1} retained); native indirect is retained`
+                );
+              }
+              if (positions) {
+                for (let v = 0; v < 3; v++) positions.set(world.subarray(indices[v], indices[v] + 3), retained * 9 + v * 3);
+                albedo.set(color, retained * 3);
+              }
+              retained++;
+            }
+            if (++visited % 1024 === 0 && performance.now() - taskStart > 6) {
+              statistics.maxTaskMs = Math.max(statistics.maxTaskMs, performance.now() - taskStart);
+              await yieldTask();
+              check();
+              taskStart = performance.now();
+            }
+          }
+        }
       }
+      return { retained, skipped };
     }
+
+    let capacity = potential;
+    if (potential > maxTriangles) {
+      // Keep both passes in the same static frame even when browser rendering yields.
+      // Count with the original Float32 coordinates, group order and ROI predicate.
+      // No retained-geometry or BVH buffer is allocated until that count fits.
+      for (const entry of meshes) entry.matrix = entry.mesh.matrixWorld.clone();
+      capacity = (await scan(null, null, maxTriangles)).retained;
+    }
+    const positions = new Float32Array(capacity * 9),
+      albedo = new Float32Array(capacity * 3);
+    statistics.allocatedTriangles = capacity;
+    const { retained, skipped } = await scan(positions, albedo, capacity);
+    if (retained + skipped !== potential || (potential > maxTriangles && retained !== capacity))
+      throw new Error("static geometry changed during collection; native indirect is retained");
     statistics.meshes = meshes.length;
-    statistics.triangles = n;
-    return { positions: positions.slice(0, n * 9), albedo: albedo.slice(0, n * 3) };
+    statistics.triangles = retained;
+    statistics.skippedTriangles = skipped;
+    return { positions: positions.slice(0, retained * 9), albedo: albedo.slice(0, retained * 3) };
   }
   async function inspectProbe(position, yieldIfNeeded) {
     let backfaces = 0,
@@ -676,6 +703,8 @@ export function createStaticLightField({
       ready: true,
       cacheHit: true,
       cacheBakeMs: snapshot.statistics?.bakeMs ?? null,
+      cacheSourceTriangles: snapshot.statistics?.sourceTriangles ?? null,
+      cacheSkippedTriangles: snapshot.statistics?.skippedTriangles ?? null,
       triangles: snapshot.statistics?.triangles ?? 0,
       meshes: snapshot.statistics?.meshes ?? 0,
       relocatedProbes: snapshot.probes.filter((p) => p.relocation > 0).length,

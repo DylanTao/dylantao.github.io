@@ -289,7 +289,7 @@ export function swashEdge(x, time, beach, sea = null) {
     high = 0.78;
   const wet = (fraction) => {
     const point = beachPoint(x, fraction, beach);
-    return SEA_LEVEL + sampleOcean(x, point[2] + OCEAN_Z, time, 1.1, sea).displacement[1] - point[1];
+    return (sea?.surfaceAt?.(x, point[2], time, 1.1) ?? SEA_LEVEL + sampleOcean(x, point[2] + OCEAN_Z, time, 1.1, sea).displacement[1]) - point[1];
   };
   if (wet(low) > 0) return low;
   if (wet(high) < 0) return high;

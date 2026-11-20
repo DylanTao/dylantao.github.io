@@ -137,13 +137,42 @@ test("the ground floor's walk passes behind the dining room, clear of its table"
   const table = manifest.furniture.find((a) => a.id === "dining-table").position;
   // The table runs 1.0 m deep (z), its inland chairs 0.85 m behind its centre.
   assert.ok(nav.lowerAisleZ > table[2] + 1.4, "the aisle passes behind the inland chairs");
-  assert.equal(nav.lowerStairApproach[0][2], nav.lowerAisleZ);
+  if (manifest.entrance.straightDescent) assert.deepEqual(nav.lowerStairApproach[0], manifest.entrance.foyer);
+  else assert.equal(nav.lowerStairApproach[0][2], nav.lowerAisleZ);
 });
 
 test("clifftop arrival is one connected stair hall with native capsule clearance", () => {
   // Sirui, October 24: one stair, in a hall cut into the rock behind the living's back wall; the
   // main entrance is a pivot door in that wall, and the hall's landing door serves the upper floor.
   const entry = manifest.entrance;
+  if (entry.straightDescent) {
+    const native = JSON.parse(fs.readFileSync(new URL("../artwork/coastal-home/reviews/arrival-b/native-route.json", import.meta.url), "utf8"));
+    const route = manifest.walk.mainEntryRoute;
+    assert.equal(route.length, 61);
+    assert.equal(native.rows.length, route.length);
+    assert.equal(native.passed, true, "actual native stand, headroom and body probes pass");
+    assert.equal(native.optics.passed, true, "the foyer has a closed approach and a measured horizon reveal");
+    assert.ok(native.minimumHeadroom >= 2.05);
+    assert.equal(entry.headroom, native.minimumHeadroom);
+    assert.equal(entry.stairWidth, 2.2);
+    assert.equal(entry.going, 0.28);
+    assert.equal(entry.floor, 0, "the straight entry reaches the shared living floor");
+    assert.deepEqual(route[0], manifest.walk.start.position);
+    assert.deepEqual(route.at(-1), entry.foyer);
+    assert.deepEqual(entry.route, [...route].reverse());
+    for (const [index, row] of native.rows.entries()) {
+      const [x, y, z] = row.foot;
+      assert.ok(Math.hypot(x - route[index][0], z - route[index][1], y + route[index][2]) < 1e-5);
+      assert.ok(row.floor.every((side) => Math.abs(side.dy) < 0.045));
+      assert.equal(row.bodyProbeHits.length, 0);
+    }
+    const door = manifest.estateDoors.find(({ id }) => id === "main");
+    assert.ok(door.nodes.includes("core_arrival_B_reveal_panel"));
+    assert.ok(Math.abs(door.pivot.angle - Math.PI / 2) < 1e-8);
+    assert.equal(manifest.privateEntrance, undefined);
+    assert.equal(manifest.navigation.stairs.at(-1)[1], 2.6);
+    return;
+  }
   const measured = JSON.parse(
     fs.readFileSync(new URL("../artwork/coastal-home/reviews/retreat-2026-10-24/native-contacts.json", import.meta.url), "utf8")
   );

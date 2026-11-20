@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { BODY, createWalkField, walkKind, WATER_BLOCK } from "../assets/js/home-scene/colliders.mjs";
-import { nativeGeometry } from "./helpers/coastal-native-geometry.mjs";
+import { nativeHouseGeometry } from "./helpers/coastal-native-geometry.mjs";
 import { roomAt, spawnPlan } from "../assets/js/home-scene/walk-controls.mjs";
 
 const modelBase = process.env.COASTAL_MODELS_ROOT
@@ -19,7 +19,7 @@ async function deliveredField() {
       Boolean
     );
     for (const file of files) {
-      const root = await nativeGeometry(file, modelBase);
+      const root = await nativeHouseGeometry(file, manifest, modelBase);
       // Full screen commonly opens from an interior cutaway. Hide the actual native roof nodes as
       // the controller does, then prove their static triangles still carry a visitor outside.
       root.traverse((object) => {
@@ -44,7 +44,10 @@ async function deliveredField() {
 // every actual foot elevation comes from native delivered triangles through the runtime solver.
 function traverse(field, route) {
   const first = route[0],
-    start = field.findStand(first[0], first[2], first[1], { reach: 0.15, tolerance: 0.08 });
+    start = field.findStand(first[0], first[2], first[1], {
+      reach: 0.15,
+      tolerance: 0.08,
+    });
   assert.ok(start, `native arrival support at ${JSON.stringify(first)}`);
   let state = start,
     travelled = 0,
@@ -80,7 +83,10 @@ function traverse(field, route) {
 // solver; a route cannot descend through the house to satisfy a rooftop check.
 function roofJourney(field, from, to) {
   const step = 0.2;
-  const start = field.findStand(from[0], from[2], from[1], { reach: 0.08, tolerance: 0.08 });
+  const start = field.findStand(from[0], from[2], from[1], {
+    reach: 0.08,
+    tolerance: 0.08,
+  });
   assert.ok(start, "roof search starts at the actual current support");
   const queue = [{ state: start, ix: 0, iz: 0, parent: null }],
     seen = new Set(["0,0"]);
@@ -107,7 +113,7 @@ function roofJourney(field, from, to) {
       if (seen.has(key)) continue;
       const x = start.x + ix * step,
         z = start.z + iz * step;
-      if (x < -14 || x > 14 || z < 3 || z > 29) continue;
+      if (x < -14 || x > 14 || z < 3 || z >= field.bounds.max[2] - step) continue;
       const next = field.move(state.x, state.z, state.foot, x - state.x, z - state.z);
       if (Math.hypot(next.x - x, next.z - z) > 0.015 || next.foot < 6.5 || next.foot > 12) continue;
       seen.add(key);
@@ -203,18 +209,24 @@ test("the clifftop walking field extends beyond the entrance over real terrain",
   assert.ok(manifest.walk.region.max[2] >= 30 && manifest.walk.region.min[0] <= -15, "room to walk around the entrance");
   const field = await deliveredField(),
     points = [manifest.walk.start.position];
-  // Leave the centered landing through the real pavilion opening before crossing the hill.
-  // A diagonal from inside the pavilion to the eastern terrain cuts through its side wall.
-  const start = manifest.walk.start,
-    exitX = start.position[0] - Math.sin(start.yaw) * 1.8,
-    exitZ = start.position[2] - Math.cos(start.yaw) * 1.8;
-  points.push([exitX, field.floorBelow(exitX, exitZ, 12), exitZ]);
-  for (const [x, z] of [
-    [3.42, 25],
-    [0, 25],
-    [-3, 25],
-    [-3, 24.2],
-  ]) {
+  const start = manifest.walk.start;
+  const [x0, , z0] = start.position;
+  // B leaves the north edge of the plinth, skirts its east cheek, then follows the natural ridge.
+  // The former pavilion had a different opening and reached the hill on its west side.
+  const terrain = manifest.entrance.straightDescent
+    ? [
+        [x0 + 3.9, z0 + 1.44],
+        [x0 + 3.9, z0 - 0.2],
+        [x0 + 3.9, 25.0],
+      ]
+    : [
+        [x0 - Math.sin(start.yaw) * 1.8, z0 - Math.cos(start.yaw) * 1.8],
+        [3.42, 25],
+        [0, 25],
+        [-3, 25],
+        [-3, 24.2],
+      ];
+  for (const [x, z] of terrain) {
     const foot = field.floorBelow(x, z, 12);
     assert.ok(Number.isFinite(foot), `real native clifftop support at ${x}, ${z}`);
     points.push([x, foot, z]);
@@ -248,5 +260,15 @@ test("the hidden cutaway roof remains real clifftop support while crossing the d
   const outward = traverse(field, points),
     inward = traverse(field, [...points].reverse());
   assert.ok(outward.travelled > 30 && inward.travelled > 30, "crossed the actual house roof and returned through continuous native supports");
-  t.diagnostic(JSON.stringify({ inward, outward, supports: rooftop.map(([x, z]) => ({ x, z, foot: field.floorBelow(x, z, 12) })) }));
+  t.diagnostic(
+    JSON.stringify({
+      inward,
+      outward,
+      supports: rooftop.map(([x, z]) => ({
+        x,
+        z,
+        foot: field.floorBelow(x, z, 12),
+      })),
+    })
+  );
 });

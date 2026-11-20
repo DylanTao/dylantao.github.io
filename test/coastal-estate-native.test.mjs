@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { BODY, createWalkField, walkKind, WATER_BLOCK } from "../assets/js/home-scene/colliders.mjs";
-import { nativeGeometry } from "./helpers/coastal-native-geometry.mjs";
+import { nativeHouseGeometry } from "./helpers/coastal-native-geometry.mjs";
 
 const modelBase = process.env.COASTAL_MODELS_ROOT
   ? pathToFileURL(`${resolve(process.env.COASTAL_MODELS_ROOT)}/`)
@@ -18,7 +18,7 @@ async function deliveredField(config) {
   const movingLeaves = [];
   for (const file of files) {
     if (!file) continue;
-    const root = await nativeGeometry(file, modelBase);
+    const root = await nativeHouseGeometry(file, config, modelBase);
     root.traverse((object) => {
       // Walk presents the made bed, exactly as controller.updateBedding does.
       // The five fitted sleeper covers are mutually exclusive moving variants;
@@ -58,7 +58,7 @@ async function deliveredField(config) {
 
 test("native roof planting follows only its actual retained support and companion paths have one final-frame source", async () => {
   const config = manifest();
-  const root = await nativeGeometry(config.shell, modelBase);
+  const root = await nativeHouseGeometry(config.shell, config, modelBase);
   const plants = [],
     owned = [];
   root.traverse((node) => {

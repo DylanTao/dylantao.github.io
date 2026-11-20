@@ -3,42 +3,6 @@
   "samples": 24,
   "surfaces": [
     {
-      "mesh": "sleep__honey ash",
-      "corners": 1968,
-      "min": 0.68,
-      "max": 0.7456777373949688
-    },
-    {
-      "mesh": "sleep__linen",
-      "corners": 1304,
-      "min": 0.68,
-      "max": 0.7444812261809906
-    },
-    {
-      "mesh": "sleep__pale oak",
-      "corners": 704,
-      "min": 0.68,
-      "max": 0.7458601112167041
-    },
-    {
-      "mesh": "sleep__terracotta",
-      "corners": 1280,
-      "min": 0.68,
-      "max": 0.7524412609388431
-    },
-    {
-      "mesh": "sleep__charcoal",
-      "corners": 704,
-      "min": 0.68,
-      "max": 0.705381417075793
-    },
-    {
-      "mesh": "sleep__olive leaf",
-      "corners": 2288,
-      "min": 0.68,
-      "max": 0.7430308053890865
-    },
-    {
       "mesh": "onsen_water",
       "corners": 1408,
       "min": 0.68,
@@ -103,78 +67,6 @@
       "corners": 732,
       "min": 0.68,
       "max": 0.716931330425044
-    },
-    {
-      "mesh": "sleep_pillow_empty",
-      "corners": 8320,
-      "min": 0.68,
-      "max": 0.7782750203212102
-    },
-    {
-      "mesh": "sleep_duvet_empty",
-      "corners": 24818,
-      "min": 0.68,
-      "max": 0.7291275974114736
-    },
-    {
-      "mesh": "sleep_pillow_lizard",
-      "corners": 8320,
-      "min": 0.68,
-      "max": 0.7782750203212102
-    },
-    {
-      "mesh": "sleep_duvet_lizard",
-      "corners": 23234,
-      "min": 0.68,
-      "max": 0.7420081603030364
-    },
-    {
-      "mesh": "sleep_pillow_south-park",
-      "corners": 8320,
-      "min": 0.68,
-      "max": 0.7775937816997369
-    },
-    {
-      "mesh": "sleep_duvet_south-park",
-      "corners": 24774,
-      "min": 0.68,
-      "max": 0.7331907447179159
-    },
-    {
-      "mesh": "sleep_pillow_simpsons",
-      "corners": 8320,
-      "min": 0.68,
-      "max": 0.7782750203212102
-    },
-    {
-      "mesh": "sleep_duvet_simpsons",
-      "corners": 24474,
-      "min": 0.68,
-      "max": 0.7352269183595975
-    },
-    {
-      "mesh": "sleep_pillow_ghibli",
-      "corners": 8320,
-      "min": 0.68,
-      "max": 0.7782750203212102
-    },
-    {
-      "mesh": "sleep_duvet_ghibli",
-      "corners": 26448,
-      "min": 0.68,
-      "max": 0.7385579654326042
-    },
-    {
-      "mesh": "sleep_pillow_rick-and-morty",
-      "corners": 8320,
-      "min": 0.68,
-      "max": 0.7782750203212102
-    },
-    {
-      "mesh": "sleep_duvet_rick-and-morty",
-      "corners": 24510,
-      "min": 0.68,
-      "max": 0.7492817193269731
     },
     {
       "mesh": "gym__gym rubber",
@@ -1029,12 +921,6 @@
       "max": 0.761521703551213
     },
     {
-      "mesh": "core_reno_floorboards_lower",
-      "corners": 12208,
-      "min": 0.68,
-      "max": 0.7982066766172649
-    },
-    {
       "mesh": "core_infinity__warm cut stone",
       "corners": 3072,
       "min": 0.68,
@@ -1305,54 +1191,6 @@
       "max": 0.8216034411390623
     },
     {
-      "mesh": "sleep_reno_wardrobe__pale oak",
-      "corners": 1536,
-      "min": 0.68,
-      "max": 0.740900307148695
-    },
-    {
-      "mesh": "sleep_reno_wardrobe__honey ash",
-      "corners": 384,
-      "min": 0.68,
-      "max": 0.7027990486441802
-    },
-    {
-      "mesh": "sleep_reno_wardrobe__polished nickel",
-      "corners": 180,
-      "min": 0.68,
-      "max": 0.7025000006705523
-    },
-    {
-      "mesh": "sleep_decor pale oak",
-      "corners": 864,
-      "min": 0.68,
-      "max": 0.7423302255570889
-    },
-    {
-      "mesh": "sleep_decor linen canvas sky",
-      "corners": 24,
-      "min": 0.68,
-      "max": 0.6812571576051415
-    },
-    {
-      "mesh": "sleep_decor linen canvas sea",
-      "corners": 24,
-      "min": 0.68,
-      "max": 0.6804246836605793
-    },
-    {
-      "mesh": "sleep_decor linen canvas sand",
-      "corners": 24,
-      "min": 0.68,
-      "max": 0.6811676299540947
-    },
-    {
-      "mesh": "sleep_decor linen canvas sun",
-      "corners": 32,
-      "min": 0.68,
-      "max": 0.6841263130803903
-    },
-    {
       "mesh": "core_estate_link_ceiling_0__chalk limestone",
       "corners": 384,
       "min": 0.68,
@@ -1411,12 +1249,6 @@
       "corners": 4848,
       "min": 0.68,
       "max": 0.7987394094467163
-    },
-    {
-      "mesh": "core_estate_library_facade__brushed brass",
-      "corners": 2868,
-      "min": 0.68,
-      "max": 0.9539678314079841
     },
     {
       "mesh": "core_estate_door_main__estate fluted bronze glass",
@@ -2577,12 +2409,6 @@
       "max": 0.7597160229024787
     },
     {
-      "mesh": "coast_shared_golden coastal sandstone",
-      "corners": 215780,
-      "min": 0.68,
-      "max": 0.9562056937565406
-    },
-    {
       "mesh": "core__blue sage agave leaf",
       "corners": 8208,
       "min": 0.68,
@@ -2839,12 +2665,6 @@
       "corners": 336,
       "min": 0.68,
       "max": 0.7275686992704868
-    },
-    {
-      "mesh": "core__golden coastal sandstone",
-      "corners": 333250,
-      "min": 0.68,
-      "max": 0.9595640691618126
     },
     {
       "mesh": "core_gym_ledge",
@@ -3169,6 +2989,1824 @@
       "corners": 360,
       "min": 0.68,
       "max": 0.8467792685329916
+    },
+    {
+      "mesh": "sleep__honey ash",
+      "corners": 1968,
+      "min": 0.68,
+      "max": 0.7440537406752508
+    },
+    {
+      "mesh": "sleep__linen",
+      "corners": 1304,
+      "min": 0.68,
+      "max": 0.776988282824556
+    },
+    {
+      "mesh": "sleep__pale oak",
+      "corners": 704,
+      "min": 0.68,
+      "max": 0.7870564840734005
+    },
+    {
+      "mesh": "sleep__terracotta",
+      "corners": 1280,
+      "min": 0.68,
+      "max": 0.6955311672762037
+    },
+    {
+      "mesh": "sleep__charcoal",
+      "corners": 704,
+      "min": 0.68,
+      "max": 0.6927443884313107
+    },
+    {
+      "mesh": "sleep__olive leaf",
+      "corners": 2288,
+      "min": 0.68,
+      "max": 0.7183454259733361
+    },
+    {
+      "mesh": "sleep_decor pale oak",
+      "corners": 864,
+      "min": 0.68,
+      "max": 0.7295144602408012
+    },
+    {
+      "mesh": "sleep_decor linen canvas sky",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.715749203891804
+    },
+    {
+      "mesh": "sleep_decor linen canvas sea",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7163320006305974
+    },
+    {
+      "mesh": "sleep_decor linen canvas sand",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7157644733289878
+    },
+    {
+      "mesh": "sleep_decor linen canvas sun",
+      "corners": 32,
+      "min": 0.680503049682205,
+      "max": 0.6848244453966618
+    },
+    {
+      "mesh": "sleep_reno_wardrobe__pale oak",
+      "corners": 1536,
+      "min": 0.68,
+      "max": 0.8116239168246587
+    },
+    {
+      "mesh": "sleep_reno_wardrobe__honey ash",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.8086803717414539
+    },
+    {
+      "mesh": "sleep_reno_wardrobe__polished nickel",
+      "corners": 180,
+      "min": 0.68,
+      "max": 0.7925000053644181
+    },
+    {
+      "mesh": "core_estate_library_facade__brushed brass",
+      "corners": 2964,
+      "min": 0.68,
+      "max": 0.864148872345686
+    },
+    {
+      "mesh": "core_finish_bedchamber_wall_east__chalk limestone",
+      "corners": 672,
+      "min": 0.68,
+      "max": 0.8438193001349769
+    },
+    {
+      "mesh": "sleep_fin_window__brushed brass",
+      "corners": 3456,
+      "min": 0.68,
+      "max": 0.8452239900082351
+    },
+    {
+      "mesh": "sleep_pillow_empty",
+      "corners": 8320,
+      "min": 0.68,
+      "max": 0.763276021356384
+    },
+    {
+      "mesh": "sleep_duvet_empty",
+      "corners": 24222,
+      "min": 0.68,
+      "max": 0.7305128022780021
+    },
+    {
+      "mesh": "sleep_pillow_lizard",
+      "corners": 8320,
+      "min": 0.68,
+      "max": 0.7645998048782349
+    },
+    {
+      "mesh": "sleep_duvet_lizard",
+      "corners": 23324,
+      "min": 0.68,
+      "max": 0.7503371594225368
+    },
+    {
+      "mesh": "sleep_pillow_south-park",
+      "corners": 8320,
+      "min": 0.68,
+      "max": 0.7631065972646077
+    },
+    {
+      "mesh": "sleep_duvet_south-park",
+      "corners": 24570,
+      "min": 0.68,
+      "max": 0.7405661960442862
+    },
+    {
+      "mesh": "sleep_pillow_simpsons",
+      "corners": 8320,
+      "min": 0.68,
+      "max": 0.7641955348849296
+    },
+    {
+      "mesh": "sleep_duvet_simpsons",
+      "corners": 24454,
+      "min": 0.68,
+      "max": 0.7505025529985627
+    },
+    {
+      "mesh": "sleep_pillow_ghibli",
+      "corners": 8320,
+      "min": 0.68,
+      "max": 0.7636045285065969
+    },
+    {
+      "mesh": "sleep_duvet_ghibli",
+      "corners": 26448,
+      "min": 0.68,
+      "max": 0.7401961751903098
+    },
+    {
+      "mesh": "sleep_pillow_rick-and-morty",
+      "corners": 8320,
+      "min": 0.68,
+      "max": 0.7636615321536859
+    },
+    {
+      "mesh": "sleep_duvet_rick-and-morty",
+      "corners": 24302,
+      "min": 0.68,
+      "max": 0.7621529460450014
+    },
+    {
+      "mesh": "core_bath_roji_gravel",
+      "corners": 2000,
+      "min": 0.68,
+      "max": 0.8091887649645408
+    },
+    {
+      "mesh": "core_bath_roji_stone",
+      "corners": 1920,
+      "min": 0.68,
+      "max": 0.838124493667856
+    },
+    {
+      "mesh": "core_bath_roji_culms",
+      "corners": 4134,
+      "min": 0.68,
+      "max": 0.8666479263454676
+    },
+    {
+      "mesh": "core_bath_roji_leaves",
+      "corners": 3024,
+      "min": 0.68,
+      "max": 0.821329445913434
+    },
+    {
+      "mesh": "core_bath_roji_groundcover",
+      "corners": 672,
+      "min": 0.68,
+      "max": 0.7398309346288443
+    },
+    {
+      "mesh": "core_bath_roji_maple_limb",
+      "corners": 3328,
+      "min": 0.68,
+      "max": 0.8077043005451561
+    },
+    {
+      "mesh": "core_bath_roji_maple_crown",
+      "corners": 7812,
+      "min": 0.68,
+      "max": 0.7940490964613856
+    },
+    {
+      "mesh": "core_bath_roji_maple_tips",
+      "corners": 1260,
+      "min": 0.68,
+      "max": 0.7844471449963748
+    },
+    {
+      "mesh": "core_bedroom_fit_bay_stone",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7152164437311392
+    },
+    {
+      "mesh": "core_bedroom_fit_bay_floor",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6930694490050276
+    },
+    {
+      "mesh": "core_bedroom_fit_bay_back",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7411054660876593
+    },
+    {
+      "mesh": "core_bedroom_fit_bay_inland",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6948425786569715
+    },
+    {
+      "mesh": "core_bedroom_fit_bay_seaward",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7405289078131319
+    },
+    {
+      "mesh": "core_bedroom_fit_bay_head",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6930404655324917
+    },
+    {
+      "mesh": "core_bedroom_fit_bay_bearing_1",
+      "corners": 18,
+      "min": 0.68,
+      "max": 0.6808854742627591
+    },
+    {
+      "mesh": "core_bedroom_fit_bay_bearing_2",
+      "corners": 18,
+      "min": 0.68,
+      "max": 0.6813283696491271
+    },
+    {
+      "mesh": "sleep_fit_dressing_bench",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.6859327462067207
+    },
+    {
+      "mesh": "sleep_fit_dressing_bench_foot_1",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6923462166761359
+    },
+    {
+      "mesh": "sleep_fit_dressing_bench_foot_2",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.680749646491992
+    },
+    {
+      "mesh": "sleep_fit_full_mirror_frame",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.6947012568513553
+    },
+    {
+      "mesh": "sleep_fit_full_mirror",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.6966798391814034
+    },
+    {
+      "mesh": "sleep_fit_mirror_standoff_1",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6941519234329463
+    },
+    {
+      "mesh": "sleep_fit_mirror_standoff_2",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6976048451537887
+    },
+    {
+      "mesh": "sleep_fit_woven_rug",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7567706554879745
+    },
+    {
+      "mesh": "sleep_fit_reading_foot_1",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.740467242896557
+    },
+    {
+      "mesh": "sleep_fit_reading_foot_2",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7395229318489631
+    },
+    {
+      "mesh": "sleep_fit_reading_foot_3",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7603409800864757
+    },
+    {
+      "mesh": "sleep_fit_reading_foot_4",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7639428547769785
+    },
+    {
+      "mesh": "sleep_fit_reading_seat",
+      "corners": 48,
+      "min": 0.6801730693931071,
+      "max": 0.7766069057335456
+    },
+    {
+      "mesh": "sleep_fit_reading_cushion",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7745719942823053
+    },
+    {
+      "mesh": "sleep_fit_reading_back_west",
+      "corners": 60,
+      "min": 0.68,
+      "max": 0.7646921065201362
+    },
+    {
+      "mesh": "sleep_fit_reading_back_east",
+      "corners": 60,
+      "min": 0.68,
+      "max": 0.7647447803864876
+    },
+    {
+      "mesh": "sleep_fit_reading_back_panel",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7624013926088811
+    },
+    {
+      "mesh": "sleep_fit_reading_curled_arm",
+      "corners": 204,
+      "min": 0.68,
+      "max": 0.7848851648469766
+    },
+    {
+      "mesh": "sleep_fit_reading_book_ledge",
+      "corners": 48,
+      "min": 0.6805027854427075,
+      "max": 0.7768803162127733
+    },
+    {
+      "mesh": "sleep_fit_niche_sill",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7273387245895963
+    },
+    {
+      "mesh": "sleep_fit_niche_header",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7192190967003506
+    },
+    {
+      "mesh": "sleep_fit_niche_inland",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7030346292195221
+    },
+    {
+      "mesh": "sleep_fit_niche_seaward",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7273463816444079
+    },
+    {
+      "mesh": "sleep_fit_reading_mount_inland",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.6928912678112586
+    },
+    {
+      "mesh": "sleep_fit_reading_lamp_inland",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7149699977723262
+    },
+    {
+      "mesh": "sleep_fit_reading_glow_inland",
+      "corners": 48,
+      "min": 0.6811288072215393,
+      "max": 0.7163989864413938
+    },
+    {
+      "mesh": "sleep_fit_reading_mount_seaward",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7068359037054082
+    },
+    {
+      "mesh": "sleep_fit_reading_lamp_seaward",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7038297842070461
+    },
+    {
+      "mesh": "sleep_fit_reading_glow_seaward",
+      "corners": 48,
+      "min": 0.680552906220158,
+      "max": 0.7062146047875285
+    },
+    {
+      "mesh": "sleep_fit_niche_planter",
+      "corners": 54,
+      "min": 0.68,
+      "max": 0.6850106542805832
+    },
+    {
+      "mesh": "sleep_fit_niche_trailing_stem",
+      "corners": 130,
+      "min": 0.68,
+      "max": 0.7174872952327134
+    },
+    {
+      "mesh": "sleep_fit_niche_trailing_leaves",
+      "corners": 144,
+      "min": 0.68,
+      "max": 0.729094009200732
+    },
+    {
+      "mesh": "core_speakeasy_study_floor__pale oak",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7968679022789003
+    },
+    {
+      "mesh": "core_speakeasy_study_threshold__brushed brass",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.6951135898008943
+    },
+    {
+      "mesh": "core_speakeasy_study_reveal__bar smoked oak",
+      "corners": 288,
+      "min": 0.68,
+      "max": 0.7512775589153171
+    },
+    {
+      "mesh": "core_speakeasy_study_nook__bar umber lime plaster",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7070259602864584
+    },
+    {
+      "mesh": "core_speakeasy_study_bench__bar smoked oak",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7432328771799803
+    },
+    {
+      "mesh": "core_speakeasy_study_bench__bar moss mohair",
+      "corners": 216,
+      "min": 0.68,
+      "max": 0.7750080855190754
+    },
+    {
+      "mesh": "core_speakeasy_study_pocket_screen__bar smoked oak",
+      "corners": 1056,
+      "min": 0.68,
+      "max": 0.7979169576863449
+    },
+    {
+      "mesh": "core_speakeasy_study_book_ledge__bar smoked oak",
+      "corners": 288,
+      "min": 0.68,
+      "max": 0.7709341165081909
+    },
+    {
+      "mesh": "core_speakeasy_study_reading_shelf__bar smoked oak",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7726782509684563
+    },
+    {
+      "mesh": "core_speakeasy_study_reading_shelf__bar moss mohair",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7755897651364406
+    },
+    {
+      "mesh": "core_speakeasy_study_reading_shelf__bar saddle leather",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7632028669615587
+    },
+    {
+      "mesh": "core_speakeasy_study_reading_shelf__bar uncoated paper",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7734483653927843
+    },
+    {
+      "mesh": "core_speakeasy_study_pivot_back__bar smoked oak",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7171596923967204
+    },
+    {
+      "mesh": "core_speakeasy_study_pivot_stiles__bar smoked oak",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.7485024168528617
+    },
+    {
+      "mesh": "core_speakeasy_study_pivot_shelves__bar smoked oak",
+      "corners": 480,
+      "min": 0.68,
+      "max": 0.7029639566441377
+    },
+    {
+      "mesh": "core_speakeasy_study_pivot_books__bar saddle leather",
+      "corners": 1440,
+      "min": 0.68,
+      "max": 0.7081402696172396
+    },
+    {
+      "mesh": "core_speakeasy_study_pivot_books__bar moss mohair",
+      "corners": 1248,
+      "min": 0.68,
+      "max": 0.7056866793086132
+    },
+    {
+      "mesh": "core_speakeasy_study_pivot_books__bar smoked oak",
+      "corners": 1248,
+      "min": 0.68,
+      "max": 0.7068490135918062
+    },
+    {
+      "mesh": "core_speakeasy_study_pivot_books__bar uncoated paper",
+      "corners": 1632,
+      "min": 0.68,
+      "max": 0.7155032941264412
+    },
+    {
+      "mesh": "core_speakeasy_plinth__warm cut stone",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.9078428320338329
+    },
+    {
+      "mesh": "core_speakeasy_paving__bar green limestone",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.9085177579025427
+    },
+    {
+      "mesh": "core_speakeasy_lintel__bar smoked oak",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.68
+    },
+    {
+      "mesh": "core_speakeasy_vestibule__bar smoked oak",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7040492520791789
+    },
+    {
+      "mesh": "core_speakeasy_vestibule_roof__bar smoked oak",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7142400625363614
+    },
+    {
+      "mesh": "core_speakeasy_entry_reeds__bar smoked oak",
+      "corners": 1248,
+      "min": 0.68,
+      "max": 0.7296079555898906
+    },
+    {
+      "mesh": "core_speakeasy_rock_jamb__listening room sedimentary stone",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.8344373896469672
+    },
+    {
+      "mesh": "core_speakeasy_rock_header__listening room sedimentary stone",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7185452449570101
+    },
+    {
+      "mesh": "core_speakeasy_lift_reveal__listening room brushed copper",
+      "corners": 288,
+      "min": 0.68,
+      "max": 0.7146866565539193
+    },
+    {
+      "mesh": "core_speakeasy_lift_call_plate__dark bronze",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7139465460289892
+    },
+    {
+      "mesh": "core_speakeasy_lift_call__brushed brass",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7138925455518378
+    },
+    {
+      "mesh": "core_speakeasy_gable__bar umber lime plaster",
+      "corners": 528,
+      "min": 0.68,
+      "max": 0.9294937719156345
+    },
+    {
+      "mesh": "core_speakeasy_entry_jamb__listening room quarter-cut walnut",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.8031416375935079
+    },
+    {
+      "mesh": "core_speakeasy_entry_header__listening room quarter-cut walnut",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.8134687066574892
+    },
+    {
+      "mesh": "core_speakeasy_lantern_socket__listening room brushed copper",
+      "corners": 96,
+      "min": 0.680395515638714,
+      "max": 0.7999391781290373
+    },
+    {
+      "mesh": "core_speakeasy_entry_lantern__listening room gold parchment",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7977270597716173
+    },
+    {
+      "mesh": "core_speakeasy_sofa_plinth__listening room quarter-cut walnut",
+      "corners": 520,
+      "min": 0.68,
+      "max": 0.68
+    },
+    {
+      "mesh": "core_speakeasy_sofa_seat__bar moss mohair",
+      "corners": 1040,
+      "min": 0.68,
+      "max": 0.68
+    },
+    {
+      "mesh": "core_speakeasy_sofa_back__bar moss mohair",
+      "corners": 910,
+      "min": 0.68,
+      "max": 0.68
+    },
+    {
+      "mesh": "core_speakeasy_sofa_channels__bar moss mohair",
+      "corners": 1620,
+      "min": 0.68,
+      "max": 0.7264724475083252
+    },
+    {
+      "mesh": "core_speakeasy_loose_cushion__listening room cordovan leather",
+      "corners": 1300,
+      "min": 0.68,
+      "max": 0.7035840875593324
+    },
+    {
+      "mesh": "core_speakeasy_small_tables__listening room brushed copper",
+      "corners": 252,
+      "min": 0.68,
+      "max": 0.7034373777887474
+    },
+    {
+      "mesh": "core_speakeasy_small_tables__listening room quarter-cut walnut",
+      "corners": 504,
+      "min": 0.68,
+      "max": 0.7479608464504903
+    },
+    {
+      "mesh": "core_speakeasy_lamp_base__listening room brushed copper",
+      "corners": 648,
+      "min": 0.68,
+      "max": 0.7276674924325198
+    },
+    {
+      "mesh": "core_speakeasy_parchment__listening room gold parchment",
+      "corners": 672,
+      "min": 0.68,
+      "max": 0.7484095009261121
+    },
+    {
+      "mesh": "core_speakeasy_lamp_cap__listening room brushed copper",
+      "corners": 480,
+      "min": 0.68,
+      "max": 0.7482828071713448
+    },
+    {
+      "mesh": "core_speakeasy_record_base__listening room quarter-cut walnut",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7144354209272813
+    },
+    {
+      "mesh": "core_speakeasy_platter__dark bronze",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.7143794640712441
+    },
+    {
+      "mesh": "core_speakeasy_disc__charcoal",
+      "corners": 216,
+      "min": 0.68,
+      "max": 0.7143796186552694
+    },
+    {
+      "mesh": "core_speakeasy_label__bar uncoated paper",
+      "corners": 144,
+      "min": 0.68,
+      "max": 0.7137500000000001
+    },
+    {
+      "mesh": "core_speakeasy_tonearm__brushed brass",
+      "corners": 108,
+      "min": 0.68,
+      "max": 0.7148669487920901
+    },
+    {
+      "mesh": "core_speakeasy_tonearm__dark bronze",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.691926767366628
+    },
+    {
+      "mesh": "core_speakeasy_record_sleeves__bar uncoated paper",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.680433565179507
+    },
+    {
+      "mesh": "core_speakeasy_record_sleeves__bar moss mohair",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6801535494811833
+    },
+    {
+      "mesh": "core_speakeasy_record_sleeves__bar saddle leather",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6805301194420705
+    },
+    {
+      "mesh": "core_speakeasy_featured_sleeve__bar uncoated paper",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6916748281723509
+    },
+    {
+      "mesh": "core_speakeasy_sleeve_ledge__listening room quarter-cut walnut",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.6916658632224426
+    },
+    {
+      "mesh": "core_speakeasy_cabinet_plinth__listening room quarter-cut walnu",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7138012429251104
+    },
+    {
+      "mesh": "core_speakeasy_cabinet_dividers__listening room quarter-cut wal",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7138642308824154
+    },
+    {
+      "mesh": "core_speakeasy_cabinet_back__speaker charcoal felt",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6917674158699811
+    },
+    {
+      "mesh": "core_speakeasy_speaker_baffle__speaker charcoal felt",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.715377795334207
+    },
+    {
+      "mesh": "core_speakeasy_horn_shell__listening room quarter-cut walnut",
+      "corners": 960,
+      "min": 0.68,
+      "max": 0.7033936514876162
+    },
+    {
+      "mesh": "core_speakeasy_compression_driver__speaker charcoal felt",
+      "corners": 1120,
+      "min": 0.68,
+      "max": 0.6913594716073325
+    },
+    {
+      "mesh": "core_speakeasy_lp_shelves__listening room quarter-cut walnut",
+      "corners": 288,
+      "min": 0.68,
+      "max": 0.7268227801720302
+    },
+    {
+      "mesh": "core_speakeasy_records__celadon glaze",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7156453987086814
+    },
+    {
+      "mesh": "core_speakeasy_records__speaker charcoal felt",
+      "corners": 336,
+      "min": 0.68,
+      "max": 0.715044498362889
+    },
+    {
+      "mesh": "core_speakeasy_records__bar moss mohair",
+      "corners": 408,
+      "min": 0.68,
+      "max": 0.7154874864468973
+    },
+    {
+      "mesh": "core_speakeasy_records__listening room amber end grain",
+      "corners": 480,
+      "min": 0.68,
+      "max": 0.7146084413056574
+    },
+    {
+      "mesh": "core_speakeasy_records__bar uncoated paper",
+      "corners": 360,
+      "min": 0.68,
+      "max": 0.7154680629695457
+    },
+    {
+      "mesh": "core_speakeasy_records__listening room cordovan leather",
+      "corners": 480,
+      "min": 0.68,
+      "max": 0.702808494164298
+    },
+    {
+      "mesh": "core_speakeasy_listener_console__listening room quarter-cut wal",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.714407813002666
+    },
+    {
+      "mesh": "core_speakeasy_listener_console__listening room brushed copper",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7145112275425346
+    },
+    {
+      "mesh": "core_speakeasy_amplifier_knobs__dark bronze",
+      "corners": 384,
+      "min": 0.68,
+      "max": 0.7139934566345377
+    },
+    {
+      "mesh": "core_speakeasy_vu_windows__listening room gold parchment",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.7144829899507266
+    },
+    {
+      "mesh": "core_speakeasy_vu_needles__dark bronze",
+      "corners": 60,
+      "min": 0.68,
+      "max": 0.7142026499814045
+    },
+    {
+      "mesh": "core_speakeasy_stone_halo__listening room gold parchment",
+      "corners": 720,
+      "min": 0.68,
+      "max": 0.7031863902043551
+    },
+    {
+      "mesh": "core_speakeasy_stone_medallion__listening room sedimentary ston",
+      "corners": 720,
+      "min": 0.68,
+      "max": 0.7143077452325574
+    },
+    {
+      "mesh": "core_speakeasy_bottles__bar olive bottle",
+      "corners": 780,
+      "min": 0.68,
+      "max": 0.7411087057242791
+    },
+    {
+      "mesh": "core_speakeasy_stoppers__listening room brushed copper",
+      "corners": 288,
+      "min": 0.68,
+      "max": 0.7252028896263801
+    },
+    {
+      "mesh": "core_speakeasy_bottles__bar amber bottle",
+      "corners": 780,
+      "min": 0.68,
+      "max": 0.7380370784240465
+    },
+    {
+      "mesh": "core_speakeasy_strata__listening room sedimentary stone",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7032650016372403
+    },
+    {
+      "mesh": "core_speakeasy_cabinet_crown__listening room quarter-cut walnut",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7033358818044265
+    },
+    {
+      "mesh": "core_speakeasy_island_base__listening room quarter-cut walnut",
+      "corners": 812,
+      "min": 0.68,
+      "max": 0.7385837598238141
+    },
+    {
+      "mesh": "core_speakeasy_island_apron__listening room brushed copper",
+      "corners": 348,
+      "min": 0.68,
+      "max": 0.713821351689015
+    },
+    {
+      "mesh": "core_speakeasy_island_staves__listening room quarter-cut walnut",
+      "corners": 1932,
+      "min": 0.68,
+      "max": 0.7369461210949037
+    },
+    {
+      "mesh": "core_speakeasy_footrail__listening room brushed copper",
+      "corners": 1080,
+      "min": 0.68,
+      "max": 0.7254414781136439
+    },
+    {
+      "mesh": "core_speakeasy_stool_legs__listening room quarter-cut walnut",
+      "corners": 576,
+      "min": 0.68,
+      "max": 0.7598925123798351
+    },
+    {
+      "mesh": "core_speakeasy_stool_stretchers__listening room brushed copper",
+      "corners": 288,
+      "min": 0.68,
+      "max": 0.68
+    },
+    {
+      "mesh": "core_speakeasy_coasters__listening room quarter-cut walnut",
+      "corners": 216,
+      "min": 0.68,
+      "max": 0.7475
+    },
+    {
+      "mesh": "core_speakeasy_glassware__bar amber bottle",
+      "corners": 760,
+      "min": 0.68,
+      "max": 0.7379153152306875
+    },
+    {
+      "mesh": "core_speakeasy_glassware__celadon glaze",
+      "corners": 270,
+      "min": 0.68,
+      "max": 0.7250129537583174
+    },
+    {
+      "mesh": "core_embedded_lift_walk__golden coastal sandstone",
+      "corners": 480,
+      "min": 0.68,
+      "max": 0.8744069775690636
+    },
+    {
+      "mesh": "core_cliff_lift_rail__dark bronze",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.6919961039287349
+    },
+    {
+      "mesh": "core_cliff_lift_rail_bracket__listening room brushed copper",
+      "corners": 1152,
+      "min": 0.68,
+      "max": 0.7025897847343489
+    },
+    {
+      "mesh": "core_cliff_lift_recessed_guide__listening room brushed copper",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.6810004146955908
+    },
+    {
+      "mesh": "core_cliff_lift_line__bar opal strip",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6905650004620354
+    },
+    {
+      "mesh": "core_cliff_lift_reveal_lamp__bar opal strip",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7397135334710281
+    },
+    {
+      "mesh": "core_cliff_lift_gallery_reveal__listening room brushed copper",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.9309536181886992
+    },
+    {
+      "mesh": "core_cliff_lift_gallery_lamp__bar opal strip",
+      "corners": 192,
+      "min": 0.6800016569368654,
+      "max": 0.850553191471845
+    },
+    {
+      "mesh": "core_cliff_lift_pit_floor__dark bronze",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.6805157715252912
+    },
+    {
+      "mesh": "core_cliff_lift_cab__listening room brushed copper",
+      "corners": 576,
+      "min": 0.68,
+      "max": 0.8442801692088446
+    },
+    {
+      "mesh": "core_cliff_lift_cab__listening room quarter-cut walnut",
+      "corners": 192,
+      "min": 0.68,
+      "max": 0.8300948235268395
+    },
+    {
+      "mesh": "core_cliff_lift_cab_lamp__bar opal strip",
+      "corners": 288,
+      "min": 0.68,
+      "max": 0.7383305738680065
+    },
+    {
+      "mesh": "core_cliff_lift_cab__brushed brass",
+      "corners": 144,
+      "min": 0.68,
+      "max": 0.7028972158875938
+    },
+    {
+      "mesh": "core_cliff_lift_cabDoorTop_left_0__listening room brushed coppe",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.6926541276741773
+    },
+    {
+      "mesh": "core_cliff_lift_cabDoorTop_left_1__listening room brushed coppe",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.7054660398016374
+    },
+    {
+      "mesh": "core_cliff_lift_cabDoorTop_right_0__listening room brushed copp",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.6930648180345694
+    },
+    {
+      "mesh": "core_cliff_lift_cabDoorTop_right_1__listening room brushed copp",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.7029989868604268
+    },
+    {
+      "mesh": "core_cliff_lift_topGate_left_0__listening room brushed copper",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.7029864851975193
+    },
+    {
+      "mesh": "core_cliff_lift_topGate_left_1__listening room brushed copper",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.7026986544959558
+    },
+    {
+      "mesh": "core_cliff_lift_topGate_right_0__listening room brushed copper",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.6922455154825002
+    },
+    {
+      "mesh": "core_cliff_lift_topGate_right_1__listening room brushed copper",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.7040394454076887
+    },
+    {
+      "mesh": "core_arrival_B_stair_support",
+      "corners": 1188,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "core_arrival_B_treads__pale oak",
+      "corners": 1200,
+      "min": 0.68,
+      "max": 0.7372548681373399
+    },
+    {
+      "mesh": "core_arrival_B_continuous_soffit",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "core_arrival_B_west_wall",
+      "corners": 654,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "core_arrival_B_rill_kerb_outer",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.7632075115293264
+    },
+    {
+      "mesh": "core_arrival_B_rill_kerb_inner",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.8172474571441611
+    },
+    {
+      "mesh": "core_arrival_B_west_cheek",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6957397965093454
+    },
+    {
+      "mesh": "core_arrival_B_east_cheek",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7166660055021447
+    },
+    {
+      "mesh": "core_arrival_B_reveal_lintel",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7075436677907905
+    },
+    {
+      "mesh": "core_arrival_B_east_stop",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7033905861402552
+    },
+    {
+      "mesh": "core_arrival_B_head_stop",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.7185249399517974
+    },
+    {
+      "mesh": "core_arrival_B_reveal_panel",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6931295135989786
+    },
+    {
+      "mesh": "core_arrival_B_reveal_pull",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6809233270461361
+    },
+    {
+      "mesh": "core_arrival_B_flow_surface",
+      "corners": 32,
+      "min": 0.68,
+      "max": 0.695560258689026
+    },
+    {
+      "mesh": "core_living_log_gallery__gallery charcoal oak back",
+      "corners": 648,
+      "min": 0.68,
+      "max": 0.7031159327567245
+    },
+    {
+      "mesh": "core_living_log_gallery__pale oak",
+      "corners": 864,
+      "min": 0.68,
+      "max": 0.716641322784126
+    },
+    {
+      "mesh": "core_living_log_gallery__gallery honed smoke limestone",
+      "corners": 216,
+      "min": 0.6800322911548817,
+      "max": 0.7033748227606218
+    },
+    {
+      "mesh": "core_living_log_gallery_billet_01",
+      "corners": 42,
+      "min": 0.68,
+      "max": 0.6940225121875604
+    },
+    {
+      "mesh": "core_living_log_gallery_billet_02",
+      "corners": 36,
+      "min": 0.68,
+      "max": 0.6944928683961432
+    },
+    {
+      "mesh": "core_living_log_gallery_billet_03",
+      "corners": 36,
+      "min": 0.68,
+      "max": 0.6939477489640316
+    },
+    {
+      "mesh": "core_living_log_gallery_billet_04",
+      "corners": 36,
+      "min": 0.68,
+      "max": 0.7156659660985073
+    },
+    {
+      "mesh": "core_living_log_gallery_billet_05",
+      "corners": 42,
+      "min": 0.68,
+      "max": 0.7036146875439833
+    },
+    {
+      "mesh": "core_living_log_gallery_billet_06",
+      "corners": 36,
+      "min": 0.68,
+      "max": 0.6941692274684708
+    },
+    {
+      "mesh": "core_living_log_gallery_billet_07",
+      "corners": 36,
+      "min": 0.6800445741102643,
+      "max": 0.694116325241824
+    },
+    {
+      "mesh": "core_living_log_gallery_billet_08",
+      "corners": 42,
+      "min": 0.6800000339560207,
+      "max": 0.6943554223825534
+    },
+    {
+      "mesh": "core_living_log_gallery_billet_09",
+      "corners": 36,
+      "min": 0.68,
+      "max": 0.7032209461679062
+    },
+    {
+      "mesh": "core_living_log_gallery_endgrain_checks",
+      "corners": 1458,
+      "min": 0.6800716751053308,
+      "max": 0.7259677327455332
+    },
+    {
+      "mesh": "coast_shared_golden coastal sandstone",
+      "corners": 325662,
+      "min": 0.68,
+      "max": 0.9566755692164104
+    },
+    {
+      "mesh": "core__golden coastal sandstone",
+      "corners": 332750,
+      "min": 0.68,
+      "max": 0.95940560400486
+    },
+    {
+      "mesh": "core_speakeasy_walls__bar umber lime plaster",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.9115230403592189
+    },
+    {
+      "mesh": "core_speakeasy_walls__listening room sedimentary stone",
+      "corners": 120,
+      "min": 0.68,
+      "max": 0.9380226324498654
+    },
+    {
+      "mesh": "core_speakeasy_window_return__listening room sedimentary stone",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.9345969671259324
+    },
+    {
+      "mesh": "core_speakeasy_window_sill__bar smoked oak",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.9080115328604976
+    },
+    {
+      "mesh": "core_speakeasy_window_seat__listening room quarter-cut walnut",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.8633924783517918
+    },
+    {
+      "mesh": "core_speakeasy_window_liner__listening room quarter-cut walnut",
+      "corners": 288,
+      "min": 0.68,
+      "max": 0.9089275384694337
+    },
+    {
+      "mesh": "core_arrival_B_portal_plinth",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "core_arrival_B_rill_bed",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.7841426346451044
+    },
+    {
+      "mesh": "core_entry_landscape_sandstone",
+      "corners": 1086,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "core_entry_landscape_stone_seat",
+      "corners": 144,
+      "min": 0.68,
+      "max": 0.68
+    },
+    {
+      "mesh": "core_entry_landscape_bark",
+      "corners": 3402,
+      "min": 0.68,
+      "max": 0.9387500107288361
+    },
+    {
+      "mesh": "core_entry_landscape_leaf",
+      "corners": 9216,
+      "min": 0.68,
+      "max": 0.9514996619895101
+    },
+    {
+      "mesh": "core_entry_landscape_leaf_light",
+      "corners": 2304,
+      "min": 0.68,
+      "max": 0.9510439282283187
+    },
+    {
+      "mesh": "core_entry_landscape_grass",
+      "corners": 5390,
+      "min": 0.68,
+      "max": 0.853054966578881
+    },
+    {
+      "mesh": "core_entry_landscape_grass_light",
+      "corners": 1540,
+      "min": 0.68,
+      "max": 0.8523726321632664
+    },
+    {
+      "mesh": "core_entry_landscape_seedheads",
+      "corners": 6300,
+      "min": 0.68,
+      "max": 0.9505193241095792
+    },
+    {
+      "mesh": "core_entry_landscape_berries",
+      "corners": 5040,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "core_speakeasy_horn_bell__listening room honey ash",
+      "corners": 4480,
+      "min": 0.68,
+      "max": 0.7290223475918174
+    },
+    {
+      "mesh": "core_speakeasy_horn_lip__listening room amber end grain",
+      "corners": 1280,
+      "min": 0.68,
+      "max": 0.6804748756570431
+    },
+    {
+      "mesh": "core_speakeasy_bar_top__listening room green soapstone",
+      "corners": 812,
+      "min": 0.68,
+      "max": 0.7367925996348883
+    },
+    {
+      "mesh": "core_speakeasy_saddle_seats__listening room cordovan leather",
+      "corners": 3264,
+      "min": 0.68,
+      "max": 0.7380478619287412
+    },
+    {
+      "mesh": "core_cliff_lift_stone_door_head__listening room brushed copper",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.715910965340833
+    },
+    {
+      "mesh": "core_cliff_lift_stone_door_jamb__listening room brushed copper",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7269569833514591
+    },
+    {
+      "mesh": "core_speakeasy_loggia_bearings__Loggia \u00b7 honed black basalt",
+      "corners": 288,
+      "min": 0.68,
+      "max": 0.7376987221340339
+    },
+    {
+      "mesh": "core_speakeasy_loggia_guard_cap__listening room brushed copper",
+      "corners": 840,
+      "min": 0.68,
+      "max": 0.9549576971679926
+    },
+    {
+      "mesh": "core_speakeasy_loggia_guard_stanchions__listening room brushed ",
+      "corners": 300,
+      "min": 0.68,
+      "max": 0.9442268097152313
+    },
+    {
+      "mesh": "core_speakeasy_loggia_felt_wings__speaker charcoal felt",
+      "corners": 528,
+      "min": 0.68,
+      "max": 0.7389299068289499
+    },
+    {
+      "mesh": "core_speakeasy_loggia_door_lining__listening room quarter-cut w",
+      "corners": 288,
+      "min": 0.68,
+      "max": 0.8497351140435786
+    },
+    {
+      "mesh": "core_speakeasy_loggia_bench_base__Loggia \u00b7 shell limestone",
+      "corners": 424,
+      "min": 0.68,
+      "max": 0.6804100031297033
+    },
+    {
+      "mesh": "core_speakeasy_loggia_heat_recess__Loggia \u00b7 recessed radiator ",
+      "corners": 424,
+      "min": 0.68,
+      "max": 0.68
+    },
+    {
+      "mesh": "core_speakeasy_loggia_heat_fins__listening room brushed copper",
+      "corners": 1410,
+      "min": 0.68,
+      "max": 0.7055580030630033
+    },
+    {
+      "mesh": "core_cliff_lift_cabDoorBeach_left_0__ocean lift dry bronze",
+      "corners": 48,
+      "min": 0.6800052082449657,
+      "max": 0.8066679899767042
+    },
+    {
+      "mesh": "core_cliff_lift_cabDoorBeach_left_0__listening room quarter-cut",
+      "corners": 208,
+      "min": 0.6801271700370126,
+      "max": 0.8249615807334583
+    },
+    {
+      "mesh": "core_cliff_lift_cabDoorBeach_left_1__ocean lift dry bronze",
+      "corners": 48,
+      "min": 0.6800031631056421,
+      "max": 0.8061561279495558
+    },
+    {
+      "mesh": "core_cliff_lift_cabDoorBeach_left_1__listening room quarter-cut",
+      "corners": 208,
+      "min": 0.6800348312038114,
+      "max": 0.8179348271588485
+    },
+    {
+      "mesh": "core_cliff_lift_cabDoorBeach_right_0__ocean lift dry bronze",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7844821135203044
+    },
+    {
+      "mesh": "core_cliff_lift_cabDoorBeach_right_0__listening room quarter-cu",
+      "corners": 208,
+      "min": 0.6800001651456892,
+      "max": 0.830655918866396
+    },
+    {
+      "mesh": "core_cliff_lift_cabDoorBeach_right_1__ocean lift dry bronze",
+      "corners": 48,
+      "min": 0.6800000102495207,
+      "max": 0.8087328445042173
+    },
+    {
+      "mesh": "core_cliff_lift_cabDoorBeach_right_1__listening room quarter-cu",
+      "corners": 208,
+      "min": 0.6800108126141035,
+      "max": 0.8168715538084508
+    },
+    {
+      "mesh": "core_cliff_lift_beachGate_left_0__ocean lift dry bronze",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7641769917557637
+    },
+    {
+      "mesh": "core_cliff_lift_beachGate_left_1__ocean lift dry bronze",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7645415261884531
+    },
+    {
+      "mesh": "core_cliff_lift_beachGate_right_0__ocean lift dry bronze",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7711009671228628
+    },
+    {
+      "mesh": "core_cliff_lift_beachGate_right_1__ocean lift dry bronze",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7723026791214943
+    },
+    {
+      "mesh": "core_cliff_lift_ocean_window_head_pocket__ocean lift dry bronze",
+      "corners": 72,
+      "min": 0.6802173929475248,
+      "max": 0.8064753389172257
+    },
+    {
+      "mesh": "core_cliff_lift_ocean_landing_head__ocean lift dry bronze",
+      "corners": 24,
+      "min": 0.680026616489049,
+      "max": 0.7706087215042984
+    },
+    {
+      "mesh": "core_cliff_lift_ocean_landing_jambs__ocean lift dry bronze",
+      "corners": 48,
+      "min": 0.68,
+      "max": 0.7728342075149218
+    },
+    {
+      "mesh": "core_speakeasy_loggia_ceiling_fan__listening room quarter-cut w",
+      "corners": 13908,
+      "min": 0.68,
+      "max": 0.7379933459063371
+    },
+    {
+      "mesh": "core_speakeasy_loggia_wall_course__listening room sedimentary s",
+      "corners": 1890,
+      "min": 0.68,
+      "max": 0.7496387621449928
+    },
+    {
+      "mesh": "core_speakeasy_loggia_cove_lamp__Loggia \u00b7 shielded straw light",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.7036001563506822
+    },
+    {
+      "mesh": "core_speakeasy_loggia_saddle_backs__listening room cordovan lea",
+      "corners": 2058,
+      "min": 0.68,
+      "max": 0.7594008143246174
+    },
+    {
+      "mesh": "core_speakeasy_loggia_quarry_eyebrow__listening room sedimentar",
+      "corners": 910,
+      "min": 0.68,
+      "max": 0.9457543343305589
+    },
+    {
+      "mesh": "core_speakeasy_loggia_bench_support__Loggia \u00b7 shell limestone",
+      "corners": 790,
+      "min": 0.68,
+      "max": 0.9434639698515337
+    },
+    {
+      "mesh": "core_speakeasy_loggia_bench_seat__listening room undyed basket ",
+      "corners": 2376,
+      "min": 0.68,
+      "max": 0.8172526208000879
+    },
+    {
+      "mesh": "core_speakeasy_loggia_bench_welt__Loggia \u00b7 flax welt",
+      "corners": 4224,
+      "min": 0.68,
+      "max": 0.8424085529396933
+    },
+    {
+      "mesh": "core_speakeasy_loggia_bench_back__listening room undyed basket ",
+      "corners": 1940,
+      "min": 0.68,
+      "max": 0.910866019849976
+    },
+    {
+      "mesh": "core_speakeasy_loggia_scatter_cushions__listening room madder c",
+      "corners": 2112,
+      "min": 0.68,
+      "max": 0.8320960023502509
+    },
+    {
+      "mesh": "core_speakeasy_loggia_scatter_cushions__listening room tobacco ",
+      "corners": 2112,
+      "min": 0.68,
+      "max": 0.8289310383051635
+    },
+    {
+      "mesh": "core_speakeasy_loggia_bench_apron__listening room oiled coastal",
+      "corners": 2448,
+      "min": 0.68,
+      "max": 0.7153043173377713
+    },
+    {
+      "mesh": "core_speakeasy_loggia_fire_plinth__Loggia \u00b7 honed black basalt",
+      "corners": 1800,
+      "min": 0.68,
+      "max": 0.830726407940189
+    },
+    {
+      "mesh": "core_speakeasy_loggia_fire_rim__Loggia \u00b7 seasoned cast iron",
+      "corners": 1440,
+      "min": 0.68,
+      "max": 0.8621622074395419
+    },
+    {
+      "mesh": "core_speakeasy_loggia_fire_bed__Loggia \u00b7 charcoal and ash",
+      "corners": 960,
+      "min": 0.68,
+      "max": 0.816339323570331
+    },
+    {
+      "mesh": "core_speakeasy_loggia_fire_coals__Loggia \u00b7 charcoal and ash",
+      "corners": 6272,
+      "min": 0.68,
+      "max": 0.8428343120838206
+    },
+    {
+      "mesh": "core_reno_floorboards_lower",
+      "corners": 11872,
+      "min": 0.68,
+      "max": 0.7978157548358044
+    },
+    {
+      "mesh": "core_arrival_B_east_wall",
+      "corners": 710,
+      "min": 0.68,
+      "max": 0.9500000000000001
+    },
+    {
+      "mesh": "core_arrival_B_compression_floor",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6818381122189264
+    },
+    {
+      "mesh": "core_speakeasy_loggia_deck__Loggia \u00b7 shell limestone",
+      "corners": 90,
+      "min": 0.68,
+      "max": 0.9439196567982436
+    },
+    {
+      "mesh": "core_arrival_B_upper_link_base",
+      "corners": 60,
+      "min": 0.68,
+      "max": 0.6807850555082162
+    },
+    {
+      "mesh": "core_arrival_B_upper_link__pale oak",
+      "corners": 36,
+      "min": 0.68,
+      "max": 0.6800690768744486
+    },
+    {
+      "mesh": "core_arrival_B_upper_link_seaward_return",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6801320132073791
+    },
+    {
+      "mesh": "core_arrival_B_upper_link_west_return",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.680102536995352
+    },
+    {
+      "mesh": "core_arrival_B_upper_link_landward_closure",
+      "corners": 24,
+      "min": 0.68,
+      "max": 0.6804635344492272
+    },
+    {
+      "mesh": "core_arrival_B_upper_link_head",
+      "corners": 36,
+      "min": 0.68,
+      "max": 0.6801405721142267
+    },
+    {
+      "mesh": "core_arrival_B_upper_link_rail__honey ash",
+      "corners": 72,
+      "min": 0.68,
+      "max": 0.6801161481719464
+    },
+    {
+      "mesh": "core_arrival_B_upper_link_rail__brushed brass",
+      "corners": 144,
+      "min": 0.68,
+      "max": 0.6817140969323616
+    },
+    {
+      "mesh": "core_speakeasy_loggia_paving__Loggia \u00b7 sawn fossil limestone",
+      "corners": 402,
+      "min": 0.68,
+      "max": 0.9435165736824275
+    },
+    {
+      "mesh": "core_entry_landscape_light_west-reveal_shield",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.8062189416835707
+    },
+    {
+      "mesh": "core_entry_landscape_light_west-reveal_diffuser",
+      "corners": 24,
+      "min": 0.6807770939148031,
+      "max": 0.7390134122222662
+    },
+    {
+      "mesh": "core_entry_landscape_light_east-reveal_shield",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.6932421348368129
+    },
+    {
+      "mesh": "core_entry_landscape_light_east-reveal_diffuser",
+      "corners": 24,
+      "min": 0.6800833893282107,
+      "max": 0.6912500003352762
+    },
+    {
+      "mesh": "core_entry_landscape_light_garden-seat_shield",
+      "corners": 96,
+      "min": 0.68,
+      "max": 0.9174146427835027
+    },
+    {
+      "mesh": "core_entry_landscape_light_garden-seat_diffuser",
+      "corners": 24,
+      "min": 0.6806688805258212,
+      "max": 0.7954553629706305
+    },
+    {
+      "mesh": "core_pool_tide_relief_saddle_bed",
+      "corners": 20976,
+      "min": 0.68,
+      "max": 0.9536317801723878
+    },
+    {
+      "mesh": "core_pool_tide_relief_saddle_frame",
+      "corners": 6072,
+      "min": 0.68,
+      "max": 0.9552052761117618
+    },
+    {
+      "mesh": "core_pool_tide_relief_saddle_pale",
+      "corners": 8496,
+      "min": 0.68,
+      "max": 0.893394013941288
+    },
+    {
+      "mesh": "core_pool_tide_relief_saddle_slate",
+      "corners": 9420,
+      "min": 0.68,
+      "max": 0.8668525736778976
+    },
+    {
+      "mesh": "core_pool_tide_relief_saddle_oxide",
+      "corners": 1092,
+      "min": 0.68,
+      "max": 0.8484827248255413
     }
   ]
 }

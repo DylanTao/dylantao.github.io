@@ -30,7 +30,8 @@ const blinkAt = (t, seed, period = 6) => {
   return pulse((t - at) / 0.18);
 };
 // `sea` is the coast's oceanWindState; without it the authored spectrum is sampled.
-export const seaSurface = (x, z, time, footprint = 2.4, sea = null) => SEA_LEVEL + sampleOcean(x, z + OCEAN_Z, time, footprint, sea).displacement[1];
+export const seaSurface = (x, z, time, footprint = 2.4, sea = null) =>
+  sea?.surfaceAt?.(x, z, time, footprint) ?? SEA_LEVEL + sampleOcean(x, z + OCEAN_Z, time, footprint, sea).displacement[1];
 
 // ---------------------------------------------------------------- pelican route
 

@@ -1,0 +1,2674 @@
+{
+  "outputSha256": "4c4f9bcdd49e9b966cb2f46de4b383e832aa48536c44fe06b50a048ac91f62a4",
+  "routeSourceSha256": "5a05e72dbce6b89bbc30226f3ded087fad2bbea1e0537934734ef05929e17e73",
+  "rows": [
+    {
+      "index": 0,
+      "foot": [0.195, -31.360000000000042, 8.3],
+      "floor": [
+        {
+          "dy": 1.9073486257070726e-7,
+          "owner": "core_arrival_B_portal_plinth"
+        },
+        {
+          "dy": 1.9073486257070726e-7,
+          "owner": "core_arrival_B_portal_plinth"
+        },
+        {
+          "dy": 1.9073486257070726e-7,
+          "owner": "core_arrival_B_portal_plinth"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1999999999999993,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1999999999999993,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1999999999999993,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 1,
+      "foot": [0.195, -30.520000000000042, 8.299999999999999],
+      "floor": [
+        {
+          "dy": 1.907348643470641e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.907348643470641e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.907348643470641e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135417938232433,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135417938232433,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135417938232433,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 2,
+      "foot": [0.195, -30.24000000000004, 8.127083333333331],
+      "floor": [
+        {
+          "dy": 4.450480162176973e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 4.450480162176973e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 4.450480162176973e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.113542048136395,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113542048136395,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113542048136395,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 3,
+      "foot": [0.195, -29.96000000000004, 7.954166666666665],
+      "floor": [
+        {
+          "dy": 2.2252400899702707e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 2.2252400899702707e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 2.2252400899702707e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135413487752297,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135413487752297,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135413487752297,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 4,
+      "foot": [0.195, -29.68000000000004, 7.781249999999998],
+      "floor": [
+        {
+          "dy": 1.7763568394002505e-15,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.7763568394002505e-15,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.7763568394002505e-15,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135416030883807,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113542556762697,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113542556762697,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 5,
+      "foot": [0.195, -29.400000000000038, 7.608333333333332],
+      "floor": [
+        {
+          "dy": 2.543131527588116e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 2.543131527588116e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 2.543131527588116e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135418574015317,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135418574015317,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135418574015317,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 6,
+      "foot": [0.195, -29.120000000000037, 7.435416666666665],
+      "floor": [
+        {
+          "dy": 3.1789145538141383e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 3.1789145538141383e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 3.1789145538141383e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135421117146826,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135421117146826,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135421117146826,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 7,
+      "foot": [0.195, -28.840000000000035, 7.262499999999998],
+      "floor": [
+        {
+          "dy": 2.8610229652059616e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 2.8610229652059616e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 2.8610229652059616e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135414123535172,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135414123535172,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135414123535172,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 8,
+      "foot": [0.195, -28.560000000000034, 7.089583333333332],
+      "floor": [
+        {
+          "dy": 6.357828929992593e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 6.357828929992593e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 6.357828929992593e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.113541666666668,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113541666666668,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113541666666668,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 9,
+      "foot": [0.195, -28.280000000000033, 6.916666666666665],
+      "floor": [
+        {
+          "dy": 3.178914402823807e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 3.178914402823807e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 3.178914402823807e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.113541920979819,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113541920979819,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113541920979819,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 10,
+      "foot": [0.195, -28.000000000000032, 6.743749999999999],
+      "floor": [
+        {
+          "dy": 9.536743306171047e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 9.536743306171047e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 9.536743306171047e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.11354217529297,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.11354217529297,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.11354217529297,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 11,
+      "foot": [0.195, -27.72000000000003, 6.570833333333332],
+      "floor": [
+        {
+          "dy": -1.2715657415895976e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -1.2715657415895976e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -1.2715657415895976e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135414759318047,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135414759318047,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135414759318047,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 12,
+      "foot": [0.195, -27.44000000000003, 6.397916666666665],
+      "floor": [
+        {
+          "dy": 1.2715657682349502e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.2715657682349502e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.2715657682349502e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.113542683919272,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113542683919272,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113542683919272,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 13,
+      "foot": [0.195, -27.16000000000003, 6.224999999999999],
+      "floor": [
+        {
+          "dy": -9.536743039717521e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -9.536743039717521e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -9.536743039717521e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135419845581067,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135419845581067,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135419845581067,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 14,
+      "foot": [0.195, -26.880000000000027, 6.052083333333332],
+      "floor": [
+        {
+          "dy": 1.5894572058527956e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.5894572058527956e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.5894572058527956e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135412851969413,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135412851969413,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135412851969413,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 15,
+      "foot": [0.195, -26.600000000000026, 5.8791666666666655],
+      "floor": [
+        {
+          "dy": -6.357828663539067e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -6.357828663539067e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -6.357828663539067e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135420163472505,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135420163472505,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135420163472505,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 16,
+      "foot": [0.195, -26.320000000000025, 5.706249999999999],
+      "floor": [
+        {
+          "dy": 1.907348643470641e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.907348643470641e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.907348643470641e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135417938232433,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135417938232433,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135417938232433,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 17,
+      "foot": [0.195, -26.040000000000024, 5.533333333333332],
+      "floor": [
+        {
+          "dy": -3.1789142873606124e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -3.1789142873606124e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -3.1789142873606124e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135425249735524,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135425249735524,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135425249735524,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 18,
+      "foot": [0.195, -24.360000000000024, 5.360416666666666],
+      "floor": [
+        {
+          "dy": 2.2252400810884865e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 2.2252400810884865e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 2.2252400810884865e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.113542302449545,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113541825612387,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113542302449545,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 19,
+      "foot": [0.195, -24.080000000000023, 5.187499999999999],
+      "floor": [
+        {
+          "dy": 8.881784197001252e-16,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 8.881784197001252e-16,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 8.881784197001252e-16,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.11354160308838,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.11354160308838,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.11354160308838,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 20,
+      "foot": [0.195, -23.800000000000022, 5.0145833333333325],
+      "floor": [
+        {
+          "dy": 2.543131518706332e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 2.543131518706332e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 2.543131518706332e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135409037272144,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135413805643726,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135409037272144,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 21,
+      "foot": [0.195, -23.52000000000002, 4.841666666666666],
+      "floor": [
+        {
+          "dy": 3.1789144649962964e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 3.1789144649962964e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 3.1789144649962964e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135421117146818,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135421117146818,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135421117146818,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 22,
+      "foot": [0.195, -23.24000000000002, 4.668749999999999],
+      "floor": [
+        {
+          "dy": 2.8610229563241774e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 2.8610229563241774e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 2.8610229563241774e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135414123535163,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135414123535163,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135414123535163,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 23,
+      "foot": [0.195, -22.96000000000002, 4.495833333333333],
+      "floor": [
+        {
+          "dy": 6.357828841174751e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 6.357828841174751e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 6.357828841174751e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.113541189829509,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113540712992351,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113540712992351,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 24,
+      "foot": [0.195, -22.680000000000017, 4.322916666666666],
+      "floor": [
+        {
+          "dy": 3.178914393942023e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 3.178914393942023e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 3.178914393942023e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135419209798183,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135419209798183,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135419209798183,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 25,
+      "foot": [0.195, -22.400000000000016, 4.1499999999999995],
+      "floor": [
+        {
+          "dy": 9.536743217353205e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 9.536743217353205e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 9.536743217353205e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.113541221618653,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113541221618653,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113541221618653,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 26,
+      "foot": [0.195, -22.120000000000015, 3.9770833333333324],
+      "floor": [
+        {
+          "dy": 1.1126200449851353e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.1126200449851353e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.1126200449851353e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135424296061207,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135414759318043,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135424296061207,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 27,
+      "foot": [0.195, -21.840000000000014, 3.804166666666666],
+      "floor": [
+        {
+          "dy": 1.271565763794058e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.271565763794058e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.271565763794058e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135417302449553,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135417302449553,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135417302449553,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 28,
+      "foot": [0.195, -21.560000000000013, 3.631249999999999],
+      "floor": [
+        {
+          "dy": 1.4305114826029808e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.4305114826029808e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.4305114826029808e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.11354103088379,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.11354103088379,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.11354103088379,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 29,
+      "foot": [0.195, -21.280000000000012, 3.4583333333333326],
+      "floor": [
+        {
+          "dy": 1.5894572014119035e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.5894572014119035e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.5894572014119035e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135422388712573,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113541285196941,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135422388712573,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 30,
+      "foot": [0.195, -21.00000000000001, 3.285416666666666],
+      "floor": [
+        {
+          "dy": 1.7484029202208262e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.7484029202208262e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.7484029202208262e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.113541539510092,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113541539510092,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.113541539510092,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 31,
+      "foot": [0.195, -20.72000000000001, 3.1124999999999994],
+      "floor": [
+        {
+          "dy": 1.907348639029749e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.907348639029749e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.907348639029749e-7,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135408401489264,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135408401489264,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135408401489264,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 32,
+      "foot": [0.195, -20.44000000000001, 2.9395833333333328],
+      "floor": [
+        {
+          "dy": -3.1789143317695334e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -3.1789143317695334e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -3.1789143317695334e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135415712992356,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135415712992356,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1135415712992356,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 33,
+      "foot": [0.195, -20.160000000000007, 2.766666666666666],
+      "floor": [
+        {
+          "dy": -1.5894571436803062e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -1.5894571436803062e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -1.5894571436803062e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1135413487752284,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.11354087193807,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.11354087193807,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 34,
+      "foot": [0.195, -18.480000000000008, 2.5937499999999996],
+      "floor": [
+        {
+          "dy": 4.440892098500626e-16,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 4.440892098500626e-16,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 4.440892098500626e-16,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.111540794372559,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.111540794372559,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.111540794372559,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 35,
+      "foot": [0.195, -18.200000000000006, 2.420833333333333],
+      "floor": [
+        {
+          "dy": 1.5894572324981482e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.5894572324981482e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.5894572324981482e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.107541338602702,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.107541338602702,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.107541338602702,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 36,
+      "foot": [0.195, -17.920000000000005, 2.2479166666666663],
+      "floor": [
+        {
+          "dy": 3.1789144205873754e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 3.1789144205873754e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 3.1789144205873754e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.103540929158529,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.103540929158529,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.103540929158529,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 37,
+      "foot": [0.195, -17.640000000000004, 2.0749999999999997],
+      "floor": [
+        {
+          "dy": 4.7683716086766026e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 4.7683716086766026e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 4.7683716086766026e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.0995405197143557,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.0995405197143557,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.0995405197143557,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 38,
+      "foot": [0.195, -17.360000000000003, 1.9020833333333331],
+      "floor": [
+        {
+          "dy": -5.563100158312295e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -5.563100158312295e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -5.563100158312295e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.095541540781657,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.095541540781657,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.095541540781657,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 39,
+      "foot": [0.195, -17.080000000000002, 1.7291666666666665],
+      "floor": [
+        {
+          "dy": -3.973642970223068e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -3.973642970223068e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -3.973642970223068e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.091541131337484,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.091541131337484,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.091541131337484,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 40,
+      "foot": [0.195, -16.8, 1.55625],
+      "floor": [
+        {
+          "dy": -2.3841857821338408e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -2.3841857821338408e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -2.3841857821338408e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.0875407218933106,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.0875407218933106,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.0875404834747315,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 41,
+      "foot": [0.195, -16.52, 1.3833333333333333],
+      "floor": [
+        {
+          "dy": -7.947285940446136e-9,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -7.947285940446136e-9,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -7.947285940446136e-9,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.083541504542033,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.083541504542033,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.083541504542033,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 42,
+      "foot": [0.195, -16.24, 1.2104166666666667],
+      "floor": [
+        {
+          "dy": 7.947285940446136e-9,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 7.947285940446136e-9,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 7.947285940446136e-9,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.0795410950978597,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.0795413335164388,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.0795410950978597,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 43,
+      "foot": [0.195, -15.959999999999997, 1.0375],
+      "floor": [
+        {
+          "dy": 2.3841857821338408e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 2.3841857821338408e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 2.3841857821338408e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.0755411624908446,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.0755414009094237,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.0755414009094237,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 44,
+      "foot": [0.195, -15.679999999999996, 0.8645833333333335],
+      "floor": [
+        {
+          "dy": 3.973642970223068e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 3.973642970223068e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 3.973642970223068e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.071541706720988,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.071541706720988,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.071541706720988,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 45,
+      "foot": [0.195, -15.399999999999999, 0.6916666666666668],
+      "floor": [
+        {
+          "dy": -3.9736430812453705e-9,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -3.9736430812453705e-9,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -3.9736430812453705e-9,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.0675412972768146,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.0675412972768146,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.0675410588582355,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 46,
+      "foot": [0.195, -15.119999999999997, 0.51875],
+      "floor": [
+        {
+          "dy": 1.1920928910669204e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.1920928910669204e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.1920928910669204e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.063541841506958,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.063541603088379,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.063541603088379,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 47,
+      "foot": [0.195, -14.84, 0.3458333333333334],
+      "floor": [
+        {
+          "dy": -1.9868215406226852e-9,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -1.9868215406226852e-9,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": -1.9868215406226852e-9,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.059541432062785,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.059541670481364,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.059541670481364,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 48,
+      "foot": [0.195, -14.559999999999999, 0.1729166666666667],
+      "floor": [
+        {
+          "dy": 1.3907750423536314e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.3907750423536314e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        },
+        {
+          "dy": 1.3907750423536314e-8,
+          "owner": "core_arrival_B_treads__pale oak"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.055541976292928,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.055541976292928,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.055541976292928,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 49,
+      "foot": [0.195, -14.11, 0],
+      "floor": [
+        {
+          "dy": 0.0020000040531158447,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.0020000040531158447,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.0020000040531158447,
+          "owner": "core_arrival_B_compression_floor"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.140000104904175,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.140000104904175,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 50,
+      "foot": [0.195, -13.854, 0],
+      "floor": [
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.140000343322754,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 51,
+      "foot": [0.195, -13.597999999999999, 0],
+      "floor": [
+        {
+          "dy": 0.0020000040531158447,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.140000581741333,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.140000104904175,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 52,
+      "foot": [0.195, -13.342, 0],
+      "floor": [
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 53,
+      "foot": [0.195, -13.086, 0],
+      "floor": [
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.140000104904175,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.140000104904175,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 54,
+      "foot": [0.195, -12.83, 0],
+      "floor": [
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.140000343322754,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.140000104904175,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 55,
+      "foot": [0.195, -12.574, 0],
+      "floor": [
+        {
+          "dy": 0.001999989151954651,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.140000104904175,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.140000104904175,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 56,
+      "foot": [0.195, -12.318, 0],
+      "floor": [
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.140000343322754,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.140000104904175,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 57,
+      "foot": [0.195, -12.062000000000001, 0],
+      "floor": [
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999989151954651,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 58,
+      "foot": [0.195, -11.806000000000001, 0],
+      "floor": [
+        {
+          "dy": 0.001999989151954651,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.1399998664855957,
+          "owner": "core_arrival_B_continuous_soffit"
+        },
+        {
+          "headroom": 2.140000104904175,
+          "owner": "core_arrival_B_continuous_soffit"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 59,
+      "foot": [0.195, -11.55, 0],
+      "floor": [
+        {
+          "dy": 0.001999996602535248,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.0020000040531158447,
+          "owner": "core_arrival_B_compression_floor"
+        },
+        {
+          "dy": 0.0020000040531158447,
+          "owner": "core_arrival_B_compression_floor"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.3600001335144043,
+          "owner": "core_reno_slab_upper"
+        },
+        {
+          "headroom": 2.359999895095825,
+          "owner": "core_reno_slab_upper"
+        },
+        {
+          "headroom": 2.3600001335144043,
+          "owner": "core_reno_slab_upper"
+        }
+      ],
+      "bodyProbeHits": []
+    },
+    {
+      "index": 60,
+      "foot": [0.195, -10.99, 0],
+      "floor": [
+        {
+          "dy": 0.002499997615814209,
+          "owner": "core_reno_floorboards_lower"
+        },
+        {
+          "dy": 0.002500005066394806,
+          "owner": "core_reno_floorboards_lower"
+        },
+        {
+          "dy": 0.002499997615814209,
+          "owner": "core_reno_floorboards_lower"
+        }
+      ],
+      "ceiling": [
+        {
+          "headroom": 2.359999895095825,
+          "owner": "core_reno_slab_upper"
+        },
+        {
+          "headroom": 2.359999895095825,
+          "owner": "core_reno_slab_upper"
+        },
+        {
+          "headroom": 2.359999895095825,
+          "owner": "core_reno_slab_upper"
+        }
+      ],
+      "bodyProbeHits": []
+    }
+  ],
+  "badFloor": [],
+  "lowHeadroom": [],
+  "bodyProbeHits": [],
+  "minimumHeadroom": 2.055541976292928,
+  "afterOpen": {
+    "pixels": 14400,
+    "seaPercent": 10.694444444444445,
+    "skyPercent": 32.90972222222222,
+    "visiblePercent": 43.604166666666664,
+    "horizonAcrossPercent": 73.125,
+    "horizonVerticalPercent": 50
+  },
+  "optics": {
+    "closedApproachMaximum": {
+      "index": 0,
+      "eye": [0.195, -31.360000000000042, 9.9],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    "closedLanding": {
+      "index": 59,
+      "eye": [0.195, -11.55, 1.6],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    "openTerminal": {
+      "pixels": 14400,
+      "seaPercent": 10.694444444444445,
+      "skyPercent": 32.90972222222222,
+      "visiblePercent": 43.604166666666664,
+      "horizonAcrossPercent": 73.125,
+      "horizonVerticalPercent": 50
+    },
+    "deltaPoints": 43.604166666666664,
+    "passed": true
+  },
+  "closedViewSamples": [
+    {
+      "index": 0,
+      "eye": [0.195, -31.360000000000042, 9.9],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 1,
+      "eye": [0.195, -30.520000000000042, 9.899999999999999],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 2,
+      "eye": [0.195, -30.24000000000004, 9.727083333333331],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 3,
+      "eye": [0.195, -29.96000000000004, 9.554166666666665],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 4,
+      "eye": [0.195, -29.68000000000004, 9.381249999999998],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 5,
+      "eye": [0.195, -29.400000000000038, 9.208333333333332],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 6,
+      "eye": [0.195, -29.120000000000037, 9.035416666666665],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 7,
+      "eye": [0.195, -28.840000000000035, 8.862499999999999],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 8,
+      "eye": [0.195, -28.560000000000034, 8.689583333333331],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 9,
+      "eye": [0.195, -28.280000000000033, 8.516666666666666],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 10,
+      "eye": [0.195, -28.000000000000032, 8.343749999999998],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 11,
+      "eye": [0.195, -27.72000000000003, 8.170833333333333],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 12,
+      "eye": [0.195, -27.44000000000003, 7.997916666666665],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 13,
+      "eye": [0.195, -27.16000000000003, 7.824999999999999],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 14,
+      "eye": [0.195, -26.880000000000027, 7.652083333333332],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 15,
+      "eye": [0.195, -26.600000000000026, 7.479166666666666],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 16,
+      "eye": [0.195, -26.320000000000025, 7.306249999999999],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 17,
+      "eye": [0.195, -26.040000000000024, 7.133333333333333],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 18,
+      "eye": [0.195, -24.360000000000024, 6.960416666666665],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 19,
+      "eye": [0.195, -24.080000000000023, 6.7875],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 20,
+      "eye": [0.195, -23.800000000000022, 6.614583333333332],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 21,
+      "eye": [0.195, -23.52000000000002, 6.441666666666666],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 22,
+      "eye": [0.195, -23.24000000000002, 6.268749999999999],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 23,
+      "eye": [0.195, -22.96000000000002, 6.095833333333333],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 24,
+      "eye": [0.195, -22.680000000000017, 5.922916666666666],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 25,
+      "eye": [0.195, -22.400000000000016, 5.75],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 26,
+      "eye": [0.195, -22.120000000000015, 5.5770833333333325],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 27,
+      "eye": [0.195, -21.840000000000014, 5.404166666666666],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 28,
+      "eye": [0.195, -21.560000000000013, 5.231249999999999],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 29,
+      "eye": [0.195, -21.280000000000012, 5.058333333333333],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 30,
+      "eye": [0.195, -21.00000000000001, 4.885416666666666],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 31,
+      "eye": [0.195, -20.72000000000001, 4.7124999999999995],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 32,
+      "eye": [0.195, -20.44000000000001, 4.539583333333333],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 33,
+      "eye": [0.195, -20.160000000000007, 4.366666666666666],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 34,
+      "eye": [0.195, -18.480000000000008, 4.19375],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 35,
+      "eye": [0.195, -18.200000000000006, 4.020833333333333],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 36,
+      "eye": [0.195, -17.920000000000005, 3.8479166666666664],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 37,
+      "eye": [0.195, -17.640000000000004, 3.675],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 38,
+      "eye": [0.195, -17.360000000000003, 3.502083333333333],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 39,
+      "eye": [0.195, -17.080000000000002, 3.3291666666666666],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 40,
+      "eye": [0.195, -16.8, 3.15625],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 41,
+      "eye": [0.195, -16.52, 2.9833333333333334],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 42,
+      "eye": [0.195, -16.24, 2.810416666666667],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 43,
+      "eye": [0.195, -15.959999999999997, 2.6375],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 44,
+      "eye": [0.195, -15.679999999999996, 2.4645833333333336],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 45,
+      "eye": [0.195, -15.399999999999999, 2.291666666666667],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 46,
+      "eye": [0.195, -15.119999999999997, 2.1187500000000004],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 47,
+      "eye": [0.195, -14.84, 1.9458333333333335],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 48,
+      "eye": [0.195, -14.559999999999999, 1.7729166666666667],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 49,
+      "eye": [0.195, -14.11, 1.6],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 50,
+      "eye": [0.195, -13.854, 1.6],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 51,
+      "eye": [0.195, -13.597999999999999, 1.6],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 52,
+      "eye": [0.195, -13.342, 1.6],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 53,
+      "eye": [0.195, -13.086, 1.6],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 54,
+      "eye": [0.195, -12.83, 1.6],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 55,
+      "eye": [0.195, -12.574, 1.6],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 56,
+      "eye": [0.195, -12.318, 1.6],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 57,
+      "eye": [0.195, -12.062000000000001, 1.6],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 58,
+      "eye": [0.195, -11.806000000000001, 1.6],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    },
+    {
+      "index": 59,
+      "eye": [0.195, -11.55, 1.6],
+      "pixels": 3600,
+      "seaPercent": 0.0,
+      "skyPercent": 0.0,
+      "visiblePercent": 0.0,
+      "horizonAcrossPercent": 0.0,
+      "horizonVerticalPercent": null
+    }
+  ],
+  "passed": true,
+  "scope": "Actual native Blender triangles with no cut masks. Glass and water are skipped for the ray test, so delivered walking remains necessary.",
+  "retainedRouteGeometrySha256": "b596d1cb8f175e09a67d65fe73222f86e944f4601ec7ecb30646c41f588c66ed",
+  "sectionSkin": {
+    "proofSha256": "df56db2e453af6345849198b2fd4991ac4672b0cf6079739ec516aa47b740d29",
+    "protectedFaces": 1792,
+    "retainedDistantFaces": 108357,
+    "plateauDifferenceSquareMetres": 0.0
+  }
+}

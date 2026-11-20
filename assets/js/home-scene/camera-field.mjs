@@ -29,6 +29,7 @@ export function collidable(object, world) {
       data.facadeDoor ||
       data.estateDoor ||
       data.libraryLadder ||
+      data.cliffLiftPart ||
       data.walkPresence ||
       data.activityProp ||
       data.action
@@ -55,7 +56,7 @@ function packedPositions(attribute) {
 // Points known to be open air, from which the field floods: each room's target and its authored
 // camera position (the whole-house target too). Whatever the flood cannot reach is a solid's inside.
 export function airSeeds(config) {
-  const seeds = [];
+  const seeds = [...(config?.cameraCollision?.grid?.air ?? [])];
   for (const room of config?.rooms || []) {
     const { target, camera } = room;
     if (!target) continue;
@@ -71,10 +72,12 @@ export function airSeeds(config) {
 
 // `hold` voxelizes as meshes arrive but classifies only after release(): every classification is
 // a pass over the whole grid, so a burst of models (the arrival's house, coast and rooms) needs one.
-export function createCameraField({ config, world, onReady = () => {}, hold = false }) {
+export function createCameraField({ config, world, onReady = () => {}, hold = false, clipToGrid = false }) {
   const bounds = collisionBounds(config);
   const seeds = airSeeds(config);
   const grid = bounds ? createCollisionGrid({ ...bounds, seeds }) : null;
+  const scope = grid && clipToGrid ? new THREE.Box3(new THREE.Vector3(...grid.bounds.min), new THREE.Vector3(...grid.bounds.max)) : null;
+  const boundsProbe = new THREE.Box3();
   const queue = [],
     roots = [],
     solids = [],
@@ -122,7 +125,9 @@ export function createCameraField({ config, world, onReady = () => {}, hold = fa
         for (const [min, max] of solids) grid.addSolid(min, max);
         schedule();
       };
-      next.postMessage({ type: "init", bounds: { min: grid.bounds.min, max: grid.bounds.max, cell: grid.cell, seeds } });
+      // Both grids must round from the same original bounds. Snapping a
+      // second time can add a voxel through floating-point cancellation.
+      next.postMessage({ type: "init", bounds: { ...bounds, seeds } });
       worker = next;
       stats.worker = true;
     } catch {
@@ -146,6 +151,10 @@ export function createCameraField({ config, world, onReady = () => {}, hold = fa
         }
       }
       if (!collidable(object, world)) return;
+      if (scope) {
+        if (!object.geometry.boundingBox) object.geometry.computeBoundingBox();
+        if (!scope.intersectsBox(boundsProbe.copy(object.geometry.boundingBox).applyMatrix4(object.matrixWorld))) return;
+      }
       if (!worker) {
         queue.push({ mesh: object, from: 0 });
         return;

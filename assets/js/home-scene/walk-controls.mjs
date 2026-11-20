@@ -1,9 +1,11 @@
 import * as THREE from "../three.module.min.js";
-import { BODY, createWalkFieldBuilder } from "./colliders.mjs";
+import { BODY, createWalkFieldBuilder, isWater, walkKind } from "./colliders.mjs";
 import { collisionBounds, ORBIT_DIRECTION, portraitFov } from "./camera.mjs";
 import { createGamepads } from "./gamepad.mjs";
 import { createVirtualJoysticks } from "./virtual-joysticks.mjs";
 import { stepFlight } from "./walk-flight.mjs";
+import { canDive, DIVE, diveDepth, diveHasSurfaced, diveWater, insideDiveArea } from "./pacific-diving.mjs";
+import { nextWalkDestinationStep, planWalkDestination, TAP_WALK } from "./walk-destination.mjs";
 
 // Walk mode for the full-screen home (Sirui, 2026-10-19: "maybe the navigation in full screen can be a
 // bit more game like, like minecraft control that better leverage keyboard ... or joy stick on both
@@ -25,7 +27,7 @@ import { stepFlight } from "./walk-flight.mjs";
 // screen opens. There is no head bob; reduced motion removes every
 // ease (velocity, steps, the arrival glide) but keeps every control.
 export const WALK = Object.freeze({
-  eyeHeight: 1.6,
+  eyeHeight: DIVE.eyeHeight,
   walkSpeed: 2,
   runSpeed: 4.2,
   // Velocity ease (seconds); none under reduced motion.
@@ -58,7 +60,7 @@ const MOVE_KEYS = new Set([
   "Space",
 ]);
 // Some on-screen keyboards report no physical code; their characters stand in.
-const KEY_CODES = { w: "KeyW", a: "KeyA", s: "KeyS", d: "KeyD", v: "KeyV", shift: "ShiftLeft", " ": "Space" };
+const KEY_CODES = { w: "KeyW", a: "KeyA", s: "KeyS", d: "KeyD", c: "KeyC", v: "KeyV", shift: "ShiftLeft", " ": "Space" };
 export const keyCode = (event) => event.code || KEY_CODES[String(event.key || "").toLowerCase()] || event.key || "";
 // Orbit shortcuts that walking keeps to itself (D strafes; N, digits and Enter do nothing).
 const SWALLOWED = /^(KeyN|Digit[0-9]|Enter|NumpadEnter|Equal|Minus|NumpadAdd|NumpadSubtract|Home|KeyV)$/;
@@ -333,14 +335,19 @@ export function createWalkMode({
   world,
   getConfig,
   houseRoots = () => [],
+  geometryReady = () => true,
+  viewReady = () => true,
+  loadGeometry = () => Promise.resolve(),
   getActor = () => null,
   doors = () => [],
+  getCliffLift = () => null,
   view,
   isFullscreen,
   isReady = () => true,
   isReduced = () => false,
   waterAt = () => null,
   onWaterImpact = () => {},
+  foley = null,
   hint = () => {},
   requestFrame = () => {},
   onEnter = () => {},
@@ -379,17 +386,27 @@ export function createWalkMode({
     jumpQueued = false,
     inputSuspended = false,
     padNeedsNeutral = false,
-    lockedTap = null;
+    lockedTap = null,
+    tapWalk = null,
+    swim = null,
+    diveHintShown = false;
   const touches = new Map();
   const listeners = [];
   const coarse = win.matchMedia?.("(pointer: coarse)");
   const button = stage.querySelector("[data-world-walk]");
   const jumpButton = stage.querySelector("[data-world-jump]");
+  const diveButton = stage.querySelector("[data-world-dive]");
+  const diveLabel = diveButton?.querySelector("span");
   const crosshair = doc.createElement("span");
   crosshair.className = "home-world-crosshair";
   crosshair.setAttribute("aria-hidden", "true");
   container.append(crosshair);
-  const sticks = createVirtualJoysticks(stage, { onInput: () => requestFrame() });
+  const sticks = createVirtualJoysticks(stage, {
+    onInput: () => {
+      if (sticks.active) clearTapWalk();
+      requestFrame();
+    },
+  });
   const gamepads = createGamepads();
   let pad = { move: [0, 0], look: [0, 0], run: false, toggled: false, active: false, connected: 0 };
   const position = new THREE.Vector3(),
@@ -416,8 +433,10 @@ export function createWalkMode({
     }
     if (fresh.length) builder.addRoots(fresh, world);
   }
+  let geometryPending = null;
   function prepare() {
     const config = getConfig();
+    if (!geometryReady()) return false;
     if (builder || !config || !isReady()) return Boolean(builder);
     const bounds = walkFieldBounds(config, houseRoots());
     if (!bounds) return false;
@@ -456,6 +475,7 @@ export function createWalkMode({
     if (!found && next.strict && field) return false;
     provisional = !found;
     found ??= { x: next.candidates[0][0], z: next.candidates[0][1], foot: next.floor ?? 0 };
+    swim = null;
     state.x = found.x;
     state.z = found.z;
     state.foot = found.foot;
@@ -464,6 +484,7 @@ export function createWalkMode({
     state.vy = 0;
     state.grounded = true;
     state.wet = false;
+    foley?.resetWalk();
     if (next.look) {
       const dx = next.look[0] - state.x,
         dz = next.look[2] - state.z;
@@ -507,6 +528,46 @@ export function createWalkMode({
     hintTimer = win.setTimeout(() => hint(null), 1600);
   }
 
+  function diveAvailable() {
+    return (
+      active && placed && builder?.ready && state.wet && !getCliffLift()?.boarded && canDive(waterAt(state.x, state.z), state.foot, state.x, state.z)
+    );
+  }
+
+  function syncDiveControl() {
+    if (!diveButton) return;
+    const visible = active && !inputSuspended && Boolean(swim || diveAvailable());
+    diveButton.hidden = !visible;
+    if (jumpButton) jumpButton.hidden = !active || Boolean(swim);
+    diveButton.disabled = swim?.mode === "surface";
+    stage.classList.toggle("has-world-dive", visible);
+    if (!visible) return;
+    const label = swim?.mode === "surface" ? "Surfacing…" : swim ? "Surface" : "Dive";
+    if (diveLabel.textContent !== label) {
+      diveLabel.textContent = label;
+      diveButton.title = swim ? "Return to the surface (C or Space)" : "Dive below the Pacific (C)";
+      diveButton.setAttribute("aria-keyshortcuts", swim ? "C Space" : "C");
+    }
+  }
+
+  function toggleDive() {
+    if (!active || inputSuspended) return false;
+    if (swim?.mode === "surface") return true;
+    if (swim) {
+      swim.mode = "surface";
+      hint("Returning to the surface", 2200);
+    } else {
+      if (!diveAvailable()) return false;
+      swim = { mode: "dive", depth: DIVE.initialDepth };
+      hint("Move and look to swim · Surface to rise", 4500);
+    }
+    clearTapWalk();
+    jumpQueued = false;
+    syncDiveControl();
+    requestFrame();
+    return true;
+  }
+
   function syncChrome() {
     stage.classList.toggle("is-world-walking", active);
     stage.classList.toggle("is-world-pointer-locked", active && locked);
@@ -515,12 +576,32 @@ export function createWalkMode({
       button.title = active ? "Back to orbiting (V)" : "Walk around (V)";
     }
     if (jumpButton) jumpButton.hidden = !active;
+    syncDiveControl();
     if (active && (coarse?.matches || touchSeen)) sticks.show();
     else sticks.hide();
   }
 
   function enter() {
-    if (active || !isFullscreen() || !isReady() || !getConfig()) return false;
+    if (active || !viewReady() || !isFullscreen() || !isReady() || !getConfig()) return false;
+    if (!geometryReady()) {
+      pendingEntry = true;
+      if (!geometryPending) {
+        geometryPending = Promise.resolve(loadGeometry())
+          .then(() => {
+            geometryPending = null;
+            if (pendingEntry && isFullscreen()) {
+              pendingEntry = false;
+              enter();
+            }
+          })
+          .catch(() => {
+            geometryPending = null;
+            pendingEntry = false;
+            hint("Walking details could not load. Try Walk again.");
+          });
+      }
+      return true;
+    }
     prepare();
     feedRoots();
     const config = getConfig(),
@@ -570,10 +651,13 @@ export function createWalkMode({
   }
 
   function exit({ restore = true } = {}) {
+    foley?.resetWalk();
     pendingEntry = false;
+    clearTapWalk();
     if (!active) return false;
+    const lift = getCliffLift();
     resume =
-      restore && placed && !provisional
+      restore && placed && !provisional && !lift?.boarded
         ? {
             config: getConfig(),
             room,
@@ -581,6 +665,8 @@ export function createWalkMode({
             motion: { ...state },
           }
         : null;
+    lift?.detach();
+    swim = null;
     active = false;
     keys.clear();
     drag = pinch = null;
@@ -616,6 +702,71 @@ export function createWalkMode({
     return list;
   }
 
+  function liftPose() {
+    return { active, position: [state.x, state.foot, state.z], grounded: state.grounded, wet: state.wet };
+  }
+
+  function standOnLiftPad([x, y, z]) {
+    const stand = builder?.ready ? builder.field.findStand(x, z, y, { reach: 0, tolerance: 0.1 }) : null;
+    if (!stand || waterAt(x, z)?.y >= stand.foot) return null;
+    return [stand.x, stand.foot, stand.z];
+  }
+
+  function useCliffLift() {
+    const used = !inputSuspended && (getCliffLift()?.requestRide(liftPose(), standOnLiftPad) ?? false);
+    if (used) clearTapWalk();
+    return used;
+  }
+
+  function clearTapWalk() {
+    if (!tapWalk) return;
+    tapWalk = null;
+    state.vx = state.vz = 0;
+  }
+
+  const floorRay = new THREE.Raycaster();
+  const floorPointer = new THREE.Vector2();
+  const floorNormal = new THREE.Vector3();
+  const floorNormalMatrix = new THREE.Matrix3();
+  function tapFloor(event) {
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return null;
+    floorRay.setFromCamera(
+      floorPointer.set(((event.clientX - rect.left) / rect.width) * 2 - 1, 1 - ((event.clientY - rect.top) / rect.height) * 2),
+      camera
+    );
+    if (floorRay.ray.direction.y >= -0.035) return null;
+    floorRay.far = TAP_WALK.distance + WALK.eyeHeight;
+    // Use the nearest visible physical surface. Water, a dynamic door and a
+    // wall stop the pick instead of revealing a hidden floor behind them.
+    const leaves = new Set();
+    for (const door of doors()) door?.traverseVisible((node) => leaves.add(node));
+    const surfaces = [];
+    world.traverseVisible((node) => {
+      if (!node.isMesh || node.isSkinnedMesh || node.isInstancedMesh) return;
+      if (leaves.has(node) || walkKind(node, world) || isWater(node)) surfaces.push(node);
+    });
+    const hit = floorRay.intersectObjects(surfaces, false)[0];
+    if (!hit?.face || leaves.has(hit.object) || isWater(hit.object) || walkKind(hit.object, world) !== "solid") return null;
+    floorNormal.copy(hit.face.normal).applyNormalMatrix(floorNormalMatrix.getNormalMatrix(hit.object.matrixWorld));
+    return floorNormal.y >= 0.63 ? hit.point : null;
+  }
+
+  function startTapWalk(event) {
+    if (!placed || provisional || transition || !builder?.ready || !state.grounded || state.wet || getCliffLift()?.boarded) return false;
+    const hit = tapFloor(event);
+    if (!hit) return false;
+    tapWalk = planWalkDestination(builder.field, state, hit, { dynamic: dynamicObstacles(), waterAt });
+    if (!tapWalk) return false;
+    requestFrame();
+    return true;
+  }
+
+  function waterImpact(event) {
+    onWaterImpact(event);
+    if (!inputSuspended && !isReduced()) foley?.splash(event.speed);
+  }
+
   function frame(dt) {
     if (!active) return;
     const reduced = isReduced();
@@ -646,44 +797,115 @@ export function createWalkMode({
     const moveStick = inputSuspended ? [0, 0] : sticks.state.move;
     const [strafe, forward] = unitDisc(keyInput.strafe + moveStick[0] + pad.move[0], keyInput.forward + moveStick[1] + pad.move[1]);
     const magnitude = Math.hypot(strafe, forward);
+    if (swim?.mode === "dive") {
+      if (jumpQueued || pad.jumped) toggleDive();
+      else swim.depth = diveDepth(swim.depth, forward, state.pitch, dt);
+    }
     // A thumb pushed to the stick's rim runs; keys need Shift and controllers their run button.
     const thumbRun = !keyInput.strafe && !keyInput.forward && Math.hypot(...sticks.state.move) >= 0.95;
-    const speed = walkSpeed(magnitude, keyInput.run || pad.run || thumbRun, WALK) * (state.wet ? 0.55 : 1);
+    const speed = swim ? magnitude * 1.45 : walkSpeed(magnitude, keyInput.run || pad.run || thumbRun, WALK) * (state.wet ? 0.55 : 1);
     const [wx, wz] = magnitude > 0 ? walkDirection(state.yaw, strafe / magnitude, forward / magnitude) : [0, 0];
-    const motionX = integrateVelocity(state.vx, wx * speed, dt, WALK.accelTau, reduced),
-      motionZ = integrateVelocity(state.vz, wz * speed, dt, WALK.accelTau, reduced);
+    if (
+      tapWalk &&
+      (keys.size ||
+        sticks.active ||
+        pad.active ||
+        jumpQueued ||
+        pad.jumped ||
+        inputSuspended ||
+        !placed ||
+        !builder?.ready ||
+        !state.grounded ||
+        state.wet)
+    )
+      clearTapWalk();
+    const dynamic = placed && builder?.ready ? dynamicObstacles() : [];
+    const planned = tapWalk && nextWalkDestinationStep(tapWalk, builder.field, state, dt, { dynamic, waterAt });
+    const guiding = planned?.status === "walking";
+    if (tapWalk && !guiding) clearTapWalk();
+    const motionX = guiding
+        ? { distance: planned.dx, velocity: dt > 0 ? planned.dx / dt : 0 }
+        : integrateVelocity(state.vx, wx * speed, dt, WALK.accelTau, reduced),
+      motionZ = guiding
+        ? { distance: planned.dz, velocity: dt > 0 ? planned.dz / dt : 0 }
+        : integrateVelocity(state.vz, wz * speed, dt, WALK.accelTau, reduced);
     state.vx = motionX.velocity;
     state.vz = motionZ.velocity;
     if (Math.abs(state.vx) < 1e-4 && Math.abs(state.vz) < 1e-4) state.vx = state.vz = 0;
+    let supportedByLift = false;
     if (placed && builder?.ready) {
       const beforeX = state.x,
-        beforeZ = state.z,
-        result = stepFlight(state, builder.field, {
-          dt,
-          dx: motionX.distance,
-          dz: motionZ.distance,
-          jump: jumpQueued || pad.jumped,
-          waterAt,
-          impact: onWaterImpact,
-          dynamic: dynamicObstacles(),
-        });
-      jumpQueued = false;
-      if (result.moved > 1e-4) firstMove();
-      distance += result.moved;
-      if (result.blocked) {
-        blockedFrames++;
-        lastBlocked = { at: [state.x, state.foot, state.z], wanted: [motionX.distance, motionZ.distance] };
-        // What a wall stops does not build up: the velocity keeps only what was travelled.
-        if (dt > 0) {
-          state.vx = (state.x - beforeX) / dt;
-          state.vz = (state.z - beforeZ) / dt;
+        beforeZ = state.z;
+      const motion = { dx: motionX.distance, dz: motionZ.distance, jump: jumpQueued || pad.jumped };
+      const liftStep = getCliffLift()?.constrain(liftPose(), motion, standOnLiftPad);
+      if (liftStep) {
+        foley?.resetWalk();
+        supportedByLift = true;
+        [state.x, state.foot, state.z] = liftStep.position;
+        state.grounded = true;
+        state.wet = false;
+        state.vy = 0;
+        if (liftStep.walking) {
+          const moved = Math.hypot(state.x - beforeX, state.z - beforeZ);
+          if (moved > 1e-4) firstMove();
+          distance += moved;
+          if (dt > 0) {
+            if (Math.abs(state.x - beforeX - motion.dx) > 1e-5) state.vx = (state.x - beforeX) / dt;
+            if (Math.abs(state.z - beforeZ - motion.dz) > 1e-5) state.vz = (state.z - beforeZ) / dt;
+          }
+        } else state.vx = state.vz = 0;
+        clearTapWalk();
+      } else {
+        const result = stepFlight(state, builder.field, { dt, ...motion, waterAt, impact: waterImpact, dynamic, swim });
+        if (!diveHintShown && !inputSuspended && !swim && state.wet && insideDiveArea(state.x, state.z) && diveWater(waterAt(state.x, state.z))) {
+          diveHintShown = true;
+          hint(diveAvailable() ? "Dive below the Pacific" : "Swim farther out to dive", 3800);
         }
+        if (swim?.mode === "surface" && diveHasSurfaced(waterAt(state.x, state.z), state.foot)) {
+          swim = null;
+          hint("At the surface", 1800);
+        }
+        if (foley?.active) {
+          if (inputSuspended) foley.resetWalk();
+          else
+            foley.walk({
+              x: state.x,
+              z: state.z,
+              foot: state.foot,
+              moved: result.moved,
+              dt,
+              grounded: state.grounded,
+              wet: state.wet,
+              depth: state.wet ? (waterAt(state.x, state.z)?.y ?? state.foot) - state.foot : 0,
+              material: state.grounded && !state.wet ? builder.field.supportMaterial(state.x, state.z, state.foot) : null,
+            });
+        }
+        if (result.moved > 1e-4) firstMove();
+        distance += result.moved;
+        if (result.blocked) {
+          blockedFrames++;
+          lastBlocked = { at: [state.x, state.foot, state.z], wanted: [motionX.distance, motionZ.distance] };
+          // What a wall stops does not build up: the velocity keeps only what was travelled.
+          if (dt > 0) {
+            state.vx = (state.x - beforeX) / dt;
+            state.vz = (state.z - beforeZ) / dt;
+          }
+        }
+        if (guiding && (result.blocked || state.wet)) clearTapWalk();
       }
+      jumpQueued = false;
       updateRoom();
+      syncDiveControl();
     }
     // The eyes follow the feet over steps.
     const eyeTarget = state.foot + WALK.eyeHeight;
-    if (reduced || fallingEyes || (!state.grounded && (!state.wet || Math.abs(state.vy) > 0.5)) || Math.abs(eyeTarget - state.eye) > 1.5) {
+    if (
+      supportedByLift ||
+      reduced ||
+      fallingEyes ||
+      (!state.grounded && (!state.wet || Math.abs(state.vy) > 0.5)) ||
+      Math.abs(eyeTarget - state.eye) > 1.5
+    ) {
       state.eye = eyeTarget;
       state.eyeVelocity = 0;
     } else {
@@ -743,19 +965,33 @@ export function createWalkMode({
         exit();
         return;
       }
+      if (code === "KeyC" && (event.repeat ? swim : toggleDive())) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        return;
+      }
+      if (code === "KeyE" && !event.repeat && useCliffLift()) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        return;
+      }
+      if (code === "Space" && event.target?.closest?.("[data-world-cliff-lift]")) return;
       if (MOVE_KEYS.has(code)) {
         event.preventDefault();
         event.stopImmediatePropagation();
         if (event.repeat && !keys.has(code)) return;
+        clearTapWalk();
         if (code === "Space" && !event.repeat) jumpQueued = true;
         else if (code !== "Space") keys.add(code);
         requestFrame();
         return;
       }
       if (event.key === "+" || event.key === "=" || event.key === "-") {
+        clearTapWalk();
         fov = clamp(fov * (event.key === "-" ? 1.12 : 1 / 1.12), WALK.minFov, WALK.maxFov);
         requestFrame();
       } else if (code === "Home") {
+        clearTapWalk();
         state.pitch = 0;
         fov = WALK.fov;
         requestFrame();
@@ -775,6 +1011,7 @@ export function createWalkMode({
   on(win, "keyup", release);
   // A key released while the window was not listening must not walk on by itself.
   const releaseAll = () => {
+    clearTapWalk();
     keys.clear();
     lockedTap = null;
     drag = pinch = null;
@@ -796,6 +1033,7 @@ export function createWalkMode({
     "pointerdown",
     (event) => {
       if (!active || inputSuspended) return;
+      clearTapWalk();
       event.stopImmediatePropagation();
       if (event.pointerType === "touch") {
         if (!touchSeen) {
@@ -888,7 +1126,7 @@ export function createWalkMode({
       !sticks.active &&
       !pad.active &&
       Math.hypot(state.vx, state.vz) < 0.0001 &&
-      onSelect(event)
+      (onSelect(event) || (event.pointerType === "touch" && startTapWalk(event)))
     ) {
       drag = lockedTap = null;
       return;
@@ -909,6 +1147,7 @@ export function createWalkMode({
       if (!active || inputSuspended) return;
       event.preventDefault();
       event.stopImmediatePropagation();
+      clearTapWalk();
       const lines = event.deltaMode === 1 ? 32 : event.deltaMode === 2 ? 320 : 1;
       fov = clamp(fov * Math.exp(event.deltaY * lines * 0.0012), WALK.minFov, WALK.maxFov);
       requestFrame();
@@ -953,10 +1192,16 @@ export function createWalkMode({
   if (jumpButton)
     on(jumpButton, "click", () => {
       if (active) {
+        clearTapWalk();
         jumpQueued = true;
         canvas.focus({ preventScroll: true });
         requestFrame();
       }
+    });
+
+  if (diveButton)
+    on(diveButton, "click", () => {
+      if (toggleDive()) canvas.focus({ preventScroll: true });
     });
 
   // A controller's Y switches to walking even while the orbit view is idle and draws no frames.
@@ -982,6 +1227,8 @@ export function createWalkMode({
     enter,
     exit,
     toggle,
+    useCliffLift,
+    liftControl: () => (active && !inputSuspended ? (getCliffLift()?.control(liftPose()) ?? null) : null),
     suspendInput(value) {
       if (inputSuspended === Boolean(value)) return;
       inputSuspended = Boolean(value);
@@ -1015,6 +1262,8 @@ export function createWalkMode({
       if (!active) return false;
       const eyeTarget = state.foot + WALK.eyeHeight;
       return Boolean(
+        tapWalk ||
+        swim?.mode === "surface" ||
         keys.size ||
         sticks.active ||
         pad.active ||
@@ -1037,6 +1286,9 @@ export function createWalkMode({
       const height = at[1] === null ? field?.floorBelow(at[0], at[2], Infinity) : at[1];
       const found = field?.findStand(at[0], at[2], height, { reach: 0.6 }) ?? null;
       if (!found) return false;
+      clearTapWalk();
+      getCliffLift()?.detach();
+      swim = null;
       Object.assign(state, {
         x: found.x,
         z: found.z,
@@ -1070,6 +1322,7 @@ export function createWalkMode({
     evidence() {
       return {
         active,
+        swim: swim ? { ...swim } : null,
         inputSuspended,
         padNeedsNeutral,
         ready: Boolean(builder?.ready),
@@ -1077,6 +1330,9 @@ export function createWalkMode({
         provisional,
         destination,
         pendingEntry,
+        tapWalk: tapWalk
+          ? { target: [tapWalk.target.x, tapWalk.target.foot, tapWalk.target.z], remaining: tapWalk.points.length - tapWalk.next }
+          : null,
         position: [state.x, state.foot, state.z],
         eye: state.eye,
         yaw: state.yaw,

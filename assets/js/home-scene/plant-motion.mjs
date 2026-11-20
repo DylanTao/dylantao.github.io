@@ -340,35 +340,45 @@ vec3 floraSwayWorld(vec3 p) {
   return vec3(lean.x, -dot(lean, lean) / (2.0 * floraSway.w), lean.y);
 }
 // World to object vector for the orthogonal TRS transforms of the planting's nodes.
-vec3 floraSwayObject(vec3 v) {
-  return vec3(dot(v, modelMatrix[0].xyz) / dot(modelMatrix[0].xyz, modelMatrix[0].xyz),
-              dot(v, modelMatrix[1].xyz) / dot(modelMatrix[1].xyz, modelMatrix[1].xyz),
-              dot(v, modelMatrix[2].xyz) / dot(modelMatrix[2].xyz, modelMatrix[2].xyz));
+vec3 floraSwayObject(vec3 v, mat4 frame) {
+  return vec3(dot(v, frame[0].xyz) / dot(frame[0].xyz, frame[0].xyz),
+              dot(v, frame[1].xyz) / dot(frame[1].xyz, frame[1].xyz),
+              dot(v, frame[2].xyz) / dot(frame[2].xyz, frame[2].xyz));
 }
 // p' = p + w b with w = uv.x² rising over the nominal height: the inverse transpose of I + b (x) grad w.
-vec3 floraSwayNormal(vec3 n, vec3 bend) {
-  vec3 gradient = (2.0 * uv.x / floraSway.w) * vec3(modelMatrix[0].y, modelMatrix[1].y, modelMatrix[2].y);
+vec3 floraSwayNormal(vec3 n, vec3 bend, mat4 frame) {
+  vec3 gradient = (2.0 * uv.x / floraSway.w) * vec3(frame[0].y, frame[1].y, frame[2].y);
   return normalize(n - gradient * dot(bend, n) / max(0.2, 1.0 + dot(gradient, bend)));
 }`;
 
-// One hook for the beauty material and the planting's custom depth and distance materials, so the
-// shadows sway with the leaves. Per-material profile uniform; one program for every species.
+export function floraSwayVector(profile, target = new Float32Array(4)) {
+  target.set(profile ? [profile.reach, TAU * profile.frequency, profile.flutter, profile.height] : [0, 0, 0, 1]);
+  return target;
+}
+
+// Beauty, shadow and painted structure share the same transformed point, weight and wound clock.
+// A neutral profile opts a draw out when one override material serves both plants and static solids.
 export function patchFloraSway(shader, profile, coastUniforms = coastWind.uniforms) {
-  if (!profile) throw new Error("Flora sway needs a species profile");
   if (!shader.vertexShader.includes("#include <begin_vertex>")) throw new Error("Flora shader has no position stage");
   const mainEntry = /\bvoid\s+main\s*\(\s*(?:void\s*)?\)\s*\{/;
   if (!mainEntry.test(shader.vertexShader)) throw new Error("Flora shader has no main entry");
   Object.assign(shader.uniforms, coastUniforms, {
-    floraSway: { value: new Float32Array([profile.reach, TAU * profile.frequency, profile.flutter, profile.height]) },
+    floraSway: { value: floraSwayVector(profile) },
   });
   shader.vertexShader = `${floraSwayGLSL}\n${shader.vertexShader}`.replace(
     mainEntry,
-    "$&\n    vec3 floraBend=floraSwayObject(floraSwayWorld((modelMatrix*vec4(position,1.0)).xyz));"
+    `$&
+    mat4 floraFrame=modelMatrix;
+    #ifdef USE_INSTANCING
+      floraFrame*=instanceMatrix;
+    #endif
+    vec3 floraBend=vec3(0.);
+    if(floraSway.y>0.) floraBend=floraSwayObject(floraSwayWorld((floraFrame*vec4(position,1.)).xyz),floraFrame);`
   );
   if (shader.vertexShader.includes("#include <beginnormal_vertex>"))
     shader.vertexShader = shader.vertexShader.replace(
       "#include <beginnormal_vertex>",
-      "#include <beginnormal_vertex>\n    objectNormal=floraSwayNormal(objectNormal,floraBend);"
+      "#include <beginnormal_vertex>\n    if(floraSway.y>0.) objectNormal=floraSwayNormal(objectNormal,floraBend,floraFrame);"
     );
   shader.vertexShader = shader.vertexShader.replace("#include <begin_vertex>", "#include <begin_vertex>\n    transformed+=uv.x*uv.x*floraBend;");
   return shader;

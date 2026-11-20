@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import * as THREE from "../assets/js/three.module.min.js";
-import { nativeGeometry } from "./helpers/coastal-native-geometry.mjs";
+import { nativeHouseGeometry } from "./helpers/coastal-native-geometry.mjs";
 import { createWalkField, walkKind, WATER_BLOCK, BODY } from "../assets/js/home-scene/colliders.mjs";
 import { integrateVelocity, walkFieldBounds } from "../assets/js/home-scene/walk-controls.mjs";
 import { stepFlight } from "../assets/js/home-scene/walk-flight.mjs";
@@ -13,7 +13,7 @@ function delivered() {
   return (pending ??= (async () => {
     const houseFiles = [config.shell, ...config.rooms.map((room) => room.file)],
       files = [...houseFiles, config.coast, config.flora, config.hinterland?.file].filter(Boolean),
-      roots = await Promise.all(files.map((file) => nativeGeometry(file))),
+      roots = await Promise.all(files.map((file) => nativeHouseGeometry(file, config))),
       field = createWalkField(walkFieldBounds(config, roots.slice(0, houseFiles.length)));
     let water;
     for (const root of roots)

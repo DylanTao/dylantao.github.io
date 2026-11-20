@@ -158,8 +158,18 @@ class CoastalAssetsTest(unittest.TestCase):
             transfer_size(ASSETS / r["file"])
             for r in MANIFEST["rooms"]
         )
+        details = MANIFEST.get("streamedDetails", [])
+        first_view_keys = {view for entry in details for view in entry.get("firstFrame", [])}
+        largest_startup_details = max((
+            sum(transfer_size(ASSETS / entry["file"]) for entry in details if view in entry.get("firstFrame", []))
+            for view in first_view_keys
+        ), default=0)
+        bedding = MANIFEST.get("streamedBedding", {})
+        def first_bedding_size(avatar):
+            files = [bedding[key] for key in ("empty", avatar["id"]) if key in bedding]
+            return max((transfer_size(ASSETS / file) for file in files), default=0)
         largest_actor = max(
-            transfer_size(ASSETS / a["file"])
+            transfer_size(ASSETS / a["file"]) + first_bedding_size(a)
             for a in MANIFEST["avatars"]
         )
         furniture = json.loads((ASSETS / "furniture/index.json").read_text(encoding="utf-8"))
@@ -183,7 +193,7 @@ class CoastalAssetsTest(unittest.TestCase):
             "compiledSceneModuleCreditBytes"
         ]
         self.assertGreater(credit, 0)
-        self.assertLess(base + all_rooms + largest_actor + defaults + auxiliary - credit, 4 * 1024 * 1024)
+        self.assertLess(base + all_rooms + largest_actor + largest_startup_details + defaults + auxiliary - credit, 4 * 1024 * 1024)
 
     def test_mesh_compression_is_shipped_and_has_a_local_decoder(self):
         for entry in MANIFEST["rooms"] + MANIFEST["avatars"]:

@@ -7,8 +7,10 @@ recorded. Re-exporting house geometry without re-auditing therefore fails here, 
 thresholds below ratchet: they may be lowered after repairs, never raised to admit new overlaps.
 Delivered Draco checks of the repaired families live in test/coastal-overlap-delivered.test.mjs.
 """
+import ast
 import hashlib
 import json
+import re
 import unittest
 from pathlib import Path
 
@@ -51,8 +53,20 @@ class CoastalOverlapAudit(unittest.TestCase):
         r = self.report
         self.assertEqual(r["sourceSha256"], sha256(ROOT / r["source"]), "the native source changed without a re-audit")
         self.assertEqual(r["toolSha256"], lf_sha256(ROOT / "bin/audit_coastal_overlaps.py"), "the audit tool changed without a re-audit")
-        delivered = {p.name for p in MODELS.glob("*.glb") if p.name.startswith(("home-shell", "room-", "coast", "flora"))}
-        self.assertEqual(set(r["exportsSha256"]), delivered)
+        for name, digest in r["toolDependencies"].items():
+            self.assertEqual(digest, lf_sha256(ROOT / name), f"{name} changed without a re-audit")
+        self.assertIn("bin/pack_coastal_streamed_models.py", r["toolDependencies"])
+        base = [self.manifest[key] for key in ("shell", "coast", "flora") if self.manifest.get(key)]
+        base += [room["file"] for room in self.manifest["rooms"]]
+        base += list(self.manifest.get("streamedBedding", {}).values())
+        coverage = dict.fromkeys(base)
+        coverage.update({entry["file"]: sorted(entry["members"]) if "members" in entry else None
+                         for entry in self.manifest.get("streamedDetails", [])})
+        self.assertEqual(r["modelCoverage"], coverage)
+        delivered = {p.name for p in MODELS.glob("*.glb")
+                     if p.name.startswith(("home-shell", "room-", "coast", "flora", "detail-", "bedding-"))}
+        self.assertEqual(set(r["exportsSha256"]), set(coverage), "every rendered detail and bedding variant is hash-bound")
+        self.assertEqual(set(coverage), delivered)
         for name, digest in r["exportsSha256"].items():
             self.assertEqual(digest, sha256(MODELS / name), f"{name} was re-exported without a re-audit")
         # Streamed furniture is audited in place and recorded with its file hash and anchor, but it is
@@ -92,6 +106,10 @@ class CoastalOverlapAudit(unittest.TestCase):
             self.assertEqual(digest, sha256(MODELS / name), f"{name} changed after the delivered audit")
         self.assertEqual(set(delivered["exportsSha256"]), set(self.report["exportsSha256"]))
         self.assertLessEqual(delivered["totals"]["zFightingVisibleAreaM2"], MAX_DELIVERED_ZFIGHT_AREA_M2)
+        for name, carriers in delivered["textureCarriers"].items():
+            members = self.report["modelCoverage"][name]
+            self.assertIsNotNone(members)
+            self.assertTrue(set(carriers).isdisjoint(members), f"{name} dropped a rendered member")
 
     def test_deep_crossings_ratchet_and_the_top_pairs_carry_reviewed_bounded_verdicts(self):
         t = self.report["totals"]
@@ -104,6 +122,27 @@ class CoastalOverlapAudit(unittest.TestCase):
             self.assertTrue(verdict["reason"].strip())
             self.assertLessEqual(pair["maxDepthM"], verdict["maxDepthM"], f"{pair['pair']} grew past its reviewed depth")
             self.assertLessEqual(pair["seamM"], verdict["maxSeamM"], f"{pair['pair']} grew past its reviewed seam")
+
+
+class StreamedOverlapCoverage(unittest.TestCase):
+    def test_detail_retains_rendered_descendants_and_omits_texture_carrier(self):
+        # The audit runs inside Blender, but this membership logic needs only the glTF node tree.
+        source = ast.parse((ROOT / "bin/audit_coastal_overlaps.py").read_text(encoding="utf-8"))
+        function = next(node for node in source.body if isinstance(node, ast.FunctionDef) and node.name == "detail_geometry")
+        namespace = {"re": re}
+        exec(compile(ast.Module(body=[function], type_ignores=[]), "<overlap detail coverage>", "exec"), namespace)
+        document = {
+            "nodes": [
+                {"name": "Rendered group", "children": [1]},
+                {"name": "active walnut", "mesh": 0},
+                {"name": "base counter donor", "mesh": 1},
+            ],
+            "scenes": [{"nodes": [0, 2]}],
+        }
+        geometry = namespace["detail_geometry"]
+        self.assertEqual(geometry(document, ["Rendered group"]), ({1}, ["base counter donor"]))
+        with self.assertRaisesRegex(ValueError, "unique glTF node"):
+            geometry(document, ["missing group"])
 
 
 if __name__ == "__main__":

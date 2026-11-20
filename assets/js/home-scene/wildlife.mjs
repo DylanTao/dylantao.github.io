@@ -1030,7 +1030,7 @@ export function createWildlife(parent, config, services = {}) {
   }
   // The sea the renderer draws this frame: the controller syncs the ocean's wind sea from the same
   // coast wind state, so swimmers, pelicans and the sandpipers' swash all read that one surface.
-  const seaState = { turn: [1, 0], scale: new Float32Array(OCEAN_WAVES.length) };
+  const seaState = { turn: [1, 0], scale: new Float32Array(OCEAN_WAVES.length), surfaceAt: services.surfaceAt };
   let sea = null;
   function update(t, paletteName = null, { force = false } = {}) {
     const started = clock();

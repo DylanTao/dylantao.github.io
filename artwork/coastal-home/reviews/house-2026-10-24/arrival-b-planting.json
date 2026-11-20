@@ -1,0 +1,36 @@
+{
+  "source": {
+    "sourceSha256": "0dc3ee23166d6622a5a1315176b59cd2398c2cef45f09e479073728e2864ea2a",
+    "candidateSha256": "b0919be009c0ad6a1507b37eaaab29bda612908d164488afc1c9a91834ca66b2",
+    "matchedOwner": "hinterland_flora_10_09",
+    "nativeMeshCount": 94,
+    "identicalOtherMeshes": 93,
+    "retiredIslands": 3,
+    "retiredFaces": 111,
+    "retainedFaces": 46604,
+    "ownerExportSha256": "cc5925d35beebb6218d8983cf7192b7144ac35cd54361e95c14810730df4820f",
+    "emptyNativeShaftAfter": true
+  },
+  "decodedCanopy": {
+    "original": {
+      "sha256": "93f90372bba71c64b6153372ae3166901aacaa8633277e18f1afbe49e8986832",
+      "canopyTriangles": 43309
+    },
+    "candidate": {
+      "sha256": "1320702a53b142a3095d680e8b572780ae7c214bc80f0a59596bbcee6c46a5eb",
+      "canopyTriangles": 43198
+    },
+    "fields": ["COLOR_0", "NORMAL", "POSITION"],
+    "retiredTriangles": 111,
+    "bitIdenticalRetainedTriangles": 43198,
+    "unexpectedOrChangedTriangles": 0
+  },
+  "unaffectedPrimitives": 159,
+  "stationaryCamera": {
+    "pixelRays": 12,
+    "before": "hinterland scrub canopy",
+    "after": ["stone lining", "oak treads", "soffit", "travertine landing"],
+    "time": "14:30",
+    "horizon": "clear"
+  }
+}

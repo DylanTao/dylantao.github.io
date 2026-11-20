@@ -301,6 +301,13 @@ export function createFurniture({
     const source = models.get(`${entry.item}#${level}`)?.source;
     if (!source) return null;
     const object = instance(source);
+    if (entry.item === "floating-fireplace") {
+      object.traverse((part) => {
+        // The delivered bowl also serves previews without a running fire.
+        // Replace its five emissive stand-ins with the live split wood.
+        if (furnitureMaterialName(part.material?.name) === "fireplace ember") part.visible = false;
+      });
+    }
     applyArticulation(object);
     object.name = `${entry.anchor.id} lod${level}`;
     object.visible = false;
@@ -415,7 +422,7 @@ export function createFurniture({
     // Each frame, before drawing: which level each anchor draws, what to fetch and what to release.
     // `reach` is the quality tier's scale for how far finer levels reach and how many bytes of them
     // stay resident (quality.mjs).
-    update({ camera, bufferHeight = DETAIL.referenceHeight, fullscreen = false, seconds = 0, reduced = false, reach = 1 } = {}) {
+    update({ camera, bufferHeight = DETAIL.referenceHeight, fullscreen = false, seconds = 0, reduced = false, reach = 1, look = "realistic" } = {}) {
       if (!index || disposed || !camera) return false;
       const time = now();
       camera.updateMatrixWorld();
@@ -439,6 +446,7 @@ export function createFurniture({
         let roomVisible = true;
         for (let o = entry.root; o; o = o.parent) if (!o.visible) roomVisible = false;
         const inView = roomVisible && frustum.intersectsSphere(sphere);
+        entry.inView = inView;
         // Hysteresis: a culled piece returns only once it is clearly larger than the threshold, so a
         // zoom that hovers around it does not blink it on and off.
         const culled = pixels < DETAIL.cullPixels * (entry.culled ? 1.35 : 1);
@@ -480,7 +488,10 @@ export function createFurniture({
         model(item, Number(level));
       }
       compilePending();
-      for (const fire of fires.values()) fire.update(seconds, { reduced });
+      for (const [id, fire] of fires) {
+        const place = placed.get(id);
+        fire.update(seconds, { reduced, look, visible: place.inView && !place.culled });
+      }
       return changed;
     },
     setVariant(next) {

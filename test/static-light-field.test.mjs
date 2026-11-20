@@ -726,3 +726,50 @@ test("abort and disposal fail closed without a stale ready completion", async ()
   await assert.rejects(other.bake({ yieldTask: async () => other.dispose() }), { name: "AbortError" });
   assert.equal(other.evidence().ready, false);
 });
+
+test("the static light budget counts the unchanged ROI before allocating an oversized source", async () => {
+  const cage = [{ id: "budget", min: [-1, -1, -1], max: [1, 1, 1] }];
+  const floor = new THREE.Mesh(new THREE.BoxGeometry(2, 0.1, 2), new THREE.MeshStandardMaterial({ color: 0x888888 }));
+  const wall = (x, reachesInside = false) => {
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.Float32BufferAttribute([0, -0.8, -0.8, 0, 0.8, -0.8, reachesInside ? -0.1 : 0, 0, 0.8], 3));
+    const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ color: 0x8d7349 }));
+    mesh.position.x = x;
+    return mesh;
+  };
+  const root = new THREE.Group();
+  // The expanded x boundary is 3. The first transform rounds back to the
+  // boundary in the Float32 world buffer. The next triangle straddles it.
+  root.add(floor, wall(3 + 1e-8), wall(3.05, true), wall(3.0001), wall(17));
+  const makeField = (maxTriangles) => {
+    const field = createStaticLightField({ regions: cage, maxTraceDistance: 2, maxTriangles, raysPerProbe: 16, skyRaysPerHit: 2 });
+    field.addRoot(root);
+    field.setLighting(lighting);
+    return field;
+  };
+  const oldPath = makeField(16);
+  const bounded = makeField(14);
+  for (const field of [oldPath, bounded]) {
+    const evidence = await field.bake({ yieldTask: immediate });
+    assert.equal(evidence.sourceTriangles, 16);
+    assert.equal(evidence.triangles, 14);
+    assert.equal(evidence.skippedTriangles, 2);
+    assert.equal(evidence.meshes, 5);
+  }
+  assert.equal(oldPath.evidence().allocatedTriangles, 16);
+  assert.equal(bounded.evidence().allocatedTriangles, 14);
+  const expected = oldPath.exportSnapshot({ signature: snapshotSignature });
+  const measured = bounded.exportSnapshot({ signature: snapshotSignature });
+  assert.ok(expected.transport.some((value) => value !== 0));
+  for (const key of ["probes", "transport", "moments"]) assert.deepEqual(measured[key], expected[key], key);
+  assert.deepEqual(bounded.evidence().trace, oldPath.evidence().trace);
+  assert.deepEqual(bounded.evidence().practicalEnergy, oldPath.evidence().practicalEnergy);
+
+  const tooSmall = makeField(13);
+  await assert.rejects(tooSmall.bake({ yieldTask: immediate }), /explicit 13 triangle budget.*16 source triangles, at least 14 retained/);
+  assert.equal(tooSmall.evidence().sourceTriangles, 16);
+  assert.equal(tooSmall.evidence().allocatedTriangles, 0);
+  assert.equal(tooSmall.evidence().acceleratorBytes, 0);
+  assert.equal(tooSmall.evidence().ready, false);
+  for (const field of [oldPath, bounded, tooSmall]) field.dispose();
+});
