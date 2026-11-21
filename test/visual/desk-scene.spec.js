@@ -262,7 +262,7 @@ test("coastal transport: cold onsen arrival waits for a delayed avatar before fi
   }
 });
 
-test("record: on-disc controls, continuous rotation, and offscreen suspension", async ({ page }, testInfo) => {
+test("record: outside arrows and on-disc playback preserve rotation and offscreen suspension", async ({ page }, testInfo) => {
   await preparePage(page, "afternoon");
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.clock.install({ time: new Date("2026-09-29T12:00:00-07:00") });
@@ -275,16 +275,18 @@ test("record: on-disc controls, continuous rotation, and offscreen suspension", 
   // baseline after that page-wide layout change, before any player input.
   await expect.poll(() => page.locator("body").evaluate((e) => e.style.paddingTop)).not.toBe("");
   const caption = page.locator(".home-record-console");
-  await expect(caption).toBeHidden();
-  // A preview caption must stay reachable while keyboard focus moves from
-  // the disc to its source, and disappear when the original portrait returns.
+  await expect(caption).toBeVisible();
+  // The original track and its seek control stay reachable on the portrait
+  // as well as when the sleeve is previewed or playing.
+  await expect(page.locator("[data-home-record-track-title]")).toHaveText("A Tugboat for Two");
+  await expect(page.locator("[data-home-record-seek]")).toBeEnabled();
   await play.focus();
   await expect(caption).toBeVisible();
   await page.locator("[data-home-record-next]").press("Tab");
   await expect(page.locator("[data-home-record-source]")).toBeFocused();
   await expect(caption).toBeVisible();
   await page.getByRole("button", { name: "2D", exact: true }).focus();
-  await expect(caption).toBeHidden();
+  await expect(caption).toBeVisible();
   const disc = page.locator("#home-profile-image-container");
   const discBox = await disc.boundingBox();
   const playBox = await play.boundingBox();
@@ -293,7 +295,9 @@ test("record: on-disc controls, continuous rotation, and offscreen suspension", 
   await expect(page.locator(".home-record-console button")).toHaveCount(0);
   const previousBox = await page.locator("[data-home-record-prev]").boundingBox();
   const nextBox = await page.locator("[data-home-record-next]").boundingBox();
-  expect(nextBox.x - previousBox.x - previousBox.width).toBeGreaterThan(100);
+  expect(previousBox.x + previousBox.width).toBeLessThan(discBox.x);
+  expect(nextBox.x).toBeGreaterThan(discBox.x + discBox.width);
+  expect(Math.min(previousBox.width, previousBox.height, nextBox.width, nextBox.height)).toBeGreaterThanOrEqual(44);
   // Accessible clicks may scroll the controls into view. Compare their actual
   // document position rather than their position in a moving viewport.
   const transportPosition = () =>
@@ -314,6 +318,7 @@ test("record: on-disc controls, continuous rotation, and offscreen suspension", 
   // Observe the exact resume boundary, then advance 100 ms of animation time.
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
   await play.click();
+  await expect(play).toHaveAttribute("aria-pressed", "true");
   expect(await record.evaluate((e) => e.getRecordEvidence().angle)).toBe(paused);
   await page.clock.runFor(100);
   const resumed = await record.evaluate((e) => e.getRecordEvidence().angle);
@@ -348,6 +353,49 @@ test("record: on-disc controls, continuous rotation, and offscreen suspension", 
   await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().running)).toBe(true);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().running)).toBe(false);
+});
+
+test("record audio: native playback, cue replacement and keyboard seek use the original recordings", async ({ page }, testInfo) => {
+  const errors = collectRuntimeErrors(page);
+  await preparePage(page, "light");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const play = page.locator("[data-home-record-play]");
+  const audio = page.locator("[data-home-record-audio]");
+  const seek = page.locator("[data-home-record-seek]");
+  const read = () =>
+    audio.evaluate((element) => ({
+      title: element.dataset.title,
+      source: element.getAttribute("src"),
+      time: element.currentTime,
+      paused: element.paused,
+      duration: element.duration,
+    }));
+  expect(await read()).toMatchObject({ title: "A Tugboat for Two", source: null, paused: true });
+  await play.click();
+  await expect.poll(async () => (await read()).time).toBeGreaterThan(0.15);
+  await expect(play).toHaveAttribute("aria-pressed", "true");
+  await page.locator("[data-home-record-next]").click();
+  await expect
+    .poll(async () => {
+      const state = await read();
+      return state.title === "All the Windows Open" && state.source?.endsWith("/all-the-windows-open.mp3") && !state.paused && state.time > 0.15;
+    })
+    .toBe(true);
+  await play.click();
+  await expect(play).toHaveAttribute("aria-pressed", "false");
+  await seek.press("Home");
+  await seek.press("PageUp");
+  await expect.poll(async () => (await read()).time).toBeGreaterThan(1);
+  const paused = await read();
+  expect(paused.paused).toBe(true);
+  expect(paused.duration).toBeCloseTo(33.35, 1);
+  await expect(seek).toHaveAttribute("aria-valuetext", /^0:0[1-9] of 0:33$/);
+  await play.click();
+  await expect.poll(async () => (await read()).time).toBeGreaterThan(paused.time + 0.05);
+  await play.click();
+  await capture(testInfo, "record-seek-paused", await page.locator(".home-record-player").screenshot());
+  expect(errors).toEqual([]);
 });
 
 test("record physics: the needle lifts before artwork changes and rapid cues preserve phase", async ({ page }, testInfo) => {
@@ -527,7 +575,7 @@ for (const graphics of ["native", "unavailable"]) {
   });
 }
 
-test("record physics: touch transport keeps cues reachable and preserves spin across 2D/3D", async ({ page }, testInfo) => {
+test("record physics: touch transport transfers the spindle and saves the 2D recording position", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "mobile-390", "Real Chromium touch context exercises the transport.");
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
@@ -544,7 +592,12 @@ test("record physics: touch transport keeps cues reachable and preserves spin ac
   await expect(scene).toHaveAttribute("data-scene-state", "ready", { timeout: SCENE_READY_TIMEOUT });
   await expect(scene).toHaveAttribute("data-record-spinning", "true");
   await page.locator('[data-home-desk-mode="2d"]').tap();
-  expect((await record.evaluate((e) => e.getRecordEvidence())).playing).toBe(true);
+  expect((await record.evaluate((e) => e.getRecordEvidence())).playing).toBe(false);
+  const audio = page.locator("[data-home-record-audio]");
+  const saved = await audio.evaluate((e) => e.currentTime);
+  expect(await audio.evaluate((e) => e.paused)).toBe(true);
+  await page.locator("[data-home-record-play]").tap();
+  await expect.poll(() => audio.evaluate((e) => e.currentTime)).toBeGreaterThan(saved);
   await page.locator("[data-home-record-play]").tap();
   await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().running)).toBe(false);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
@@ -3802,7 +3855,7 @@ test("coastal home: album focus, playback, discovery, mode sharing, and paper na
   await expect(stage.locator("[data-home-record-card]")).toHaveCount(4);
   expect(await player.evaluate((e) => e.inert)).toBe(false);
   await expect(source).toBeVisible();
-  await expect.poll(() => playerScene.evaluate((e) => e.getRecordEvidence().running)).toBe(true);
+  await expect.poll(() => playerScene.evaluate((e) => e.getRecordEvidence().running)).toBe(false);
   await page.locator('[data-home-desk-mode="3d"]').click();
   expect((await evidence(scene)).avatarId).toBe("simpsons");
   expect((await evidence(scene)).dropped).toEqual([0, 1, 2, 3]);

@@ -1529,14 +1529,25 @@ html.home-desk-outside-active .home-story-rail {
   animation-play-state: paused;
 }
 
-// Controls live on the disc and stay still while its artwork turns.
 .home-record-player {
   grid-area: portrait;
   display: grid;
   justify-items: center;
-  gap: 0.6rem;
-  width: min(21rem, 100%);
+  gap: 0.35rem;
+  width: min(25.75rem, 100%);
   max-width: 100%;
+}
+
+.home-record-carousel {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+
+  &.has-records {
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    gap: clamp(0.16rem, 1vw, 0.55rem);
+  }
 }
 
 .home-record-player .home-portrait-frame {
@@ -1546,31 +1557,18 @@ html.home-desk-outside-active .home-story-rail {
 }
 
 .home-record-console {
-  width: 100%;
-  padding: 0.35rem 0.4rem;
-  visibility: hidden;
-}
-
-.home-record-player:has(.home-portrait-frame:is(.is-previewing, .is-vinyl-mode)) .home-record-console {
-  visibility: visible;
-}
-
-.home-hero-media.is-desk-3d .home-record-player .home-record-console {
-  visibility: hidden;
+  display: grid;
+  width: min(21rem, 100%);
 }
 
 .home-record-caption {
   display: grid;
-  gap: 0.1rem;
   min-width: 0;
   text-align: center;
   line-height: 1.35;
 
-  span {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
+  > span {
+    color: var(--home-ink);
     font-size: var(--type-compact);
     font-weight: 600;
   }
@@ -1581,12 +1579,51 @@ html.home-desk-outside-active .home-story-rail {
     justify-content: center;
     justify-self: center;
     min-height: 44px;
+    gap: 0.22rem;
     padding-inline: 0.5rem;
     font-size: var(--type-compact);
     color: var(--home-muted);
-    text-decoration: underline;
+    text-decoration: none;
     text-underline-offset: 0.18em;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+    }
   }
+}
+
+.home-record-timeline {
+  display: grid;
+  grid-template-columns: 3ch minmax(0, 1fr) 3ch;
+  align-items: center;
+  gap: 0.6rem;
+  padding-inline: 0.27rem;
+  color: var(--home-muted);
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+  font-variant-numeric: tabular-nums;
+
+  input {
+    width: 100%;
+    height: 44px;
+    min-width: 0;
+    margin: 0;
+    accent-color: var(--home-accent-strong);
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid var(--home-accent);
+      outline-offset: 2px;
+    }
+  }
+}
+
+.home-record-status {
+  margin: 0;
+  color: var(--home-muted);
+  font-size: var(--type-compact);
+  text-align: center;
 }
 
 .home-record-transport {
@@ -1599,7 +1636,6 @@ html.home-desk-outside-active .home-story-rail {
 .home-record-play,
 .home-record-nav {
   display: grid;
-  position: absolute;
   place-items: center;
   width: 44px;
   height: 44px;
@@ -1622,6 +1658,7 @@ html.home-desk-outside-active .home-story-rail {
 }
 
 .home-record-play {
+  position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
@@ -1630,53 +1667,23 @@ html.home-desk-outside-active .home-story-rail {
 
 .home-record-play-cue {
   display: grid;
+  align-self: end;
   place-items: center;
   width: 44px;
   height: 44px;
+  margin-bottom: 10%;
   border-radius: 50%;
   background: color-mix(in srgb, var(--home-surface) 92%, transparent);
   box-shadow: 0 2px 12px rgba(var(--global-shadow-rgb), 0.12);
-  opacity: 0;
-  transition: opacity var(--motion-standard);
 }
 
 .home-record-nav {
-  top: 50%;
-  margin-top: -22px;
-  background: color-mix(in srgb, var(--home-surface) 92%, transparent);
-  box-shadow: 0 2px 12px rgba(var(--global-shadow-rgb), 0.12);
-  opacity: 0;
+  background: color-mix(in srgb, var(--home-surface) 86%, transparent);
+  box-shadow: inset 0 0 0 1px var(--home-line);
 
   &:hover {
     background: var(--home-surface);
     color: var(--home-accent-strong);
-  }
-}
-
-.home-record-nav-prev {
-  left: 4%;
-}
-
-.home-record-nav-next {
-  right: 4%;
-}
-
-.home-portrait-frame:hover .home-record-nav,
-.home-portrait-frame:focus-within .home-record-nav,
-.home-record-play:hover .home-record-play-cue,
-.home-record-play:focus-visible .home-record-play-cue {
-  opacity: 1;
-}
-
-@media (hover: none), (pointer: coarse) {
-  .home-record-nav {
-    opacity: 1;
-  }
-
-  // A touch on either skip button removes the play button's sticky hover.
-  // Keep playback state readable, including the composed reduced-motion disc.
-  .home-profile-recordable.is-vinyl-mode .home-record-play-cue {
-    opacity: 1;
   }
 }
 

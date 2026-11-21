@@ -22,6 +22,10 @@ profile:
       duration: "2:38"
       tone: submarine
       source_url: https://open.spotify.com/track/1tdltVUBkiBCW1C3yB4zyD
+      recording:
+        title: A Tugboat for Two
+        path: /assets/audio/desk-records/a-tugboat-for-two.mp3
+        seconds: 34.003
     - title: Hey Jude
       artist: The Beatles
       image: sirui_pic_simpsons.png
@@ -29,6 +33,10 @@ profile:
       duration: "7:11"
       tone: jude
       source_url: https://open.spotify.com/track/3m7V717IKZqZLW5qUIOxdD
+      recording:
+        title: All the Windows Open
+        path: /assets/audio/desk-records/all-the-windows-open.mp3
+        seconds: 33.35
     - title: Blowin' in the Wind
       artist: Bob Dylan
       image: sirui_pic_ghbili.png
@@ -36,6 +44,10 @@ profile:
       duration: "2:48"
       tone: wind
       source_url: https://open.spotify.com/track/18GiV1BaXzPVYpp9rmOg0E
+      recording:
+        title: A Pocketful of Sky
+        path: /assets/audio/coastal-score/watercolour.mp3
+        seconds: 42.395
     - title: Sunday Bloody Sunday
       artist: U2
       image: sirui_pic_rick_and_morty.png
@@ -43,6 +55,10 @@ profile:
       duration: "4:39"
       tone: sunday
       source_url: https://open.spotify.com/track/6C4LXC9UFH1IKiHYOp0BiJ
+      recording:
+        title: Five Cuts in Pearwood
+        path: /assets/audio/coastal-score/print.mp3
+        seconds: 23.526
   image_circular: true
 
 hero:

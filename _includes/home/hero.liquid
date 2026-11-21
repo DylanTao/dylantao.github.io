@@ -111,96 +111,113 @@
       {% assign profile_image_path = page.profile.image | prepend: 'assets/img/' %}
       {% assign meme_records = page.profile.meme_records %}
       <div class="home-record-player">
-        <div
-          class="home-portrait-frame{% if meme_records %} home-profile-recordable{% elsif page.profile.image_hovers %} home-profile-swappable{% endif %}"
-          id="home-profile-image-container"
-          {% unless meme_records %}
-            tabindex="0"
-          {% endunless %}
-          aria-label="Sirui Tao portrait meme-record preview. Shake or press D to discover a record card."
-          title="Shake, swipe, or press D to discover a record card"
+        <div class="home-record-carousel{% if meme_records %} has-records{% endif %}">
           {% if meme_records %}
-            data-record-images="{% for record in meme_records %}{% assign record_path = record.image | prepend: '/assets/img/' %}{% include responsive_variant.liquid path=record_path width=800 %}{% unless forloop.last %}|{% endunless %}{% endfor %}"
-            data-record-originals="{% for record in meme_records %}{{ record.image | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
-            data-record-titles="{% for record in meme_records %}{{ record.title | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
-            data-record-artists="{% for record in meme_records %}{{ record.artist | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
-            data-record-durations="{% for record in meme_records %}{{ record.duration | default: '0:18' | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
-            data-record-tones="{% for record in meme_records %}{{ record.tone | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
-            data-record-covers="{% for record in meme_records %}{% assign record_cover = record.cover_image | default: record.image %}{{ record_cover | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
-            data-record-sources="{% for record in meme_records %}{{ record.source_url | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
-          {% else %}
-            data-images="{% for img in page.profile.image_hovers %}{{ img | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+            <button class="home-record-nav" type="button" data-home-record-prev aria-label="Previous record">
+              <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+            </button>
           {% endif %}
-        >
-          {% if meme_records %}
-            <div class="home-record-scene" data-home-record-scene aria-hidden="true">
-              <div class="home-record-scene-fallback">
-                <div class="home-record-art"></div>
-                <svg class="home-record-arm" viewBox="0 0 72 180" aria-hidden="true" focusable="false">
-                  <defs>
-                    <linearGradient id="home-record-arm-metal" x1="0" x2="1">
-                      <stop offset="0" stop-color="#50575a"/>
-                      <stop offset="0.48" stop-color="#d7dddf"/>
-                      <stop offset="1" stop-color="#6c7679"/>
-                    </linearGradient>
-                  </defs>
-                  <circle cx="36" cy="22" r="12" fill="#a3abad" stroke="#495254" stroke-width="2"/>
-                  <rect x="27" y="1" width="18" height="12" rx="4" fill="url(#home-record-arm-metal)"/>
-                  <path d="M36 22 C46 56 39 88 27 120 S15 146 12 160" fill="none" stroke="url(#home-record-arm-metal)" stroke-width="5"/>
-                  <rect x="4" y="151" width="15" height="12" rx="2" fill="currentColor" transform="rotate(12 12 157)"/>
-                  <path d="M12 162 L11 170" stroke="#444d50" stroke-width="2"/>
-                  <circle cx="11" cy="170" r="2" fill="#dbdad5"/>
-                </svg>
+          <div
+            class="home-portrait-frame{% if meme_records %} home-profile-recordable{% elsif page.profile.image_hovers %} home-profile-swappable{% endif %}"
+            id="home-profile-image-container"
+            {% unless meme_records %}
+              tabindex="0"
+            {% endunless %}
+            aria-label="Sirui Tao portrait meme-record preview. Shake or press D to discover a record card."
+            title="Shake, swipe, or press D to discover a record card"
+            {% if meme_records %}
+              data-record-images="{% for record in meme_records %}{% assign record_path = record.image | prepend: '/assets/img/' %}{% include responsive_variant.liquid path=record_path width=800 %}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+              data-record-originals="{% for record in meme_records %}{{ record.image | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+              data-record-titles="{% for record in meme_records %}{{ record.title | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+              data-record-artists="{% for record in meme_records %}{{ record.artist | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+              data-record-durations="{% for record in meme_records %}{{ record.duration | default: '0:18' | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+              data-record-tones="{% for record in meme_records %}{{ record.tone | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+              data-record-covers="{% for record in meme_records %}{% assign record_cover = record.cover_image | default: record.image %}{{ record_cover | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+              data-record-sources="{% for record in meme_records %}{{ record.source_url | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+              data-record-track-sources="{% for record in meme_records %}{% if record.recording.path %}{{ record.recording.path | relative_url | escape }}{% endif %}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+              data-record-track-titles="{% for record in meme_records %}{{ record.recording.title | escape }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+              data-record-track-seconds="{% for record in meme_records %}{{ record.recording.seconds }}{% unless forloop.last %}|{% endunless %}{% endfor %}"
+            {% else %}
+              data-images="{% for img in page.profile.image_hovers %}{{ img | prepend: '/assets/img/' | relative_url }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+            {% endif %}
+          >
+            {% if meme_records %}
+              <div class="home-record-scene" data-home-record-scene aria-hidden="true">
+                <div class="home-record-scene-fallback">
+                  <div class="home-record-art"></div>
+                  <svg class="home-record-arm" viewBox="0 0 72 180" aria-hidden="true" focusable="false">
+                    <defs>
+                      <linearGradient id="home-record-arm-metal" x1="0" x2="1">
+                        <stop offset="0" stop-color="#50575a"/>
+                        <stop offset="0.48" stop-color="#d7dddf"/>
+                        <stop offset="1" stop-color="#6c7679"/>
+                      </linearGradient>
+                    </defs>
+                    <circle cx="36" cy="22" r="12" fill="#a3abad" stroke="#495254" stroke-width="2"/>
+                    <rect x="27" y="1" width="18" height="12" rx="4" fill="url(#home-record-arm-metal)"/>
+                    <path d="M36 22 C46 56 39 88 27 120 S15 146 12 160" fill="none" stroke="url(#home-record-arm-metal)" stroke-width="5"/>
+                    <rect x="4" y="151" width="15" height="12" rx="2" fill="currentColor" transform="rotate(12 12 157)"/>
+                    <path d="M12 162 L11 170" stroke="#444d50" stroke-width="2"/>
+                    <circle cx="11" cy="170" r="2" fill="#dbdad5"/>
+                  </svg>
+                </div>
               </div>
-            </div>
-          {% endif %}
-          {% include figure.liquid loading="eager" fetchpriority="high" path=profile_image_path class="home-portrait-img" sizes="(min-width: 992px) 340px, 70vw" alt="Sirui Tao portrait" cache_bust=true %}
-          {% if meme_records or page.profile.image_hovers %}
-            <div class="home-profile-image-hover-layer" aria-hidden="true"></div>
-          {% endif %}
+            {% endif %}
+            {% include figure.liquid loading="eager" fetchpriority="high" path=profile_image_path class="home-portrait-img" sizes="(min-width: 992px) 340px, 70vw" alt="Sirui Tao portrait" cache_bust=true %}
+            {% if meme_records or page.profile.image_hovers %}
+              <div class="home-profile-image-hover-layer" aria-hidden="true"></div>
+            {% endif %}
+            {% if meme_records %}
+              <div class="home-record-transport" role="group" aria-label="Disc controls">
+                <button
+                  class="home-record-play"
+                  type="button"
+                  data-home-record-play
+                  aria-pressed="false"
+                  aria-label="Play {{ meme_records.first.recording.title | escape }}"
+                  aria-describedby="home-record-help"
+                >
+                  <span class="home-record-play-cue" aria-hidden="true">
+                    <i class="fa-solid fa-play" data-home-record-play-icon></i>
+                    <i class="fa-solid fa-pause" data-home-record-pause-icon></i>
+                  </span>
+                </button>
+              </div>
+              <span class="sr-only" id="home-record-help"
+                >Play or pause the original recording. Left and right change records. Shake or press D to discover a record card.</span
+              >
+            {% endif %}
+          </div>
           {% if meme_records %}
-            <div class="home-record-transport" role="group" aria-label="Disc controls">
-              <button
-                class="home-record-play"
-                type="button"
-                data-home-record-play
-                aria-pressed="false"
-                aria-label="Spin meme record"
-                aria-describedby="home-record-help"
-              >
-                <span class="home-record-play-cue" aria-hidden="true">
-                  <i class="fa-solid fa-play" data-home-record-play-icon></i>
-                  <i class="fa-solid fa-pause" data-home-record-pause-icon></i>
-                </span>
-              </button>
-              <button
-                class="home-record-nav home-record-nav-prev"
-                type="button"
-                data-home-record-prev
-                aria-label="Previous meme record"
-              >
-                <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
-              </button>
-              <button
-                class="home-record-nav home-record-nav-next"
-                type="button"
-                data-home-record-next
-                aria-label="Next meme record"
-              >
-                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-              </button>
-            </div>
-            <span class="sr-only" id="home-record-help"
-              >Click the disc to start or pause. Left and right change records. Shake or press D to discover a record card.</span
-            >
+            <button class="home-record-nav" type="button" data-home-record-next aria-label="Next record">
+              <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+            </button>
           {% endif %}
         </div>
         {% if meme_records %}
-          <div class="home-record-console" aria-label="Meme record player">
+          <div class="home-record-console" role="group" aria-label="Record timeline">
             <div class="home-record-caption">
-              <span data-home-record-title>{{ meme_records.first.title }}</span>
-              <a data-home-record-source href="{{ meme_records.first.source_url }}" target="_blank" rel="noopener noreferrer">Artwork source ↗</a>
+              <span data-home-record-track-title>{{ meme_records.first.recording.title }}</span>
+              <a data-home-record-source href="{{ meme_records.first.source_url }}" target="_blank" rel="noopener noreferrer">
+                Inspired by <span data-home-record-title>{{ meme_records.first.title }}</span> <span aria-hidden="true">↗</span>
+              </a>
             </div>
+            <div class="home-record-timeline">
+              <span data-home-record-elapsed aria-hidden="true">0:00</span>
+              <input
+                type="range"
+                min="0"
+                max="{{ meme_records.first.recording.seconds | default: 0 }}"
+                step="0.1"
+                value="0"
+                aria-label="Record position"
+                data-home-record-seek
+                disabled
+              >
+              <span data-home-record-duration aria-hidden="true">0:00</span>
+            </div>
+            <p data-home-record-status class="home-record-status" role="status" hidden></p>
+            <audio preload="none" data-home-record-audio></audio>
           </div>
         {% endif %}
       </div>
