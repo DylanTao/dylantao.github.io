@@ -447,6 +447,54 @@ test("publication abstracts remain available below the human citation context", 
   await expect(page.getByRole("link", { name: "RIS", exact: true })).toBeVisible();
 });
 
+test("publication filter and citation card survive a native return", async ({ page }) => {
+  await preparePage(page, "light");
+  const index = publicRouteUrl("/publications/");
+  await page.goto(index, { waitUntil: "domcontentloaded" });
+
+  const filter = page.getByRole("textbox", { name: "Filter papers" });
+  const rows = page.locator("#publication-list-view .bibliography > li:visible");
+  const status = page.locator("#bibsearch-status");
+  const guide = page.locator('[data-publication-why-cite="tao2024designweaver"]');
+  const contextLink = guide.getByRole("link", { name: "Read the full evidence and citation context" });
+  await filter.fill("DesignWeaver");
+  await expect(status).toHaveText("1 paper shown");
+  await expect(rows).toHaveCount(1);
+  await expect(page).toHaveURL(index);
+
+  await guide.locator("summary").click();
+  await contextLink.click();
+  await expect(page).toHaveURL(publicRouteUrl("/publications/designweaver/"));
+  await page.goBack({ waitUntil: "commit" });
+  await expect(filter).toHaveValue("DesignWeaver");
+  await expect(rows).toHaveCount(1);
+  await expect(guide).toHaveAttribute("open", "");
+  await expect(contextLink).toBeInViewport({ ratio: 0.8 });
+  await expect(page).toHaveURL(index);
+  await page.goForward({ waitUntil: "commit" });
+  await expect(page).toHaveURL(publicRouteUrl("/publications/designweaver/"));
+
+  for (const [fragment, value, count] of [
+    ["filter=DesignWeaver", "DesignWeaver", 1],
+    ["2025", "2025", 2],
+    ["10.1145%2F3706598.3714211", "10.1145/3706598.3714211", 1],
+    ["filter=HotSpot", "HotSpot", 1],
+    ["tao2024designweaver", "", 5],
+  ]) {
+    await page.goto(index + "#" + fragment);
+    await expect(filter).toHaveValue(value);
+    await expect(rows).toHaveCount(count);
+    await expect(page).toHaveURL(index + "#" + fragment);
+  }
+  await expect(page.locator("#tao2024designweaver")).toBeInViewport();
+  await filter.fill("hotspot");
+  await expect(rows).toHaveCount(1);
+  await filter.fill("");
+  await expect(rows).toHaveCount(5);
+  await expect(status).toHaveText("5 papers shown");
+  await expect(page).toHaveURL(index + "#tao2024designweaver");
+});
+
 test("publication why-cite guides are shared and keyboard-native", async ({ page }) => {
   const runtimeErrors = collectRuntimeErrors(page);
   await preparePage(page, "light");

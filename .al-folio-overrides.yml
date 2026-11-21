@@ -10,11 +10,11 @@ overrides:
     acknowledged_at: "2026-06-01"
   _includes/bib_search.liquid:
     owner: al_folio_core
-    gem_version: 1.0.10
+    gem_version: 1.0.11
     upstream_path: _includes/bib_search.liquid
     upstream_sha256: 36332b8a7d2ac99156f3499c03655f18f0e6b95c6aec8c66c30550be941c4b2c
-    local_sha256: 36332b8a7d2ac99156f3499c03655f18f0e6b95c6aec8c66c30550be941c4b2c
-    acknowledged_at: "2026-06-01"
+    local_sha256: 3a8f7cdf7d147536bff19ff8e74dd1a00b0b38c5cf85c4cf386db286d215835f
+    acknowledged_at: "2026-11-21"
   _includes/calendar.liquid:
     owner: al_folio_core
     gem_version: 1.0.10
@@ -356,8 +356,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: _sass/_blog.scss
     upstream_sha256: 9981a7ce49cb02f7cca1b3d147097e7170524d917a9d3f273927f129262ec3a1
-    local_sha256: f6d0afdc9fbdae9fb22b2e4635b8a94b20176662c99827be6145ac471c870a8c
-    acknowledged_at: "2026-10-01"
+    local_sha256: be21af598cc837efbc3f34662a60f09c6a1f23f1d34cf9ee7c473374723b96dc
+    acknowledged_at: "2026-11-21"
   _sass/_components.scss:
     owner: al_folio_core
     gem_version: 1.0.11
@@ -486,11 +486,11 @@ overrides:
     acknowledged_at: "2026-11-20"
   assets/js/bibsearch.js:
     owner: al_folio_core
-    gem_version: 1.0.10
+    gem_version: 1.0.11
     upstream_path: assets/js/bibsearch.js
     upstream_sha256: 959f7ee592686a73204b936eada490fe07f7bb6b723a8c8ee98266e4a71dd3fb
-    local_sha256: f521500ba11550a1889324c0ad5c22e215d0b75ab020ff02792fc1e2307201ad
-    acknowledged_at: "2026-06-01"
+    local_sha256: 10af63a7ce67d892bb50ea7a42119a442f79881f5069e5ce94c92a8d98d812cf
+    acknowledged_at: "2026-11-21"
   assets/js/calendar-setup.js:
     owner: al_folio_core
     gem_version: 1.0.10
@@ -503,8 +503,8 @@ overrides:
     gem_version: 1.0.11
     upstream_path: assets/js/common.js
     upstream_sha256: 89e65df12a3473705b488338af00c08f4cf947e59dee22748afc1c3a1fcb99fe
-    local_sha256: f2845b68cbf77be7e5f84770fe10f4026d9c5dcdeeb838a8160cfd5c309e3951
-    acknowledged_at: "2026-10-23"
+    local_sha256: b6031bb3e91860badc45ca6bd37fa93cfc8bfe1b1aed6d58ca5fca5fafcca350
+    acknowledged_at: "2026-11-21"
   assets/js/copy_code.js:
     owner: al_folio_core
     gem_version: 1.0.11

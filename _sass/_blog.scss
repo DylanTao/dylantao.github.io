@@ -336,6 +336,10 @@
     font-size: var(--type-prose);
     line-height: 1.72;
 
+    a :is(em, strong) {
+      color: inherit;
+    }
+
     h2 {
       font-size: var(--type-section-title);
       line-height: 1.18;

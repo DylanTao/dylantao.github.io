@@ -100,8 +100,22 @@ test("CV preserves semantic sections, native navigation and printable current te
     await control.getByRole("link", { name: "Research Experience", exact: true }).focus();
     await page.keyboard.press("Enter");
     await expect(control).not.toHaveAttribute("open", "");
-    await expect(cv.locator("#academia")).toBeFocused();
+    const research = cv.locator("#academia");
+    await expect(research).toBeFocused();
     await expect(page).toHaveURL(/#academia$/);
+    await expect
+      .poll(() =>
+        research.evaluate(async (heading) => {
+          const startY = window.scrollY;
+          for (let frame = 0; frame < 4; frame++) await new Promise((resolve) => requestAnimationFrame(resolve));
+          if (Math.abs(window.scrollY - startY) >= 1) return false;
+          const sections = document.querySelector("[data-cv-mobile-sections]").getBoundingClientRect();
+          const bounds = heading.getBoundingClientRect();
+          const point = document.elementFromPoint(bounds.left + 8, bounds.top + 8);
+          return bounds.top >= sections.bottom && bounds.bottom <= window.innerHeight && heading.contains(point);
+        })
+      )
+      .toBe(true);
   }
 
   // Reflow changes renderer whitespace; words and punctuation must remain identical.
@@ -1270,6 +1284,11 @@ async function exercisePublicRoute(page, route, theme, testInfo) {
 
   if (testInfo.project.name === "mobile-390") {
     await expectMobileChromeInViewport(page, route.path);
+    if (route.id === "blog-research-skills") {
+      const bridge = page.getByRole("link", { name: "section 3", exact: true });
+      const heading = page.getByRole("heading", { name: "3. Learn to write research clearly", exact: true });
+      await expect(bridge).toHaveAttribute("href", "#" + (await heading.getAttribute("id")));
+    }
     if (route.id === "blog-distributed-cognition") {
       await expectCompactBlogOpening(page);
     }

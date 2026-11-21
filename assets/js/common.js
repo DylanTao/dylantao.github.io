@@ -109,6 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const tocSidebar = document.querySelector("#toc-sidebar");
+  const cvSectionControl = document.querySelector("[data-cv-mobile-sections]");
   const contentRoot =
     tocSidebar?.closest(".toc-layout")?.querySelector(".toc-main-column") ||
     document.querySelector('[role="main"]') ||
@@ -317,7 +318,8 @@ document.addEventListener("DOMContentLoaded", () => {
         collapseDepth: resolveTocCollapseDepth(),
         orderedList: false,
         activeLinkClass: "tocbot-active-link",
-        scrollSmooth: true,
+        // Native CV fragments use the page's offset for the compact Sections control.
+        scrollSmooth: !cvSectionControl,
         scrollSmoothOffset: -80,
         headingsOffset: 80,
       });
@@ -372,7 +374,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.AlFolioUi.initPopovers(document);
   }
 
-  const cvSectionControl = document.querySelector("[data-cv-mobile-sections]");
   const cvSectionLinks = cvSectionControl?.querySelector("[data-cv-section-links]");
   if (cvSectionControl && cvSectionLinks) {
     cvSectionControl.dataset.cvEnhanced = "";

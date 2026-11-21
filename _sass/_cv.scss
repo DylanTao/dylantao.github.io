@@ -381,6 +381,10 @@ p.location {
 }
 
 @media (max-width: 991.98px) {
+  html:has(.cv-mobile-sections[data-cv-enhanced]) {
+    scroll-padding-top: 7.5rem;
+  }
+
   .cv-mobile-sections {
     z-index: 12;
     display: block;

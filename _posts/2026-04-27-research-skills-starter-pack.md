@@ -54,7 +54,7 @@ Philip also recommended
 which is primarily an HCI writing guide. Its section map also doubles as a
 useful reading check: what job is each part of this paper trying to do? I reach
 for it most while drafting HCI papers, so I unpack that map in
-[section 3](#learn-to-write-research-clearly).
+[section 3](#3-learn-to-write-research-clearly).
 
 When you read a paper, try to answer:
 

@@ -92,8 +92,7 @@ class SiteExperimentsTests(unittest.TestCase):
     def test_research_skills_reading_bridge_reaches_the_writing_section(self) -> None:
         source = RESEARCH_SKILLS_POST.read_text(encoding="utf-8")
         self.assertIn("## 3. Learn to write research clearly", source)
-        self.assertIn("[section 3](#learn-to-write-research-clearly)", source)
-        self.assertNotIn("[section 3](#3-learn-to-write-research-clearly)", source)
+        self.assertIn("[section 3](#3-learn-to-write-research-clearly)", source)
 
     def test_site_experiments_have_truthful_chronological_metadata(self) -> None:
         records = []

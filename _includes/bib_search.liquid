@@ -1,4 +1,14 @@
 {% if site.bib_search %}
   <script src="{{ '/assets/js/bibsearch.js' | relative_url | bust_file_cache }}" type="module"></script>
-  <input type="text" id="bibsearch" spellcheck="false" autocomplete="off" class="search bibsearch-form-input" placeholder="Type to filter">
+  <label class="sr-only" for="bibsearch">Filter papers</label>
+  <input
+    type="text"
+    id="bibsearch"
+    spellcheck="false"
+    autocomplete="off"
+    class="search bibsearch-form-input"
+    placeholder="Type to filter"
+    aria-controls="publication-list-view"
+  >
+  <span class="sr-only" id="bibsearch-status" role="status"></span>
 {% endif %}
