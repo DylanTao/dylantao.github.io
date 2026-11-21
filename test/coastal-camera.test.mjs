@@ -377,6 +377,11 @@ test("the whole-house view turns freely only from high enough to look down past 
 
 test("the far view keeps the authored haze to 48 m and hides the sea plane's edge at 160 m", () => {
   for (const r of [0, 24, 48]) assert.deepEqual(farView(r), { fogNear: 65, fogFar: 180, far: 300, near: 0.05 });
+  assert.equal(farView(57).far, 370, "the coast reach eases in with radius");
+  for (const r of [66, 69, 85]) {
+    assert.equal(farView(r).far, 440, "offshore shots keep the gliderport ridge");
+    assert.equal(farView(r).fogFar, Math.max(180, 1.9 * r + 26), "the extra reach does not alter the haze");
+  }
   const wide = farView(160, 6);
   // Any sea-plane edge the 160 m camera can see lies beyond the house plus 170 m of sea.
   assert.ok(wide.fogFar <= 160 + 170, `fully hazed before the 400 m sea plane ends: ${wide.fogFar}`);

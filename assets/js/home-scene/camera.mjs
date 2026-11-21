@@ -810,7 +810,11 @@ export function farView(radius, clearance = Infinity) {
   const r = Math.max(0, radius);
   const fogNear = Math.max(65, r + 15),
     fogFar = Math.max(180, 1.9 * r + 26);
-  const far = Math.max(300, fogFar + 100);
+  // Long offshore compositions need the gliderport ridge and its pines inside the far plane.
+  // Ease to the measured 440 m reach while preserving haze and near clipping.
+  const longShot = clamp((r - 48) / 18, 0, 1);
+  const ridgeReach = 300 + 140 * longShot ** 2 * (3 - 2 * longShot);
+  const far = Math.max(ridgeReach, fogFar + 100);
   const near = r <= 48 ? 0.05 : clamp(Math.min(0.05 + (r - 48) * 0.005, clearance * 0.45), 0.05, 0.6);
   return { fogNear, fogFar, far, near };
 }
