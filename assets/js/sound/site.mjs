@@ -151,7 +151,9 @@ export function createSiteSound({
     const filmClock = () => scene.getFilmPlayback?.();
     const recordClock = () => scene.getListeningPlayback?.();
     const liftNeedle = () => scene.finishListeningRecord?.();
-    const audible = () => !root.hidden && !reduced?.matches && !view.siteMotion?.paused && sound.on && !recordSelected();
+    // Sound and Volume are explicit choices, including when the visitor keeps the picture still.
+    const audible = () => !root.hidden && sound.on && !recordSelected();
+    const cuesAllowed = () => audible() && !reduced?.matches && !view.siteMotion?.paused;
     const available = () => audible() && visible && visible3D();
     syncCoast = (seek) => {
       if (!audible()) coastal.pause({ hard: recordSelected() });
@@ -185,7 +187,7 @@ export function createSiteSound({
     if (scene) listen(scene, "coastal:record", syncCoast);
     if (reduced?.addEventListener) listen(reduced, "change", syncCoast);
     const cue = (type, selected = look()) => {
-      if (audible() && !onRail()) coastal.motif(selected, type);
+      if (cuesAllowed() && !onRail()) coastal.motif(selected, type);
     };
     const route = "button[data-world-room], button[data-world-destination], button[data-world-view], button[data-world-visit-start]";
     if (stage)
@@ -220,7 +222,7 @@ export function createSiteSound({
       view,
       "scroll",
       () => {
-        if (!arrival && view.performance.now() - scrollAt < 1100 && audible() && !onRail()) {
+        if (!arrival && view.performance.now() - scrollAt < 1100 && cuesAllowed() && !onRail()) {
           arrival = true;
           cue("arrival");
         }
@@ -229,7 +231,7 @@ export function createSiteSound({
     );
     syncCoast();
     if (available() && stage.querySelector('[data-world-visit-start="film"][aria-disabled="true"]')) coastal.prepareFilmOpening();
-    if (!root.hidden && !reduced?.matches) coastal.prepareMotifs();
+    if (cuesAllowed()) coastal.prepareMotifs();
   }
 
   function bind() {

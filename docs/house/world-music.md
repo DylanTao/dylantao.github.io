@@ -4,6 +4,8 @@ On November 20 Sirui asked for a different original piece for each way the house
 
 ## The five scores
 
+Choose a style in the day panel, then turn on Sound or move Volume to listen. The same choice follows a reader into the house. A visitor using reduced motion or Pause motion can hear the piece with the picture held still. The small musical replies to movement stay quiet in that setting.
+
 | World       | Piece                            | Players and shape                                                                                                                                                                                                                                                                                                                      |
 | ----------- | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Watercolour | _A Pocketful of Sky_, 42 s       | A quiet G on the acoustic guitar establishes a pulse. The violin enters after two bars with three long descending notes. The thumb starts answering on the offbeat halfway through. In bar 15 the guitarist leaves the downbeat to one recorded D–E–D bow and returns underneath the long answer. The opening G comes back at the end. |

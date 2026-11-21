@@ -34,44 +34,51 @@ if (art && panels.length) {
       panel.querySelector("[data-art-piece]").textContent = sound?.recordTitle || (film ? "The Door Is Open" : world.music);
     }
   }
-  // A native range updates on touch-down, before the browser knows whether the
-  // finger is scrolling the menu. Apply taps, deliberate drags and key presses.
+  // A native range can change before a finger has chosen to tap or scroll.
+  // WebKit even cancels the pointer during a stationary tap. The touch contact
+  // itself lasts until the finger lifts or the browser actually cancels it.
   function listenToRange(slider, change) {
-    let touch = null;
+    let finger = null;
+    let direction = null;
+    const passive = { passive: true };
     const apply = (event) => change(slider.valueAsNumber, event);
-    const directionAt = (event) => {
-      const across = Math.abs(event.clientX - touch.x);
-      const down = Math.abs(event.clientY - touch.y);
+    const movedFinger = (event) => Array.from(event.changedTouches).find((point) => point.identifier === finger?.identifier);
+    const directionAt = (point) => {
+      const across = Math.abs(point.clientX - finger.clientX);
+      const down = Math.abs(point.clientY - finger.clientY);
       if (Math.max(across, down) < 6) return null;
       return across > down ? "horizontal" : "vertical";
     };
-    slider.addEventListener("pointerdown", (event) => {
-      if (event.pointerType === "touch" && event.isPrimary) {
-        touch = { id: event.pointerId, x: event.clientX, y: event.clientY, direction: null };
-      }
-    });
-    slider.addEventListener("pointermove", (event) => {
-      if (event.pointerId !== touch?.id || touch.direction) return;
-      touch.direction = directionAt(event);
-      if (touch.direction === "horizontal") apply(event);
-    });
-    slider.addEventListener("pointerup", (event) => {
-      if (event.pointerId !== touch?.id) return;
-      const appliedDrag = touch.direction === "horizontal";
-      const direction = touch.direction ?? directionAt(event);
-      touch = null;
-      if (direction === "vertical") reflect();
-      else if (!appliedDrag) apply(event);
-    });
-    const cancel = (event) => {
-      if (event.pointerId !== touch?.id) return;
-      touch = null;
+    function start(event) {
+      if (finger) return;
+      finger = event.changedTouches[0];
+      direction = null;
+    }
+    function move(event) {
+      const point = movedFinger(event);
+      if (!point || direction) return;
+      direction = directionAt(point);
+      if (direction === "horizontal") apply(event);
+    }
+    function end(event) {
+      const point = movedFinger(event);
+      if (!point) return;
+      const scrolling = (direction ?? directionAt(point)) === "vertical";
+      finger = null;
+      if (scrolling) reflect();
+      else if (direction !== "horizontal") apply(event);
+    }
+    function cancel(event) {
+      if (!movedFinger(event)) return;
+      finger = null;
       reflect();
-    };
-    slider.addEventListener("pointercancel", cancel);
-    slider.addEventListener("lostpointercapture", cancel);
+    }
+    slider.addEventListener("touchstart", start, passive);
+    slider.addEventListener("touchmove", move, passive);
+    slider.addEventListener("touchend", end, passive);
+    slider.addEventListener("touchcancel", cancel, passive);
     slider.addEventListener("input", (event) => {
-      if (!touch || touch.direction === "horizontal") apply(event);
+      if (!finger || direction === "horizontal") apply(event);
     });
   }
   const size = (rail) => {

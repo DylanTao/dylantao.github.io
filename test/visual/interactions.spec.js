@@ -603,6 +603,17 @@ test("mobile navbar can expand/collapse", async ({ page }, testInfo) => {
   await themeToggle.click();
   await expect(page.locator("#theme-menu")).toBeVisible();
   await expect(nav).not.toHaveClass(/show/);
+  // WebKit dispatches pointercancel when its native range takes over a touch tap.
+  const art = page.locator("#theme-menu [data-art-slider]");
+  await art.tap();
+  await expect(art).toHaveAttribute("aria-valuetext", "Watercolour");
+  await expect(page.locator("#theme-menu [data-art-piece]")).toHaveText("A Pocketful of Sky");
+  const volume = page.locator("#theme-menu [data-volume-slider]");
+  await volume.tap();
+  await expect.poll(() => page.evaluate(() => window.siteSound.evidence().volume)).toBeCloseTo(0.5, 1);
+  if (await page.evaluate(() => Boolean(window.AudioContext || window.webkitAudioContext))) {
+    await expect(page.locator("#theme-menu [data-sound-toggle]")).toHaveAttribute("aria-checked", "true");
+  }
   await themeToggle.click();
 
   await toggle.click();

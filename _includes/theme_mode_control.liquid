@@ -84,11 +84,10 @@
         <span class="coastal-slider" data-art-rail>
           <span class="coastal-slider-scene" aria-hidden="true"></span>
           <span class="coastal-slider-stops" aria-hidden="true">
-            {%- for stop in (1..5) -%}
+            {% for stop in (1..5) %}
               <i></i>
-            {%- endfor -%}
-            ></span
-          >
+            {% endfor %}
+          </span>
           <span class="coastal-slider-lens" aria-hidden="true"></span>
           <input type="range" min="0" max="4" step="1" value="0" aria-label="Art style" aria-valuetext="Realistic" data-art-slider>
         </span>

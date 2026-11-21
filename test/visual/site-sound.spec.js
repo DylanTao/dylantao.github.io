@@ -47,20 +47,20 @@ test("site sound: the normal switch is visible, silent and lazy before consent",
     const portrait = page.viewportSize();
     await page.setViewportSize({ width: 844, height: 390 });
     const range = page.locator("[data-theme-menu]:visible [data-art-slider]");
-    // Replay a coalesced vertical gesture at the scroll boundary, where a
-    // browser can deliver pointerup without any pointermove or pointercancel.
+    // A touch can reach the scroll boundary without delivering an intermediate move.
     await range.evaluate((slider) => {
-      const touch = { pointerId: 71, pointerType: "touch", isPrimary: true, clientX: 25, bubbles: true };
-      slider.dispatchEvent(new PointerEvent("pointerdown", { ...touch, clientY: 25 }));
+      const point = (clientY) => new Touch({ identifier: 71, target: slider, clientX: 25, clientY });
+      slider.dispatchEvent(new TouchEvent("touchstart", { bubbles: true, changedTouches: [point(25)] }));
       slider.value = slider.max;
       slider.dispatchEvent(new Event("input", { bubbles: true }));
-      slider.dispatchEvent(new PointerEvent("pointerup", { ...touch, clientY: 105 }));
+      slider.dispatchEvent(new TouchEvent("touchend", { bubbles: true, changedTouches: [point(105)] }));
     });
     await expect(range).toHaveValue("0");
     await expect(range).toHaveAttribute("aria-valuetext", "Realistic");
     await page.setViewportSize(portrait);
   }
 
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await control.click();
   await expect.poll(async () => (await evidence(page)).context).toBe("running");
   await expect(control).toHaveAttribute("aria-checked", "true");
@@ -77,6 +77,7 @@ test("site sound: the normal switch is visible, silent and lazy before consent",
   await expect(panel.locator("[data-art-piece]")).toHaveText("A Pocketful of Sky");
   await expect.poll(async () => (await evidence(page)).coastal?.theme).toBe("watercolour");
   expect(fetched.some((url) => url.includes("/watercolour.mp3"))).toBe(true);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   const volume = panel.getByRole("slider", { name: "Music and sound volume" });
   await volume.focus();
   await volume.press("ArrowLeft");
