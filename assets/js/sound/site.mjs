@@ -12,7 +12,13 @@ const ROWS = [
   { row: ".theme-stops", item: ".theme-option" },
 ];
 
-export function createSiteSound({ root = document, view = globalThis, audioContext = null, instrumentLab = false } = {}) {
+export function createSiteSound({
+  root = document,
+  view = globalThis,
+  audioContext = null,
+  instrumentLab = false,
+  recordSelected = () => false,
+} = {}) {
   const mode = () => root.documentElement.dataset.themeMode || "noon";
   const sound = createSound({ mode, audioContext });
   const reduced = view.matchMedia?.("(prefers-reduced-motion: reduce)");
@@ -129,34 +135,39 @@ export function createSiteSound({ root = document, view = globalThis, audioConte
     const params = new URLSearchParams(view.location.search);
     const scene = root.querySelector("[data-home-desk-scene]");
     const stage = scene?.closest("[data-home-artifact-stage]");
-    if (!stage || params.get("scene-lab") === "1") return;
+    if (params.get("scene-lab") === "1") return;
     coastal ??= createCoastalMusic(sound.graph);
+    const pageLook = () => view.siteArt?.look || "realistic";
     const look = () => {
-      const style = scene.dataset.drawing || stage.querySelector("[data-world-drawing][aria-pressed=true]")?.dataset.worldDrawing;
-      return COASTAL_LOOKS.includes(style) ? style : "realistic";
+      const style = scene?.dataset.drawing;
+      return visible3D() && COASTAL_LOOKS.includes(style) ? style : pageLook();
     };
-    const visible3D = () => stage.dataset.deskMode === "3d" && scene.getAttribute("aria-hidden") !== "true";
-    const rect = scene.getBoundingClientRect();
-    let visible = rect.bottom > 0 && rect.top < view.innerHeight;
+    const visible3D = () => stage?.dataset.deskMode === "3d" && scene.getAttribute("aria-hidden") !== "true";
+    const rect = scene?.getBoundingClientRect();
+    let visible = rect && rect.bottom > 0 && rect.top < view.innerHeight;
     let arrival = false;
     let scrollAt = -Infinity;
-    const onRail = () => stage.classList.contains("is-world-visit");
+    const onRail = () => stage?.classList.contains("is-world-visit");
     const filmClock = () => scene.getFilmPlayback?.();
     const recordClock = () => scene.getListeningPlayback?.();
     const liftNeedle = () => scene.finishListeningRecord?.();
-    const available = () => visible && !root.hidden && !reduced?.matches && !view.siteMotion?.paused && visible3D() && sound.on;
+    const audible = () => !root.hidden && !reduced?.matches && !view.siteMotion?.paused && sound.on && !recordSelected();
+    const available = () => audible() && visible && visible3D();
     syncCoast = (seek) => {
-      if (!visible3D()) coastal.clear();
-      else if (!available() || scene.dataset.sceneState !== "ready") coastal.pause();
+      if (!audible()) coastal.pause({ hard: recordSelected() });
+      else if (!visible3D() || !visible) coastal.select(pageLook());
+      else if (scene.dataset.sceneState !== "ready") coastal.pause();
       else if (onRail()) coastal.playFilm(filmClock, seek === true);
       else if (recordClock()) coastal.playRecord(recordClock, liftNeedle);
       else coastal.select(look());
     };
-    const observer = new view.MutationObserver(syncCoast);
-    observer.observe(scene, { attributes: true, attributeFilter: ["data-scene-state", "data-drawing", "aria-hidden"] });
-    observer.observe(stage, { attributes: true, attributeFilter: ["data-desk-mode", "class"] });
-    listeners.push(() => observer.disconnect());
-    if (view.IntersectionObserver) {
+    if (stage) {
+      const observer = new view.MutationObserver(syncCoast);
+      observer.observe(scene, { attributes: true, attributeFilter: ["data-scene-state", "data-drawing", "aria-hidden"] });
+      observer.observe(stage, { attributes: true, attributeFilter: ["data-desk-mode", "class"] });
+      listeners.push(() => observer.disconnect());
+    }
+    if (scene && view.IntersectionObserver) {
       const exposure = new view.IntersectionObserver(([entry]) => {
         visible = entry.isIntersecting;
         syncCoast();
@@ -170,26 +181,33 @@ export function createSiteSound({ root = document, view = globalThis, audioConte
       else syncCoast(detail.action === "seek");
     });
     listen(view, "siteMotionChange", syncCoast);
-    listen(scene, "coastal:record", syncCoast);
+    listen(view, "siteArtChange", syncCoast);
+    if (scene) listen(scene, "coastal:record", syncCoast);
     if (reduced?.addEventListener) listen(reduced, "change", syncCoast);
     const cue = (type, selected = look()) => {
-      if (available() && !onRail()) coastal.motif(selected, type);
+      if (audible() && !onRail()) coastal.motif(selected, type);
     };
     const route = "button[data-world-room], button[data-world-destination], button[data-world-view], button[data-world-visit-start]";
-    listen(
-      stage,
-      "click",
-      (event) => {
-        const target = event.target.closest?.(route);
-        if (!event.isTrusted || !target || target.matches(":disabled, [hidden], [aria-disabled=true]")) return;
-        if (!available() || onRail()) return;
-        // Use the guest's choice to prepare the first pick while the coast opens.
-        if (target.dataset.worldVisitStart === "film") coastal.prepareFilmOpening();
-        else coastal.motif(look(), "select");
-      },
-      true
-    );
-    listen(scene, "coastal:threshold", ({ detail }) => cue("threshold", detail?.look));
+    if (stage)
+      listen(
+        stage,
+        "click",
+        (event) => {
+          const target = event.target.closest?.(route);
+          if (!event.isTrusted || !target || target.matches(":disabled, [hidden], [aria-disabled=true]")) return;
+          if (!available() || onRail()) return;
+          // Use the guest's choice to prepare the first pick while the coast opens.
+          if (target.dataset.worldVisitStart === "film") coastal.prepareFilmOpening();
+          else coastal.motif(look(), "select");
+        },
+        true
+      );
+    if (scene) listen(scene, "coastal:threshold", ({ detail }) => cue("threshold", detail?.look));
+    listen(root, "click", (event) => {
+      if (!event.isTrusted || event.target.closest?.("[data-home-artifact-stage], [data-theme-control]")) return;
+      const control = event.target.closest?.("details > summary, [aria-expanded], [data-shelf-next], [data-shelf-prev]");
+      if (control?.closest("main, [role='main']")) cue("select", pageLook());
+    });
     const markScroll = (event) => {
       if (event.isTrusted) scrollAt = view.performance.now();
     };
@@ -202,7 +220,7 @@ export function createSiteSound({ root = document, view = globalThis, audioConte
       view,
       "scroll",
       () => {
-        if (!arrival && view.performance.now() - scrollAt < 1100 && available() && !onRail()) {
+        if (!arrival && view.performance.now() - scrollAt < 1100 && audible() && !onRail()) {
           arrival = true;
           cue("arrival");
         }
@@ -233,6 +251,9 @@ export function createSiteSound({ root = document, view = globalThis, audioConte
 
   return {
     sound,
+    refresh() {
+      syncCoast?.();
+    },
     // Call from the click or key press that asked for sound.
     async start() {
       const started = await sound.start({ withBed: instrumentLab });

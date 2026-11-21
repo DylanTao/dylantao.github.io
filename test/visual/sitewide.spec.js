@@ -1596,7 +1596,8 @@ test("coastal time modes settle coherently across representative human routes", 
       expect(first.toggleLabels.length).toBe(first.controlSelections.length);
       expect(
         first.toggleLabels.every(
-          ({ ariaLabel, title }) => ariaLabel === `Change theme. Current theme: ${theme.label}` && title === `Theme: ${theme.label}`
+          ({ ariaLabel, title }) =>
+            ariaLabel === `Change theme. Current theme: ${theme.label}. Time of day, style and sound` && title === "Time of day, style and sound"
         ),
         `${route.path} ${theme.mode} left stale theme-control labels`
       ).toBe(true);

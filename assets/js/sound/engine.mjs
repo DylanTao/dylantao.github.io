@@ -252,6 +252,7 @@ export function createSound({
   let graph = null,
     foley = null,
     on = false,
+    volume = 1,
     bed = null,
     played = 0,
     intent = 0;
@@ -285,11 +286,18 @@ export function createSound({
     get graph() {
       return graph;
     },
+    setVolume(value) {
+      volume = Math.min(1, Math.max(0, value));
+      if (graph) graph.master.gain.setTargetAtTime(MASTER.gain * volume ** 1.5, graph.context.currentTime, 0.018);
+    },
     // Call inside the click or key press that asked for sound: browsers allow audio only then.
     async start({ withBed = true } = {}) {
       const request = ++intent;
       if (!audioContext && !AudioContextClass) return false;
-      if (!graph) graph = buildGraph(audioContext ?? new AudioContextClass({ latencyHint: "interactive" }));
+      if (!graph) {
+        graph = buildGraph(audioContext ?? new AudioContextClass({ latencyHint: "interactive" }));
+        graph.master.gain.value = MASTER.gain * volume ** 1.5;
+      }
       if (graph.context.state !== "running") await graph.context.resume();
       if (request !== intent || graph.context.state !== "running") return false;
       on = true;

@@ -30,10 +30,22 @@ test("house film: the first view from the entrance includes the planted coast", 
   let nearSeabed;
   try {
     await page.goto(publicRouteUrl("/?scene-lab=1"), { waitUntil: "domcontentloaded" });
+    const appearance = page.locator(".theme-mode-control-nav");
+    await appearance.locator("[data-theme-toggle]").click();
+    await appearance.getByRole("slider", { name: "Art style" }).press("End");
+    await appearance.getByRole("slider", { name: "Art style" }).press("Escape");
     await page.locator('[data-home-desk-mode="3d"]').click();
     await host.scrollIntoViewIfNeeded();
     await expect(host).toHaveAttribute("data-scene-state", "ready", { timeout: readyTimeout });
+    await expect(host).toHaveAttribute("data-drawing", "toon");
     await page.locator("[data-world-fullscreen]").click();
+    const dock = page.locator("[data-world-media-dock]");
+    await dock.locator("[data-theme-toggle]").click();
+    const style = dock.getByRole("slider", { name: "Art style" });
+    await style.press("Home");
+    await expect(host).toHaveAttribute("data-drawing", "realistic");
+    await style.press("Escape");
+    await expect(dock.locator("[data-theme-toggle]")).toBeFocused();
     await page.locator("[data-world-places] summary").click();
     nearSeabed = (await sceneEvidence(host)).ecology.water.optics.seabed;
     await page.locator('[data-world-visit-start="film"]').click({ timeout: readyTimeout });

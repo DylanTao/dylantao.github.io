@@ -33,14 +33,25 @@ if (params.get("sound") === "0") {
   let requested = false;
   let on = false;
   let generation = 0;
+  let transition = Promise.resolve(false);
+  let record = null;
+  const mediaSources = new WeakMap();
+  const storedVolume = store.get("site-sound-volume");
+  let volume = storedVolume !== null && Number.isFinite(+storedVolume) ? Math.min(1, Math.max(0, +storedVolume)) : 1;
+  let previousVolume = volume || 1;
 
   function reflect() {
     document.documentElement.dataset.sound = on ? "on" : "off";
     for (const control of controls) control.setAttribute("aria-checked", String(on));
+    window.dispatchEvent(new CustomEvent("siteSoundChange", { detail: { on, volume } }));
   }
 
   function load() {
-    return (loading ||= import("./sound/site.mjs").then(({ createSiteSound }) => (site = createSiteSound({ audioContext, instrumentLab }))));
+    return (loading ||= import("./sound/site.mjs").then(({ createSiteSound }) => {
+      site = createSiteSound({ audioContext, instrumentLab, recordSelected: () => Boolean(record) });
+      site.sound.setVolume(volume);
+      return site;
+    }));
   }
 
   async function turn(next) {
@@ -48,6 +59,7 @@ if (params.get("sound") === "0") {
     requested = next;
     if (!next) {
       on = false;
+      record?.pause();
       reflect();
       store.set(CHOICE, "off");
       if (site) await site.stop();
@@ -75,13 +87,61 @@ if (params.get("sound") === "0") {
       await audioContext?.suspend().catch(() => {});
     }
     if (ticket === generation) reflect();
+    return on;
   }
 
+  function rememberVolume(value) {
+    volume = value;
+    if (value > 0) previousVolume = value;
+    store.set("site-sound-volume", String(value));
+    site?.sound.setVolume(value);
+    reflect();
+  }
+  function choose(next) {
+    if (next && volume === 0) rememberVolume(previousVolume);
+    if (requested !== next) transition = turn(next);
+    return transition;
+  }
+  function releaseRecord() {
+    if (!record) return;
+    const last = record;
+    record = null;
+    last.pause();
+    site?.refresh();
+    reflect();
+  }
+  async function attachMediaElement(element) {
+    if (!(element instanceof HTMLMediaElement) || document.hidden) return false;
+    if (record !== element) releaseRecord();
+    record = element;
+    site?.refresh();
+    await choose(true);
+    if (!on || record !== element) return false;
+    const graph = site.sound.graph;
+    if (!mediaSources.has(element)) {
+      const source = graph.context.createMediaElementSource(element);
+      source.connect(graph.dry);
+      mediaSources.set(element, source);
+      for (const type of ["play", "pause", "ended", "emptied"]) element.addEventListener(type, reflect);
+    }
+    return true;
+  }
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) record?.pause();
+  });
+  window.addEventListener("siteArtChange", releaseRecord);
+  document.addEventListener(
+    "click",
+    (event) => {
+      if (event.target.closest?.('[data-home-desk-mode="3d"]')) releaseRecord();
+    },
+    true
+  );
   const gesture = (event) => {
     if (!event.isTrusted || event.target.closest?.("[data-sound-toggle]")) return;
     window.removeEventListener("pointerdown", gesture, true);
     window.removeEventListener("keydown", gesture, true);
-    if (store.get(CHOICE) === "on" && !requested) void turn(true);
+    if (store.get(CHOICE) === "on" && !requested) void choose(true);
   };
   for (const control of controls) {
     control.hidden = false;
@@ -89,13 +149,28 @@ if (params.get("sound") === "0") {
       if (!event.isTrusted) return;
       window.removeEventListener("pointerdown", gesture, true);
       window.removeEventListener("keydown", gesture, true);
-      void turn(!requested).catch(() => {});
+      if (!requested) releaseRecord();
+      void choose(!requested).catch(() => {});
     });
   }
-  reflect();
   if (store.get(CHOICE) === "on") {
     window.addEventListener("pointerdown", gesture, true);
     window.addEventListener("keydown", gesture, true);
   }
-  globalThis.siteSound = { evidence: () => ({ offered: true, on, ...(site?.evidence() ?? { context: null, bound: false, instrumentLab }) }) };
+  globalThis.siteSound = {
+    attachMediaElement,
+    setVolume(value) {
+      if (!Number.isFinite(value)) return;
+      rememberVolume(Math.min(1, Math.max(0, value)));
+      void choose(volume > 0);
+    },
+    evidence: () => ({
+      offered: true,
+      on,
+      volume,
+      recordTitle: record && !record.paused ? record.dataset.title : null,
+      ...(site?.evidence() ?? { context: null, bound: false, instrumentLab }),
+    }),
+  };
+  reflect();
 }

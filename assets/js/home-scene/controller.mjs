@@ -179,7 +179,7 @@ export function createCoastalHome(container, records, artifacts) {
   }
   const look = readLook(location.search, lookStorage);
   // The woodblock-print experiment (print-look.mjs): ?print=1, or the lab's toggle.
-  const printLook = createPrintLook({ look: readDrawnLook(location.search, lookStorage) });
+  const printLook = createPrintLook({ look: window.siteArt?.look ?? readDrawnLook(location.search, lookStorage) });
   // The lifted roof's seats read as cut material (section-cut.mjs). ?section=0 keeps the bare rock.
   const sectionCut = new URLSearchParams(location.search).get("section") === "0" ? null : createSectionCut();
   const scene = new THREE.Scene();
@@ -5210,16 +5210,22 @@ export function createCoastalHome(container, records, artifacts) {
     for (const button of lookButtons) button.setAttribute("aria-pressed", String(button.dataset.worldDrawing === printLook.look));
   };
   showLook();
+  const chooseDrawing = (next) => {
+    if (visit) visit.lookOverride = true;
+    writeDrawnLook(printLook.setLook(next), lookStorage);
+    showLook();
+    requestFrame();
+  };
+  listen(window, "siteArtChange", (event) => chooseDrawing(event.detail.look));
   for (const button of lookButtons)
     listen(button, "click", () => {
+      const next = button.dataset.worldDrawing;
+      if (window.siteArt && window.siteArt.look !== next) window.siteArt.set(next);
+      else chooseDrawing(next);
       if (visit) {
-        visit.lookOverride = true;
         ui.querySelector("[data-world-places]").open = false;
         ui.querySelector("[data-world-visit-return]").focus({ preventScroll: true });
       }
-      writeDrawnLook(printLook.setLook(button.dataset.worldDrawing), lookStorage);
-      showLook();
-      requestFrame();
     });
   const syncVisit = bindVisitorRailUi(ui, listen, {
     start: startVisit,

@@ -1,5 +1,57 @@
 // Has to be in the head tag, otherwise a flicker effect will occur.
 
+// Choose the page's paper before paint. The same choice reaches the house when
+// it is opened, even when the visitor made it on a different page.
+window.siteArt = (() => {
+  const worlds = [
+    { id: "realistic", name: "Realistic", music: "The Water on the Sill" },
+    { id: "paint", name: "Painted", music: "Copper in the Last Light" },
+    { id: "watercolour", name: "Watercolour", music: "A Pocketful of Sky" },
+    { id: "print", name: "Woodblock", music: "Five Cuts in Pearwood" },
+    { id: "toon", name: "Cartoon", music: "The Spare Key" },
+  ];
+  const key = "site-art-style";
+  const valid = (id) => worlds.some((world) => world.id === id);
+  let saved;
+  try {
+    saved = localStorage.getItem(key) || sessionStorage.getItem("scene-print");
+  } catch {
+    // The page can still remember a choice while it is open.
+  }
+  if (saved === "1") saved = "toon";
+  const params = new URLSearchParams(window.location.search);
+  let choice = valid(saved) ? saved : "realistic";
+  if (valid(params.get("look"))) choice = params.get("look");
+  else if (params.has("print")) choice = params.get("print") === "0" ? "realistic" : choice === "realistic" ? "toon" : choice;
+  document.documentElement.dataset.artStyle = choice;
+  function set(id, persist = true) {
+    if (!valid(id)) return;
+    if (persist) {
+      try {
+        localStorage.setItem(key, id);
+        if (id === "realistic") sessionStorage.removeItem("scene-print");
+        else sessionStorage.setItem("scene-print", id);
+      } catch {
+        // Storage is optional.
+      }
+    }
+    if (choice === id && !persist) return;
+    choice = id;
+    document.documentElement.dataset.artStyle = id;
+    window.dispatchEvent(new CustomEvent("siteArtChange", { detail: { look: id } }));
+  }
+  window.addEventListener("storage", (event) => {
+    if (event.key === key) set(event.newValue || "realistic", false);
+  });
+  return {
+    worlds,
+    get look() {
+      return choice;
+    },
+    set,
+  };
+})();
+
 // Pause motion (the sun-arc panel): while it is on, matchMedia("(prefers-reduced-motion: reduce)")
 // also matches and notifies its listeners, so every animated surface that already honors reduced
 // motion (the 3D home, duh, P, the footer coast, the research sketch, cinematic scenes) stills
@@ -765,8 +817,8 @@ let updateThemeToggleUI = (themeSetting = determineThemeSetting()) => {
 
     if (!toggle) return;
 
-    toggle.setAttribute("aria-label", `Change theme. Current theme: ${meta.label}`);
-    toggle.setAttribute("title", `Theme: ${meta.label}`);
+    toggle.setAttribute("aria-label", `Change theme. Current theme: ${meta.label}. Time of day, style and sound`);
+    toggle.setAttribute("title", "Time of day, style and sound");
 
     if (icon) {
       // The menu's options carry the time-of-day icons (_includes/theme_mode_icon.liquid).
@@ -805,6 +857,21 @@ let setupThemeModeControl = () => {
     });
   };
 
+  const fitMenu = (menu) => {
+    // offsetWidth/Left give the resting layout while the menu is springing open.
+    const parent = menu.offsetParent;
+    const left = parent ? parent.getBoundingClientRect().left + menu.offsetLeft : menu.getBoundingClientRect().left;
+    const right = left + menu.offsetWidth;
+    const gutter = 10;
+    const shift = Math.max(0, gutter - left) + Math.min(0, window.innerWidth - gutter - right);
+    menu.style.setProperty("--menu-shift", shift + "px");
+  };
+  window.addEventListener("resize", () => {
+    for (const control of controls) {
+      const menu = control.querySelector("[data-theme-menu]");
+      if (menu && !menu.hidden) fitMenu(menu);
+    }
+  });
   const openControl = (control, options) => {
     const toggle = control.querySelector("[data-theme-toggle]");
     const menu = control.querySelector("[data-theme-menu]");
@@ -812,6 +879,7 @@ let setupThemeModeControl = () => {
 
     closeOtherControls(control);
     menu.hidden = false;
+    fitMenu(menu);
     toggle.setAttribute("aria-expanded", "true");
     // The sun-arc knob takes focus first, so arrow keys move the time of day at once.
     const knob = menu.querySelector("[data-sun-knob]");

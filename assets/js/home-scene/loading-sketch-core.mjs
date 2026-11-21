@@ -22,6 +22,14 @@ export const PEN = { whole: 9, catchUp: 0.5, lift: 0.7, handover: 0.12, dive: 1.
 // outlines and silhouettes, 1 for creases, 0 for fine detail.
 const WIDTH = [0.6, 0.8, 1.05, 1.4],
   ALPHA = [0.5, 0.62, 0.8, 0.92];
+// Fine seams through to the structural outline, in the chosen medium.
+const PENS = {
+  realistic: { width: WIDTH, alpha: ALPHA, cap: "round" },
+  paint: { width: [0.72, 1.05, 1.55, 2.45], alpha: [0.32, 0.49, 0.72, 0.88], cap: "butt" },
+  watercolour: { width: [0.7, 1.2, 1.85, 2.7], alpha: [0.26, 0.36, 0.53, 0.71], cap: "round" },
+  print: { width: [0.54, 0.8, 1.4, 2.45], alpha: [0.64, 0.82, 0.94, 1], cap: "square" },
+  toon: { width: [0.56, 1, 1.65, 2.65], alpha: [0.52, 0.72, 0.91, 1], cap: "round" },
+};
 
 // Once the pen rests, the drawing breathes: a slow swell about the middle of the view whose depth
 // eases in, then decays toward a quiet floor, so a long wait reads as the house resting rather than
@@ -217,7 +225,8 @@ export function createSketchEngine(context, options = {}) {
     height = options.height || 150,
     ratio = options.dpr || 1,
     ink = options.ink || "#2c3533",
-    accent = options.accent || "#c46a2c";
+    accent = options.accent || "#c46a2c",
+    medium = options.medium || "realistic";
   const reduced = Boolean(options.reduced),
     makeLayer = options.layer || defaultLayer,
     // The share of today's daylight already gone (sunrise 0, sunset 1), null at night, or
@@ -282,8 +291,10 @@ export function createSketchEngine(context, options = {}) {
   }
 
   function styleFor(target, stroke) {
-    target.lineWidth = Math.max(0.6, WIDTH[stroke.weight] * ratio);
-    target.globalAlpha = ALPHA[stroke.weight];
+    const pen = PENS[medium] || PENS.realistic;
+    target.lineWidth = Math.max(0.6, pen.width[stroke.weight] * ratio);
+    target.globalAlpha = pen.alpha[stroke.weight];
+    target.lineCap = pen.cap;
     target.strokeStyle = ink;
   }
 
@@ -513,9 +524,10 @@ export function createSketchEngine(context, options = {}) {
       if (outgoing) redraw(outgoing.view);
       dirty = true;
     },
-    colors(nextInk, nextAccent) {
+    colors(nextInk, nextAccent, nextMedium = medium) {
       ink = nextInk || ink;
       accent = nextAccent || accent;
+      medium = nextMedium;
       redraw(current);
       dirty = true;
     },
@@ -528,6 +540,7 @@ export function createSketchEngine(context, options = {}) {
       const total = current?.drawing.ink || 0;
       return {
         drawing: current?.id || null,
+        medium,
         allowed: +(current ? (finishing !== null ? 1 : allowance()) : 0).toFixed(4),
         drawn: +(total ? current.drawn / total : 0).toFixed(4),
         strokes: current?.index || 0,

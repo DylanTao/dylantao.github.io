@@ -48,12 +48,33 @@ test("site sound: the normal switch is visible, silent and lazy before consent",
   await expect(control).toHaveAttribute("aria-checked", "true");
   expect(await contexts(page)).toBe(1);
   expect(await evidence(page)).toMatchObject({ on: true, bed: false, played: 0, instrumentLab: false });
-  expect(fetched.some((url) => url.includes("/assets/audio/"))).toBe(false);
+  await expect.poll(async () => (await evidence(page)).coastal?.theme).toBe("realistic");
+  const panel = page.locator("[data-theme-menu]:visible").first();
+  const style = panel.getByRole("slider", { name: "Art style" });
+  await style.focus();
+  await style.press("ArrowRight");
+  await style.press("ArrowRight");
+  await expect(style).toHaveAttribute("aria-valuetext", "Watercolour");
+  await expect(page.locator("html")).toHaveAttribute("data-art-style", "watercolour");
+  await expect(panel.locator("[data-art-piece]")).toHaveText("A Pocketful of Sky");
+  await expect.poll(async () => (await evidence(page)).coastal?.theme).toBe("watercolour");
+  expect(fetched.some((url) => url.includes("/watercolour.mp3"))).toBe(true);
+  const volume = panel.getByRole("slider", { name: "Music and sound volume" });
+  await volume.focus();
+  await volume.press("ArrowLeft");
+  await expect.poll(async () => (await evidence(page)).volume).toBe(0.99);
+  if (testInfo.project.name === "mobile-390") {
+    await page.keyboard.press("Escape");
+    await page.locator("[role=main] summary").filter({ hasText: "Sections" }).click();
+    await expect.poll(async () => (await evidence(page)).coastal?.cues?.select).toBe(1);
+    await openPanel(page);
+  }
   await control.click();
   await expect.poll(async () => (await evidence(page)).context).toBe("suspended");
   expect(await evidence(page)).toMatchObject({ on: false, bed: false, bound: false });
 
   await page.goto(publicRouteUrl("/cv/?sound=0"), { waitUntil: "load" });
+  await expect(page.locator("html")).toHaveAttribute("data-art-style", "watercolour");
   await page.locator("[data-theme-toggle]:visible").first().click();
   await expect(page.locator("[data-sound-toggle]:visible")).toHaveCount(0);
   expect(await evidence(page)).toBeNull();

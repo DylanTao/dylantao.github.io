@@ -19,6 +19,8 @@ export function createWorldFullscreen({ stage, scene, ui, win = globalThis.windo
   const enterButton = ui.querySelector("[data-world-fullscreen]");
   const bar = stage.querySelector("[data-world-immersive-bar]");
   const exitButton = bar?.querySelector("[data-world-exit]");
+  const mediaDock = stage.querySelector("[data-world-media-dock]");
+  let mediaPlace = null;
   const fullscreenElement = () => doc.fullscreenElement ?? doc.webkitFullscreenElement ?? null;
   const requestNative = stage.requestFullscreen ?? stage.webkitRequestFullscreen;
   const exitNative = doc.exitFullscreen ?? doc.webkitExitFullscreen;
@@ -53,6 +55,12 @@ export function createWorldFullscreen({ stage, scene, ui, win = globalThis.windo
     stageAria = { role: stage.getAttribute("role"), modal: stage.getAttribute("aria-modal"), label: stage.getAttribute("aria-label") };
     stage.classList.add("is-world-immersive");
     root.classList.add("is-world-immersive");
+    const media = doc.querySelector?.(".theme-mode-control-nav");
+    if (media && mediaDock) {
+      mediaPlace = doc.createComment("Site appearance control");
+      media.before(mediaPlace);
+      mediaDock.append(media);
+    }
     if (bar) bar.hidden = false;
     stage.setAttribute("role", "dialog");
     stage.setAttribute("aria-modal", "true");
@@ -87,6 +95,14 @@ export function createWorldFullscreen({ stage, scene, ui, win = globalThis.windo
     }
     stage.classList.remove("is-world-immersive");
     root.classList.remove("is-world-immersive");
+    if (mediaPlace && mediaDock?.firstElementChild) {
+      const media = mediaDock.firstElementChild;
+      const menu = media.querySelector("[data-theme-menu]");
+      if (menu) menu.hidden = true;
+      media.querySelector("[data-theme-toggle]")?.setAttribute("aria-expanded", "false");
+      mediaPlace.replaceWith(media);
+      mediaPlace = null;
+    }
     delete stage.dataset.worldFullscreen;
     if (bar) bar.hidden = true;
     restoreAttribute("role", stageAria?.role);
@@ -194,6 +210,14 @@ export function createWorldFullscreen({ stage, scene, ui, win = globalThis.windo
     "keydown",
     (event) => {
       if (!mode || event.key !== "Escape" || event.isComposing) return;
+      if (mediaDock?.querySelector("[data-theme-menu]:not([hidden])")) {
+        event.preventDefault();
+        event.stopPropagation();
+        const toggle = mediaDock.querySelector("[data-theme-toggle]");
+        toggle?.click();
+        toggle?.focus({ preventScroll: true });
+        return;
+      }
       event.preventDefault();
       event.stopPropagation();
       if (pointerLocked()) {

@@ -27,14 +27,14 @@
   <div
     class="theme-menu sun-arc-panel"
     id="{{ theme_control_id }}-menu"
-    role="group"
-    aria-label="Time of day and motion"
+    role="dialog"
+    aria-label="Time of day, style and sound"
     data-theme-menu
     data-duh-protect
     hidden
   >
     <div class="sun-arc" data-sun-arc>
-      <svg class="sun-arc-sky" viewBox="0 0 240 124" aria-hidden="true" focusable="false">
+      <svg class="sun-arc-sky" viewBox="0 0 240 124" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <path class="sun-arc-day" d="M20 82 A100 64 0 0 1 220 82" />
         <path class="sun-arc-night" d="M220 82 A100 26 0 0 1 20 82" />
         <line class="sun-arc-horizon" x1="6" y1="82" x2="234" y2="82" />
@@ -77,10 +77,39 @@
         <span class="sun-arc-motion-track" aria-hidden="true"></span>
         Pause motion
       </button>
-      <button type="button" class="sun-arc-motion sun-arc-sound" role="switch" aria-checked="false" data-sound-toggle hidden>
-        <span class="sun-arc-motion-track" aria-hidden="true"></span>
-        Sound
-      </button>
+    </div>
+    <div class="coastal-media" data-site-media>
+      <label class="coastal-media-row">
+        <span class="coastal-media-line">Style <strong data-art-name>Realistic</strong></span>
+        <span class="coastal-slider" data-art-rail>
+          <span class="coastal-slider-scene" aria-hidden="true"></span>
+          <span class="coastal-slider-stops" aria-hidden="true">
+            {%- for stop in (1..5) -%}
+              <i></i>
+            {%- endfor -%}
+            ></span
+          >
+          <span class="coastal-slider-lens" aria-hidden="true"></span>
+          <input type="range" min="0" max="4" step="1" value="0" aria-label="Art style" aria-valuetext="Realistic" data-art-slider>
+        </span>
+      </label>
+      <label class="coastal-media-row" data-volume-row>
+        <span class="coastal-media-line">Volume <strong data-volume-name>100%</strong></span>
+        <span class="coastal-slider" data-volume-rail>
+          <span class="coastal-slider-scene" aria-hidden="true"></span>
+          <span class="coastal-slider-lens" aria-hidden="true"></span>
+          <input type="range" min="0" max="100" step="1" value="100" aria-label="Music and sound volume" data-volume-slider>
+        </span>
+      </label>
+      <div class="coastal-media-footer sun-arc-actions" data-media-footer>
+        <span class="coastal-media-piece"
+          ><i class="fa-solid fa-music" aria-hidden="true"></i> <span data-art-piece>The Water on the Sill</span></span
+        >
+        <button type="button" class="sun-arc-motion sun-arc-sound" role="switch" aria-checked="false" data-sound-toggle hidden>
+          <span class="sun-arc-motion-track" aria-hidden="true"></span>
+          Sound
+        </button>
+      </div>
     </div>
   </div>
 </div>

@@ -33,7 +33,9 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
     const ink = style.getPropertyValue("--home-ink").trim() || style.color,
       [r = 0, g = 0, b = 0] = (style.color.match(/\d+(\.\d+)?/g) || []).map(Number),
       darkTheme = 0.2126 * r + 0.7152 * g + 0.0722 * b > 140;
-    return { ink, accent: darkTheme ? "#f2b45f" : "#d2812c" };
+    const medium = window.siteArt?.look || "realistic";
+    const worldInk = style.getPropertyValue(darkTheme ? "--world-lamp" : "--world-ink").trim();
+    return { medium, ink: worldInk || ink, accent: darkTheme ? "#f2b45f" : "#d2812c" };
   };
   const measure = () => {
     const rect = container.getBoundingClientRect();
@@ -127,7 +129,7 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
       engine.stage(message.stage, message.room);
     } else if (message.type === "progress") engine.progress(message.fills);
     else if (message.type === "finish") engine.finish();
-    else if (message.type === "colors") engine.colors(message.ink, message.accent);
+    else if (message.type === "colors") engine.colors(message.ink, message.accent, message.medium);
     else if (message.type === "resize") {
       canvas.width = Math.round(message.width * message.dpr);
       canvas.height = Math.round(message.height * message.dpr);
@@ -171,8 +173,12 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
     send({ type: "resize", ...next });
   });
   resizeObserver.observe(container);
-  const themeChanged = () => send({ type: "colors", ...colors() });
+  const themeChanged = () => {
+    Object.assign(options, colors());
+    send({ type: "colors", ink: options.ink, accent: options.accent, medium: options.medium });
+  };
   window.addEventListener("siteThemeChange", themeChanged);
+  window.addEventListener("siteArtChange", themeChanged);
 
   function dispose() {
     if (disposed) return;
@@ -180,6 +186,7 @@ export function createLoadingSketch(container, { reduced = false, timeZone = "Am
     cancelAnimationFrame(frame);
     resizeObserver.disconnect();
     window.removeEventListener("siteThemeChange", themeChanged);
+    window.removeEventListener("siteArtChange", themeChanged);
     worker?.postMessage({ type: "dispose" });
     worker = null;
     engine = null;

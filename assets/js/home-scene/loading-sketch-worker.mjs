@@ -67,7 +67,7 @@ self.onmessage = ({ data: message }) => {
     engine.resize(message.width, message.height, message.dpr);
     schedule();
   } else if (message.type === "colors") {
-    engine.colors(message.ink, message.accent);
+    engine.colors(message.ink, message.accent, message.medium);
     schedule();
   } else if (message.type === "stage") {
     if (message.room) room = message.room;
