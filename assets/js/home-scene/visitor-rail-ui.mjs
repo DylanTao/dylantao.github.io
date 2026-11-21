@@ -2,13 +2,18 @@ export function bindVisitorRailUi(ui, listen, actions) {
   const panel = ui.querySelector("[data-world-visit-controls]");
   if (!panel) return () => {};
   const entries = [...ui.querySelectorAll("[data-world-visit-start]")];
+  const note = ui.querySelector("[data-world-places-note]");
+  const roomInstructions = note?.textContent;
   const caption = panel.querySelector("[data-world-visit-caption]");
   const play = panel.querySelector("[data-world-visit-play]");
   const scrub = panel.querySelector("[data-world-visit-scrub]");
   const prior = panel.querySelector("[data-world-visit-prior]");
   const next = panel.querySelector("[data-world-visit-next]");
   const takeOver = panel.querySelector("[data-world-visit-takeover]");
-  for (const entry of entries) listen(entry, "click", () => actions.start(entry.dataset.worldVisitStart));
+  for (const entry of entries)
+    listen(entry, "click", () => {
+      if (!entry.hasAttribute("aria-disabled")) actions.start(entry.dataset.worldVisitStart);
+    });
   listen(play, "click", actions.togglePause);
   listen(prior, "click", () => actions.skip(-1));
   listen(next, "click", () => actions.skip(1));
@@ -16,8 +21,17 @@ export function bindVisitorRailUi(ui, listen, actions) {
   listen(takeOver, "click", () => actions.stop({ keepView: true }));
   listen(panel.querySelector("[data-world-visit-return]"), "click", () => actions.stop());
   let shown = false;
-  return ({ ready, state, pose }) => {
-    for (const entry of entries) entry.hidden = !ready || Boolean(state);
+  let preparing = null;
+  return ({ ready, state, pose, pending = null }) => {
+    if (pending !== preparing) {
+      for (const entry of entries) {
+        if (entry.dataset.worldVisitStart === pending) entry.setAttribute("aria-disabled", "true");
+        else entry.removeAttribute("aria-disabled");
+      }
+      if (note) note.textContent = pending ? "Opening the coast…" : roomInstructions;
+      preparing = pending;
+    }
+    for (const entry of entries) entry.hidden = pending ? entry.dataset.worldVisitStart !== pending : !ready || Boolean(state);
     panel.hidden = !state;
     if (!state) {
       shown = false;

@@ -219,6 +219,34 @@ test("all motif choices use the authored offset and duration with a shared throt
   assert.equal(music.evidence().cues.arrival, 5);
 });
 
+test("the film choice can decode the opening in silence and use it at the first frame", async () => {
+  const { music, requested, started } = fixture();
+  await music.prepareFilmOpening();
+  assert.deepEqual(
+    requested.map(({ file }) => file),
+    ["score.json", "film/coast-dawn.mp3"]
+  );
+  assert.equal(started.length, 0);
+  music.playFilm(() => ({ shot: "coast-dawn", shotSeconds: 0.04, playing: true }));
+  await next();
+  assert.equal(started.length, 1);
+  assert.equal(started[0].args[1], 0.04);
+  assert.equal(requested.filter(({ file }) => file === "film/coast-dawn.mp3").length, 1);
+});
+
+test("muting during film preparation cancels the unheard recording", async () => {
+  let release;
+  const { music, requested, started } = fixture({ delay: () => new Promise((resolve) => (release = resolve)) });
+  const preparation = music.prepareFilmOpening();
+  await next();
+  music.pause({ hard: true });
+  assert.equal(requested.find(({ file }) => file === "film/coast-dawn.mp3").signal.aborted, true);
+  release();
+  await preparation;
+  assert.deepEqual(started, []);
+  assert.ok(!music.evidence().cached.includes("film/coast-dawn.mp3"));
+});
+
 test("the film enters at the cut clock, leaves training to the rower and returns the visitor's own record", async () => {
   const { music, started, requested, api } = fixture();
   music.select("realistic");

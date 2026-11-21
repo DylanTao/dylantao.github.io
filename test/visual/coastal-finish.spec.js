@@ -27,6 +27,7 @@ test("house film: the first view from the entrance includes the planted coast", 
     await route.continue();
   });
   const host = page.locator("[data-home-desk-scene]");
+  let nearSeabed;
   try {
     await page.goto(publicRouteUrl("/?scene-lab=1"), { waitUntil: "domcontentloaded" });
     await page.locator('[data-home-desk-mode="3d"]').click();
@@ -34,13 +35,19 @@ test("house film: the first view from the entrance includes the planted coast", 
     await expect(host).toHaveAttribute("data-scene-state", "ready", { timeout: readyTimeout });
     await page.locator("[data-world-fullscreen]").click();
     await page.locator("[data-world-places] summary").click();
+    nearSeabed = (await sceneEvidence(host)).ecology.water.optics.seabed;
     await page.locator('[data-world-visit-start="film"]').click({ timeout: readyTimeout });
     await expect.poll(() => requested, { timeout: readyTimeout }).toBe(true);
     expect((await sceneEvidence(host)).visitorRail).toBeNull();
+    const choice = page.locator('[data-world-visit-start="film"]');
+    await expect(choice).toBeFocused();
+    await expect(choice).toHaveAttribute("aria-disabled", "true");
+    await expect(page.locator("[data-world-places-note]")).toHaveText("Opening the coast…");
   } finally {
     releaseFlora();
   }
   await expect.poll(async () => (await sceneEvidence(host)).visitorRail?.shot, { timeout: readyTimeout }).toBe("coast-dawn");
+  if (nearSeabed.captured) expect((await sceneEvidence(host)).ecology.water.optics.seabed.meshes).toBeGreaterThan(nearSeabed.meshes);
   expect(
     await host.evaluate((el) => ["clifftop-flora", "coastal-hinterland"].every((name) => el.labScene.scene.getObjectByName(name)?.visible))
   ).toBe(true);

@@ -1303,8 +1303,16 @@ export function createCoastalHome(container, records, artifacts) {
   // The clifftop planting (bin/refresh_coastal_flora.py) is only seen from the coast, so it loads the
   // first time the visitor goes outside and appears once its programs are ready.
   let floraLoad = null;
+  async function revealCoast(attachments) {
+    const prepared = (await Promise.all(attachments)).filter(Boolean);
+    if (disposed || !prepared.length) return;
+    await compilePrograms();
+    if (disposed) return;
+    for (const reveal of prepared) reveal();
+    requestFrame();
+  }
   function loadFlora() {
-    if (config.flora) floraLoad ??= attachFlora();
+    if (config.flora) floraLoad ??= revealCoast([attachFlora()]);
     return floraLoad;
   }
   async function attachFlora() {
@@ -1317,10 +1325,9 @@ export function createCoastalHome(container, records, artifacts) {
       root.traverse((o) => (o.userData.dynamic = true));
       root.visible = false;
       world.add(root);
-      await compilePrograms();
-      if (disposed) return;
-      root.visible = true;
-      requestFrame();
+      return () => {
+        root.visible = true;
+      };
     } catch {
       // The coast still reads without its planting.
     }
@@ -1336,10 +1343,28 @@ export function createCoastalHome(container, records, artifacts) {
     ridgeFlights = null,
     coastRoot = null;
   function loadHinterland() {
-    if (config.hinterland) hinterlandLoad ??= attachHinterland();
+    if (config.hinterland) hinterlandLoad ??= revealCoast([attachHinterland()]);
     return hinterlandLoad;
   }
-  async function attachHinterland() {
+  function loadVisitCoast() {
+    if (!floraLoad && !hinterlandLoad && config.flora && config.hinterland) {
+      // Both groups are in the opening shot. Link their materials in the same
+      // scene pass, after even the slower download has attached its meshes.
+      const coast = revealCoast([attachFlora(), attachHinterland({ surveyBeforeReveal: true })]);
+      floraLoad = hinterlandLoad = coast;
+      return coast;
+    }
+    return Promise.all([loadFlora(), loadHinterland()]);
+  }
+  function surveyCoves(root) {
+    try {
+      pacific?.quietSand(root);
+      pacific?.captureSeabedAsync([coastRoot, root], () => requestFrame());
+    } catch {
+      // The near coast still supplies the water depth if the distant survey is unavailable.
+    }
+  }
+  async function attachHinterland({ surveyBeforeReveal = false } = {}) {
     try {
       const [gltf, { bindHinterland }] = await Promise.all([
         loadModel(new URL(config.hinterland.file, manifestUrl).href),
@@ -1354,13 +1379,13 @@ export function createCoastalHome(container, records, artifacts) {
       if (daylight) ridgeFlights.setSunHeight(daylight.altitude);
       root.visible = false;
       world.add(root);
-      await compilePrograms();
-      if (disposed) return;
-      root.visible = true;
-      // The coves beyond the mainland join the seabed under the sea once the GPU has read them.
-      pacific?.quietSand(root);
-      pacific?.captureSeabedAsync([coastRoot, root], () => requestFrame());
-      requestFrame();
+      // A guided visit waits for the headland. Read its coves while the driver
+      // prepares the materials, so the water also has its depth at the first note.
+      if (surveyBeforeReveal) surveyCoves(root);
+      return () => {
+        root.visible = true;
+        if (!surveyBeforeReveal) surveyCoves(root);
+      };
     } catch {
       // The house and its coast still read without the land around them.
     }
@@ -3782,10 +3807,10 @@ export function createCoastalHome(container, records, artifacts) {
       if (!pendingVisit) {
         const request = { kind, mode: fullscreen.mode };
         pendingVisit = request;
-        showHint("Opening the coast…", 6000);
+        syncVisit({ ready: false, pending: kind });
         // A visitor can start the film while the entrance is already marked
         // outside. Prepare the coast here so it is present at the first note.
-        Promise.all([loadWalkDetail(), loadFlora(), loadHinterland()])
+        Promise.all([loadWalkDetail(), loadVisitCoast()])
           .then(() => {
             visitCoastPrepared = true;
             requestFrame();
@@ -3932,7 +3957,7 @@ export function createCoastalHome(container, records, artifacts) {
       startVisit(kind);
     }
     if (!visit) {
-      syncVisit({ ready: visitReady() && !pendingVisit });
+      syncVisit({ ready: visitReady(), pending: pendingVisit?.kind });
       return null;
     }
     refreshVisitBlocks();

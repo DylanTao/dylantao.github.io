@@ -332,6 +332,13 @@ export function createCoastalMusic({ context, dry }, { load = loadAsset, now = (
       const ticket = cueGeneration;
       return getAsset(MANIFEST).then((metadata) => (metadata && ticket === cueGeneration ? getAsset(RESPONSES) : null));
     },
+    async prepareFilmOpening() {
+      const ticket = cueGeneration;
+      const index = await getAsset(MANIFEST);
+      if (!index?.film || ticket !== cueGeneration || context.state !== "running") return;
+      const [opening] = Object.keys(index.film.cuts);
+      if (index.film.cuts[opening]?.scored) await getAsset("film/" + opening + ".mp3");
+    },
     motif(look, action) {
       if (film || record || !playing || !COASTAL_LOOKS.includes(look) || !MOTIFS.includes(action) || now() - lastMotif < MOTIF_GAP) return;
       const age = now(),

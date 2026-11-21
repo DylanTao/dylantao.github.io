@@ -196,9 +196,10 @@ Item 2's data says where to start.
 ### 15. Research and speed
 
 - [ ] The outside view at 2K (E1): three see-through surfaces cost a fifth of the frame.
-- [ ] The sun's bounce in the sea-facing rooms (R2).
+- [x] Measured one reflected sun path through a day in all 16 lighting regions (R2). Afternoon bounce in the lounge, gym, living room and onsen survived longer shadow rays and denser sampling. [Probe readings and replay](../artwork/coastal-home/reviews/solar-bounce-2026-11-20/README.md).
+- [ ] Compare the four sea-facing rooms at their measured afternoon hours with and without reflected sunlight. The listening room needs a separate set of receivers.
 - [ ] The review panel as agents (I1, I2).
-- [ ] A smaller light cache (S). The November 20 build moved the authoring-file hashes alongside the Blender receipts, saving about 6.5 KB compressed. The current coast and light field leave 2,585 bytes in the first scene's 4 MiB budget. A trial of 91 reversible packings found that a bitmap and two byte shuffles took the gzip-compressed field from 174,146 to 153,933 bytes with every sample bit intact. Keep the shipped decoder for now. That 20,213-byte option buys less than half a percent of the scene transfer and is available when the next room needs it. The proposed quantized network still needs its own accuracy comparison.
+- [ ] A smaller light cache (S). The November 20 build moved the authoring-file hashes alongside the Blender receipts, saving about 6.5 KB compressed. The current coast and light field leave 2,059 bytes in the first scene's 4 MiB budget. A trial of 91 reversible packings found that a bitmap and two byte shuffles took the gzip-compressed field from 174,146 to 153,933 bytes with every sample bit intact. Keep the shipped decoder for now. That 20,213-byte option buys less than half a percent of the scene transfer and is available when the next room needs it. The proposed quantized network still needs its own accuracy comparison.
 
 **Machine: PC** for measurements. **Detail:** takeover E, R, I, S.
 

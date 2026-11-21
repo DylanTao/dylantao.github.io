@@ -181,7 +181,11 @@ export function createSiteSound({ root = document, view = globalThis, audioConte
       "click",
       (event) => {
         const target = event.target.closest?.(route);
-        if (event.isTrusted && target && !target.disabled && !target.hidden) cue("select");
+        if (!event.isTrusted || !target || target.matches(":disabled, [hidden], [aria-disabled=true]")) return;
+        if (!available() || onRail()) return;
+        // Use the guest's choice to prepare the first pick while the coast opens.
+        if (target.dataset.worldVisitStart === "film") coastal.prepareFilmOpening();
+        else coastal.motif(look(), "select");
       },
       true
     );
@@ -206,6 +210,7 @@ export function createSiteSound({ root = document, view = globalThis, audioConte
       { passive: true }
     );
     syncCoast();
+    if (available() && stage.querySelector('[data-world-visit-start="film"][aria-disabled="true"]')) coastal.prepareFilmOpening();
     if (!root.hidden && !reduced?.matches) coastal.prepareMotifs();
   }
 
