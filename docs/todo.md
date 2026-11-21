@@ -16,19 +16,19 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 
 ## What remains
 
-Updated November 20, after the house and media controls review. The gym and ocean garden, entrance, under-pool ceramics, listening room, fire terrace and glass-fronted cliff lift are playable from **3D → Rooms**. The day button now holds Style and Volume throughout the site. The homepage record player and the speakeasy turntable both play original recordings. [Room-by-room work](#3-the-gym-used) · [Latest drawings and frames](../artwork/concepts/coastal-home/2026-11-20/README.md)
+Updated November 21, after screening the published house film and walking the site’s reading routes. The gym and ocean garden, entrance, under-pool ceramics, listening room, fire terrace and glass-fronted cliff lift are playable from **3D → Rooms**. The day button now holds Style and Volume throughout the site. The homepage record player and the speakeasy turntable both play original recordings. [Room-by-room work](#3-the-gym-used) · [Latest drawings and frames](../artwork/concepts/coastal-home/2026-11-20/README.md)
 
 | Remaining work                                                                     | What will settle it                                                                                                                                             |
 | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Daylight and the speed of the outside view](#15-research-and-speed)               | Measure the three costly transparent surfaces outdoors at 2K on the reference PC. The listening room needs its own light receivers before a similar room study. |
 | [Painted on a physical phone](#1-the-painted-world-from-good-to-a-masterpiece)     | Walk through the coast and the night interiors long enough to measure heat and sustained frame rate. The four browser sizes are covered.                        |
-| [The next drawn worlds](#12-more-worlds)                                           | Review the five rule sheets, then judge a first playable pencil, heat or comic room from a visitor’s eye.                                                       |
-| [Writing and interaction on other pages](#14-the-sites-pages)                      | Review the remaining pages against the design references. The two Spooder-Man galleries now support mouse, touch and keyboard browsing.                         |
-| [Visitors returning to the house](#2-learn-from-visitors-then-fix-what-loses-them) | Read two to four weeks of visits after November 17 and compare 3D entry, room choice and direct arrivals at DesignWeaver.                                       |
+| [The next drawn worlds](#12-more-worlds)                                           | The first graphite room is playable. Its offshore horizon and the lamp at the night desk are the next two drawing studies.                                      |
+| [Visitors returning to the house](#2-learn-from-visitors-then-fix-what-loses-them) | Read the first two weeks on December 1 and four weeks on December 15 and compare 3D entry, room choice and direct arrivals at DesignWeaver.                     |
+| [Retire archived worktrees on the old PC](#16-housekeeping)                        | On the desktop, compare each remaining checkout with its private archived patch before removing it. The laptop triage is complete.                              |
 
 Sirui’s next listen will guide the phrasing of the original recordings. Each item below keeps its checkboxes, evidence and any hardware or timing dependency.
 
-The house film now holds the entrance in view while it prepares the coast. On this Intel Arc laptop the first composed shot appeared after 7.21 and 6.22 seconds in two local cold visits. The preceding code took 16.16 seconds between them. The earlier 64-second public screening remains a separate reference. [Opening study](film/shot-list.md#waiting-for-the-first-image)
+The house film now holds the entrance in view while it prepares the coast. On this Intel Arc laptop the first composed shot appeared after 7.21 and 6.22 seconds in two local cold visits. The preceding code took 16.16 seconds between them. A fresh visit to the published version reached the dawn shot in 7.58 seconds and played all 13 cuts with their sound. [Opening study](film/shot-list.md#waiting-for-the-first-image)
 
 ## Open, in priority order
 
@@ -187,7 +187,8 @@ The house film now holds the entrance in view while it prepares the coast. On th
 - **His words.** A watercolour world that is "uniquely sirui ... vibrant color and wacky physics and expressive stroke"; pencil; the manners of _Common Side Effects_ and _Spider-Verse_; a thermal camera's view with real heat. "they should not just cheaply do a trivial shitty transform."
 - **References.** Ebby Amir's Starry Night ride, https://starrynightrider.com. The shows themselves. A stop-motion film shot through a thermal camera (an Instagram reel; ask Sirui for a screenshot).
 - **Next.**
-  - [ ] A one-page rule sheet per world before any shader (J8). All five drafted November 17 and waiting for Sirui's eye: `docs/worlds/watercolour.md`, `pencil.md`, `heat.md`, `comic-print.md`, `field-guide.md`.
+  - [x] Each proposed world has its own drawing rules and visitor views for judging them. [Watercolour](worlds/watercolour.md) · [Pencil](worlds/pencil.md) · [Heat](worlds/heat.md) · [Comic print](worlds/comic-print.md) · [Field guide](worlds/field-guide.md).
+  - [x] Draw a first playable pencil room, and walk it against the same-eye study. [Three playable views beside the concept](../artwork/concepts/coastal-home/2026-11-20/pencil-rooms.webp).
   - [x] The first Watercolour room anchors the warm/cool washes at the fireplace and the shared table, with violet shadows in the kitchen, the white of the paper and a small incandescent core. [The live hearth in all five worlds](../artwork/concepts/coastal-home/2026-11-19/hearth-five-worlds-12.webp).
 - **Size.** 1 to 3 each. **Detail:** takeover J, notebook cards "A world is more than a filter" and "A world is a contract".
 
@@ -204,7 +205,8 @@ The house film now holds the entrance in view while it prepares the coast. On th
 
 ### 14. The site's pages
 
-- [ ] Every page read against the Design Review video's lessons (C).
+- [x] Reviewed reading and wayfinding on all 98 indexed HTML pages in a phone viewport, including 40 archive pages. Four longer reading journeys went beyond the opening. Five linked studies or recovery pages were checked separately. The compact CV now brings a chosen heading below its sticky Sections bar, and the Starter Pack’s inline link reaches the writing section. [CV](https://dylantao.github.io/cv/#academia) · [Research Skills Starter Pack](https://dylantao.github.io/blog/2026/research-skills-starter-pack/#3-learn-to-write-research-clearly).
+- [x] Reading DesignWeaver from a filtered publication list and pressing Back returns to the same paper and open citation guide. The mobile reading review also restored link colour to the italic source titles in the [distributed-cognition essay](https://dylantao.github.io/blog/2026/specialists-generalists-ai-distributed-cognition/).
 - [x] A mouse can now take hold of the nine drawings in the Spooder-Man costume picker. Seven fit in the 724 px strip on a laptop. A drag reveals the other two while the chosen picture stays open. The phone keeps its native swipe, and a click or keyboard choice interrupts the throw. [Artwork gallery](https://dylantao.github.io/projects/hci-spooder-man/#spooder-capsule).
 - [x] Choose among five sitewide art styles. The paper, typography, control artwork, soundtrack, loading drawing and live 3D medium follow the selection. Daylight and evening remain independently adjustable.
 - [x] Figures for both themes (Sirui, November 17: the keyed-out white backgrounds were not well done; reproduce the old designs as Figma-like vectors). DesignWeaver's and What Happened and Why's teasers are now SVG in `_includes/figures/`, following the site's theme inline and the reader's system theme on cards; the rule is in WEBSITE_DESIGN_HEURISTICS.md, "Visual Hierarchy". If another schematic shows a white box on the dark theme, redraw it the same way; plots and results stay images.
@@ -218,7 +220,8 @@ Item 2's data says where to start.
 - [x] Compared the four sea-facing rooms in their measured afternoon light. A settled repeat kept the fabric still in the living-room pair. The strongest visible benefit was the shaded oak in the lounge. [Images and replay](../artwork/concepts/coastal-home/2026-11-20/afternoon-and-ridge.md#the-afternoon-rooms).
 - [x] The lounge now picks up the direction and colour of reflected daylight as the sun moves. At 2:15 p.m. it reveals the grain in the shaded oak while the hearth keeps its highlight. The test held out 504 sun directions across seasons. The fitted data arrives when a visitor approaches the lounge. [Playable comparison and calculation](../artwork/coastal-home/reviews/solar-bounce-2026-11-20/LOUNGE.md).
 - [x] Separate reviewers examined the film’s architecture, the driver timing and a visitor’s public screening before the startup change. The complete coast stays in the opening. [Reviews and replay](film/shot-list.md#waiting-for-the-first-image).
-- [ ] Run one matched comparison of two served house builds for frame time, draw calls, first-scene bytes, readiness and three fixed views per look (I2).
+- [x] Step outside now reveals the planted headland while the visitor can still turn or walk. At native 2K it appeared after 27 seconds, where the previous moving view was still bare at 90 seconds. The first outside frame and sustained outdoor frame time remain expensive on the laptop. [Photos and timings](coastal-comparison.md#what-delayed-the-trees).
+- [x] Compared two immutable builds on Intel Arc at 2560 × 1440. All five public looks kept their three matched camera views. The outside took 233–250 ms per frame, with roughly 3,965 draw calls. The 30 pictures, cold startup and separate warmed measurements can be reproduced with [the comparison command](coastal-comparison.md).
 - [x] The lighting cache packs the same numerical values into fewer bytes. Adding the lounge left 57 bytes free in the 4 MiB opening scene. The new bake leaves 19,426 bytes free on this laptop and loads the same directional reflection when the visitor reaches the room. A future learned approximation would have to beat this lossless baseline. [Packing and replay](../artwork/coastal-home/reviews/solar-bounce-2026-11-20/LOUNGE.md#delivery-of-the-base-field)
 
 **Machine: PC** for measurements. **Detail:** takeover E, R, I, S.

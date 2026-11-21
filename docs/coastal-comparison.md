@@ -56,3 +56,19 @@ node bin/compare_coastal_revisions.cjs `
   --candidate-manifest-sha256 66e92ca823bf22da28920f1c733ddd967b8b46c172eb544d791e50e94a3cbf84 `
   --out .jekyll-cache/visual-qa/coastal-comparison-nov21
 ```
+
+## What delayed the trees
+
+A visitor selected **Step outside** from the Study at noon on the Intel Arc laptop. The visible frame was fixed at 2560 × 1440 with the same camera and avatar. The old scene parsed both coastal models within four seconds of requesting them, then kept them hidden while it prepared their drawing programs. Submitting the two groups together saved work. In a moving scene it still left the hill bare past 90 seconds.
+
+| Ordinary exterior, native 2K                                            |    Both models visible |
+| ----------------------------------------------------------------------- | ---------------------: |
+| Earlier code, ambient motion on                                         | Still hidden at 90.5 s |
+| One joint preparation, ambient motion on                                | Still hidden at 90.9 s |
+| Earlier code, reduced motion                                            |                 8.94 s |
+| One joint preparation, reduced motion                                   |                 6.41 s |
+| One joint preparation with a short pause between settled exterior draws |                 27.0 s |
+
+During that last measurement the visitor’s right-arrow turn appeared within a 0.26-second sample while the trees were still arriving. A separate on-foot visit advanced 1.23 m under the W key and revealed the planted headland in 25.51 seconds. Fourteen more frames followed at the ordinary cadence. The first transition to this large outside view could still occupy the browser for 7.7 seconds. These observations use the frozen November 20 deployment’s models and a single changed controller. [Earlier and revised views from the water](../artwork/concepts/coastal-home/2026-11-20/stepping-outside.webp)
+
+The controller leaves a 120 ms interval between settled outdoor frames while the driver prepares newly attached coastal models. Camera transitions, orbit input and active walking keep requesting their own frames. Reduced motion retains its normal rest behavior. The film still holds the last completed entrance picture. A test that canceled a pending film, then interrupted a plant download, retained the headland. A later Step outside retried the planting and recovered it. Run `node --test test/coastal-stream-reveal.test.mjs` for overlapping requests, optional assets, retries and disposal.

@@ -258,7 +258,8 @@ export function createCoastalHome(container, records, artifacts) {
     frames = 0,
     clockTimer = 0,
     lastCameraMove = -Infinity,
-    restFrame = 0;
+    restFrame = 0,
+    coastFrame = 0;
   const lastCameraPose = new Float64Array(16);
   let compositionReady = false,
     startupStart = 0,
@@ -1302,18 +1303,39 @@ export function createCoastalHome(container, records, artifacts) {
 
   // The clifftop planting (bin/refresh_coastal_flora.py) is only seen from the coast, so it loads the
   // first time the visitor goes outside and appears once its programs are ready.
-  let floraLoad = null;
+  let floraLoad = null,
+    hinterlandLoad = null,
+    coastWarmups = 0;
+  function loadCoast({ includeFlora = true, surveyBeforeReveal = false } = {}) {
+    const flora = includeFlora && config.flora && !floraLoad ? attachFlora() : null,
+      hinterland = config.hinterland && !hinterlandLoad ? attachHinterland({ surveyBeforeReveal }) : null;
+    if (flora || hinterland) {
+      // Attach everything this destination needs before starting one scene-wide warmup.
+      // Keep a successful model and allow a failed download to retry on another visit.
+      const revealed = revealCoast([flora, hinterland]);
+      if (flora)
+        floraLoad = revealed.then(async () => {
+          if (!(await flora)) floraLoad = null;
+        });
+      if (hinterland)
+        hinterlandLoad = revealed.then(async () => {
+          if (!(await hinterland)) hinterlandLoad = null;
+        });
+    }
+    return Promise.all([includeFlora ? floraLoad : null, hinterlandLoad]);
+  }
   async function revealCoast(attachments) {
     const prepared = (await Promise.all(attachments)).filter(Boolean);
     if (disposed || !prepared.length) return;
-    await compilePrograms();
+    coastWarmups++;
+    try {
+      await compilePrograms();
+    } finally {
+      coastWarmups--;
+    }
     if (disposed) return;
     for (const reveal of prepared) reveal();
     requestFrame();
-  }
-  function loadFlora() {
-    if (config.flora) floraLoad ??= revealCoast([attachFlora()]);
-    return floraLoad;
   }
   async function attachFlora() {
     try {
@@ -1339,23 +1361,8 @@ export function createCoastalHome(container, records, artifacts) {
   // house, and appears once its programs are ready, like the planting above. hinterland.mjs poses
   // the gliders from the scene clock, turns the gliderport's wind sock in the coast wind and extends
   // the camera's terrain grid over the new land.
-  let hinterlandLoad = null,
-    ridgeFlights = null,
+  let ridgeFlights = null,
     coastRoot = null;
-  function loadHinterland() {
-    if (config.hinterland) hinterlandLoad ??= revealCoast([attachHinterland()]);
-    return hinterlandLoad;
-  }
-  function loadVisitCoast() {
-    if (!floraLoad && !hinterlandLoad && config.flora && config.hinterland) {
-      // Both groups are in the opening shot. Link their materials in the same
-      // scene pass, after even the slower download has attached its meshes.
-      const coast = revealCoast([attachFlora(), attachHinterland({ surveyBeforeReveal: true })]);
-      floraLoad = hinterlandLoad = coast;
-      return coast;
-    }
-    return Promise.all([loadFlora(), loadHinterland()]);
-  }
   function surveyCoves(root) {
     try {
       pacific?.quietSand(root);
@@ -2811,8 +2818,10 @@ export function createCoastalHome(container, records, artifacts) {
     updateInstallations(undefined, undefined, { ease: true });
     desiredFov = 38;
     fitSunShadow(true);
-    if ((id === "outside" || (routine?.sequence === "pool" && id === routine.room)) && compositionReady) loadFlora();
-    if ((id === "outside" || id === "overview" || (routine?.sequence === "pool" && id === routine.room)) && compositionReady) loadHinterland();
+    if (compositionReady) {
+      const coast = id === "outside" || (routine?.sequence === "pool" && id === routine.room);
+      if (coast || id === "overview") loadCoast({ includeFlora: coast });
+    }
     clearFocus();
     container.dataset.room = id;
     container.dataset.deskView = id === "outside" ? "outside" : "room";
@@ -3620,10 +3629,7 @@ export function createCoastalHome(container, records, artifacts) {
     container.dataset.room = id;
     container.dataset.deskView = id === "outside" ? "outside" : "room";
     fitSunShadow(true);
-    if (id === "outside" && compositionReady) {
-      loadFlora();
-      loadHinterland();
-    }
+    if (id === "outside" && compositionReady) loadCoast();
     ui.querySelector("[data-world-view]").innerHTML =
       id === "outside" ? 'Back inside <span aria-hidden="true">↙</span>' : 'Look around <span aria-hidden="true">↗</span>';
     ui.querySelectorAll("[data-world-room]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.worldRoom === id)));
@@ -3784,7 +3790,8 @@ export function createCoastalHome(container, records, artifacts) {
     characterPerformance?.restore();
     characterPerformance?.update(0, { active: false, clip: container.dataset.animation });
     if (frame) cancelAnimationFrame(frame);
-    frame = 0;
+    clearTimeout(coastFrame);
+    coastFrame = frame = 0;
     lastFrame = 0;
   }
   const visitBlocks = [];
@@ -3837,7 +3844,7 @@ export function createCoastalHome(container, records, artifacts) {
         syncVisit({ ready: false, pending: kind });
         // A visitor can start the film while the entrance is already marked
         // outside. Prepare the coast here so it is present at the first note.
-        Promise.all([loadWalkDetail(), loadVisitCoast()])
+        Promise.all([loadWalkDetail(), loadCoast({ surveyBeforeReveal: true })])
           .then(() => {
             visitCoastPrepared = true;
             requestFrame();
@@ -4679,8 +4686,7 @@ export function createCoastalHome(container, records, artifacts) {
     }
     approachLoungeSolar();
     const settledRadius = constrainOrbit({ yaw, pitch, radius: desiredRadius }, cameraEnvelope()).radius;
-    if (
-      moving ||
+    const interactiveFrame =
       inertia.active ||
       (visit && !visit.player.state.paused) ||
       (walking && walkMode.busy) ||
@@ -4693,9 +4699,18 @@ export function createCoastalHome(container, records, artifacts) {
       target.distanceTo(desiredTarget) > 0.003 ||
       Math.abs(radius - settledRadius) > 0.003 ||
       Math.abs(Math.atan2(Math.sin(yaw - cameraYaw), Math.cos(yaw - cameraYaw))) > 0.003 ||
-      Math.abs(cameraPitch - pitch) > 0.003
-    )
-      requestFrame();
+      Math.abs(cameraPitch - pitch) > 0.003;
+    const coastIdle = coastWarmups && currentRoom === "outside" && !visit && !pointer && !pinch && now - lastCameraMove > 200;
+    if (interactiveFrame || (moving && !coastIdle)) requestFrame();
+    // Leave the driver's warmup tasks a short turn between settled exterior draws. Input and
+    // camera transitions still request their own frames; elapsed time is sampled on each draw.
+    else if (moving) {
+      if (!coastFrame)
+        coastFrame = setTimeout(() => {
+          coastFrame = 0;
+          requestFrame();
+        }, 120);
+    }
     // A paused or reduced-motion view draws nothing once it settles, so a coast view that has just
     // stopped would keep its moving shadow fit (fitSunShadow). One more frame after the 0.6 s rest
     // returns it to the exact fit.
