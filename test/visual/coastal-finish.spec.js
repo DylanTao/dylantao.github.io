@@ -77,11 +77,12 @@ test("house film: the first view from the entrance includes the planted coast", 
   ).toBe(true);
   expect((await sceneEvidence(host)).ecology.atmosphere.weather).toMatchObject({ source: "house-film", marineNow: 0, rain: 0, cloudCover: 0 });
   await expect(page.locator("[data-world-visit-caption]")).toHaveText("The coast at dawn");
-  const wings = () => host.evaluate((el) => el.labScene.scene.getObjectByName("hinterland_glider_0")?.visible);
-  expect(await wings()).toBe(true);
+  const gliderVisible = () => document.querySelector("[data-home-desk-scene]").labScene.scene.getObjectByName("hinterland_glider_0")?.visible;
+  expect(await page.evaluate(gliderVisible)).toBe(true);
   await page.locator("[data-world-visit-scrub]").press("End");
   await expect(page.locator("[data-world-visit-caption]")).toHaveText("Night on the coast");
-  await expect.poll(wings).toBe(false);
+  // A first night draw on software GL can occupy the page for a full scene-readiness interval.
+  await expect.poll(() => page.evaluate(gliderVisible), { timeout: readyTimeout }).toBe(false);
   await page.locator("[data-world-visit-return]").click();
   await expect(page.locator("[data-world-visit-controls]")).toBeHidden();
   const restored = await host.evaluate(async (el) => {
