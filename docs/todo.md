@@ -14,6 +14,20 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 
 **Images.** Original concepts, material studies, prompts and same-view playable frames are in the [coastal concept archive](../artwork/concepts/coastal-home/2026-11-19/prompts.md). Earlier review images remain in `docs/images/`. Other designers’ work is linked at its source.
 
+## What remains
+
+Updated November 20, after the house and media controls review. The gym and ocean garden, entrance, under-pool ceramics, listening room, fire terrace and glass-fronted cliff lift are playable from **3D → Rooms**. The day button now holds Style and Volume throughout the site. The homepage record player and the speakeasy turntable both play original recordings. [Room-by-room work](#3-the-gym-used) · [Latest drawings and frames](../artwork/concepts/coastal-home/2026-11-20/README.md)
+
+| Remaining work                                                                     | What will settle it                                                                                                                                             |
+| ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Daylight and the speed of the outside view](#15-research-and-speed)               | Fit the reflected sun to the lounge’s shaded oak across different sun angles. Measure the three costly transparent surfaces outdoors at 2K on the reference PC. |
+| [Painted on a physical phone](#1-the-painted-world-from-good-to-a-masterpiece)     | Walk through the coast and the night interiors long enough to measure heat and sustained frame rate. The four browser sizes are covered.                        |
+| [The next drawn worlds](#12-more-worlds)                                           | Review the five rule sheets, then judge a first playable pencil, heat or comic room from a visitor’s eye.                                                       |
+| [Writing and interaction on other pages](#14-the-sites-pages)                      | Review the remaining pages against the design references and try the throwable shelf where it helps a reader.                                                   |
+| [Visitors returning to the house](#2-learn-from-visitors-then-fix-what-loses-them) | Read two to four weeks of visits after November 17 and compare 3D entry, room choice and direct arrivals at DesignWeaver.                                       |
+
+Sirui’s next listen will guide the phrasing of the original recordings. Each item below keeps its checkboxes, evidence and any hardware or timing dependency.
+
 ## Open, in priority order
 
 ### 1. The painted world, from good to a masterpiece
@@ -127,6 +141,8 @@ Everything open on Sirui's site, in priority order, for any model on any machine
   - [x] Recorded steps by surface, foliage, water entry, swimming and returning to dry ground. A deliberate page or room interaction can receive one short instrumental response after Sound is enabled.
   - [x] Five solo violin drafts informed five original two-player pieces and fifteen short recorded responses. Sirui asked for fewer attacks, time to recognize the opening before the reveal, and more forward motion. [Scores, intent and listening notes](house/world-music.md).
   - [x] The speakeasy's original pressing plays from the physical needle. The separate stereo instruments keep their place as a visitor turns or crosses the room. [Cover and design record](../artwork/concepts/coastal-home/2026-11-20/README.md).
+  - [x] All five media have an original page soundtrack and subtle responses to deliberate interactions. The two horizontal controls choose Style and shared Volume even on ordinary reading pages. Fullscreen moves the same button to the house’s upper right. [Drawings and controls](../artwork/concepts/coastal-home/2026-11-20/README.md#the-house-under-glass).
+  - [x] Four original recordings play from the homepage sleeves. Arrows flank the portrait and the seek bar shows the actual playhead. Moving to 3D or muting saves the position. [Listening notes](house/world-music.md#playing-a-record-at-the-desk).
 - Codex composes and renders locally. The five latest ensembles remain open to Sirui’s musical judgment.
 - **Size.** 0.5 to 1.0 for the sounds; 1.5 to 3 for the music. **Detail:** brief 6; takeover L3, L5.
 
@@ -188,7 +204,7 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 
 - [ ] Every page read against the Design Review video's lessons (C).
 - [ ] The throwable row on other rows (C7).
-- [ ] Worlds across the whole site, later (M).
+- [x] Choose among five sitewide art styles. The paper, typography, control artwork, soundtrack, loading drawing and live 3D medium follow the selection. Daylight and evening remain independently adjustable.
 - [x] Figures for both themes (Sirui, November 17: the keyed-out white backgrounds were not well done; reproduce the old designs as Figma-like vectors). DesignWeaver's and What Happened and Why's teasers are now SVG in `_includes/figures/`, following the site's theme inline and the reader's system theme on cards; the rule is in WEBSITE_DESIGN_HEURISTICS.md, "Visual Hierarchy". If another schematic shows a white box on the dark theme, redraw it the same way; plots and results stay images.
 
 Item 2's data says where to start.
@@ -197,9 +213,10 @@ Item 2's data says where to start.
 
 - [ ] The outside view at 2K (E1): three see-through surfaces cost a fifth of the frame.
 - [x] Measured one reflected sun path through a day in all 16 lighting regions (R2). Afternoon bounce in the lounge, gym, living room and onsen survived longer shadow rays and denser sampling. [Probe readings and replay](../artwork/coastal-home/reviews/solar-bounce-2026-11-20/README.md).
-- [ ] Compare the four sea-facing rooms at their measured afternoon hours with and without reflected sunlight. The listening room needs a separate set of receivers.
+- [x] Compared the four sea-facing rooms in their measured afternoon light. A settled repeat kept the fabric still in the living-room pair. The strongest visible benefit was the shaded oak in the lounge. [Images and replay](../artwork/concepts/coastal-home/2026-11-20/afternoon-and-ridge.md#the-afternoon-rooms).
+- [ ] Fit a compact directional response for that lounge and check it against held-out solar directions. The listening room needs a separate set of receivers.
 - [ ] The review panel as agents (I1, I2).
-- [ ] A smaller light cache (S). The November 20 build moved the authoring-file hashes alongside the Blender receipts, saving about 6.5 KB compressed. The current coast and light field leave 2,059 bytes in the first scene's 4 MiB budget. A trial of 91 reversible packings found that a bitmap and two byte shuffles took the gzip-compressed field from 174,146 to 153,933 bytes with every sample bit intact. Keep the shipped decoder for now. That 20,213-byte option buys less than half a percent of the scene transfer and is available when the next room needs it. The proposed quantized network still needs its own accuracy comparison.
+- [ ] A smaller light cache (S). Moving the authoring-file hashes to the Blender receipts saved about 6.5 KB compressed. The November 20 controls and ridge build has 1,228 bytes of headroom in the first scene's 4 MiB budget on this checkout. A trial of 91 reversible packings found a lossless 20,213-byte saving on the earlier field. Revisit that option when the next room needs the space. A quantized network still needs an accuracy comparison.
 
 **Machine: PC** for measurements. **Detail:** takeover E, R, I, S.
 
@@ -212,7 +229,7 @@ Item 2's data says where to start.
 - [x] **Every leftover PC worktree checked for unfinished work** (November 18, Claude, at Sirui's request: "check that branch is safe to remove with no remaining todos or half progress there"; each uncommitted file compared with `main`). Safe, nothing unique: the two research worktrees (an outdated note, a one-line note), `public-base-layout` (a browser log), the clean `coastal-physics-september` and `site-review-september`, `robot-performance-october` (four manifest lines), `coastal-models-september` (a September grip-targets module; hand grips landed differently in `lift-rig.mjs`), the QA mirrors `cqa1102` and `dqa1103` (all 1,500 of their new files are on `main` byte for byte; the rest are config, data and scene files `main` has changed since), `cqa1103` (its brand-production purgecss change landed on November 3 in `66e3ae1b5` and `db85127b4`), and `straight-arrival` (read; item 6). The two clean ones (`coastal-physics-september`, `site-review-september`) were removed the same day without force. Two carry work `main` never got, now listed below; with those recorded, every worktree and branch is safe to remove (by hand, without force where it is clean; the archive holds the rest).
 - [x] Reviewed the older coffee experiment against the current kitchen. Breakfast already includes picking up the cup, carrying it, drinking while seated, and returning it. The alternate chair choreography remains a separate design idea.
 - [x] Reviewed the older cliff builder. Preserve the current native coast. A future terrain cut starts from a named visual defect in the current house.
-- [ ] The PC's last worktrees (November 17): six clean ones were removed with their branches, all in the OneDrive archive; eight branches remain besides `main`. Three of them (`work/research-...-rain-ocean-impact-...`, `work/research-...-protocol-check-...`, `codex/homepage-rhythm-public-20261005`) are already merged into `main`, and their worktrees hold only an outdated research note, a one-line protocol note and a browser log, all archived; they need `git worktree remove --force`. Sirui approved removing all of them on November 18 ("any other todo or local branches you can clean off so we can start in laptop codex clean"); every commit is on origin or in the OneDrive bundle and every uncommitted change is in its patches, checked that day, but the session's safety classifier blocked the forced removal, so run it by hand from the repository root: `git worktree list --porcelain | grep '^worktree ' | cut -d' ' -f2- | grep -v '/dylantao.github.io$' | while read w; do git worktree remove --force "$w"; done; git worktree prune; git branch | grep -v '^\* main$' | xargs git branch -D` (Git Bash). The other five hold real uncommitted work (the straight arrival, the breakfast nook, the F6 native pass, and two Codex worktrees from the autumn), archived as patches.
+- [ ] Finish tidying the old PC when it is available. On November 18 the archived changes in the remaining October worktrees were compared with main. Check each named worktree and its archived patch on that PC before removing it. The private OneDrive inventory has the per-worktree decisions.
 
 ## Done recently
 

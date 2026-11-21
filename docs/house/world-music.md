@@ -50,6 +50,12 @@ _A Pocketful of Sky_ also sits on the speakeasy turntable. With Sound enabled, t
 
 The cover stands on its own walnut cradle beside the right horn. A visitor at the threshold sees both the illustrated sleeve and the turntable. The cabinet radiates into the room between the paving and the lintel. On the terrace just outside it, the same pressing has about half the indoor gain and rolls off above 4.2 kHz. The room's full-size jacket can be refitted with `bin/refresh_coastal_listening_contacts.py -- --fit-sleeve --save-as=OUTPUT.blend`, followed by baking the featured sleeve and sleeve ledge.
 
+## Playing a record at the desk
+
+The first sleeve plays _A Tugboat for Two_. An offbeat guitar bass gives short banjo and mandolin answers room to move. The second plays _All the Windows Open_. Viola and guitar establish the pace before the higher violin enters. The artwork credits under the player identify the songs that inspired the sleeves. The next two sleeves play _A Pocketful of Sky_ and _Five Cuts in Pearwood_. The player displays the recording’s title, elapsed time and duration.
+
+Style chooses which piece accompanies a page or a room. Playing a record gives the foreground to the record. The Volume ribbon adjusts the record, the world music and the physical sounds at a shared output. Turning Sound off or leaving for 3D holds the record at its playhead. The house film has a continuous score of its own. [Desk scores and recording credits](../../assets/audio/desk-records/CREDITS.md) · [Control design and playable frames](../../artwork/concepts/coastal-home/2026-11-20/README.md#the-house-under-glass)
+
 ## Reproducing a take
 
 Keep the Philharmonia Strings ZIP outside this checkout. The Python renderer uses NumPy, SciPy and imageio-ffmpeg. Pass the archive to `python bin/render_coastal_world_music.py --strings <Strings.zip> --output assets/audio/coastal-score --review <private-directory>`. It writes the five pieces, fifteen interaction cues, twelve scored film cuts and a timed index. The review directory receives two uninterrupted lossless prints, one with the players alone and one with the surf. It also receives the room mixes, the field recording levels and original time offsets, and the onset, source file and SHA-256 for each played note. The source musicians' individual samples stay in their archive.
