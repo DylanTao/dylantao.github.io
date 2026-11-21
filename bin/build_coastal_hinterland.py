@@ -1124,9 +1124,13 @@ for kind, items in plants.items():
         P.shrub(veg_batch(x, y), kind, x, y, ground_at, rng, lod)
 for x, y, kind, _ in transition:
     P.shrub(veg_batch(x, y), kind, x, y, ground_at, rng, 0)
+pine_support_batches = {}
 for x, y, height in pines:
     lean = (0.0, -0.3 if y > -60 else -0.15)  # the onshore wind leans the coastal trees inland
-    P.torrey_pine(veg_batch(x, y), x, y, ground_at, height, rng, lod_of(x, y), lean)
+    lod = lod_of(x, y)
+    cell = (math.floor(x / 320.0), math.floor(y / 320.0))
+    support = pine_support_batches.setdefault(cell, P.Batch()) if lod > 0 else None
+    P.torrey_pine(veg_batch(x, y), x, y, ground_at, height, rng, lod, lean, support_batch=support)
 
 # The lookout: deck, railing, bench and coin viewer over the caves.
 props = P.Batch()
@@ -1265,6 +1269,10 @@ def batch_object(name, batch, extras=None, sharp=None):
 
 
 PLANT_OBJECTS = [o for o in (batch_object(f"hinterland_flora_{k[0] + 10:02d}_{k[1] + 10:02d}", b) for k, b in sorted(veg_batches.items())) if o]
+PLANT_OBJECTS += [
+    batch_object(f"hinterland_pine_support_{key[0] + 10:02d}_{key[1] + 10:02d}", batch)
+    for key, batch in sorted(pine_support_batches.items())
+]
 PROP_OBJECTS = [o for o in (batch_object("hinterland_lookout_and_gliderport", props, sharp=50), batch_object("hinterland_talus", talus)) if o]
 mast_obj = batch_object("hinterland_windsock_mast", mast, sharp=50)
 mast_obj.location = (ws_x, ws_y, ws_ground)
