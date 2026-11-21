@@ -106,7 +106,7 @@ def blob(batch, mat, centre, radii, rng, segments=6, rings=3, color=(1, 1, 1), l
     batch.add(verts, tris, mat, color)
 
 
-def tube(batch, mat, points, radii, segments=5, color=(1, 1, 1), cap=True):
+def tube(batch, mat, points, radii, segments=5, color=(1, 1, 1), cap=True, cap_base=False):
     """A tapered tube through 3D points."""
     points = np.asarray(points, float)
     verts = []
@@ -128,6 +128,12 @@ def tube(batch, mat, points, radii, segments=5, color=(1, 1, 1), cap=True):
         verts.append(points[-1])
         last = (len(points) - 1) * segments
         tris += [(last + k, last + (k + 1) % segments, len(verts) - 1) for k in range(segments)]
+    if cap_base:
+        base = len(verts)
+        verts.append(points[0])
+        tris += [((k + 1) % segments, k, base) for k in range(segments)]
+        # The closed branch uses outward faces with the tube's clockwise rings.
+        tris = [(a, c, b) for a, b, c in tris]
     batch.add(verts, tris, mat, color)
 
 
@@ -186,7 +192,27 @@ def shrub(batch, kind, x, y, ground, rng, lod):
         mound(batch, "canopy", (x, y), r, r * rng.uniform(0.9, 1.3), ground, rng, segments, rings, color, lump=0.28)
 
 
-def torrey_pine(batch, x, y, ground, height, rng, lod, lean=(0.0, -0.25)):
+def distant_pine_branches(batch, upper_trunk, fork_radius, crowns, color=(1.0, 1.0, 1.0)):
+    """Fit bent branches between the existing upper stem and each closed crown."""
+    upper, fork = np.asarray(upper_trunk, float)
+    contacts = []
+    for index, (crown, depth) in enumerate(zip(crowns, (0.22, 0.31, 0.17, 0.10), strict=True)):
+        low, high = np.asarray(crown, float)[[0, -1]]
+        end = 0.54 * low + 0.46 * high
+        start = fork + (upper - fork) * depth
+        span = end - start
+        elbow = start + span * np.array([0.49, 0.49, 0.69])
+        # Turn each lateral arm a little before the final taper into its needle mass.
+        lateral = np.array([-span[1], span[0], 0.0]) * (0.045 if index % 2 else -0.055)
+        elbow += lateral
+        root_scale = (0.93, 0.86, 0.79, 1.04)[index]
+        radii = fork_radius * root_scale * np.array([1.0, 0.61, 0.21])
+        tube(batch, "pine_trunk", [start, elbow, end], radii, segments=4, color=color, cap_base=True)
+        contacts.append((start, end))
+    return contacts
+
+
+def torrey_pine(batch, x, y, ground, height, rng, lod, lean=(0.0, -0.25), support_batch=None):
     """A Torrey pine as the reserve's grow: a leaning, twisting trunk forking into a few limbs, each
     ending in a broad, flat mass of needles, so the crown is wide, irregular and flat-topped."""
     z0 = ground(x, y) - 0.25
@@ -203,6 +229,7 @@ def torrey_pine(batch, x, y, ground, height, rng, lod, lean=(0.0, -0.25)):
     fork = points[-1]
     limbs = rng.integers(3, 6) if lod == 0 else 3
     spread = height * rng.uniform(0.32, 0.42)
+    crowns = []
     for limb in range(limbs):
         a = limb / limbs * math.tau + rng.uniform(-0.4, 0.4)
         reach = spread * rng.uniform(0.6, 1.0)
@@ -212,9 +239,13 @@ def torrey_pine(batch, x, y, ground, height, rng, lod, lean=(0.0, -0.25)):
         crown = height * rng.uniform(0.17, 0.24)
         blob(batch, "canopy", end + np.array([0, 0, crown * 0.25]), (crown * 1.35, crown * 1.2, crown * 0.55), rng,
              segments=7 if lod == 0 else 5, rings=3 if lod == 0 else 2, color=canopy_color("pine", rng))
+        crowns.append(batch.verts[-1])
     top = height * rng.uniform(0.2, 0.26)
     blob(batch, "canopy", fork + np.array([0, 0, height * 0.3]), (top * 1.4, top * 1.3, top * 0.6), rng, segments=7 if lod == 0 else 5,
          rings=3 if lod == 0 else 2, color=canopy_color("pine", rng))
+    if lod > 0:
+        crowns.append(batch.verts[-1])
+        distant_pine_branches(batch if support_batch is None else support_batch, points[-2:], base_r * 0.45, crowns)
 
 
 # ---------------------------------------------------------------------------------------------
