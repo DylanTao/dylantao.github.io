@@ -43,6 +43,24 @@ test("site sound: the normal switch is visible, silent and lazy before consent",
   expect(fetched).toEqual([]);
   expect(await contexts(page)).toBe(0);
 
+  if (testInfo.project.name === "mobile-390") {
+    const portrait = page.viewportSize();
+    await page.setViewportSize({ width: 844, height: 390 });
+    const range = page.locator("[data-theme-menu]:visible [data-art-slider]");
+    // Replay a coalesced vertical gesture at the scroll boundary, where a
+    // browser can deliver pointerup without any pointermove or pointercancel.
+    await range.evaluate((slider) => {
+      const touch = { pointerId: 71, pointerType: "touch", isPrimary: true, clientX: 25, bubbles: true };
+      slider.dispatchEvent(new PointerEvent("pointerdown", { ...touch, clientY: 25 }));
+      slider.value = slider.max;
+      slider.dispatchEvent(new Event("input", { bubbles: true }));
+      slider.dispatchEvent(new PointerEvent("pointerup", { ...touch, clientY: 105 }));
+    });
+    await expect(range).toHaveValue("0");
+    await expect(range).toHaveAttribute("aria-valuetext", "Realistic");
+    await page.setViewportSize(portrait);
+  }
+
   await control.click();
   await expect.poll(async () => (await evidence(page)).context).toBe("running");
   await expect(control).toHaveAttribute("aria-checked", "true");

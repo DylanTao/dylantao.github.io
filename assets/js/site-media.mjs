@@ -34,6 +34,46 @@ if (art && panels.length) {
       panel.querySelector("[data-art-piece]").textContent = sound?.recordTitle || (film ? "The Door Is Open" : world.music);
     }
   }
+  // A native range updates on touch-down, before the browser knows whether the
+  // finger is scrolling the menu. Apply taps, deliberate drags and key presses.
+  function listenToRange(slider, change) {
+    let touch = null;
+    const apply = (event) => change(slider.valueAsNumber, event);
+    const directionAt = (event) => {
+      const across = Math.abs(event.clientX - touch.x);
+      const down = Math.abs(event.clientY - touch.y);
+      if (Math.max(across, down) < 6) return null;
+      return across > down ? "horizontal" : "vertical";
+    };
+    slider.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "touch" && event.isPrimary) {
+        touch = { id: event.pointerId, x: event.clientX, y: event.clientY, direction: null };
+      }
+    });
+    slider.addEventListener("pointermove", (event) => {
+      if (event.pointerId !== touch?.id || touch.direction) return;
+      touch.direction = directionAt(event);
+      if (touch.direction === "horizontal") apply(event);
+    });
+    slider.addEventListener("pointerup", (event) => {
+      if (event.pointerId !== touch?.id) return;
+      const appliedDrag = touch.direction === "horizontal";
+      const direction = touch.direction ?? directionAt(event);
+      touch = null;
+      if (direction === "vertical") reflect();
+      else if (!appliedDrag) apply(event);
+    });
+    const cancel = (event) => {
+      if (event.pointerId !== touch?.id) return;
+      touch = null;
+      reflect();
+    };
+    slider.addEventListener("pointercancel", cancel);
+    slider.addEventListener("lostpointercapture", cancel);
+    slider.addEventListener("input", (event) => {
+      if (!touch || touch.direction === "horizontal") apply(event);
+    });
+  }
   const size = (rail) => {
     const width = rail.getBoundingClientRect().width;
     if (width > 0) rail.style.setProperty("--rail-width", width + "px");
@@ -48,11 +88,9 @@ if (art && panels.length) {
       panel.querySelector("[data-volume-row]").hidden = true;
       panel.querySelector("[data-media-footer]").hidden = true;
     }
-    panel.querySelector("[data-art-slider]").addEventListener("input", (event) => {
-      art.set(art.worlds[event.currentTarget.valueAsNumber].id);
-    });
-    panel.querySelector("[data-volume-slider]").addEventListener("input", (event) => {
-      if (event.isTrusted) window.siteSound?.setVolume(event.currentTarget.valueAsNumber / 100);
+    listenToRange(panel.querySelector("[data-art-slider]"), (index) => art.set(art.worlds[index].id));
+    listenToRange(panel.querySelector("[data-volume-slider]"), (level, event) => {
+      if (event.isTrusted) window.siteSound?.setVolume(level / 100);
     });
     // A menu can open after initial layout on browsers without ResizeObserver.
     panel.closest("[data-theme-control]")?.addEventListener("focusin", () => panel.querySelectorAll(".coastal-slider").forEach(size));

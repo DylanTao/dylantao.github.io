@@ -56,6 +56,8 @@ The first sleeve plays _A Tugboat for Two_. An offbeat guitar bass gives short b
 
 Style chooses which piece accompanies a page or a room. Playing a record gives the foreground to the record. The Volume ribbon adjusts the record, the world music and the physical sounds at a shared output. Turning Sound off or leaving for 3D holds the record at its playhead. The house film has a continuous score of its own. [Desk scores and recording credits](../../assets/audio/desk-records/CREDITS.md) · [Control design and playable frames](../../artwork/concepts/coastal-home/2026-11-20/README.md#the-house-under-glass)
 
+The day button holds two horizontal controls. Style comes first because it chooses the room’s artwork and its piece together. The Volume row beneath it then shows which piece the visitor is adjusting. Both fit in view on a 390 × 844 phone. Turn it sideways and the panel scrolls under a finger placed on either track. A tap or a horizontal drag changes the value. In fullscreen the same button and settings move to the upper right.
+
 ### Changing style at a steady volume
 
 The cello sustains energy between notes. A banjo string leaves space as soon as it is picked. Giving their two recordings the same fader position left Cartoon 5.48 loudness units below Realistic. I set one playback gain for each finished piece, using Watercolour as the reference. The span across the five is now 1.44 units. The two new desk records are 1.25 units apart at their foreground playback level.
