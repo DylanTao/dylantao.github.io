@@ -39,3 +39,5 @@ On the CV, all five media were checked in all four times of day. The least contr
 ## Follow the sun and the ridge
 
 The lounge’s shaded oak and the silhouette of a Torrey pine each changed where we worked next. The paired frames preserve the visitor’s eye, exposure and crop. [Four rooms in afternoon light](four-rooms-in-afternoon-light.webp) · [The trees from the water](torrey-pines-from-the-water.webp) · [Cameras, measurements and replay](afternoon-and-ridge.md)
+
+In the lounge, the fitted reflection opens the dark grain in the foreground. The sunlit cushion and the small fire keep their light. The sample follows the actual sun and weather as a visitor walks into the room. [Matched standing photographs](reflected-sun-in-the-lounge.webp) · [How the light was fitted](../../../coastal-home/reviews/solar-bounce-2026-11-20/LOUNGE.md)
