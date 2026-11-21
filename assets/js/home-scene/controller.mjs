@@ -5236,26 +5236,38 @@ export function createCoastalHome(container, records, artifacts) {
 
   if (labEnabled)
     container.labScene = { scene, sun, settings: labSettings, requestFrame: () => requestFrame(), collisionGrid: () => cameraField?.grid };
-  // The look switch: the realistic render, or one of the drawn looks (print-look.mjs). Visitors on
-  // a desktop have Realistic and Painted in the Rooms panel (Sirui approved the painted look for
-  // feedback, November 17); the lab menu has every look.
+  // Rooms shares the site's published styles. Graphics studies can also audition a new medium.
   const lookButtons = [...ui.querySelectorAll("[data-world-drawing]")];
+  let drawingRequest = 0;
   const showLook = () => {
     container.dataset.drawing = printLook.look;
     for (const button of lookButtons) button.setAttribute("aria-pressed", String(button.dataset.worldDrawing === printLook.look));
   };
   showLook();
   const chooseDrawing = (next) => {
+    drawingRequest++;
     if (visit) visit.lookOverride = true;
-    writeDrawnLook(printLook.setLook(next), lookStorage);
+    const chosen = printLook.setLook(next);
+    if (chosen !== "pencil") writeDrawnLook(chosen, lookStorage);
     showLook();
     requestFrame();
   };
   listen(window, "siteArtChange", (event) => chooseDrawing(event.detail.look));
   for (const button of lookButtons)
-    listen(button, "click", () => {
+    listen(button, "click", async () => {
       const next = button.dataset.worldDrawing;
-      if (window.siteArt && window.siteArt.look !== next) window.siteArt.set(next);
+      if (next === "pencil" && labEnabled) {
+        const request = ++drawingRequest;
+        try {
+          const { createPencilDrawing } = await import("./pencil-world.mjs");
+          if (disposed || request !== drawingRequest) return;
+          const hearth = config?.furniture?.find((entry) => entry.id === "living-fireplace");
+          printLook.preparePencil((uniforms) => createPencilDrawing(uniforms, hearth?.position));
+          chooseDrawing(next);
+        } catch {
+          if (!disposed && request === drawingRequest) showHint("The pencil study could not load. Try again.", 4000);
+        }
+      } else if (window.siteArt && window.siteArt.look !== next) window.siteArt.set(next);
       else chooseDrawing(next);
       if (visit) {
         ui.querySelector("[data-world-places]").open = false;

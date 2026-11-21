@@ -1615,7 +1615,9 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
   // `enabled` is the older switch: on means the default drawn look.
   let look = DRAWN_LOOKS.includes(startLook) ? startLook : enabled ? DEFAULT_DRAWN_LOOK : "realistic",
     drawn = look === "realistic" ? DEFAULT_DRAWN_LOOK : look;
-  const dials = { ...PRINT_DEFAULTS, ...LOOKS[drawn].dials, ...settings };
+  // Both paper studios read the same geometry and local-colour buffers.
+  const methods = { ...LOOKS, pencil: LOOKS.watercolour };
+  const dials = { ...PRINT_DEFAULTS, ...methods[drawn].dials, ...settings };
   const uniforms = {
     tDiffuse: { value: null },
     tDepth: { value: null },
@@ -1732,7 +1734,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
   let sceneDepth = null,
     tone = null,
     minute = 780,
-    way = LOOKS[drawn].way(colourwayAt(minute), minute),
+    way = methods[drawn].way(colourwayAt(minute), minute),
     // The view's full height in radians (perspective) or metres (orthographic); divided by the
     // drawn buffer's height it is one pixel's share.
     extent = 1,
@@ -1751,6 +1753,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     outdoors = false,
     paint = null,
     watercolour = null,
+    pencil = null,
     day = 1,
     stillFrame = true,
     // Where shade and a lamp's pool begin in a room, as the meter last read them.
@@ -1897,11 +1900,12 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     uniforms.printResolution.value.set(readBuffer.width, readBuffer.height);
     uniforms.printCamera.value.w = extent / Math.max(1, readBuffer.height);
     setLivingWindow();
-    if (look === "watercolour" && uniforms.printStructure.value.x > 0.5) {
-      watercolour ||= createWatercolourWash(uniforms);
+    if ((look === "watercolour" || look === "pencil") && uniforms.printStructure.value.x > 0.5) {
+      const paper = look === "pencil" ? pencil : (watercolour ||= createWatercolourWash(uniforms));
       renderer.setRenderTarget(pass.renderToScreen ? null : readBuffer);
-      watercolour.render(renderer);
+      paper.render(renderer);
       drawHearth(renderer, readBuffer);
+      draws++;
       return;
     }
     if (uniforms.printKey.value.w > 0.5) meter(renderer);
@@ -2024,14 +2028,17 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     get look() {
       return look;
     },
-    // "realistic", or one of DRAWN_LOOKS. Only uniforms change, so nothing compiles.
+    // Load the graphite shader only for a visitor who opens this graphics study.
+    preparePencil(createDrawing) {
+      pencil ||= createDrawing(uniforms);
+    },
     setLook(next) {
-      look = DRAWN_LOOKS.includes(next) ? next : "realistic";
+      look = DRAWN_LOOKS.includes(next) || (next === "pencil" && pencil) ? next : "realistic";
       pass.enabled = look !== "realistic";
       if (pass.enabled && look !== drawn) {
         drawn = look;
-        Object.assign(dials, PRINT_DEFAULTS, LOOKS[drawn].dials, settings);
-        way = LOOKS[drawn].way(colourwayAt(minute), minute);
+        Object.assign(dials, PRINT_DEFAULTS, methods[drawn].dials, settings);
+        way = methods[drawn].way(colourwayAt(minute), minute);
         sync();
       }
       return look;
@@ -2111,7 +2118,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
       } else uniforms.printHorizon.value.set(2, 1, 1);
       if (Number.isFinite(nextMinute) && nextMinute !== minute) {
         minute = nextMinute;
-        way = LOOKS[drawn].way(colourwayAt(minute), minute);
+        way = methods[drawn].way(colourwayAt(minute), minute);
         sync();
       }
       // The cutter's hand: lines resettle six times a second, never continuously.
@@ -2134,7 +2141,8 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         // Per pixel of the last pass. The woodblock reads the frame 13 times and its depth 10.
         // The cartoon reads the frame 13 times, the structure 26 and the scene's depth once, and
         // with fills from the surfaces' own colour, that colour 13 times more.
-        textureReads: own ? 53 : structured ? 40 : 23,
+        // Graphite reads the colour, structure and surface tint, then four adjacent structure samples.
+        textureReads: look === "pencil" && structured ? 7 : own ? 53 : structured ? 40 : 23,
         // The structure's two targets and its map from above; then the meter's.
         renderTargets: own ? 3 : structured ? 2 : 0,
         structure: structured ? structure.evidence() : null,
@@ -2152,6 +2160,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
       structure?.dispose();
       paint?.dispose();
       watercolour?.dispose();
+      pencil?.dispose();
     },
   };
 }

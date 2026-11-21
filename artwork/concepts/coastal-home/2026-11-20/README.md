@@ -1,8 +1,16 @@
 # The house pressing and the Pacific
 
+## The living floor in graphite
+
+The source is the visitor’s actual 26.5-second frame from the House film. A conical steel hood interrupts one corner of the pale sofa. The island slats and the chair backs lead to the two pendants. Keeping those relationships fixed made it possible to judge what a pencil could leave out. In the first drawing, the fire appears as an erasure in the densest graphite. There is just enough line on the cushions to suggest their weight. The hatch across the hood still feels straight for a spun piece of steel. It is the first thing to inspect as the camera moves. [Original pencil study](pencil-living-floor.png) · [Rules for the drawing](../../../../docs/worlds/pencil.md)
+
+The built-in image generator drew the sheet from the playable frame. The direction was to reserve most of the white rag paper, keep five graphite values, draw the kitchen joinery with straight broken strokes, bend the hatch around the hood, and lift paper-white flames from its mouth. The rendering target is that difference in pressure and direction between wood, metal and cloth. The controls in the reference capture were omitted from the drawing.
+
 The record on the speakeasy turntable is _A Pocketful of Sky_, the house's original watercolour duet for guitar and violin. Its jacket needed to read at the scale of a real sleeve between the two wooden horns. The opening in the rock recalls the sea window. The sweep around it could belong to either a horn or the sandstone outside. The blue through the centre survives when the cover is too small to read the title.
 
 [Original generated cover](a-pocketful-of-sky.png) · [512 px sleeve used by the house](../../../../assets/img/album_covers/a-pocketful-of-sky.webp) · [Composition and playback](../../../../docs/house/world-music.md)
+
+The first playable version crosshatched both the sofa and the steel until they looked woven. Successive studies reserved a second stroke for the deepest planes and laid softer graphite where the hood turns away from the glazing. The reduced-motion comparison follows the real film positions in the living room, night study and offshore at dawn. The room now holds the weight of the hood. The window light in the concept still throws more convincing shadows under the table. [The three playable drawings beside the concept](pencil-rooms.webp).
 
 ## Cover prompt
 

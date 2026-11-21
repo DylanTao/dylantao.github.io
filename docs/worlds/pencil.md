@@ -36,3 +36,13 @@ The house, its rooms and layout, walking and every control, accessibility and re
 ## How it is judged
 
 In three views: the living room by day, the study at night with its lamp, and the coast from the sea. It is ready when a frame could pass for a page from an architect's sketchbook.
+
+## The first sheet
+
+The fireplace is the darkest mark, and the small flame inside it is bare paper. A cushion needs one broken contour to sit against it. The oak island takes straight strokes at its joints, while the steel hood asks the hand to turn. These are the first three surfaces to judge when the drawing moves. The same eye and furniture appear 26.5 seconds into the playable house film. [Graphite concept and direction](../../artwork/concepts/coastal-home/2026-11-20/README.md#the-living-floor-in-graphite).
+
+## A room you can draw in
+
+Open the [graphics studies](https://dylantao.github.io/?scene-lab=1), enter 3D, open the lab’s Graphics studies and select **Pencil study**. Turn around the fireplace. The stroke follows the steel as it curves into the flue. A deeper pressure fills the turned plane, while adjacent cushions carry little more than a broken edge. The little white flame uses the same changing hot plume and depth as the fire in Realistic. Move the camera and the billets can pass across it. [The concept beside three playable views](../../artwork/concepts/coastal-home/2026-11-20/pencil-rooms.webp).
+
+The first working room looked woven. Two families of lines crossed almost everywhere, even on the linen. In later drawings the second pencil only reaches the deeper shadows. Increasing the pressure across broad planes brought the far chairs and the oak battens into the drawing. The coast still loses the horizon and the desk screen is the most insistent dark at night. A future pass should give the sea a few horizontal marks and let the desk lamp organize the page. The five public worlds keep their own scores while the study is open.

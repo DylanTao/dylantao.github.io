@@ -1,5 +1,5 @@
 {
-  "signature": "26b367265d7bf049dab2dc98f1e7299ec557ec06327d13569230940bea236f53",
+  "signature": "8f6bac01d56924bea0799ee9eebb71a0921759caec79750d827df8311f157c41",
   "inputs": {
     "version": 1,
     "manifestSha256": "121fd7693653eea24b65f5255948339a6d5199173a132d5b93982247228c7515",
@@ -10,7 +10,7 @@
       "assets/js/home-scene/arrival-view.mjs": "254314994e95a9888b0b7fb7c57a98a636095be35c58ec1c71ab76f79d4231f9",
       "assets/js/home-scene/bedroom-curtains.mjs": "ceae94ebed84bc5aaddc5318550ceca5515f6786b92614fc43e58cfe72e41036",
       "assets/js/home-scene/coastal-wind.mjs": "1e7c23f37f8612c3d7bc24b53a3aa1a1428339ce4fc60e16784673ba451f123e",
-      "assets/js/home-scene/controller.mjs": "f03f1da36f35faf3d117c8efdb62f44b0f142317e3a638b24a9859a30fc44b66",
+      "assets/js/home-scene/controller.mjs": "179c6336fad2f7d062597ba195ed60f4ac8140b85fbbd8033e4b536204242f01",
       "assets/js/home-scene/diffuse-paths.mjs": "505babbe5a4fcf60dacad7c41872cb4a33bbca0b398de9b6565215daa6c3e13c",
       "assets/js/home-scene/furniture.mjs": "5a222eba1a633df1ec79715f3d342dd12e16b8758510716edc74f0420d229c20",
       "assets/js/home-scene/gym-dashboard.mjs": "df013adcd4e7134274cb6dd4c8a5e000409778e92ef255c445aad13019ebbfdb",
