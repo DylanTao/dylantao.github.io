@@ -1741,6 +1741,10 @@ export function createCoastalHome(container, records, artifacts) {
         zenith: colors.zenith,
         horizon: colors.horizon,
         ground: sky ? colors.ground : hemi.groundColor.clone().multiplyScalar(hemi.intensity).toArray(),
+        sun:
+          config.staticLightFieldCache?.loungeSolar && sky && daylight.altitude > 0 && sky.light.sunLuminance >= sky.light.moonLuminance
+            ? [sunDirection.toArray(), sky.light.sunColor]
+            : null,
         practicalPowers: [...warmPracticals.lights.map((light) => light.intensity), ...(lightInstallations?.indirectPowers() || [])],
       });
     }
@@ -1835,6 +1839,19 @@ export function createCoastalHome(container, records, artifacts) {
   // connection that is still delivering always finishes, since the bake would cost far more.
   const LIGHT_CACHE_STALL = 20000;
   let lightCachePrefetch = null;
+  let loungeSolarLoad = null,
+    loungeSolarBound = false;
+  function approachLoungeSolar() {
+    const cache = config?.staticLightFieldCache;
+    if (loungeSolarLoad || !loungeSolarBound || !cache?.loungeSolar) return;
+    if (currentRoom !== "lounge" && !staticLightField.nearLounge(camera.position)) return;
+    loungeSolarLoad = import("./deferred/lounge-solar.mjs")
+      .then(({ fetchLoungeSolar }) => fetchLoungeSolar(cache, manifestUrl, lightBakeAbort.signal))
+      .then((sample) => {
+        if (!disposed && staticLightField.setLoungeSolar(sample)) requestFrame();
+      })
+      .catch(() => {});
+  }
   function prefetchLightCache() {
     const cache = config?.staticLightFieldCache;
     if (lightCachePrefetch || !cache?.url || !cache.signature) return lightCachePrefetch;
@@ -1885,6 +1902,7 @@ export function createCoastalHome(container, records, artifacts) {
           const snapshot = await prefetchLightCache();
           const restored = staticLightField.restoreSnapshot(snapshot, { signature: cache.signature });
           if (!restored) throw new Error("Cached light does not match this home");
+          loungeSolarBound = Boolean(cache.loungeSolarGeometry && snapshot.loungeSolarGeometry === cache.loungeSolarGeometry);
           lightCache.state = "restored";
           return;
         } catch (error) {
@@ -1893,7 +1911,11 @@ export function createCoastalHome(container, records, artifacts) {
         }
       }
       if (!labEnabled) await loadAllDetail();
-      await staticLightField.bake({ signal: lightBakeAbort.signal, yieldTask: () => new Promise((resolve) => setTimeout(resolve, 0)) });
+      await staticLightField.bake({
+        signal: lightBakeAbort.signal,
+        yieldTask: () => new Promise((resolve) => setTimeout(resolve, 0)),
+        observeGeometry: labEnabled ? globalThis.coastalLightBakeGeometry : undefined,
+      });
     })()
       .then(() => {
         if (disposed) return;
@@ -4643,6 +4665,7 @@ export function createCoastalHome(container, records, artifacts) {
         else setTimeout(run, 0);
       }
     }
+    approachLoungeSolar();
     const settledRadius = constrainOrbit({ yaw, pitch, radius: desiredRadius }, cameraEnvelope()).radius;
     if (
       moving ||
