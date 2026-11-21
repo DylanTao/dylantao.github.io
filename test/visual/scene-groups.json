@@ -1,5 +1,5 @@
 {
-  "head": "4f325d2e6ec33781793c4e8534697b85d6f273f3",
+  "head": "2d452bb0bd239dbe4a7500d4fc71fd095bed3664",
   "manifestOrder": [
     "companion.spec.js",
     "duh.spec.js",
@@ -113,7 +113,11 @@
       },
       {
         "file": "desk-scene.spec.js",
-        "title": "record: on-disc controls, continuous rotation, and offscreen suspension"
+        "title": "record: outside arrows and on-disc playback preserve rotation and offscreen suspension"
+      },
+      {
+        "file": "desk-scene.spec.js",
+        "title": "record audio: native playback, cue replacement and keyboard seek use the original recordings"
       },
       {
         "file": "desk-scene.spec.js",
@@ -179,7 +183,7 @@
       },
       {
         "file": "desk-scene.spec.js",
-        "title": "record physics: touch transport keeps cues reachable and preserves spin across 2D/3D"
+        "title": "record physics: touch transport transfers the spindle and saves the 2D recording position"
       },
       {
         "file": "desk-scene.spec.js",
