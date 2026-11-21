@@ -555,10 +555,17 @@ def validate_coastal_cache(site_dir: Path) -> None:
     if sha256(body).hexdigest() != descriptor["sha256"]:
         raise AssertionError("Built coastal light cache bytes changed; preserve its minifier exclusion")
     snapshot = json.loads(body)
-    if snapshot.get("version") not in (1, 2):
+    if snapshot.get("version") not in (1, 2, 3):
         raise AssertionError("Built coastal light cache uses an unsupported snapshot version")
     if snapshot.get("signature") != descriptor["signature"]:
         raise AssertionError("Built coastal light cache signature does not match the manifest")
+    if descriptor.get("loungeSolar"):
+        sunlight = (manifest_path.parent / descriptor["loungeSolar"]).read_bytes()
+        if sha256(sunlight).hexdigest() != descriptor.get("loungeSolarSha256"):
+            raise AssertionError("Built lounge sunlight bytes changed; preserve its minifier exclusion")
+        geometry = descriptor.get("loungeSolarGeometry")
+        if not geometry or snapshot.get("loungeSolarGeometry") != geometry or json.loads(sunlight).get("geometryFingerprint") != geometry:
+            raise AssertionError("Built lounge sunlight geometry does not match the baked field and manifest")
 
 
 def main() -> None:

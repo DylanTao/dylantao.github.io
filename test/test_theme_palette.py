@@ -409,7 +409,9 @@ class CoastalThemePaletteTests(unittest.TestCase):
             encoding="utf-8"
         )
         start = controller.index("  function updateLight()")
-        end = controller.index("  function updateRoutine", start)
+        # Scope the check to the palette update. Optional room loaders consult the eye to
+        # decide when to fetch their data and live between the light and routine functions.
+        end = controller.index("\n  }\n", start)
         lighting = controller[start:end]
         for mode in EXPECTED_ANCHORS:
             self.assertIn(f'"{mode}"', routine)
