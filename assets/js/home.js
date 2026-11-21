@@ -198,7 +198,7 @@
       const preferredTop = Math.min(416, Math.max(128, innerHeight * 0.36));
       const top = Math.min(preferredTop, innerHeight - railHeight - 24, coastTop - railHeight - 24);
       const obscured = top < navBottom + 16;
-      storyRail.style.setProperty("--home-rail-top", `${Math.max(navBottom + 16, top).toFixed(1)}px`);
+      storyRail.style.setProperty("--home-rail-top", `${Math.max(navBottom + 16, top)}px`);
       storyRail.toggleAttribute("data-rail-obscured", obscured);
       storyRail.toggleAttribute("inert", obscured);
     };
