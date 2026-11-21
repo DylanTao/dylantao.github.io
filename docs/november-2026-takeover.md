@@ -645,6 +645,8 @@ The planting and distant cliffs used to trigger two complete shader preparation 
 
 **Round 40.** Sirui’s first record needed a pulse you could come in on. In _A Tugboat for Two_, a low guitar pulse leaves room for little replies from mandolin and banjo. In _All the Windows Open_, a longer viola line steadies the piece as a violin opens the coda. Visitors can see which original they are hearing, turn down any of the four records from the same panel, or leave the needle at a chosen second. The desktop and touch visits checked play, change, seek and resume. On a phone the turntable carried on spinning after the visitor entered the house, and native playback held the exact time for their return. [Scores and controls](house/world-music.md#playing-a-record-at-the-desk)
 
+**Round 41.** A turn from the realistic cello to the cartoon banjo dropped the level of a complete piece by 5.48 loudness units at the same volume setting. I adjusted the five style gains against the finished Watercolour recording and ran the decoded masters through the site’s output again. The five now lie within 1.44 units. The phrase dynamics still come from the original performances. [Playback measurements and listening intention](house/world-music.md#changing-style-at-a-steady-volume)
+
 ### November 20 · What the floor and the beach asked of the drawing
 
 **Round 13.** The sinuous acoustic ceiling and continuous linen back finally read together from the record seat. Real joints gave the loggia floor a scale, but its first limestone had broad repeating stripes. The shoreline study showed a related problem in the ceramic band under the pool. It lined up from one intended eye and almost disappeared in profile.

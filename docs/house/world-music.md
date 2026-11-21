@@ -56,6 +56,22 @@ The first sleeve plays _A Tugboat for Two_. An offbeat guitar bass gives short b
 
 Style chooses which piece accompanies a page or a room. Playing a record gives the foreground to the record. The Volume ribbon adjusts the record, the world music and the physical sounds at a shared output. Turning Sound off or leaving for 3D holds the record at its playhead. The house film has a continuous score of its own. [Desk scores and recording credits](../../assets/audio/desk-records/CREDITS.md) · [Control design and playable frames](../../artwork/concepts/coastal-home/2026-11-20/README.md#the-house-under-glass)
 
+### Changing style at a steady volume
+
+The cello sustains energy between notes. A banjo string leaves space as soon as it is picked. Giving their two recordings the same fader position left Cartoon 5.48 loudness units below Realistic. I set one playback gain for each finished piece, using Watercolour as the reference. The span across the five is now 1.44 units. The two new desk records are 1.25 units apart at their foreground playback level.
+
+| Page music  | First playback, LUFS | Fitted playback, LUFS | Fitted true peak, dBTP |
+| ----------- | -------------------: | --------------------: | ---------------------: |
+| Realistic   |               −28.85 |                −30.45 |                 −16.46 |
+| Painted     |               −29.26 |                −30.23 |                 −15.96 |
+| Watercolour |               −30.15 |                −30.15 |                 −15.41 |
+| Woodblock   |               −33.00 |                −30.65 |                 −14.40 |
+| Cartoon     |               −34.33 |                −31.59 |                 −14.97 |
+
+For a repeat, decode each full shipped stereo MP3 in a 24 kHz Chromium offline audio context, then play it through its style gain and the site's actual master graph at 100% Volume. Read the input integrated loudness and true peak of the resulting stereo PCM in FFmpeg. On a new listening pass, change from cello to banjo mid-phrase at a fixed volume, then return to the guitar and violin. Listen to the first attack after the transition and whether the quieter middle of each piece still has somewhere to go. [Playback gains](../../assets/js/sound/coastal-music.mjs) · [Shared audio graph](../../assets/js/sound/engine.mjs) · [FFmpeg loudness meter](https://ffmpeg.org/ffmpeg-filters.html#loudnorm)
+
+The [measurement script](../../artwork/coastal-home/reviews/measure-recordings.cjs) reads the four disc URLs and five gains from a built copy of the site. With FFmpeg on the path, run `node artwork/coastal-home/reviews/measure-recordings.cjs http://127.0.0.1:8080/`. Add `ffmpeg 0.46` to replay the original equal-gain setting.
+
 ## Reproducing a take
 
 Keep the Philharmonia Strings ZIP outside this checkout. The Python renderer uses NumPy, SciPy and imageio-ffmpeg. Pass the archive to `python bin/render_coastal_world_music.py --strings <Strings.zip> --output assets/audio/coastal-score --review <private-directory>`. It writes the five pieces, fifteen interaction cues, twelve scored film cuts and a timed index. The review directory receives two uninterrupted lossless prints, one with the players alone and one with the surf. It also receives the room mixes, the field recording levels and original time offsets, and the onset, source file and SHA-256 for each played note. The source musicians' individual samples stay in their archive.

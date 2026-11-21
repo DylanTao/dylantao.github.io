@@ -4,7 +4,9 @@ const MOTIFS = ["select", "arrival", "threshold"];
 const DIRECTORY = new URL("../../audio/coastal-score/", import.meta.url);
 const MANIFEST = "score.json";
 const RESPONSES = "responses.mp3";
-const THEME_LEVEL = 0.46;
+// Match the five completed pieces at the shared output while keeping each
+// performance's rests and phrasing. Measurements are in docs/house/world-music.md.
+export const COASTAL_THEME_LEVELS = Object.freeze({ realistic: 0.38, paint: 0.41, watercolour: 0.46, print: 0.64, toon: 0.7 });
 const MOTIF_LEVEL = 0.32;
 const FILM_LEVEL = 0.62;
 const FADE = 0.72;
@@ -193,7 +195,7 @@ export function createCoastalMusic({ context, dry }, { load = loadAsset, now = (
         const voice = createVoice(buffer, target.offset, 0);
         voice.session = target;
         current = voice;
-        fade(voice, THEME_LEVEL, FADE);
+        fade(voice, COASTAL_THEME_LEVELS[target.look], FADE);
         if (!target.started) lastPlayed.set(target.look, now());
         target.started = true;
         voice.source.onended = () => {
