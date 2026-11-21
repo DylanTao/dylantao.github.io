@@ -284,6 +284,8 @@ export function createStaticLightField({
       ),
     };
   }
+  const loungeRegion = regions.findIndex((region) => region.id === "lounge");
+  let loungeSolar = null;
   let fallbackCoefficients = new Float64Array(12);
   let transport = null,
     bvh = null,
@@ -596,7 +598,7 @@ export function createStaticLightField({
       momentData[at + 3] = 1;
     }
   }
-  async function bake({ yieldTask = defaultYield, signal } = {}) {
+  async function bake({ yieldTask = defaultYield, signal, observeGeometry } = {}) {
     if (disposed || baking || uniforms.slfReady.value) throw new Error("field can bake once before disposal");
     baking = true;
     const ticket = ++generation,
@@ -615,6 +617,10 @@ export function createStaticLightField({
     try {
       check();
       const geometry = await collect(yielding, check);
+      if (observeGeometry) {
+        await observeGeometry(geometry);
+        check();
+      }
       statistics.geometryMs = performance.now() - started;
       const acceleratorStart = performance.now();
       bvh = await createTriangleBVH(geometry.positions, geometry.albedo, { yieldTask: yielding, check });
@@ -716,12 +722,23 @@ export function createStaticLightField({
     setLighting(lighting, true);
     return true;
   }
+  function nearLounge({ x, y, z }) {
+    if (loungeRegion < 0) return false;
+    const region = regions[loungeRegion];
+    return regionLocal([x, y, z], region).every((v, i) => v >= region.min[i] - 1 && v <= region.max[i] + 1);
+  }
+  function setLoungeSolar(sample) {
+    if (loungeRegion < 0 || disposed) return false;
+    loungeSolar = sample;
+    return setLighting(lighting, true);
+  }
   function setLighting(next, force = false) {
     if (disposed) return false;
     lighting = {
       zenith: rgb(next.zenith),
       horizon: rgb(next.horizon),
       ground: rgb(next.ground),
+      sun: next.sun ?? null,
       practicalPowers: [...(next.practicalPowers || practicalSources.map(() => 0))],
     };
     if (lighting.practicalPowers.length !== practicalSources.length || !lighting.practicalPowers.every((x) => Number.isFinite(x) && x >= 0))
@@ -743,6 +760,7 @@ export function createStaticLightField({
     regionMeanLuminance.fill(0);
     const validByRegion = new Uint16Array(regions.length);
     const coefficients = new Float64Array(12);
+    const solar = loungeSolar?.(lighting.sun);
     for (let p = 0; p < count; p++) {
       coefficients.fill(0);
       for (let s = 0; s < sourceCount; s++)
@@ -754,6 +772,9 @@ export function createStaticLightField({
         regionMeanLuminance[region] += 0.2126 * coefficients[0] + 0.7152 * coefficients[1] + 0.0722 * coefficients[2];
         validByRegion[region]++;
       }
+      // Keep the exposure meter on the same sky and practicals. The existing
+      // lounge cage and moment visibility weight the reflected light at each surface.
+      if (solar && p >> 3 === loungeRegion) for (let k = 0; k < 12; k++) coefficients[k] += solar[(p % 8) * 12 + k];
       for (let k = 0; k < 4; k++) coefficientData.set([...coefficients.subarray(k * 3, k * 3 + 3), 0], p * 16 + k * 4);
     }
     for (let region = 0; region < regions.length; region++) regionMeanLuminance[region] /= validByRegion[region] || 1;
@@ -1011,6 +1032,7 @@ if(slfReady>.5) {
       transportBytes: transport?.byteLength || 0,
       trace: statistics.trace || bvh?.evidence?.() || {},
       practicalEnergy,
+      loungeSolar: Boolean(loungeSolar),
       ready: !!uniforms.slfReady.value,
       disposed,
       limits: [
@@ -1035,10 +1057,24 @@ if(slfReady>.5) {
     coefficientTexture.dispose();
     positionTexture.dispose();
     momentTexture.dispose();
-    transport = bvh = null;
+    transport = bvh = loungeSolar = null;
     roots.length = 0;
   }
-  const api = { addRoot, bake, exportSnapshot, restoreSnapshot, setLighting, setPracticalPowers, bindMaterial, sample, ambientAt, evidence, dispose };
+  const api = {
+    addRoot,
+    bake,
+    exportSnapshot,
+    restoreSnapshot,
+    setLighting,
+    setLoungeSolar,
+    nearLounge,
+    setPracticalPowers,
+    bindMaterial,
+    sample,
+    ambientAt,
+    evidence,
+    dispose,
+  };
   setLighting(lighting);
   return api;
 }

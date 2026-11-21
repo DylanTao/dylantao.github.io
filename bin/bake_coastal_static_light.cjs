@@ -6,12 +6,54 @@ const fs = require("node:fs/promises");
 const path = require("node:path");
 const { isDeepStrictEqual } = require("node:util");
 const { coastalLightInputs, digest } = require("./coastal_static_light_inputs.cjs");
+const { fingerprintLoungeTriangles, loungeGeometryFingerprint } = require("./coastal_lounge_solar_geometry.cjs");
 const root = path.resolve(__dirname, "..");
 const base = new URL(process.env.COASTAL_CACHE_URL || "http://127.0.0.1:4170/");
+const refreshLoungeSolar = process.argv.includes("--refresh-lounge-solar");
+const loungeFile = "lounge-solar.json";
+const readOptional = (filename) =>
+  fs.readFile(filename).catch((error) => {
+    if (error.code === "ENOENT") return null;
+    throw error;
+  });
+async function readLoungeTriangles(page, triangles) {
+  const result = {};
+  for (const [name, stride] of [
+    ["positions", 9],
+    ["albedo", 3],
+  ]) {
+    const array = new Float32Array(triangles * stride);
+    const bytes = new Uint8Array(array.buffer);
+    for (let offset = 0; offset < bytes.length; offset += 1024 * 1024) {
+      const encoded = await page.evaluate(
+        ({ name, offset }) => {
+          const values = globalThis.coastalLightBakeTriangles[name];
+          const source = new Uint8Array(values.buffer, values.byteOffset, values.byteLength);
+          const end = Math.min(offset + 1024 * 1024, source.length);
+          let text = "";
+          for (let i = offset; i < end; i += 8192) text += String.fromCharCode(...source.subarray(i, Math.min(i + 8192, end)));
+          return btoa(text);
+        },
+        { name, offset }
+      );
+      const chunk = Buffer.from(encoded, "base64");
+      if (chunk.length !== Math.min(1024 * 1024, bytes.length - offset)) throw new Error("Truncated lounge geometry");
+      bytes.set(chunk, offset);
+    }
+    result[name] = array;
+  }
+  return result;
+}
 (async () => {
   const manifestPath = path.join(root, "assets/models/home/manifest.json"),
     { manifest, inputs, signature } = await coastalLightInputs(root),
     errors = [];
+  const loungePath = path.join(path.dirname(manifestPath), loungeFile);
+  const priorLounge = await readOptional(loungePath);
+  const previous = JSON.parse(await fs.readFile(manifestPath, "utf8")).staticLightFieldCache;
+  if (previous?.loungeSolar && !priorLounge && !refreshLoungeSolar)
+    throw new Error("The active lounge solar table is missing. Run the bake with --refresh-lounge-solar.");
+  const wantsLoungeSolar = Boolean(priorLounge || refreshLoungeSolar);
   const browser = await chromium.launch({
     headless: true,
     args: process.platform === "win32" ? ["--use-angle=d3d11", "--ignore-gpu-blocklist"] : [],
@@ -20,6 +62,15 @@ const base = new URL(process.env.COASTAL_CACHE_URL || "http://127.0.0.1:4170/");
     const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1, reducedMotion: "reduce" });
     page.setDefaultTimeout(Number(process.env.COASTAL_BAKE_TIMEOUT_MS) || 180000);
     page.on("pageerror", (error) => errors.push(error.message));
+    if (wantsLoungeSolar)
+      await page.addInitScript({
+        content: `
+          globalThis.coastalLightBakeGeometry = async (geometry) => {
+            globalThis.coastalLightBakeTriangleFingerprint = await (${fingerprintLoungeTriangles.toString()})(geometry.positions, geometry.albedo);
+            if (${refreshLoungeSolar}) globalThis.coastalLightBakeTriangles = geometry;
+          };
+        `,
+      });
     await page.route("**/assets/**", async (route) => {
       const pathname = decodeURIComponent(new URL(route.request().url()).pathname),
         relative = pathname.slice(base.pathname.replace(/\/$/, "").length + 1),
@@ -66,6 +117,31 @@ const base = new URL(process.env.COASTAL_CACHE_URL || "http://127.0.0.1:4170/");
       );
     const snapshot = await scene.evaluate((element, signature) => element.labScene.exportStaticLightSnapshot(signature), signature);
     if (snapshot.signature !== signature || errors.length) throw new Error(`Bake failed: ${JSON.stringify(errors)}`);
+    let loungeBody = priorLounge,
+      loungeDescriptor = null;
+    if (wantsLoungeSolar) {
+      const triangleFingerprint = await page.evaluate(() => globalThis.coastalLightBakeTriangleFingerprint);
+      const geometryFingerprint = loungeGeometryFingerprint(snapshot, triangleFingerprint);
+      if (refreshLoungeSolar) {
+        const geometry = await readLoungeTriangles(page, snapshot.statistics.triangles);
+        // Once the canonical geometry has been extracted the fit is entirely CPU work.
+        await browser.close();
+        const { bakeLoungeSolar } = await import("./coastal_lounge_solar_bake.mjs");
+        loungeBody = Buffer.from(JSON.stringify(await bakeLoungeSolar(snapshot, geometry, geometryFingerprint)) + "\n");
+      }
+      const { decodeLoungeSolar } = await import("../assets/js/home-scene/deferred/lounge-solar.mjs");
+      try {
+        decodeLoungeSolar(JSON.parse(loungeBody), geometryFingerprint);
+      } catch (error) {
+        throw new Error("Lounge solar table no longer matches the measured geometry. Run the bake with --refresh-lounge-solar.", { cause: error });
+      }
+      snapshot.loungeSolarGeometry = geometryFingerprint;
+      loungeDescriptor = {
+        loungeSolar: loungeFile,
+        loungeSolarSha256: digest(loungeBody),
+        loungeSolarGeometry: geometryFingerprint,
+      };
+    }
     // Keep every transport/moment bit. The runtime supports the legacy decimal
     // format too; new authoring bakes use explicit little-endian typed bytes.
     const pack = (values, width) => {
@@ -86,9 +162,7 @@ const base = new URL(process.env.COASTAL_CACHE_URL || "http://127.0.0.1:4170/");
     if ((await coastalLightInputs(root)).signature !== signature)
       throw new Error("Scene inputs changed during the bake; retry after source changes finish");
     const filename = path.join(root, "assets/models/home/static-light-field.json");
-    await fs.writeFile(filename + ".tmp", body);
-    await fs.rename(filename + ".tmp", filename);
-    manifest.staticLightFieldCache = { url: "static-light-field.json", signature, sha256: digest(body) };
+    manifest.staticLightFieldCache = { url: "static-light-field.json", signature, sha256: digest(body), ...loungeDescriptor };
     // Update only the descriptor. Re-serializing the whole authored manifest loses its numeric
     // spelling and creates unrelated geometry-metadata churn on every lighting bake.
     const source = (await fs.readFile(manifestPath, "utf8")).replace(/\r\n/g, "\n"),
@@ -98,14 +172,28 @@ const base = new URL(process.env.COASTAL_CACHE_URL || "http://127.0.0.1:4170/");
         ? source.replace(existing, '"staticLightFieldCache": ' + descriptor)
         : source.replace(/\n\}\s*$/, ',\n  "staticLightFieldCache": ' + descriptor + "\n}\n");
     if (!isDeepStrictEqual(JSON.parse(updated), manifest)) throw new Error("Cache descriptor update changed unrelated manifest data");
+    if (wantsLoungeSolar) {
+      const live = await readOptional(loungePath);
+      if (!isDeepStrictEqual(live, priorLounge)) throw new Error("Lounge solar table changed during the bake; retry after authoring.");
+    }
+    await fs.writeFile(filename + ".tmp", body);
+    if (refreshLoungeSolar) await fs.writeFile(loungePath + ".tmp", loungeBody);
+    if (refreshLoungeSolar) await fs.rename(loungePath + ".tmp", loungePath);
+    await fs.rename(filename + ".tmp", filename);
     await fs.writeFile(manifestPath, updated);
     // The signed dependency inventory is for authors. A visitor only needs its
     // digest and the radiance field, both of which the delivered manifest binds.
     const inventory = path.join(root, "artwork/coastal-home/reviews/static-light-inputs.json");
     await fs.writeFile(inventory, JSON.stringify({ signature, inputs }, null, 2) + "\n");
-    console.log(JSON.stringify({ bytes: Buffer.byteLength(body), signature, sha256: digest(body), bake: snapshot.statistics }, null, 2));
+    console.log(
+      JSON.stringify(
+        { bytes: Buffer.byteLength(body), signature, sha256: digest(body), loungeSolar: loungeDescriptor, bake: snapshot.statistics },
+        null,
+        2
+      )
+    );
   } finally {
-    await browser.close();
+    if (browser.isConnected()) await browser.close();
   }
 })().catch((error) => {
   console.error(error);

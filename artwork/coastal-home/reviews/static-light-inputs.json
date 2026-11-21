@@ -1,5 +1,5 @@
 {
-  "signature": "419cabc1b5d8dfb9bcc9c0ffd3fc9b954e8f265552574e3c7e1388c97af9e01c",
+  "signature": "ed209a17aab55572def3fae854f04eeaee5b6f7bc66f47708c271f16e4bc777f",
   "inputs": {
     "version": 1,
     "manifestSha256": "121fd7693653eea24b65f5255948339a6d5199173a132d5b93982247228c7515",
@@ -10,7 +10,7 @@
       "assets/js/home-scene/arrival-view.mjs": "254314994e95a9888b0b7fb7c57a98a636095be35c58ec1c71ab76f79d4231f9",
       "assets/js/home-scene/bedroom-curtains.mjs": "ceae94ebed84bc5aaddc5318550ceca5515f6786b92614fc43e58cfe72e41036",
       "assets/js/home-scene/coastal-wind.mjs": "1e7c23f37f8612c3d7bc24b53a3aa1a1428339ce4fc60e16784673ba451f123e",
-      "assets/js/home-scene/controller.mjs": "47b51a0053304b06d213f77bb91300e52ac6179f6364a01329d4ea49aad450f6",
+      "assets/js/home-scene/controller.mjs": "fd3664e3e68f13ca6de7e1fc46049502908196c65138dcd9806e3af44adc8170",
       "assets/js/home-scene/diffuse-paths.mjs": "505babbe5a4fcf60dacad7c41872cb4a33bbca0b398de9b6565215daa6c3e13c",
       "assets/js/home-scene/furniture.mjs": "5a222eba1a633df1ec79715f3d342dd12e16b8758510716edc74f0420d229c20",
       "assets/js/home-scene/gym-dashboard.mjs": "df013adcd4e7134274cb6dd4c8a5e000409778e92ef255c445aad13019ebbfdb",
@@ -27,7 +27,7 @@
       "assets/js/home-scene/realism.mjs": "f002af04d6421c78b3d6f0f9ebacf14a1e40aa66e50b0ac563c08ca1f67318c9",
       "assets/js/home-scene/room-journey.mjs": "925ffe8efda1f100efd5dbe7375dd26a21730c4db48c4cde02642bf1859f01c8",
       "assets/js/home-scene/seat-surface.mjs": "37b69e69d227e2522edb3563934fc52d52d3af493d8e09ef4a97e36893a6e216",
-      "assets/js/home-scene/static-light-field.mjs": "a4713338d86b7aecc5eaa6571f7fb13cc4c07b6cd5cfd856234118191efcb6ad",
+      "assets/js/home-scene/static-light-field.mjs": "1b77560350489854fc87204db1813d075f38a9c95cb548840cf058dce915c0d4",
       "assets/js/home-scene/static-triangle-index.mjs": "7713ccb84b1b23fd99a95e352e563dd2a4febd448c33fd279c71293ecbfe8c1a",
       "assets/js/home-scene/walk-presence.mjs": "c3d777930be88a5a05bcc991655f4aa47f8ddd7946dfe804cdb98e259dcc9bba",
       "assets/js/home-scene/warm-practicals.mjs": "bdba2ac5cb7ca08f966ff9376d693ab72810f0e5359d7936ac0011efaf4fe433",

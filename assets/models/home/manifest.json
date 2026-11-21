@@ -6089,8 +6089,11 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "419cabc1b5d8dfb9bcc9c0ffd3fc9b954e8f265552574e3c7e1388c97af9e01c",
-    "sha256": "f673b4795443b900b6fe34c62280296a909496ca421199eaa364f4fb83634867"
+    "signature": "ed209a17aab55572def3fae854f04eeaee5b6f7bc66f47708c271f16e4bc777f",
+    "sha256": "216ee75e59db2c64c4437b85dbf5e47d1798f12b2ac7fb64d559f4d83aeaf56b",
+    "loungeSolar": "lounge-solar.json",
+    "loungeSolarSha256": "ff69aac33bdc5c58f212df30de482df715ac8a8474594aeced64384167f0fb52",
+    "loungeSolarGeometry": "6fa859df9d59dc6857bf76ed5b5c397933fbdb023d159cb6e92d43ea1d926a80"
   },
   "estateDoors": [
     {
