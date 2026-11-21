@@ -6,7 +6,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import sourceTools from "./r2-source.cjs";
 
-const cli = sourceTools.argumentsFrom(process.argv.slice(2), "node measure-r2.mjs CHECKOUT FULL_SHA OUTPUT [YYYY-MM-DD]");
+const cli = sourceTools.argumentsFrom(process.argv.slice(2), "node measure-r2.mjs CHECKOUT FULL_SHA OUTPUT [YYYY-MM-DD] [--room-addend]");
 const release = await sourceTools.loadRelease(cli);
 const OUT = release.out;
 const ROOT = release.pinned;
@@ -21,7 +21,7 @@ const { resolveRoutine } = await sceneModule("routine");
 const { createWarmPracticals, practicalSourcesFor } = await sceneModule("warm-practicals");
 const { createLightInstallations, roomLightSources } = await sceneModule("light-installations");
 
-const DATE = cli.tail[0] || "2026-11-20";
+const DATE = cli.tail.find((arg) => arg !== "--room-addend") || "2026-11-20";
 const signs = ["current-weather", "clear"];
 const round = (x, precision = 1e-8) => Math.round(x / precision) * precision;
 const luma = (rgb) => dot(rgb, [0.2126, 0.7152, 0.0722]);
@@ -364,6 +364,73 @@ const convergence = ["study", "sleep", "onsen", "living", "lounge", "gym"].map((
   return refine({ name, target, baseline: target.skyPractical });
 });
 
+async function writeRoomAddends() {
+  // These four standing poses reproduce the November 20 comparison, including
+  // the upper bath's actual landing height. Each camera was collision-admitted.
+  const shots = [
+    { id: "lounge", room: "lounge", time: "14:15", body: [2.09, 0.002618, 4.44], aim: [2.55, 0.77, 6.6], fov: 49 },
+    { id: "living", room: "lounge", time: "14:45", body: [0.64, 0.002618, 4.44], aim: [-0.4, 0.9, 6.6], fov: 49 },
+    { id: "gym", room: "gym", time: "15:30", body: [9.31, 0.01793, 4.16], aim: [7.85, 1.2, 6.85], fov: 53 },
+    { id: "onsen", room: "onsen", time: "16:15", body: [2.215, 2.602397, 9.847], aim: [3.12, 3.22, 10.75], fov: 49 },
+  ];
+  const shadowLimitMetres = 64;
+  const quadrature = sphereQuadrature(16);
+  const cases = shots.map((shot) => {
+    const [hour, offset] = shot.time.split(":").map(Number);
+    const minute = 60 * hour + offset;
+    const env = getLight(minute, "current-weather");
+    assert(env.solarKey, "The comparison uses the daytime solar key");
+    const eye = [shot.body[0], shot.body[1] + 1.6, shot.body[2]];
+    const forward = normalize(shot.aim.map((value, i) => value - eye[i]));
+    const yaw = Math.atan2(forward[0], forward[2]);
+    const pitch = Math.atan2(forward[1], Math.hypot(forward[0], forward[2]));
+    const values = new Float64Array(snapshot.probes.length * 12);
+    for (const [index, probe] of snapshot.probes.entries()) {
+      if (!probe.valid) continue;
+      for (const { direction, weight } of quadrature) {
+        const hit = bvh.ray(probe.position, direction, traceLimit);
+        if (!hit) continue;
+        const cosine = dot(hit.normal, env.direction);
+        if (cosine <= 0) continue;
+        const origin = hit.point.map((value, axis) => value + 0.002 * hit.normal[axis] - 0.002 * direction[axis]);
+        if (bvh.ray(origin, env.direction, shadowLimitMetres, 0.001, true)) continue;
+        const radiance = Array.from(hit.albedo, (value, channel) => (value * cosine * env.solar[channel]) / Math.PI);
+        accumulateL1(values, index * 12, radiance, direction, weight);
+      }
+      deringL1(values, index * 12);
+    }
+    assert(values.every(Number.isFinite));
+    const packed = Buffer.alloc(values.byteLength);
+    for (const [i, value] of values.entries()) packed.writeDoubleLE(value, i * 8);
+    return {
+      ...shot,
+      eye,
+      yaw,
+      pitch,
+      minute,
+      sun: { direction: env.direction, sunColor: env.solar },
+      coefficients: {
+        layout: "probe-major DC, X, Y, Z × RGB Float64 little endian",
+        count: values.length,
+        sha256: sha(packed),
+        base64: packed.toString("base64"),
+      },
+    };
+  });
+  const result = {
+    revision: release.revision,
+    signature: snapshot.signature,
+    cache: release.snapshotHash,
+    date: DATE,
+    arrays: collector.arrays,
+    primaryRays: quadrature.length,
+    primaryLimitMetres: traceLimit,
+    shadowLimitMetres,
+    cases,
+  };
+  await writeFile(path.join(OUT, "R2-DELTAS.json"), JSON.stringify(result, null, 2) + "\n");
+}
+
 const receipt = {
   source: collector.revision,
   signature: snapshot.signature,
@@ -408,6 +475,7 @@ const receipt = {
   elapsedMs: performance.now() - started,
 };
 await writeFile(path.join(OUT, "R2-RESULT.json"), JSON.stringify(receipt, null, 2) + "\n");
+if (cli.tail.includes("--room-addend")) await writeRoomAddends();
 console.log(
   JSON.stringify(
     {
