@@ -21,6 +21,7 @@ import {
   STATIC_LIGHT_REGIONS,
   staticLightRegions,
 } from "../assets/js/home-scene/static-light-field.mjs";
+import { packStaticLightSnapshot } from "../bin/coastal_static_light_pack.mjs";
 
 const close = (a, b, tolerance = 1e-6) => assert.ok(Math.abs(a - b) < tolerance, `${a} differs from ${b}`);
 const regions = [{ id: "test", min: [-0.8, 0.15, -0.8], max: [0.8, 1.5, 0.8] }];
@@ -240,7 +241,7 @@ test("packed fields preserve every lighting bit, sample and GPU texture while ke
   original.addRoot(new THREE.Mesh(new THREE.BoxGeometry(6, 0.1, 6), new THREE.MeshStandardMaterial()));
   await original.bake({ yieldTask: immediate });
   const snapshot = original.exportSnapshot({ signature: snapshotSignature });
-  for (const input of [snapshot, packedSnapshot(snapshot)]) {
+  for (const input of [snapshot, packedSnapshot(snapshot), JSON.parse(JSON.stringify(packStaticLightSnapshot(snapshot)))]) {
     const field = createStaticLightField(options);
     assert.equal(field.restoreSnapshot(input, { signature: snapshotSignature }), true);
     const roundtrip = field.exportSnapshot({ signature: snapshotSignature });

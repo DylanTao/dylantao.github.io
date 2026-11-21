@@ -46,14 +46,13 @@ function patchField(text) {
       pack.replace("...coefficients.", "...displayed."),
     ].join("\n")
   );
-  return replaceOnce(
-    text,
-    "  const api = { addRoot, bake, exportSnapshot, restoreSnapshot,",
-    "  const api = { setDiagnosticSolar, addRoot, bake, exportSnapshot, restoreSnapshot,"
-  );
+  return replaceOnce(text, "  const api = {", "  const api = { setDiagnosticSolar,");
 }
 
 function patchController(text) {
+  // The full-trace study supplies its own solar addend. Keep the signed
+  // baseline arrays and avoid applying the optional fitted lounge twice.
+  if (text.includes("    approachLoungeSolar();")) text = replaceOnce(text, "    approachLoungeSolar();", "");
   const at = "    container.labScene.exportStaticLightSnapshot = (signature) => staticLightField?.exportSnapshot({ signature });";
   return replaceOnce(
     text,

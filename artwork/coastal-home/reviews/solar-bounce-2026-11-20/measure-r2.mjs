@@ -5,6 +5,7 @@ import { performance } from "node:perf_hooks";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import sourceTools from "./r2-source.cjs";
+import { decodeStaticLightArrays } from "../../../../assets/js/home-scene/static-light-cache-codec.mjs";
 
 const cli = sourceTools.argumentsFrom(process.argv.slice(2), "node measure-r2.mjs CHECKOUT FULL_SHA OUTPUT [YYYY-MM-DD] [--room-addend]");
 const release = await sourceTools.loadRelease(cli);
@@ -116,12 +117,9 @@ const positions = await loadFloat(collector.arrays.positions, "positions");
 const albedo = await loadFloat(collector.arrays.albedo, "albedo");
 const bvh = await createTriangleBVH(positions, albedo);
 const acceleratorMs = performance.now() - started;
-const transport = Buffer.from(snapshot.transport, "base64");
-const moments = Buffer.from(snapshot.moments, "base64");
-assert.equal(transport.byteLength, snapshot.probes.length * sources * 12 * 8);
-assert.equal(moments.byteLength, snapshot.probes.length * quads.length * 4 * 4);
-const values = new Float64Array(transport.byteLength / 8);
-for (let i = 0; i < values.length; i++) values[i] = transport.readDoubleLE(i * 8);
+const arrays = decodeStaticLightArrays(snapshot, snapshot.probes.length * sources * 12, snapshot.probes.length * quads.length * 4);
+assert(arrays, "Invalid signed probe arrays");
+const { transport: values, moments } = arrays;
 let compared = 0,
   primaryHits = 0;
 const mismatches = [];
@@ -129,7 +127,7 @@ const hits = snapshot.probes.map((probe, p) => {
   if (!probe.valid) return [];
   return quads.flatMap(({ direction, weight }, k) => {
     const hit = bvh.ray(probe.position, direction, traceLimit);
-    const cached = moments.readFloatLE(((p * quads.length + k) * 4 + 2) * 4);
+    const cached = moments[(p * quads.length + k) * 4 + 2];
     const actual = Math.fround(hit?.distance ?? traceLimit);
     compared++;
     if (cached !== actual) mismatches.push({ probe: p, ray: k, cached, actual });

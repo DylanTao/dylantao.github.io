@@ -4,6 +4,7 @@ import { gzipSync } from "node:zlib";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import sourceTools from "./r2-source.cjs";
+import { decodeStaticLightArrays } from "../../../../assets/js/home-scene/static-light-cache-codec.mjs";
 import { decodeLoungeSolar } from "../../../../assets/js/home-scene/deferred/lounge-solar.mjs";
 import { angleUnit as DEG, createLoungeTracer, probeRays, sampleLoungeLattice, shadowMetres } from "../../../../bin/coastal_lounge_solar_bake.mjs";
 import geometryProof from "../../../../bin/coastal_lounge_solar_geometry.cjs";
@@ -40,13 +41,16 @@ const readFloat32 = async ({ file, bytes, sha256 }) => {
 const positions = await readFloat32(extraction.arrays.positions);
 const albedo = await readFloat32(extraction.arrays.albedo);
 const bvh = await createTriangleBVH(positions, albedo);
-const moments = Buffer.from(release.snapshot.moments, "base64");
 const basis = sphereQuadrature(Math.sqrt(cfg.raysPerProbe));
+const count = release.snapshot.probes.length;
+const arrays = decodeStaticLightArrays(release.snapshot, count * (cfg.practicalSources.length + 3) * 12, count * basis.length * 4);
+assert(arrays, "Invalid signed probe arrays");
+const { moments } = arrays;
 for (const [p, { position, valid }] of probes.entries()) {
   if (!valid) continue;
   for (const [k, { direction }] of basis.entries()) {
     const distance = bvh.ray(position, direction, cfg.maxTraceDistance)?.distance ?? cfg.maxTraceDistance;
-    assert.equal(Math.fround(distance), moments.readFloatLE((((firstProbe + p) * basis.length + k) * 4 + 2) * 4));
+    assert.equal(Math.fround(distance), moments[((firstProbe + p) * basis.length + k) * 4 + 2]);
   }
 }
 
