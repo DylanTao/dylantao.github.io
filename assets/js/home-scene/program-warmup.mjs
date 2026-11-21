@@ -163,8 +163,7 @@ function compileTransmissionBackfaces(renderer, scene, camera) {
 // The driver compiles on a worker pool as wide as the CPU, and this scene's first view is about
 // 35 s of D3D11 compiler time. Submitting every batch at once kept the test machine's 22 logical
 // cores busy, and the page's own thread then waited up to 1.5 s for a turn while doing 3-7 ms of
-// work. After its task boundary, the next batch waits until no more than `slots` programs are
-// compiling.
+// work. Each batch waits until no more than `slots` programs are compiling.
 async function compileSceneInBatches(renderer, scene, camera, target, queue, slots, onBatch, size = 6) {
   const holders = [],
     pending = new Set();
@@ -174,6 +173,7 @@ async function compileSceneInBatches(renderer, scene, camera, target, queue, slo
     for (const material of [object.material].flat()) if (material) pending.add(material);
   });
   const all = [...pending];
+  let lastYield = performance.now();
   for (let start = 0; start < all.length; start += size) {
     const batch = new Set(all.slice(start, start + size)),
       compiled = [];
@@ -193,7 +193,12 @@ async function compileSceneInBatches(renderer, scene, camera, target, queue, slo
     });
     queue.add(compiled);
     onBatch?.(Math.min(all.length, start + size), all.length);
-    await new Promise((resolve) => later(resolve, 0));
+    // Cached materials submit in microseconds. Share one short task among them so a coast
+    // visit does not wait for hundreds of separate turns behind the running scene.
+    if (performance.now() - lastYield >= 5 || start + size >= all.length) {
+      await new Promise((resolve) => later(resolve, 0));
+      lastYield = performance.now();
+    }
     await queue.drain(slots);
   }
 }

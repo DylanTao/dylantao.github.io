@@ -2,6 +2,7 @@ export function bindVisitorRailUi(ui, listen, actions) {
   const panel = ui.querySelector("[data-world-visit-controls]");
   if (!panel) return () => {};
   const entries = [...ui.querySelectorAll("[data-world-visit-start]")];
+  const cancel = ui.querySelector("[data-world-visit-cancel]");
   const note = ui.querySelector("[data-world-places-note]");
   const roomInstructions = note?.textContent;
   const caption = panel.querySelector("[data-world-visit-caption]");
@@ -22,8 +23,15 @@ export function bindVisitorRailUi(ui, listen, actions) {
   listen(panel.querySelector("[data-world-visit-return]"), "click", () => actions.stop());
   let shown = false;
   let preparing = null;
+  if (cancel)
+    listen(cancel, "click", () => {
+      const choice = entries.find((entry) => entry.dataset.worldVisitStart === preparing);
+      actions.cancel();
+      choice?.focus({ preventScroll: true });
+    });
   return ({ ready, state, pose, pending = null }) => {
     if (pending !== preparing) {
+      if (cancel) cancel.hidden = !pending;
       for (const entry of entries) {
         if (entry.dataset.worldVisitStart === pending) entry.setAttribute("aria-disabled", "true");
         else entry.removeAttribute("aria-disabled");

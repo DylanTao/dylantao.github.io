@@ -55,6 +55,18 @@ test("house film: the first view from the entrance includes the planted coast", 
     await expect(choice).toBeFocused();
     await expect(choice).toHaveAttribute("aria-disabled", "true");
     await expect(page.locator("[data-world-places-note]")).toHaveText("Opening the coast…");
+    const heldFrames = await host.evaluate(async (el) => {
+      const before = el.getSceneEvidence().frames;
+      el.labScene.requestFrame();
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      return [before, el.getSceneEvidence().frames];
+    });
+    expect(heldFrames[1]).toBe(heldFrames[0]);
+    await page.locator("[data-world-visit-cancel]").click();
+    await expect(choice).toBeFocused();
+    await expect(choice).not.toHaveAttribute("aria-disabled", "true");
+    await choice.click();
+    await expect(page.locator("[data-world-visit-cancel]")).toBeVisible();
   } finally {
     releaseFlora();
   }

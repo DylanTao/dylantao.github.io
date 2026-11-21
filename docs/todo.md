@@ -28,7 +28,7 @@ Updated November 20, after the house and media controls review. The gym and ocea
 
 Sirui’s next listen will guide the phrasing of the original recordings. Each item below keeps its checkboxes, evidence and any hardware or timing dependency.
 
-The house film also has a measurable startup delay. On this Intel Arc laptop a cold public visit took 64 seconds from the click to the first image, followed by a complete 125-second playback of the 118-second edit. The next performance pass starts with that first wait. [Film](#11-the-film)
+The house film now holds the entrance in view while it prepares the coast. On this Intel Arc laptop the first composed shot appeared after 7.21 and 6.22 seconds in two local cold visits. The preceding code took 16.16 seconds between them. The earlier 64-second public screening remains a separate reference. [Opening study](film/shot-list.md#waiting-for-the-first-image)
 
 ## Open, in priority order
 
@@ -217,7 +217,8 @@ Item 2's data says where to start.
 - [x] Measured one reflected sun path through a day in all 16 lighting regions (R2). Afternoon bounce in the lounge, gym, living room and onsen survived longer shadow rays and denser sampling. [Probe readings and replay](../artwork/coastal-home/reviews/solar-bounce-2026-11-20/README.md).
 - [x] Compared the four sea-facing rooms in their measured afternoon light. A settled repeat kept the fabric still in the living-room pair. The strongest visible benefit was the shaded oak in the lounge. [Images and replay](../artwork/concepts/coastal-home/2026-11-20/afternoon-and-ridge.md#the-afternoon-rooms).
 - [x] The lounge now picks up the direction and colour of reflected daylight as the sun moves. At 2:15 p.m. it reveals the grain in the shaded oak while the hearth keeps its highlight. The test held out 504 sun directions across seasons. The fitted data arrives when a visitor approaches the lounge. [Playable comparison and calculation](../artwork/coastal-home/reviews/solar-bounce-2026-11-20/LOUNGE.md).
-- [ ] The review panel as agents (I1, I2).
+- [x] Separate reviewers examined the film’s architecture, the driver timing and a visitor’s public screening before the startup change. The complete coast stays in the opening. [Reviews and replay](film/shot-list.md#waiting-for-the-first-image).
+- [ ] Run one matched comparison of two served house builds for frame time, draw calls, first-scene bytes, readiness and three fixed views per look (I2).
 - [x] The lighting cache packs the same numerical values into fewer bytes. Adding the lounge left 57 bytes free in the 4 MiB opening scene. The new bake leaves 19,426 bytes free on this laptop and loads the same directional reflection when the visitor reaches the room. A future learned approximation would have to beat this lossless baseline. [Packing and replay](../artwork/coastal-home/reviews/solar-bounce-2026-11-20/LOUNGE.md#delivery-of-the-base-field)
 
 **Machine: PC** for measurements. **Detail:** takeover E, R, I, S.

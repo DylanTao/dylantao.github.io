@@ -427,7 +427,7 @@ The record pages listed these as open; the code says otherwise.
 
 ### I. A research loop, and a panel to grill it
 
-- [ ] **I1. Run the panel as separate agents** on the next proposal before building it (the roles and their standing questions are in the notebook card "A research loop for this house"). This session's panel was one model arguing each role in turn, which is cheaper and weaker.
+- [x] **I1. Run the panel as separate agents.** On November 20 a performance reviewer timed the film’s first image, a visual reviewer followed the offshore camera into the stair, and a visitor reviewer watched a complete public screening with sound. Their results changed the proposal. All nine streamed room bounds enter the opening camera’s field of view. We kept the complete architecture in shot and tested the wait between batches of materials. [What each reviewer saw](film/shot-list.md#waiting-for-the-first-image).
 - [ ] **I2. One command that reports the numbers Sirui cares about** for a candidate against `main`: frame time outside and in a room at 2K, first-scene bytes, time to ready, draws, and three fixed frames per look. Most pieces exist (`bin/measure_coastal_views.cjs`, `bin/compare_coastal_stills.cjs`, the asset budget test); they are not yet one report.
 
 ### J. Worlds: one house, several ways of drawing it
@@ -652,6 +652,8 @@ The planting and distant cliffs used to trigger two complete shader preparation 
 **Round 43.** The new lounge light left just 57 bytes free in the opening scene. The incoming light often has zero energy in all three colour channels. The authoring tool now records a single bit for those triples and packs the remaining numbers by byte. On the same signed field all 80,384 values kept their original bits. The new live bake leaves 19,426 bytes free in the 4 MiB budget on this Windows checkout. It took a median 7.00 ms to read the packed example across 120 Node trials on the laptop. [The packing, checks and replay](../artwork/coastal-home/reviews/solar-bounce-2026-11-20/LOUNGE.md#delivery-of-the-base-field)
 
 **Round 44.** Seven of the nine costume drawings fit across a laptop in the Spooder-Man gallery. A mouse pull of 160 px originally moved the drawings zero pixels. The strip now follows the hand and coasts to a thumbnail. Browsing keeps the current drawing on stage. Clicking a thumbnail or pressing End chooses a drawing and takes over from the throw. On touch the strip retains its native swipe. Sixteen repeated checks covered both the drawings and the existing video row across four widths. [The costume picker](https://dylantao.github.io/projects/hci-spooder-man/#spooder-capsule).
+
+**Round 45.** During a cold House film visit the sea mirror tried to draw the newly arriving rooms while the graphics driver was still linking their materials. The entrance now keeps its last complete frame through preparation. Cancel returns focus to the film choice. In three visits to the same local build, the changed version opened in 7.21 seconds, the previous code in 16.16 seconds, and the changed version again in 6.22 seconds. Both new takes retained the trees, glass, surf, moving gliders and the offshore camera. [What the reviewers saw and measured](film/shot-list.md#waiting-for-the-first-image).
 
 ### November 20 · What the floor and the beach asked of the drawing
 

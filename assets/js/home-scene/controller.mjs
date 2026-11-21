@@ -3128,6 +3128,7 @@ export function createCoastalHome(container, records, artifacts) {
       if (event.key !== "Escape" || !places.open) return;
       event.preventDefault();
       event.stopPropagation();
+      cancelPendingVisit();
       places.open = false;
       places.querySelector("summary").focus({ preventScroll: true });
     });
@@ -3141,10 +3142,7 @@ export function createCoastalHome(container, records, artifacts) {
     listen(ui, "click", async (event) => {
       const b = event.target.closest("button");
       if (!b) return;
-      if (pendingVisit && (b.dataset.worldDestination || b.matches("[data-world-follow], [data-world-now], [data-world-view]"))) {
-        pendingVisit = null;
-        showHint(null);
-      }
+      if (b.dataset.worldDestination || b.matches("[data-world-follow], [data-world-now], [data-world-view]")) cancelPendingVisit();
       if (b.matches("[data-world-follow], [data-world-now], [data-world-recenter], [data-world-look], [data-world-view]")) cancelPendingRoom();
       if (b.hasAttribute("data-world-arrival-skip")) {
         b.hidden = true;
@@ -3822,6 +3820,13 @@ export function createCoastalHome(container, records, artifacts) {
   const filmScore = labEnabled ? null : createFilmScoreCue((detail) => document.dispatchEvent(new CustomEvent("coastal:score", { detail })));
   let pendingVisit = null;
   let visitCoastPrepared = false;
+  function cancelPendingVisit() {
+    if (!pendingVisit) return;
+    pendingVisit = null;
+    syncVisit({ ready: visitReady() });
+    showHint(null);
+    requestFrame();
+  }
   function startVisit(kind) {
     if (visit || !visitReady() || !compositionReady || !["film", "boat"].includes(kind) || walkMode?.evidence().inputSuspended || cliffLift?.boarded)
       return false;
@@ -4026,6 +4031,13 @@ export function createCoastalHome(container, records, artifacts) {
   function render(now) {
     frame = 0;
     if (!visible || !inViewport || disposed || document.hidden) return;
+    // Hold the last complete entrance frame while the coast and its shaders arrive. Drawing
+    // half-attached rooms in the sea mirror would synchronously link their unfinished programs.
+    // Readiness, cancellation and a fullscreen change each request a frame of their own.
+    if (pendingVisit && pendingVisit.mode === fullscreen.mode && !visitCoastPrepared) {
+      lastFrame = 0;
+      return;
+    }
     const submitStart = performance.now(),
       consecutive = lastFrame > 0;
     // Routes, clips, and water are sampled in time; capping their clock makes
@@ -5252,6 +5264,7 @@ export function createCoastalHome(container, records, artifacts) {
     });
   const syncVisit = bindVisitorRailUi(ui, listen, {
     start: startVisit,
+    cancel: cancelPendingVisit,
     stop: stopVisit,
     togglePause() {
       if (!visit) return;
