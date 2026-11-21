@@ -218,7 +218,7 @@ Item 2's data says where to start.
 - [x] Compared the four sea-facing rooms in their measured afternoon light. A settled repeat kept the fabric still in the living-room pair. The strongest visible benefit was the shaded oak in the lounge. [Images and replay](../artwork/concepts/coastal-home/2026-11-20/afternoon-and-ridge.md#the-afternoon-rooms).
 - [x] The lounge now picks up the direction and colour of reflected daylight as the sun moves. At 2:15 p.m. it reveals the grain in the shaded oak while the hearth keeps its highlight. The test held out 504 sun directions across seasons. The fitted data arrives when a visitor approaches the lounge. [Playable comparison and calculation](../artwork/coastal-home/reviews/solar-bounce-2026-11-20/LOUNGE.md).
 - [ ] The review panel as agents (I1, I2).
-- [ ] A smaller light cache (S). Moving the authoring-file hashes to the Blender receipts saved about 6.5 KB compressed. The November 20 controls and ridge build has 1,228 bytes of headroom in the first scene's 4 MiB budget on this checkout. A trial of 91 reversible packings found a lossless 20,213-byte saving on the earlier field. Revisit that option when the next room needs the space. A quantized network still needs an accuracy comparison.
+- [x] The lighting cache packs the same numerical values into fewer bytes. Adding the lounge left 57 bytes free in the 4 MiB opening scene. The new bake leaves 19,426 bytes free on this laptop and loads the same directional reflection when the visitor reaches the room. A future learned approximation would have to beat this lossless baseline. [Packing and replay](../artwork/coastal-home/reviews/solar-bounce-2026-11-20/LOUNGE.md#delivery-of-the-base-field)
 
 **Machine: PC** for measurements. **Detail:** takeover E, R, I, S.
 

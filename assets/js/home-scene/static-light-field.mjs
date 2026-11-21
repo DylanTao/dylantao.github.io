@@ -1,4 +1,5 @@
 import * as THREE from "../three.module.min.js";
+import { decodeStaticLightArrays } from "./static-light-cache-codec.mjs";
 import { traceAdditionalDiffuse } from "./diffuse-paths.mjs";
 import {
   accumulateL1,
@@ -144,30 +145,6 @@ function regionWorld(point, region) {
     f.origin[1] + point[1] + f.slope * point[2],
     f.origin[2] - f.along[0] * point[0] + f.along[1] * point[2],
   ];
-}
-
-// Version 2 carries the existing float64 transport and float32 moments as
-// little-endian bytes. HTTP compression can then preserve their bits without
-// paying for decimal strings. Reject malformed data before any live mutation.
-function snapshotArray(encoded, length, width) {
-  if (typeof encoded !== "string" || encoded.length !== 4 * Math.ceil((length * width) / 3)) return null;
-  if (!/^[A-Za-z0-9+/]*={0,2}$/.test(encoded)) return null;
-  try {
-    const binary = atob(encoded);
-    if (binary.length !== length * width) return null;
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-    const view = new DataView(bytes.buffer),
-      values = width === 8 ? new Float64Array(length) : new Float32Array(length);
-    for (let i = 0; i < length; i++) {
-      const value = width === 8 ? view.getFloat64(i * width, true) : view.getFloat32(i * width, true);
-      if (!Number.isFinite(value)) return null;
-      values[i] = value;
-    }
-    return values;
-  } catch {
-    return null;
-  }
 }
 
 // Static, visibility-weighted diffuse field. No dynamic ray tracing.
@@ -669,25 +646,14 @@ export function createStaticLightField({
   }
   function restoreSnapshot(snapshot, { signature } = {}) {
     if (disposed || baking || uniforms.slfReady.value) return false;
-    if (!/^[a-f0-9]{64}$/.test(signature || "") || ![1, 2].includes(snapshot?.version) || snapshot.signature !== signature) return false;
+    if (!/^[a-f0-9]{64}$/.test(signature || "") || snapshot?.signature !== signature) return false;
     if (snapshot.configuration !== snapshotConfiguration) return false;
     const finiteArray = (values, length) => Array.isArray(values) && values.length === length && values.every(Number.isFinite);
-    const cachedTransport =
-        snapshot.version === 2
-          ? snapshotArray(snapshot.transport, count * sourceCount * 12, 8)
-          : finiteArray(snapshot.transport, count * sourceCount * 12)
-            ? snapshot.transport
-            : null,
-      cachedMoments =
-        snapshot.version === 2
-          ? snapshotArray(snapshot.moments, momentData.length, 4)
-          : finiteArray(snapshot.moments, momentData.length)
-            ? snapshot.moments
-            : null;
-    if (!cachedTransport || !cachedMoments) return false;
+    const cached = decodeStaticLightArrays(snapshot, count * sourceCount * 12, momentData.length);
+    if (!cached) return false;
     // Unit-radiance diffuse transport is small; a generous bound rejects finite JSON payloads that
     // overflow the float32 coefficient texture after ordinary sky/lamp relighting.
-    if (cachedTransport.some((value) => Math.abs(value) > 1e6)) return false;
+    if (cached.transport.some((value) => Math.abs(value) > 1e6)) return false;
     if (
       !Array.isArray(snapshot.probes) ||
       snapshot.probes.length !== count ||
@@ -695,13 +661,12 @@ export function createStaticLightField({
     )
       return false;
     // Validate conversion before mutating any live state: a finite JSON number may overflow float32.
-    const positions = Float32Array.from(snapshot.probes.flatMap((p) => [...p.position, p.valid ? 1 : 0])),
-      moments = Float32Array.from(cachedMoments);
-    if (!positions.every(Number.isFinite) || !moments.every(Number.isFinite)) return false;
+    const positions = Float32Array.from(snapshot.probes.flatMap((p) => [...p.position, p.valid ? 1 : 0]));
+    if (!positions.every(Number.isFinite)) return false;
     const started = performance.now();
-    transport = Float64Array.from(cachedTransport);
+    transport = cached.transport;
     positionData.set(positions);
-    momentData.set(moments);
+    momentData.set(cached.moments);
     snapshot.probes.forEach((p, i) => Object.assign(probes[i], { position: [...p.position], valid: p.valid, relocation: p.relocation }));
     // Report visitor work separately from the original author's bake; restoring traces no rays.
     statistics = {

@@ -1,5 +1,5 @@
 {
-  "signature": "ed209a17aab55572def3fae854f04eeaee5b6f7bc66f47708c271f16e4bc777f",
+  "signature": "6739babd40656c4513ad64cee4967d5cc91f29e61acd7840c481915d528e45e8",
   "inputs": {
     "version": 1,
     "manifestSha256": "121fd7693653eea24b65f5255948339a6d5199173a132d5b93982247228c7515",
@@ -27,7 +27,8 @@
       "assets/js/home-scene/realism.mjs": "f002af04d6421c78b3d6f0f9ebacf14a1e40aa66e50b0ac563c08ca1f67318c9",
       "assets/js/home-scene/room-journey.mjs": "925ffe8efda1f100efd5dbe7375dd26a21730c4db48c4cde02642bf1859f01c8",
       "assets/js/home-scene/seat-surface.mjs": "37b69e69d227e2522edb3563934fc52d52d3af493d8e09ef4a97e36893a6e216",
-      "assets/js/home-scene/static-light-field.mjs": "1b77560350489854fc87204db1813d075f38a9c95cb548840cf058dce915c0d4",
+      "assets/js/home-scene/static-light-cache-codec.mjs": "13c3b926eaaacb6a08ac1b20cac857f2e2c063f3847e5c7f80dc7695b6988fcf",
+      "assets/js/home-scene/static-light-field.mjs": "7d53cb38702eb78aa146c5cc025df2b9df60ea4c8c583dbab1f9a9aae2819cde",
       "assets/js/home-scene/static-triangle-index.mjs": "7713ccb84b1b23fd99a95e352e563dd2a4febd448c33fd279c71293ecbfe8c1a",
       "assets/js/home-scene/walk-presence.mjs": "c3d777930be88a5a05bcc991655f4aa47f8ddd7946dfe804cdb98e259dcc9bba",
       "assets/js/home-scene/warm-practicals.mjs": "bdba2ac5cb7ca08f966ff9376d693ab72810f0e5359d7936ac0011efaf4fe433",

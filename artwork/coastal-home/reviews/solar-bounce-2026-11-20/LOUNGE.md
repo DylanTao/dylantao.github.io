@@ -39,3 +39,13 @@ Serve the rebuilt checkout with the signed descriptor for the browser replay. It
 ```text
 node capture-lounge.cjs CHECKOUT OUTPUT http://127.0.0.1:8080/
 ```
+
+## Delivery of the base field
+
+On the signed field from commit `051a9fee9`, the third packing reproduced the bits of all 80,384 transport and visibility values. It omits all-positive-zero RGB triplets, retaining any triplet with a negative zero, and groups like bytes together. The four visibility channels are packed independently. The reader also opens the two earlier field formats. On that same input the file fell from 700,216 to 299,440 bytes, or 174,206 to 153,949 at gzip level 6. In 120 alternating Node trials on the laptop, median parse and decode time changed from 10.29 to 7.00 ms. The P95 times were 25.38 and 12.96 ms.
+
+A fresh bake of the playable house produced 299,461 bytes, or 153,956 at gzip level 6. The initial scene used 4,174,878 of its 4,194,304-byte allowance on the Windows checkout. The optional room table retained its geometry signature and exact file digest. The replay above still loads the complete base field before the visitor enters the lounge. The format and handling of older source measurements are exercised by the following tests.
+
+```text
+node --test test/static-light-cache-codec.test.mjs test/static-light-cache.test.mjs test/static-light-field.test.mjs test/lounge-solar.test.mjs
+```
