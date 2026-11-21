@@ -949,11 +949,21 @@
     const recordCovers = splitAttribute("data-record-covers", "|");
     const recordOriginals = splitAttribute("data-record-originals", "|");
     const recordSources = splitAttribute("data-record-sources", "|");
+    const trackMetadata = (name) => (portrait.getAttribute(`data-record-track-${name}`) || "").split("|");
+    const trackSources = trackMetadata("sources");
+    const trackTitles = trackMetadata("titles");
+    const trackSeconds = trackMetadata("seconds");
     const spinButton = document.querySelector("[data-home-record-play]");
     const previousButton = document.querySelector("[data-home-record-prev]");
     const nextButton = document.querySelector("[data-home-record-next]");
     const recordSceneElement = portrait.querySelector("[data-home-record-scene]");
     const recordPlayer = portrait.closest(".home-record-player") || portrait;
+    const trackElement = recordPlayer.querySelector("[data-home-record-audio]");
+    const trackTitle = recordPlayer.querySelector("[data-home-record-track-title]");
+    const trackSeek = recordPlayer.querySelector("[data-home-record-seek]");
+    const trackElapsed = recordPlayer.querySelector("[data-home-record-elapsed]");
+    const trackDuration = recordPlayer.querySelector("[data-home-record-duration]");
+    const trackStatus = recordPlayer.querySelector("[data-home-record-status]");
     const recordFallbackArt = recordSceneElement?.querySelector(".home-record-art");
     const recordScene = createRecordSceneController(recordSceneElement);
     const deskSceneElement = stage?.querySelector("[data-home-desk-scene]");
@@ -981,6 +991,7 @@
       duration: recordDurations[index] || "",
       tone: recordTones[index] || "submarine",
       source: recordSources[index] || "",
+      track: { source: trackSources[index], title: trackTitles[index], seconds: Number(trackSeconds[index]) || 0 },
     }));
     const deskScene = createDeskCornerSceneController(deskSceneElement, records, artifactCards);
     // Records use an 800px WebP variant; a build without ImageMagick falls back to the original art.
@@ -1013,6 +1024,12 @@
     let isPreviewing = false;
     let isRecordEngaged = false;
     let isSpinning = false;
+    let playAttempt = 0;
+    let playRequested = false;
+    let replacingTrack = false;
+    let sharedAttachment = null;
+    let sharedSoundOn = Boolean(window.siteSound?.evidence()?.on);
+    let pendingSeek = null;
     let activePointerId = null;
     let activePointerStartedOnPlayButton = false;
     let gestureStartX = 0;
@@ -1030,6 +1047,76 @@
     const compactPileQuery = window.matchMedia("(max-width: 767px)");
 
     const getCurrentRecord = () => records[Math.max(0, recordIndex)] || records[0];
+    const recordDeskVisible = () => stage?.dataset.deskMode !== "3d";
+    const timeText = (seconds) => {
+      const total = Math.floor(seconds);
+      return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
+    };
+    const showTrackStatus = (message = "") => {
+      if (!trackStatus) return;
+      trackStatus.textContent = message;
+      trackStatus.hidden = !message;
+    };
+
+    const syncTrackPosition = () => {
+      if (!trackElement || !trackSeek) return;
+      const { track } = getCurrentRecord();
+      const loaded = trackElement.getAttribute("src") === track.source;
+      const duration = loaded && Number.isFinite(trackElement.duration) ? trackElement.duration : track.seconds;
+      const current = pendingSeek ?? (loaded ? trackElement.currentTime : 0);
+      const elapsed = Math.max(0, Math.min(duration, current));
+      trackSeek.disabled = !track.source || !duration;
+      trackSeek.max = duration;
+      trackSeek.value = elapsed;
+      trackSeek.setAttribute("aria-valuetext", `${timeText(elapsed)} of ${timeText(duration)}`);
+      if (trackElapsed) trackElapsed.textContent = timeText(elapsed);
+      if (trackDuration) trackDuration.textContent = timeText(duration);
+    };
+
+    const prepareTrack = () => {
+      const { track } = getCurrentRecord();
+      if (!trackElement || !track.source) return false;
+      trackElement.dataset.title = track.title;
+      if (trackElement.getAttribute("src") !== track.source) trackElement.src = track.source;
+      return true;
+    };
+
+    const stopTrack = () => {
+      playAttempt += 1;
+      playRequested = false;
+      replacingTrack = false;
+      trackElement?.pause();
+    };
+
+    const applyTrackSeek = () => {
+      if (pendingSeek === null || !trackElement?.readyState) return;
+      const duration = Number.isFinite(trackElement.duration) ? trackElement.duration : getCurrentRecord().track.seconds;
+      trackElement.currentTime = Math.min(pendingSeek, duration);
+      pendingSeek = null;
+    };
+
+    const playTrack = async (trusted) => {
+      if (!recordDeskVisible() || !prepareTrack()) return;
+      const attempt = ++playAttempt;
+      playRequested = true;
+      showTrackStatus();
+      try {
+        if (trusted) {
+          sharedAttachment = window.siteSound?.attachMediaElement?.(trackElement);
+        }
+        const attached = await sharedAttachment;
+        if (attempt !== playAttempt || !recordDeskVisible() || document.hidden) return;
+        if (!attached) {
+          failTrack("Sound is unavailable. Try Play again.");
+          return;
+        }
+        if (trackElement.ended) trackElement.currentTime = 0;
+        applyTrackSeek();
+        await trackElement.play();
+      } catch {
+        if (attempt === playAttempt) failTrack("This recording could not play. Try Play again.");
+      }
+    };
 
     const cancelPendingRecordAdvance = () => {
       recordIntentRevision += 1;
@@ -1121,6 +1208,13 @@
         stage.classList.toggle("is-desk-3d", is3D);
         stage.setAttribute("data-desk-mode", is3D ? "3d" : "2d");
       }
+      if (is3D) {
+        // The 3D mechanism keeps its shared rotation. Only the 2D recording pauses.
+        stopTrack();
+      } else {
+        isSpinning = Boolean(trackElement && !trackElement.paused && !trackElement.ended);
+        updateSpinState();
+      }
       recordPlayer.inert = is3D;
       if (deskControls) {
         deskControls.setAttribute("aria-hidden", String(!is3D));
@@ -1176,21 +1270,23 @@
       const title = document.querySelector("[data-home-record-title]");
       const source = document.querySelector("[data-home-record-source]");
       if (title) title.textContent = record.title;
+      if (trackTitle) trackTitle.textContent = record.track.title;
+      if (trackElement) trackElement.dataset.title = record.track.title;
       if (source) {
         source.href = record.source || "#";
         source.hidden = !record.source;
         source.setAttribute("aria-label", `${record.title} artwork source`);
       }
       if (spinButton) {
-        spinButton.setAttribute("aria-label", isSpinning ? `Pause ${record.title} meme record` : `Spin ${record.title} meme record`);
+        spinButton.disabled = !record.track.source;
+        spinButton.setAttribute("aria-label", `${isSpinning ? "Pause" : "Play"} ${record.track.title}`);
       }
-      if (previousButton) previousButton.setAttribute("aria-label", `Previous meme record from ${record.title}`);
-      if (nextButton) nextButton.setAttribute("aria-label", `Next meme record from ${record.title}`);
       if (deskPreviousButton) deskPreviousButton.setAttribute("aria-label", `Previous meme record from ${record.title}`);
       if (deskNextButton) deskNextButton.setAttribute("aria-label", `Next meme record from ${record.title}`);
       if (deskSpinButton) {
         deskSpinButton.setAttribute("aria-label", isSpinning ? `Pause ${record.title} meme record` : `Spin ${record.title} meme record`);
       }
+      syncTrackPosition();
     };
 
     const syncRecordTheme = (tone) => {
@@ -1200,11 +1296,27 @@
 
     const selectRecord = (nextIndex) => {
       const normalizedIndex = (nextIndex + records.length) % records.length;
+      const changed = normalizedIndex !== recordIndex;
+      const carry = changed && recordDeskVisible() && playRequested && Boolean(records[normalizedIndex].track.source);
+      if (changed && trackElement) {
+        playAttempt += 1;
+        playRequested = carry;
+        replacingTrack = carry && isSpinning;
+        pendingSeek = null;
+        if (trackElement.hasAttribute("src")) {
+          trackElement.pause();
+          trackElement.removeAttribute("src");
+          trackElement.load();
+        }
+        trackElement.preload = "none";
+        showTrackStatus();
+      }
       recordIndex = normalizedIndex;
       const record = records[recordIndex];
       syncRecordControls(record);
       syncRecordTheme(record.tone);
       deskScene.setActiveRecord(recordIndex);
+      if (carry) playTrack(false);
       return { image: preloadedRecords[recordIndex], record };
     };
 
@@ -1263,7 +1375,7 @@
       if (spinButton) {
         spinButton.classList.toggle("is-playing", isSpinning);
         spinButton.setAttribute("aria-pressed", String(isSpinning));
-        spinButton.setAttribute("aria-label", isSpinning ? `Pause ${record.title} meme record` : `Spin ${record.title} meme record`);
+        spinButton.setAttribute("aria-label", `${isSpinning ? "Pause" : "Play"} ${record.track.title}`);
       }
       if (deskSpinButton) {
         deskSpinButton.classList.toggle("is-playing", isSpinning);
@@ -1292,8 +1404,77 @@
       showRecord(recordIndex, { vinyl: true });
     };
 
+    const failTrack = (message) => {
+      stopTrack();
+      if (isSpinning && recordDeskVisible()) pauseRecord();
+      showTrackStatus(message);
+    };
+
+    trackSeek?.addEventListener("input", () => {
+      if (!recordDeskVisible() || !trackElement) return;
+      pendingSeek = trackSeek.valueAsNumber;
+      trackElement.preload = "metadata";
+      if (prepareTrack()) applyTrackSeek();
+      syncTrackPosition();
+    });
+    trackElement?.addEventListener("loadedmetadata", () => {
+      if (trackElement.getAttribute("src") !== getCurrentRecord().track.source) return;
+      applyTrackSeek();
+      syncTrackPosition();
+    });
+    for (const event of ["timeupdate", "durationchange", "seeked"]) {
+      trackElement?.addEventListener(event, syncTrackPosition);
+    }
+    trackElement?.addEventListener("playing", () => {
+      if (!recordDeskVisible() || !playRequested || document.hidden) {
+        trackElement.pause();
+        return;
+      }
+      replacingTrack = false;
+      if (!isSpinning) startRecord();
+    });
+    trackElement?.addEventListener("pause", () => {
+      if (!recordDeskVisible() || !trackElement.paused || replacingTrack) return;
+      stopTrack();
+      if (isSpinning) pauseRecord();
+      syncTrackPosition();
+    });
+    trackElement?.addEventListener("ended", () => {
+      stopTrack();
+      if (recordDeskVisible() && isSpinning) pauseRecord();
+      syncTrackPosition();
+    });
+    trackElement?.addEventListener("error", () => {
+      if (trackElement.error && recordDeskVisible() && trackElement.getAttribute("src") === getCurrentRecord().track.source) {
+        failTrack("This recording could not load. Try Play again.");
+      }
+    });
+    window.addEventListener("siteSoundChange", ({ detail }) => {
+      if (typeof detail?.on !== "boolean") return;
+      const turnedOff = sharedSoundOn && !detail.on;
+      sharedSoundOn = detail.on;
+      if (!turnedOff || !playRequested) return;
+      stopTrack();
+      if (recordDeskVisible() && isSpinning) pauseRecord();
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && playRequested) stopTrack();
+    });
+
+    const toggleTrack = (event) => {
+      if (!event.isTrusted) return;
+      cancelPendingRecordAdvance();
+      if (playRequested) {
+        stopTrack();
+        if (isSpinning) pauseRecord();
+      } else {
+        playTrack(true);
+      }
+    };
+
     const resetRecord = () => {
       cancelPendingRecordAdvance();
+      stopTrack();
       isRecordEngaged = false;
       isSpinning = false;
       shakeCount = 0;
@@ -1879,7 +2060,7 @@
             shakeSuppressionTimer = 0;
           }
         }
-        toggleRecordPlayback();
+        toggleTrack(event);
       });
     }
 
@@ -1928,6 +2109,7 @@
 
     window.addEventListener("pagehide", (event) => {
       cancelPendingRecordAdvance();
+      stopTrack();
       if (event.persisted) {
         recordScene.setVisible(false);
         return;
