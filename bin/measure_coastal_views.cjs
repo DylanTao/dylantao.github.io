@@ -39,7 +39,7 @@ const height = Number(process.env.COASTAL_VIEWS_HEIGHT || 1000);
 const dpr = Number(process.env.COASTAL_VIEWS_DPR || 1);
 const seed = Number(process.env.COASTAL_VIEWS_SEED || 7);
 const pinnedAvatar = process.env.COASTAL_VIEWS_AVATAR || "lizard";
-const abRef = process.env.COASTAL_VIEWS_AB || null;
+const abRef = require.main === module ? process.env.COASTAL_VIEWS_AB || null : null;
 // Uncapped frames emulate a high-refresh display (and show the scene's maximum throughput).
 const uncapped = process.env.COASTAL_VIEWS_UNCAPPED === "1";
 const reducedMotion = process.env.COASTAL_VIEWS_REDUCED === "1" ? "reduce" : "no-preference";
@@ -262,10 +262,103 @@ function fixDate(time) {
   });
 }
 
-async function measureRun(variant, runIndex, browserCDPInfo) {
+function launchCoastalBrowser({ uncapped = false } = {}) {
   const args = process.platform === "win32" ? ["--use-angle=d3d11", "--ignore-gpu-blocklist"] : [];
   if (uncapped) args.push("--disable-gpu-vsync", "--disable-frame-rate-limit");
-  const browser = await chromium.launch({ headless: true, args });
+  return chromium.launch({ headless: true, args, timeout: 30000 });
+}
+
+async function readProcessCPU(browserCDP) {
+  const info = await browserCDP.send("SystemInfo.getProcessInfo").catch(() => null);
+  const totals = {};
+  for (const entry of info?.processInfo || []) totals[entry.type] = (totals[entry.type] || 0) + entry.cpuTime;
+  return totals;
+}
+
+async function sampleCoastalView({ page, cdp, evidence, processCPU }, name, duration = seconds) {
+  const t0 = await page.evaluate(() => performance.now());
+  const before = await evidence();
+  const metrics0 = await cdp.send("Performance.getMetrics");
+  const cpu0 = await processCPU();
+  await page.waitForTimeout(duration * 1000);
+  const t1 = await page.evaluate(() => performance.now());
+  const after = await evidence();
+  const metrics1 = await cdp.send("Performance.getMetrics");
+  const cpu1 = await processCPU();
+  // Let the last frames' GPU queries resolve.
+  await page.waitForTimeout(400);
+  const frames = await page.evaluate(({ t0, t1 }) => window.__coastalViews.frames.filter((f) => f.start >= t0 && f.start < t1 && f.end), {
+    t0,
+    t1,
+  });
+  const tasks = await page.evaluate(({ t0, t1 }) => window.__coastalViews.longTasks.filter((t) => t.start >= t0 && t.start < t1), { t0, t1 });
+  const wall = (t1 - t0) / 1000;
+  const metric = (set, key) => set.metrics.find((m) => m.name === key)?.value || 0;
+  const intervals = frames.slice(1).map((f, i) => f.timestamp - frames[i].timestamp);
+  const labels = new Set(frames.flatMap((f) => Object.keys(f.draws)));
+  const drawsByPass = {},
+    msByPass = {};
+  for (const key of labels) {
+    drawsByPass[key] = round(mean(frames.map((f) => f.draws[key] || 0)), 1);
+    msByPass[key] = round(mean(frames.map((f) => f.time[key] || 0)), 2);
+  }
+  const callKeys = new Set(frames.flatMap((f) => Object.keys(f.calls)));
+  const calls = {};
+  for (const key of callKeys) calls[key] = round(mean(frames.map((f) => f.calls[key] || 0)), 1);
+  const cpu = {};
+  for (const key of Object.keys(cpu1)) cpu[key] = round((100 * ((cpu1[key] || 0) - (cpu0[key] || 0))) / wall, 1);
+  const summary = {
+    name,
+    wallSeconds: round(wall, 2),
+    frames: after.frames - before.frames,
+    fps: round((after.frames - before.frames) / wall, 1),
+    intervalMs: Object.fromEntries(Object.entries(stats(intervals)).map(([k, v]) => [k, round(v)])),
+    submitMs: Object.fromEntries(Object.entries(stats(frames.map((f) => f.end - f.start))).map(([k, v]) => [k, round(v)])),
+    gpuMs: Object.fromEntries(Object.entries(stats(frames.map((f) => f.gpu))).map(([k, v]) => [k, round(v)])),
+    drawsPerFrame: round(mean(frames.map((f) => Object.values(f.draws).reduce((s, v) => s + v, 0))), 1),
+    drawsByPass,
+    msByPass,
+    callsPerFrame: calls,
+    rendererInfo: { calls: after.drawCalls, triangles: after.triangles },
+    canvas: [after.canvasWidth, after.canvasHeight],
+    canvasAtStart: [before.canvasWidth, before.canvasHeight],
+    intervalSamples: intervals.length,
+    mainThreadBusyPercent: round((100 * (metric(metrics1, "TaskDuration") - metric(metrics0, "TaskDuration"))) / wall, 1),
+    scriptPercent: round((100 * (metric(metrics1, "ScriptDuration") - metric(metrics0, "ScriptDuration"))) / wall, 1),
+    processCpuPercent: cpu,
+    longTasks: tasks.length,
+    longTaskMs: round(
+      tasks.reduce((s, t) => s + t.duration, 0),
+      1
+    ),
+    camera: { room: after.currentRoom, radius: round(after.cameraOrbit?.radius, 2) },
+    resolution: after.resolution || null,
+    shadowCache: after.shadowCache || null,
+    seaReflection: after.ecology?.water?.reflection ?? null,
+    lightFieldReceivers: after.simulation?.lightField?.shaderReceivers ?? null,
+    uniformArrays: after.uniformArrays
+      ? {
+          ...after.uniformArrays,
+          windowUploads: after.uniformArrays.uploads - (before.uniformArrays?.uploads || 0),
+          windowSkipped: after.uniformArrays.skipped - (before.uniformArrays?.skipped || 0),
+          windowAvoidedBytes: after.uniformArrays.avoidedBytes - (before.uniformArrays?.avoidedBytes || 0),
+        }
+      : null,
+    // The facade curtains' and the onsen noren's own per-frame times while they step.
+    cloth: after.simulation?.curtains
+      ? {
+          curtainsStepping: after.simulation.curtains.stepping,
+          curtainMs: after.simulation.curtains.frameMilliseconds,
+          norenStepping: after.simulation.curtains.noren?.stepping ?? null,
+          norenMs: after.simulation.curtains.noren?.frameMilliseconds ?? null,
+        }
+      : null,
+  };
+  return summary;
+}
+
+async function measureRun(variant, runIndex, browserCDPInfo) {
+  const browser = await launchCoastalBrowser({ uncapped });
   const result = { variant, run: runIndex, views: {}, toggles: {}, errors: [] };
   try {
     const context = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: dpr, timezoneId: "America/Los_Angeles" });
@@ -304,12 +397,7 @@ async function measureRun(variant, runIndex, browserCDPInfo) {
     await cdp.send("Network.setCacheDisabled", { cacheDisabled: true });
     await cdp.send("Performance.enable");
     const browserCDP = await browser.newBrowserCDPSession();
-    const processCPU = async () => {
-      const info = await browserCDP.send("SystemInfo.getProcessInfo").catch(() => null);
-      const totals = {};
-      for (const entry of info?.processInfo || []) totals[entry.type] = (totals[entry.type] || 0) + entry.cpuTime;
-      return totals;
-    };
+    const processCPU = () => readProcessCPU(browserCDP);
     if (!browserCDPInfo.gpu)
       browserCDPInfo.gpu = await browserCDP
         .send("SystemInfo.getInfo")
@@ -365,85 +453,7 @@ async function measureRun(variant, runIndex, browserCDPInfo) {
     result.avatar = first.avatarId;
     if (result.avatar !== pinnedAvatar) throw new Error(`Arrival identity ${result.avatar} differs from pinned ${pinnedAvatar}`);
 
-    const sample = async (name, duration = seconds) => {
-      const t0 = await page.evaluate(() => performance.now());
-      const before = await evidence();
-      const metrics0 = await cdp.send("Performance.getMetrics");
-      const cpu0 = await processCPU();
-      await page.waitForTimeout(duration * 1000);
-      const t1 = await page.evaluate(() => performance.now());
-      const after = await evidence();
-      const metrics1 = await cdp.send("Performance.getMetrics");
-      const cpu1 = await processCPU();
-      // Let the last frames' GPU queries resolve.
-      await page.waitForTimeout(400);
-      const frames = await page.evaluate(({ t0, t1 }) => window.__coastalViews.frames.filter((f) => f.start >= t0 && f.start < t1 && f.end), {
-        t0,
-        t1,
-      });
-      const tasks = await page.evaluate(({ t0, t1 }) => window.__coastalViews.longTasks.filter((t) => t.start >= t0 && t.start < t1), { t0, t1 });
-      const wall = (t1 - t0) / 1000;
-      const metric = (set, key) => set.metrics.find((m) => m.name === key)?.value || 0;
-      const intervals = frames.slice(1).map((f, i) => f.timestamp - frames[i].timestamp);
-      const labels = new Set(frames.flatMap((f) => Object.keys(f.draws)));
-      const drawsByPass = {},
-        msByPass = {};
-      for (const key of labels) {
-        drawsByPass[key] = round(mean(frames.map((f) => f.draws[key] || 0)), 1);
-        msByPass[key] = round(mean(frames.map((f) => f.time[key] || 0)), 2);
-      }
-      const callKeys = new Set(frames.flatMap((f) => Object.keys(f.calls)));
-      const calls = {};
-      for (const key of callKeys) calls[key] = round(mean(frames.map((f) => f.calls[key] || 0)), 1);
-      const cpu = {};
-      for (const key of Object.keys(cpu1)) cpu[key] = round((100 * ((cpu1[key] || 0) - (cpu0[key] || 0))) / wall, 1);
-      const summary = {
-        name,
-        wallSeconds: round(wall, 2),
-        frames: after.frames - before.frames,
-        fps: round((after.frames - before.frames) / wall, 1),
-        intervalMs: Object.fromEntries(Object.entries(stats(intervals)).map(([k, v]) => [k, round(v)])),
-        submitMs: Object.fromEntries(Object.entries(stats(frames.map((f) => f.end - f.start))).map(([k, v]) => [k, round(v)])),
-        gpuMs: Object.fromEntries(Object.entries(stats(frames.map((f) => f.gpu))).map(([k, v]) => [k, round(v)])),
-        drawsPerFrame: round(mean(frames.map((f) => Object.values(f.draws).reduce((s, v) => s + v, 0))), 1),
-        drawsByPass,
-        msByPass,
-        callsPerFrame: calls,
-        rendererInfo: { calls: after.drawCalls, triangles: after.triangles },
-        canvas: [after.canvasWidth, after.canvasHeight],
-        mainThreadBusyPercent: round((100 * (metric(metrics1, "TaskDuration") - metric(metrics0, "TaskDuration"))) / wall, 1),
-        scriptPercent: round((100 * (metric(metrics1, "ScriptDuration") - metric(metrics0, "ScriptDuration"))) / wall, 1),
-        processCpuPercent: cpu,
-        longTasks: tasks.length,
-        longTaskMs: round(
-          tasks.reduce((s, t) => s + t.duration, 0),
-          1
-        ),
-        camera: { room: after.currentRoom, radius: round(after.cameraOrbit?.radius, 2) },
-        resolution: after.resolution || null,
-        shadowCache: after.shadowCache || null,
-        seaReflection: after.ecology?.water?.reflection ?? null,
-        lightFieldReceivers: after.simulation?.lightField?.shaderReceivers ?? null,
-        uniformArrays: after.uniformArrays
-          ? {
-              ...after.uniformArrays,
-              windowUploads: after.uniformArrays.uploads - (before.uniformArrays?.uploads || 0),
-              windowSkipped: after.uniformArrays.skipped - (before.uniformArrays?.skipped || 0),
-              windowAvoidedBytes: after.uniformArrays.avoidedBytes - (before.uniformArrays?.avoidedBytes || 0),
-            }
-          : null,
-        // The facade curtains' and the onsen noren's own per-frame times while they step.
-        cloth: after.simulation?.curtains
-          ? {
-              curtainsStepping: after.simulation.curtains.stepping,
-              curtainMs: after.simulation.curtains.frameMilliseconds,
-              norenStepping: after.simulation.curtains.noren?.stepping ?? null,
-              norenMs: after.simulation.curtains.noren?.frameMilliseconds ?? null,
-            }
-          : null,
-      };
-      return summary;
-    };
+    const sample = (name, duration) => sampleCoastalView({ page, cdp, evidence, processCPU }, name, duration);
     const shot = async (name) => {
       if (!screenshots || runIndex > 1) return;
       await page
@@ -562,7 +572,15 @@ async function measureRun(variant, runIndex, browserCDPInfo) {
   return result;
 }
 
-(async () => {
+module.exports = { launchCoastalBrowser, readProcessCPU, sampleCoastalView, instrument, seedPage, fixDate };
+
+if (require.main === module)
+  runCli().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+
+async function runCli() {
   fs.mkdirSync(path.dirname(output), { recursive: true });
   const variants = abRef ? ["base", "work", ...extras.map((extra) => extra.name)] : ["current"];
   const order = [];
@@ -627,7 +645,4 @@ async function measureRun(variant, runIndex, browserCDPInfo) {
     );
   }
   console.log(output);
-})().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+}
