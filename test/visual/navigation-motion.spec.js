@@ -284,3 +284,37 @@ test("the video row can be thrown with a mouse and yields at once to any other i
   expect((await state()).phase).toBe("idle");
   expect(errors).toEqual([]);
 });
+
+test("the artwork strip can be browsed independently of the selected picture", async ({ page, isMobile }) => {
+  await preparePage(page, "noon");
+  await page.goto(publicRouteUrl("/projects/hci-spooder-man/"), { waitUntil: "domcontentloaded" });
+  const row = page.locator(".hci-spooder-gallery-thumbs");
+  const thumbs = row.getByRole("button");
+  const stage = page.locator(".hci-spooder-gallery-stage");
+  await row.scrollIntoViewIfNeeded();
+  const overflows = await row.evaluate((el) => el.scrollWidth > el.clientWidth + 1);
+  if (isMobile || !overflows) {
+    if (isMobile) await expect(row).not.toHaveAttribute("data-shelf", /.+/);
+    else await expect(row).toHaveAttribute("data-shelf", "still");
+    await stage.press("End");
+    await expect(thumbs.last()).toHaveAttribute("aria-current", "true");
+    return;
+  }
+  await expect(row).toHaveAttribute("data-shelf", "idle");
+  const box = await row.boundingBox();
+  const x = box.x + box.width / 2;
+  const y = box.y + box.height / 2;
+  await page.mouse.move(x, y);
+  await page.mouse.down();
+  await page.mouse.move(x - 65, y, { steps: 5 });
+  await expect(row).toHaveAttribute("data-shelf", "dragging");
+  expect(await row.evaluate((el) => el.scrollLeft)).toBeGreaterThan(50);
+  await page.mouse.up();
+  await expect(thumbs.first()).toHaveAttribute("aria-current", "true");
+  await stage.press("End");
+  await expect(thumbs.last()).toHaveAttribute("aria-current", "true");
+  await expect(row).toHaveAttribute("data-shelf", "idle");
+  await expect.poll(() => row.evaluate((el) => el.scrollWidth - el.clientWidth - el.scrollLeft)).toBeLessThanOrEqual(1);
+  await thumbs.nth(7).click();
+  await expect(thumbs.nth(7)).toHaveAttribute("aria-current", "true");
+});

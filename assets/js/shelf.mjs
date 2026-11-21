@@ -117,6 +117,7 @@ export function createShelf(scroller, options = {}) {
     last = 0,
     snapType = "",
     behaviour = "",
+    holdingScroll = false,
     wanted = 0,
     give = 0,
     stops = [];
@@ -128,6 +129,7 @@ export function createShelf(scroller, options = {}) {
     scroller.style.translate = Math.abs(px) > 0.05 ? `${px.toFixed(2)}px 0` : "";
   };
   function hold() {
+    if (holdingScroll) return;
     // Read the stops while the row still snaps, then take over: scripted positions must land
     // where they are put, with no snapping or smoothing in between.
     stops = snapStops(scroller);
@@ -135,16 +137,19 @@ export function createShelf(scroller, options = {}) {
     behaviour = scroller.style.scrollBehavior;
     scroller.style.scrollSnapType = "none";
     scroller.style.scrollBehavior = "auto";
+    holdingScroll = true;
   }
   function release() {
+    if (!holdingScroll) return;
     scroller.style.scrollSnapType = snapType;
     scroller.style.scrollBehavior = behaviour;
+    holdingScroll = false;
   }
   function settle() {
     cancelAnimationFrame(frame);
     frame = 0;
     lean(0);
-    if (phase === "dragging" || phase === "flying") release();
+    release();
     phase = "idle";
     scroller.style.userSelect = "";
     show();
@@ -183,10 +188,8 @@ export function createShelf(scroller, options = {}) {
       cancelAnimationFrame(frame);
       frame = 0;
       lean(0);
-      phase = "dragging";
-    } else {
-      phase = "pressed";
     }
+    phase = "pressed";
     pressX = event.clientX;
     pressScroll = scroller.scrollLeft;
     samples = [{ t: event.timeStamp, x: event.clientX }];
@@ -220,8 +223,7 @@ export function createShelf(scroller, options = {}) {
     window.removeEventListener("pointerup", onPointerUp);
     window.removeEventListener("pointercancel", onPointerUp);
     if (phase !== "dragging") {
-      phase = "idle";
-      show();
+      settle();
       return;
     }
     // The click that ends a drag is the drag's, not the card's.
@@ -267,6 +269,7 @@ export function createShelf(scroller, options = {}) {
     get state() {
       return { phase, position, velocity, target, give, wanted };
     },
+    stop: yieldTo,
     // For buttons: go to the neighbouring stop on the same spring, from wherever the row is.
     step(direction) {
       if (phase === "flying") cancelAnimationFrame(frame);

@@ -23,7 +23,7 @@ Updated November 20, after the house and media controls review. The gym and ocea
 | [Daylight and the speed of the outside view](#15-research-and-speed)               | Measure the three costly transparent surfaces outdoors at 2K on the reference PC. The listening room needs its own light receivers before a similar room study. |
 | [Painted on a physical phone](#1-the-painted-world-from-good-to-a-masterpiece)     | Walk through the coast and the night interiors long enough to measure heat and sustained frame rate. The four browser sizes are covered.                        |
 | [The next drawn worlds](#12-more-worlds)                                           | Review the five rule sheets, then judge a first playable pencil, heat or comic room from a visitor’s eye.                                                       |
-| [Writing and interaction on other pages](#14-the-sites-pages)                      | Review the remaining pages against the design references and try the throwable shelf where it helps a reader.                                                   |
+| [Writing and interaction on other pages](#14-the-sites-pages)                      | Review the remaining pages against the design references. The two Spooder-Man galleries now support mouse, touch and keyboard browsing.                         |
 | [Visitors returning to the house](#2-learn-from-visitors-then-fix-what-loses-them) | Read two to four weeks of visits after November 17 and compare 3D entry, room choice and direct arrivals at DesignWeaver.                                       |
 
 Sirui’s next listen will guide the phrasing of the original recordings. Each item below keeps its checkboxes, evidence and any hardware or timing dependency.
@@ -205,7 +205,7 @@ The house film also has a measurable startup delay. On this Intel Arc laptop a c
 ### 14. The site's pages
 
 - [ ] Every page read against the Design Review video's lessons (C).
-- [ ] The throwable row on other rows (C7).
+- [x] A mouse can now take hold of the nine drawings in the Spooder-Man costume picker. Seven fit in the 724 px strip on a laptop. A drag reveals the other two while the chosen picture stays open. The phone keeps its native swipe, and a click or keyboard choice interrupts the throw. [Artwork gallery](https://dylantao.github.io/projects/hci-spooder-man/#spooder-capsule).
 - [x] Choose among five sitewide art styles. The paper, typography, control artwork, soundtrack, loading drawing and live 3D medium follow the selection. Daylight and evening remain independently adjustable.
 - [x] Figures for both themes (Sirui, November 17: the keyed-out white backgrounds were not well done; reproduce the old designs as Figma-like vectors). DesignWeaver's and What Happened and Why's teasers are now SVG in `_includes/figures/`, following the site's theme inline and the reader's system theme on cards; the rule is in WEBSITE_DESIGN_HEURISTICS.md, "Visual Hierarchy". If another schematic shows a white box on the dark theme, redraw it the same way; plots and results stay images.
 

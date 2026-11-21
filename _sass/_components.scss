@@ -2506,6 +2506,18 @@ body:has(.hci-spooder-hero) #back-to-top {
   overflow-x: auto;
   padding-bottom: 0.1rem;
   scrollbar-width: thin;
+
+  @media (hover: hover) and (pointer: fine) {
+    scroll-snap-type: x proximity;
+
+    button {
+      scroll-snap-align: center;
+    }
+
+    &[data-shelf="dragging"] button {
+      cursor: grabbing;
+    }
+  }
 }
 
 .hci-spooder-gallery-thumbs button {

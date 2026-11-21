@@ -90,6 +90,8 @@
   };
 
   const imageCarousel = document.querySelector("[data-spooder-image-carousel]");
+  const thumbTrack = imageCarousel?.querySelector(".hci-spooder-gallery-thumbs");
+  let thumbShelf;
 
   if (imageCarousel) {
     const stage = imageCarousel.querySelector(".hci-spooder-gallery-stage");
@@ -140,7 +142,8 @@
       const scroller = thumb?.parentElement;
       if (!thumb || !scroller) return;
 
-      const left = thumb.offsetLeft - (scroller.clientWidth - thumb.clientWidth) / 2;
+      const thumbBox = thumb.getBoundingClientRect();
+      const left = scroller.scrollLeft + thumbBox.left - scroller.getBoundingClientRect().left - (scroller.clientWidth - thumbBox.width) / 2;
       scroller.scrollTo({
         left,
         behavior: prefersReducedMotion() ? "auto" : "smooth",
@@ -149,6 +152,7 @@
 
     const setActiveImage = (index, options = {}) => {
       if (!slides.length) return;
+      thumbShelf?.stop();
 
       const previousImageIndex = activeImageIndex;
       activeImageIndex = (index + slides.length) % slides.length;
@@ -218,9 +222,10 @@
   }
 
   const carousel = document.querySelector("[data-spooder-carousel]");
+  const track = carousel?.querySelector("[data-spooder-track]");
+  let videoShelf;
 
   if (carousel) {
-    const track = carousel.querySelector("[data-spooder-track]");
     const slides = Array.from(carousel.querySelectorAll("[data-spooder-slide]"));
     const prevButton = carousel.querySelector("[data-spooder-prev]");
     const nextButton = carousel.querySelector("[data-spooder-next]");
@@ -257,6 +262,7 @@
 
     const setActiveSlide = (index, options = { scroll: true }) => {
       if (!slides.length) return;
+      videoShelf?.stop();
 
       activeIndex = (index + slides.length) % slides.length;
 
@@ -306,16 +312,17 @@
     if (slides.length > 0) {
       setActiveSlide(0, { scroll: false });
     }
+  }
 
-    // A mouse can take hold of the row and throw it (shelf.mjs). Touch and trackpads scroll it
-    // natively, so the module is fetched only where there is a fine pointer. Like a trackpad
-    // scroll, a throw moves the row and leaves the open card alone; a click still chooses one.
-    if (track && shelfModule && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-      import(shelfModule)
-        .then(({ createShelf }) => createShelf(track))
-        .catch(() => {
-          /* The row still scrolls natively and by its arrows. */
-        });
-    }
+  // A drag browses either strip independently of the picture or film a visitor is viewing.
+  if ((thumbTrack || track) && shelfModule && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    import(shelfModule)
+      .then(({ createShelf }) => {
+        thumbShelf = createShelf(thumbTrack);
+        videoShelf = createShelf(track);
+      })
+      .catch(() => {
+        /* Both strips also support native scrolling and their own controls. */
+      });
   }
 })();

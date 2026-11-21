@@ -201,7 +201,7 @@ spooder_project: true
     </button>
     <div class="spooder-video-track" data-spooder-track tabindex="0">
       {% for video in spooder.videos %}
-        <article class="spooder-video-card" data-spooder-slide data-spooder-video-id="{{ video.id }}">
+        <article class="spooder-video-card{% if forloop.first %} is-active{% endif %}" data-spooder-slide data-spooder-video-id="{{ video.id }}">
           <div class="spooder-video-frame" data-spooder-video-frame>
             <img src="https://i.ytimg.com/vi/{{ video.id }}/hqdefault.jpg" alt="{{ video.title }} thumbnail" loading="lazy">
             <button type="button" data-spooder-load-video>
