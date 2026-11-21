@@ -138,6 +138,8 @@ The house is authored by [`bin/build_coastal_home.py`](bin/build_coastal_home.py
 
 ## Working on it
 
+The [current todo list](docs/todo.md#what-remains) shows what is playable, what still needs work and which checks need a particular device. The [design notebook](docs/november-2026-takeover.md) keeps Sirui's requests alongside the drawings, listening notes and revisions.
+
 ### Local setup
 
 You need Ruby with Bundler, Node.js with npm, and (for the integration scripts) Git Bash or WSL. From the repository root on Windows PowerShell:

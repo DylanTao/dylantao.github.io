@@ -28,6 +28,8 @@ Updated November 20, after the house and media controls review. The gym and ocea
 
 Sirui’s next listen will guide the phrasing of the original recordings. Each item below keeps its checkboxes, evidence and any hardware or timing dependency.
 
+The house film also has a measurable startup delay. On this Intel Arc laptop a cold public visit took 64 seconds from the click to the first image, followed by a complete 125-second playback of the 118-second edit. The next performance pass starts with that first wait. [Film](#11-the-film)
+
 ## Open, in priority order
 
 ### 1. The painted world, from good to a masterpiece
