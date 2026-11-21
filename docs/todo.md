@@ -18,13 +18,13 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 
 Updated November 21, after screening the published house film and walking the site’s reading routes. The gym and ocean garden, entrance, under-pool ceramics, listening room, fire terrace and glass-fronted cliff lift are playable from **3D → Rooms**. The day button now holds Style and Volume throughout the site. The homepage record player and the speakeasy turntable both play original recordings. [Room-by-room work](#3-the-gym-used) · [Latest drawings and frames](../artwork/concepts/coastal-home/2026-11-20/README.md)
 
-| Remaining work                                                                     | What will settle it                                                                                                                                             |
-| ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Daylight and the speed of the outside view](#15-research-and-speed)               | Measure the three costly transparent surfaces outdoors at 2K on the reference PC. The listening room needs its own light receivers before a similar room study. |
-| [Painted on a physical phone](#1-the-painted-world-from-good-to-a-masterpiece)     | Walk through the coast and the night interiors long enough to measure heat and sustained frame rate. The four browser sizes are covered.                        |
-| [The next drawn worlds](#12-more-worlds)                                           | The first graphite room is playable. Its offshore horizon and the lamp at the night desk are the next two drawing studies.                                      |
-| [Visitors returning to the house](#2-learn-from-visitors-then-fix-what-loses-them) | Read the first two weeks on December 1 and four weeks on December 15 and compare 3D entry, room choice and direct arrivals at DesignWeaver.                     |
-| [Retire archived worktrees on the old PC](#16-housekeeping)                        | On the desktop, compare each remaining checkout with its private archived patch before removing it. The laptop triage is complete.                              |
+| Remaining work                                                                     | What will settle it                                                                                                                                              |
+| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Daylight and the speed of the outside view](#15-research-and-speed)               | Seven of 14 water and glass surfaces affect the offshore view. Time the extra refraction pass on the reference RTX PC and check the same surfaces while walking. |
+| [Painted on a physical phone](#1-the-painted-world-from-good-to-a-masterpiece)     | Walk through the coast and the night interiors long enough to measure heat and sustained frame rate. The four browser sizes are covered.                         |
+| [The next drawn worlds](#12-more-worlds)                                           | The first graphite room is playable. Its offshore horizon and the lamp at the night desk are the next two drawing studies.                                       |
+| [Visitors returning to the house](#2-learn-from-visitors-then-fix-what-loses-them) | Read the first two weeks on December 1 and four weeks on December 15 and compare 3D entry, room choice and direct arrivals at DesignWeaver.                      |
+| [Retire archived worktrees on the old PC](#16-housekeeping)                        | On the desktop, compare each remaining checkout with its private archived patch before removing it. The laptop triage is complete.                               |
 
 Sirui’s next listen will guide the phrasing of the original recordings. Each item below keeps its checkboxes, evidence and any hardware or timing dependency.
 
@@ -215,7 +215,8 @@ Item 2's data says where to start.
 
 ### 15. Research and speed
 
-- [ ] The outside view at 2K (E1): three see-through surfaces cost a fifth of the frame.
+- [ ] Reduce the cost of the outside view at 2K (E1). The earlier RTX comparison found a fifth of the frame in the extra transmission pass. The finished view submits 14 transmissive meshes.
+- [x] Measured all 14 water and glass surfaces from the default offshore eye. The pool changes 33,763 pixels, the hopper 81 and the upper bath water zero. Seven surfaces contribute to a combined 36,962 pixels. [Images and measurements](coastal-comparison.md#which-water-reaches-the-coastal-view).
 - [x] Measured one reflected sun path through a day in all 16 lighting regions (R2). Afternoon bounce in the lounge, gym, living room and onsen survived longer shadow rays and denser sampling. [Probe readings and replay](../artwork/coastal-home/reviews/solar-bounce-2026-11-20/README.md).
 - [x] Compared the four sea-facing rooms in their measured afternoon light. A settled repeat kept the fabric still in the living-room pair. The strongest visible benefit was the shaded oak in the lounge. [Images and replay](../artwork/concepts/coastal-home/2026-11-20/afternoon-and-ridge.md#the-afternoon-rooms).
 - [x] The lounge now picks up the direction and colour of reflected daylight as the sun moves. At 2:15 p.m. it reveals the grain in the shaded oak while the hearth keeps its highlight. The test held out 504 sun directions across seasons. The fitted data arrives when a visitor approaches the lounge. [Playable comparison and calculation](../artwork/coastal-home/reviews/solar-bounce-2026-11-20/LOUNGE.md).

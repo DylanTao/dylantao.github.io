@@ -72,3 +72,23 @@ A visitor selected **Step outside** from the Study at noon on the Intel Arc lapt
 During that last measurement the visitor’s right-arrow turn appeared within a 0.26-second sample while the trees were still arriving. A separate on-foot visit advanced 1.23 m under the W key and revealed the planted headland in 25.51 seconds. Fourteen more frames followed at the ordinary cadence. The first transition to this large outside view could still occupy the browser for 7.7 seconds. These observations use the frozen November 20 deployment’s models and a single changed controller. [Earlier and revised views from the water](../artwork/concepts/coastal-home/2026-11-20/stepping-outside.webp)
 
 The controller leaves a 120 ms interval between settled outdoor frames while the driver prepares newly attached coastal models. Camera transitions, orbit input and active walking keep requesting their own frames. Reduced motion retains its normal rest behavior. The film still holds the last completed entrance picture. A test that canceled a pending film, then interrupted a plant download, retained the headland. A later Step outside retried the planting and recovered it. Run `node --test test/coastal-stream-reveal.test.mjs` for overlapping requests, optional assets, retries and disposal.
+
+## Which water reaches the coastal view
+
+The infinity pool makes the blue opening beneath the house. From the default 48 m offshore eye on a clear afternoon, the glass coffee hopper also catches light through the facade. The upper bath water falls entirely behind its screen. [The same view and three close crops](../artwork/concepts/coastal-home/2026-11-20/which-water-reaches-the-coast.webp)
+
+The renderer submitted 14 surfaces that transmit light. For each one, the browser captured the original view, hid the surface for one frame, then restored it. All three frames used the same Realistic camera, 1:20 p.m. light, animation time, reflections and two-sample antialiasing at 2560 × 1440 on Intel Arc. Every restoration matched the original across all 3,686,400 pixels.
+
+| Surface                                                    | Pixels changed when hidden |
+| ---------------------------------------------------------- | -------------------------: |
+| Infinity pool                                              |                     33,763 |
+| Spring bath in the workout garden                          |                      1,436 |
+| Distant koi pond                                           |                      1,204 |
+| Falling sheet of water in the workout garden               |                        279 |
+| Collecting water below the falling sheet                   |                        254 |
+| Coffee hopper glass                                        |                         81 |
+| Distant creek                                              |                         35 |
+| Distant spring, arrival rill, arrival spill and upper bath |                     0 each |
+| Speakeasy glassware, olive bottles and amber bottles       |                     0 each |
+
+Together the seven visible surfaces changed 36,962 distinct pixels, about 1% of the picture. A separate depth pass picked out the same area. The falling sheet crosses the water it lands in, and the creek crosses the pond in this view, so adding their individual counts would count some pixels twice. The next comparison is frame time on the reference RTX PC. Walking from the water to the rooms changes which surfaces reach the eye.

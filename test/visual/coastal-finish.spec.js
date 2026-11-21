@@ -76,15 +76,17 @@ test("house film: the first view from the entrance includes the planted coast", 
     await host.evaluate((el) => ["clifftop-flora", "coastal-hinterland"].every((name) => el.labScene.scene.getObjectByName(name)?.visible))
   ).toBe(true);
   expect((await sceneEvidence(host)).ecology.atmosphere.weather).toMatchObject({ source: "house-film", marineNow: 0, rain: 0, cloudCover: 0 });
-  await expect(page.locator("[data-world-visit-caption]")).toHaveText("The coast at dawn");
-  const gliderVisible = () => document.querySelector("[data-home-desk-scene]").labScene.scene.getObjectByName("hinterland_glider_0")?.visible;
-  expect(await page.evaluate(gliderVisible)).toBe(true);
+  const sky = () =>
+    page.evaluate(() => ({
+      caption: document.querySelector("[data-world-visit-caption]").textContent,
+      gliderVisible: document.querySelector("[data-home-desk-scene]").labScene.scene.getObjectByName("hinterland_glider_0")?.visible,
+    }));
+  expect(await sky()).toEqual({ caption: "The coast at dawn", gliderVisible: true });
   await page.locator("[data-world-visit-scrub]").press("End");
-  await expect(page.locator("[data-world-visit-caption]")).toHaveText("Night on the coast");
-  // A first night draw on software GL can occupy the page for a full scene-readiness interval.
-  await expect.poll(() => page.evaluate(gliderVisible), { timeout: readyTimeout }).toBe(false);
-  await page.locator("[data-world-visit-return]").click();
-  await expect(page.locator("[data-world-visit-controls]")).toBeHidden();
+  // The first software night draw can hold the browser before either the caption or the glider changes.
+  await expect.poll(sky, { timeout: readyTimeout }).toEqual({ caption: "Night on the coast", gliderVisible: false });
+  await page.locator("[data-world-visit-return]").click({ timeout: readyTimeout });
+  await expect(page.locator("[data-world-visit-controls]")).toBeHidden({ timeout: readyTimeout });
   const restored = await host.evaluate(async (el) => {
     const { ecology, daylight } = el.getSceneEvidence();
     const { weatherAt } = await import(new URL("./assets/js/home-scene/coastal-weather.mjs", location.href).href);
