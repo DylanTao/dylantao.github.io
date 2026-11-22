@@ -398,6 +398,13 @@ test("record audio: native playback, cue replacement and keyboard seek use the o
   await expect.poll(async () => (await read()).time).toBeGreaterThan(paused.time + 0.05);
   await play.click();
   await capture(testInfo, "record-seek-paused", await page.locator(".home-record-player").screenshot());
+  const saved = await read();
+  // The pointer is still over Play. Hiding the card must not let the portrait
+  // behind that button count the resulting pointerenter as a new hover.
+  await play.press("Escape");
+  await expect(page.locator("[data-home-record-open]")).toBeFocused();
+  await expect(page.locator("[data-home-record-console]")).toBeHidden();
+  expect(await read()).toMatchObject({ time: saved.time, title: saved.title, paused: true });
   expect(errors).toEqual([]);
 });
 
