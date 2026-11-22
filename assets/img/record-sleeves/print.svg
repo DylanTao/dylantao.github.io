@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 112">
+<rect width="112" height="112" fill="#d99b5b"/>
+<path fill="#a95437" d="M4 80 11 34l15-17 30-9 25 8 20 22 6 37-12 16-56 8z"/>
+<path fill="none" stroke="#f3c279" stroke-width="1.65" d="M12 76l5-32 15-20 28-7 23 10 13 20 1 26-14 13-38 5zm8-5 7-29 23-15 17 2 17 15 6 25-12 13-27 1zm11 0 6-25 16-9 15 1 11 17 4 13-12 9-23-3zm11-4 5-17 14-5 11 11-4 13-13-2zm12-9 8-3 4 7-9 2z"/>
+<path fill="#432b26" d="m14 14 6 29-9 19L8 37zm19 5 7 4-8 34-8 12 2-21zm18-6 7 2-4 33-7 10 1-22zm19 0 7 6-1 22-5 14-3-25zm20 9 6 6 8 29-2 11-9-19z"/>
+<path fill="#e9bc81" d="M0 88h112v24H0z"/>
+<text x="56" y="103" text-anchor="middle" fill="#432b26" font-family="Georgia, serif" font-weight="bold" font-size="11"> <tspan x="56" y="98">Five Cuts in</tspan><tspan x="56" y="109">Pearwood</tspan></text>
+</svg>

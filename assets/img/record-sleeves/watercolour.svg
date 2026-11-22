@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 112">
+<rect width="112" height="112" fill="#e9dbc0"/>
+<path fill="#94bdc3" d="M0 0h112v57H0z"/>
+<path fill="#e6ded1" d="M12 31c12-12 32-16 55-10 4 1 5 4 7 7l-62 6z" opacity=".75"/>
+<path fill="#478e97" d="M0 57c32-5 58 2 84-2 12-1 20-1 28 2v40H0z"/>
+<path fill="#90bab1" d="M0 67c20-9 40 3 63-1 24-4 32-6 49-2v16H0z"/>
+<path fill="#9c735c" d="M0 15c11-2 27 1 46 5l26 7 10 18 3 18 27 10v20l-34-4-7-19-10-17-17-12-14 2-9 16-6 22L0 90z"/>
+<path fill="#c7a487" d="M0 15c22-1 31 3 46 5l26 7 10 18 3 18-10-8-12-16-19-9-14 1-12 10-9 18L0 62z"/>
+<path fill="none" stroke="#dec0a2" stroke-width="1" d="M6 31l17-8 15 2m-24 26 11-13 13-1m15-9 16 6 7 11m10 24 16 7"/>
+<path fill="none" stroke="#e1dfc9" stroke-width="2" d="M23 69c9 1 16-4 26-2m-19 11c14 1 23-6 33-4m26 7 15 3"/>
+<text x="56" y="104" text-anchor="middle" fill="#2f4852" font-family="Georgia, serif" font-weight="bold" font-size="12">A Pocketful of Sky</text>
+</svg>

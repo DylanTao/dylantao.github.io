@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 112">
+<rect width="112" height="112" fill="#543747"/>
+<path fill="#8b4a57" d="M0 15c18-5 31 5 53 1 20-4 40-1 59-6v34H0z"/>
+<path fill="#edaa73" d="M0 41c29 5 65-15 112-18v25c-27 8-49 12-71 11L0 62z"/>
+<path fill="#f6cd8b" d="M0 50c26 0 48-12 69-14l-8 6-31 10-30 9zm82-17 30-3v9l-34 6z"/>
+<path fill="#563f51" d="M0 66 16 60l20 3 24-12 19 6 33-8v43H0z"/>
+<path fill="#b16c5f" d="M0 75c30 1 48-11 68-10 12 0 25-5 44-4v17l-20 1-23-3-22 4-19-2L0 82z"/>
+<path fill="#442e3f" d="M0 83c27 2 34-8 50-5l30 4 32-8v38H0z"/>
+<path fill="#dfa378" d="m13 86 6-3 10 1 16-4 13 3-9 2-13-1-14 4z"/>
+<text x="56" y="104" text-anchor="middle" fill="#f6d5a0" font-family="Georgia, serif" font-weight="bold" font-size="11"> <tspan x="56" y="96">Copper in the</tspan><tspan x="56" y="108">Last Light</tspan></text>
+</svg>

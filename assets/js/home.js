@@ -953,11 +953,15 @@
     const trackSources = trackMetadata("sources");
     const trackTitles = trackMetadata("titles");
     const trackSeconds = trackMetadata("seconds");
+    const trackCovers = trackMetadata("covers");
     const spinButton = document.querySelector("[data-home-record-play]");
     const previousButton = document.querySelector("[data-home-record-prev]");
     const nextButton = document.querySelector("[data-home-record-next]");
     const recordSceneElement = portrait.querySelector("[data-home-record-scene]");
     const recordPlayer = portrait.closest(".home-record-player") || portrait;
+    const recordOpener = recordPlayer.querySelector("[data-home-record-open]");
+    const recordConsole = recordPlayer.querySelector("[data-home-record-console]");
+    const trackCover = recordPlayer.querySelector("[data-home-record-track-cover]");
     const trackElement = recordPlayer.querySelector("[data-home-record-audio]");
     const trackTitle = recordPlayer.querySelector("[data-home-record-track-title]");
     const trackSeek = recordPlayer.querySelector("[data-home-record-seek]");
@@ -991,7 +995,7 @@
       duration: recordDurations[index] || "",
       tone: recordTones[index] || "submarine",
       source: recordSources[index] || "",
-      track: { source: trackSources[index], title: trackTitles[index], seconds: Number(trackSeconds[index]) || 0 },
+      track: { source: trackSources[index], title: trackTitles[index], cover: trackCovers[index], seconds: Number(trackSeconds[index]) || 0 },
     }));
     const deskScene = createDeskCornerSceneController(deskSceneElement, records, artifactCards);
     // Records use an 800px WebP variant; a build without ImageMagick falls back to the original art.
@@ -1022,6 +1026,9 @@
     let pendingRecordAdvance = 0;
     let recordIntentRevision = 0;
     let isPreviewing = false;
+    let isRecordPlayerPinned = false;
+    let isPointerOverRecordPlayer = false;
+    let restoringRecordFocus = false;
     let isRecordEngaged = false;
     let isSpinning = false;
     let playAttempt = 0;
@@ -1031,13 +1038,12 @@
     let sharedSoundOn = Boolean(window.siteSound?.evidence()?.on);
     let pendingSeek = null;
     let activePointerId = null;
-    let activePointerStartedOnPlayButton = false;
     let gestureStartX = 0;
     let gestureStartY = 0;
     let lastShakeX = 0;
     let lastShakeDirection = 0;
     let shakeCount = 0;
-    let suppressNextSpinClick = false;
+    let suppressNextPlayerClick = false;
     let shakeSuppressionTimer = 0;
     let reflowRecordCardsFrame = 0;
     let recordDropSequence = 0;
@@ -1048,6 +1054,28 @@
 
     const getCurrentRecord = () => records[Math.max(0, recordIndex)] || records[0];
     const recordDeskVisible = () => stage?.dataset.deskMode !== "3d";
+    const syncTrackCover = (track) => {
+      if (!trackCover || recordConsole.hidden) return;
+      trackCover.hidden = !track.cover;
+      if (track.cover && trackCover.getAttribute("src") !== track.cover) trackCover.src = track.cover;
+    };
+
+    const setRecordPlayerOpen = (open, { restoreFocus = false } = {}) => {
+      if (open && !recordDeskVisible()) return;
+      if (!open) {
+        isRecordPlayerPinned = false;
+        // Move focus before hiding the controls, preserving the native focus ring.
+        if (restoreFocus) {
+          restoringRecordFocus = true;
+          recordOpener.focus({ preventScroll: true });
+          restoringRecordFocus = false;
+        }
+      }
+      recordConsole.hidden = !open;
+      recordOpener.setAttribute("aria-expanded", String(open));
+      if (open) syncTrackCover(getCurrentRecord().track);
+    };
+
     const timeText = (seconds) => {
       const total = Math.floor(seconds);
       return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
@@ -1211,6 +1239,8 @@
       if (is3D) {
         // The 3D mechanism keeps its shared rotation. Only the 2D recording pauses.
         stopTrack();
+        isPointerOverRecordPlayer = false;
+        setRecordPlayerOpen(false);
       } else {
         isSpinning = Boolean(trackElement && !trackElement.paused && !trackElement.ended);
         updateSpinState();
@@ -1271,6 +1301,7 @@
       const source = document.querySelector("[data-home-record-source]");
       if (title) title.textContent = record.title;
       if (trackTitle) trackTitle.textContent = record.track.title;
+      syncTrackCover(record.track);
       if (trackElement) trackElement.dataset.title = record.track.title;
       if (source) {
         source.href = record.source || "#";
@@ -1845,7 +1876,6 @@
     const endShakeGesture = () => {
       if (activePointerId === null) return;
       activePointerId = null;
-      activePointerStartedOnPlayButton = false;
       shakeShouldReplayAllRecords = false;
       lastShakeDirection = 0;
       portrait.classList.remove("is-dragging-record");
@@ -1854,9 +1884,9 @@
       portrait.style.removeProperty("--record-drag-tilt");
       recordScene.setDrag(0, 0);
       if (shakeSuppressionTimer) window.clearTimeout(shakeSuppressionTimer);
-      if (suppressNextSpinClick) {
+      if (suppressNextPlayerClick) {
         shakeSuppressionTimer = window.setTimeout(() => {
-          suppressNextSpinClick = false;
+          suppressNextPlayerClick = false;
           shakeSuppressionTimer = 0;
         }, 420);
       }
@@ -1864,18 +1894,17 @@
 
     const startShakeGesture = (event) => {
       if (!window.PointerEvent || (event.pointerType === "mouse" && event.button !== 0)) return;
-      const startedOnPlayButton = event.target.closest("[data-home-record-play]");
-      if (event.target.closest("a") || (event.target.closest("button") && !startedOnPlayButton)) return;
+      const gestureTarget = event.target.closest("[data-home-record-open]") || portrait;
+      if (event.target.closest("button, a") && gestureTarget === portrait) return;
 
       activePointerId = event.pointerId;
-      activePointerStartedOnPlayButton = Boolean(startedOnPlayButton);
       gestureStartX = event.clientX;
       gestureStartY = event.clientY;
       lastShakeX = event.clientX;
       lastShakeDirection = 0;
       shakeCount = 0;
       shakeShouldReplayAllRecords = droppedRecords.size >= records.length;
-      if (!activePointerStartedOnPlayButton && portrait.setPointerCapture) portrait.setPointerCapture(activePointerId);
+      if (event.isTrusted) gestureTarget.setPointerCapture?.(activePointerId);
     };
 
     const updateShakeGesture = (event) => {
@@ -1885,8 +1914,8 @@
       const totalY = event.clientY - gestureStartY;
       if (Math.abs(totalX) < 10 && Math.abs(totalY) < 10) return;
       if (Math.abs(totalY) > Math.abs(totalX) * 1.35) return;
-      // A click only toggles playback. Discovering or advancing a card starts
-      // after actual horizontal movement, never on the disc's pointerdown.
+      // Discovering a card starts after horizontal movement, leaving taps
+      // available to open the player and vertical movement for page scrolling.
       if (!portrait.classList.contains("is-dragging-record")) {
         if (droppedRecords.size >= records.length) {
           selectRecord(0);
@@ -1896,7 +1925,7 @@
         showRecord(recordIndex, { vinyl: isRecordEngaged || isSpinning });
         portrait.classList.add("is-dragging-record");
       }
-      suppressNextSpinClick = true;
+      suppressNextPlayerClick = true;
 
       const dragX = Math.max(-18, Math.min(18, totalX * 0.16));
       const dragTilt = Math.max(-10, Math.min(10, totalX * 0.14));
@@ -2005,31 +2034,47 @@
     syncRecordVisualState();
     syncPileState();
 
-    recordPlayer.addEventListener("mouseenter", () => {
-      if (!isRecordEngaged && !isSpinning) showRecord(recordIndex);
+    recordOpener.addEventListener("pointerenter", (event) => {
+      if (event.pointerType !== "mouse") return;
+      isPointerOverRecordPlayer = true;
+      setRecordPlayerOpen(true);
     });
-    recordPlayer.addEventListener("mouseleave", () => {
-      if (!recordPlayer.contains(document.activeElement)) hideRecord();
+    recordPlayer.addEventListener("pointerleave", (event) => {
+      if (event.pointerType !== "mouse") return;
+      isPointerOverRecordPlayer = false;
+      if (isRecordPlayerPinned || recordPlayer.contains(document.activeElement)) return;
+      setRecordPlayerOpen(false);
+      hideRecord();
     });
     recordPlayer.addEventListener("focusin", () => {
-      if (!isRecordEngaged && !isSpinning) showRecord(recordIndex);
+      if (!restoringRecordFocus) setRecordPlayerOpen(true);
     });
     recordPlayer.addEventListener("focusout", (event) => {
-      if (!recordPlayer.contains(event.relatedTarget) && !pile?.contains(event.relatedTarget)) hideRecord();
+      if (isPointerOverRecordPlayer || isRecordPlayerPinned || recordPlayer.contains(event.relatedTarget)) return;
+      setRecordPlayerOpen(false);
+      if (!pile?.contains(event.relatedTarget)) hideRecord();
+    });
+    recordOpener.addEventListener("click", (event) => {
+      if (suppressNextPlayerClick && event.detail > 0) {
+        suppressNextPlayerClick = false;
+        if (shakeSuppressionTimer) {
+          window.clearTimeout(shakeSuppressionTimer);
+          shakeSuppressionTimer = 0;
+        }
+        return;
+      }
+      if (isRecordPlayerPinned) {
+        setRecordPlayerOpen(false);
+        hideRecord();
+      } else {
+        isRecordPlayerPinned = true;
+        setRecordPlayerOpen(true);
+      }
     });
     portrait.addEventListener("pointerdown", startShakeGesture);
     portrait.addEventListener("pointermove", updateShakeGesture);
-    portrait.addEventListener("pointerup", endShakeGesture);
-    portrait.addEventListener("pointercancel", endShakeGesture);
-    portrait.addEventListener("click", (event) => {
-      if (event.target.closest("button, a")) return;
-      if (suppressNextSpinClick) {
-        event.preventDefault();
-        suppressNextSpinClick = false;
-        return;
-      }
-      if (isSpinning) return;
-    });
+    window.addEventListener("pointerup", endShakeGesture);
+    window.addEventListener("pointercancel", endShakeGesture);
 
     if (pile) {
       pile.addEventListener("click", (event) => {
@@ -2045,29 +2090,16 @@
       compactPileQuery.addEventListener("change", scheduleRecordCardReflow);
     }
 
-    if (spinButton) {
-      spinButton.addEventListener("click", (event) => {
-        event.stopPropagation();
-        if (suppressNextSpinClick && event.detail > 0) {
-          event.preventDefault();
-          suppressNextSpinClick = false;
-          return;
-        }
-        if (suppressNextSpinClick) {
-          suppressNextSpinClick = false;
-          if (shakeSuppressionTimer) {
-            window.clearTimeout(shakeSuppressionTimer);
-            shakeSuppressionTimer = 0;
-          }
-        }
-        toggleTrack(event);
-      });
-    }
+    spinButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      toggleTrack(event);
+    });
 
-    portrait.addEventListener("keydown", (event) => {
+    recordPlayer.addEventListener("keydown", (event) => {
       if (event.ctrlKey || event.metaKey || event.altKey || event.isComposing) return;
-      if (event.target === spinButton && ["ArrowLeft", "ArrowRight"].includes(event.key)) {
+      if ([recordOpener, spinButton].includes(event.target) && ["ArrowLeft", "ArrowRight"].includes(event.key)) {
         event.preventDefault();
+        setRecordPlayerOpen(true);
         advanceRecord(event.key === "ArrowLeft" ? -1 : 1);
         return;
       }
@@ -2088,7 +2120,11 @@
       deskModePointerTarget = null;
 
       if (activeCard && !clickedInsidePile) closeActiveCard();
-      if (!isSpinning && isRecordEngaged && !clickedInsidePlayer && !clickedInsideModeControl && !clickedInsidePile) resetRecord();
+      if (!clickedInsidePlayer && !clickedInsideModeControl && !clickedInsidePile) {
+        setRecordPlayerOpen(false);
+        if (!isSpinning && isRecordEngaged) resetRecord();
+        else hideRecord();
+      }
     });
 
     document.addEventListener("keydown", (event) => {
@@ -2098,9 +2134,11 @@
       } else if (stage?.dataset.deskMode === "3d") {
         deskScene.resetView();
         deskControls?.querySelector('[data-home-desk-control="reset"]')?.focus({ preventScroll: true });
-      } else if (!isSpinning && isRecordEngaged) {
-        resetRecord();
-        if (spinButton) spinButton.focus({ preventScroll: true });
+      } else if (!recordConsole.hidden) {
+        event.preventDefault();
+        setRecordPlayerOpen(false, { restoreFocus: recordPlayer.contains(document.activeElement) });
+        if (!isSpinning && isRecordEngaged) resetRecord();
+        else hideRecord();
       }
     });
 

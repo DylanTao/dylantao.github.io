@@ -1,0 +1,23 @@
+artist: Sirui, Chat & Claude
+recordings:
+  a-tugboat-for-two:
+    title: A Tugboat for Two
+    cover: /assets/img/record-sleeves/a-tugboat-for-two.svg
+  all-the-windows-open:
+    title: All the Windows Open
+    cover: /assets/img/record-sleeves/all-the-windows-open.svg
+  realistic:
+    title: The Water on the Sill
+    cover: /assets/img/record-sleeves/realistic.svg
+  paint:
+    title: Copper in the Last Light
+    cover: /assets/img/record-sleeves/paint.svg
+  watercolour:
+    title: A Pocketful of Sky
+    cover: /assets/img/record-sleeves/watercolour.svg
+  print:
+    title: Five Cuts in Pearwood
+    cover: /assets/img/record-sleeves/print.svg
+  toon:
+    title: The Spare Key
+    cover: /assets/img/record-sleeves/toon.svg
