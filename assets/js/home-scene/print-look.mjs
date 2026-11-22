@@ -1856,6 +1856,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     watercolour = null,
     pencil = null,
     pencilHearth = null,
+    drawingLamp = null,
     fieldGuide = null,
     thermal = null,
     seatHeat = null,
@@ -2032,6 +2033,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         thermal: () => (thermal ||= createThermalDrawing(uniforms)),
       }[look]();
       renderer.setRenderTarget(pass.renderToScreen ? null : readBuffer);
+      if (look === "pencil") paper.setLamp(drawingLamp);
       paper.render(renderer);
       drawHearth(renderer, readBuffer);
       draws++;
@@ -2161,6 +2163,9 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
       pencilHearth = position;
       pencil?.setHearth(position);
     },
+    setDrawingLamp(light) {
+      drawingLamp = light;
+    },
     setLook(next) {
       look = DRAWN_LOOKS.includes(next) ? next : "realistic";
       pass.enabled = look !== "realistic";
@@ -2273,9 +2278,8 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         // Per pixel of the last pass. The woodblock reads the frame 13 times and its depth 10.
         // The cartoon reads the frame 13 times, the structure 26 and the scene's depth once, and
         // with fills from the surfaces' own colour, that colour 13 times more.
-        // Graphite and field ink read three centre channels and four adjacent structure samples.
-        textureReads:
-          structured && look === "thermal" ? 12 : structured && (look === "pencil" || look === "field-guide") ? 7 : own ? 53 : structured ? 40 : 23,
+        // Field ink uses seven reads. Graphite also reads the lit side of a wave where the sheet meets the sea.
+        textureReads: structured ? ({ thermal: 12, pencil: 8, "field-guide": 7 }[look] ?? (own ? 53 : 40)) : 23,
         // The structure's two targets and its map from above; then the meter's.
         renderTargets: own ? 3 : structured ? 2 : 0,
         structure: structured ? structure.evidence() : null,

@@ -16,9 +16,10 @@ const fragmentShader = /* glsl */ `
   uniform vec4 printCamera;
   uniform mat4 printWorld;
   uniform vec3 hearthFoot;
+  uniform vec4 printSea, printSunDir, taskLamp;
   varying vec2 sheet;
   const vec3 luminance = vec3(.23,.65,.12);
-  const vec3 cotton = vec3(.975);
+  const vec3 cotton = vec3(.978,.975,.967);
   const vec3 graphite = vec3(.128);
 
   float tooth(vec2 v) {
@@ -41,6 +42,19 @@ const fragmentShader = /* glsl */ `
   vec2 hatching(vec2 p, float pressure) {
     return vec2(pencilLine(p,.63,.013,pressure), pencilLine(p,-.75,.021,pressure));
   }
+
+  // Short side-of-lead strokes run along the swell. Two overlapping scales keep a
+  // pencil mark broken and visible as the distant water compresses toward the horizon.
+  float swellStroke(vec2 water,float scale){
+    vec2 grid=water/(vec2(1.4,.41)*scale);
+    grid.y+=.36*sin(.91*grid.x)+.14*sin(2.21*grid.x+.4*grid.y);
+    grid.x+=tooth(vec2(floor(grid.y),12.9));
+    vec2 cell=floor(grid), local=fract(grid);
+    float seed=tooth(cell), lengthMask=smoothstep(.03,.14,local.x)*(1.-smoothstep(.45+.23*seed,.90,local.x));
+    float width=clamp(fwidth(grid.y),.017,.7);
+    float line=1.-smoothstep(.035,.035+width,abs(local.y-.28-.27*seed));
+    return line*lengthMask*smoothstep(.28,.72,seed)*(1.-smoothstep(.26,.71,width));
+  }
   void main() {
     vec4 s = texture2D(tStructure,sheet);
     vec4 material = texture2D(tAlbedo,sheet);
@@ -56,6 +70,15 @@ const fragmentShader = /* glsl */ `
     float flags=floor(material.a*255.+.5);
     float sun=mod(flags,32.)/31.;
     float value = .53*local + .47*lit + .018 - solid*.038*(1.-sun);
+    // At the desk after dark, draw the illumination falling on the wood and wall.
+    // The lamp is the actual dimmed practical. Only pages in its vicinity gain this exposure.
+    vec3 toLamp=taskLamp.xyz-p;
+    float reach=length(toLamp), night=1.-smoothstep(-.12,.15,printSunDir.y);
+    float room=solid*night*(1.-smoothstep(3.2,5.3,reach))*step(.01,taskLamp.w);
+    float received=max(0.,dot(normal,toLamp/max(reach,.01)));
+    float pool=(1.-smoothstep(.20,1.35,reach))*received*clamp(taskLamp.w*.48,0.,1.);
+    float roomValue=.19+.53*lit*lit+.07*local;
+    value=mix(value,roomValue+pool*.43,room);
     vec3 atHearth = p-hearthFoot;
     // The measured fireplace is 90 cm across. Its turned steel and the native flue take
     // one curved stroke family; the shade on the side away from the window takes a soft lead.
@@ -99,6 +122,35 @@ const fragmentShader = /* glsl */ `
     float deposit = clamp(ground+(1.-ground)*stroke + outline,0.,1.);
     deposit *= .84+.16*grain;
     deposit *= mix(.21,1.,solid);
+    // The structure layer sees the seabed through water. Intersect the real tide
+    // level first, so the same sheet retains its shore, gulls, boat and window frames.
+    if(printSea.w>.5 && printCamera.z>.5){
+      vec3 eye=printWorld[3].xyz;
+      vec3 direction=normalize(mat3(printWorld)*vec3(ray,-1.));
+      if(eye.y>printSea.x && direction.y<-.0001){
+        float distanceToSea=(printSea.x-eye.y)/direction.y;
+        float forward=dot(direction,-normalize(printWorld[2].xyz));
+        if(distanceToSea*forward<s.w-.035){
+          vec2 water=(eye+direction*distanceToSea).xz;
+          float octave=max(0.,log2(max(distanceToSea,10.)/10.));
+          float scale=exp2(floor(octave));
+          float strokes=mix(swellStroke(water,scale),swellStroke(water,scale*2.),smoothstep(.08,.92,fract(octave)));
+          float under=solid>.5 ? max(0.,printSea.x-p.y) : 35.;
+          float deep=smoothstep(.035,.68,under);
+          float farWater=smoothstep(48.,420.,distanceToSea);
+          // Lift paper off the light side of actual wavelets. The adjacent sample is
+          // from the rendered water, so a moving crest breaks the graphite each time.
+          vec3 previous=max(texture2D(tDiffuse,sheet+vec2(0.,2.5)*stepPx).rgb,vec3(0));
+          float previousLight=dot(sqrt(previous/(previous+vec3(.34))),luminance);
+          float waveEdge=clamp((previousLight-lit)*4.3,-.08,.10);
+          float rubbed=.035+.18*(1.-smoothstep(.26,.81,lit))+.75*deposit;
+          float seaTone=rubbed+waveEdge+.072*strokes;
+          float pressureAlongHorizon=.5+.5*sin(direction.x*17.+direction.z*12.+.7*sin(direction.x*29.));
+          seaTone=mix(seaTone,.043+.055*pressureAlongHorizon,farWater)*(.56+.44*deep);
+          deposit=mix(deposit,clamp(seaTone,.005,.35)*(.87+.13*grain),smoothstep(.005,.13,under));
+        }
+      }
+    }
     vec3 display = mix(cotton*(.992+.008*grain),graphite,deposit);
     vec3 linear = mix(display/12.92,pow((display+.055)/1.055,vec3(2.4)),step(vec3(.04045),display));
     gl_FragColor = vec4(linear,1.);
@@ -109,7 +161,7 @@ const fragmentShader = /* glsl */ `
 export function createPencilDrawing(uniforms, hearthFoot) {
   const material = new THREE.ShaderMaterial({
     name: "Graphite on rag paper",
-    uniforms: { ...uniforms, hearthFoot: { value: new THREE.Vector3(...(hearthFoot ?? [0, 1e5, 0])) } },
+    uniforms: { ...uniforms, hearthFoot: { value: new THREE.Vector3(...(hearthFoot ?? [0, 1e5, 0])) }, taskLamp: { value: new THREE.Vector4() } },
     vertexShader,
     fragmentShader,
     depthTest: false,
@@ -120,6 +172,9 @@ export function createPencilDrawing(uniforms, hearthFoot) {
   return {
     render: (renderer) => quad.render(renderer),
     setHearth: (position) => material.uniforms.hearthFoot.value.fromArray(position ?? [0, 1e5, 0]),
+    setLamp(lamp) {
+      if (lamp) material.uniforms.taskLamp.value.set(lamp.position.x, lamp.position.y, lamp.position.z, lamp.intensity);
+    },
     dispose() {
       material.dispose();
       quad.dispose();

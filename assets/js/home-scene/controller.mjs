@@ -5002,6 +5002,7 @@ export function createCoastalHome(container, records, artifacts) {
       skinDiffusion = createSkinDiffusion();
       coastalWind = createCoastalWind();
       warmPracticals = createWarmPracticals(scene, (m) => bindContactLighting(m, finish.contactLighting), { sources: practicalSourcesFor(config) });
+      printLook.setDrawingLamp(warmPracticals.sources.find((source) => source.id === "study")?.light);
       staticLightField = createStaticLightField({
         regions: staticLightRegions(config),
         practicalSources: [...warmPracticals.sources, ...roomLightSources(config)],
