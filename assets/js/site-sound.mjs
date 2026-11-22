@@ -5,6 +5,7 @@ const instrumentLab = params.get("sound-lab") === "1";
 const EFFECTS_KEY = "site-effects";
 const VOLUME_KEY = "site-sound-volume";
 const GESTURES = ["pointerdown", "pointerup", "keydown", "click"];
+const SOUND_MODULES = ["site.mjs", "engine.mjs", "gesture-foley.mjs", "coastal-music.mjs", "score.mjs", "foley.mjs", "foley-clips.mjs"];
 const store = {
   get(key) {
     try {
@@ -46,6 +47,24 @@ if (params.get("sound") === "0") {
   const storedVolume = store.get(VOLUME_KEY);
   let volume = storedVolume !== null && Number.isFinite(+storedVolume) ? Math.min(1, Math.max(0, +storedVolume)) : 1;
   const wantsAudio = () => effectsOn || musicOn;
+  const canPrepareEffects = () => effectsOn && !loading && !document.hidden && !navigator.connection?.saveData;
+
+  function prepareEffects() {
+    if (!canPrepareEffects()) return;
+    // Warm the HTTP cache without evaluating the module graph. An optional
+    // request failure must leave the first real import free to try again.
+    const directory = new URL("./sound/", import.meta.url);
+    for (const module of SOUND_MODULES)
+      void fetch(new URL(module, directory), { priority: "low" })
+        .then((response) => response.arrayBuffer())
+        .catch(() => {});
+  }
+
+  if (canPrepareEffects()) {
+    if (window.requestIdleCallback) window.requestIdleCallback(prepareEffects);
+    else if (document.readyState === "complete") window.setTimeout(prepareEffects, 400);
+    else window.addEventListener("load", () => window.setTimeout(prepareEffects, 400), { once: true });
+  }
 
   function reflect() {
     const label = musicOn ? "Pause music" : "Play music";

@@ -26,6 +26,34 @@ async function openPanel(page) {
   return page.locator("[data-sound-toggle]:visible").first();
 }
 
+test("site sound: a failed idle FX download leaves the first real gesture available", async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop-1440", "the idle download is shared across viewport sizes");
+  const leafRequests = [],
+    audioRequests = [];
+  await countContexts(page);
+  await preparePage(page, "noon");
+  page.on("request", (request) => {
+    if (new URL(request.url()).pathname.includes("/assets/audio/")) audioRequests.push(request.url());
+  });
+  await page.route("**/assets/js/sound/gesture-foley.mjs", (route) => {
+    leafRequests.push(route.request().resourceType());
+    return leafRequests.length === 1 ? route.abort() : route.continue();
+  });
+
+  await page.goto(publicRouteUrl("/cv/"), { waitUntil: "load" });
+  await expect.poll(() => leafRequests).toEqual(["fetch"]);
+  expect(await contexts(page)).toBe(0);
+  expect(await evidence(page)).toMatchObject({ musicOn: false, effectsOn: true, context: null });
+  expect(audioRequests).toEqual([]);
+
+  await openPanel(page);
+  await expect.poll(async () => (await evidence(page)).gestures?.cues.latch).toBeGreaterThan(0);
+  expect(leafRequests).toEqual(["fetch", "script"]);
+  expect(await contexts(page)).toBe(1);
+  expect(await evidence(page)).toMatchObject({ musicOn: false, effectsOn: true, context: "running" });
+  expect(audioRequests).toEqual([]);
+});
+
 test("site sound: effects unlock while transport and all recordings stay paused until Play", async ({ page }, testInfo) => {
   test.skip(!["desktop-1440", "mobile-390"].includes(testInfo.project.name));
   const errors = collectRuntimeErrors(page);
