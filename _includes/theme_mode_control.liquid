@@ -5,7 +5,7 @@
   The time-of-day control. The sun-arc slider (assets/js/sun-arc.mjs) chooses any hour; the four
   stops stay as quick choices and as the contrast-checked theme modes the hour maps to. The panel
   also holds "Now" (follow the clock), the sitewide Pause motion switch (assets/js/theme.js) and the
-  Sound switch. Audio stays silent until the visitor turns it on (assets/js/site-sound.mjs).
+  independent controls for the music transport and interaction sounds (assets/js/site-sound.mjs).
 {% endcomment %}
 <div class="theme-mode-control {{ theme_control_class }}" data-theme-control>
   <button
@@ -80,16 +80,16 @@
     </div>
     <div class="coastal-media" data-site-media>
       <label class="coastal-media-row">
-        <span class="coastal-media-line">Style <strong data-art-name>Cosmic cel</strong></span>
+        <span class="coastal-media-line">Style <strong data-art-name>Photoreal</strong></span>
         <span class="coastal-slider" data-art-rail>
           <span class="coastal-slider-scene" aria-hidden="true"></span>
           <span class="coastal-slider-stops" aria-hidden="true">
-            {% for stop in (1..5) %}
+            {% for stop in (1..6) %}
               <i></i>
             {% endfor %}
           </span>
           <span class="coastal-slider-lens" aria-hidden="true"></span>
-          <input type="range" min="0" max="4" step="1" value="0" aria-label="Art style" aria-valuetext="Cosmic cel" data-art-slider>
+          <input type="range" min="0" max="5" step="1" value="0" aria-label="Art style" aria-valuetext="Photoreal" data-art-slider>
         </span>
       </label>
       <label class="coastal-media-row" data-volume-row>
@@ -103,14 +103,20 @@
       <div class="coastal-media-footer sun-arc-actions" data-media-footer>
         <img class="coastal-media-cover" width="40" height="40" data-media-cover hidden alt="">
         <span class="coastal-media-piece"
-          ><strong data-art-piece>The Spare Key</strong><span>{{ site.data.coastal_records.artist }}</span></span
+          ><strong data-art-piece>The Water on the Sill</strong><span>{{ site.data.coastal_records.artist }}</span></span
         >
         {% for item in site.data.coastal_records.recordings %}
           <template data-recording="{{ item[1].title | escape }}" data-cover="{{ item[1].cover | relative_url }}"></template>
         {% endfor %}
-        <button type="button" class="sun-arc-motion sun-arc-sound" role="switch" aria-checked="false" data-sound-toggle hidden>
-          <span class="sun-arc-motion-track" aria-hidden="true"></span>
-          Sound
+        <button type="button" class="coastal-play" aria-label="Play music" aria-pressed="false" data-sound-toggle hidden>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path class="coastal-play-triangle" d="M4 2 14 8 4 14Z"/><path class="coastal-play-pause" d="M3 2h4v12H3zm6 0h4v12H9z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="coastal-fx" data-effects-row>
+        <button type="button" class="coastal-fx-switch" role="switch" aria-checked="true" data-effects-toggle>
+          Interaction sounds <span class="coastal-fx-track" aria-hidden="true"></span>
         </button>
       </div>
     </div>

@@ -4,16 +4,16 @@
 // it is opened, even when the visitor made it on a different page.
 window.siteArt = (() => {
   const worlds = [
+    { id: "realistic", name: "Photoreal", recording: "realistic", music: "The Water on the Sill" },
     { id: "cosmic", name: "Cosmic cel", recording: "toon", music: "The Spare Key" },
     { id: "field-guide", name: "Field notes", recording: "watercolour", music: "A Pocketful of Sky" },
-    { id: "pencil", name: "Graphite noir", recording: "realistic", music: "The Water on the Sill" },
+    { id: "pencil", name: "Graphite noir", recording: "all-the-windows-open", music: "All the Windows Open" },
     { id: "paint", name: "Brushwork", recording: "paint", music: "Copper in the Last Light" },
     { id: "thermal", name: "Thermal print", recording: "print", music: "Five Cuts in Pearwood" },
   ];
-  const key = "site-art-style";
+  const key = "site-visit-art";
   const valid = (id) => worlds.some((world) => world.id === id);
   const oldLooks = new Map([
-    ["realistic", "pencil"],
     ["watercolour", "field-guide"],
     ["print", "thermal"],
     ["toon", "cosmic"],
@@ -22,7 +22,10 @@ window.siteArt = (() => {
   const publicId = (id) => (valid(id) ? id : oldLooks.get(id) || worlds[0].id);
   let saved;
   try {
-    saved = localStorage.getItem(key) || sessionStorage.getItem("scene-print");
+    // Carry a choice along an internal link. A direct visit or reload opens
+    // the ordinary reading palette and the original photoreal house.
+    const transit = performance.getEntriesByType("navigation")[0]?.type;
+    if (document.referrer && new URL(document.referrer).origin === location.origin && transit !== "reload") saved = sessionStorage.getItem(key);
   } catch {
     // The page can still remember a choice while it is open.
   }
@@ -32,11 +35,16 @@ window.siteArt = (() => {
   if (valid(linked) || oldLooks.has(linked)) choice = linked === "1" ? "toon" : linked;
   else if (params.has("print")) choice = params.get("print") === "0" ? "realistic" : "toon";
   document.documentElement.dataset.artStyle = choice;
+  try {
+    sessionStorage.setItem(key, choice);
+  } catch {
+    /* Storage is optional. */
+  }
   function set(id, persist = true) {
     if (!valid(id)) return;
     if (persist) {
       try {
-        localStorage.setItem(key, id);
+        sessionStorage.setItem(key, id);
         sessionStorage.setItem("scene-print", id);
       } catch {
         // Storage is optional.
@@ -47,9 +55,6 @@ window.siteArt = (() => {
     document.documentElement.dataset.artStyle = id;
     window.dispatchEvent(new CustomEvent("siteArtChange", { detail: { look: id } }));
   }
-  window.addEventListener("storage", (event) => {
-    if (event.key === key) set(publicId(event.newValue), false);
-  });
   return {
     worlds,
     publicId,

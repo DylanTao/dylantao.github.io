@@ -3549,6 +3549,7 @@ test("coastal home: public drawings switch live and a seated visitor leaves a co
   const menu = rooms.locator("summary");
   const looks = rooms.locator("[data-world-drawing]");
   expect(await looks.evaluateAll((buttons) => buttons.map((button) => button.dataset.worldDrawing))).toEqual([
+    "realistic",
     "cosmic",
     "field-guide",
     "pencil",

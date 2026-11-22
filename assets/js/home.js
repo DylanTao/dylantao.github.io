@@ -1116,6 +1116,7 @@
       playRequested = false;
       replacingTrack = false;
       trackElement?.pause();
+      if (trackElement) window.siteSound?.detachMediaElement?.(trackElement);
     };
 
     const applyTrackSeek = () => {

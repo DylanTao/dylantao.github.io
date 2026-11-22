@@ -607,13 +607,11 @@ test("mobile navbar can expand/collapse", async ({ page }, testInfo) => {
   const art = page.locator("#theme-menu [data-art-slider]");
   await art.tap();
   await expect(art).toHaveAttribute("aria-valuetext", "Graphite noir");
-  await expect(page.locator("#theme-menu [data-art-piece]")).toHaveText("The Water on the Sill");
+  await expect(page.locator("#theme-menu [data-art-piece]")).toHaveText("All the Windows Open");
   const volume = page.locator("#theme-menu [data-volume-slider]");
   await volume.tap();
   await expect.poll(() => page.evaluate(() => window.siteSound.evidence().volume)).toBeCloseTo(0.5, 1);
-  if (await page.evaluate(() => Boolean(window.AudioContext || window.webkitAudioContext))) {
-    await expect(page.locator("#theme-menu [data-sound-toggle]")).toHaveAttribute("aria-checked", "true");
-  }
+  await expect(page.locator("#theme-menu [data-sound-toggle]")).toHaveAttribute("aria-pressed", "false");
   await themeToggle.click();
 
   await toggle.click();

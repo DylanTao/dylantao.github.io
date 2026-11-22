@@ -21,3 +21,6 @@ recordings:
   toon:
     title: The Spare Key
     cover: /assets/img/record-sleeves/toon.svg
+  the-door-is-open:
+    title: The Door Is Open
+    cover: /assets/img/record-sleeves/the-door-is-open.svg
