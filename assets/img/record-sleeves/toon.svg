@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 112">
+<rect width="112" height="112" fill="#383256"/>
+<path d="m18 62 2-36 30-10 36 14 9 27-17 28-43-2z" fill="#639b97"/>
+<path d="m27 28 26-6 26 11 9 24-21 19-27-2-16-16z" fill="none" stroke="#d0c9a2" stroke-width="1.7" stroke-dasharray="2 3"/>
+<path d="m55 53 30 9 3 6-8 6-4-6-7-2-4 4-6-2 1-4-10-3z" fill="#f5c770" stroke="#3b313e" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="46" cy="51" r="15" fill="#f5c770" stroke="#3b313e" stroke-width="2.4"/>
+<circle cx="43" cy="47" r="5" fill="#816152" stroke="#3b313e" stroke-width="1.4"/>
+<path d="M11 47h8m-4-4v8m81-30h9m-4-5v10m-4 51h7m-4-4v8" fill="none" stroke="#f7d392" stroke-width="2" stroke-linecap="round"/>
+<text x="56" y="103" text-anchor="middle" fill="#ffdb9f" font-family="Georgia, serif" font-weight="bold" font-size="14">The Spare Key</text>
+</svg>

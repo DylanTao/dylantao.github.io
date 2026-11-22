@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 112">
+  <rect width="112" height="112" fill="#283344"/>
+  <path fill="#62677b" d="M0 14 22 7 49 12 82 10l30-8v16L86 28 57 22 23 26 0 31z"/>
+  <path fill="#b69b8d" d="m0 36 26-12 21 2 17 5 34-6 14-7v7L90 35l-26 2-20-5-21 2L0 44z"/>
+  <path fill="#1e2835" d="M0 61 27 39l24-4 23 6 38-10v42L78 89 0 78z"/>
+  <path fill="#deb37b" d="M37 70V36q12-13 33-7v48z"/>
+  <path fill="#eadcc5" d="M42 68V38q11-11 25-6v37z"/>
+  <path fill="#7496a6" d="m42 49 25-1v20l-25 1z"/>
+  <path fill="none" stroke="#c2d2cb" stroke-width=".9" d="m43 55 10 1 9-2 4 1m-19 9 6-1 5 1"/>
+  <path fill="#593e38" d="m38 36 12 6v32l-12-5z"/>
+  <path fill="#dd9759" d="m38 69 13 5 16-6L99 84 57 96 4 88z"/>
+  <path fill="none" stroke="#ffe0a5" d="m12 88 28-14m24-3 25 12"/>
+  <text x="56" y="105" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#ffe7c1">The Door Is Open</text>
+</svg>
