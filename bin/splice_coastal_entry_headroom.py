@@ -1,4 +1,4 @@
-"""Replace only the four corrected canopy members in the packed house."""
+"""Transplant the fitted canopy or the bedroom window into its packed carrier."""
 
 from argparse import ArgumentParser
 from hashlib import sha256
@@ -9,15 +9,15 @@ import struct
 from pack_coastal_streamed_models import read_glb
 
 
-PREFIX = "core_entry_leaf_"
-PIECES = ("laminated_glass", "rims", "cantilevers", "rain_chains")
+CANOPY = tuple("core_entry_leaf_" + name + "__" for name in ("laminated_glass", "rims", "cantilevers", "rain_chains"))
+BEDROOM = ("sleep_fin_window__brushed brass", "sleep_fin_window__facade low-iron glass")
 DRACO = "KHR_draco_mesh_compression"
 
 
 def geometry(document, piece):
-    matches = [node for node in document["nodes"] if node.get("name", "").startswith(PREFIX + piece + "__")]
+    matches = [node for node in document["nodes"] if node.get("name", "").startswith(piece)]
     if len(matches) != 1:
-        raise ValueError(f"Expected one packed canopy member for {piece}")
+        raise ValueError(f"Expected one packed member for {piece}")
     node = matches[0]
     primitive, = document["meshes"][node["mesh"]]["primitives"]
     return node, primitive
@@ -28,27 +28,27 @@ def contents(view, payload):
     return payload[offset:offset + view["byteLength"]]
 
 
-def splice(base, replacement, output):
+def splice(base, replacement, output, members=CANOPY):
     house, old_payload = read_glb(base)
     fresh, new_payload = read_glb(replacement)
     if len(house["buffers"]) != 1 or len(fresh["buffers"]) != 1:
         raise ValueError("Expected a single embedded GLB buffer")
     replacements = {}
-    for piece in PIECES:
+    for piece in members:
         before_node, before = geometry(house, piece)
         after_node, after = geometry(fresh, piece)
         old_material = house["materials"][before["material"]]["name"]
         new_material = fresh["materials"][after["material"]]["name"]
         transform = ("translation", "rotation", "scale", "matrix")
         if old_material != new_material or any(before_node.get(key) != after_node.get(key) for key in transform):
-            raise ValueError(f"{piece}: changed canopy transform or finish")
+            raise ValueError(f"{piece}: changed transform or finish")
         if before["attributes"].keys() != after["attributes"].keys():
             raise ValueError(f"{piece}: expected the same packed vertex attributes")
 
         old_draco, new_draco = before["extensions"][DRACO], after["extensions"][DRACO]
         view = old_draco["bufferView"]
         if view in replacements:
-            raise ValueError("Multiple canopy parts share a compressed view")
+            raise ValueError("Multiple members share a compressed view")
         replacements[view] = contents(fresh["bufferViews"][new_draco["bufferView"]], new_payload)
         old_draco["attributes"] = new_draco["attributes"]
         old_ids = [before["indices"], *before["attributes"].values()]
@@ -79,7 +79,7 @@ def splice(base, replacement, output):
         + payload
     )
     output.write_bytes(result)
-    print(f"{output.name}: replaced {len(replacements)} canopy geometry views, SHA-256 {sha256(result).hexdigest()}")
+    print(f"{output.name}: replaced {len(replacements)} geometry views, SHA-256 {sha256(result).hexdigest()}")
 
 
 if __name__ == "__main__":
@@ -87,7 +87,8 @@ if __name__ == "__main__":
     parser.add_argument("--base", type=Path, required=True)
     parser.add_argument("--replacement", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--members", choices=("entry-canopy", "bedroom-window"), default="entry-canopy")
     args = parser.parse_args()
     if args.out.resolve() in (args.base.resolve(), args.replacement.resolve()):
         raise SystemExit("Write the candidate to a separate path")
-    splice(args.base, args.replacement, args.out)
+    splice(args.base, args.replacement, args.out, BEDROOM if args.members == "bedroom-window" else CANOPY)

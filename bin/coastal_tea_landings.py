@@ -43,6 +43,20 @@ NOTCH_BACK = -3.815
 LOW_GLASS = 1.887
 
 
+def finish_cut_window(scene):
+    # The solid cutter lends its stone to the new end faces. The cut edge
+    # of a pane is glass, and the adjoining sill exposes its own brass.
+    for name, material_name in ((BED_SILL, BRASS), (BED_GLASS, GLASS)):
+        mesh = scene.objects[name].data
+        material = bpy.data.materials[material_name]
+        if material.name not in mesh.materials:
+            raise ValueError(f"Missing original window finish on {name}")
+        mesh.materials.clear()
+        mesh.materials.append(material)
+        for face in mesh.polygons:
+            face.material_index = 0
+
+
 def refit_window_over_stair(scene):
     """Retain the wardrobe and pane, raising only the sill over the stair."""
     x0, x1 = NOTCH_X
@@ -61,6 +75,7 @@ def refit_window_over_stair(scene):
         scene, "Tea stair raised glazing sill", x0, x1, 3.395, 3.456, 1.494, LOW_GLASS,
         material, [scene.objects[BED_SILL], scene.objects[BED_GLASS]],
     )
+    finish_cut_window(scene)
     j = Joinery(PREFIX, "bedchamber")
     # The raised sill and jambs land on the uncut slab shoulders. The dark
     # metal inside the window frame maintains the original sightline above it.
