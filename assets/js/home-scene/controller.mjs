@@ -2876,6 +2876,9 @@ export function createCoastalHome(container, records, artifacts) {
   }
 
   function namedWalkingPlace(position) {
+    for (const [id, place] of Object.entries(config.walk?.places || {})) {
+      if (place.bounds && position.every((value, axis) => value >= place.bounds.min[axis] && value <= place.bounds.max[axis])) return id;
+    }
     for (const id of ["speakeasy", "ocean-baths"]) {
       const bounds = config.installationReceivers?.groups?.[id];
       if (bounds && position.every((value, axis) => value >= bounds.min[axis] && value <= bounds.max[axis])) return id;
@@ -3139,9 +3142,14 @@ export function createCoastalHome(container, records, artifacts) {
     }
   }
 
-  function toggleHouseRecord() {
-    if (!spinning) houseRecord.choose();
+  function toggleHouseRecord(event) {
+    const starting = !spinning;
+    if (starting) houseRecord.choose();
     callbacks.toggleSpin?.();
+    if (event?.isTrusted) {
+      if (starting) window.siteSound?.playMusic?.();
+      else window.siteSound?.pauseMusic?.();
+    }
   }
 
   function chooseBarSleeve(value) {
@@ -3167,7 +3175,7 @@ export function createCoastalHome(container, records, artifacts) {
 
   function syncCabinetAudio() {
     if (!houseRecord.tracking && !listenerStamp) return;
-    const pose = document.documentElement.dataset.sound === "on" ? cabinetPlayback() : null;
+    const pose = document.documentElement.dataset.music === "on" ? cabinetPlayback() : null;
     const stamp = pose ? [Math.round(pose.gain * 100), Math.round(pose.pan * 40), Math.round(pose.cutoff / 100)].join("/") : "";
     if (stamp !== listenerStamp) {
       listenerStamp = stamp;

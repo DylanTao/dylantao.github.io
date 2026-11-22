@@ -26,7 +26,7 @@ if (art && panels.length) {
       panel.querySelector("[data-art-name]").textContent = world.name;
       const volume = panel.querySelector("[data-volume-slider]");
       volume.value = String(level);
-      volume.setAttribute("aria-valuetext", sound?.on ? level + "%" : level + "%, sound off");
+      volume.setAttribute("aria-valuetext", level + "%");
       panel.querySelector("[data-volume-name]").textContent = level + "%";
       const rail = panel.querySelector("[data-volume-rail]");
       rail.style.setProperty("--u", level / 100);
@@ -149,6 +149,7 @@ if (art && panels.length) {
     if (absoluteMute) {
       panel.querySelector("[data-volume-row]").hidden = true;
       panel.querySelector("[data-media-footer]").hidden = true;
+      panel.querySelector("[data-effects-row]").hidden = true;
     }
     listenToRange(panel.querySelector("[data-art-slider]"), (index, event) => {
       if (event.isTrusted && art.worlds[index].id !== art.look)

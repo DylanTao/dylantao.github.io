@@ -50,22 +50,23 @@
 
 .coastal-slider {
   --u: 0;
-  --glass: 3.3rem;
-  --track: 3.25rem;
-  --zoom: 1.68;
+  --glass: 3.45rem;
+  --track: 5.6rem;
+  --zoom: 1.73;
   --cx: calc(var(--glass) / 2 + (var(--rail-width, 18rem) - var(--glass)) * var(--u));
   --ease-glass: cubic-bezier(0.22, 1.3, 0.38, 1);
   position: relative;
   display: block;
   width: 100%;
-  height: calc(var(--glass) + 0.65rem);
+  height: calc(max(var(--glass), var(--track)) + 0.75rem);
   isolation: isolate;
   transition: height 210ms var(--ease-glass);
 
   &[data-volume-rail] {
     --u: 1;
-    --glass: 2.95rem;
-    --track: 2.48rem;
+    --glass: 2.45rem;
+    --track: 2.05rem;
+    --zoom: 1.55;
   }
 
   input {
@@ -101,17 +102,25 @@
 
   &:focus-within,
   &:active {
-    --glass: 3.85rem;
-    --track: 3.65rem;
-    --zoom: 1.75;
+    --glass: 4.15rem;
+    --track: 6.1rem;
+    --zoom: 1.94;
+    &[data-volume-rail] {
+      --glass: 2.85rem;
+      --track: 2.3rem;
+    }
   }
 }
 
 @media (hover: hover) {
   .coastal-slider:hover {
-    --glass: 3.85rem;
-    --track: 3.65rem;
-    --zoom: 1.75;
+    --glass: 4.15rem;
+    --track: 6.1rem;
+    --zoom: 1.94;
+    &[data-volume-rail] {
+      --glass: 2.85rem;
+      --track: 2.3rem;
+    }
   }
 }
 
@@ -141,11 +150,10 @@
 
 .coastal-slider :where(.coastal-slider-scene, .coastal-slider-lens) {
   overflow: hidden;
-  canvas {
+  svg {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
   }
 }
 
@@ -158,13 +166,16 @@
     inset 0 0 0 1px rgb(70 51 38 / 0.26);
   transition: height 210ms var(--ease-glass);
 }
+[data-art-rail] .coastal-slider-scene {
+  border-radius: 1rem;
+}
 
 .coastal-slider-lens {
   left: calc(var(--cx) - var(--glass) / 2);
   width: var(--glass);
   height: var(--glass);
   border-radius: 52% 50% 48% 49%;
-  canvas {
+  svg {
     position: absolute;
     width: calc(var(--rail-width, 18rem) * var(--zoom));
     height: calc(var(--track) * var(--zoom));
@@ -212,7 +223,7 @@
   transition-duration: 75ms;
 }
 [data-art-rail] .coastal-slider-lens,
-[data-art-rail] .coastal-slider-lens canvas {
+[data-art-rail] .coastal-slider-lens svg {
   transition-property: width, height;
 }
 
@@ -231,6 +242,71 @@
   height: 2.45rem;
   flex: none;
   border-radius: 0.45rem;
+}
+.coastal-play {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-left: auto;
+  border: 1px solid var(--global-divider-color);
+  border-radius: 50%;
+  background: var(--global-surface-color);
+  color: var(--global-text-color);
+  .coastal-play-pause {
+    display: none;
+  }
+  &[aria-pressed="true"] {
+    .coastal-play-triangle {
+      display: none;
+    }
+    .coastal-play-pause {
+      display: block;
+    }
+  }
+}
+.coastal-fx {
+  display: flex;
+  justify-content: flex-start;
+}
+.coastal-fx-switch {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 2.75rem;
+  gap: 0.75rem;
+  padding: 0.3rem 0.45rem;
+  border: 0;
+  background: transparent;
+  color: var(--global-text-color);
+  font: 500 var(--type-meta)/1.3 var(--font-ui);
+  cursor: pointer;
+}
+.coastal-fx-track {
+  display: inline-flex;
+  align-items: center;
+  width: 2rem;
+  height: 1.16rem;
+  padding: 0.13rem;
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--global-text-color) 34%, transparent);
+  &::before {
+    content: "";
+    height: 0.9rem;
+    width: 0.9rem;
+    border-radius: 50%;
+    background: var(--global-bg-color);
+    transition: transform 130ms ease;
+  }
+  [aria-checked="true"] & {
+    background: var(--global-text-color);
+    &::before {
+      transform: translateX(0.84rem);
+    }
+  }
 }
 .coastal-media-piece {
   display: flex;
@@ -284,11 +360,11 @@ html[data-motion="paused"] :is(.coastal-slider, .coastal-slider-scene, .coastal-
   transition: none;
 }
 @media (prefers-reduced-motion: reduce) {
-  .coastal-slider-lens canvas {
+  .coastal-slider-lens svg {
     transition: none;
   }
 }
-html[data-motion="paused"] .coastal-slider-lens canvas {
+html[data-motion="paused"] .coastal-slider-lens svg {
   transition: none;
 }
 @media (forced-colors: active) {

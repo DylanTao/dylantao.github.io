@@ -43,7 +43,7 @@ test("house film: the first view from the entrance includes the planted coast", 
     await dock.locator("[data-theme-toggle]").click();
     const style = dock.getByRole("slider", { name: "Art style" });
     await style.press("Home");
-    await expect(host).toHaveAttribute("data-drawing", "cosmic");
+    await expect(host).toHaveAttribute("data-drawing", "realistic");
     await style.press("Escape");
     await expect(dock.locator("[data-theme-toggle]")).toBeFocused();
     await page.locator("[data-world-places] summary").click();
