@@ -149,15 +149,18 @@ def fit_masonry():
     j = Joinery("core_tea_garden_", "exterior")
     # New slab spans the contained bay, bearing on its lower stone returns.
     # Keep the original back stair landing and its west shoulder.
-    j.block("floor", STONE, (-8.35, BACK + .012, -1.222), (-5.282, FRONT - .114, FLOOR), .004)
+    pier_face, pier_liner, shoulder = -8.040, -7.979, -5.038
+    j.block("floor", STONE, (pier_liner + .002, BACK + .012, -1.222), (-5.282, shoulder, FLOOR), .004)
+    j.block("floor", STONE, (-8.35, shoulder + .001, -1.222), (-5.282, FRONT - .114, FLOOR), .004)
     j.block("floor", STONE, (-8.35, FRONT - .113, -1.222), (POOL_X[1] + .016, FRONT - .002, FLOOR), .003)
-    j.block("back_bearing", STONE, (-8.35, BACK + .012, -1.34), (EAST - .008, BACK + .19, -1.224), .004)
-    j.block("back_riser", STONE, (-8.35, BACK + .012, FLOOR), (EAST - .008, BACK + .125, OLD_FLOOR + .018), .004)
-    for y0, y1 in ((BACK + .142, SIDE_Y[0] - .013), (SIDE_Y[1] + .013, FRONT - .008)):
+    j.block("back_bearing", STONE, (pier_liner + .001, BACK + .012, -1.335), (-5.282, BACK + .19, -1.224), .004)
+    j.block("back_riser", STONE, (pier_liner + .001, BACK + .012, FLOOR), (-5.282, BACK + .052, OLD_FLOOR + .018), .003)
+    j.block("west_bearing", STONE, (pier_face, BACK + .017, -1.318), (pier_liner, shoulder - .002, OLD_FLOOR + .015), .004)
+    for y0, y1 in ((shoulder + .002, SIDE_Y[0] - .013), (SIDE_Y[1] + .013, FRONT - .008)):
         j.block("west_bearing", STONE, (WEST + .008, y0, -1.32), (-8.352, y1, OLD_FLOOR + .015), .004)
-    j.block("east_bearing", STONE, (-5.28, BACK + .126, -1.31), (EAST - .004, FRONT - .115, OLD_FLOOR - .002), .003)
-    j.block("water_threshold_sill", STONE, (POOL_X[1] + .018, FRONT - .113, -1.30), (EAST - .009, FRONT - .006, -.101), .005)
-    j.block("water_threshold_liner", OAK, (POOL_X[1] + .018, FRONT - .104, -.100), (EAST - .010, FRONT - .009, -.073), .003)
+    j.block("east_bearing", STONE, (-5.28, BACK + .054, -1.31), (EAST - .004, FRONT - .115, OLD_FLOOR - .002), .003)
+    j.block("water_threshold_sill", STONE, (POOL_X[1] + .018, FRONT - .113, -1.30), (-5.456, FRONT - .006, -.130), .005)
+    j.block("water_threshold_liner", OAK, (POOL_X[1] + .018, FRONT - .104, -.129), (-5.456, FRONT - .009, -.104), .003)
 
     # Both six-riser flights keep the lower treads below the bedroom soffit
     # and meet the two retained floor planes at their respective landings.
@@ -200,7 +203,7 @@ def fit_masonry():
 
 def fit_pocket_window(j, config):
     # Two leaves on separate runners travel into the same opaque pocket.
-    aperture_lo, aperture_hi, pocket_stop = -7.135, -5.985, -5.337
+    aperture_lo, aperture_hi, pocket_stop = -7.135, -6.102, -5.512
     sill, lintel = -.098, 1.289
     inside, outside = FRONT - .134, FRONT - .015
     j.block("window_head", OAK, (aperture_lo - .025, inside, 1.291), (pocket_stop + .022, outside, 1.338), .004)
@@ -211,7 +214,7 @@ def fit_pocket_window(j, config):
     j.block("concealed_pocket", STONE, (pocket_stop + .004, inside + .016, sill), (pocket_stop + .03, outside - .016, 1.291), .004)
     # A separate clear fall guard remains on the terrace side of the open window.
     j.block("terrace_guard_glass", GLASS, (POOL_X[1] + .006, -3.358, .023), (EAST - .015, -3.342, 1.055), .001)
-    j.span("terrace_guard_rail", BRONZE, (POOL_X[1] + .006, -3.35, 1.058), (EAST - .015, -3.35, 1.058), .012)
+    j.span("terrace_guard_rail", BRONZE, (POOL_X[1] + .009, -3.35, 1.069), (EAST - .018, -3.35, 1.069), .012)
     for xa in (POOL_X[1] + .035, -6.28, EAST - .035):
         j.block("terrace_guard_shoes", BRONZE, (xa - .025, -3.374, TERRACE), (xa + .025, -3.326, .048), .003)
     width = (aperture_hi - aperture_lo) / 2.0
@@ -243,6 +246,35 @@ def fit_pocket_window(j, config):
     return [aperture_lo, aperture_hi, aperture_hi + .020, aperture_hi + .020 + width + .008]
 
 
+def install_tea_joinery(config):
+    joinery = fit_masonry()
+    window = fit_pocket_window(joinery, config)
+    for piece, obj in joinery.finish():
+        if piece == "terrace_guard_glass":
+            obj["glazing"] = True
+            obj["walk"] = "solid"
+    return window
+
+
+def refit_tea_joinery(scene, config):
+    """Replace the first tea joinery, preserving its excavated and furnished source."""
+    version = scene.get("sunkenTeaGarden")
+    if version == 2:
+        return {"alreadyFitted": True}
+    if version != 1:
+        raise ValueError("Install the sunken tea garden before refitting its joinery")
+    originals = [obj for obj in scene.objects if obj.name.startswith("core_tea_garden_")]
+    if len(originals) < 20:
+        raise ValueError("The first tea joinery is missing")
+    for obj in originals:
+        discard(obj)
+    config["estateDoors"] = [entry for entry in config["estateDoors"] if not entry["id"].startswith("tea-garden-window-")]
+    window = install_tea_joinery(config)
+    scene["sunkenTeaGarden"] = 2
+    bpy.context.view_layer.update()
+    return {"replacedObjects": len(originals), "window": window}
+
+
 def fit_sunken_tea(scene, config):
     if scene.get("sunkenTeaGarden"):
         raise ValueError("The tea garden is already lowered")
@@ -271,12 +303,7 @@ def fit_sunken_tea(scene, config):
     furniture = move_furniture(scene)
     planter = move_library_planter(scene)
     rug = move_library_rug(scene)
-    joinery = fit_masonry()
-    window = fit_pocket_window(joinery, config)
-    for piece, obj in joinery.finish():
-        if piece == "terrace_guard_glass":
-            obj["glazing"] = True
-            obj["walk"] = "solid"
+    window = install_tea_joinery(config)
     lamp = next(item for item in config["installationPoints"] if item["id"] == "tea-garden-lantern")
     lamp["position"] = [-7.27, round(0.491 + LOWER, 3), 5.06]
     lamp["region"] = {"min": [-8.43, -1.08, 3.4], "max": [-5.25, 1.34, 6.3]}
@@ -284,6 +311,6 @@ def fit_sunken_tea(scene, config):
         "label": "Tea garden", "room": "kitchen", "position": [-7.79, -1.025, 4.67], "yaw": -.42, "pitch": -.10, "fov": 67,
         "bounds": {"min": [WEST, FLOOR - .03, -FRONT], "max": [EAST, SOFFIT, -BACK]},
     }
-    scene["sunkenTeaGarden"] = 1
+    scene["sunkenTeaGarden"] = 2
     bpy.context.view_layer.update()
     return {"bay": [WEST, EAST, BACK, FRONT, FLOOR, SOFFIT], "cuts": excavation, "moved": furniture, "planter": planter, "rug": rug, "window": window}
