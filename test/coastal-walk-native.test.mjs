@@ -44,7 +44,7 @@ async function deliveredField() {
 
 // Follow only by horizontal motion. The expected authored Y is an assertion, never an override:
 // every actual foot elevation comes from native delivered triangles through the runtime solver.
-function traverse(field, route) {
+function traverse(field, route, { floorTolerance = 0.2 } = {}) {
   const first = route[0],
     start = field.findStand(first[0], first[2], first[1], {
       reach: 0.15,
@@ -73,7 +73,7 @@ function traverse(field, route) {
       remaining = Math.hypot(target[0] - state.x, target[2] - state.z);
     }
     assert.ok(remaining <= 0.035, `native route reached ${JSON.stringify(target)}, remaining ${remaining}`);
-    assert.ok(Math.abs(state.foot - target[1]) < 0.2, `native support ${state.foot} matches authored floor ${target[1]}`);
+    assert.ok(Math.abs(state.foot - target[1]) < floorTolerance, `native support ${state.foot} matches authored floor ${target[1]}`);
   }
   assert.ok(maximumRise <= BODY.maxStep + 0.015, `no vertical teleport: largest native step ${maximumRise}`);
   return { state, travelled, maximumRise };
@@ -343,3 +343,24 @@ test("the gym capsule walks through the diagonal garden opening and returns on t
     assert.ok(crossing.maximumRise < 0.055);
   }
 });
+
+test(
+  "the supper gallery stair connects the lower patio to the dining aisle in both directions",
+  { skip: !manifest.walk.places?.["supper-gallery"] },
+  async () => {
+    const field = await deliveredField();
+    const height = manifest.walk.places["supper-gallery"].position[1];
+    const stairX = -7.73;
+    const treads = Array.from({ length: 18 }, (_, i) => [stairX, (height * (i + 1)) / 18, -(5.34 + 0.28 * (i + 0.5))]);
+    const patio = [stairX, 0.001, -4.18];
+    const upperTurn = [stairX, height, -10.68];
+    const westTurn = [-9.87, height, -10.68];
+    const dining = [-9.87, height, -7.83];
+    const route = [patio, ...treads, upperTurn, westTurn, dining];
+    for (const points of [route, [...route].reverse()]) {
+      const crossing = traverse(field, points, { floorTolerance: 0.025 });
+      assert.ok(crossing.travelled > 11.2, "the route covers the full lower approach, staircase and dining aisle");
+      assert.ok(crossing.maximumRise > 0.15 && crossing.maximumRise < 0.19, "a single decoded tread sets the largest rise");
+    }
+  }
+);
