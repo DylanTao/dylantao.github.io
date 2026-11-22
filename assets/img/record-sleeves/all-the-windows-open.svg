@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 112">
+<rect width="112" height="112" fill="#2a273b"/>
+<path fill="#472635" d="M0 89h112v23H0zM4 32h104v50H4z"/>
+<path fill="#754050" d="M0 32h22C19 48 15 66 7 80H0zm112 0H90c3 18 6 30 15 48h7z"/>
+<path fill="#ee9c5b" d="M23 45h13v20H23zm20-5h13v23H43zm20 0h13v23H63zm20 5h13v20H83z"/>
+<path fill="#f2c77b" d="M25 47h9v17h-9zm20-5h9v19h-9zm20 0h9v19h-9zm20 5h9v17h-9z"/>
+<path d="M30 44v21m20-26v24m20-24v24m20-19v21M22 54h15m5-4h15m5 0h15m5 4h15" stroke="#884755" stroke-width="1.6"/>
+<path fill="#68576a" d="m23 68 5 8-14 6h28l-6-14zm22-2 5 17h19l-13-17zm20 0 8 17h15L76 66zm18 2 12 15h14L96 68z"/>
+<path d="M0 25c18 7 32 5 49-2 17-7 42-8 63 1M0 86h112" fill="none" stroke="#ce8b68" stroke-width="1.3"/>
+<text x="56" y="14" text-anchor="middle" fill="#fbe7c5" font-family="Georgia, serif" font-style="italic" font-size="12">All the Windows</text>
+<text x="56" y="104" text-anchor="middle" fill="#fbe7c5" font-family="Georgia, serif" font-weight="bold" font-size="13" letter-spacing="2">Open</text>
+</svg>

@@ -113,7 +113,7 @@
       },
       {
         "file": "desk-scene.spec.js",
-        "title": "record: outside arrows and on-disc playback preserve rotation and offscreen suspension"
+        "title": "record: portrait player preserves rotation and offscreen suspension"
       },
       {
         "file": "desk-scene.spec.js",

@@ -1248,8 +1248,7 @@ html.home-desk-outside-active .home-story-rail {
   box-shadow: 0 22px 48px rgba(var(--global-shadow-rgb), 0.15);
 }
 
-.home-portrait-frame:focus-visible,
-.home-record-play:focus-visible {
+.home-portrait-frame:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--home-accent) 42%, transparent);
   outline-offset: 4px;
 }
@@ -1530,24 +1529,17 @@ html.home-desk-outside-active .home-story-rail {
 }
 
 .home-record-player {
+  position: relative;
   grid-area: portrait;
   display: grid;
   justify-items: center;
-  gap: 0.35rem;
   width: min(25.75rem, 100%);
-  max-width: 100%;
 }
 
 .home-record-carousel {
   display: grid;
-  align-items: center;
   justify-items: center;
   width: 100%;
-
-  &.has-records {
-    grid-template-columns: 44px minmax(0, 1fr) 44px;
-    gap: clamp(0.16rem, 1vw, 0.55rem);
-  }
 }
 
 .home-record-player .home-portrait-frame {
@@ -1556,18 +1548,68 @@ html.home-desk-outside-active .home-story-rail {
   max-width: 100%;
 }
 
+.home-record-opener {
+  position: absolute;
+  z-index: 8;
+  inset: 0;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  touch-action: pan-y;
+
+  &:focus-visible {
+    outline: 3px solid var(--home-accent);
+    outline-offset: -4px;
+  }
+}
+
 .home-record-console {
+  position: absolute;
+  z-index: 5;
+  inset-inline: 0;
+  bottom: -0.65rem;
   display: grid;
-  width: min(21rem, 100%);
+  gap: 0.24rem;
+  width: min(18.5rem, calc(100% - 0.5rem));
+  margin-inline: auto;
+  padding: 0.7rem 0.75rem 0.35rem;
+  border: 1px solid var(--home-line);
+  border-radius: 1.18rem;
+  background: color-mix(in srgb, var(--home-surface) 95%, transparent);
+  box-shadow: 0 12px 34px rgba(var(--global-shadow-rgb), 0.18);
+  backdrop-filter: blur(20px);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.home-record-track {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.home-record-sleeve {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  border-radius: 0.4rem;
+  object-fit: cover;
 }
 
 .home-record-caption {
   display: grid;
   min-width: 0;
-  text-align: center;
-  line-height: 1.35;
+  color: var(--home-muted);
+  font-size: var(--type-label);
+  line-height: 1.3;
 
-  > span {
+  strong {
     color: var(--home-ink);
     font-size: var(--type-compact);
     font-weight: 600;
@@ -1575,16 +1617,18 @@ html.home-desk-outside-active .home-story-rail {
 
   a {
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    justify-self: center;
-    min-height: 44px;
-    gap: 0.22rem;
-    padding-inline: 0.5rem;
-    font-size: var(--type-compact);
+    flex-wrap: wrap;
+    align-content: center;
+    justify-self: start;
+    gap: 0 0.24rem;
+    min-height: 24px;
     color: var(--home-muted);
     text-decoration: none;
-    text-underline-offset: 0.18em;
+    text-underline-offset: 0.2em;
+
+    &[hidden] {
+      display: none;
+    }
 
     &:hover,
     &:focus-visible {
@@ -1595,18 +1639,20 @@ html.home-desk-outside-active .home-story-rail {
 
 .home-record-timeline {
   display: grid;
-  grid-template-columns: 3ch minmax(0, 1fr) 3ch;
+  grid-template-columns: 4ch minmax(0, 1fr) 4ch;
   align-items: center;
-  gap: 0.6rem;
-  padding-inline: 0.27rem;
+  gap: 0.35rem;
   color: var(--home-muted);
-  font-family: var(--font-mono);
   font-size: var(--type-label);
   font-variant-numeric: tabular-nums;
 
+  span:last-child {
+    text-align: right;
+  }
+
   input {
     width: 100%;
-    height: 44px;
+    height: 28px;
     min-width: 0;
     margin: 0;
     accent-color: var(--home-accent-strong);
@@ -1627,10 +1673,10 @@ html.home-desk-outside-active .home-story-rail {
 }
 
 .home-record-transport {
-  position: absolute;
-  inset: 0;
-  z-index: 8;
-  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
 }
 
 .home-record-play,
@@ -1642,49 +1688,24 @@ html.home-desk-outside-active .home-story-rail {
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: var(--home-surface);
+  background: transparent;
   color: var(--home-ink);
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   cursor: pointer;
-  pointer-events: auto;
-  transition:
-    opacity var(--motion-standard),
-    background-color var(--motion-standard);
+  transition: background-color var(--motion-standard);
+
+  &:hover {
+    background: color-mix(in srgb, var(--home-line) 35%, transparent);
+  }
 
   &:focus-visible {
     outline: 2px solid var(--home-accent);
-    outline-offset: -4px;
+    outline-offset: 2px;
   }
 }
 
 .home-record-play {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  background: transparent;
-}
-
-.home-record-play-cue {
-  display: grid;
-  align-self: end;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  margin-bottom: 10%;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--home-surface) 92%, transparent);
-  box-shadow: 0 2px 12px rgba(var(--global-shadow-rgb), 0.12);
-}
-
-.home-record-nav {
-  background: color-mix(in srgb, var(--home-surface) 86%, transparent);
-  box-shadow: inset 0 0 0 1px var(--home-line);
-
-  &:hover {
-    background: var(--home-surface);
-    color: var(--home-accent-strong);
-  }
+  background: color-mix(in srgb, var(--home-surface) 78%, var(--home-ink));
 }
 
 .home-record-play [data-home-record-pause-icon],
@@ -3922,7 +3943,6 @@ html.home-motion-ready .home-reveal.home-visible {
   .home-record-scene-fallback,
   .home-record-art,
   .home-record-play,
-  .home-record-play-cue,
   .home-record-nav,
   .home-record-card-pile,
   .home-record-card-pile::before,

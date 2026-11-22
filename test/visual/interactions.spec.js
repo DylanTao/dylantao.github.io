@@ -874,6 +874,7 @@ test("home keyboard record playback survives shake suppression", async ({ page }
   await expect(spinButton).toHaveAttribute("aria-pressed", "false");
 
   await shakeCurrentRecord(page);
+  await page.locator("[data-home-record-open]").focus();
   await spinButton.focus();
   await page.keyboard.press("Space");
   await expect(spinButton).toHaveAttribute("aria-pressed", "true");
@@ -891,6 +892,7 @@ test("home record shortcuts yield modified and composing keys while plain contro
   const play = page.locator("[data-home-record-play]");
   const title = page.locator("[data-home-record-title]");
   const cards = page.locator("[data-home-record-card]");
+  await page.locator("[data-home-record-open]").focus();
   await play.focus();
   const initialTitle = await title.textContent();
   // Dispatch DOM keys to inspect default cancellation without opening native
@@ -936,17 +938,17 @@ test("home portrait offers a keyboard-equivalent record-card discovery", async (
   await stabilizeVisuals(page);
 
   const stage = page.locator("[data-home-artifact-stage]");
-  const portrait = page.locator("#home-profile-image-container");
+  const opener = page.locator("[data-home-record-open]");
   const cards = page.locator("[data-home-record-card]");
   await expect(stage).toHaveAttribute("data-desk-mode", "2d");
-  await expect(portrait).toHaveAttribute("aria-label", /press D to discover a record card/i);
+  await expect(opener).toHaveAccessibleDescription(/press D to discover a record card/i);
 
-  await portrait.locator("[data-home-record-play]").focus();
+  await opener.focus();
   await page.keyboard.press("d");
   await expect(cards).toHaveCount(1);
   await expect(stage).toHaveAttribute("data-dropped-records", "0");
 
-  await portrait.locator("[data-home-record-play]").focus();
+  await opener.focus();
   await page.keyboard.press("D");
   await expect(cards).toHaveCount(2);
   await expect(stage).toHaveAttribute("data-dropped-records", "0,1");
@@ -964,11 +966,14 @@ for (const action of ["play", "previous", "skip twice"]) {
     const title = page.locator("[data-home-record-title]");
     // Warm the real player, then hold browser time so IPC cannot accidentally
     // let the 460 ms discovery timer expire before the deliberate input.
+    await page.locator("[data-home-record-open]").click();
     await play.click();
     await expect.poll(() => record.evaluate((element) => element.getRecordEvidence().loaded)).toBe(true);
     await expect.poll(() => record.evaluate((element) => element.getRecordEvidence().mechanics?.phase)).toBe("tracking");
     await play.click();
     await play.press("Escape");
+    await expect(page.locator("[data-home-record-open]")).toBeFocused();
+    await page.locator("[data-home-record-open]").press("Enter");
     await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
     await play.press("d");
     await expect(page.locator("[data-home-record-card]")).toHaveCount(1);
@@ -1016,6 +1021,7 @@ test("home record intent: a discovery finishing image decode cannot queue a stal
   });
   await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
   const play = page.locator("[data-home-record-play]");
+  await page.locator("[data-home-record-open]").focus();
   await play.focus();
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
   await page.evaluate(() => {
@@ -1039,6 +1045,7 @@ test("home record intent: unclaimed discovery still advances and rapid discovery
   const play = page.locator("[data-home-record-play]");
   const cards = page.locator("[data-home-record-card]");
   const title = page.locator("[data-home-record-title]");
+  await page.locator("[data-home-record-open]").focus();
   await play.focus();
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
   await play.press("d");
@@ -1068,6 +1075,7 @@ test("home record intent: retained-page lifecycle events cancel stale discovery"
   await page.clock.install({ time: new Date("2026-10-02T13:20:00-07:00") });
   await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
   const play = page.locator("[data-home-record-play]");
+  await page.locator("[data-home-record-open]").focus();
   await play.focus();
   await page.clock.pauseAt((await page.evaluate(() => Date.now())) + 10000);
   await play.press("d");
@@ -1089,6 +1097,7 @@ test("home record intent: a paused disc survives modes and its artwork source", 
   const play = page.locator("[data-home-record-play]");
   const portrait = page.locator("#home-profile-image-container");
   const title = page.locator("[data-home-record-title]");
+  await page.locator("[data-home-record-open]").click();
   await play.click();
   await expect.poll(() => page.locator("[data-home-record-scene]").evaluate((element) => element.getRecordEvidence().loaded)).toBe(true);
   await play.click();
@@ -1103,6 +1112,7 @@ test("home record intent: a paused disc survives modes and its artwork source", 
   await expect(title).toHaveText(selected);
   await page.context().route("https://open.spotify.com/**", (route) => route.fulfill({ contentType: "text/html", body: "Artwork source fixture" }));
   const popupPromise = page.waitForEvent("popup");
+  await page.locator("[data-home-record-open]").click();
   await page.locator("[data-home-record-source]").click();
   const popup = await popupPromise;
   await popup.close();
@@ -1123,11 +1133,12 @@ test("home record intent: a paused disc survives modes and its artwork source", 
   expect(errors).toEqual([]);
 });
 
-test("home disc clicks only toggle playback after card discovery", async ({ page }) => {
+test("home player only toggles playback after card discovery", async ({ page }) => {
   await preparePage(page, "light");
   await page.goto(publicRouteUrl("/"), { waitUntil: "networkidle" });
   await page.emulateMedia({ reducedMotion: "reduce" });
   const play = page.locator("[data-home-record-play]");
+  await page.locator("[data-home-record-open]").focus();
   await play.press("d");
   await expect(page.locator("[data-home-record-card]")).toHaveCount(1);
   await page.locator("[data-home-record-prev]").click();
@@ -1405,6 +1416,7 @@ test("home 3D album rack ignores dropped sleeves and replaces focused albums", a
   );
   expect(rack).toEqual([2, 3]);
   await page.locator('[data-home-desk-mode="2d"]').click();
+  await page.locator("[data-home-record-open]").click();
   await page.locator("[data-home-record-prev]").click();
   await expect(stage).toHaveAttribute("data-record-tone", "jude");
   await page.locator('[data-home-desk-mode="3d"]').click();
