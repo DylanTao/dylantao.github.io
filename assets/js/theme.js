@@ -20,12 +20,14 @@ window.siteArt = (() => {
     ["1", "cosmic"],
   ]);
   const publicId = (id) => (valid(id) ? id : oldLooks.get(id) || worlds[0].id);
-  let saved;
+  let saved,
+    followingSiteLink = false;
   try {
     // Carry a choice along an internal link. A direct visit or reload opens
     // the ordinary reading palette and the original photoreal house.
     const transit = performance.getEntriesByType("navigation")[0]?.type;
-    if (document.referrer && new URL(document.referrer).origin === location.origin && transit !== "reload") saved = sessionStorage.getItem(key);
+    followingSiteLink = Boolean(document.referrer && new URL(document.referrer).origin === location.origin && transit !== "reload");
+    if (followingSiteLink) saved = sessionStorage.getItem(key);
   } catch {
     // The page can still remember a choice while it is open.
   }
@@ -58,6 +60,7 @@ window.siteArt = (() => {
   return {
     worlds,
     publicId,
+    followingSiteLink,
     get look() {
       return choice;
     },

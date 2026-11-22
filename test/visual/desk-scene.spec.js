@@ -357,6 +357,23 @@ test("record: portrait player preserves rotation and offscreen suspension", asyn
   await expect.poll(() => record.evaluate((e) => e.getRecordEvidence().running)).toBe(false);
 });
 
+test("a new homepage visit restores the portrait and photoreal palette with the record paused", async ({ page }) => {
+  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  await page.evaluate(() => {
+    sessionStorage.setItem("sirui-scene-mode", "3d");
+    window.siteArt.set("thermal");
+  });
+  const songs = [];
+  page.on("request", (request) => {
+    if (/\.mp3(?:\?|$)/.test(request.url())) songs.push(request.url());
+  });
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await expect(page.locator('[data-home-desk-mode="2d"]')).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("html")).toHaveAttribute("data-art-style", "realistic");
+  expect(await page.locator("[data-home-record-audio]").evaluate((element) => [element.paused, element.getAttribute("src")])).toEqual([true, null]);
+  expect(songs).toEqual([]);
+});
+
 test("record audio: native playback, cue replacement and keyboard seek use the original recordings", async ({ page }, testInfo) => {
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");

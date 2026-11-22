@@ -1964,8 +1964,9 @@
     selectRecord(0);
     let initialDeskMode = "2d";
     try {
-      const savedMode = sessionStorage.getItem("sirui-scene-mode");
+      const savedMode = window.siteArt?.followingSiteLink && sessionStorage.getItem("sirui-scene-mode");
       if (["2d", "3d"].includes(savedMode)) initialDeskMode = savedMode;
+      else sessionStorage.removeItem("sirui-scene-mode");
     } catch {
       /* The portrait is the default when storage is unavailable. */
     }
