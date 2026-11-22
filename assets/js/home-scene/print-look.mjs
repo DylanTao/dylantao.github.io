@@ -4,6 +4,10 @@ import { Pass, FullScreenQuad } from "../vendor/three-r164/postprocessing/Pass.j
 import { createPaint, paintableFlora } from "./paint-strokes.mjs";
 import { floraSwayProfile, floraSwayVector, patchFloraSway } from "./plant-motion.mjs";
 import { createWatercolourWash } from "./watercolour-world.mjs";
+import { createFieldGuideDrawing } from "./field-guide.mjs";
+import { createPencilDrawing } from "./pencil-world.mjs";
+import { thermalSeatLeather } from "./thermal-seat.mjs";
+import { createThermalDrawing, thermalSurface, thermalWeather } from "./thermal-world.mjs";
 
 // Drawn readings of the finished frame: experiments, off unless ?look=toon, ?look=print, ?print=1
 // or the lab's switch asks for one. The realistic render stays the source; this pass redraws it.
@@ -47,7 +51,8 @@ import { createWatercolourWash } from "./watercolour-world.mjs";
 
 export const PRINT_KEY = "scene-print";
 // "realistic" is the render itself; these redraw it.
-export const DRAWN_LOOKS = Object.freeze(["toon", "print", "paint", "watercolour"]);
+export const PUBLIC_DRAWN_LOOKS = Object.freeze(["cosmic", "field-guide", "pencil", "paint", "thermal"]);
+export const DRAWN_LOOKS = Object.freeze([...PUBLIC_DRAWN_LOOKS, "toon", "print", "watercolour"]);
 // Sirui, November 13, on the woodblock: "a bit too grim", "maybe a bit more rick and morty vibe".
 // The cartoon is what ?print=1 now means; ?look=print keeps the woodblock.
 export const DEFAULT_DRAWN_LOOK = "toon";
@@ -490,6 +495,27 @@ const TOON_LOOK = Object.freeze({
   }),
 });
 export const LOOKS = Object.freeze({
+  cosmic: Object.freeze({
+    label: "Cosmic",
+    dials: Object.freeze({ ...TOON_LOOK.dials, keySoftness: 0.14, inkRadius: 1.82, foldStrength: 0.46, brushwork: 0.14 }),
+    way: (way, minute) => {
+      const theatrical = TOON_LOOK.way(way, minute);
+      const palette = theatrical.palette;
+      return {
+        ...theatrical,
+        ink: [0.057, 0.049, 0.105],
+        palette: {
+          ...palette,
+          light: [Math.min(1, palette.light[0] * 1.07), palette.light[1] * 0.99, palette.light[2] * 0.8, 0.71, 0.91],
+          shade: [palette.shade[0] * 0.6, palette.shade[1] * 0.88, Math.min(1, palette.shade[2] * 1.14), 0.64, 0.63],
+          skyTop: [palette.skyTop[0] * 0.76, palette.skyTop[1] * 0.91, Math.min(1, palette.skyTop[2] * 1.06)],
+        },
+      };
+    },
+  }),
+  "field-guide": Object.freeze({ label: "Field Guide", dials: Object.freeze({ structure: 1 }), way: TOON_LOOK.way }),
+  pencil: Object.freeze({ label: "Pencil", dials: Object.freeze({ structure: 1 }), way: TOON_LOOK.way }),
+  thermal: Object.freeze({ label: "Thermal", dials: Object.freeze({ structure: 1 }), way: TOON_LOOK.way }),
   watercolour: Object.freeze({ label: "Watercolour", dials: Object.freeze({ structure: 1, localColour: 1 }), way: TOON_LOOK.way }),
   print: Object.freeze({ label: "Woodblock", dials: Object.freeze({}), way: (way) => way }),
   toon: TOON_LOOK,
@@ -614,6 +640,12 @@ uniform mat4 structureSkyMatrix;    // world to the sky map
 uniform vec4 structureSky;          // the sky camera's height, metres of slack, metres per texel, 1 when the map can be read
 uniform float structureLand;        // 1 for the land itself in a view that stands outdoors
 uniform vec2 structureMass;         // how wide a cast shadow must be to be kept, in radians of the view, and the shadow map's width per metre
+uniform bool structureThermal;
+uniform vec4 thermalWeather, thermalFire;
+uniform vec4 thermalMaterial;
+uniform vec3 thermalSeatLeft, thermalSeatRight;
+uniform vec3 thermalSeatNormalLeft, thermalSeatNormalRight, thermalSeatForward;
+uniform vec2 thermalContact;
 varying float vStructureDepth;
 varying vec4 vStructureShadow;
 varying vec3 vStructureWorld;
@@ -664,11 +696,37 @@ float seesSky(vec3 normal) {
   if (c.x < 0.0 || c.x > 1.0 || c.y < 0.0 || c.y > 1.0) return 1.0;
   return step(structureSky.x - vStructureWorld.y, texture2D(structureSkyMap, c.xy).w + structureSky.y);
 }
+float contactHeat(vec3 seat, vec3 plane, vec3 normal) {
+  vec3 fromSeat = vStructureWorld - seat;
+  float separation = abs(dot(fromSeat,plane));
+  float match = smoothstep(.52,.86,dot(normal,plane));
+  vec3 side = normalize(cross(thermalSeatForward,plane));
+  vec2 pressureOffset = vec2(dot(fromSeat,side)/.092, dot(fromSeat,thermalSeatForward)/.132) / thermalContact.x;
+  return exp(-.5 * dot(pressureOffset,pressureOffset)) * (1.-smoothstep(.017,.046,separation)) * match;
+}
 void main() {
   #include <clipping_planes_fragment>
   if (structureObject.y > 0.5) discard;
   #include <normal_fragment_begin>
   gl_FragColor = vec4(normal.xy, structureObject.x, vStructureDepth);
+  if (structureThermal) {
+    vec3 worldNormal = inverseTransformDirection(normal,viewMatrix);
+    float exposed = seesSky(normal);
+    float sun = mix(.20,.85,exposed) * (.57 + .31 * max(0.,worldNormal.y) + .12 * keyReaches(normal));
+    float skin = thermalWeather.x + thermalMaterial.x + thermalMaterial.y * sun * thermalWeather.y;
+    if (thermalMaterial.x < 8.) skin += 1.05 * worldNormal.y;
+    skin += thermalFire.w * exp(-length((vStructureWorld-thermalFire.xyz)*vec3(.94,1.07,.94))*2.8);
+    float reflected = thermalWeather.w + 3. * (1. - exposed) - max(worldNormal.y,0.) * thermalWeather.z;
+    float seen = mix(reflected,skin,thermalMaterial.z);
+    if (thermalMaterial.w > .5 && thermalContact.y > .01) {
+      float left = contactHeat(thermalSeatLeft, thermalSeatNormalLeft, worldNormal);
+      float right = contactHeat(thermalSeatRight, thermalSeatNormalRight, worldNormal);
+      seen += thermalContact.y * max(left, right);
+    }
+    float encoded = clamp((seen + 5.) / 85., 0., 1.) * 255.;
+    structureColour = vec4(floor(encoded) / 255., fract(encoded), 0., 1.);
+    return;
+  }
   vec3 own = structureTint;
   #if defined( USE_COLOR ) || defined( USE_COLOR_ALPHA )
     own *= mix(vec3(1.0), vColor.rgb, structureObject.w);
@@ -693,6 +751,16 @@ void main() {
     structureSkyMap: { value: null },
     structureSkyMatrix: { value: new THREE.Matrix4() },
     structureSky: { value: new THREE.Vector4() },
+    structureThermal: { value: false },
+    thermalWeather: { value: new THREE.Vector4() },
+    thermalFire: { value: new THREE.Vector4() },
+    thermalMaterial: { value: new THREE.Vector4() },
+    thermalSeatLeft: { value: new THREE.Vector3() },
+    thermalSeatRight: { value: new THREE.Vector3() },
+    thermalSeatNormalLeft: { value: new THREE.Vector3() },
+    thermalSeatNormalRight: { value: new THREE.Vector3() },
+    thermalSeatForward: { value: new THREE.Vector3() },
+    thermalContact: { value: new THREE.Vector2(1, 0) },
   };
   const material = new THREE.ShaderMaterial({
     name: "Scene structure",
@@ -707,6 +775,8 @@ void main() {
   });
   patchFloraSway(material, null);
   const floraProfiles = new WeakMap();
+  const thermalProfiles = new WeakMap();
+  let temperature = null;
   const outsideWind = floraSwayVector(null);
   // Each object brings its id and its own colour, and is culled the way its own material is, so a
   // wall the beauty pass looks through from behind is looked through here too.
@@ -721,9 +791,25 @@ void main() {
     }
     uniforms.floraSway.value = profile || outsideWind;
     uniforms.structureLand.value = outdoors && isLand(object, source) ? 1 : 0;
+    let warm;
+    if (temperature) {
+      let profiles = thermalProfiles.get(object);
+      if (!profiles) thermalProfiles.set(object, (profiles = new Map()));
+      warm = profiles.get(source);
+      if (!warm) profiles.set(source, (warm = thermalSurface(object, source)));
+      let chair = false;
+      if (temperature.seat && thermalSeatLeather(object, source)) {
+        for (let node = object; node; node = node.parent) {
+          if (node !== temperature.seat.anchor) continue;
+          chair = true;
+          break;
+        }
+      }
+      uniforms.thermalMaterial.value.set(...warm.temperature, chair ? 1 : 0);
+    }
     uniforms.structureObject.value.set(
       structureId(object.id, index),
-      structureSkips(source) ? 1 : 0,
+      (warm?.opaque ? source?.visible === false || source?.colorWrite === false : structureSkips(source)) ? 1 : 0,
       kind === 0 ? (object.isSkinnedMesh ? 2 : 0) : kind < 1 ? 1 : 3,
       source?.vertexColors ? 1 : 0
     );
@@ -834,8 +920,10 @@ void main() {
     // `key` is the scene's key light (the sun, or the moon at night), a directional light whose
     // shadow map the beauty pass has just used. `outdoors` says the view stands outside the
     // house, and `mass` how wide a cast shadow must be to be kept, in radians of the view.
-    render(renderer, scene, camera, key = null, { outdoors: viewOutdoors = false, mass = 0, paintFoliage = false } = {}) {
+    render(renderer, scene, camera, key = null, { outdoors: viewOutdoors = false, mass = 0, paintFoliage = false, heat = null } = {}) {
       outdoors = Boolean(viewOutdoors);
+      temperature = null;
+      uniforms.structureThermal.value = false;
       const shadow = key?.shadow,
         shadowMap = key?.castShadow ? shadow?.map?.texture : null,
         before = renderer.info.render.calls;
@@ -874,8 +962,20 @@ void main() {
         uniforms.structureKey.value.set(0, 0, 1, 0);
         uniforms.structureSky.value.w = 0;
       }
-      // Only the painted view needs foliage IDs for its wind-attached dabs.
-      // The sky-height map still excludes the tiny gaps in the canopy.
+      temperature = heat;
+      uniforms.structureThermal.value = Boolean(heat);
+      if (heat) {
+        uniforms.thermalWeather.value.fromArray(heat.weather);
+        uniforms.thermalFire.value.copy(heat.fire);
+        uniforms.thermalContact.value.set(heat.sample?.radius ?? 1, heat.sample?.peak ?? 0);
+        if (heat.seat) {
+          uniforms.thermalSeatLeft.value.copy(heat.seat.points[0]);
+          uniforms.thermalSeatRight.value.copy(heat.seat.points[1]);
+          uniforms.thermalSeatNormalLeft.value.copy(heat.seat.normals[0]);
+          uniforms.thermalSeatNormalRight.value.copy(heat.seat.normals[1]);
+          uniforms.thermalSeatForward.value.copy(heat.seat.forward);
+        }
+      }
       hide(scene, false, paintFoliage);
       draw(renderer, scene, camera, target);
       draws++;
@@ -1616,7 +1716,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
   let look = DRAWN_LOOKS.includes(startLook) ? startLook : enabled ? DEFAULT_DRAWN_LOOK : "realistic",
     drawn = look === "realistic" ? DEFAULT_DRAWN_LOOK : look;
   // Both paper studios read the same geometry and local-colour buffers.
-  const methods = { ...LOOKS, pencil: LOOKS.watercolour };
+  const methods = LOOKS;
   const dials = { ...PRINT_DEFAULTS, ...methods[drawn].dials, ...settings };
   const uniforms = {
     tDiffuse: { value: null },
@@ -1671,6 +1771,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     printSeaDeep: { value: new THREE.Vector3() },
     printDay: { value: new THREE.Vector4(1, 0, -0.4, 0) },
     printMoon: { value: new THREE.Vector4() },
+    thermalSpan: { value: new THREE.Vector4(11, 1 / 30, 0, 0) },
     toneMappingExposure: { value: 1 },
   };
   const material = new THREE.ShaderMaterial({
@@ -1754,6 +1855,10 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     paint = null,
     watercolour = null,
     pencil = null,
+    pencilHearth = null,
+    fieldGuide = null,
+    thermal = null,
+    seatHeat = null,
     day = 1,
     stillFrame = true,
     // Where shade and a lamp's pool begin in a room, as the meter last read them.
@@ -1773,7 +1878,12 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     if (wanted) {
       structure ||= createStructure();
       structure.resize(readBuffer.width, readBuffer.height);
-      structure.render(renderer, world, eye, keyLight, { outdoors, mass: dials.shadowMass, paintFoliage: look === "paint" && dials.paint > 0 });
+      structure.render(renderer, world, eye, keyLight, {
+        outdoors,
+        mass: dials.shadowMass,
+        paintFoliage: look === "paint" || look === "field-guide" || look === "thermal",
+        heat: look === "thermal" ? thermalState : null,
+      });
       uniforms.tStructure.value = structure.target.textures[0];
       uniforms.tAlbedo.value = structure.target.textures[1];
     }
@@ -1846,11 +1956,25 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
   // nothing draws into the beauty target again. (A multisampled target discards its depth samples
   // once resolved, so a second resolve would overwrite the scene's depth with nothing.)
   const pass = new Pass();
+  const thermalState = { weather: [], fire: new THREE.Vector4(), seat: null, sample: null };
   const windowBounds = new THREE.Box3();
   let livingWindow = null;
   let livingFire = null;
   const fireCentre = new THREE.Vector3(),
     towardFire = new THREE.Vector3();
+  function setThermalView() {
+    thermalState.weather = thermalWeather(minute, day, outdoors);
+    thermalState.seat = seatHeat?.seat ?? null;
+    thermalState.sample = seatHeat?.sample ?? null;
+    thermalState.fire.w = 0;
+    if (!livingFire?.parent) livingFire = world?.getObjectByName("Living hearth · flame volume");
+    if (livingFire?.visible) {
+      livingFire.getWorldPosition(fireCentre);
+      thermalState.fire.set(fireCentre.x, fireCentre.y, fireCentre.z, 20);
+    }
+    const cold = outdoors ? 8 : 13;
+    uniforms.thermalSpan.value.set(cold, 1 / (outdoors ? 29 : 25), 0, 0);
+  }
   function setPaintedHearth(room) {
     const uniform = uniforms.printHearth.value;
     uniform.w = 0;
@@ -1900,8 +2024,13 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     uniforms.printResolution.value.set(readBuffer.width, readBuffer.height);
     uniforms.printCamera.value.w = extent / Math.max(1, readBuffer.height);
     setLivingWindow();
-    if ((look === "watercolour" || look === "pencil") && uniforms.printStructure.value.x > 0.5) {
-      const paper = look === "pencil" ? pencil : (watercolour ||= createWatercolourWash(uniforms));
+    if (uniforms.printStructure.value.x > 0.5 && ["watercolour", "pencil", "field-guide", "thermal"].includes(look)) {
+      const paper = {
+        watercolour: () => (watercolour ||= createWatercolourWash(uniforms)),
+        pencil: () => (pencil ||= createPencilDrawing(uniforms, pencilHearth)),
+        "field-guide": () => (fieldGuide ||= createFieldGuideDrawing(uniforms)),
+        thermal: () => (thermal ||= createThermalDrawing(uniforms)),
+      }[look]();
       renderer.setRenderTarget(pass.renderToScreen ? null : readBuffer);
       paper.render(renderer);
       drawHearth(renderer, readBuffer);
@@ -2028,12 +2157,12 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
     get look() {
       return look;
     },
-    // Load the graphite shader only for a visitor who opens this graphics study.
-    preparePencil(createDrawing) {
-      pencil ||= createDrawing(uniforms);
+    setPencilHearth(position) {
+      pencilHearth = position;
+      pencil?.setHearth(position);
     },
     setLook(next) {
-      look = DRAWN_LOOKS.includes(next) || (next === "pencil" && pencil) ? next : "realistic";
+      look = DRAWN_LOOKS.includes(next) ? next : "realistic";
       pass.enabled = look !== "realistic";
       if (pass.enabled && look !== drawn) {
         drawn = look;
@@ -2063,6 +2192,7 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         outdoors: nextOutdoors = outdoors,
         room = null,
         sky = null,
+        thermalSeat = null,
       } = {}
     ) {
       if (scene && scene !== poolScene) {
@@ -2121,6 +2251,8 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         way = methods[drawn].way(colourwayAt(minute), minute);
         sync();
       }
+      seatHeat = thermalSeat;
+      if (look === "thermal") setThermalView();
       // The cutter's hand: lines resettle six times a second, never continuously.
       uniforms.printGrain.value.w = still ? 0 : Math.floor(seconds * 6) * 7.31;
     },
@@ -2141,8 +2273,9 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
         // Per pixel of the last pass. The woodblock reads the frame 13 times and its depth 10.
         // The cartoon reads the frame 13 times, the structure 26 and the scene's depth once, and
         // with fills from the surfaces' own colour, that colour 13 times more.
-        // Graphite reads the colour, structure and surface tint, then four adjacent structure samples.
-        textureReads: look === "pencil" && structured ? 7 : own ? 53 : structured ? 40 : 23,
+        // Graphite and field ink read three centre channels and four adjacent structure samples.
+        textureReads:
+          structured && look === "thermal" ? 12 : structured && (look === "pencil" || look === "field-guide") ? 7 : own ? 53 : structured ? 40 : 23,
         // The structure's two targets and its map from above; then the meter's.
         renderTargets: own ? 3 : structured ? 2 : 0,
         structure: structured ? structure.evidence() : null,
@@ -2160,6 +2293,8 @@ export function createPrintLook({ look: startLook = "realistic", enabled = false
       structure?.dispose();
       paint?.dispose();
       watercolour?.dispose();
+      fieldGuide?.dispose();
+      thermal?.dispose();
       pencil?.dispose();
     },
   };
