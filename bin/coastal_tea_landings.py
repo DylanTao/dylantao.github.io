@@ -189,7 +189,7 @@ def refit_tea_landings(scene, config):
             vertex.co = inverse @ Vector((-8.014, world.y, world.z))
     cuts, opening = refit_window_over_stair(scene)
     building = masonry()
-    config["walk"]["places"]["tea-garden"]["position"] = [-7.681, -1.025, 5.36]
+    config["walk"]["places"]["tea-garden"].update(position=[-7.681, -1.025, 5.36], yaw=2.41, pitch=-.43)
     scene["sunkenTeaGarden"] = 3
     bpy.context.view_layer.update()
     return {"sillAndSlab": cuts, "fitted": [obj.name for _, obj in opening + building], "replaced": len(replaced)}
