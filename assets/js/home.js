@@ -1028,6 +1028,7 @@
     let isPreviewing = false;
     let isRecordPlayerPinned = false;
     let isPointerOverRecordPlayer = false;
+    let dismissRecordHover = false;
     let restoringRecordFocus = false;
     let isRecordEngaged = false;
     let isSpinning = false;
@@ -1060,9 +1061,10 @@
       if (track.cover && trackCover.getAttribute("src") !== track.cover) trackCover.src = track.cover;
     };
 
-    const setRecordPlayerOpen = (open, { restoreFocus = false } = {}) => {
+    const setRecordPlayerOpen = (open, { restoreFocus = false, dismissHover = false } = {}) => {
       if (open && !recordDeskVisible()) return;
       if (!open) {
+        if (dismissHover) dismissRecordHover = isPointerOverRecordPlayer;
         isRecordPlayerPinned = false;
         // Move focus before hiding the controls, preserving the native focus ring.
         if (restoreFocus) {
@@ -1240,6 +1242,7 @@
         // The 3D mechanism keeps its shared rotation. Only the 2D recording pauses.
         stopTrack();
         isPointerOverRecordPlayer = false;
+        dismissRecordHover = false;
         setRecordPlayerOpen(false);
       } else {
         isSpinning = Boolean(trackElement && !trackElement.paused && !trackElement.ended);
@@ -2034,14 +2037,16 @@
     syncRecordVisualState();
     syncPileState();
 
+    recordPlayer.addEventListener("pointerenter", (event) => {
+      if (event.pointerType === "mouse") isPointerOverRecordPlayer = true;
+    });
     recordOpener.addEventListener("pointerenter", (event) => {
-      if (event.pointerType !== "mouse") return;
-      isPointerOverRecordPlayer = true;
-      setRecordPlayerOpen(true);
+      if (event.pointerType === "mouse" && !dismissRecordHover) setRecordPlayerOpen(true);
     });
     recordPlayer.addEventListener("pointerleave", (event) => {
       if (event.pointerType !== "mouse") return;
       isPointerOverRecordPlayer = false;
+      dismissRecordHover = false;
       if (isRecordPlayerPinned || recordPlayer.contains(document.activeElement)) return;
       setRecordPlayerOpen(false);
       hideRecord();
@@ -2064,7 +2069,7 @@
         return;
       }
       if (isRecordPlayerPinned) {
-        setRecordPlayerOpen(false);
+        setRecordPlayerOpen(false, { dismissHover: true });
         hideRecord();
       } else {
         isRecordPlayerPinned = true;
@@ -2136,7 +2141,7 @@
         deskControls?.querySelector('[data-home-desk-control="reset"]')?.focus({ preventScroll: true });
       } else if (!recordConsole.hidden) {
         event.preventDefault();
-        setRecordPlayerOpen(false, { restoreFocus: recordPlayer.contains(document.activeElement) });
+        setRecordPlayerOpen(false, { restoreFocus: recordPlayer.contains(document.activeElement), dismissHover: true });
         if (!isSpinning && isRecordEngaged) resetRecord();
         else hideRecord();
       }
