@@ -450,17 +450,19 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
     region: box([-5.25, -0.1, -1.2 + setback], [5.25, 2.34, back]),
   });
   // Beside the stair, a hand's width above the treads, from the foot to the landing.
+  let stepLine = null;
   if (stairs.length > 2 && !config.entrance?.straightDescent) {
     const foot = new THREE.Vector3(...stairs[1]),
       top = new THREE.Vector3(...stairs[stairs.length - 3]);
-    lines.push({
+    stepLine = {
       id: "steps",
       a: foot.clone().add(new THREE.Vector3(0, 0.28, 0.62)),
       b: top.clone().add(new THREE.Vector3(0, 0.28, 0.62)),
       intensity: 0.28,
       color: WARM,
       region: box([-2.6, -0.1, Math.min(...stairZ) - 0.95], [2.6, 3.4, Math.max(...stairZ) + 1.05]),
-    });
+    };
+    lines.push(stepLine);
   }
   // The gym's pendants: a long one over the lifting bay, a short one over the bench, hung from the
   // vault (bin/coastal_gym.py build_lights). The region keeps them inside the gym and its ledge.
@@ -645,7 +647,7 @@ export function createLightInstallations(config, { bind = (m) => m } = {}) {
   const soffitMesh = new THREE.Mesh(strip, soffitMaterial);
   soffitMesh.name = "Gallery soffit light";
   const steps = [];
-  const stepLine = lines.find((l) => l.id === "steps");
+  // Physical markers belong to the legacy stair independently of the authored steps schedule.
   if (stepLine) {
     for (let k = 0; k <= 5; k++) {
       const marker = new THREE.BoxGeometry(0.08, 0.035, 0.01);

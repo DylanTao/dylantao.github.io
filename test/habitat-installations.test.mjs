@@ -124,3 +124,25 @@ test("moved gym fixtures retain physical irradiance at the moved floor and leave
   old.dispose();
   moved.dispose();
 });
+
+test("authored step washes do not create visible legacy marker boxes", () => {
+  const config = fixture(8);
+  config.installationLines.push({
+    id: "entry-b-apron-wash",
+    schedule: "steps",
+    a: [-0.39, 10.429, 31.861],
+    b: [0.18, 10.429, 31.861],
+    intensity: 0.18,
+    region: { min: [-2, 8.2, 30], max: [2, 11, 33] },
+  });
+  const modern = createLightInstallations({ ...config, entrance: { straightDescent: true } });
+  const legacy = createLightInstallations(config);
+  try {
+    assert.ok(modern.lines.some((line) => line.source === "entry-b-apron-wash" && line.id === "steps"));
+    assert.equal(modern.root.getObjectByName("Stair step lights"), undefined);
+    assert.ok(legacy.root.getObjectByName("Stair step lights"));
+  } finally {
+    modern.dispose();
+    legacy.dispose();
+  }
+});
