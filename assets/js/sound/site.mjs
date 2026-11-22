@@ -2,7 +2,7 @@
 // instrument lab keeps the synthesized gestures in the current hour's key.
 import { createSound } from "./engine.mjs";
 import { createGestureFoley } from "./gesture-foley.mjs";
-import { COASTAL_LOOKS, createCoastalMusic } from "./coastal-music.mjs";
+import { createCoastalMusic, isCoastalRecording } from "./coastal-music.mjs";
 
 const PRESSABLE = "a[href], button, summary, [role='button'], [role='option'], [role='tab']";
 const SWITCH = "[role='switch'], input[type='checkbox']";
@@ -19,9 +19,14 @@ export function createSiteSound({
   audioContext = null,
   instrumentLab = false,
   recordSelected = () => false,
+  musicEnabled = () => false,
+  effectsEnabled = () => true,
 } = {}) {
   const mode = () => root.documentElement.dataset.themeMode || "noon";
   const sound = createSound({ mode, audioContext });
+  const effectsAudible = () => effectsEnabled() && sound.on && !root.hidden;
+  const musicAudible = () => musicEnabled() && sound.on && !root.hidden && !recordSelected();
+  const effect = (name, detail) => effectsAudible() && sound.play(name, detail);
   const reduced = view.matchMedia?.("(prefers-reduced-motion: reduce)");
   const listeners = [];
   const listen = (target, type, handler, options) => {
@@ -50,7 +55,7 @@ export function createSiteSound({
       pointed = element;
       lastPoint = now;
       const items = [...container.querySelectorAll(item)].filter((candidate) => candidate.offsetParent !== null);
-      sound.play("point", { index: Math.max(0, items.indexOf(element)), of: items.length });
+      effect("point", { index: Math.max(0, items.indexOf(element)), of: items.length });
       return;
     }
     pointed = null;
@@ -66,14 +71,14 @@ export function createSiteSound({
       (event) => {
         const control = event.target.closest?.(PRESSABLE);
         if (!control || control.matches(SWITCH) || control.matches("summary, [aria-expanded]")) return;
-        sound.play("tap");
+        effect("tap");
       },
       { passive: true, capture: true }
     );
     // A switch speaks after its own handler has flipped it.
     listen(root, "click", (event) => {
       const control = event.target.closest?.(SWITCH);
-      if (control) sound.play("switch", { on: control.getAttribute("aria-checked") === "true" || control.checked === true });
+      if (control) effect("switch", { on: control.getAttribute("aria-checked") === "true" || control.checked === true });
     });
     // Things that open: a control that says so (aria-expanded), read before and after its click.
     listen(
@@ -92,11 +97,11 @@ export function createSiteSound({
       // Some controls flip in a later task (a transition's start); give them one.
       setTimeout(() => {
         const now = pending.control.getAttribute("aria-expanded");
-        if (now !== pending.was) sound.play(now === "true" ? "open" : "close");
+        if (now !== pending.was) effect(now === "true" ? "open" : "close");
       }, 0);
     });
     // A <details> element's toggle does not bubble, so it is caught on the way down.
-    listen(root, "toggle", (event) => event.target instanceof view.HTMLDetailsElement && sound.play(event.target.open ? "open" : "close"), {
+    listen(root, "toggle", (event) => event.target instanceof view.HTMLDetailsElement && effect(event.target.open ? "open" : "close"), {
       capture: true,
     });
     // The hour changing key.
@@ -104,10 +109,10 @@ export function createSiteSound({
       const next = mode();
       if (next === lastMode) return;
       lastMode = next;
-      sound.play("hour");
+      effect("hour");
     });
     // A thrown row coming to rest (shelf.mjs).
-    listen(root, "shelf:rest", () => sound.play("land", { force: 0.35 }));
+    listen(root, "shelf:rest", () => effect("land", { force: 0.35 }));
     // The homepage's sections arrive as the page scrolls: one soft bar each, never on load and
     // never the same section twice running.
     listen(view, "scroll", () => (scrolled = true), { passive: true, once: true });
@@ -121,7 +126,7 @@ export function createSiteSound({
             if (now - lastArrive < 900) continue;
             lastArrive = now;
             arrived = entry.target;
-            sound.play("arrive", { index: marked.indexOf(entry.target) });
+            effect("arrive", { index: marked.indexOf(entry.target) });
           }
         },
         { threshold: 0.35 }
@@ -139,12 +144,11 @@ export function createSiteSound({
     const stage = scene?.closest("[data-home-artifact-stage]");
     if (params.get("scene-lab") === "1") return;
     coastal ??= createCoastalMusic(sound.graph);
-    gestures ??= createGestureFoley(sound.graph);
     const recordingFor = (look) => view.siteArt?.worlds?.find((world) => world.id === look)?.recording || look;
     const pageLook = () => recordingFor(view.siteArt?.look || "realistic");
     const look = () => {
       const style = recordingFor(scene?.dataset.drawing);
-      return visible3D() && COASTAL_LOOKS.includes(style) ? style : pageLook();
+      return visible3D() && isCoastalRecording(style) ? style : pageLook();
     };
     const visible3D = () => stage?.dataset.deskMode === "3d" && scene.getAttribute("aria-hidden") !== "true";
     const rect = scene?.getBoundingClientRect();
@@ -156,16 +160,15 @@ export function createSiteSound({
     const recordClock = () => scene.getListeningPlayback?.();
     const liftNeedle = () => scene.finishListeningRecord?.();
     // Sound and Volume are explicit choices, including when the visitor keeps the picture still.
-    const audible = () => !root.hidden && sound.on && !recordSelected();
-    const cuesAllowed = () => audible() && !reduced?.matches && !view.siteMotion?.paused;
-    const available = () => audible() && visible && visible3D();
-    syncCoast = (seek) => {
-      if (!audible()) coastal.pause({ hard: recordSelected() });
-      else if (!visible3D() || !visible) coastal.select(pageLook());
+    const cuesAllowed = () => musicAudible() && effectsAudible() && !reduced?.matches && !view.siteMotion?.paused;
+    const available = () => musicAudible() && visible && visible3D();
+    syncCoast = (seek, explicit = false) => {
+      if (!musicAudible()) coastal.pause({ hard: recordSelected() });
+      else if (!visible3D() || !visible) coastal.select(pageLook(), { explicit });
       else if (scene.dataset.sceneState !== "ready") coastal.pause();
       else if (onRail()) coastal.playFilm(filmClock, seek === true);
       else if (recordClock()) coastal.playRecord(recordClock, liftNeedle);
-      else coastal.select(look());
+      else coastal.select(look(), { explicit });
     };
     if (stage) {
       const observer = new view.MutationObserver(syncCoast);
@@ -182,7 +185,7 @@ export function createSiteSound({
       listeners.push(() => exposure.disconnect());
     }
     listen(root, "coastal:score", ({ detail }) => {
-      if (detail?.kind !== "film" || !COASTAL_LOOKS.includes(recordingFor(detail.look))) return;
+      if (detail?.kind !== "film" || !isCoastalRecording(recordingFor(detail.look))) return;
       if (detail.action === "stop" || detail.action === "pause") coastal.pause();
       else syncCoast(detail.action === "seek");
     });
@@ -210,16 +213,6 @@ export function createSiteSound({
       );
     if (scene) listen(scene, "coastal:threshold", ({ detail }) => cue("threshold", detail?.look));
     listen(root, "click", (event) => {
-      const button = event.target.closest?.("button, summary, [role='tab']");
-      if (
-        event.isTrusted &&
-        button &&
-        !root.hidden &&
-        !button.closest("[data-home-artifact-stage], .duh-companion") &&
-        !button.matches("[data-sound-toggle], :disabled") &&
-        !button.closest("main [aria-expanded], main summary, [data-shelf-next], [data-shelf-prev]")
-      )
-        gestures.play("latch");
       if (!event.isTrusted || event.target.closest?.("[data-home-artifact-stage], [data-theme-control]")) return;
       const control = event.target.closest?.("details > summary, [aria-expanded], [data-shelf-next], [data-shelf-prev]");
       if (control?.closest("main, [role='main']")) cue("select", pageLook());
@@ -251,10 +244,13 @@ export function createSiteSound({
   function bind() {
     if (listeners.length) return;
     if (instrumentLab) bindInstrument();
-    else bindCoastal();
+    else {
+      gestures ??= createGestureFoley(sound.graph);
+      bindCoastal();
+    }
     listen(root, "coastal:foley", ({ detail }) => {
       if (detail?.name === "quiet") sound.foley("quiet");
-      else if (!root.hidden && !reduced?.matches) sound.foley(detail?.name, detail?.strength);
+      else if (effectsAudible() && !reduced?.matches) sound.foley(detail?.name, detail?.strength);
     });
     if (reduced?.addEventListener) listen(reduced, "change", (event) => event.matches && sound.foley("quiet"));
     // A hidden tab is silent.
@@ -264,30 +260,49 @@ export function createSiteSound({
         gestures?.quiet();
       }
       await sound.hidden(root.hidden);
-      if (!root.hidden && sound.on) syncCoast?.();
+      if (!root.hidden && sound.on) refresh();
     });
+  }
+
+  function refresh({ explicitMusic = false } = {}) {
+    if (!effectsEnabled()) {
+      gestures?.quiet();
+      sound.foley("quiet");
+    }
+    if (instrumentLab) sound.setBed(musicAudible());
+    syncCoast?.(false, explicitMusic);
   }
 
   return {
     sound,
+    press(target) {
+      const button = target.closest?.("button, summary, [role='tab']");
+      if (
+        effectsAudible() &&
+        button &&
+        !button.closest(".duh-companion, [data-sound-toggle], [data-effects-toggle]") &&
+        !button.matches(":disabled")
+      ) {
+        gestures?.play("latch");
+      }
+    },
     gesture(kind, strength, pan, material) {
-      if (sound.on && !root.hidden) gestures?.play(kind, strength, pan, material);
+      if (effectsAudible()) gestures?.play(kind, strength, pan, material);
     },
-    refresh() {
-      syncCoast?.();
-    },
+    refresh,
     // Call from the click or key press that asked for sound.
     async start() {
-      const started = await sound.start({ withBed: instrumentLab });
+      const started = await sound.start({ withBed: false });
       if (started) {
         bind();
+        refresh();
         lastMode = mode();
       }
       return started;
     },
     async stop() {
       gestures?.quiet();
-      coastal?.clear({ hard: true });
+      coastal?.pause({ hard: true });
       syncCoast = null;
       while (listeners.length) listeners.pop()();
       await sound.stop();

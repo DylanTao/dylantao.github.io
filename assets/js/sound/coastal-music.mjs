@@ -1,12 +1,15 @@
 // Original house recordings. Audio stays on the site's existing dry bus.
 export const COASTAL_LOOKS = Object.freeze(["realistic", "paint", "watercolour", "print", "toon"]);
+const GRAPHITE = "all-the-windows-open";
+export const isCoastalRecording = (look) => COASTAL_LOOKS.includes(look) || look === GRAPHITE;
+const themeFile = (look) => (look === GRAPHITE ? "../desk-records/all-the-windows-open.mp3" : `${look}.mp3`);
 const MOTIFS = ["select", "arrival", "threshold"];
 const DIRECTORY = new URL("../../audio/coastal-score/", import.meta.url);
 const MANIFEST = "score.json";
 const RESPONSES = "responses.mp3";
-// Match the five completed pieces at the shared output while keeping each
+// Match the house pieces at the shared output while keeping each
 // performance's rests and phrasing. Measurements are in docs/house/world-music.md.
-export const COASTAL_THEME_LEVELS = Object.freeze({ realistic: 0.38, paint: 0.41, watercolour: 0.46, print: 0.64, toon: 0.7 });
+export const COASTAL_THEME_LEVELS = Object.freeze({ realistic: 0.38, paint: 0.41, watercolour: 0.46, print: 0.64, toon: 0.7, [GRAPHITE]: 0.38 });
 const MOTIF_LEVEL = 0.32;
 const FILM_LEVEL = 0.62;
 const FADE = 0.72;
@@ -170,14 +173,14 @@ export function createCoastalMusic({ context, dry }, { load = loadAsset, now = (
       target.failed
     )
       return;
-    if (!target.started && now() - (lastPlayed.get(target.look) ?? -Infinity) < repeatGap) {
+    if (!target.explicit && !target.started && now() - (lastPlayed.get(target.look) ?? -Infinity) < repeatGap) {
       if (current) retire(FADE);
       return;
     }
     const token = {};
     target.request = token;
     getAsset(MANIFEST)
-      .then((metadata) => (metadata && target.request === token && playing ? getAsset(target.look + ".mp3") : null))
+      .then((metadata) => (metadata && target.request === token && playing ? getAsset(themeFile(target.look)) : null))
       .then((buffer) => {
         if (target.request !== token || selection !== target) return;
         target.request = null;
@@ -312,13 +315,17 @@ export function createCoastalMusic({ context, dry }, { load = loadAsset, now = (
   }
 
   return {
-    select(look) {
-      if (!COASTAL_LOOKS.includes(look)) return;
+    select(look, { explicit = false } = {}) {
+      if (!isCoastalRecording(look)) return;
       if (film || record) pause();
       if (selection?.look !== look) {
         if (selection) selection.request = null;
         selection = { look, offset: 0, request: null, started: false, ended: false, failed: false };
-        cancelDownloads((file) => !isTheme(file) || file === look + ".mp3");
+        cancelDownloads((file) => !isTheme(file) || file === themeFile(look));
+      }
+      if (explicit) {
+        if (selection.ended || selection.failed) Object.assign(selection, { offset: 0, ended: false, failed: false });
+        selection.explicit = true;
       }
       playing = true;
       attempt();
@@ -342,13 +349,13 @@ export function createCoastalMusic({ context, dry }, { load = loadAsset, now = (
       if (index.film.cuts[opening]?.scored) await getAsset("film/" + opening + ".mp3");
     },
     motif(look, action) {
-      if (film || record || !playing || !COASTAL_LOOKS.includes(look) || !MOTIFS.includes(action) || now() - lastMotif < MOTIF_GAP) return;
+      if (film || record || !playing || !isCoastalRecording(look) || !MOTIFS.includes(action) || now() - lastMotif < MOTIF_GAP) return;
       const age = now(),
         ticket = ++cueGeneration;
       return Promise.all([getAsset(MANIFEST), getAsset(RESPONSES)]).then(([metadata, buffer]) => {
         if (!playing || ticket !== cueGeneration || now() - age > MOTIF_EXPIRY || context.state !== "running" || now() - lastMotif < MOTIF_GAP)
           return;
-        const range = metadata?.cues[look][action];
+        const range = metadata?.cues[look === GRAPHITE ? "realistic" : look][action];
         if (!range || !buffer || range[0] + range[1] > buffer.duration + 0.001) return;
         kill(motifVoice);
         const voice = createVoice(buffer, range[0], MOTIF_LEVEL, range[1]);
