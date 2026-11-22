@@ -1,8 +1,15 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 import { THREE, loadNativeHouseModel } from "./helpers/coastal-native-avatar.mjs";
 import { bedroomCurtainLayout, bedroomCurtainOpen, createBedroomCurtains } from "../assets/js/home-scene/bedroom-curtains.mjs";
+
+const models = process.env.COASTAL_MODELS_ROOT
+  ? pathToFileURL(`${resolve(process.env.COASTAL_MODELS_ROOT)}/`)
+  : new URL("../assets/models/home/", import.meta.url);
+const config = JSON.parse(fs.readFileSync(new URL("manifest.json", models)));
 
 test("bedroom privacy follows sleep while other activities retain the open prospect", () => {
   assert.equal(bedroomCurtainOpen({ id: "sleep" }), 0);
@@ -29,7 +36,6 @@ test("a missing or tilted glazing frame fails before installing guessed curtain 
 });
 
 test("the bedroom orbit remains on the room side of the actual curtains throughout its authored envelope", () => {
-  const config = JSON.parse(fs.readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
   const room = config.rooms.find((r) => r.id === "sleep");
   const { envelope } = room.camera;
   for (let y = 0; y <= 12; y++)
@@ -44,11 +50,10 @@ test("the bedroom orbit remains on the room side of the actual curtains througho
 });
 
 test("the actual bedroom drapes retain their aperture, opaque privacy and side access through a complete draw cycle", async () => {
-  const config = JSON.parse(fs.readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
   const bedroomFile = config.rooms.find((room) => room.id === "sleep").file;
-  const model = await loadNativeHouseModel(bedroomFile, config);
+  const [model, shell] = await Promise.all([loadNativeHouseModel(bedroomFile, config, models), loadNativeHouseModel(config.shell, config, models)]);
   const scene = new THREE.Scene();
-  scene.add(model.scene);
+  scene.add(model.scene, shell.scene);
   const rig = createBedroomCurtains({ scene, room: model.scene, floor: 1.5, reduced: true, routine: { id: "sleep" } });
   const camera = new THREE.PerspectiveCamera(50, 1.4, 0.01, 60);
   camera.position.set(-6.8, 3, 5.3);
@@ -56,13 +61,20 @@ test("the actual bedroom drapes retain their aperture, opaque privacy and side a
   camera.updateProjectionMatrix();
   const sample = (id, moving, reduced, time) => rig.step({ routine: { id }, delta: 1 / 30, moving, reduced, time, camera, canvasHeight: 1000 });
   const sweep = new THREE.Box3();
+  const meshes = rig.group.children.filter((mesh) => mesh.name.startsWith("curtain sleep-"));
+  const sweeps = meshes.map(() => new THREE.Box3());
+  const guarded = Boolean(rig.layout.bays);
   const bounds = () => {
     const result = new THREE.Box3();
-    for (const mesh of rig.group.children.filter((m) => m.name.startsWith("curtain sleep-"))) {
+    for (const [index, mesh] of meshes.entries()) {
       assert.equal(mesh.material.transparent, false);
       assert.equal(mesh.material.depthWrite, true);
       const a = mesh.geometry.attributes.position;
-      for (let i = 0; i < a.count; i++) result.expandByPoint(new THREE.Vector3().fromBufferAttribute(a, i));
+      for (let i = 0; i < a.count; i++) {
+        const vertex = new THREE.Vector3().fromBufferAttribute(a, i);
+        result.expandByPoint(vertex);
+        sweeps[index].expandByPoint(vertex);
+      }
     }
     sweep.union(result);
     return result;
@@ -78,15 +90,22 @@ test("the actual bedroom drapes retain their aperture, opaque privacy and side a
     assert.ok(closed.min.z > 3.45, "the actual visible cloth stays inside the glass");
     assert.ok(closed.max.z < 3.8, "the visible cloth stays in front of the wardrobe");
     assert.ok(closed.min.x > -8.4 && closed.max.x < -5.28);
+    if (guarded) {
+      assert.equal(sweeps.length, 3);
+      assert.ok(sweeps[1].min.y > 1.86 && sweeps[1].min.y < 1.9, "the centre shade stops at the raised sill");
+      for (let i = 1; i < sweeps.length; i++) assert.ok(sweeps[i].min.x - sweeps[i - 1].max.x < 0.035, "opaque panels meet at narrow guard returns");
+    }
     sample("typing", false, true, 0);
     assert.equal(rig.evidence().target, 1);
     const gathered = bounds();
     assert.ok(gathered.min.z > 3.45 && gathered.max.z < 3.8);
+    if (guarded) assert.ok(gathered.min.y > 4.36, "the gathered linen leaves the standing view clear");
     for (let n = 1; n <= 360; n++) {
       sample(n < 180 ? "sleep" : "typing", true, false, n / 30);
       const b = bounds();
       assert.ok(b.min.z > 3.45 && b.max.z < 3.8, `actual drawn cloth depth at frame${n}`);
       assert.ok(b.min.y >= 1.49, `actual hem at frame${n}`);
+      if (guarded && [179, 360].includes(n)) assert.equal(rig.evidence().open, n < 180 ? 0 : 1);
     }
     const files = [...new Set([config.shell, ...config.rooms.map((room) => room.file), "coast.glb", "hinterland.glb"])];
     const a = new THREE.Vector3();
@@ -94,7 +113,7 @@ test("the actual bedroom drapes retain their aperture, opaque privacy and side a
     const c = new THREE.Vector3();
     const triangle = new THREE.Triangle(a, b, c);
     for (const file of files) {
-      const source = file === bedroomFile ? model : await loadNativeHouseModel(file, config);
+      const source = file === bedroomFile ? model : file === config.shell ? shell : await loadNativeHouseModel(file, config, models);
       const room = config.rooms.find((entry) => entry.file === file);
       if (room?.offset) source.scene.position.fromArray(room.offset);
       source.scene.updateMatrixWorld(true);
@@ -106,16 +125,23 @@ test("the actual bedroom drapes retain their aperture, opaque privacy and side a
           a.fromBufferAttribute(position, index ? index.getX(i) : i).applyMatrix4(mesh.matrixWorld);
           b.fromBufferAttribute(position, index ? index.getX(i + 1) : i + 1).applyMatrix4(mesh.matrixWorld);
           c.fromBufferAttribute(position, index ? index.getX(i + 2) : i + 2).applyMatrix4(mesh.matrixWorld);
-          assert.ok(!sweep.intersectsTriangle(triangle), `${file}:${mesh.userData.name || mesh.name}:${i / 3} enters the actual drape sweep`);
+          // A pleated shade's vertices keep their lateral coordinates. Height
+          // and pleat depth vary monotonically between the two end positions.
+          // The guard can occupy the seam between two independent sweeps.
+          assert.ok(
+            !(guarded ? sweeps : [sweep]).some((box) => box.intersectsTriangle(triangle)),
+            `${file}:${mesh.userData.name || mesh.name}:${i / 3} enters the actual drape sweep`
+          );
         }
       });
     }
-    assert.equal(rig.evidence().hardware.rings, 16);
+    if (guarded) assert.deepEqual(rig.evidence().hardware, { rails: 1, bays: 3 });
+    else assert.equal(rig.evidence().hardware.rings, 16);
     assert.equal(rig.evidence().draws, 4);
     sample("sleep", false, true, 12);
-    const before = Array.from(rig.group.children[0].geometry.attributes.position.array);
+    const before = Array.from(meshes[0].geometry.attributes.position.array);
     for (let n = 0; n < 3; n++) sample("sleep", false, true, 12);
-    assert.deepEqual(Array.from(rig.group.children[0].geometry.attributes.position.array), before, "a composed paused drape remains exact");
+    assert.deepEqual(Array.from(meshes[0].geometry.attributes.position.array), before, "a composed paused drape remains exact");
   } finally {
     rig.dispose();
     rig.dispose();

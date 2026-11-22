@@ -29,7 +29,7 @@ export function bedroomCurtainLayout(triangles, floor) {
         heights.push(a[1] + ((x - a[0]) / (b[0] - a[0])) * (b[1] - a[1]));
       }
     if (!heights.length) throw new RangeError("Bedroom rail leaves the actual glazed aperture");
-    return { x, top: Math.max(...heights) };
+    return { x, bottom: Math.min(...heights), top: Math.max(...heights) };
   });
   const hardware = {
     ...CURTAIN_HARDWARE,
@@ -61,6 +61,149 @@ export function bedroomCurtainLayout(triangles, floor) {
 
 export const bedroomCurtainOpen = (routine) => (routine?.id === "sleep" ? 0 : 1);
 
+function guardedWindowBays(scene, layout, floor) {
+  const cap = [];
+  scene.updateMatrixWorld(true);
+  scene.traverse((mesh) => {
+    if (!mesh.isMesh || !(mesh.userData.name || mesh.name).startsWith("core_tea_garden_bedroom_pocket_guard_cap__")) return;
+    const positions = mesh.geometry.attributes.position;
+    for (let n = 0; n < positions.count; n++) cap.push(new THREE.Vector3().fromBufferAttribute(positions, n).applyMatrix4(mesh.matrixWorld));
+  });
+  if (!cap.length) return null;
+  // At the glazing end, only the two side returns reach the pane. Their
+  // bronze caps are wider than the glass and set the actual cloth clearance.
+  const near = Math.min(...cap.map((point) => point.z));
+  const ends = cap.filter((point) => point.z < near + 0.07);
+  const middle = (Math.min(...ends.map((p) => p.x)) + Math.max(...ends.map((p) => p.x))) / 2;
+  const left = ends.filter((point) => point.x < middle).map((point) => point.x);
+  const right = ends.filter((point) => point.x > middle).map((point) => point.x);
+  const gap = 0.005;
+  const from = layout.min[0] + 0.03;
+  const to = layout.max[0] - 0.03;
+  const widths = [
+    [from, Math.min(...left) - gap],
+    [Math.max(...left) + gap, Math.min(...right) - gap],
+    [Math.max(...right) + gap, to],
+  ];
+  if (left.length < 3 || right.length < 3 || widths.some(([a, b]) => b - a < 0.15))
+    throw new RangeError("Bedroom privacy shades need two distinct guard returns within the glazing");
+  return widths.map(([from, to]) => {
+    const sections = layout.sections.filter((section) => section.x >= from && section.x <= to);
+    if (!sections.length) throw new RangeError("Bedroom shade rail leaves the measured glazing");
+    return { from, to, hem: Math.max(floor + 0.02, Math.max(...sections.map((section) => section.bottom)) - 0.012) };
+  });
+}
+
+function createPleatedShade(bay, top, z, fabric, index) {
+  const folds = 36;
+  const drop = top - bay.hem;
+  const segment = (drop + 0.008) / folds;
+  const corners = [
+    [0, 0],
+    [1, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1],
+    [0, 1],
+  ];
+  const geometry = new THREE.BufferGeometry();
+  const positions = new THREE.BufferAttribute(new Float32Array(folds * 18), 3).setUsage(THREE.DynamicDrawUsage);
+  const tangent = new THREE.BufferAttribute(new Float32Array(folds * 18), 3);
+  const uv = new THREE.BufferAttribute(new Float32Array(folds * 12), 2);
+  for (let row = 0; row < folds; row++)
+    for (const [n, [column, edge]] of corners.entries()) {
+      const i = row * 6 + n;
+      tangent.setXYZ(i, 1, 0, 0);
+      uv.setXY(i, column * (bay.to - bay.from), (folds - row - edge) * segment);
+    }
+  geometry.setAttribute("position", positions);
+  geometry.setAttribute("sheerTangent", tangent);
+  geometry.setAttribute("uv", uv);
+  const mesh = fabric.bindMesh(new THREE.Mesh(geometry));
+  mesh.name = `curtain sleep-window-${index + 1}`;
+  function setOpen(open) {
+    const interval = THREE.MathUtils.lerp(drop, 0.13, open) / folds;
+    // Shorten the projected drop, gathering the same length of linen into
+    // an accordion. Each crease stays between its original vertical guides.
+    const pleat = Math.sqrt(Math.max(0, segment ** 2 - interval ** 2));
+    for (let row = 0; row < folds; row++)
+      for (const [n, [column, edge]] of corners.entries()) {
+        const line = row + edge;
+        positions.setXYZ(row * 6 + n, column ? bay.to : bay.from, top - line * interval, z + (line % 2) * pleat);
+      }
+    positions.needsUpdate = true;
+    geometry.computeVertexNormals();
+    geometry.computeBoundingSphere();
+  }
+  return { mesh, setOpen };
+}
+
+function createGuardedBedroomShades({ scene, layout, bays, routine, bindMaterial }) {
+  const fabric = createSheerFabric({
+    name: "coastal sleep drape",
+    coverage: "opaque",
+    openness: 0,
+    transmission: 0,
+    color: 0xc6b7a4,
+    sheenColor: 0xd8cdbc,
+    slub: 0.09,
+  });
+  bindMaterial(fabric.material);
+  const top = layout.hardware.rodY - 0.035;
+  const z = layout.max[2] + 0.066;
+  const shades = bays.map((bay, i) => createPleatedShade(bay, top, z, fabric, i));
+  const rail = new THREE.Mesh(
+    new THREE.BoxGeometry(layout.max[0] - layout.min[0] + 0.04, 0.046, 0.065),
+    new THREE.MeshStandardMaterial({ name: "bedroom shade rail bronze", color: 0x514137, metalness: 0.7, roughness: 0.36 })
+  );
+  rail.position.set((layout.min[0] + layout.max[0]) / 2, top + 0.021, z - 0.022);
+  rail.name = "Bedroom shade rail";
+  rail.userData.noContactOcclusion = true;
+  rail.castShadow = rail.receiveShadow = true;
+  bindMaterial(rail.material);
+  const group = new THREE.Group();
+  group.name = "Bedroom privacy shades";
+  group.add(rail, ...shades.map(({ mesh }) => mesh));
+  scene.add(group);
+  let target = bedroomCurtainOpen(routine);
+  let open = target;
+  let disposed = false;
+  const draw = () => shades.forEach((shade) => shade.setOpen(open));
+  draw();
+  return {
+    group,
+    layout: { ...layout, bays },
+    step({ delta, moving, reduced, routine: next }) {
+      if (disposed) return;
+      const wanted = bedroomCurtainOpen(next);
+      const distance = wanted - open;
+      const fraction =
+        reduced || (!moving && wanted !== target) ? wanted : moving ? open + Math.sign(distance) * Math.min(Math.abs(distance), delta * 0.4) : open;
+      target = wanted;
+      if (fraction === open) return;
+      open = fraction;
+      draw();
+    },
+    evidence: () => ({
+      target,
+      open,
+      coverage: "opaque linen shades with open upper clerestory",
+      aperture: { min: layout.min, max: layout.max, railY: rail.position.y, railZ: z },
+      hardware: { rails: 1, bays: bays.length },
+      draws: shades.length + 1,
+    }),
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      for (const shade of shades) shade.mesh.geometry.dispose();
+      rail.geometry.dispose();
+      rail.material.dispose();
+      fabric.dispose();
+      group.removeFromParent();
+    },
+  };
+}
+
 export function createBedroomCurtains({ scene, room, floor, coast, reduced = false, startTime = 0, routine, bindMaterial = () => {} }) {
   let glazing = null;
   room.updateMatrixWorld(true);
@@ -81,6 +224,8 @@ export function createBedroomCurtains({ scene, room, floor, coast, reduced = fal
       )
     );
   const layout = bedroomCurtainLayout(triangles, floor);
+  const bays = guardedWindowBays(scene, layout, floor);
+  if (bays) return createGuardedBedroomShades({ scene, layout, bays, routine, bindMaterial });
   const draft = createFacadeDraft({ coast, doors: [], glassZ: layout.max[2], glassDraft: -0.015 });
   const specs = facadeCurtainPanels({
     ...layout,
