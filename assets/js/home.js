@@ -2075,6 +2075,8 @@
       } else {
         isRecordPlayerPinned = true;
         setRecordPlayerOpen(true);
+        const touch = event.pointerType === "touch" || (event.detail > 0 && window.matchMedia("(hover: none)").matches);
+        if (touch) recordConsole.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "instant" });
       }
     });
     portrait.addEventListener("pointerdown", startShakeGesture);

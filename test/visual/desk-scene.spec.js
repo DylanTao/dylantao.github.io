@@ -704,14 +704,26 @@ test("record: touch skip retains a visible play/pause cue with reduced motion", 
   const errors = collectRuntimeErrors(page);
   await preparePage(page, "light");
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto(publicRouteUrl("/"), { waitUntil: "domcontentloaded" });
+  const viewport = { ...page.viewportSize(), height: 844 };
+  await page.setViewportSize(viewport);
+  await page.goto(publicRouteUrl("/"), { waitUntil: "load" });
+  await page.evaluate(() => document.fonts.ready);
   const play = page.locator("[data-home-record-play]");
   const next = page.locator("[data-home-record-next]");
   const panel = page.locator("[data-home-record-console]");
   const scene = page.locator("[data-home-record-scene]");
   await expect(panel).toBeHidden();
-  await page.locator("[data-home-record-open]").tap();
+  // On a short phone the top of the portrait is already tappable while the
+  // new card would sit below the fold. Exercise that first tap without the
+  // test driver's element auto-scroll.
+  const portrait = await page.locator("[data-home-record-open]").boundingBox();
+  const tapY = Math.min(portrait.y + portrait.height / 4, viewport.height - 16);
+  expect(tapY).toBeGreaterThan(portrait.y + 10);
+  await page.touchscreen.tap(portrait.x + portrait.width / 2, tapY);
   await expect(panel).toBeVisible();
+  const card = await panel.boundingBox();
+  expect(card.y).toBeGreaterThanOrEqual(0);
+  expect(card.y + card.height).toBeLessThanOrEqual(viewport.height + 1);
   await expect(page.locator("[data-home-record-audio]")).not.toHaveAttribute("src");
   await play.tap();
   await expect.poll(() => scene.evaluate((e) => e.getRecordEvidence().mechanicsLoaded)).toBe(true);
