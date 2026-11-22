@@ -3018,9 +3018,8 @@ export function createCoastalHome(container, records, artifacts) {
       heatSwing = createThermalSwing(world, support);
       cleanup.push(() => heatSwing.dispose());
     }
-    const { centre } = heatSwing;
-    const eye = centre.clone().add(new THREE.Vector3(-0.95, 0.68, 1.63));
-    frameThermalView(eye, centre.clone().add(new THREE.Vector3(0, 0.69, 0)), "swing", 63);
+    const { eye, target, fov } = heatSwing.view;
+    frameThermalView(eye.clone(), target.clone(), "swing", fov);
     heatSwing.push(reduced || paused);
     ui.querySelector("[data-world-places]").open = false;
     renderer.domElement.focus({ preventScroll: true });
