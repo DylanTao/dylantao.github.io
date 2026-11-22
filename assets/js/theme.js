@@ -4,33 +4,40 @@
 // it is opened, even when the visitor made it on a different page.
 window.siteArt = (() => {
   const worlds = [
-    { id: "realistic", name: "Realistic", music: "The Water on the Sill" },
-    { id: "paint", name: "Painted", music: "Copper in the Last Light" },
-    { id: "watercolour", name: "Watercolour", music: "A Pocketful of Sky" },
-    { id: "print", name: "Woodblock", music: "Five Cuts in Pearwood" },
-    { id: "toon", name: "Cartoon", music: "The Spare Key" },
+    { id: "cosmic", name: "Cosmic cel", recording: "toon", music: "The Spare Key" },
+    { id: "field-guide", name: "Field notes", recording: "watercolour", music: "A Pocketful of Sky" },
+    { id: "pencil", name: "Graphite noir", recording: "realistic", music: "The Water on the Sill" },
+    { id: "paint", name: "Brushwork", recording: "paint", music: "Copper in the Last Light" },
+    { id: "thermal", name: "Thermal print", recording: "print", music: "Five Cuts in Pearwood" },
   ];
   const key = "site-art-style";
   const valid = (id) => worlds.some((world) => world.id === id);
+  const oldLooks = new Map([
+    ["realistic", "pencil"],
+    ["watercolour", "field-guide"],
+    ["print", "thermal"],
+    ["toon", "cosmic"],
+    ["1", "cosmic"],
+  ]);
+  const publicId = (id) => (valid(id) ? id : oldLooks.get(id) || worlds[0].id);
   let saved;
   try {
     saved = localStorage.getItem(key) || sessionStorage.getItem("scene-print");
   } catch {
     // The page can still remember a choice while it is open.
   }
-  if (saved === "1") saved = "toon";
   const params = new URLSearchParams(window.location.search);
-  let choice = valid(saved) ? saved : "realistic";
-  if (valid(params.get("look"))) choice = params.get("look");
-  else if (params.has("print")) choice = params.get("print") === "0" ? "realistic" : choice === "realistic" ? "toon" : choice;
+  let choice = publicId(saved);
+  const linked = params.get("look");
+  if (valid(linked) || oldLooks.has(linked)) choice = linked === "1" ? "toon" : linked;
+  else if (params.has("print")) choice = params.get("print") === "0" ? "realistic" : "toon";
   document.documentElement.dataset.artStyle = choice;
   function set(id, persist = true) {
     if (!valid(id)) return;
     if (persist) {
       try {
         localStorage.setItem(key, id);
-        if (id === "realistic") sessionStorage.removeItem("scene-print");
-        else sessionStorage.setItem("scene-print", id);
+        sessionStorage.setItem("scene-print", id);
       } catch {
         // Storage is optional.
       }
@@ -41,10 +48,11 @@ window.siteArt = (() => {
     window.dispatchEvent(new CustomEvent("siteArtChange", { detail: { look: id } }));
   }
   window.addEventListener("storage", (event) => {
-    if (event.key === key) set(event.newValue || "realistic", false);
+    if (event.key === key) set(publicId(event.newValue), false);
   });
   return {
     worlds,
+    publicId,
     get look() {
       return choice;
     },

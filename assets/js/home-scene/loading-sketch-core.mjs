@@ -24,6 +24,10 @@ const WIDTH = [0.6, 0.8, 1.05, 1.4],
   ALPHA = [0.5, 0.62, 0.8, 0.92];
 // Fine seams through to the structural outline, in the chosen medium.
 const PENS = {
+  cosmic: { width: [0.52, 0.78, 1.64, 2.6], alpha: [0.42, 0.75, 0.9, 1], cap: "round" },
+  "field-guide": { width: [0.4, 0.62, 1, 1.5], alpha: [0.39, 0.54, 0.76, 0.93], cap: "round" },
+  pencil: { width: [0.46, 0.73, 1.25, 2.1], alpha: [0.25, 0.49, 0.7, 0.88], cap: "square" },
+  thermal: { width: [0.55, 0.84, 1.58, 2.7], alpha: [0.54, 0.76, 0.91, 1], cap: "butt" },
   realistic: { width: WIDTH, alpha: ALPHA, cap: "round" },
   paint: { width: [0.72, 1.05, 1.55, 2.45], alpha: [0.32, 0.49, 0.72, 0.88], cap: "butt" },
   watercolour: { width: [0.7, 1.2, 1.85, 2.7], alpha: [0.26, 0.36, 0.53, 0.71], cap: "round" },

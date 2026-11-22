@@ -112,6 +112,18 @@ function start() {
     window.dispatchEvent(new Event("pip:change"));
   };
   const still = () => paused || reduced.matches;
+  let audibleFlightUntil = 0;
+  let dragSoundSpeed = 0,
+    launchStrength = 0;
+  function gestureSound(kind, speed = 0, material) {
+    window.siteSound?.gesture(kind, Math.min(1, speed / 1200), 1.1 * (s.x / view.width - 0.5), material);
+  }
+  function releaseSound() {
+    const speed = Math.hypot(s.vx, s.vy);
+    launchStrength = Math.min(1, speed / 1200);
+    gestureSound("throw", speed);
+    audibleFlightUntil = s.state === "AIRBORNE" ? s.time + 2.5 : 0;
+  }
   const interactive = "a,button,input,select,textarea,summary,[role='button'],[contenteditable='true'],[tabindex]:not([tabindex='-1'])";
   // The La Jolla coast takes keyboard panning on phones and in the Connect miniature, but only gets
   // its tabindex once its scene module mounts (footer-coast/scene.mjs resize()). Treat it as the
@@ -153,6 +165,8 @@ function start() {
     tidyUntil = 0;
   }
   function clearGesture() {
+    if (pointerId !== null) gestureSound("rest");
+    audibleFlightUntil = 0;
     const id = pointerId;
     pointerId = null;
     clearTimeout(holdTimer);
@@ -282,6 +296,7 @@ function start() {
     if (outing) clearGesture();
     if (s.state === "RETREAT") model.reset(s.x, s.y);
     if (!throughPointer) model.pet(still());
+    gestureSound("pet");
     if (throughPointer) {
       inviteArmed = s.time - lastPetAt < 0.45 && s.mood !== "giggle";
       lastPetAt = s.time;
@@ -418,6 +433,8 @@ function start() {
     }
   }
   function impact(event) {
+    if (!still() && s.time < audibleFlightUntil && event.speed > 80)
+      gestureSound("land", event.speed * (0.58 + 0.42 * launchStrength), event.target?.reading ? "soft" : "hard");
     if (still() || readingLink || event.speed < 460 || s.time - lastImpact < 0.6 || getSelection()?.toString()) return;
     lastImpact = s.time;
     const close = event.target
@@ -716,6 +733,7 @@ function start() {
     hugUntil = 0;
     pointerId = event.pointerId;
     model.grab(event.clientX, event.clientY, event.timeStamp);
+    dragSoundSpeed = 0;
     hit.setPointerCapture(pointerId);
     holdPoint = { x: event.clientX, y: event.clientY };
     holdTimer = setTimeout(() => {
@@ -733,6 +751,10 @@ function start() {
       const samples = event.getCoalescedEvents?.() || [];
       for (const sample of samples) model.drag(sample.clientX, sample.clientY, sample.timeStamp);
       model.drag(event.clientX, event.clientY, event.timeStamp);
+      if (!holdPoint) {
+        dragSoundSpeed += 0.23 * (Math.min(1200, Math.hypot(s.vx, s.vy)) - dragSoundSpeed);
+        gestureSound("drag", dragSoundSpeed);
+      }
       request();
     }
   });
@@ -742,6 +764,7 @@ function start() {
       holdPoint = null;
       model.drag(event.clientX, event.clientY, event.timeStamp);
       placed = model.release(event.timeStamp, still());
+      if (placed) releaseSound();
       if (placed) placementOwned = true;
       if (s.state === "REST") layoutDirty = true;
       pointerId = null;
@@ -805,6 +828,7 @@ function start() {
     if (event.key.toLowerCase() === "p") pause();
     if (event.key.toLowerCase() === "t" && !paused) {
       model.toss(s.x > innerWidth / 2 ? -450 : 450, -470, still());
+      if (!still()) releaseSound();
       placementOwned = true;
       request();
     }

@@ -37,13 +37,13 @@ test("house film: the first view from the entrance includes the planted coast", 
     await page.locator('[data-home-desk-mode="3d"]').click();
     await host.scrollIntoViewIfNeeded();
     await expect(host).toHaveAttribute("data-scene-state", "ready", { timeout: readyTimeout });
-    await expect(host).toHaveAttribute("data-drawing", "toon");
+    await expect(host).toHaveAttribute("data-drawing", "thermal");
     await page.locator("[data-world-fullscreen]").click();
     const dock = page.locator("[data-world-media-dock]");
     await dock.locator("[data-theme-toggle]").click();
     const style = dock.getByRole("slider", { name: "Art style" });
     await style.press("Home");
-    await expect(host).toHaveAttribute("data-drawing", "realistic");
+    await expect(host).toHaveAttribute("data-drawing", "cosmic");
     await style.press("Escape");
     await expect(dock.locator("[data-theme-toggle]")).toBeFocused();
     await page.locator("[data-world-places] summary").click();
