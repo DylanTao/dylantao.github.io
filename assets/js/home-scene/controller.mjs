@@ -3042,7 +3042,7 @@ export function createCoastalHome(container, records, artifacts) {
           .add(forward)
           .add(new THREE.Vector3(0, -0.16, 0));
     frameThermalView(eye, at, "seat", wasSeated ? 48 : 43);
-    showHint(wasSeated ? "Your warmth will spread and fade across the cushion." : "The leather warms as you sit.", 4200);
+    showHint(wasSeated ? "Watch the warmth spread and fade." : "The leather warms as you sit.", 4200);
   }
 
   function setStyle() {
