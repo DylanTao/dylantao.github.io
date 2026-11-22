@@ -138,24 +138,16 @@ test("the cartoon is the same pass with brighter, flatter, fuller settings, and 
   assert.equal(createPrintLook().look, "realistic");
 });
 
-test("the graphite study stays local to the renderer that opened it", () => {
-  const drawing = createPrintLook();
-  assert.equal(drawing.setLook("pencil"), "realistic");
-  let created = 0;
-  let disposed = 0;
-  const prepare = () => {
-    created++;
-    return { dispose: () => disposed++ };
-  };
-  drawing.preparePencil(prepare);
-  assert.equal(drawing.setLook("pencil"), "pencil");
-  drawing.setLook("watercolour");
-  drawing.preparePencil(prepare);
-  assert.equal(drawing.setLook("pencil"), "pencil");
-  assert.equal(created, 1);
+test("all five public looks can be opened before the first frame and switched live", () => {
+  const drawing = createPrintLook({ look: "pencil" });
+  assert.equal(drawing.look, "pencil");
+  for (const look of ["cosmic", "field-guide", "pencil", "paint", "thermal"]) {
+    assert.equal(readDrawnLook(`?look=${look}`), look);
+    assert.equal(drawing.setLook(look), look);
+    assert.equal(drawing.enabled, true);
+    assert.equal(drawing.dials.structure, 1);
+  }
   drawing.dispose();
-  assert.equal(disposed, 1);
-  assert.ok(!DRAWN_LOOKS.includes("pencil"));
 });
 
 test("OKLab is one set of matrices: white is L 1, and a colour survives the round trip", () => {

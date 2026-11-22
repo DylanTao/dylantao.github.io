@@ -18,8 +18,8 @@ const fragmentShader = /* glsl */ `
   uniform vec3 hearthFoot;
   varying vec2 sheet;
   const vec3 luminance = vec3(.23,.65,.12);
-  const vec3 cotton = vec3(.989,.972,.936);
-  const vec3 graphite = vec3(.195,.185,.174);
+  const vec3 cotton = vec3(.975);
+  const vec3 graphite = vec3(.128);
 
   float tooth(vec2 v) {
     vec3 p = fract(vec3(v.xyx) * vec3(.1031,.1030,.0973));
@@ -93,9 +93,9 @@ const fragmentShader = /* glsl */ `
     float body=1.-smoothstep(.11,.73,value);
     float grain=tooth(floor(gl_FragCoord.xy));
     float grainBed=.5+.5*sin(plane.y*93.+5.*sin(5.*plane.x))*sin(plane.x*63.+2.*sin(2.*plane.y));
-    float ground = (.32*body*body + .21*cross + .30*deepest)*(.87 + .13*grainBed);
+    float ground = (.40*body*body + .27*cross + .30*deepest)*(.87 + .13*grainBed);
     float stroke = broad*hatch.x*.56 + cross*hatch.y*.22;
-    float outline = edge*(.13+.50*pressure);
+    float outline = edge*(.18+.55*pressure);
     float deposit = clamp(ground+(1.-ground)*stroke + outline,0.,1.);
     deposit *= .84+.16*grain;
     deposit *= mix(.21,1.,solid);
@@ -119,6 +119,7 @@ export function createPencilDrawing(uniforms, hearthFoot) {
   const quad = new FullScreenQuad(material);
   return {
     render: (renderer) => quad.render(renderer),
+    setHearth: (position) => material.uniforms.hearthFoot.value.fromArray(position ?? [0, 1e5, 0]),
     dispose() {
       material.dispose();
       quad.dispose();

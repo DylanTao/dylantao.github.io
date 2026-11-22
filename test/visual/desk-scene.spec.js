@@ -1059,6 +1059,7 @@ async function openHome(
     nativeStartup = false,
     retainedP = false,
     lab = true,
+    look = null,
   } = {}
 ) {
   await preparePage(page, theme);
@@ -1066,7 +1067,10 @@ async function openHome(
   await page.emulateMedia({ reducedMotion: motion });
   if (nativeStartup) await page.clock.setFixedTime(new Date(time));
   else await page.clock.install({ time: new Date(time) });
-  await page.goto(publicRouteUrl("/") + (lab ? "?scene-lab=1" : ""), { waitUntil: "domcontentloaded" });
+  const url = new URL(publicRouteUrl("/"));
+  if (lab) url.searchParams.set("scene-lab", "1");
+  if (look) url.searchParams.set("look", look);
+  await page.goto(url.href, { waitUntil: "domcontentloaded" });
   const stage = page.locator("[data-home-artifact-stage]");
   await expect(stage).toHaveAttribute("data-desk-mode", "2d");
   if (nativeFrames) await useNativeSceneFrames(page);
@@ -3421,7 +3425,7 @@ function softShare(buffer) {
 test("coastal home: the woodblock print redraws the live frame and hands the realistic one back", async ({ page }, testInfo) => {
   if (process.platform === "linux") test.setTimeout(600000);
   const errors = collectRuntimeErrors(page);
-  const view = await openClockedHome(page, { time: "2026-10-23T12:00:00-07:00" });
+  const view = await openClockedHome(page, { time: "2026-10-23T12:00:00-07:00", look: "realistic" });
   const { scene, canvas, ui } = view;
   await explore(ui);
   const look = (name) => ui.locator(`details.home-world-objects [data-world-drawing="${name}"]`);
@@ -3514,6 +3518,64 @@ test("coastal home: the woodblock print redraws the live frame and hands the rea
   expect((await evidence(scene)).rendering.print.enabled).toBe(false);
   expect(await page.evaluate(() => sessionStorage.getItem("scene-print"))).toBe(null);
   expect(screenshotDiffRatio(await canvas.screenshot(), realistic)).toBeLessThan(0.001);
+  expect(errors).toEqual([]);
+});
+
+test("coastal home: public drawings switch live and a seated visitor leaves a cooling thermal print", async ({ page }, testInfo) => {
+  if (process.platform === "linux") test.setTimeout(600000);
+  const errors = collectRuntimeErrors(page);
+  const view = await openClockedHome(page, { time: "2026-10-23T19:00:00-07:00", look: "cosmic", lab: false });
+  const { scene, canvas, ui } = view;
+  const rooms = ui.locator("[data-world-places]");
+  const menu = rooms.locator("summary");
+  const looks = rooms.locator("[data-world-drawing]");
+  expect(await looks.evaluateAll((buttons) => buttons.map((button) => button.dataset.worldDrawing))).toEqual([
+    "cosmic",
+    "field-guide",
+    "pencil",
+    "paint",
+    "thermal",
+  ]);
+  await menu.click();
+  await sceneInputFrame(page, view, () => ui.locator('[data-world-destination="lounge"]').click());
+  if (await rooms.evaluate((element) => element.open)) await menu.click();
+  let prior = await canvas.screenshot();
+  for (const medium of ["field-guide", "pencil", "paint", "thermal"]) {
+    await menu.click();
+    const button = rooms.locator(`[data-world-drawing="${medium}"]`);
+    await sceneInputFrame(page, view, () => button.click(), { acceptFrame: (e) => e.rendering.print.look === medium });
+    await expect(button).toHaveAttribute("aria-pressed", "true");
+    expect(await page.evaluate(() => window.siteArt.look)).toBe(medium);
+    if (await rooms.evaluate((element) => element.open)) await menu.click();
+    const frame = await canvas.screenshot();
+    expect(screenshotMetrics(frame).uniqueColors).toBeGreaterThan(40);
+    expect(screenshotDiffRatio(frame, prior)).toBeGreaterThan(0.06);
+    prior = frame;
+  }
+
+  const seat = ui.locator("[data-world-heat-seat]");
+  await expect(seat).toBeEnabled();
+  await beginClockedMotion(page, canvas);
+  await sceneInputFrame(page, view, () => seat.press("Enter"), { acceptFrame: (e) => e.thermalSeat.occupied });
+  const samples = () => evidence(scene).then((sample) => sample.thermalSeat);
+  const seated = await samples();
+  expect(seated.occupied).toBe(true);
+  expect(seated.points).toHaveLength(2);
+  await page.clock.runFor(2900);
+  const warm = await samples();
+  expect(warm.peak).toBeGreaterThan(seated.peak + 4);
+  await sceneInputFrame(page, view, () => seat.press("Enter"), { acceptFrame: (e) => !e.thermalSeat.occupied });
+  const standing = await samples();
+  expect(standing.occupied).toBe(false);
+  const hotChair = await canvas.screenshot();
+  await capture(testInfo, "seat-thermal-warm", hotChair);
+  await page.clock.runFor(4400);
+  const cooling = await samples();
+  expect(cooling.radius).toBeGreaterThan(standing.radius + 0.1);
+  expect(cooling.peak).toBeLessThan(standing.peak * 0.7);
+  const coolingChair = await canvas.screenshot();
+  expect(screenshotDiffRatio(coolingChair, hotChair)).toBeGreaterThan(0.002);
+  await capture(testInfo, "seat-thermal-cooling", coolingChair);
   expect(errors).toEqual([]);
 });
 

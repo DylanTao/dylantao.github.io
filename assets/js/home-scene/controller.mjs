@@ -4,7 +4,9 @@ import { createArtDirection } from "./materials.mjs";
 import { createPacific } from "./environment.mjs?v=terrain-reflections-20261120";
 import { createFinish, physicalTime, surfaceLook } from "./realism.mjs";
 import { readLook } from "./look.mjs";
-import { createPrintLook, readDrawnLook, writeDrawnLook } from "./print-look.mjs";
+import { createPrintLook, DRAWN_LOOKS, readDrawnLook, writeDrawnLook } from "./print-look.mjs";
+import { createSeatHeat, measureThermalSeat, THERMAL_CHAIR } from "./thermal-seat.mjs";
+import { createThermalSwing, findThermalSwing } from "./thermal-swing.mjs";
 import { createSectionCut } from "./section-cut.mjs";
 import { createRoofLift } from "./roof-lift.mjs";
 import { createExplorationState, resolveRoutine, routineRoom, formatMinute, chooseArrivalAvatar, pacificClock } from "./routine.mjs";
@@ -178,8 +180,16 @@ export function createCoastalHome(container, records, artifacts) {
     /* Storage can be blocked; the URL flags still apply. */
   }
   const look = readLook(location.search, lookStorage);
-  // The woodblock-print experiment (print-look.mjs): ?print=1, or the lab's toggle.
-  const printLook = createPrintLook({ look: window.siteArt?.look ?? readDrawnLook(location.search, lookStorage) });
+  // A named lab URL can still choose a legacy drawing independently of the page.
+  const lookQuery = new URLSearchParams(location.search);
+  const requestedLook = lookQuery.get("look");
+  const explicitLook = requestedLook === "realistic" || DRAWN_LOOKS.includes(requestedLook) || lookQuery.has("print");
+  const printLook = createPrintLook({ look: explicitLook ? readDrawnLook(location.search, lookStorage) : window.siteArt?.look });
+  const seatHeat = createSeatHeat();
+  const heatSeatButton = ui.querySelector("[data-world-heat-seat]");
+  const heatSwingTools = ui.querySelector("[data-world-heat-swing-tools]");
+  let heatChair = null,
+    heatSwing = null;
   // The lifted roof's seats read as cut material (section-cut.mjs). ?section=0 keeps the bare rock.
   const sectionCut = new URLSearchParams(location.search).get("section") === "0" ? null : createSectionCut();
   const scene = new THREE.Scene();
@@ -2742,8 +2752,8 @@ export function createCoastalHome(container, records, artifacts) {
   }
   const zoomHint = /Mac|iPhone|iPad/.test(navigator.platform) ? "Hold ⌘ and scroll to zoom" : "Hold Ctrl and scroll to zoom";
 
-  function syncCutaway(dt = 0, instant = false) {
-    const guestEnclosure = visit ? visit.player.pose.room !== "overview" : Boolean(walkMode?.active);
+  function syncCutaway(dt = 0, instant = false, enclose = false) {
+    const guestEnclosure = visit ? visit.player.pose.room !== "overview" : Boolean(walkMode?.active || freeLook?.thermalView || enclose);
     // Library and bedroom cameras sit inside their enclosure. The stable
     // library-upper ID visits the private living floor in the current estate.
     const enclosedRoom =
@@ -2801,6 +2811,7 @@ export function createCoastalHome(container, records, artifacts) {
 
   function setRoom(id, manual = true) {
     if (!config) return;
+    if (freeLook?.thermalView) leaveThermalView();
     if (visit) stopVisit({ focus: false });
     // A room visit, Now or the routine taking the camera ends a walk where the visitor stood.
     if (walkMode?.active) walkMode.exit({ restore: false });
@@ -2873,6 +2884,7 @@ export function createCoastalHome(container, records, artifacts) {
   }
 
   function syncVisitorNavigation() {
+    syncThermalControls();
     const viewedDestination = walkPlace || freeLook?.destination || currentRoom;
     const skipArrival = ui.querySelector("[data-world-arrival-skip]");
     if (skipArrival && (viewedDestination !== "entrance" || walkMode?.active)) skipArrival.hidden = true;
@@ -2958,6 +2970,80 @@ export function createCoastalHome(container, records, artifacts) {
       yaw = config.walk.start.yaw + Math.PI;
       pitch = 0.5;
     }
+  }
+
+  function syncThermalControls() {
+    const hidden = printLook.look !== "thermal" || Boolean(visit || walkMode?.active);
+    if (heatSwingTools && heatSwingTools.hidden !== hidden) heatSwingTools.hidden = hidden;
+    if (!heatSeatButton) return;
+    if (heatSeatButton.hidden !== hidden) heatSeatButton.hidden = hidden;
+    if (heatSeatButton.disabled !== !heatChair) heatSeatButton.disabled = !heatChair;
+    const seated = seatHeat.occupied;
+    const label = seated ? "Stand and see the warmth" : "Sit by the window";
+    if (heatSeatButton.textContent !== label) heatSeatButton.textContent = label;
+  }
+
+  function leaveThermalView() {
+    seatHeat.occupy(false);
+    if (freeLook?.thermalView) freeLook = null;
+    syncThermalControls();
+  }
+
+  function frameThermalView(eye, at, view, fov) {
+    const direction = at.sub(eye).normalize();
+    const yaw = Math.atan2(direction.x, direction.z);
+    const pitch = Math.asin(direction.y);
+    freeLook = { position: eye, yaw, pitch, shownYaw: yaw, shownPitch: pitch, thermalView: view };
+    desiredFov = fov;
+    inertia.stop();
+    cameraMotion.stop();
+    syncVisitorNavigation();
+    requestFrame();
+  }
+
+  function pushThermalSwing() {
+    if (printLook.look !== "thermal" || walkMode?.active || visit) return;
+    leaveThermalView();
+    if (currentRoom !== "lounge") setRoom("lounge");
+    else clearFocus();
+    explore.explore();
+    followClock = false;
+    if (!heatSwing) {
+      syncCutaway(0, true, true);
+      const support = findThermalSwing(world);
+      if (!support) {
+        showHint("The swing is unavailable from this view.", 3500);
+        return;
+      }
+      heatSwing = createThermalSwing(world, support);
+      cleanup.push(() => heatSwing.dispose());
+    }
+    const { centre } = heatSwing;
+    const eye = centre.clone().add(new THREE.Vector3(-0.95, 0.68, 1.63));
+    frameThermalView(eye, centre.clone().add(new THREE.Vector3(0, 0.69, 0)), "swing", 63);
+    heatSwing.push(reduced || paused);
+    ui.querySelector("[data-world-places]").open = false;
+    renderer.domElement.focus({ preventScroll: true });
+  }
+
+  function useThermalSeat() {
+    if (printLook.look !== "thermal" || !heatChair || walkMode?.active || visit) return;
+    const wasSeated = seatHeat.occupied;
+    if (currentRoom !== "lounge") setRoom("lounge");
+    else clearFocus();
+    explore.explore();
+    followClock = false;
+    seatHeat.occupy(!wasSeated, reduced || paused);
+    const { anchor, centre, forward } = heatChair;
+    const eye = wasSeated ? anchor.localToWorld(new THREE.Vector3(0.59, 1.29, 0.32)) : centre.clone().add(new THREE.Vector3(0, 0.72, 0));
+    const at = wasSeated
+      ? centre
+      : eye
+          .clone()
+          .add(forward)
+          .add(new THREE.Vector3(0, -0.16, 0));
+    frameThermalView(eye, at, "seat", wasSeated ? 48 : 43);
+    showHint(wasSeated ? "Your warmth will spread and fade across the cushion." : "The leather warms as you sit.", 4200);
   }
 
   function setStyle() {
@@ -3606,6 +3692,7 @@ export function createCoastalHome(container, records, artifacts) {
   // exploration; the walker's room drives what the orbit's room would (the cutaway, the bath's
   // steam and water, the sun's shadow square, the coast's reflections and planting).
   function enterWalk() {
+    if (freeLook?.thermalView) leaveThermalView();
     freeLook = null;
     syncBedding();
     explore.explore();
@@ -3835,6 +3922,7 @@ export function createCoastalHome(container, records, artifacts) {
     requestFrame();
   }
   function startVisit(kind) {
+    if (freeLook?.thermalView) leaveThermalView();
     if (visit || !visitReady() || !compositionReady || !["film", "boat"].includes(kind) || walkMode?.evidence().inputSuspended || cliffLift?.boarded)
       return false;
     if (!walkDetailReady() || !visitCoastPrepared) {
@@ -4077,6 +4165,11 @@ export function createCoastalHome(container, records, artifacts) {
     if (resizePending) resize({ redraw: false });
     if (!moving && resolution?.restore()) resize();
     if (moving) elapsed += delta;
+    if (moving) seatHeat.step(delta);
+    if (heatSwing) {
+      heatSwing.root.visible = printLook.look === "thermal" && freeLook?.thermalView === "swing";
+      if (heatSwing.root.visible && moving) heatSwing.update(frameDelta);
+    }
     physicalTime.value = elapsed;
     stepWind(moving);
     coastalWind?.update(elapsed, { reduced, coast: coastWind });
@@ -4606,6 +4699,7 @@ export function createCoastalHome(container, records, artifacts) {
       outdoors: currentRoom === "outside",
       room: currentRoom,
       sky: atmosphere?.state,
+      thermalSeat: heatChair ? { seat: heatChair, sample: seatHeat.sample() } : null,
     });
     walkPresence?.withoutHead(() => {
       if (style === "realistic" && finish)
@@ -4754,6 +4848,7 @@ export function createCoastalHome(container, records, artifacts) {
       const response = await fetch(manifestUrl);
       if (!response.ok) throw new Error("Scene manifest unavailable");
       config = await response.json();
+      printLook.setPencilHearth(config.furniture?.find((entry) => entry.id === "living-fireplace")?.position);
       poolVisit = config.infinityPool?.activity?.path ? createPoolActivity(config.infinityPool.activity) : null;
       // The arrival avatar is still chosen later, so seeded captures draw it at the same point.
       const shellUrl = new URL(config.shell, manifestUrl);
@@ -4776,6 +4871,13 @@ export function createCoastalHome(container, records, artifacts) {
         aeronVariant: detailFlags.get("aeron"),
       });
       cleanup.push(() => furniture?.dispose());
+      cleanup.push(
+        furniture.onShow((placement) => {
+          if (placement.anchor.id !== THERMAL_CHAIR) return;
+          heatChair = measureThermalSeat(placement.group) || heatChair;
+          syncThermalControls();
+        })
+      );
       dining = createDining({
         config,
         baseUrl: manifestUrl,
@@ -5253,36 +5355,27 @@ export function createCoastalHome(container, records, artifacts) {
     container.labScene = { scene, sun, settings: labSettings, requestFrame: () => requestFrame(), collisionGrid: () => cameraField?.grid };
   // Rooms shares the site's published styles. Graphics studies can also audition a new medium.
   const lookButtons = [...ui.querySelectorAll("[data-world-drawing]")];
-  let drawingRequest = 0;
   const showLook = () => {
     container.dataset.drawing = printLook.look;
     for (const button of lookButtons) button.setAttribute("aria-pressed", String(button.dataset.worldDrawing === printLook.look));
+    syncThermalControls();
   };
   showLook();
   const chooseDrawing = (next) => {
-    drawingRequest++;
     if (visit) visit.lookOverride = true;
     const chosen = printLook.setLook(next);
-    if (chosen !== "pencil") writeDrawnLook(chosen, lookStorage);
+    if (chosen !== "thermal" && freeLook?.thermalView) leaveThermalView();
+    writeDrawnLook(chosen, lookStorage);
     showLook();
     requestFrame();
   };
   listen(window, "siteArtChange", (event) => chooseDrawing(event.detail.look));
+  if (heatSeatButton) listen(heatSeatButton, "click", useThermalSeat);
+  if (heatSwingTools) listen(heatSwingTools.querySelector("[data-world-heat-swing]"), "click", pushThermalSwing);
   for (const button of lookButtons)
-    listen(button, "click", async () => {
+    listen(button, "click", () => {
       const next = button.dataset.worldDrawing;
-      if (next === "pencil" && labEnabled) {
-        const request = ++drawingRequest;
-        try {
-          const { createPencilDrawing } = await import("./pencil-world.mjs");
-          if (disposed || request !== drawingRequest) return;
-          const hearth = config?.furniture?.find((entry) => entry.id === "living-fireplace");
-          printLook.preparePencil((uniforms) => createPencilDrawing(uniforms, hearth?.position));
-          chooseDrawing(next);
-        } catch {
-          if (!disposed && request === drawingRequest) showHint("The pencil study could not load. Try again.", 4000);
-        }
-      } else if (window.siteArt && window.siteArt.look !== next) window.siteArt.set(next);
+      if (window.siteArt?.worlds.some((entry) => entry.id === next) && window.siteArt.look !== next) window.siteArt.set(next);
       else chooseDrawing(next);
       if (visit) {
         ui.querySelector("[data-world-places]").open = false;
@@ -5597,6 +5690,8 @@ export function createCoastalHome(container, records, artifacts) {
     ecology: pacific?.evidence(),
     underwater: pacific?.underwaterEvidence(),
     rendering: finish?.evidence,
+    thermalSeat: { ...seatHeat.sample(), points: heatChair?.points.map((point) => point.toArray()) ?? null },
+    thermalSwing: heatSwing?.evidence() ?? null,
     section: sectionCut?.evidence() ?? null,
     roofLift: roofLift.evidence(),
     simulation: {

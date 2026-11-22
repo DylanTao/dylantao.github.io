@@ -1,0 +1,71 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import * as THREE from "../assets/js/three.module.min.js";
+import { createSeatHeat, measureThermalSeat } from "../assets/js/home-scene/thermal-seat.mjs";
+import { createThermalSwing, findThermalSwing } from "../assets/js/home-scene/thermal-swing.mjs";
+
+test("seated warmth builds with time and then spreads and cools", () => {
+  const heat = createSeatHeat();
+  heat.occupy(true);
+  const initial = heat.sample();
+  heat.step(0.5);
+  const brief = heat.sample();
+  heat.step(3);
+  const held = heat.sample();
+  assert.equal(initial.peak, 0);
+  assert.ok(brief.peak > initial.peak && held.peak > brief.peak);
+  assert.equal(held.radius, 1);
+  heat.occupy(false);
+  assert.equal(heat.sample().peak, held.peak);
+  heat.step(2);
+  const cooling = heat.sample();
+  assert.ok(cooling.radius > held.radius && cooling.warmth < held.warmth && cooling.peak < held.peak);
+  heat.step(120);
+  assert.ok(heat.sample().peak < 0.001);
+  heat.occupy(true, true);
+  assert.ok(heat.sample().peak > 0, "reduced motion offers a static warmth result");
+});
+
+test("seat contacts require two visible leather support triangles after world transforms", () => {
+  const group = new THREE.Group();
+  group.position.set(3, 1, 5);
+  group.rotation.y = Math.PI;
+  const leather = new THREE.MeshStandardMaterial();
+  leather.name = "eames leather";
+  const cushion = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.08, 0.38), leather);
+  cushion.position.set(0, 0.32, -0.32);
+  group.add(cushion);
+  const measured = measureThermalSeat(group);
+  assert.equal(measured.points.length, 2);
+  assert.ok(Math.abs(measured.centre.y - 1.36) < 1e-6);
+  assert.ok(measured.normals.every((normal) => normal.y > 0.99));
+  assert.ok(measured.forward.z < -0.99);
+  assert.ok(Math.abs(measured.points[0].distanceTo(measured.points[1]) - 0.202) < 1e-6);
+  cushion.visible = false;
+  assert.equal(measureThermalSeat(group), null);
+});
+
+test("the swing admits two solid ceiling anchors, drives the seat below them, and damps to rest", () => {
+  const world = new THREE.Group();
+  const floor = new THREE.Mesh(new THREE.BoxGeometry(4, 0.2, 8), new THREE.MeshStandardMaterial());
+  floor.position.set(3.3, -0.1, 6);
+  world.add(floor);
+  assert.equal(findThermalSwing(world), null);
+  const roof = floor.clone();
+  roof.position.y = 3.1;
+  roof.name = "stone ceiling";
+  world.add(roof);
+  const support = findThermalSwing(world);
+  assert.deepEqual(support.supports, [roof.name, roof.name]);
+  assert.ok(support.anchors.every((anchor) => Math.abs(anchor.y - 3) < 1e-6));
+  const swing = createThermalSwing(world, support);
+  const rest = swing.evidence();
+  swing.push();
+  swing.update(0.4);
+  const forward = swing.evidence();
+  assert.deepEqual(forward.anchors, rest.anchors);
+  assert.ok(forward.seat[1] > rest.seat[1] && forward.seat[2] > rest.seat[2] + 0.25);
+  for (let i = 0; i < 30; i++) swing.update(1);
+  assert.ok(Math.abs(swing.evidence().angle) < 0.005);
+  swing.dispose();
+});

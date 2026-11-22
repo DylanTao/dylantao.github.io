@@ -2,7 +2,7 @@ import * as THREE from "../three.module.min.js";
 import { createHearthField, HEARTH_GRID, HEARTH_STEP } from "./hearth-combustion.mjs";
 import { createBurningWood } from "./hearth-wood.mjs";
 
-const modes = { realistic: 0, watercolour: 1, print: 2, toon: 3, paint: 4, pencil: 5 };
+const modes = { realistic: 0, watercolour: 1, print: 2, toon: 3, paint: 4, pencil: 5, thermal: 6, cosmic: 7, "field-guide": 8 };
 const activeHearths = new Set();
 
 export function drawHearths(renderer, scene, camera, depth, width, height) {
@@ -77,7 +77,7 @@ const fragmentShader = /* glsl */ `
       if(peak<.13+.022*score || (peak>.19 && peak<.235)) discard;
       rgb=peak>.34 ? vec3(4.9,3.7,1.8) : vec3(1.45,.29,.07);
       alpha=.98;
-    } else if(art==3) {
+    } else if(art==3 || art==7 || art==8) {
       // A two-colour cel held on twos. The outer silhouette folds first.
       if(peak<.10) discard;
       rgb=peak>.29 ? vec3(4.5,2.55,.55) : vec3(2.4,.37,.035);
@@ -87,8 +87,11 @@ const fragmentShader = /* glsl */ `
       // so a flame peeling off one log leaves white paper behind it.
       float flick=sin(39.*hotAt.y + 15.*hotAt.x + 2.6*sin(12.*hotAt.z));
       if(peak<.09+.017*flick) discard;
-      rgb=mix(vec3(.62,.595,.55),vec3(.989,.972,.936),smoothstep(.09,.19,peak));
+      rgb=mix(vec3(.62),vec3(.975),smoothstep(.09,.19,peak));
       alpha=smoothstep(.070,.17,peak+.09*density);
+    } else if(art==6) {
+      rgb=mix(vec3(.99,.26,.12),vec3(1.,.987,.87),smoothstep(.065,.20,peak));
+      alpha=smoothstep(.04,.15,peak+.08*density);
     } else {
       // Opaque, interrupted bristle strokes swept in the direction of lift.
       float bristle=sin(hotAt.x*133.+hotAt.z*43.+2.*sin(hotAt.y*10.+phase*.46));
@@ -104,6 +107,8 @@ const fragmentShader = /* glsl */ `
       if(art==1) rgb=mix(vec3(.85,.24,.052),vec3(.999,.959,.83),smoothstep(.13,.35,peak));
       else if(art==2) rgb=peak>.34 ? vec3(.995,.89,.66) : vec3(.79,.38,.14);
       else if(art==3) rgb=peak>.29 ? vec3(1.,.90,.48) : vec3(.97,.47,.12);
+      else if(art==7) rgb=peak>.29 ? vec3(1.,.97,.72) : vec3(1.,.31,.19);
+      else if(art==8) rgb=peak>.29 ? vec3(1.,.93,.66) : vec3(.94,.55,.23);
       else if(art==4) {
         float load=peak+.09*density+.018*sin(hotAt.x*133.+hotAt.z*43.);
         rgb=mix(vec3(.88,.25,.095),vec3(.998,.72,.32),smoothstep(.075,.27,load));
@@ -222,7 +227,7 @@ export function createFurnitureFire(parent, { name = "Living hearth", breeze = 0
         steps++;
         clock += HEARTH_STEP;
         // The cel painter exposes each alternate drawing at twelve a second.
-        if (look !== "toon" || steps % 2 === 0) changed = true;
+        if ((look !== "toon" && look !== "cosmic") || steps % 2 === 0) changed = true;
       }
       if (changed) {
         uniforms.phase.value = clock;

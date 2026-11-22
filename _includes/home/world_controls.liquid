@@ -42,6 +42,7 @@
   </div>
   <div class="home-world-quiet-actions">
     <button type="button" data-world-arrival-skip hidden>Skip arrival</button>
+    <button type="button" data-world-heat-seat hidden>Sit by the window</button>
     <details class="home-world-places" data-world-places>
       <summary>Rooms <span aria-hidden="true">⌄</span></summary>
       <nav class="home-world-places-panel" aria-label="Explore the coastal home">
@@ -52,6 +53,8 @@
           <button type="button" data-world-destination="garden">Workout garden</button>
           <button type="button" data-world-destination="ocean-baths">Ocean baths</button>
           <button type="button" data-world-destination="speakeasy">Speakeasy</button>
+          <button type="button" data-world-destination="supper-gallery">Supper gallery</button>
+          <button type="button" data-world-destination="tea-garden">Tea garden</button>
           <button type="button" data-world-destination="entrance">Clifftop entrance</button>
           <button type="button" data-world-destination="arrival-hall" hidden>Arrival hall</button>
         </div>
@@ -82,11 +85,14 @@
         </div>
         <div class="home-world-places-looks" role="group" aria-label="How the home is drawn">
           <p class="home-world-places-title">Drawn as</p>
-          <button type="button" data-world-drawing="realistic" aria-pressed="true">Realistic</button>
-          <button type="button" data-world-drawing="paint" aria-pressed="false">Painted</button>
-          <button type="button" data-world-drawing="watercolour" aria-pressed="false">Watercolour</button>
-          <button type="button" data-world-drawing="print" aria-pressed="false">Woodblock</button>
-          <button type="button" data-world-drawing="toon" aria-pressed="false">Cartoon</button>
+          <button type="button" data-world-drawing="cosmic" aria-pressed="false">Cosmic cel</button>
+          <button type="button" data-world-drawing="field-guide" aria-pressed="false">Field notes</button>
+          <button type="button" data-world-drawing="pencil" aria-pressed="false">Graphite noir</button>
+          <button type="button" data-world-drawing="paint" aria-pressed="false">Brushwork</button>
+          <button type="button" data-world-drawing="thermal" aria-pressed="false">Thermal print</button>
+        </div>
+        <div class="home-world-places-tools" data-world-heat-swing-tools hidden>
+          <button type="button" data-world-heat-swing>Push the rope swing</button>
         </div>
       </nav>
     </details>
@@ -147,7 +153,6 @@
           <button type="button" data-world-drawing="print" aria-pressed="false">Woodblock</button>
           <button type="button" data-world-drawing="paint" aria-pressed="false">Painted</button>
           <button type="button" data-world-drawing="watercolour" aria-pressed="false">Watercolour study</button>
-          <button type="button" data-world-drawing="pencil" aria-pressed="false">Pencil study</button>
         </div>
         <p data-world-study-status role="status" aria-live="polite"></p>
         <div data-world-study-output></div>

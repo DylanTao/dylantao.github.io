@@ -431,6 +431,10 @@
 .home-world-places-tools {
   border-top: 1px solid var(--home-line);
   padding-top: 0.35rem;
+
+  &[hidden] {
+    display: none;
+  }
 }
 .home-world-explore {
   grid-column: 1 / -1;
