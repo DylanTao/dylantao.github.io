@@ -1,11 +1,11 @@
 {
-  "compiledSceneModuleCreditBytes": 245760,
+  "compiledSceneModuleCreditBytes": 294912,
   "measured": {
-    "date": "2026-11-13",
-    "modules": 140,
-    "sourceGzip6Bytes": 736459,
-    "compiledGzip6Bytes": 472584,
-    "savingBytes": 263875,
+    "date": "2026-11-21",
+    "modules": 165,
+    "sourceGzip6Bytes": 891506,
+    "compiledGzip6Bytes": 583290,
+    "savingBytes": 308216,
     "compiler": "_plugins/site_module_assets.rb"
   }
 }

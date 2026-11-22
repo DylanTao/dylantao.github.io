@@ -10,13 +10,13 @@ from pathlib import Path
 # Room views request the packs explicitly while the selected room is attaching.
 DETAIL_VIEWS = {
     "bar": (
-        ("speakeasy", "outside", "overview"),
+        ("speakeasy", "supper-gallery", "terrace", "study", "outside", "overview"),
         (-15.5, -0.4, -12.0),
-        (-8.1, 4.2, -5.4),
+        (-8.1, 5.6, -5.4),
     ),
     "bath": (
-        ("garden", "gym", "ocean-baths", "outside", "overview"),
-        (7.8, -0.75, -9.5),
+        ("garden", "gym", "ocean-baths", "tea-garden", "terrace", "outside", "overview"),
+        (-8.5, -1.8, -9.5),
         (17, 5, -1.25),
     ),
     "garden": (
@@ -88,12 +88,14 @@ def update_manifest(manifest, report):
         finishes = sorted(
             name for name in report["finishMaterials"]
             if (kind == "bar" and name.startswith("listening room "))
-            or (kind == "bath" and name == "Silver pea gravel")
+            or (kind == "bath" and name in ("Silver pea gravel", "Basin · tidal glass tesserae"))
         )
         if finishes:
             detail["finishMaterials"] = finishes
         manifest["streamedDetails"].append(detail)
 
+    if "firewood" in report:
+        manifest["streamedDetails"].append(firewood_entry(report))
     if "entryArt" in report:
         manifest["streamedDetails"].append({
             "file": report["entryArt"]["file"],
@@ -134,6 +136,16 @@ def update_manifest(manifest, report):
 
 
 
+def firewood_entry(report):
+    return {
+        "file": report["firewood"]["file"],
+        "places": ["lounge", "kitchen", "study", "outside", "overview"],
+        "firstFrame": ["lounge", "kitchen"],
+        "near": {"min": [-2.0, -0.5, 9.0], "max": [5.5, 3.65, 18.0]},
+        "members": report["firewoodGeometryOnly"],
+    }
+
+
 def main():
     parser = ArgumentParser(description=__doc__)
     parser.add_argument("--manifest", required=True, type=Path)
@@ -149,6 +161,8 @@ def main():
         verify_output(root, report["entryArt"])
     if "poolRelief" in report:
         verify_output(root, report["poolRelief"])
+    if "firewood" in report:
+        verify_output(root, report["firewood"])
     for packed in report.get("roomDetails", {}).values():
         verify_output(root, packed["base"])
         verify_output(root, packed["detail"])

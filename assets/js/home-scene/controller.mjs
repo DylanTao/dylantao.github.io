@@ -1223,6 +1223,7 @@ export function createCoastalHome(container, records, artifacts) {
             const donor = donors.get(material.name);
             if (!donor) continue;
             for (const slot of textureSlots) if (donor[slot]) material[slot] = donor[slot];
+            if (material.userData.streamedFinishColor && donor.map) material.color.copy(donor.color);
             if (donor.normalMap) material.normalScale.copy(donor.normalScale);
             if (donor.aoMap) material.aoMapIntensity = donor.aoMapIntensity;
             if (donor.clearcoatNormalMap) material.clearcoatNormalScale.copy(donor.clearcoatNormalScale);

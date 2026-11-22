@@ -28,7 +28,19 @@ BAR_DETAIL = (
     "loggia_bench_seat", "loggia_bench_back", "loggia_bench_welt", "loggia_bench_apron",
     "loggia_scatter_cushions", "loggia_saddle_backs", "loggia_fire_coals", "loggia_paving",
     "records", "sofa_channels", "loose_cushion", "footrail", "lamp_cap", "entry_reeds",
+    "loggia_wall_course", "loggia_quarry_eyebrow", "loggia_fire_plinth", "loggia_guard_cap",
+    "stone_halo", "stone_mount", "stone_medallion", "parchment", "small_tables", "sofa_back",
+    "sofa_seat", "window_seat", "window_liner", "entry_lantern", "lantern_socket", "turntable",
+    "study_reading_shelf", "study_book_ledge", "study_bench",
+    "listener_console", "vu_windows", "strata", "island_apron", "bar_top",
+    "loggia_door_lining", "loggia_bench_support", "loggia_heat_recess", "cabinet_face",
 )
+
+# The first shell carries the terraces, basin and complete circulation. The close
+# approaches supply the joinery, vegetation and basin glaze at their native LOD.
+SUPPER_DETAILS = ("joints", "ceiling_slats", "reeds", "bench", "seat", "bolster", "feet", "table", "stools", "lamps", "shades", "shelf", "counter")
+BATH_DETAILS = ("mat", "gravel_beds", "river_stones", "sedge", "olive_boughs", "olive_crown", "spout", "ofuro_staves", "ofuro_hoops", "filler", "bath_screen", "bath_lights")
+BASIN_GLAZE = "Basin · tidal glass tesserae"
 
 
 def read_glb(path):
@@ -112,6 +124,9 @@ def pack_glb(document, binary, wanted, *, keep_empties=False, deferred_materials
                     draco["bufferView"] = add("bufferViews", draco["bufferView"])
         elif table == "materials":
             remap_material(entry, entry.get("name") in deferred_materials)
+            if entry.get("name") == BASIN_GLAZE and BASIN_GLAZE in deferred_materials:
+                entry["pbrMetallicRoughness"]["baseColorFactor"] = [0.19, 0.37, 0.35, 1]
+                entry.setdefault("extras", {})["streamedFinishColor"] = True
         elif table == "textures":
             if "source" in entry:
                 entry["source"] = add("images", entry["source"])
@@ -207,7 +222,7 @@ def finish_donors(document, mesh_nodes):
                 continue
             material = materials[primitive["material"]]
             name = material["name"]
-            if name != "Silver pea gravel" and not name.startswith("listening room "):
+            if name not in ("Silver pea gravel", BASIN_GLAZE) and not name.startswith("listening room "):
                 continue
             if not any(key in json.dumps(material) for key in FINISH_TEXTURES):
                 continue
@@ -229,22 +244,29 @@ def pack_shell(path, output_dir):
     garden = set()
     entry_art = set()
     pool_relief = set()
+    firewood = set()
     expanded_terrace = any(node["name"].startswith("core_arrival_B_") for node in nodes if "mesh" in node)
     prefixes = tuple(f"core_speakeasy_{part}__" for part in BAR_DETAIL)
+    upper_joinery = tuple(f"core_listening_gallery_{part}__" for part in SUPPER_DETAILS)
+    garden_fit = tuple(f"core_workout_garden_{part}__" for part in BATH_DETAILS)
     for index in mesh_nodes:
         node = nodes[index]
         name = node["name"]
         extras = node.get("extras", {})
-        if name.startswith(prefixes) and not extras.get("action"):
+        if name.startswith(prefixes + upper_joinery) and not extras.get("action") and not extras.get("estateDoor"):
             bar.add(index)
+        elif name.startswith(garden_fit):
+            bath.add(index)
         elif name.startswith("core_bath_roji_") and (
             extras.get("walk") == "through" or name in ("core_bath_roji_maple_limb", "core_bath_roji_culms")
         ):
             bath.add(index)
-        elif name.startswith("core_entry_landscape_"):
+        elif name.startswith(("core_entry_landscape_", "core_entry_leaf_")):
             entry_art.add(index)
         elif name.startswith("core_pool_tide_relief_"):
             pool_relief.add(index)
+        elif name.startswith("core_living_log_gallery_"):
+            firewood.add(index)
         elif name.startswith("core_estate_garden_flora_") or (
             expanded_terrace and (
                 name.startswith("core_retreat_roof_planting__")
@@ -272,8 +294,8 @@ def pack_shell(path, output_dir):
         raise ValueError("Expected one fire bowl on the listening terrace")
     donors = finish_donors(document, mesh_nodes)
     bar_donors = {index for name, index in donors.items() if name.startswith("listening room ")}
-    bath_donors = set(donors.values()) - bar_donors
-    primary = set(mesh_nodes) - bar - bath - garden - entry_art - pool_relief
+    bath_donors = {index for name, index in donors.items() if name in ("Silver pea gravel", BASIN_GLAZE)}
+    primary = set(mesh_nodes) - bar - bath - garden - entry_art - pool_relief - firewood
     def emit(filename, members, **options):
         return pack_model(output_dir, filename, document, binary, members, **options)
 
@@ -289,6 +311,7 @@ def pack_shell(path, output_dir):
         **({"terraceFireWorld": hearths[0]} if hearths else {}),
         **({"listeningCoveWorld": coves[0]} if coves else {}),
         "finishMaterials": {name: nodes[index]["name"] for name, index in donors.items()},
+        **({"firewood": emit("detail-firewood.glb", firewood), "firewoodGeometryOnly": node_names(document, firewood)} if firewood else {}),
         **(
             {"entryArt": emit("detail-entry-art.glb", entry_art), "entryArtGeometryOnly": node_names(document, entry_art)}
             if entry_art
