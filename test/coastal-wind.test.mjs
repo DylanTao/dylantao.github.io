@@ -1,8 +1,10 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { performance } from "node:perf_hooks";
-import { ShaderLib } from "../assets/js/three.module.min.js";
+import { pathToFileURL } from "node:url";
+import { PropertyBinding, ShaderLib } from "../assets/js/three.module.min.js";
 import {
   DEFAULT_WIND,
   WIND_MODES,
@@ -24,9 +26,13 @@ import {
 } from "../assets/js/home-scene/plant-motion.mjs";
 import { createWindParticles } from "../assets/js/home-scene/wind-particles.mjs";
 import { createCoastalWind } from "../assets/js/home-scene/coastal-wind.mjs";
-import { loadNativeModel } from "./helpers/coastal-native-avatar.mjs";
+import { loadNativeHouseModel } from "./helpers/coastal-native-avatar.mjs";
 import { nativeHouseGeometry } from "./helpers/coastal-native-geometry.mjs";
 
+const models = process.env.COASTAL_MODELS_ROOT
+  ? pathToFileURL(`${resolve(process.env.COASTAL_MODELS_ROOT)}/`)
+  : new URL("../assets/models/home/", import.meta.url);
+const manifest = JSON.parse(readFileSync(new URL("manifest.json", models)));
 const dot = (a, b) => a.reduce((s, v, i) => s + v * b[i], 0);
 const derivative = (sample, p, t, axis, component, h) => {
   const lo = p.slice(),
@@ -37,12 +43,30 @@ const derivative = (sample, p, t, axis, component, h) => {
 };
 
 test("all garden olive leaves meet their delivered twigs, including between branch vertices", async () => {
-  const { scene } = await loadNativeModel("home-shell.glb");
+  const crownMember = "core_workout_garden_olive_crown__olive leaf";
+  const boughMember = "core_workout_garden_olive_boughs__olive bark";
+  const crownName = PropertyBinding.sanitizeNodeName(crownMember);
+  const boughName = PropertyBinding.sanitizeNodeName(boughMember);
+  const carrier = manifest.streamedDetails?.find((entry) => entry.members?.includes(crownMember));
+  const { scene } = await loadNativeHouseModel(manifest.shell, manifest, models);
+  let detail;
+  if (carrier) {
+    assert.ok(carrier.members.includes(boughMember), "the same streamed carrier delivers the olive and its twigs");
+    detail = scene.children.find((part) => part.getObjectByName(crownName) && part.getObjectByName(boughName));
+    assert.ok(detail, `${carrier.file} delivers both parts of the olive`);
+    detail.removeFromParent();
+  }
   const wind = createCoastalWind();
   try {
     wind.bind(scene);
+    if (detail) {
+      assert.ok(!wind.evidence().plants.some((plant) => plant.name === crownName));
+      scene.add(detail);
+      wind.bind(detail, scene);
+    }
     const plants = wind.evidence().plants;
-    const crown = plants.find((plant) => plant.name === "core_workout_garden_olive_crown__olive_leaf");
+    const crown = plants.find((plant) => plant.name === crownName);
+    assert.ok(crown, "the olive is bound when its actual carrier attaches");
     assert.equal(crown.components, 7 * 8 * 6);
     assert.equal(crown.enabled, crown.components);
     assert.equal(crown.disabled, 0);
@@ -53,8 +77,7 @@ test("all garden olive leaves meet their delivered twigs, including between bran
 });
 
 test("streamed onsen foliage takes its roots from the room once", async () => {
-  const manifest = JSON.parse(readFileSync(new URL("../assets/models/home/manifest.json", import.meta.url)));
-  const room = await nativeHouseGeometry("room-onsen.glb", manifest);
+  const room = await nativeHouseGeometry("room-onsen.glb", manifest, models);
   const detail = room.children.find((child) => child.name === manifest.streamedDetails.find((entry) => entry.room === "onsen").file);
   const wind = createCoastalWind();
   try {
