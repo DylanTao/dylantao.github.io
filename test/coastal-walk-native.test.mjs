@@ -364,3 +364,22 @@ test(
     }
   }
 );
+
+test("the tea garden reaches the pool promenade and the study in both directions", async (t) => {
+  const field = await deliveredField();
+  const garden = manifest.walk.places["tea-garden"].position;
+  const split = [-7.69, -0.5195, 4.233];
+  const routes = {
+    pool: [garden, split, [-7.61, 0.001, 2.58]],
+    library: [garden, split, [-9.62, 0, 4.233]],
+  };
+  for (const [name, route] of Object.entries(routes)) {
+    const outward = traverse(field, route);
+    const inward = traverse(field, [...route].reverse());
+    for (const journey of [outward, inward]) {
+      assert.ok(journey.travelled > 2.6, name + " covers the shared and separate flights");
+      assert.ok(journey.maximumRise < 0.19, name + " uses the actual 173.5 mm risers");
+    }
+    t.diagnostic(JSON.stringify({ name, outward, inward }));
+  }
+});
