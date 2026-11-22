@@ -96,7 +96,7 @@ if (params.get("sound") === "0") {
     let unlocked;
     try {
       audioContext ||= new Context({ latencyHint: "interactive" });
-      unlocked = audioContext.state === "running" ? Promise.resolve() : audioContext.resume();
+      unlocked = Promise.resolve(audioContext.state === "running" ? undefined : audioContext.resume());
     } catch {
       return Promise.resolve(false);
     }

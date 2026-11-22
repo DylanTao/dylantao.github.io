@@ -104,7 +104,9 @@ test("site sound: effects unlock while transport and all recordings stay paused 
   // document starts paused, and a reload returns to the original art style.
   const alreadyFetched = recordings.length;
   await page.keyboard.press("Escape");
-  await page.locator('.navbar-nav a[href$="/projects/"]').first().click();
+  const projects = page.locator('.navbar-nav a[href$="/projects/"]').first();
+  if (!(await projects.isVisible())) await page.locator(".navbar-toggler").click();
+  await projects.click();
   await page.waitForURL(/\/projects\/$/);
   await expect(page.locator("html")).toHaveAttribute("data-art-style", "pencil");
   await expect.poll(() => evidence(page)).toMatchObject({ musicOn: false, effectsOn: false, context: null });
@@ -145,8 +147,7 @@ test("site sound: the explicit instrument lab keeps its original gestures and vi
   expect(await contexts(page)).toBe(0);
   const control = await openPanel(page);
   await control.click();
-  await expect.poll(async () => (await evidence(page)).context).toBe("running");
-  expect(await evidence(page)).toMatchObject({ on: true, bed: true, bound: true, mode: "noon", instrumentLab: true });
+  await expect.poll(() => evidence(page)).toMatchObject({ on: true, bed: true, bound: true, context: "running", mode: "noon", instrumentLab: true });
   const before = (await evidence(page)).played;
   await page.locator("[data-motion-toggle]:visible").first().click();
   await expect.poll(async () => (await evidence(page)).played).toBeGreaterThanOrEqual(before + 2);
