@@ -258,6 +258,7 @@ def install_tea_joinery(config):
 
 def refit_tea_joinery(scene, config):
     """Replace the first tea joinery, preserving its excavated and furnished source."""
+    next(point for point in config["installationPoints"] if point["id"] == "tea-garden-lantern")["region"]["max"][0] = -5.42
     version = scene.get("sunkenTeaGarden")
     if version == 2:
         return {"alreadyFitted": True}
@@ -306,7 +307,9 @@ def fit_sunken_tea(scene, config):
     window = install_tea_joinery(config)
     lamp = next(item for item in config["installationPoints"] if item["id"] == "tea-garden-lantern")
     lamp["position"] = [-7.27, round(0.491 + LOWER, 3), 5.06]
-    lamp["region"] = {"min": [-8.43, -1.08, 3.4], "max": [-5.25, 1.34, 6.3]}
+    # Stop at the inner face of the stone fin. Light entering the next room
+    # would consume one of its ten practical slots, across a solid wall.
+    lamp["region"] = {"min": [-8.43, -1.08, 3.4], "max": [-5.42, 1.34, 6.3]}
     config["walk"]["places"]["tea-garden"] = {
         "label": "Tea garden", "room": "kitchen", "position": [-7.79, -1.025, 4.67], "yaw": -.42, "pitch": -.10, "fov": 67,
         "bounds": {"min": [WEST, FLOOR - .03, -FRONT], "max": [EAST, SOFFIT, -BACK]},

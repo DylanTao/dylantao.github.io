@@ -5995,7 +5995,10 @@
         "yaw": -1.37,
         "pitch": -0.11,
         "fov": 74,
-        "portrait": { "yaw": -0.98021, "maxFov": 88 }
+        "portrait": {
+          "yaw": -0.98021,
+          "maxFov": 88
+        }
       },
       "arrival-hall": {
         "label": "Arrival hall",
@@ -6012,6 +6015,30 @@
         "yaw": -2.830594372984252,
         "pitch": -0.0734960671244633,
         "fov": 70
+      },
+      "supper-gallery": {
+        "label": "Supper gallery",
+        "room": "study",
+        "position": [-9.09, 3.062, -10.38],
+        "yaw": -0.68,
+        "pitch": -0.1,
+        "fov": 68,
+        "bounds": {
+          "min": [-12.44, 2.96, -11.4],
+          "max": [-7.08, 4.96, -6.3]
+        }
+      },
+      "tea-garden": {
+        "label": "Tea garden",
+        "room": "kitchen",
+        "position": [-7.681, -1.025, 5.36],
+        "yaw": 2.41,
+        "pitch": -0.43,
+        "fov": 67,
+        "bounds": {
+          "min": [-8.43, -1.07, 3.4],
+          "max": [-5.25, 1.34, 6.3]
+        }
       }
     },
     "region": {
@@ -6158,6 +6185,40 @@
       "activationDistance": 1.85,
       "floor": 0,
       "material": "clear low-iron glass in a slim bronze outward-pivot frame"
+    },
+    {
+      "id": "tea-garden-window-1",
+      "nodes": [
+        "core_tea_garden_window_1_pane__facade low-iron glass",
+        "core_tea_garden_window_1_stiles__dark bronze",
+        "core_tea_garden_window_1_track__dark bronze"
+      ],
+      "slideX": 1.0569999999999986,
+      "center": [-6.8767499999999995, 0.5954999999999999, 3.4949999999999997],
+      "opening": {
+        "min": [-7.138999999999999, -0.098, 3.4799999999999995],
+        "max": [-6.6145000000000005, 1.289, 3.51]
+      },
+      "activationDistance": 1.35,
+      "floor": -1.04,
+      "material": "low-iron glazing in a two-track oak pocket"
+    },
+    {
+      "id": "tea-garden-window-2",
+      "nodes": [
+        "core_tea_garden_window_2_pane__facade low-iron glass",
+        "core_tea_garden_window_2_stiles__dark bronze",
+        "core_tea_garden_window_2_track__dark bronze"
+      ],
+      "slideX": 0.5404999999999989,
+      "center": [-6.360250000000001, 0.5954999999999999, 3.4539999999999997],
+      "opening": {
+        "min": [-6.6225, -0.098, 3.4389999999999996],
+        "max": [-6.098000000000001, 1.289, 3.469]
+      },
+      "activationDistance": 1.35,
+      "floor": -1.04,
+      "material": "low-iron glazing in a two-track oak pocket"
     }
   ],
   "estateLibrary": {
@@ -7572,7 +7633,7 @@
     "groups": {
       "speakeasy": {
         "min": [-12.72, -0.06, -12.28],
-        "max": [-8.39, 2.86, -6.03]
+        "max": [-8.39, 5.56, -6.03]
       },
       "cliff-lift": {
         "min": [-14.42, -6.88, -14.43],
@@ -7940,6 +8001,34 @@
         "min": [-12.48, 1.5, -8.25],
         "max": [-9.64, 2.85, -6.29]
       }
+    },
+    {
+      "id": "onsen-side-oak-cove",
+      "schedule": "steps",
+      "a": [2.112, 4.633, 16.46],
+      "b": [2.112, 4.633, 18.56],
+      "intensity": 0.72,
+      "color": [1, 0.79, 0.57],
+      "emitterRadius": 0.038,
+      "transport": false,
+      "region": {
+        "min": [1.89, 2.52, 16.3],
+        "max": [3.33, 4.74, 18.84]
+      }
+    },
+    {
+      "id": "supper-bench",
+      "schedule": "steps",
+      "a": [-12.07, 3.96, -6.78],
+      "b": [-12.07, 3.96, -8.95],
+      "intensity": 0.57,
+      "color": [1, 0.73, 0.49],
+      "emitterRadius": 0.04,
+      "transport": false,
+      "region": {
+        "min": [-12.3, 3.07, -9.32],
+        "max": [-10.1, 4.3, -6.33]
+      }
     }
   ],
   "installationPoints": [
@@ -8252,12 +8341,12 @@
     {
       "id": "tea-garden-lantern",
       "schedule": "steps",
-      "position": [-7.27, 0.491, 4.63],
+      "position": [-7.27, -0.349, 5.06],
       "intensity": 1.2,
       "color": [1, 0.62, 0.34],
       "region": {
-        "min": [-8.45, -0.25, 2.6],
-        "max": [-5.42, 1.36, 6.35]
+        "min": [-8.43, -1.08, 3.4],
+        "max": [-5.42, 1.34, 6.3]
       },
       "transport": false,
       "emitterRadius": 0.1,
@@ -8471,15 +8560,31 @@
   "streamedDetails": [
     {
       "file": "detail-listening-bar.glb",
-      "places": ["speakeasy", "outside", "overview"],
+      "places": ["speakeasy", "supper-gallery", "terrace", "study", "outside", "overview"],
       "near": {
         "min": [-15.5, -0.4, -12.0],
-        "max": [-8.1, 4.2, -5.4]
+        "max": [-8.1, 5.6, -5.4]
       },
       "members": [
+        "core_speakeasy_study_bench__bar smoked oak",
+        "core_speakeasy_study_bench__bar moss mohair",
+        "core_speakeasy_study_book_ledge__bar smoked oak",
+        "core_speakeasy_study_reading_shelf__bar smoked oak",
+        "core_speakeasy_study_reading_shelf__bar moss mohair",
+        "core_speakeasy_study_reading_shelf__bar saddle leather",
+        "core_speakeasy_study_reading_shelf__bar uncoated paper",
         "core_speakeasy_entry_reeds__bar smoked oak",
+        "core_speakeasy_window_seat__listening room quarter-cut walnut",
+        "core_speakeasy_window_liner__listening room quarter-cut walnut",
+        "core_speakeasy_lantern_socket__listening room brushed copper",
+        "core_speakeasy_entry_lantern__listening room gold parchment",
+        "core_speakeasy_sofa_seat__bar moss mohair",
+        "core_speakeasy_sofa_back__bar moss mohair",
         "core_speakeasy_sofa_channels__bar moss mohair",
         "core_speakeasy_loose_cushion__listening room cordovan leather",
+        "core_speakeasy_small_tables__listening room brushed copper",
+        "core_speakeasy_small_tables__listening room quarter-cut walnut",
+        "core_speakeasy_parchment__listening room gold parchment",
         "core_speakeasy_lamp_cap__listening room brushed copper",
         "core_speakeasy_cabinet_dividers__listening room quarter-cut wal",
         "core_speakeasy_horn_bell__listening room honey ash",
@@ -8493,12 +8598,20 @@
         "core_speakeasy_records__listening room amber end grain",
         "core_speakeasy_records__bar uncoated paper",
         "core_speakeasy_records__listening room cordovan leather",
+        "core_speakeasy_listener_console__listening room quarter-cut wal",
+        "core_speakeasy_listener_console__listening room brushed copper",
         "core_speakeasy_amplifier_knobs__dark bronze",
+        "core_speakeasy_vu_windows__listening room gold parchment",
         "core_speakeasy_vu_needles__dark bronze",
+        "core_speakeasy_stone_halo__listening room gold parchment",
+        "core_speakeasy_stone_medallion__listening room sedimentary ston",
         "core_speakeasy_bottles__bar olive bottle",
         "core_speakeasy_stoppers__listening room brushed copper",
         "core_speakeasy_bottles__bar amber bottle",
+        "core_speakeasy_strata__listening room sedimentary stone",
         "core_speakeasy_cabinet_crown__listening room quarter-cut walnut",
+        "core_speakeasy_island_apron__listening room brushed copper",
+        "core_speakeasy_bar_top__listening room green soapstone",
         "core_speakeasy_island_staves__listening room quarter-cut walnut",
         "core_speakeasy_footrail__listening room brushed copper",
         "core_speakeasy_stool_legs__listening room quarter-cut walnut",
@@ -8507,18 +8620,39 @@
         "core_speakeasy_coasters__listening room quarter-cut walnut",
         "core_speakeasy_glassware__bar amber bottle",
         "core_speakeasy_glassware__celadon glaze",
-        "core_speakeasy_loggia_shoulder_backing__walnut and mohair",
+        "core_speakeasy_loggia_guard_cap__listening room brushed copper",
+        "core_speakeasy_loggia_door_lining__listening room quarter-cut w",
+        "core_speakeasy_loggia_heat_recess__Loggia · recessed radiator ",
         "core_speakeasy_loggia_heat_fins__listening room brushed copper",
         "core_speakeasy_loggia_ceiling_fan__listening room quarter-cut w",
+        "core_speakeasy_loggia_wall_course__listening room sedimentary s",
         "core_speakeasy_loggia_saddle_backs__listening room cordovan lea",
+        "core_speakeasy_loggia_quarry_eyebrow__listening room sedimentar",
+        "core_speakeasy_loggia_bench_support__Loggia · shell limestone",
         "core_speakeasy_loggia_bench_seat__listening room undyed basket ",
         "core_speakeasy_loggia_bench_welt__Loggia · flax welt",
         "core_speakeasy_loggia_bench_back__listening room undyed basket ",
         "core_speakeasy_loggia_scatter_cushions__listening room madder c",
         "core_speakeasy_loggia_scatter_cushions__listening room tobacco ",
         "core_speakeasy_loggia_bench_apron__listening room oiled coastal",
+        "core_speakeasy_loggia_fire_plinth__Loggia · honed black basalt",
         "core_speakeasy_loggia_fire_coals__Loggia · charcoal and ash",
-        "core_speakeasy_loggia_paving__Loggia · sawn fossil limestone"
+        "core_speakeasy_loggia_paving__Loggia · sawn fossil limestone",
+        "core_speakeasy_stone_mount__dark bronze",
+        "core_speakeasy_loggia_shoulder_backing__walnut and mohair",
+        "core_listening_gallery_joints__dark bronze",
+        "core_listening_gallery_ceiling_slats__pale oak",
+        "core_listening_gallery_reeds__pale oak",
+        "core_listening_gallery_bench__listening room quarter-cut walnut",
+        "core_listening_gallery_seat__bar saddle leather",
+        "core_listening_gallery_bolster__bar saddle leather",
+        "core_listening_gallery_feet__dark bronze",
+        "core_listening_gallery_table__listening room quarter-cut walnut",
+        "core_listening_gallery_stools__listening room quarter-cut walnu",
+        "core_listening_gallery_lamps__dark bronze",
+        "core_listening_gallery_shades__estate warm opal diffuser",
+        "core_listening_gallery_shelf__listening room quarter-cut walnut",
+        "core_listening_gallery_counter__bar green limestone"
       ],
       "finishMaterials": [
         "listening room amber end grain",
@@ -8535,12 +8669,26 @@
     },
     {
       "file": "detail-ocean-baths.glb",
-      "places": ["garden", "gym", "ocean-baths", "outside", "overview"],
+      "places": ["garden", "gym", "ocean-baths", "tea-garden", "terrace", "outside", "overview"],
       "near": {
-        "min": [7.8, -0.75, -9.5],
+        "min": [-8.5, -1.8, -9.5],
         "max": [17, 5, -1.25]
       },
       "members": [
+        "core_workout_garden_mat__garden cork",
+        "core_workout_garden_mat__garden cork selvedge",
+        "core_workout_garden_gravel_beds__garden river gravel",
+        "core_workout_garden_river_stones__garden flamed basalt",
+        "core_workout_garden_sedge__salt meadow leaf",
+        "core_workout_garden_sedge__coastal sedge leaf",
+        "core_workout_garden_olive_boughs__olive bark",
+        "core_workout_garden_olive_crown__olive leaf",
+        "core_workout_garden_spout__dark bronze",
+        "core_workout_garden_ofuro_staves__spa oiled cedar wood",
+        "core_workout_garden_ofuro_hoops__dark bronze",
+        "core_workout_garden_filler__dark bronze",
+        "core_workout_garden_bath_screen__spa oiled cedar wood",
+        "core_workout_garden_bath_lights__spa opal lamp",
         "core_bath_roji_gravel",
         "core_bath_roji_culms",
         "core_bath_roji_leaves",
@@ -8548,7 +8696,8 @@
         "core_bath_roji_maple_limb",
         "core_bath_roji_maple_crown",
         "core_bath_roji_maple_tips"
-      ]
+      ],
+      "finishMaterials": ["Basin · tidal glass tesserae"]
     },
     {
       "file": "detail-court-garden.glb",
@@ -8568,7 +8717,8 @@
         "core_retreat_clifftop__honed travertine",
         "core_retreat_roof_planting__core_estate_library_liftaway_roof",
         "core_retreat_roof_planting__core_liftaway_cave_ceiling_rear",
-        "core_retreat_roof_planting__core_retreat_liftaway_roof"
+        "core_retreat_roof_planting__core_retreat_liftaway_roof",
+        "core_estate_garden_flora_grass_seat_01"
       ]
     },
     {
@@ -8594,7 +8744,14 @@
         "core_entry_landscape_light_east-reveal_shield",
         "core_entry_landscape_light_east-reveal_diffuser",
         "core_entry_landscape_light_garden-seat_shield",
-        "core_entry_landscape_light_garden-seat_diffuser"
+        "core_entry_landscape_light_garden-seat_diffuser",
+        "core_entry_leaf_laminated_glass__facade low-iron glass",
+        "core_entry_leaf_rims__dark bronze",
+        "core_entry_leaf_cantilevers__dark bronze",
+        "core_entry_leaf_collector__dark bronze",
+        "core_entry_leaf_outlet__dark bronze",
+        "core_entry_leaf_rain_chains__dark bronze",
+        "core_entry_leaf_rain_cups__brushed brass"
       ]
     },
     {
@@ -8705,6 +8862,30 @@
       },
       "members": ["onsen__terracotta", "onsen__olive leaf", "onsen_decor warm cut stone"],
       "firstFrame": ["onsen"]
+    },
+    {
+      "file": "detail-firewood.glb",
+      "places": ["lounge", "kitchen", "study", "outside", "overview"],
+      "firstFrame": ["lounge", "kitchen"],
+      "near": {
+        "min": [-2.0, -0.5, 9.0],
+        "max": [5.5, 3.65, 18.0]
+      },
+      "members": [
+        "core_living_log_gallery__gallery charcoal oak back",
+        "core_living_log_gallery__pale oak",
+        "core_living_log_gallery__gallery honed smoke limestone",
+        "core_living_log_gallery_billet_01",
+        "core_living_log_gallery_billet_02",
+        "core_living_log_gallery_billet_03",
+        "core_living_log_gallery_billet_04",
+        "core_living_log_gallery_billet_05",
+        "core_living_log_gallery_billet_06",
+        "core_living_log_gallery_billet_07",
+        "core_living_log_gallery_billet_08",
+        "core_living_log_gallery_billet_09",
+        "core_living_log_gallery_endgrain_checks"
+      ]
     }
   ]
 }
