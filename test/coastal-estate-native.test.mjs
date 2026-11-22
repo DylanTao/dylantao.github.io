@@ -65,10 +65,17 @@ test("native roof planting follows only its actual retained support and companio
     if (node.userData.cutawayVegetationSupport) (node.userData.roofPlanting ? plants : owned).push(node);
   });
   assert.equal(plants.length, 3, "only three measured roof-supported leaf batches are partitioned");
-  // The arrival's clifftop path also hands its stretch on the rooms' roof to that roof.
+  // The roof carries the upper stretch of the arrival path and the four
+  // planting batches alongside it. These plants arrive with the garden detail.
   assert.deepEqual(
-    owned.map((node) => node.name),
-    ["core_arrival_paths_roof__travertine paving stone"]
+    owned.map((node) => node.name).sort(),
+    [
+      "core_arrival_paths_roof__travertine paving stone",
+      "core_estate_garden_flora_flower",
+      "core_estate_garden_flora_grass_seat_01",
+      "core_estate_garden_flora_leaf",
+      "core_estate_garden_flora_stem",
+    ]
   );
   plants.push(...owned);
   for (const plant of plants) {

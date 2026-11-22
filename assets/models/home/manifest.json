@@ -6116,11 +6116,11 @@
   },
   "staticLightFieldCache": {
     "url": "static-light-field.json",
-    "signature": "dddf592268c6705607df74f3f34c0a1abb36f53c511119583e618f391cbc5280",
-    "sha256": "8bf4c6ad85e6b2c06ba1dfb85b20b0f808fdeda1dc93fbb63e0b6dfc22aada75",
+    "signature": "6111526f0777f20042be293c09a1aa5b2dd2975baa1d9cb047dc9645cf0fe2ce",
+    "sha256": "c0752f156d3a4406dd7c43a9e258e9355833dde9962dddaea7ab404833b6ab47",
     "loungeSolar": "lounge-solar.json",
-    "loungeSolarSha256": "ff69aac33bdc5c58f212df30de482df715ac8a8474594aeced64384167f0fb52",
-    "loungeSolarGeometry": "6fa859df9d59dc6857bf76ed5b5c397933fbdb023d159cb6e92d43ea1d926a80"
+    "loungeSolarSha256": "97065eedc903d65eb952bdc5eb1994613cfe1ea0b30503c85aaa2a200754383c",
+    "loungeSolarGeometry": "ba4d87e99dee865ff94e55a4ff8388fe89b92dde9ffdd2379533125016e986fa"
   },
   "estateDoors": [
     {

@@ -1,2152 +1,3727 @@
 {
-  "tool": "bin/audit_coastal_overlaps.py",
-  "toolSha256": "4c9ba12322748f2920677c964f29ba89a99e228c509e92d1fdc6447052c616cf",
-  "toolDependencies": {
-    "bin/pack_coastal_streamed_models.py": "52189a78b7d3ceed67a1d966c5763848c8cb215c0bfc4e5de1529e468c6ad588"
+ "tool": "bin/audit_coastal_overlaps.py",
+ "toolSha256": "4c9ba12322748f2920677c964f29ba89a99e228c509e92d1fdc6447052c616cf",
+ "toolDependencies": {
+  "bin/pack_coastal_streamed_models.py": "3ad1b82b165be38839c09f635b8d4584612455f21bef62d4891238afba0f61c7"
+ },
+ "source": "artwork/coastal-home/coastal-home.blend",
+ "sourceSha256": "55860de252da1c18429b138f8039b4e49f073cdb2854ddae8375218091320483",
+ "manifestSha256": "3975a90b6df8532942afedba40735d1450d59d777f3bfadb61e3aa7fbd2f5ec1",
+ "modelCoverage": {
+  "home-shell.glb": null,
+  "coast.glb": null,
+  "flora.glb": null,
+  "room-study.glb": null,
+  "room-kitchen.glb": null,
+  "room-gym.glb": null,
+  "room-onsen.glb": null,
+  "room-lounge.glb": null,
+  "room-sleep.glb": null,
+  "room-library.glb": null,
+  "room-library-upper.glb": null,
+  "room-bath-living.glb": null,
+  "room-bath-bedroom.glb": null,
+  "detail-listening-bar.glb": [
+   "core_listening_gallery_bench__listening room quarter-cut walnut",
+   "core_listening_gallery_bolster__bar saddle leather",
+   "core_listening_gallery_ceiling_slats__pale oak",
+   "core_listening_gallery_counter__bar green limestone",
+   "core_listening_gallery_feet__dark bronze",
+   "core_listening_gallery_joints__dark bronze",
+   "core_listening_gallery_lamps__dark bronze",
+   "core_listening_gallery_reeds__pale oak",
+   "core_listening_gallery_seat__bar saddle leather",
+   "core_listening_gallery_shades__estate warm opal diffuser",
+   "core_listening_gallery_shelf__listening room quarter-cut walnut",
+   "core_listening_gallery_stools__listening room quarter-cut walnu",
+   "core_listening_gallery_table__listening room quarter-cut walnut",
+   "core_speakeasy_amplifier_knobs__dark bronze",
+   "core_speakeasy_bar_top__listening room green soapstone",
+   "core_speakeasy_bottles__bar amber bottle",
+   "core_speakeasy_bottles__bar olive bottle",
+   "core_speakeasy_cabinet_crown__listening room quarter-cut walnut",
+   "core_speakeasy_cabinet_dividers__listening room quarter-cut wal",
+   "core_speakeasy_coasters__listening room quarter-cut walnut",
+   "core_speakeasy_compression_driver__speaker charcoal felt",
+   "core_speakeasy_entry_lantern__listening room gold parchment",
+   "core_speakeasy_entry_reeds__bar smoked oak",
+   "core_speakeasy_footrail__listening room brushed copper",
+   "core_speakeasy_glassware__bar amber bottle",
+   "core_speakeasy_glassware__celadon glaze",
+   "core_speakeasy_horn_bell__listening room honey ash",
+   "core_speakeasy_horn_lip__listening room amber end grain",
+   "core_speakeasy_horn_shell__listening room quarter-cut walnut",
+   "core_speakeasy_island_apron__listening room brushed copper",
+   "core_speakeasy_island_staves__listening room quarter-cut walnut",
+   "core_speakeasy_lamp_cap__listening room brushed copper",
+   "core_speakeasy_lantern_socket__listening room brushed copper",
+   "core_speakeasy_listener_console__listening room brushed copper",
+   "core_speakeasy_listener_console__listening room quarter-cut wal",
+   "core_speakeasy_loggia_bench_apron__listening room oiled coastal",
+   "core_speakeasy_loggia_bench_back__listening room undyed basket ",
+   "core_speakeasy_loggia_bench_seat__listening room undyed basket ",
+   "core_speakeasy_loggia_bench_support__Loggia \u00b7 shell limestone",
+   "core_speakeasy_loggia_bench_welt__Loggia \u00b7 flax welt",
+   "core_speakeasy_loggia_ceiling_fan__listening room quarter-cut w",
+   "core_speakeasy_loggia_door_lining__listening room quarter-cut w",
+   "core_speakeasy_loggia_fire_coals__Loggia \u00b7 charcoal and ash",
+   "core_speakeasy_loggia_fire_plinth__Loggia \u00b7 honed black basalt",
+   "core_speakeasy_loggia_guard_cap__listening room brushed copper",
+   "core_speakeasy_loggia_heat_fins__listening room brushed copper",
+   "core_speakeasy_loggia_heat_recess__Loggia \u00b7 recessed radiator ",
+   "core_speakeasy_loggia_paving__Loggia \u00b7 sawn fossil limestone",
+   "core_speakeasy_loggia_quarry_eyebrow__listening room sedimentar",
+   "core_speakeasy_loggia_saddle_backs__listening room cordovan lea",
+   "core_speakeasy_loggia_scatter_cushions__listening room madder c",
+   "core_speakeasy_loggia_scatter_cushions__listening room tobacco ",
+   "core_speakeasy_loggia_shoulder_backing__walnut and mohair",
+   "core_speakeasy_loggia_wall_course__listening room sedimentary s",
+   "core_speakeasy_loose_cushion__listening room cordovan leather",
+   "core_speakeasy_lp_shelves__listening room quarter-cut walnut",
+   "core_speakeasy_parchment__listening room gold parchment",
+   "core_speakeasy_records__bar moss mohair",
+   "core_speakeasy_records__bar uncoated paper",
+   "core_speakeasy_records__celadon glaze",
+   "core_speakeasy_records__listening room amber end grain",
+   "core_speakeasy_records__listening room cordovan leather",
+   "core_speakeasy_records__speaker charcoal felt",
+   "core_speakeasy_saddle_seats__listening room cordovan leather",
+   "core_speakeasy_small_tables__listening room brushed copper",
+   "core_speakeasy_small_tables__listening room quarter-cut walnut",
+   "core_speakeasy_sofa_back__bar moss mohair",
+   "core_speakeasy_sofa_channels__bar moss mohair",
+   "core_speakeasy_sofa_seat__bar moss mohair",
+   "core_speakeasy_stone_halo__listening room gold parchment",
+   "core_speakeasy_stone_medallion__listening room sedimentary ston",
+   "core_speakeasy_stone_mount__dark bronze",
+   "core_speakeasy_stool_legs__listening room quarter-cut walnut",
+   "core_speakeasy_stool_stretchers__listening room brushed copper",
+   "core_speakeasy_stoppers__listening room brushed copper",
+   "core_speakeasy_strata__listening room sedimentary stone",
+   "core_speakeasy_study_bench__bar moss mohair",
+   "core_speakeasy_study_bench__bar smoked oak",
+   "core_speakeasy_study_book_ledge__bar smoked oak",
+   "core_speakeasy_study_reading_shelf__bar moss mohair",
+   "core_speakeasy_study_reading_shelf__bar saddle leather",
+   "core_speakeasy_study_reading_shelf__bar smoked oak",
+   "core_speakeasy_study_reading_shelf__bar uncoated paper",
+   "core_speakeasy_vu_needles__dark bronze",
+   "core_speakeasy_vu_windows__listening room gold parchment",
+   "core_speakeasy_window_liner__listening room quarter-cut walnut",
+   "core_speakeasy_window_seat__listening room quarter-cut walnut"
+  ],
+  "detail-ocean-baths.glb": [
+   "core_bath_roji_culms",
+   "core_bath_roji_gravel",
+   "core_bath_roji_groundcover",
+   "core_bath_roji_leaves",
+   "core_bath_roji_maple_crown",
+   "core_bath_roji_maple_limb",
+   "core_bath_roji_maple_tips",
+   "core_workout_garden_bath_lights__spa opal lamp",
+   "core_workout_garden_bath_screen__spa oiled cedar wood",
+   "core_workout_garden_filler__dark bronze",
+   "core_workout_garden_gravel_beds__garden river gravel",
+   "core_workout_garden_mat__garden cork",
+   "core_workout_garden_mat__garden cork selvedge",
+   "core_workout_garden_ofuro_hoops__dark bronze",
+   "core_workout_garden_ofuro_staves__spa oiled cedar wood",
+   "core_workout_garden_olive_boughs__olive bark",
+   "core_workout_garden_olive_crown__olive leaf",
+   "core_workout_garden_river_stones__garden flamed basalt",
+   "core_workout_garden_sedge__coastal sedge leaf",
+   "core_workout_garden_sedge__salt meadow leaf",
+   "core_workout_garden_spout__dark bronze"
+  ],
+  "detail-court-garden.glb": [
+   "core__blue sage agave leaf",
+   "core_estate_garden_flora_flower",
+   "core_estate_garden_flora_grass",
+   "core_estate_garden_flora_grass_seat_01",
+   "core_estate_garden_flora_leaf",
+   "core_estate_garden_flora_stem",
+   "core_retreat_clifftop__honed travertine",
+   "core_retreat_clifftop__honey ash",
+   "core_retreat_clifftop__linen",
+   "core_retreat_roof_planting__core_estate_library_liftaway_roof",
+   "core_retreat_roof_planting__core_liftaway_cave_ceiling_rear",
+   "core_retreat_roof_planting__core_retreat_liftaway_roof"
+  ],
+  "detail-entry-art.glb": [
+   "core_entry_landscape_bark",
+   "core_entry_landscape_berries",
+   "core_entry_landscape_grass",
+   "core_entry_landscape_grass_light",
+   "core_entry_landscape_leaf",
+   "core_entry_landscape_leaf_light",
+   "core_entry_landscape_light_east-reveal_diffuser",
+   "core_entry_landscape_light_east-reveal_shield",
+   "core_entry_landscape_light_garden-seat_diffuser",
+   "core_entry_landscape_light_garden-seat_shield",
+   "core_entry_landscape_light_west-reveal_diffuser",
+   "core_entry_landscape_light_west-reveal_shield",
+   "core_entry_landscape_sandstone",
+   "core_entry_landscape_seedheads",
+   "core_entry_landscape_stone_seat",
+   "core_entry_leaf_cantilevers__dark bronze",
+   "core_entry_leaf_collector__dark bronze",
+   "core_entry_leaf_laminated_glass__facade low-iron glass",
+   "core_entry_leaf_outlet__dark bronze",
+   "core_entry_leaf_rain_chains__dark bronze",
+   "core_entry_leaf_rain_cups__brushed brass",
+   "core_entry_leaf_rims__dark bronze"
+  ],
+  "detail-pool-relief.glb": [
+   "core_pool_tide_relief_saddle_bed",
+   "core_pool_tide_relief_saddle_frame",
+   "core_pool_tide_relief_saddle_oxide",
+   "core_pool_tide_relief_saddle_pale",
+   "core_pool_tide_relief_saddle_slate"
+  ],
+  "detail-library.glb": [
+   "library__library clay cloth",
+   "library__library ochre cloth",
+   "library__library olive cloth",
+   "library__library slate cloth",
+   "library__library warm paper edges",
+   "library_patio_book_bay__library clay cloth",
+   "library_patio_book_bay__library ochre cloth",
+   "library_patio_book_bay__library olive cloth",
+   "library_patio_book_bay__library slate cloth",
+   "library_patio_book_bay__library warm paper edges"
+  ],
+  "detail-bath-living.glb": [
+   "bath-living__bathroom celadon ceramic",
+   "bath-living__bathroom clear shower glass",
+   "bath-living__bathroom honed travertine ivory",
+   "bath-living__bathroom honed travertine oat",
+   "bath-living__bathroom honed travertine sand",
+   "bath-living__bathroom porcelain glaze",
+   "bath-living__bathroom satin mirror",
+   "bath-living__bathroom warm diffuser",
+   "bath-living__bathroom warm mineral grout",
+   "bath-living__brushed brass",
+   "bath-living__charcoal",
+   "bath-living__honey ash",
+   "bath-living__linen",
+   "bath-living__pale oak",
+   "bath-living__polished nickel",
+   "bath-living_refined_botanical__interior Asplenium fern leaf",
+   "bath-living_refined_botanical__interior botanical leaf stem",
+   "bath-living_refined_botanical__interior botanical mineral soil",
+   "bath-living_refined_botanical__pale oak"
+  ],
+  "detail-bath-bedroom.glb": [
+   "bath-bedroom__bathroom celadon ceramic",
+   "bath-bedroom__bathroom clear shower glass",
+   "bath-bedroom__bathroom honed travertine ivory",
+   "bath-bedroom__bathroom honed travertine oat",
+   "bath-bedroom__bathroom honed travertine sand",
+   "bath-bedroom__bathroom porcelain glaze",
+   "bath-bedroom__bathroom satin mirror",
+   "bath-bedroom__bathroom warm diffuser",
+   "bath-bedroom__bathroom warm mineral grout",
+   "bath-bedroom__brushed brass",
+   "bath-bedroom__charcoal",
+   "bath-bedroom__honey ash",
+   "bath-bedroom__linen",
+   "bath-bedroom__pale oak",
+   "bath-bedroom__polished nickel",
+   "bath-bedroom_refined_botanical__interior Asplenium fern leaf",
+   "bath-bedroom_refined_botanical__interior botanical leaf stem",
+   "bath-bedroom_refined_botanical__interior botanical mineral soil",
+   "bath-bedroom_refined_botanical__pale oak"
+  ],
+  "detail-onsen.glb": [
+   "onsen__olive leaf",
+   "onsen__terracotta",
+   "onsen_decor warm cut stone"
+  ],
+  "detail-firewood.glb": [
+   "core_living_log_gallery__gallery charcoal oak back",
+   "core_living_log_gallery__gallery honed smoke limestone",
+   "core_living_log_gallery__pale oak",
+   "core_living_log_gallery_billet_01",
+   "core_living_log_gallery_billet_02",
+   "core_living_log_gallery_billet_03",
+   "core_living_log_gallery_billet_04",
+   "core_living_log_gallery_billet_05",
+   "core_living_log_gallery_billet_06",
+   "core_living_log_gallery_billet_07",
+   "core_living_log_gallery_billet_08",
+   "core_living_log_gallery_billet_09",
+   "core_living_log_gallery_endgrain_checks"
+  ],
+  "bedding-empty.glb": null,
+  "bedding-ghibli.glb": null,
+  "bedding-lizard.glb": null,
+  "bedding-rick-and-morty.glb": null,
+  "bedding-simpsons.glb": null,
+  "bedding-south-park.glb": null
+ },
+ "exportsSha256": {
+  "bedding-empty.glb": "18edeaa85b48ffc6258e4cbc0075797f847012c9d7055c36c4e556944bb47970",
+  "bedding-ghibli.glb": "4f3eb9abbd43c536f0b872e2aae9b6a43f7d58c797e42f6368e38ed1987335ec",
+  "bedding-lizard.glb": "1f342585f79d7e3b9b002d66e5a21f4d7f855f14ff2af18f8f0e63eadae0330e",
+  "bedding-rick-and-morty.glb": "a4da22081d19e757106aebb3895d9afeaea27cf9a20147c1fd8cef12f31792f8",
+  "bedding-simpsons.glb": "15c834129553a03847bb9b5b7959f322b5d65e5ea5d016d1c8190e6970340ac1",
+  "bedding-south-park.glb": "6dd220646010b4984cc51bd6abee2ba4339fbcc71fa1237d81201943b8372b5d",
+  "coast.glb": "c0695d32317f1b8c72ab02f464dd26a2631c2260698d17780adeae168e4a2bfa",
+  "detail-bath-bedroom.glb": "b5bc4125e8cfdd51f4655c4bf33a6b1bb9975f7aaf0a4b3efe87529839e8f293",
+  "detail-bath-living.glb": "46fc28df054069aa15d4340b635af1662666f42a564d56aec90e009951f8c7cc",
+  "detail-court-garden.glb": "48f210724c897b720925511aabc354296186e8acf384f6c1ed36a353cfc595cd",
+  "detail-entry-art.glb": "bca379d83abc275fcf2a8673ebc85c138c04e91877c575f3588b959f373c3ac3",
+  "detail-firewood.glb": "bb86f97e83c85f30aaafebc52899ba56447541889992d1a7170e590a8926968d",
+  "detail-library.glb": "c042c568d7546a8b7d61066010bd7f333b92d204d2c54ebb27d1f43c708520e6",
+  "detail-listening-bar.glb": "0374dbfee04d1920995bcfd28af8a84830e7235e389ecc1f9679b24a73ef040e",
+  "detail-ocean-baths.glb": "9d5f36e3fd86efa143876dcad680dea000667d7aec8943e03a1322f4fd8ca7cb",
+  "detail-onsen.glb": "4c2f740b38886108142d509dd0f69160dae74285896451b6e8c93c27ce1f277e",
+  "detail-pool-relief.glb": "4f31a12f0aae4649c61935bfec200a444b497e9cdfbad1ea937d151bf1cd080e",
+  "flora.glb": "b90cf95449e17ed80337cbf03d437ba5fee3515cbb1d21efc91fdb48b8069e68",
+  "home-shell.glb": "86b777ba4c18f970de45b1e39d8ad9691777c46047ce49959d53581e61ea857b",
+  "room-bath-bedroom.glb": "a4b0fc22296454f0bf5f22d0e470f2930f3077ce0ce48328b61bf2f1b45fa1e4",
+  "room-bath-living.glb": "6a7eb3ba01c6fec1c9f505e52b7b7e8993215e8112cb981846f3c5bb44fc0941",
+  "room-gym.glb": "11dcb5613a9345a461433d763f75a58e8f90291d2d2f85a8bf133d6f2d5ef192",
+  "room-kitchen.glb": "097f760e0e0516b1ac7b98db84d2231d8e780c044503a1cebf89cb0d7f88c80a",
+  "room-library-upper.glb": "91534441cda1fc3823623a61f979bb5ad9478b222df7de03f26a62202cbdfaaa",
+  "room-library.glb": "fdf551d143704fe81d3ed10a443d74ee03e2171227dfb4bb9db18b670844fc2b",
+  "room-lounge.glb": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390",
+  "room-onsen.glb": "cb5a1bc7d1708a8c2a191164442e31411e1680f2f8755db3bb7f285439003d29",
+  "room-sleep.glb": "debdb6a578939f488c7a6c7660920f21f69d03777e6b2ed67a02a0812d6787a9",
+  "room-study.glb": "46473743dcb7395710692c04c1a207ac961ab5010fb9c4210ee65014d7e8f432"
+ },
+ "furniture": [
+  {
+   "anchor": "kitchen-range",
+   "item": "italian-range",
+   "file": "italian-range-lod0.glb",
+   "sha256": "a91cd11a8889fa140e543a3471f8ca7b506929ee7ffdb9be8b70a4ce282b976a"
   },
-  "source": "artwork/coastal-home/coastal-home.blend",
-  "sourceSha256": "16d50b1f697cfe8b2f26b9bdec9e39360cde4ecba48bbe915c800eaabdc41e5e",
-  "manifestSha256": "e77ea4f21a2f7a8b94770ed5f3d6b1082c1b7699218f999f03f2d57b9f6e481f",
-  "modelCoverage": {
-    "home-shell.glb": null,
-    "coast.glb": null,
-    "flora.glb": null,
-    "room-study.glb": null,
-    "room-kitchen.glb": null,
-    "room-gym.glb": null,
-    "room-onsen.glb": null,
-    "room-lounge.glb": null,
-    "room-sleep.glb": null,
-    "room-library.glb": null,
-    "room-library-upper.glb": null,
-    "room-bath-living.glb": null,
-    "room-bath-bedroom.glb": null,
-    "detail-listening-bar.glb": [
-      "core_speakeasy_amplifier_knobs__dark bronze",
-      "core_speakeasy_bottles__bar amber bottle",
-      "core_speakeasy_bottles__bar olive bottle",
-      "core_speakeasy_cabinet_crown__listening room quarter-cut walnut",
-      "core_speakeasy_cabinet_dividers__listening room quarter-cut wal",
-      "core_speakeasy_coasters__listening room quarter-cut walnut",
-      "core_speakeasy_compression_driver__speaker charcoal felt",
-      "core_speakeasy_entry_reeds__bar smoked oak",
-      "core_speakeasy_footrail__listening room brushed copper",
-      "core_speakeasy_glassware__bar amber bottle",
-      "core_speakeasy_glassware__celadon glaze",
-      "core_speakeasy_horn_bell__listening room honey ash",
-      "core_speakeasy_horn_lip__listening room amber end grain",
-      "core_speakeasy_horn_shell__listening room quarter-cut walnut",
-      "core_speakeasy_island_staves__listening room quarter-cut walnut",
-      "core_speakeasy_lamp_cap__listening room brushed copper",
-      "core_speakeasy_loggia_bench_apron__listening room oiled coastal",
-      "core_speakeasy_loggia_bench_back__listening room undyed basket ",
-      "core_speakeasy_loggia_bench_seat__listening room undyed basket ",
-      "core_speakeasy_loggia_bench_welt__Loggia · flax welt",
-      "core_speakeasy_loggia_ceiling_fan__listening room quarter-cut w",
-      "core_speakeasy_loggia_fire_coals__Loggia · charcoal and ash",
-      "core_speakeasy_loggia_heat_fins__listening room brushed copper",
-      "core_speakeasy_loggia_paving__Loggia · sawn fossil limestone",
-      "core_speakeasy_loggia_saddle_backs__listening room cordovan lea",
-      "core_speakeasy_loggia_scatter_cushions__listening room madder c",
-      "core_speakeasy_loggia_scatter_cushions__listening room tobacco ",
-      "core_speakeasy_loggia_shoulder_backing__walnut and mohair",
-      "core_speakeasy_loose_cushion__listening room cordovan leather",
-      "core_speakeasy_lp_shelves__listening room quarter-cut walnut",
-      "core_speakeasy_records__bar moss mohair",
-      "core_speakeasy_records__bar uncoated paper",
-      "core_speakeasy_records__celadon glaze",
-      "core_speakeasy_records__listening room amber end grain",
-      "core_speakeasy_records__listening room cordovan leather",
-      "core_speakeasy_records__speaker charcoal felt",
-      "core_speakeasy_saddle_seats__listening room cordovan leather",
-      "core_speakeasy_sofa_channels__bar moss mohair",
-      "core_speakeasy_stool_legs__listening room quarter-cut walnut",
-      "core_speakeasy_stool_stretchers__listening room brushed copper",
-      "core_speakeasy_stoppers__listening room brushed copper",
-      "core_speakeasy_vu_needles__dark bronze"
-    ],
-    "detail-ocean-baths.glb": [
-      "core_bath_roji_culms",
-      "core_bath_roji_gravel",
-      "core_bath_roji_groundcover",
-      "core_bath_roji_leaves",
-      "core_bath_roji_maple_crown",
-      "core_bath_roji_maple_limb",
-      "core_bath_roji_maple_tips"
-    ],
-    "detail-court-garden.glb": [
-      "core__blue sage agave leaf",
-      "core_estate_garden_flora_flower",
-      "core_estate_garden_flora_grass",
-      "core_estate_garden_flora_leaf",
-      "core_estate_garden_flora_stem",
-      "core_retreat_clifftop__honed travertine",
-      "core_retreat_clifftop__honey ash",
-      "core_retreat_clifftop__linen",
-      "core_retreat_roof_planting__core_estate_library_liftaway_roof",
-      "core_retreat_roof_planting__core_liftaway_cave_ceiling_rear",
-      "core_retreat_roof_planting__core_retreat_liftaway_roof"
-    ],
-    "detail-entry-art.glb": [
-      "core_entry_landscape_bark",
-      "core_entry_landscape_berries",
-      "core_entry_landscape_grass",
-      "core_entry_landscape_grass_light",
-      "core_entry_landscape_leaf",
-      "core_entry_landscape_leaf_light",
-      "core_entry_landscape_light_east-reveal_diffuser",
-      "core_entry_landscape_light_east-reveal_shield",
-      "core_entry_landscape_light_garden-seat_diffuser",
-      "core_entry_landscape_light_garden-seat_shield",
-      "core_entry_landscape_light_west-reveal_diffuser",
-      "core_entry_landscape_light_west-reveal_shield",
-      "core_entry_landscape_sandstone",
-      "core_entry_landscape_seedheads",
-      "core_entry_landscape_stone_seat"
-    ],
-    "detail-pool-relief.glb": [
-      "core_pool_tide_relief_saddle_bed",
-      "core_pool_tide_relief_saddle_frame",
-      "core_pool_tide_relief_saddle_oxide",
-      "core_pool_tide_relief_saddle_pale",
-      "core_pool_tide_relief_saddle_slate"
-    ],
-    "detail-library.glb": [
-      "library__library clay cloth",
-      "library__library ochre cloth",
-      "library__library olive cloth",
-      "library__library slate cloth",
-      "library__library warm paper edges",
-      "library_patio_book_bay__library clay cloth",
-      "library_patio_book_bay__library ochre cloth",
-      "library_patio_book_bay__library olive cloth",
-      "library_patio_book_bay__library slate cloth",
-      "library_patio_book_bay__library warm paper edges"
-    ],
-    "detail-bath-living.glb": [
-      "bath-living__bathroom celadon ceramic",
-      "bath-living__bathroom clear shower glass",
-      "bath-living__bathroom honed travertine ivory",
-      "bath-living__bathroom honed travertine oat",
-      "bath-living__bathroom honed travertine sand",
-      "bath-living__bathroom porcelain glaze",
-      "bath-living__bathroom satin mirror",
-      "bath-living__bathroom warm diffuser",
-      "bath-living__bathroom warm mineral grout",
-      "bath-living__brushed brass",
-      "bath-living__charcoal",
-      "bath-living__honey ash",
-      "bath-living__linen",
-      "bath-living__pale oak",
-      "bath-living__polished nickel",
-      "bath-living_refined_botanical__interior Asplenium fern leaf",
-      "bath-living_refined_botanical__interior botanical leaf stem",
-      "bath-living_refined_botanical__interior botanical mineral soil",
-      "bath-living_refined_botanical__pale oak"
-    ],
-    "detail-bath-bedroom.glb": [
-      "bath-bedroom__bathroom celadon ceramic",
-      "bath-bedroom__bathroom clear shower glass",
-      "bath-bedroom__bathroom honed travertine ivory",
-      "bath-bedroom__bathroom honed travertine oat",
-      "bath-bedroom__bathroom honed travertine sand",
-      "bath-bedroom__bathroom porcelain glaze",
-      "bath-bedroom__bathroom satin mirror",
-      "bath-bedroom__bathroom warm diffuser",
-      "bath-bedroom__bathroom warm mineral grout",
-      "bath-bedroom__brushed brass",
-      "bath-bedroom__charcoal",
-      "bath-bedroom__honey ash",
-      "bath-bedroom__linen",
-      "bath-bedroom__pale oak",
-      "bath-bedroom__polished nickel",
-      "bath-bedroom_refined_botanical__interior Asplenium fern leaf",
-      "bath-bedroom_refined_botanical__interior botanical leaf stem",
-      "bath-bedroom_refined_botanical__interior botanical mineral soil",
-      "bath-bedroom_refined_botanical__pale oak"
-    ],
-    "detail-onsen.glb": ["onsen__olive leaf", "onsen__terracotta", "onsen_decor warm cut stone"],
-    "bedding-empty.glb": null,
-    "bedding-ghibli.glb": null,
-    "bedding-lizard.glb": null,
-    "bedding-rick-and-morty.glb": null,
-    "bedding-simpsons.glb": null,
-    "bedding-south-park.glb": null
+  {
+   "anchor": "kitchen-range-hood",
+   "item": "range-hood",
+   "file": "range-hood-lod0.glb",
+   "sha256": "3413e686faf5ac8e45125c5f59b09560a9ef19c3d347f7257159b5fa2f9db25d"
   },
+  {
+   "anchor": "kitchen-pot-filler",
+   "item": "pot-filler",
+   "file": "pot-filler-lod0.glb",
+   "sha256": "a4695554f61f983141a41f1554b4e854562847ba8c66a929003595248ac5088a"
+  },
+  {
+   "anchor": "kitchen-glass-fridge",
+   "item": "glass-fridge",
+   "file": "glass-fridge-lod0.glb",
+   "sha256": "6f41c93fe08d8519669e47fee42c0a2390143a77019d98d1704b3d3d53fa11a9"
+  },
+  {
+   "anchor": "dining-table",
+   "item": "dining-table",
+   "file": "dining-table-lod0.glb",
+   "sha256": "78a97dbb32aaa76ac76eadc9c8b63a2cc2747eaeaa95fd496ed5693e496dc80a"
+  },
+  {
+   "anchor": "dining-chair-1",
+   "item": "dining-chair",
+   "file": "dining-chair-lod0.glb",
+   "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
+  },
+  {
+   "anchor": "dining-chair-2",
+   "item": "dining-chair",
+   "file": "dining-chair-lod0.glb",
+   "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
+  },
+  {
+   "anchor": "dining-chair-3",
+   "item": "dining-chair",
+   "file": "dining-chair-lod0.glb",
+   "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
+  },
+  {
+   "anchor": "dining-chair-4",
+   "item": "dining-chair",
+   "file": "dining-chair-lod0.glb",
+   "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
+  },
+  {
+   "anchor": "dining-chair-5",
+   "item": "dining-chair",
+   "file": "dining-chair-lod0.glb",
+   "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
+  },
+  {
+   "anchor": "dining-chair-6",
+   "item": "dining-chair",
+   "file": "dining-chair-lod0.glb",
+   "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
+  },
+  {
+   "anchor": "living-fireplace",
+   "item": "floating-fireplace",
+   "file": "floating-fireplace-lod0.glb",
+   "sha256": "337540ca4ae878da0ea9160e0652b8e34ca15616722b92766339696e86d54496"
+  },
+  {
+   "anchor": "living-eames-lounge",
+   "item": "eames-lounge",
+   "file": "eames-lounge-lod0.glb",
+   "sha256": "a14817679cc30a7d360006af3c0d7dfd0b07b1d786648a670ad786bf9fb06691"
+  },
+  {
+   "anchor": "gym-pan",
+   "item": "cast-iron-pan",
+   "file": "cast-iron-pan-lod0.glb",
+   "sha256": "9fd7d450a35326af81038e78a8ebaf426357ceef82a4c3e653d0011fd2ffd48c"
+  },
+  {
+   "anchor": "study-aeron",
+   "item": "aeron",
+   "file": "aeron-lod0.glb",
+   "sha256": "4807a4756f37bbdc20c419e12d97ce5590b04d4d14799687a7e9e3dc23afe833"
+  },
+  {
+   "anchor": "gym-dumbbell-right",
+   "item": "dumbbell",
+   "file": "dumbbell-lod0.glb",
+   "sha256": "4bc2e416b9296c3c5d58aada192cef9066fcd7c64d1955054326e4c221551ca4"
+  },
+  {
+   "anchor": "gym-dumbbell-left",
+   "item": "dumbbell",
+   "file": "dumbbell-lod0.glb",
+   "sha256": "4bc2e416b9296c3c5d58aada192cef9066fcd7c64d1955054326e4c221551ca4"
+  },
+  {
+   "anchor": "nook-banquette",
+   "item": "banquette",
+   "file": "banquette-lod0.glb",
+   "sha256": "f19bcd3ec454b652d4f90148e118286cd6a0d0b415a9a5b35de6418aba4f8027"
+  },
+  {
+   "anchor": "living-sofa",
+   "item": "cloud-sofa",
+   "file": "cloud-sofa-lod0.glb",
+   "sha256": "a6959819fff369b4fea434f149212ab8346e3b1337cff03056464bca1bf83c2e"
+  },
+  {
+   "anchor": "study-whiskey-lounge",
+   "item": "whiskey-loveseat",
+   "file": "whiskey-loveseat-lod0.glb",
+   "sha256": "b6afbf79f015679452a930793ceb81e0c1db2761b80061b5e451b7a610fae8cd"
+  },
+  {
+   "anchor": "study-whiskey-ottoman",
+   "item": "whiskey-ottoman",
+   "file": "whiskey-ottoman-lod0.glb",
+   "sha256": "878367c94474eb41f9cea3e41fcd052d85690f87037840eb6c444769c3037205"
+  },
+  {
+   "anchor": "study-whiskey-side-table",
+   "item": "whiskey-side-table",
+   "file": "whiskey-side-table-lod0.glb",
+   "sha256": "ba32afceae5854ba441a22d15157282c218eb16bdc632034d4fdaa5989126b3b"
+  },
+  {
+   "anchor": "study-whiskey-bottles",
+   "item": "whiskey-bottles",
+   "file": "whiskey-bottles-lod0.glb",
+   "sha256": "b33a347333fb60c47f18c0df317117a8f94a1c47081af557bc4b99b1d5cb51bd"
+  }
+ ],
+ "furnitureAnchorsSha256": "a2852cd5ebc9e1def5cb2f16522a8dbb397539313694fa98d6a4d587d3952be8",
+ "scope": "Native source triangles (shell, rooms, fixtures, planting, coast) plus the streamed furniture items placed exactly as furniture.mjs places them. Delivered Draco geometry of the repaired families is checked separately in test/coastal-overlap-delivered.test.mjs; browser poses of people and animals are separate captured evidence.",
+ "tolerances": {
+  "planeMm": 1.0,
+  "angleDegrees": 1.0,
+  "minCoplanarAreaCm2": 1.0,
+  "minSeamMm": 4.0,
+  "siteCellM": 0.06,
+  "sampleCap": 160
+ },
+ "contactRules": [
+  {
+   "id": "shallow-seam",
+   "maxDepth": 0.004,
+   "test": "deepest mutual penetration at the site <= 4 mm",
+   "reason": "Touching solids within compression and bevel tolerance; the seam reads as a contact at every supported camera distance."
+  },
+  {
+   "id": "water-in-basin",
+   "maxDepth": 0.6,
+   "test": "one side is a water surface",
+   "reason": "A water surface meets its own basin walls, steps and rim at the waterline."
+  },
+  {
+   "id": "planting-root",
+   "maxDepth": 0.045,
+   "maxHeightFraction": 0.2,
+   "test": "plant geometry inside rock, ground, soil, a planter or a floor, no deeper than max(45 mm, 20% of the plant part's height), every inside sample in the part's lowest 30% (or 25 cm)",
+   "reason": "Stems, trunks and leaf bases rooted in soil, mulch, rock or a planter; on a slope the uphill side of a shrub or trunk sits deeper (the agave contract embeds rosettes 22 mm)."
+  },
+  {
+   "id": "terrain-landform",
+   "maxDepth": 1.0,
+   "test": "both meshes are terrain (coast/rock/soil)",
+   "reason": "Sand, sandstone, haul-out rocks and the mainland meet where one landform emerges from another; there is no inhabited surface between them."
+  },
+  {
+   "id": "support-rest",
+   "maxDepth": 0.025,
+   "test": ">= 60% of the host's crossed faces face up; every inside sample within 6 cm of the resting part's lowest point",
+   "reason": "An item resting on a floor, tread, shelf, counter or ground: only its base sits in the upward support, hiding compression gaps."
+  },
+  {
+   "id": "one-sided-embed",
+   "maxDepth": 0.12,
+   "maxHiddenFraction": 0.25,
+   "test": "the host's crossed faces all face one way (normal coherence >= 0.8) and at most 25% of the penetrating part's extent along that normal is hidden",
+   "reason": "A fixture, cabinet, frame, hood, shelf or panel set into the wall, ceiling or block it is fixed to: the hidden end never emerges elsewhere, so the visible result is a flush contact."
+  },
+  {
+   "id": "structural-joint",
+   "maxDepth": 0.12,
+   "test": "the penetrating part is slender (<= 9 cm in two axes and >= 3x longer)",
+   "reason": "A post, baluster, column, leg, rung or rod seated into the rail, tread, slab or frame it joins; its end is hidden inside that member."
+  }
+ ],
+ "exclusions": [
+  {
+   "id": "never-drawn",
+   "reason": "Shadow-only copies and render-hidden geometry are never drawn in the beauty pass."
+  },
+  {
+   "id": "furniture-placeholder",
+   "reason": "A collision proxy hidden as soon as its streamed furniture item is placed; the item itself is audited at its anchor."
+  },
+  {
+   "id": "bedding-variants",
+   "reason": "Only one of the six made/fitted bedding variants is shown at a time; variants are audited against everything else."
+  },
+  {
+   "id": "foliage-overlap",
+   "reason": "Soft leaf, grass and petal cards interleave like real foliage; plant-to-plant pairs are counted, not ranked."
+  }
+ ],
+ "skipped": {
+  "furniture-placeholder": 23,
+  "never-drawn": 1
+ },
+ "counts": {
+  "meshes": 1040,
+  "triangles": 1422409,
+  "closedMeshes": 882,
+  "pairsTested": 8247,
+  "crossingPairs": 1685,
+  "sites": 22019,
+  "offenders": 1240,
+  "coplanarPairs": 689,
+  "zFightingPairs": 47,
+  "coplanarTrianglePairsTested": 84669
+ },
+ "ruleCounts": {
+  "unclassified": 1240,
+  "one-sided-embed": 3409,
+  "support-rest": 323,
+  "shallow-seam": 12026,
+  "water-in-basin": 197,
+  "structural-joint": 192,
+  "planting-root": 2176,
+  "terrain-landform": 2456
+ },
+ "foliageOverlap": {
+  "pairs": 191,
+  "seamM": 477.35
+ },
+ "totals": {
+  "zFightingPairs": 47,
+  "zFightingVisibleAreaM2": 0.8467,
+  "grazingSites": 25,
+  "grazingSeamM": 3.638,
+  "deepSites": 1215,
+  "deepSitesOver5cm": 343,
+  "deepSeverity": 41939.2,
+  "maxDeepSeverity": 1327.6
+ },
+ "before": {
+  "sourceSha256": "c1fced7e108395b64ca7c8ad96e9a275d131b47115d4cbaf334da48701940027",
+  "totals": {
+   "zFightingPairs": 65,
+   "zFightingVisibleAreaM2": 105.1821,
+   "grazingSites": 106,
+   "grazingSeamM": 42.282,
+   "deepSites": 1222,
+   "deepSitesOver5cm": 336,
+   "deepSeverity": 49321.9,
+   "maxDeepSeverity": 1225.5
+  }
+ },
+ "beforeProvenance": {
+  "file": "artwork\\coastal-home\\reviews\\house-2026-10-24\\before-v3-overlap-audit.json",
+  "sha256": "d56dc581c4e723cc597cb455c3a99bb42c58318d31716179d58fed141ea7cbb3",
+  "kind": "retained-before-record-in-compact-audit"
+ },
+ "delivered": {
   "exportsSha256": {
-    "bedding-empty.glb": "18edeaa85b48ffc6258e4cbc0075797f847012c9d7055c36c4e556944bb47970",
-    "bedding-ghibli.glb": "4f3eb9abbd43c536f0b872e2aae9b6a43f7d58c797e42f6368e38ed1987335ec",
-    "bedding-lizard.glb": "1f342585f79d7e3b9b002d66e5a21f4d7f855f14ff2af18f8f0e63eadae0330e",
-    "bedding-rick-and-morty.glb": "a4da22081d19e757106aebb3895d9afeaea27cf9a20147c1fd8cef12f31792f8",
-    "bedding-simpsons.glb": "15c834129553a03847bb9b5b7959f322b5d65e5ea5d016d1c8190e6970340ac1",
-    "bedding-south-park.glb": "6dd220646010b4984cc51bd6abee2ba4339fbcc71fa1237d81201943b8372b5d",
-    "coast.glb": "63eebc03a1218565d8d3722e5ddd4d46839f911b1c893551c905cd8e06a0ebd8",
-    "detail-bath-bedroom.glb": "b5bc4125e8cfdd51f4655c4bf33a6b1bb9975f7aaf0a4b3efe87529839e8f293",
-    "detail-bath-living.glb": "46fc28df054069aa15d4340b635af1662666f42a564d56aec90e009951f8c7cc",
-    "detail-court-garden.glb": "59040409823d74d4004abcfa2fb6c6191409ce2f5ed05c15401c7b459f1cd445",
-    "detail-entry-art.glb": "57ac2ba707b727ef760e3f502c2e0e02b34561898e9de02c76d0afe30698a822",
-    "detail-library.glb": "c042c568d7546a8b7d61066010bd7f333b92d204d2c54ebb27d1f43c708520e6",
-    "detail-listening-bar.glb": "8aeaa3869775e614ad8d20c7200ba422c349b1fbf80474552ceb95a48489948c",
-    "detail-ocean-baths.glb": "71e5d5fb6d423787b1e344fa8e96772ae31046a095dc1c628fe03acc8b94e7ce",
-    "detail-onsen.glb": "4c2f740b38886108142d509dd0f69160dae74285896451b6e8c93c27ce1f277e",
-    "detail-pool-relief.glb": "b28992017de962edc5a2e66d5f9d90a9f22360c6d2acf673272bc0920a2aa1ab",
-    "flora.glb": "b90cf95449e17ed80337cbf03d437ba5fee3515cbb1d21efc91fdb48b8069e68",
-    "home-shell.glb": "ebfb00e12f3a08552c1ebd543bc0699843909a700d2246369ee0b6fcc527abdc",
-    "room-bath-bedroom.glb": "a4b0fc22296454f0bf5f22d0e470f2930f3077ce0ce48328b61bf2f1b45fa1e4",
-    "room-bath-living.glb": "6a7eb3ba01c6fec1c9f505e52b7b7e8993215e8112cb981846f3c5bb44fc0941",
-    "room-gym.glb": "11dcb5613a9345a461433d763f75a58e8f90291d2d2f85a8bf133d6f2d5ef192",
-    "room-kitchen.glb": "3e53294af4d0aee4f9965080c847f6ee2ae0021b223c0ccd323623e64c3f56ea",
-    "room-library-upper.glb": "91534441cda1fc3823623a61f979bb5ad9478b222df7de03f26a62202cbdfaaa",
-    "room-library.glb": "fdf551d143704fe81d3ed10a443d74ee03e2171227dfb4bb9db18b670844fc2b",
-    "room-lounge.glb": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390",
-    "room-onsen.glb": "cb5a1bc7d1708a8c2a191164442e31411e1680f2f8755db3bb7f285439003d29",
-    "room-sleep.glb": "70c3b70971026d563a7b7dd00c9ea3aa9e8cde093ed4a07d9a5676f4f69aac59",
-    "room-study.glb": "1de86040cb6c173c72e9f00061d6add31a70e3d6907495413cd7ac21586daf8a"
+   "home-shell.glb": "86b777ba4c18f970de45b1e39d8ad9691777c46047ce49959d53581e61ea857b",
+   "coast.glb": "c0695d32317f1b8c72ab02f464dd26a2631c2260698d17780adeae168e4a2bfa",
+   "flora.glb": "b90cf95449e17ed80337cbf03d437ba5fee3515cbb1d21efc91fdb48b8069e68",
+   "room-study.glb": "46473743dcb7395710692c04c1a207ac961ab5010fb9c4210ee65014d7e8f432",
+   "room-kitchen.glb": "097f760e0e0516b1ac7b98db84d2231d8e780c044503a1cebf89cb0d7f88c80a",
+   "room-gym.glb": "11dcb5613a9345a461433d763f75a58e8f90291d2d2f85a8bf133d6f2d5ef192",
+   "room-onsen.glb": "cb5a1bc7d1708a8c2a191164442e31411e1680f2f8755db3bb7f285439003d29",
+   "room-lounge.glb": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390",
+   "room-sleep.glb": "debdb6a578939f488c7a6c7660920f21f69d03777e6b2ed67a02a0812d6787a9",
+   "room-library.glb": "fdf551d143704fe81d3ed10a443d74ee03e2171227dfb4bb9db18b670844fc2b",
+   "room-library-upper.glb": "91534441cda1fc3823623a61f979bb5ad9478b222df7de03f26a62202cbdfaaa",
+   "room-bath-living.glb": "6a7eb3ba01c6fec1c9f505e52b7b7e8993215e8112cb981846f3c5bb44fc0941",
+   "room-bath-bedroom.glb": "a4b0fc22296454f0bf5f22d0e470f2930f3077ce0ce48328b61bf2f1b45fa1e4",
+   "detail-listening-bar.glb": "0374dbfee04d1920995bcfd28af8a84830e7235e389ecc1f9679b24a73ef040e",
+   "detail-ocean-baths.glb": "9d5f36e3fd86efa143876dcad680dea000667d7aec8943e03a1322f4fd8ca7cb",
+   "detail-court-garden.glb": "48f210724c897b720925511aabc354296186e8acf384f6c1ed36a353cfc595cd",
+   "detail-entry-art.glb": "bca379d83abc275fcf2a8673ebc85c138c04e91877c575f3588b959f373c3ac3",
+   "detail-pool-relief.glb": "4f31a12f0aae4649c61935bfec200a444b497e9cdfbad1ea937d151bf1cd080e",
+   "detail-library.glb": "c042c568d7546a8b7d61066010bd7f333b92d204d2c54ebb27d1f43c708520e6",
+   "detail-bath-living.glb": "46fc28df054069aa15d4340b635af1662666f42a564d56aec90e009951f8c7cc",
+   "detail-bath-bedroom.glb": "b5bc4125e8cfdd51f4655c4bf33a6b1bb9975f7aaf0a4b3efe87529839e8f293",
+   "detail-onsen.glb": "4c2f740b38886108142d509dd0f69160dae74285896451b6e8c93c27ce1f277e",
+   "detail-firewood.glb": "bb86f97e83c85f30aaafebc52899ba56447541889992d1a7170e590a8926968d",
+   "bedding-empty.glb": "18edeaa85b48ffc6258e4cbc0075797f847012c9d7055c36c4e556944bb47970",
+   "bedding-ghibli.glb": "4f3eb9abbd43c536f0b872e2aae9b6a43f7d58c797e42f6368e38ed1987335ec",
+   "bedding-lizard.glb": "1f342585f79d7e3b9b002d66e5a21f4d7f855f14ff2af18f8f0e63eadae0330e",
+   "bedding-rick-and-morty.glb": "a4da22081d19e757106aebb3895d9afeaea27cf9a20147c1fd8cef12f31792f8",
+   "bedding-simpsons.glb": "15c834129553a03847bb9b5b7959f322b5d65e5ea5d016d1c8190e6970340ac1",
+   "bedding-south-park.glb": "6dd220646010b4984cc51bd6abee2ba4339fbcc71fa1237d81201943b8372b5d"
   },
-  "furniture": [
-    {
-      "anchor": "kitchen-range",
-      "item": "italian-range",
-      "file": "italian-range-lod0.glb",
-      "sha256": "a91cd11a8889fa140e543a3471f8ca7b506929ee7ffdb9be8b70a4ce282b976a"
-    },
-    {
-      "anchor": "kitchen-range-hood",
-      "item": "range-hood",
-      "file": "range-hood-lod0.glb",
-      "sha256": "3413e686faf5ac8e45125c5f59b09560a9ef19c3d347f7257159b5fa2f9db25d"
-    },
-    {
-      "anchor": "kitchen-pot-filler",
-      "item": "pot-filler",
-      "file": "pot-filler-lod0.glb",
-      "sha256": "a4695554f61f983141a41f1554b4e854562847ba8c66a929003595248ac5088a"
-    },
-    {
-      "anchor": "kitchen-glass-fridge",
-      "item": "glass-fridge",
-      "file": "glass-fridge-lod0.glb",
-      "sha256": "6f41c93fe08d8519669e47fee42c0a2390143a77019d98d1704b3d3d53fa11a9"
-    },
-    {
-      "anchor": "dining-table",
-      "item": "dining-table",
-      "file": "dining-table-lod0.glb",
-      "sha256": "78a97dbb32aaa76ac76eadc9c8b63a2cc2747eaeaa95fd496ed5693e496dc80a"
-    },
-    {
-      "anchor": "dining-chair-1",
-      "item": "dining-chair",
-      "file": "dining-chair-lod0.glb",
-      "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
-    },
-    {
-      "anchor": "dining-chair-2",
-      "item": "dining-chair",
-      "file": "dining-chair-lod0.glb",
-      "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
-    },
-    {
-      "anchor": "dining-chair-3",
-      "item": "dining-chair",
-      "file": "dining-chair-lod0.glb",
-      "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
-    },
-    {
-      "anchor": "dining-chair-4",
-      "item": "dining-chair",
-      "file": "dining-chair-lod0.glb",
-      "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
-    },
-    {
-      "anchor": "dining-chair-5",
-      "item": "dining-chair",
-      "file": "dining-chair-lod0.glb",
-      "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
-    },
-    {
-      "anchor": "dining-chair-6",
-      "item": "dining-chair",
-      "file": "dining-chair-lod0.glb",
-      "sha256": "c2d296673043a3e9801f04b6cbef3428eb42c689bc19d1f9c68e0b58108cd671"
-    },
-    {
-      "anchor": "living-fireplace",
-      "item": "floating-fireplace",
-      "file": "floating-fireplace-lod0.glb",
-      "sha256": "337540ca4ae878da0ea9160e0652b8e34ca15616722b92766339696e86d54496"
-    },
-    {
-      "anchor": "living-eames-lounge",
-      "item": "eames-lounge",
-      "file": "eames-lounge-lod0.glb",
-      "sha256": "a14817679cc30a7d360006af3c0d7dfd0b07b1d786648a670ad786bf9fb06691"
-    },
-    {
-      "anchor": "gym-pan",
-      "item": "cast-iron-pan",
-      "file": "cast-iron-pan-lod0.glb",
-      "sha256": "9fd7d450a35326af81038e78a8ebaf426357ceef82a4c3e653d0011fd2ffd48c"
-    },
-    {
-      "anchor": "study-aeron",
-      "item": "aeron",
-      "file": "aeron-lod0.glb",
-      "sha256": "4807a4756f37bbdc20c419e12d97ce5590b04d4d14799687a7e9e3dc23afe833"
-    },
-    {
-      "anchor": "gym-dumbbell-right",
-      "item": "dumbbell",
-      "file": "dumbbell-lod0.glb",
-      "sha256": "4bc2e416b9296c3c5d58aada192cef9066fcd7c64d1955054326e4c221551ca4"
-    },
-    {
-      "anchor": "gym-dumbbell-left",
-      "item": "dumbbell",
-      "file": "dumbbell-lod0.glb",
-      "sha256": "4bc2e416b9296c3c5d58aada192cef9066fcd7c64d1955054326e4c221551ca4"
-    },
-    {
-      "anchor": "nook-banquette",
-      "item": "banquette",
-      "file": "banquette-lod0.glb",
-      "sha256": "f19bcd3ec454b652d4f90148e118286cd6a0d0b415a9a5b35de6418aba4f8027"
-    },
-    {
-      "anchor": "living-sofa",
-      "item": "cloud-sofa",
-      "file": "cloud-sofa-lod0.glb",
-      "sha256": "a6959819fff369b4fea434f149212ab8346e3b1337cff03056464bca1bf83c2e"
-    },
-    {
-      "anchor": "study-whiskey-lounge",
-      "item": "whiskey-loveseat",
-      "file": "whiskey-loveseat-lod0.glb",
-      "sha256": "b6afbf79f015679452a930793ceb81e0c1db2761b80061b5e451b7a610fae8cd"
-    },
-    {
-      "anchor": "study-whiskey-ottoman",
-      "item": "whiskey-ottoman",
-      "file": "whiskey-ottoman-lod0.glb",
-      "sha256": "878367c94474eb41f9cea3e41fcd052d85690f87037840eb6c444769c3037205"
-    },
-    {
-      "anchor": "study-whiskey-side-table",
-      "item": "whiskey-side-table",
-      "file": "whiskey-side-table-lod0.glb",
-      "sha256": "ba32afceae5854ba441a22d15157282c218eb16bdc632034d4fdaa5989126b3b"
-    },
-    {
-      "anchor": "study-whiskey-bottles",
-      "item": "whiskey-bottles",
-      "file": "whiskey-bottles-lod0.glb",
-      "sha256": "b33a347333fb60c47f18c0df317117a8f94a1c47081af557bc4b99b1d5cb51bd"
-    }
-  ],
-  "furnitureAnchorsSha256": "a2852cd5ebc9e1def5cb2f16522a8dbb397539313694fa98d6a4d587d3952be8",
-  "scope": "Native source triangles (shell, rooms, fixtures, planting, coast) plus the streamed furniture items placed exactly as furniture.mjs places them. Delivered Draco geometry of the repaired families is checked separately in test/coastal-overlap-delivered.test.mjs; browser poses of people and animals are separate captured evidence.",
-  "tolerances": {
-    "planeMm": 1.0,
-    "angleDegrees": 1.0,
-    "minCoplanarAreaCm2": 1.0,
-    "minSeamMm": 4.0,
-    "siteCellM": 0.06,
-    "sampleCap": 160
-  },
-  "contactRules": [
-    {
-      "id": "shallow-seam",
-      "maxDepth": 0.004,
-      "test": "deepest mutual penetration at the site <= 4 mm",
-      "reason": "Touching solids within compression and bevel tolerance; the seam reads as a contact at every supported camera distance."
-    },
-    {
-      "id": "water-in-basin",
-      "maxDepth": 0.6,
-      "test": "one side is a water surface",
-      "reason": "A water surface meets its own basin walls, steps and rim at the waterline."
-    },
-    {
-      "id": "planting-root",
-      "maxDepth": 0.045,
-      "maxHeightFraction": 0.2,
-      "test": "plant geometry inside rock, ground, soil, a planter or a floor, no deeper than max(45 mm, 20% of the plant part's height), every inside sample in the part's lowest 30% (or 25 cm)",
-      "reason": "Stems, trunks and leaf bases rooted in soil, mulch, rock or a planter; on a slope the uphill side of a shrub or trunk sits deeper (the agave contract embeds rosettes 22 mm)."
-    },
-    {
-      "id": "terrain-landform",
-      "maxDepth": 1.0,
-      "test": "both meshes are terrain (coast/rock/soil)",
-      "reason": "Sand, sandstone, haul-out rocks and the mainland meet where one landform emerges from another; there is no inhabited surface between them."
-    },
-    {
-      "id": "support-rest",
-      "maxDepth": 0.025,
-      "test": ">= 60% of the host's crossed faces face up; every inside sample within 6 cm of the resting part's lowest point",
-      "reason": "An item resting on a floor, tread, shelf, counter or ground: only its base sits in the upward support, hiding compression gaps."
-    },
-    {
-      "id": "one-sided-embed",
-      "maxDepth": 0.12,
-      "maxHiddenFraction": 0.25,
-      "test": "the host's crossed faces all face one way (normal coherence >= 0.8) and at most 25% of the penetrating part's extent along that normal is hidden",
-      "reason": "A fixture, cabinet, frame, hood, shelf or panel set into the wall, ceiling or block it is fixed to: the hidden end never emerges elsewhere, so the visible result is a flush contact."
-    },
-    {
-      "id": "structural-joint",
-      "maxDepth": 0.12,
-      "test": "the penetrating part is slender (<= 9 cm in two axes and >= 3x longer)",
-      "reason": "A post, baluster, column, leg, rung or rod seated into the rail, tread, slab or frame it joins; its end is hidden inside that member."
-    }
-  ],
-  "exclusions": [
-    {
-      "id": "never-drawn",
-      "reason": "Shadow-only copies and render-hidden geometry are never drawn in the beauty pass."
-    },
-    {
-      "id": "furniture-placeholder",
-      "reason": "A collision proxy hidden as soon as its streamed furniture item is placed; the item itself is audited at its anchor."
-    },
-    {
-      "id": "bedding-variants",
-      "reason": "Only one of the six made/fitted bedding variants is shown at a time; variants are audited against everything else."
-    },
-    {
-      "id": "foliage-overlap",
-      "reason": "Soft leaf, grass and petal cards interleave like real foliage; plant-to-plant pairs are counted, not ranked."
-    }
-  ],
-  "skipped": {
-    "furniture-placeholder": 23,
-    "never-drawn": 1
-  },
-  "counts": {
-    "meshes": 945,
-    "triangles": 1408459,
-    "closedMeshes": 789,
-    "pairsTested": 7756,
-    "crossingPairs": 1511,
-    "sites": 21329,
-    "offenders": 1203,
-    "coplanarPairs": 622,
-    "zFightingPairs": 46,
-    "coplanarTrianglePairsTested": 83882
-  },
-  "ruleCounts": {
-    "unclassified": 1203,
-    "one-sided-embed": 3128,
-    "support-rest": 290,
-    "shallow-seam": 11776,
-    "water-in-basin": 197,
-    "structural-joint": 157,
-    "planting-root": 2143,
-    "terrain-landform": 2435
-  },
-  "foliageOverlap": {
-    "pairs": 185,
-    "seamM": 437.47
+  "textureCarriers": {
+   "detail-listening-bar.glb": [
+    "core_speakeasy_rock_header__listening room sedimentary stone",
+    "core_study_window_head__listening room quarter-cut walnut"
+   ],
+   "detail-ocean-baths.glb": [
+    "core_estate_pool__warm cut stone"
+   ]
   },
   "totals": {
-    "zFightingPairs": 46,
-    "zFightingVisibleAreaM2": 0.8465,
-    "grazingSites": 25,
-    "grazingSeamM": 3.638,
-    "deepSites": 1178,
-    "deepSitesOver5cm": 348,
-    "deepSeverity": 42516.7,
-    "maxDeepSeverity": 1338.8
-  },
-  "before": {
-    "sourceSha256": "c1fced7e108395b64ca7c8ad96e9a275d131b47115d4cbaf334da48701940027",
-    "totals": {
-      "zFightingPairs": 65,
-      "zFightingVisibleAreaM2": 105.1821,
-      "grazingSites": 106,
-      "grazingSeamM": 42.282,
-      "deepSites": 1222,
-      "deepSitesOver5cm": 336,
-      "deepSeverity": 49321.9,
-      "maxDeepSeverity": 1225.5
-    }
-  },
-  "beforeProvenance": {
-    "file": "artwork\\coastal-home\\reviews\\house-2026-10-24\\overlap-audit.json",
-    "sha256": "2cf1b90ef93cfd9ce3096913b3af47f9eef0f060acb493d23f5d0fcbcc5e76ab",
-    "kind": "retained-before-record-in-compact-audit"
-  },
-  "delivered": {
-    "exportsSha256": {
-      "home-shell.glb": "ebfb00e12f3a08552c1ebd543bc0699843909a700d2246369ee0b6fcc527abdc",
-      "coast.glb": "63eebc03a1218565d8d3722e5ddd4d46839f911b1c893551c905cd8e06a0ebd8",
-      "flora.glb": "b90cf95449e17ed80337cbf03d437ba5fee3515cbb1d21efc91fdb48b8069e68",
-      "room-study.glb": "1de86040cb6c173c72e9f00061d6add31a70e3d6907495413cd7ac21586daf8a",
-      "room-kitchen.glb": "3e53294af4d0aee4f9965080c847f6ee2ae0021b223c0ccd323623e64c3f56ea",
-      "room-gym.glb": "11dcb5613a9345a461433d763f75a58e8f90291d2d2f85a8bf133d6f2d5ef192",
-      "room-onsen.glb": "cb5a1bc7d1708a8c2a191164442e31411e1680f2f8755db3bb7f285439003d29",
-      "room-lounge.glb": "142c54c162f781afca48fddba042a9013ac2428bedc6acb8d8f6c8fd47039390",
-      "room-sleep.glb": "70c3b70971026d563a7b7dd00c9ea3aa9e8cde093ed4a07d9a5676f4f69aac59",
-      "room-library.glb": "fdf551d143704fe81d3ed10a443d74ee03e2171227dfb4bb9db18b670844fc2b",
-      "room-library-upper.glb": "91534441cda1fc3823623a61f979bb5ad9478b222df7de03f26a62202cbdfaaa",
-      "room-bath-living.glb": "6a7eb3ba01c6fec1c9f505e52b7b7e8993215e8112cb981846f3c5bb44fc0941",
-      "room-bath-bedroom.glb": "a4b0fc22296454f0bf5f22d0e470f2930f3077ce0ce48328b61bf2f1b45fa1e4",
-      "detail-listening-bar.glb": "8aeaa3869775e614ad8d20c7200ba422c349b1fbf80474552ceb95a48489948c",
-      "detail-ocean-baths.glb": "71e5d5fb6d423787b1e344fa8e96772ae31046a095dc1c628fe03acc8b94e7ce",
-      "detail-court-garden.glb": "59040409823d74d4004abcfa2fb6c6191409ce2f5ed05c15401c7b459f1cd445",
-      "detail-entry-art.glb": "57ac2ba707b727ef760e3f502c2e0e02b34561898e9de02c76d0afe30698a822",
-      "detail-pool-relief.glb": "b28992017de962edc5a2e66d5f9d90a9f22360c6d2acf673272bc0920a2aa1ab",
-      "detail-library.glb": "c042c568d7546a8b7d61066010bd7f333b92d204d2c54ebb27d1f43c708520e6",
-      "detail-bath-living.glb": "46fc28df054069aa15d4340b635af1662666f42a564d56aec90e009951f8c7cc",
-      "detail-bath-bedroom.glb": "b5bc4125e8cfdd51f4655c4bf33a6b1bb9975f7aaf0a4b3efe87529839e8f293",
-      "detail-onsen.glb": "4c2f740b38886108142d509dd0f69160dae74285896451b6e8c93c27ce1f277e",
-      "bedding-empty.glb": "18edeaa85b48ffc6258e4cbc0075797f847012c9d7055c36c4e556944bb47970",
-      "bedding-ghibli.glb": "4f3eb9abbd43c536f0b872e2aae9b6a43f7d58c797e42f6368e38ed1987335ec",
-      "bedding-lizard.glb": "1f342585f79d7e3b9b002d66e5a21f4d7f855f14ff2af18f8f0e63eadae0330e",
-      "bedding-rick-and-morty.glb": "a4da22081d19e757106aebb3895d9afeaea27cf9a20147c1fd8cef12f31792f8",
-      "bedding-simpsons.glb": "15c834129553a03847bb9b5b7959f322b5d65e5ea5d016d1c8190e6970340ac1",
-      "bedding-south-park.glb": "6dd220646010b4984cc51bd6abee2ba4339fbcc71fa1237d81201943b8372b5d"
-    },
-    "textureCarriers": {
-      "detail-listening-bar.glb": [
-        "core_speakeasy_bar_top__listening room green soapstone",
-        "core_speakeasy_rock_header__listening room sedimentary stone",
-        "core_speakeasy_sleeve_ledge__listening room quarter-cut walnut"
-      ]
-    },
-    "totals": {
-      "zFightingPairs": 38,
-      "zFightingVisibleAreaM2": 1.1366,
-      "grazingSites": 27,
-      "grazingSeamM": 5.192,
-      "deepSites": 1067,
-      "deepSitesOver5cm": 202,
-      "deepSeverity": 31376.0,
-      "maxDeepSeverity": 1379.0
-    },
-    "zFighting": [
-      {
-        "pair": "bath-living__bathroom warm mineral grout | bath-living__warm cut stone",
-        "visibleAreaM2": 0.291173,
-        "at": [-8.25, -13.032, -0.012],
-        "normal": [-1.0, 0.0, 0.0]
-      },
-      {
-        "pair": "bath-bedroom__bathroom warm mineral grout | bath-bedroom__warm cut stone",
-        "visibleAreaM2": 0.291172,
-        "at": [-8.25, -13.032, 2.588],
-        "normal": [-1.0, 0.0, 0.0]
-      },
-      {
-        "pair": "core__golden coastal sandstone | core_arrival_living__golden coastal sandstone",
-        "visibleAreaM2": 0.14469,
-        "at": [3.54, -14.975, 5.23],
-        "normal": [-0.501, -0.0, -0.865]
-      },
-      {
-        "pair": "lounge__woven jute | lounge_refined_botanical__honed travertine",
-        "visibleAreaM2": 0.074219,
-        "at": [4.731, -4.496, 0.0],
-        "normal": [0.0, 0.0, -1.0]
-      },
-      {
-        "pair": "core_cliff_lift_jambs__facade low-iron glass | core_cliff_lift_ocean_landing_jambs__ocean lift dry bronze",
-        "visibleAreaM2": 0.071176,
-        "at": [-14.119, 10.287, -5.022],
-        "normal": [0.0, -1.0, 0.0]
-      },
-      {
-        "pair": "core__golden coastal sandstone | core_facade__warm_cut_stone",
-        "visibleAreaM2": 0.054666,
-        "at": [5.151, -4.183, -0.26],
-        "normal": [0.0, 0.0, -1.0]
-      },
-      {
-        "pair": "core_estate_pool__sea glass pool mosaic | core_estate_pool__warm cut stone",
-        "visibleAreaM2": 0.053508,
-        "at": [2.99, 0.102, -1.44],
-        "normal": [-0.0, -0.0, -1.0]
-      },
-      {
-        "pair": "core__golden coastal sandstone | core_retreat_liftaway_roof",
-        "visibleAreaM2": 0.024833,
-        "at": [-11.748, -16.099, 10.984],
-        "normal": [-0.0, -1.0, -0.0]
-      },
-      {
-        "pair": "coast_shared_golden coastal sandstone | core__golden coastal sandstone",
-        "visibleAreaM2": 0.020342,
-        "at": [-12.722, -9.162, -0.259],
-        "normal": [1.0, 0.0, -0.0]
-      },
-      {
-        "pair": "core_estate_pool__sea glass pool mosaic | core_infinity_water",
-        "visibleAreaM2": 0.017909,
-        "at": [2.993, 3.191, -0.09],
-        "normal": [0.0, 0.0, 1.0]
-      },
-      {
-        "pair": "coast_shared_golden coastal sandstone | core__golden coastal sandstone",
-        "visibleAreaM2": 0.011171,
-        "at": [-8.347, -6.323, -0.259],
-        "normal": [-1.0, 0.0, 0.0]
-      },
-      {
-        "pair": "core_reno_floorboards_lower | lounge__honey ash",
-        "visibleAreaM2": 0.010061,
-        "at": [-0.525, -5.337, 0.002],
-        "normal": [0.0, -0.0, 1.0]
-      },
-      {
-        "pair": "core__golden coastal sandstone | core_liftaway_cave_ceiling_rear",
-        "visibleAreaM2": 0.008959,
-        "at": [4.82, -6.39, 3.902],
-        "normal": [-0.921, 0.0, -0.39]
-      },
-      {
-        "pair": "coast_shared_golden coastal sandstone | core__golden coastal sandstone",
-        "visibleAreaM2": 0.008457,
-        "at": [-8.641, -11.147, -0.259],
-        "normal": [1.0, 0.0, 0.0]
-      },
-      {
-        "pair": "kitchen__honey ash | kitchen__pale oak",
-        "visibleAreaM2": 0.007043,
-        "at": [-4.041, -10.837, 0.329],
-        "normal": [-1.0, 0.0, -0.0]
-      },
-      {
-        "pair": "core_reno_floorboards_lower | kitchen__honey ash",
-        "visibleAreaM2": 0.006291,
-        "at": [-3.179, -5.593, 0.002],
-        "normal": [0.0, 0.0, 1.0]
-      },
-      {
-        "pair": "coast_shared_golden coastal sandstone | coast_shared_golden coastal sandstone",
-        "visibleAreaM2": 0.006244,
-        "at": [-8.429, 6.251, -0.279],
-        "normal": [-1.0, 0.0, 0.0]
-      },
-      {
-        "pair": "core_liftaway_cave_ceiling_rear | core_retreat_liftaway_roof",
-        "visibleAreaM2": 0.005049,
-        "at": [4.81, -7.75, 7.55],
-        "normal": [0.0, -1.0, -0.0]
-      },
-      {
-        "pair": "core__golden coastal sandstone | core_liftaway_cave_ceiling",
-        "visibleAreaM2": 0.00468,
-        "at": [4.82, -4.011, 3.902],
-        "normal": [-0.922, -0.0, -0.388]
-      },
-      {
-        "pair": "core_estate_library_liftaway_roof | core_retreat_liftaway_roof",
-        "visibleAreaM2": 0.004358,
-        "at": [-8.38, -7.308, 9.933],
-        "normal": [1.0, 0.0, 0.0]
-      },
-      {
-        "pair": "furniture:living-eames-lounge/eames-lounge.lod0__eames black al | furniture:living-eames-lounge/eames-lounge.lod0__eames veneer",
-        "visibleAreaM2": 0.003936,
-        "at": [3.838, -5.469, 0.341],
-        "normal": [1.0, 0.0, 0.0]
-      },
-      {
-        "pair": "core_estate_pavilion__honey ash | core_estate_pavilion__travertine paving stone",
-        "visibleAreaM2": 0.003074,
-        "at": [-12.407, 4.32, 0.917],
-        "normal": [0.0, 1.0, 0.0]
-      },
-      {
-        "pair": "core_bathwing_liftaway_roof | core_retreat_liftaway_roof",
-        "visibleAreaM2": 0.002381,
-        "at": [-7.704, -6.45, 9.514],
-        "normal": [0.0, 1.0, 0.0]
-      },
-      {
-        "pair": "bath-living__bathroom clear shower glass | bath-living__pale oak",
-        "visibleAreaM2": 0.002376,
-        "at": [-7.693, -11.014, 0.674],
-        "normal": [-0.0, 1.0, 0.0]
-      },
-      {
-        "pair": "bath-bedroom__bathroom clear shower glass | bath-bedroom__pale oak",
-        "visibleAreaM2": 0.002376,
-        "at": [-7.693, -11.014, 3.274],
-        "normal": [-0.0, 1.0, 0.0]
-      },
-      {
-        "pair": "core_arrival_lid__golden coastal sandstone | core_retreat_liftaway_roof",
-        "visibleAreaM2": 0.001525,
-        "at": [3.463, -12.657, 7.295],
-        "normal": [-0.058, 0.031, 0.998]
-      },
-      {
-        "pair": "gym__barbell brushed steel | gym__powder coated gym steel",
-        "visibleAreaM2": 0.001195,
-        "at": [10.69, -7.797, 2.147],
-        "normal": [1.0, 0.0, 0.0]
-      },
-      {
-        "pair": "kitchen__honed travertine | kitchen__milky veined marble",
-        "visibleAreaM2": 0.000989,
-        "at": [-4.72, -10.7, 1.596],
-        "normal": [-1.0, 0.0, -0.0]
-      },
-      {
-        "pair": "core_bathwing_liftaway_roof | core_liftaway_cave_ceiling",
-        "visibleAreaM2": 0.000801,
-        "at": [-4.755, -1.106, 8.049],
-        "normal": [1.0, -0.005, 0.0]
-      },
-      {
-        "pair": "core_liftaway_cave_ceiling | core_liftaway_cave_ceiling_rear",
-        "visibleAreaM2": 0.00067,
-        "at": [-2.26, -5.324, 7.073],
-        "normal": [0.0, 1.0, 0.0]
-      },
-      {
-        "pair": "study__matte black device | study__pc rgb glow",
-        "visibleAreaM2": 0.000324,
-        "at": [-10.592, -6.083, 0.173],
-        "normal": [0.0, 0.0, -1.0]
-      },
-      {
-        "pair": "kitchen__chalk limestone | kitchen__honey ash",
-        "visibleAreaM2": 0.000205,
-        "at": [-2.824, -3.64, -0.013],
-        "normal": [-0.0, 1.0, 0.0]
-      },
-      {
-        "pair": "core_bathwing_liftaway_roof | core_estate_library_liftaway_roof",
-        "visibleAreaM2": 0.000165,
-        "at": [-8.423, -6.45, 9.876],
-        "normal": [0.0, 1.0, 0.0]
-      },
-      {
-        "pair": "core_finish_bedchamber_floor__pale oak | core_finish_bedroom_spiral_landing__pale oak",
-        "visibleAreaM2": 0.000138,
-        "at": [-8.237, -6.633, 1.5],
-        "normal": [-0.0, 0.0, 1.0]
-      },
-      {
-        "pair": "core_cliff_lift_beachGate_right_1__facade low-iron glass | core_cliff_lift_beachGate_right_1__ocean lift dry bronze",
-        "visibleAreaM2": 0.000119,
-        "at": [-13.235, 10.318, -4.4],
-        "normal": [-1.0, 0.0, 0.0]
-      },
-      {
-        "pair": "core_cliff_lift_cabDoorBeach_left_1__facade low-iron glass | core_cliff_lift_cabDoorBeach_left_1__ocean lift dry bronze",
-        "visibleAreaM2": 0.000119,
-        "at": [-14.055, 10.224, 2.051],
-        "normal": [-1.0, 0.0, 0.0]
-      },
-      {
-        "pair": "core_cliff_lift_cabDoorBeach_right_1__facade low-iron glass | core_cliff_lift_cabDoorBeach_right_1__ocean lift dry bronze",
-        "visibleAreaM2": 0.000119,
-        "at": [-13.235, 10.224, 2.051],
-        "normal": [-1.0, 0.0, 0.0]
-      },
-      {
-        "pair": "core_cliff_lift_beachGate_left_1__facade low-iron glass | core_cliff_lift_beachGate_left_1__ocean lift dry bronze",
-        "visibleAreaM2": 0.000119,
-        "at": [-14.055, 10.318, -4.4],
-        "normal": [-1.0, 0.0, 0.0]
-      }
-    ]
+   "zFightingPairs": 40,
+   "zFightingVisibleAreaM2": 1.2697,
+   "grazingSites": 26,
+   "grazingSeamM": 4.183,
+   "deepSites": 1107,
+   "deepSitesOver5cm": 213,
+   "deepSeverity": 31729.3,
+   "maxDeepSeverity": 1379.0
   },
   "zFighting": [
-    {
-      "pair": "bath-living__bathroom warm mineral grout | bath-living__warm cut stone",
-      "materials": ["warm cut stone", "bathroom warm mineral grout"],
-      "visibleAreaM2": 0.201617,
-      "areaM2": 0.201617,
-      "at": [-8.25, -13.032, -0.012],
-      "normal": [-1.0, 0.0, 0.0],
-      "verdict": "hidden"
-    },
-    {
-      "pair": "bath-bedroom__bathroom warm mineral grout | bath-bedroom__warm cut stone",
-      "materials": ["warm cut stone", "bathroom warm mineral grout"],
-      "visibleAreaM2": 0.201611,
-      "areaM2": 0.201611,
-      "at": [-8.25, -13.032, 2.588],
-      "normal": [-1.0, 0.0, 0.0],
-      "verdict": "hidden"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_retreat_liftaway_roof",
-      "materials": ["La Jolla bluff sandstone", "golden coastal sandstone"],
-      "visibleAreaM2": 0.124349,
-      "areaM2": 0.124349,
-      "at": [4.903, -1.401, 7.237],
-      "normal": [-0.908, -0.414, 0.059],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "lounge__woven jute | lounge_refined_botanical__honed travertine",
-      "materials": ["woven jute", "honed travertine"],
-      "visibleAreaM2": 0.078151,
-      "areaM2": 0.084511,
-      "at": [4.731, -4.496, 0.0],
-      "normal": [0.0, 0.0, -1.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_cliff_lift_jambs__facade low-iron glass | core_cliff_lift_ocean_landing_jambs__ocean lift dry bronze",
-      "materials": ["facade low-iron glass", "ocean lift dry bronze"],
-      "visibleAreaM2": 0.071233,
-      "areaM2": 0.071233,
-      "at": [-14.119, 10.287, -5.022],
-      "normal": [0.0, -1.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_estate_pool__sea glass pool mosaic | core_estate_pool__warm cut stone",
-      "materials": ["warm board-formed concrete", "sea glass pool mosaic"],
-      "visibleAreaM2": 0.042963,
-      "areaM2": 0.057004,
-      "at": [2.991, 0.102, -1.44],
-      "normal": [0.0, 0.0, -1.0],
-      "verdict": null
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_retreat_liftaway_roof",
-      "materials": ["golden coastal sandstone", "golden coastal sandstone"],
-      "visibleAreaM2": 0.022156,
-      "areaM2": 0.023803,
-      "at": [-11.749, -16.1, 10.984],
-      "normal": [0.0, -1.0, 0.0],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "core_estate_pool__sea glass pool mosaic | core_infinity_water",
-      "materials": ["sea glass pool mosaic", "infinity pool water"],
-      "visibleAreaM2": 0.017824,
-      "areaM2": 0.017824,
-      "at": [-7.793, -0.64, -0.09],
-      "normal": [0.0, 0.0, 1.0],
-      "verdict": null
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_east__La Jolla bluff sandsto",
-      "materials": ["golden coastal sandstone", "La Jolla bluff sandstone"],
-      "visibleAreaM2": 0.011813,
-      "areaM2": 0.011813,
-      "at": [-1.171, -17.113, 7.988],
-      "normal": [0.104, 0.108, 0.989],
-      "verdict": null
-    },
-    {
-      "pair": "core_reno_floorboards_lower | lounge__honey ash",
-      "materials": ["pale oak", "honey ash"],
-      "visibleAreaM2": 0.009673,
-      "areaM2": 0.009673,
-      "at": [-0.525, -5.337, 0.002],
-      "normal": [0.0, 0.0, 1.0],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_liftaway_cave_ceiling | core_liftaway_cave_ceiling_rear",
-      "materials": ["golden coastal sandstone", "golden coastal sandstone"],
-      "visibleAreaM2": 0.006886,
-      "areaM2": 0.006886,
-      "at": [-0.753, -5.323, 7.096],
-      "normal": [-0.0, 1.0, -0.027],
-      "verdict": null
-    },
-    {
-      "pair": "kitchen__honey ash | kitchen__pale oak",
-      "materials": ["pale oak", "honey ash"],
-      "visibleAreaM2": 0.006792,
-      "areaM2": 0.006792,
-      "at": [-4.04, -11.073, 0.621],
-      "normal": [-1.0, 0.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_reno_floorboards_lower | kitchen__honey ash",
-      "materials": ["honey ash", "pale oak"],
-      "visibleAreaM2": 0.006273,
-      "areaM2": 0.006273,
-      "at": [-3.179, -5.593, 0.002],
-      "normal": [0.0, 0.0, 1.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_liftaway_cave_ceiling_rear | core_retreat_liftaway_roof",
-      "materials": ["golden coastal sandstone", "golden coastal sandstone"],
-      "visibleAreaM2": 0.005415,
-      "areaM2": 0.005415,
-      "at": [4.802, -7.75, 7.547],
-      "normal": [0.0, -1.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_estate_library_liftaway_roof",
-      "materials": ["La Jolla bluff sandstone", "golden coastal sandstone"],
-      "visibleAreaM2": 0.004787,
-      "areaM2": 0.004787,
-      "at": [-12.539, 1.286, 11.499],
-      "normal": [0.985, -0.003, 0.171],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "core_estate_library_liftaway_roof | core_retreat_liftaway_roof",
-      "materials": ["golden coastal sandstone", "golden coastal sandstone"],
-      "visibleAreaM2": 0.004407,
-      "areaM2": 0.004416,
-      "at": [-8.38, -7.299, 9.932],
-      "normal": [1.0, 0.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "furniture:living-eames-lounge/eames-lounge.lod0__eames black al | furniture:living-eames-lounge/eames-lounge.lod0__eames veneer",
-      "materials": ["eames black aluminium", "eames veneer"],
-      "visibleAreaM2": 0.003936,
-      "areaM2": 0.003936,
-      "at": [3.838, -5.469, 0.341],
-      "normal": [1.0, 0.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_arrival_lid__golden coastal sandstone | core_retreat_liftaway_roof",
-      "materials": ["golden coastal sandstone", "golden coastal sandstone"],
-      "visibleAreaM2": 0.003139,
-      "areaM2": 0.003139,
-      "at": [3.463, -12.657, 7.295],
-      "normal": [-0.056, 0.032, 0.998],
-      "verdict": null
-    },
-    {
-      "pair": "core_estate_pavilion__honey ash | core_estate_pavilion__travertine paving stone",
-      "materials": ["warm cut stone", "warm cut stone"],
-      "visibleAreaM2": 0.003074,
-      "areaM2": 0.003074,
-      "at": [-12.405, 4.32, 0.917],
-      "normal": [0.0, 1.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_bathwing_liftaway_roof | core_retreat_liftaway_roof",
-      "materials": ["golden coastal sandstone", "golden coastal sandstone"],
-      "visibleAreaM2": 0.002511,
-      "areaM2": 0.002511,
-      "at": [-7.701, -6.45, 9.513],
-      "normal": [0.0, 1.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
-      "materials": ["golden coastal sandstone", "La Jolla bluff sandstone"],
-      "visibleAreaM2": 0.002487,
-      "areaM2": 0.006331,
-      "at": [-3.665, -23.13, 8.288],
-      "normal": [0.0, -1.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "bath-bedroom__bathroom clear shower glass | bath-bedroom__pale oak",
-      "materials": ["pale oak", "bathroom clear shower glass"],
-      "visibleAreaM2": 0.002429,
-      "areaM2": 0.002429,
-      "at": [-7.693, -11.013, 3.274],
-      "normal": [0.0, 1.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "bath-living__bathroom clear shower glass | bath-living__pale oak",
-      "materials": ["pale oak", "bathroom clear shower glass"],
-      "visibleAreaM2": 0.002429,
-      "areaM2": 0.002429,
-      "at": [-7.693, -11.013, 0.674],
-      "normal": [0.0, 1.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_estate_library_liftaway_roof",
-      "materials": ["La Jolla bluff sandstone", "La Jolla bluff sandstone"],
-      "visibleAreaM2": 0.00173,
-      "areaM2": 0.00173,
-      "at": [-11.572, 13.851, 8.449],
-      "normal": [-0.233, 0.895, -0.381],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_facade__dark_bronze",
-      "materials": ["golden coastal sandstone", "dark bronze"],
-      "visibleAreaM2": 0.001411,
-      "areaM2": 0.041863,
-      "at": [5.199, -3.527, 0.208],
-      "normal": [-1.0, 0.0, -0.004],
-      "verdict": null
-    },
-    {
-      "pair": "kitchen__honed travertine | kitchen__milky veined marble",
-      "materials": ["milky veined marble", "honed travertine"],
-      "visibleAreaM2": 0.001276,
-      "areaM2": 0.094957,
-      "at": [-4.72, -10.7, 1.596],
-      "normal": [-1.0, 0.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "gym__barbell brushed steel | gym__powder coated gym steel",
-      "materials": ["powder coated gym steel", "barbell brushed steel"],
-      "visibleAreaM2": 0.001193,
-      "areaM2": 0.001193,
-      "at": [10.69, -7.803, 2.153],
-      "normal": [1.0, 0.0, -0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_bathwing_liftaway_roof | core_liftaway_cave_ceiling",
-      "materials": ["golden coastal sandstone", "golden coastal sandstone"],
-      "visibleAreaM2": 0.000829,
-      "areaM2": 0.000829,
-      "at": [-4.755, -1.106, 8.049],
-      "normal": [1.0, -0.005, -0.0],
-      "verdict": "hidden"
-    },
-    {
-      "pair": "furniture:study-whiskey-bottles/whiskey-bottles.lod0__whiskey  | furniture:study-whiskey-bottles/whiskey-bottles.lod0__whiskey g",
-      "materials": ["whiskey crystal.001", "whiskey gold"],
-      "visibleAreaM2": 0.00057,
-      "areaM2": 0.006839,
-      "at": [-12.703, -0.966, 0.97],
-      "normal": [0.0, 0.0, -1.0],
-      "verdict": null
-    },
-    {
-      "pair": "study__matte black device | study__pc rgb glow",
-      "materials": ["matte black device", "pc rgb glow"],
-      "visibleAreaM2": 0.000324,
-      "areaM2": 0.000324,
-      "at": [-10.592, -6.083, 0.173],
-      "normal": [0.0, -0.0, -1.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_living_log_gallery_billet_06 | core_living_log_gallery_endgrain_checks",
-      "materials": ["split wood sapwood end", "split wood dry growth rings"],
-      "visibleAreaM2": 0.000323,
-      "areaM2": 0.000323,
-      "at": [2.344, -15.301, 0.268],
-      "normal": [-0.09, 0.996, -0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_living_log_gallery_billet_08 | core_living_log_gallery_endgrain_checks",
-      "materials": ["split wood tawny end grain", "split wood dry growth rings"],
-      "visibleAreaM2": 0.000256,
-      "areaM2": 0.000256,
-      "at": [2.764, -15.293, 0.227],
-      "normal": [-0.122, 0.993, -0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_living_log_gallery_billet_03 | core_living_log_gallery_endgrain_checks",
-      "materials": ["split wood sapwood end", "split wood dry growth rings"],
-      "visibleAreaM2": 0.000247,
-      "areaM2": 0.000247,
-      "at": [2.629, -15.313, 0.112],
-      "normal": [-0.042, 0.999, -0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_living_log_gallery_billet_05 | core_living_log_gallery_endgrain_checks",
-      "materials": ["split wood tawny end grain", "split wood dry growth rings"],
-      "visibleAreaM2": 0.000245,
-      "areaM2": 0.000245,
-      "at": [2.968, -15.315, 0.136],
-      "normal": [-0.008, 1.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_living_log_gallery_billet_02 | core_living_log_gallery_endgrain_checks",
-      "materials": ["split wood tawny end grain", "split wood dry growth rings"],
-      "visibleAreaM2": 0.000241,
-      "areaM2": 0.000241,
-      "at": [2.472, -15.291, 0.138],
-      "normal": [-0.092, 0.996, -0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_living_log_gallery_billet_01 | core_living_log_gallery_endgrain_checks",
-      "materials": ["split wood dry end grain", "split wood dry growth rings"],
-      "visibleAreaM2": 0.000241,
-      "areaM2": 0.000241,
-      "at": [2.379, -15.309, 0.129],
-      "normal": [-0.052, 0.999, -0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_living_log_gallery_billet_07 | core_living_log_gallery_endgrain_checks",
-      "materials": ["split wood dry end grain", "split wood dry growth rings"],
-      "visibleAreaM2": 0.000215,
-      "areaM2": 0.000215,
-      "at": [2.565, -15.302, 0.287],
-      "normal": [-0.109, 0.994, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_living_log_gallery_billet_04 | core_living_log_gallery_endgrain_checks",
-      "materials": ["split wood dry end grain", "split wood dry growth rings"],
-      "visibleAreaM2": 0.000211,
-      "areaM2": 0.000211,
-      "at": [2.811, -15.299, 0.133],
-      "normal": [0.02, 1.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_living_log_gallery_billet_09 | core_living_log_gallery_endgrain_checks",
-      "materials": ["split wood sapwood end", "split wood dry growth rings"],
-      "visibleAreaM2": 0.000207,
-      "areaM2": 0.000207,
-      "at": [2.938, -15.305, 0.23],
-      "normal": [0.102, 0.995, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "kitchen__chalk limestone | kitchen__honey ash",
-      "materials": ["honey ash", "chalk limestone"],
-      "visibleAreaM2": 0.000205,
-      "areaM2": 0.000358,
-      "at": [-2.824, -3.64, -0.013],
-      "normal": [0.0, 1.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_bathwing_liftaway_roof | core_estate_library_liftaway_roof",
-      "materials": ["golden coastal sandstone", "golden coastal sandstone"],
-      "visibleAreaM2": 0.00019,
-      "areaM2": 0.00019,
-      "at": [-8.42, -6.45, 9.875],
-      "normal": [0.0, 1.0, 0.0],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "core_finish_bedchamber_floor__pale oak | core_finish_bedroom_spiral_landing__pale oak",
-      "materials": ["pale oak", "pale oak"],
-      "visibleAreaM2": 0.000142,
-      "areaM2": 0.000142,
-      "at": [-8.107, -6.348, 1.5],
-      "normal": [0.0, 0.0, 1.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_cliff_lift_cabDoorBeach_left_1__facade low-iron glass | core_cliff_lift_cabDoorBeach_left_1__ocean lift dry bronze",
-      "materials": ["facade low-iron glass", "ocean lift dry bronze"],
-      "visibleAreaM2": 0.00012,
-      "areaM2": 0.00012,
-      "at": [-14.055, 10.225, 2.05],
-      "normal": [-1.0, 0.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_cliff_lift_beachGate_left_1__facade low-iron glass | core_cliff_lift_beachGate_left_1__ocean lift dry bronze",
-      "materials": ["facade low-iron glass", "ocean lift dry bronze"],
-      "visibleAreaM2": 0.00012,
-      "areaM2": 0.00012,
-      "at": [-14.055, 10.319, -4.4],
-      "normal": [-1.0, 0.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_cliff_lift_beachGate_right_1__facade low-iron glass | core_cliff_lift_beachGate_right_1__ocean lift dry bronze",
-      "materials": ["facade low-iron glass", "ocean lift dry bronze"],
-      "visibleAreaM2": 0.00012,
-      "areaM2": 0.00012,
-      "at": [-13.235, 10.319, -4.4],
-      "normal": [-1.0, 0.0, 0.0],
-      "verdict": null
-    },
-    {
-      "pair": "core_cliff_lift_cabDoorBeach_right_1__facade low-iron glass | core_cliff_lift_cabDoorBeach_right_1__ocean lift dry bronze",
-      "materials": ["facade low-iron glass", "ocean lift dry bronze"],
-      "visibleAreaM2": 0.00012,
-      "areaM2": 0.00012,
-      "at": [-13.235, 10.225, 2.05],
-      "normal": [-1.0, 0.0, 0.0],
-      "verdict": null
-    }
-  ],
-  "grazing": [
-    {
-      "pair": "core_bathwing_liftaway_roof | core_flora_iceplant_section_01",
-      "grazingSeamM": 0.5539,
-      "depthM": 0.1097,
-      "center": [-7.204, -1.626, 9.429],
-      "verdict": null
-    },
-    {
-      "pair": "core_bathwing_liftaway_roof | core_estate_library_liftaway_roof",
-      "grazingSeamM": 0.2197,
-      "depthM": 0.0528,
-      "center": [-8.015, -1.177, 6.215],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_facade__warm_cut_stone",
-      "grazingSeamM": 0.2121,
-      "depthM": 0.043,
-      "center": [5.393, -3.3, 0.922],
-      "verdict": "built-into-rock"
-    },
-    {
-      "pair": "furniture:living-sofa/cloud-sofa.lod0__cloud boucle textile | lounge__chalk limestone",
-      "grazingSeamM": 0.2379,
-      "depthM": 0.0367,
-      "center": [-0.989, -6.071, -0.031],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
-      "grazingSeamM": 0.1906,
-      "depthM": 0.0218,
-      "center": [-4.35, -18.285, 8.741],
-      "verdict": null
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
-      "grazingSeamM": 0.1906,
-      "depthM": 0.0218,
-      "center": [-4.35, -18.095, 8.756],
-      "verdict": null
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
-      "grazingSeamM": 0.1906,
-      "depthM": 0.0218,
-      "center": [-4.35, -17.905, 8.771],
-      "verdict": null
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
-      "grazingSeamM": 0.1905,
-      "depthM": 0.0218,
-      "center": [-4.349, -17.715, 8.783],
-      "verdict": null
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
-      "grazingSeamM": 0.1901,
-      "depthM": 0.0218,
-      "center": [-4.349, -17.525, 8.793],
-      "verdict": null
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
-      "grazingSeamM": 0.17,
-      "depthM": 0.022,
-      "center": [-4.35, -23.025, 8.33],
-      "verdict": null
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_arrival_court__travertine paving stone",
-      "grazingSeamM": 0.2131,
-      "depthM": 0.0019,
-      "center": [-2.93, -24.383, 8.382],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_arrival_court__travertine paving stone",
-      "grazingSeamM": 0.2069,
-      "depthM": 0.0019,
-      "center": [-3.137, -24.382, 8.354],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
-      "grazingSeamM": 0.1084,
-      "depthM": 0.0052,
-      "center": [-3.614, -20.738, 10.293],
-      "verdict": null
-    },
-    {
-      "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
-      "grazingSeamM": 0.1084,
-      "depthM": 0.0052,
-      "center": [-2.624, -20.738, 10.293],
-      "verdict": null
-    },
-    {
-      "pair": "core__chalk limestone | core_reno_floorboards_upper",
-      "grazingSeamM": 0.1294,
-      "depthM": 0.0025,
-      "center": [-4.584, -14.806, 2.601],
-      "verdict": null
-    },
-    {
-      "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
-      "grazingSeamM": 0.0856,
-      "depthM": 0.0065,
-      "center": [-3.62, -19.031, 9.596],
-      "verdict": null
-    },
-    {
-      "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
-      "grazingSeamM": 0.0856,
-      "depthM": 0.0065,
-      "center": [-2.63, -19.031, 9.596],
-      "verdict": null
-    },
-    {
-      "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
-      "grazingSeamM": 0.0897,
-      "depthM": 0.0047,
-      "center": [-3.529, -21.305, 10.521],
-      "verdict": null
-    },
-    {
-      "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
-      "grazingSeamM": 0.0897,
-      "depthM": 0.0047,
-      "center": [-2.539, -21.305, 10.521],
-      "verdict": null
-    },
-    {
-      "pair": "core_flora_sage_section_04 | core_retreat_clifftop__pale oak",
-      "grazingSeamM": 0.0403,
-      "depthM": 0.0108,
-      "center": [8.409, -10.726, 7.218],
-      "verdict": null
-    },
-    {
-      "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
-      "grazingSeamM": 0.0408,
-      "depthM": 0.0043,
-      "center": [-3.446, -21.858, 10.711],
-      "verdict": null
-    },
-    {
-      "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
-      "grazingSeamM": 0.0408,
-      "depthM": 0.0043,
-      "center": [-2.456, -21.858, 10.711],
-      "verdict": null
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
-      "grazingSeamM": 0.0146,
-      "depthM": 0.0212,
-      "center": [-4.349, -18.753, 8.707],
-      "verdict": null
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_arrival_court__travertine paving stone",
-      "grazingSeamM": 0.022,
-      "depthM": 0.0019,
-      "center": [-3.251, -24.378, 8.339],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_arrival_B_rill_kerb_outer | core_entry_landscape_grass_light",
-      "grazingSeamM": 0.0171,
-      "depthM": 0.0037,
-      "center": [-1.504, -27.406, 6.131],
-      "verdict": null
-    }
-  ],
-  "deepOffenderPairs": [
-    {
-      "pair": "core__golden coastal sandstone | core_flora_lemonade_berry_shade",
-      "sites": 51,
-      "seamM": 10.965,
-      "maxDepthM": 0.2885,
-      "severity": 4513.3,
-      "worstSite": [28.384, 7.938, 11.84],
-      "categories": ["plant", "rock"],
-      "verdict": "planting"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_retreat_liftaway_roof",
-      "sites": 20,
-      "seamM": 16.321,
-      "maxDepthM": 0.3331,
-      "severity": 4372.7,
-      "worstSite": [6.472, -1.116, 8.034],
-      "categories": ["rock", "shell"],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "core_entry_landscape_sandstone | core_entry_landscape_stone_seat",
-      "sites": 18,
-      "seamM": 25.438,
-      "maxDepthM": 0.1404,
-      "severity": 1838.4,
-      "worstSite": [2.742, -31.329, 8.633],
-      "categories": ["rock", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core__chalk limestone | core__golden coastal sandstone",
-      "sites": 10,
-      "seamM": 2.37,
-      "maxDepthM": 0.3772,
-      "severity": 1530.2,
-      "worstSite": [-4.609, -14.789, 4.269],
-      "categories": ["rock", "shell"],
-      "verdict": "built-into-rock"
-    },
-    {
-      "pair": "kitchen__dining lantern paper | kitchen__honey ash",
-      "sites": 3,
-      "seamM": 25.617,
-      "maxDepthM": 0.299,
-      "severity": 1524.4,
-      "worstSite": [-3.92, -4.5, 1.421],
-      "categories": ["room"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_arrival_paths__travertine paving stone",
-      "sites": 25,
-      "seamM": 5.824,
-      "maxDepthM": 0.1248,
-      "severity": 1331.9,
-      "worstSite": [1.4, -23.912, 8.159],
-      "categories": ["rock", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_facade__warm_cut_stone",
-      "sites": 10,
-      "seamM": 3.393,
-      "maxDepthM": 0.2643,
-      "severity": 1202.8,
-      "worstSite": [5.648, -3.443, 0.991],
-      "categories": ["rock", "shell"],
-      "verdict": "built-into-rock"
-    },
-    {
-      "pair": "core_bathwing_liftaway_roof | core_liftaway_cave_ceiling",
-      "sites": 5,
-      "seamM": 4.371,
-      "maxDepthM": 0.2575,
-      "severity": 1054.0,
-      "worstSite": [-5.433, -2.473, 6.462],
-      "categories": ["shell"],
-      "verdict": "hidden"
-    },
-    {
-      "pair": "core_estate_library_liftaway_roof | core_flora_lemonade_berry_shade_section_01",
-      "sites": 11,
-      "seamM": 2.24,
-      "maxDepthM": 0.1935,
-      "severity": 787.3,
-      "worstSite": [-9.172, -7.947, 10.314],
-      "categories": ["plant", "rock"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "bath-living__chalk limestone | bath-living__honed travertine",
-      "sites": 102,
-      "seamM": 75.104,
-      "maxDepthM": 0.0275,
-      "severity": 766.9,
-      "worstSite": [-5.201, -9.775, 1.055],
-      "categories": ["room"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_estate_library_liftaway_roof | core_flora_lemonade_berry_shade",
-      "sites": 10,
-      "seamM": 2.404,
-      "maxDepthM": 0.2357,
-      "severity": 766.5,
-      "worstSite": [-10.766, 7.212, 10.19],
-      "categories": ["plant", "rock"],
-      "verdict": "planting"
-    },
-    {
-      "pair": "bath-bedroom__bathroom celadon ceramic | bath-bedroom__chalk limestone",
-      "sites": 98,
-      "seamM": 71.782,
-      "maxDepthM": 0.011,
-      "severity": 709.9,
-      "worstSite": [-5.991, -9.845, 3.36],
-      "categories": ["room"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_estate_library_liftaway_roof",
-      "sites": 4,
-      "seamM": 1.237,
-      "maxDepthM": 0.3187,
-      "severity": 695.6,
-      "worstSite": [-12.793, -6.955, 11.242],
-      "categories": ["rock", "shell"],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "core_liftaway_cave_ceiling | core_retreat_liftaway_roof",
-      "sites": 6,
-      "seamM": 3.339,
-      "maxDepthM": 0.2803,
-      "severity": 641.3,
-      "worstSite": [5.358, -2.494, 6.527],
-      "categories": ["rock", "shell"],
-      "verdict": "hidden"
-    },
-    {
-      "pair": "coast_shared_golden coastal sandstone | kitchen__chalk limestone",
-      "sites": 9,
-      "seamM": 2.222,
-      "maxDepthM": 0.15,
-      "severity": 637.1,
-      "worstSite": [-5.19, -4.917, -0.26],
-      "categories": ["coast", "room"],
-      "verdict": "built-into-rock"
-    },
-    {
-      "pair": "lounge__honey ash | lounge__washi lantern paper",
-      "sites": 2,
-      "seamM": 10.751,
-      "maxDepthM": 0.1778,
-      "severity": 619.1,
-      "worstSite": [-0.72, -5.82, 0.959],
-      "categories": ["room"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_arrival_B_continuous_soffit | core_garden_threshold_oak_portal",
-      "sites": 20,
-      "seamM": 12.265,
-      "maxDepthM": 0.047,
-      "severity": 500.1,
-      "worstSite": [-0.812, -31.627, 10.5],
-      "categories": ["shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_arrival_paths__travertine paving stone | core_retreat_liftaway_roof",
-      "sites": 6,
-      "seamM": 3.653,
-      "maxDepthM": 0.1151,
-      "severity": 488.2,
-      "worstSite": [4.818, -15.897, 7.123],
-      "categories": ["rock", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_arrival_B_west_wall",
-      "sites": 6,
-      "seamM": 1.51,
-      "maxDepthM": 0.1667,
-      "severity": 451.0,
-      "worstSite": [-1.65, -16.36, 1.111],
-      "categories": ["rock", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_estate_library_liftaway_roof | core_flora_yucca_skirt",
-      "sites": 2,
-      "seamM": 2.636,
-      "maxDepthM": 0.2615,
-      "severity": 442.6,
-      "worstSite": [-9.288, 5.675, 9.856],
-      "categories": ["plant", "rock"],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_arrival_hall__warm cut stone",
-      "sites": 13,
-      "seamM": 8.144,
-      "maxDepthM": 0.06,
-      "severity": 437.0,
-      "worstSite": [3.3, -16.155, 4.85],
-      "categories": ["rock", "shell"],
-      "verdict": "built-into-rock"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_flora_yucca_skirt",
-      "sites": 3,
-      "seamM": 2.246,
-      "maxDepthM": 0.176,
-      "severity": 425.1,
-      "worstSite": [31.348, 4.803, 11.18],
-      "categories": ["plant", "rock"],
-      "verdict": "planting"
-    },
-    {
-      "pair": "core_arrival_court__golden coastal sandstone | core_arrival_paths__travertine paving stone",
-      "sites": 6,
-      "seamM": 2.152,
-      "maxDepthM": 0.1206,
-      "severity": 422.3,
-      "worstSite": [4.68, -16.441, 7.137],
-      "categories": ["rock", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "furniture:kitchen-glass-fridge/glass-fridge.lod0__fridge bottle | furniture:kitchen-glass-fridge/glass-fridge.lod0__fridge label ",
-      "sites": 15,
-      "seamM": 7.505,
-      "maxDepthM": 0.0389,
-      "severity": 407.4,
-      "worstSite": [-4.471, -11.44, 0.975],
-      "categories": ["furniture"],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "core_fireplace_cap__golden coastal sandstone | core_flora_iceplant_section_03",
-      "sites": 3,
-      "seamM": 10.506,
-      "maxDepthM": 0.0993,
-      "severity": 401.6,
-      "worstSite": [0.863, -7.233, 7.516],
-      "categories": ["plant", "rock"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "furniture:living-sofa/cloud-sofa.lod0__cloud boucle textile | furniture:living-sofa/cloud-sofa.lod0__honey ash",
-      "sites": 6,
-      "seamM": 2.552,
-      "maxDepthM": 0.1001,
-      "severity": 391.7,
-      "worstSite": [-0.745, -6.518, -0.17],
-      "categories": ["furniture"],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "onsen__warm cut stone | onsen_decor warm cut stone",
-      "sites": 5,
-      "seamM": 11.642,
-      "maxDepthM": 0.0618,
-      "severity": 374.6,
-      "worstSite": [2.548, -11.609, 2.872],
-      "categories": ["room"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_gym_passage_floor | core_reno_slab_ground",
-      "sites": 4,
-      "seamM": 2.135,
-      "maxDepthM": 0.1255,
-      "severity": 348.3,
-      "worstSite": [4.55, -6.435, -0.022],
-      "categories": ["shell"],
-      "verdict": "hidden"
-    },
-    {
-      "pair": "bath-living__chalk limestone | core_finish_corridor_niche_wall__chalk limestone",
-      "sites": 6,
-      "seamM": 8.203,
-      "maxDepthM": 0.0575,
-      "severity": 346.4,
-      "worstSite": [-5.11, -9.695, 0.99],
-      "categories": ["room", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_arrival_B_stair_support",
-      "sites": 5,
-      "seamM": 2.065,
-      "maxDepthM": 0.115,
-      "severity": 330.1,
-      "worstSite": [-0.847, -16.277, 1.048],
-      "categories": ["rock", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "kitchen__dining lantern paper | kitchen__pale oak",
-      "sites": 2,
-      "seamM": 5.965,
-      "maxDepthM": 0.0979,
-      "severity": 329.3,
-      "worstSite": [-1.3, -10.19, 1.6],
-      "categories": ["room"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_arrival_court__warm cut stone",
-      "sites": 3,
-      "seamM": 8.85,
-      "maxDepthM": 0.06,
-      "severity": 309.2,
-      "worstSite": [-1.4, -18.6, 8.019],
-      "categories": ["rock", "shell"],
-      "verdict": "built-into-rock"
-    },
-    {
-      "pair": "core_bathwing_lower_slab__warm cut stone | core_retreat_gallery__warm cut stone",
-      "sites": 3,
-      "seamM": 7.609,
-      "maxDepthM": 0.07,
-      "severity": 309.1,
-      "worstSite": [-6.621, -9.72, -0.043],
-      "categories": ["shell"],
-      "verdict": "hidden"
-    },
-    {
-      "pair": "core_bath_roji_gravel | core_bath_roji_stone",
-      "sites": 3,
-      "seamM": 6.162,
-      "maxDepthM": 0.0775,
-      "severity": 306.8,
-      "worstSite": [12.375, 2.684, 0.032],
-      "categories": ["shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "lounge__blackened steel flue | lounge__dark bronze",
-      "sites": 3,
-      "seamM": 3.764,
-      "maxDepthM": 0.0995,
-      "severity": 297.5,
-      "worstSite": [0.95, -6.85, 3.196],
-      "categories": ["room"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core__chalk limestone | core_reno_slab_upper",
-      "sites": 2,
-      "seamM": 3.582,
-      "maxDepthM": 0.111,
-      "severity": 293.2,
-      "worstSite": [4.311, -9.4, 2.469],
-      "categories": ["shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_arrival_hall__warm cut stone | core_reno_slab_ground",
-      "sites": 3,
-      "seamM": 2.329,
-      "maxDepthM": 0.1143,
-      "severity": 278.5,
-      "worstSite": [-0.058, -15.61, -0.022],
-      "categories": ["shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "sleep__linen | sleep_duvet_empty",
-      "sites": 1,
-      "seamM": 19.733,
-      "maxDepthM": 0.0626,
-      "severity": 278.1,
-      "worstSite": [-6.8, -6.92, 1.93],
-      "categories": ["room"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_flora_sage",
-      "sites": 19,
-      "seamM": 1.398,
-      "maxDepthM": 0.0816,
-      "severity": 275.1,
-      "worstSite": [-19.154, 2.685, 10.337],
-      "categories": ["plant", "rock"],
-      "verdict": "planting"
-    },
-    {
-      "pair": "core_fireplace_cap__blackened steel flue | core_liftaway_cave_ceiling_rear",
-      "sites": 1,
-      "seamM": 0.629,
-      "maxDepthM": 0.3444,
-      "severity": 273.3,
-      "worstSite": [0.95, -6.85, 6.898],
-      "categories": ["rock", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_reno_floorboards_lower | lounge__honey ash",
-      "sites": 23,
-      "seamM": 22.566,
-      "maxDepthM": 0.012,
-      "severity": 233.8,
-      "worstSite": [-0.362, -5.333, -0.009],
-      "categories": ["room", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_gym_passage_floor",
-      "sites": 5,
-      "seamM": 0.777,
-      "maxDepthM": 0.1125,
-      "severity": 208.9,
-      "worstSite": [5.175, -7.0, -0.26],
-      "categories": ["rock", "shell"],
-      "verdict": "built-into-rock"
-    },
-    {
-      "pair": "core_estate_terrace__warm cut stone | core_reno_slab_ground",
-      "sites": 2,
-      "seamM": 1.493,
-      "maxDepthM": 0.1162,
-      "severity": 200.6,
-      "worstSite": [-4.025, -3.33, -0.133],
-      "categories": ["shell"],
-      "verdict": "hidden"
-    },
-    {
-      "pair": "core_estate_pool__warm cut stone | core_estate_terrace__travertine paving stone",
-      "sites": 6,
-      "seamM": 4.919,
-      "maxDepthM": 0.06,
-      "severity": 197.8,
-      "worstSite": [-7.881, -1.222, -0.012],
-      "categories": ["shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_entry_landscape_stone_seat",
-      "sites": 3,
-      "seamM": 0.93,
-      "maxDepthM": 0.1363,
-      "severity": 195.3,
-      "worstSite": [1.959, -31.44, 8.342],
-      "categories": ["rock", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "gym__gym rubber | gym__powder coated gym steel",
-      "sites": 14,
-      "seamM": 8.344,
-      "maxDepthM": 0.03,
-      "severity": 193.9,
-      "worstSite": [9.4, -7.95, 0.009],
-      "categories": ["room"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_estate_terrace__travertine paving stone | core_facade__warm_cut_stone",
-      "sites": 2,
-      "seamM": 1.37,
-      "maxDepthM": 0.117,
-      "severity": 193.6,
-      "worstSite": [5.928, -3.359, -0.012],
-      "categories": ["shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_arrival_B_east_wall | core_reno_floorboards_lower",
-      "sites": 5,
-      "seamM": 3.886,
-      "maxDepthM": 0.0499,
-      "severity": 185.0,
-      "worstSite": [1.4, -14.56, -0.009],
-      "categories": ["shell"],
-      "verdict": "hidden"
-    },
-    {
-      "pair": "core_bathwing_liftaway_roof | core_estate_library_liftaway_roof",
-      "sites": 2,
-      "seamM": 0.445,
-      "maxDepthM": 0.1912,
-      "severity": 180.0,
-      "worstSite": [-6.732, 0.465, 8.456],
-      "categories": ["shell"],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "core_fireplace_cap__blackened steel flue | core_fireplace_cap__golden coastal sandstone",
-      "sites": 1,
-      "seamM": 4.576,
-      "maxDepthM": 0.0837,
-      "severity": 179.1,
-      "worstSite": [0.95, -6.85, 7.462],
-      "categories": ["rock", "shell"],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_arrival_B_treads__pale oak",
-      "sites": 2,
-      "seamM": 1.164,
-      "maxDepthM": 0.115,
-      "severity": 175.5,
-      "worstSite": [-0.848, -16.275, 1.198],
-      "categories": ["rock", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_estate_garden__warm cut stone",
-      "sites": 2,
-      "seamM": 1.481,
-      "maxDepthM": 0.1083,
-      "severity": 158.7,
-      "worstSite": [-0.44, -16.236, 7.74],
-      "categories": ["rock", "shell"],
-      "verdict": "built-into-rock"
-    },
-    {
-      "pair": "core_finish_bedchamber_rock_fin__La Jolla bluff sandstone | core_retreat_gallery__pale oak",
-      "sites": 3,
-      "seamM": 1.562,
-      "maxDepthM": 0.0826,
-      "severity": 154.7,
-      "worstSite": [-5.35, -8.457, -0.011],
-      "categories": ["rock", "shell"],
-      "verdict": "built-into-rock"
-    },
-    {
-      "pair": "core_entry_landscape_grass | core_entry_landscape_stone_seat",
-      "sites": 4,
-      "seamM": 1.656,
-      "maxDepthM": 0.0969,
-      "severity": 149.2,
-      "worstSite": [3.035, -31.138, 8.832],
-      "categories": ["plant", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_arrival_living__warm cut stone",
-      "sites": 3,
-      "seamM": 0.995,
-      "maxDepthM": 0.0915,
-      "severity": 149.2,
-      "worstSite": [5.204, -15.574, 2.35],
-      "categories": ["rock", "shell"],
-      "verdict": "built-into-rock"
-    },
-    {
-      "pair": "core_speakeasy_gable__bar umber lime plaster | core_speakeasy_loggia_quarry_eyebrow__listening room sedimentar",
-      "sites": 1,
-      "seamM": 7.301,
-      "maxDepthM": 0.055,
-      "severity": 148.6,
-      "worstSite": [-10.17, 10.132, 2.471],
-      "categories": ["shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "furniture:kitchen-glass-fridge/glass-fridge.lod0::fridge door_ | furniture:kitchen-glass-fridge/glass-fridge.lod0__furniture pol",
-      "sites": 4,
-      "seamM": 3.106,
-      "maxDepthM": 0.0395,
-      "severity": 137.3,
-      "worstSite": [-4.062, -11.925, 0.123],
-      "categories": ["furniture"],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "core_arrival_hall__golden coastal sandstone | core_arrival_hall__warm cut stone",
-      "sites": 3,
-      "seamM": 2.584,
-      "maxDepthM": 0.05,
-      "severity": 136.1,
-      "worstSite": [3.3, -16.365, 4.738],
-      "categories": ["rock", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core__chalk limestone | onsen_privacy__warm cut stone",
-      "sites": 1,
-      "seamM": 1.847,
-      "maxDepthM": 0.1,
-      "severity": 135.9,
-      "worstSite": [4.388, -9.39, 2.645],
-      "categories": ["room", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_embedded_lift_walk__golden coastal sandstone | core_speakeasy_plinth__warm cut stone",
-      "sites": 8,
-      "seamM": 2.85,
-      "maxDepthM": 0.03,
-      "severity": 134.6,
-      "worstSite": [-12.67, 9.551, -0.046],
-      "categories": ["rock", "shell"],
-      "verdict": "hidden"
-    },
-    {
-      "pair": "core__golden coastal sandstone | core_arrival_court__travertine paving stone",
-      "sites": 6,
-      "seamM": 2.329,
-      "maxDepthM": 0.0449,
-      "severity": 128.1,
-      "worstSite": [-3.803, -24.223, 8.175],
-      "categories": ["rock", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_estate_pool__travertine paving stone | core_estate_pool__warm cut stone",
-      "sites": 6,
-      "seamM": 2.248,
-      "maxDepthM": 0.035,
-      "severity": 123.4,
-      "worstSite": [-7.886, -1.226, 0.01],
-      "categories": ["shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_estate_pool__sea glass pool mosaic | core_finish_pool_front_box_girder",
-      "sites": 3,
-      "seamM": 10.794,
-      "maxDepthM": 0.034,
-      "severity": 121.8,
-      "worstSite": [-3.412, 3.665, -1.44],
-      "categories": ["glass", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_reno_slab_ground | core_retreat_gallery__warm cut stone",
-      "sites": 2,
-      "seamM": 0.605,
-      "maxDepthM": 0.109,
-      "severity": 119.9,
-      "worstSite": [-4.74, -9.714, -0.131],
-      "categories": ["shell"],
-      "verdict": "hidden"
-    },
-    {
-      "pair": "core_estate_garden__warm cut stone | core_flora_iceplant_section_04",
-      "sites": 1,
-      "seamM": 7.731,
-      "maxDepthM": 0.0431,
-      "severity": 119.8,
-      "worstSite": [-4.724, -10.529, 8.411],
-      "categories": ["plant", "shell"],
-      "verdict": null
-    },
-    {
-      "pair": "core_reno_floorboards_lower | core_retreat_gallery__pale oak",
-      "sites": 11,
-      "seamM": 17.209,
-      "maxDepthM": 0.0105,
-      "severity": 119.5,
-      "worstSite": [-4.178, -8.644, -0.01],
-      "categories": ["shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_arrival_living__warm cut stone | core_reno_slab_upper",
-      "sites": 2,
-      "seamM": 0.929,
-      "maxDepthM": 0.0853,
-      "severity": 115.9,
-      "worstSite": [4.643, -15.535, 2.469],
-      "categories": ["shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_lightwell_rim | core_retreat_liftaway_roof",
-      "sites": 1,
-      "seamM": 2.6,
-      "maxDepthM": 0.0713,
-      "severity": 115.0,
-      "worstSite": [2.055, -11.216, 6.968],
-      "categories": ["rock", "shell"],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "core_estate_pavilion__honey ash | core_estate_pavilion__pale oak",
-      "sites": 14,
-      "seamM": 3.592,
-      "maxDepthM": 0.0159,
-      "severity": 102.6,
-      "worstSite": [-11.249, 3.043, 0.441],
-      "categories": ["shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_estate_garden__warm cut stone | core_retreat_liftaway_roof",
-      "sites": 1,
-      "seamM": 0.778,
-      "maxDepthM": 0.1081,
-      "severity": 95.4,
-      "worstSite": [-0.477, -15.957, 7.718],
-      "categories": ["rock", "shell"],
-      "verdict": "built-into-rock"
-    },
-    {
-      "pair": "core_finish_bedchamber_rock_fin__La Jolla bluff sandstone | core_retreat_gallery__warm cut stone",
-      "sites": 1,
-      "seamM": 0.815,
-      "maxDepthM": 0.1048,
-      "severity": 94.6,
-      "worstSite": [-5.35, -8.454, -0.101],
-      "categories": ["rock", "shell"],
-      "verdict": "built-into-rock"
-    },
-    {
-      "pair": "core_flora_dry_grass_section_04 | core_retreat_clifftop__warm cut stone",
-      "sites": 7,
-      "seamM": 0.344,
-      "maxDepthM": 0.0656,
-      "severity": 94.4,
-      "worstSite": [6.242, -9.185, 7.059],
-      "categories": ["plant", "shell"],
-      "verdict": null
-    },
-    {
-      "pair": "core_gym_front_frame | core_gym_front_header",
-      "sites": 1,
-      "seamM": 21.409,
-      "maxDepthM": 0.02,
-      "severity": 92.5,
-      "worstSite": [8.503, -3.35, 3.083],
-      "categories": ["shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "furniture:living-sofa/cloud-sofa.lod0__cloud boucle textile | lounge__chalk limestone",
-      "sites": 4,
-      "seamM": 7.993,
-      "maxDepthM": 0.0191,
-      "severity": 92.0,
-      "worstSite": [-0.982, -8.325, 0.128],
-      "categories": ["furniture", "room"],
-      "verdict": "follow-up"
-    },
-    {
-      "pair": "core_estate_pool__warm cut stone | core_estate_terrace__warm cut stone",
-      "sites": 6,
-      "seamM": 2.493,
-      "maxDepthM": 0.023,
-      "severity": 85.4,
-      "worstSite": [-7.799, -1.161, -0.142],
-      "categories": ["shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_reno_floorboards_lower | lounge__chalk limestone",
-      "sites": 9,
-      "seamM": 10.641,
-      "maxDepthM": 0.0143,
-      "severity": 84.1,
-      "worstSite": [2.811, -7.574, -0.009],
-      "categories": ["room", "shell"],
-      "verdict": "hidden"
-    },
-    {
-      "pair": "core_cliff_lift_rail__dark bronze | core_cliff_lift_rail_bracket__listening room brushed copper",
-      "sites": 12,
-      "seamM": 3.815,
-      "maxDepthM": 0.0122,
-      "severity": 81.5,
-      "worstSite": [-14.323, 8.46, 0.649],
-      "categories": ["shell"],
-      "verdict": null
-    },
-    {
-      "pair": "core_estate_garden__pale oak | core_estate_garden__warm cut stone",
-      "sites": 2,
-      "seamM": 1.649,
-      "maxDepthM": 0.045,
-      "severity": 81.0,
-      "worstSite": [-5.129, -12.869, 9.111],
-      "categories": ["shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "bath-living__bathroom celadon ceramic | core_finish_corridor_niche_wall__chalk limestone",
-      "sites": 8,
-      "seamM": 1.777,
-      "maxDepthM": 0.03,
-      "severity": 81.0,
-      "worstSite": [-5.693, -9.695, 1.192],
-      "categories": ["room", "shell"],
-      "verdict": "designed"
-    },
-    {
-      "pair": "core_arrival_paths_roof__travertine paving stone | core_retreat_liftaway_roof",
-      "sites": 2,
-      "seamM": 0.244,
-      "maxDepthM": 0.1213,
-      "severity": 80.7,
-      "worstSite": [-4.407, -13.523, 8.725],
-      "categories": ["rock", "shell"],
-      "verdict": null
-    }
+   {
+    "pair": "bath-living__bathroom warm mineral grout | bath-living__warm cut stone",
+    "visibleAreaM2": 0.291173,
+    "at": [
+     -8.25,
+     -13.032,
+     -0.012
+    ],
+    "normal": [
+     -1.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "bath-bedroom__bathroom warm mineral grout | bath-bedroom__warm cut stone",
+    "visibleAreaM2": 0.291172,
+    "at": [
+     -8.25,
+     -13.032,
+     2.588
+    ],
+    "normal": [
+     -1.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "core__golden coastal sandstone | core_arrival_living__golden coastal sandstone",
+    "visibleAreaM2": 0.14469,
+    "at": [
+     3.54,
+     -14.975,
+     5.23
+    ],
+    "normal": [
+     -0.501,
+     -0.0,
+     -0.865
+    ]
+   },
+   {
+    "pair": "core_estate_pool__sea glass pool mosaic | core_finish_pool_front_box_girder",
+    "visibleAreaM2": 0.133297,
+    "at": [
+     -7.8,
+     3.697,
+     -0.896
+    ],
+    "normal": [
+     -1.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "lounge__woven jute | lounge_refined_botanical__honed travertine",
+    "visibleAreaM2": 0.074219,
+    "at": [
+     4.731,
+     -4.496,
+     0.0
+    ],
+    "normal": [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   },
+   {
+    "pair": "core_cliff_lift_jambs__facade low-iron glass | core_cliff_lift_ocean_landing_jambs__ocean lift dry bronze",
+    "visibleAreaM2": 0.071176,
+    "at": [
+     -14.119,
+     10.287,
+     -5.022
+    ],
+    "normal": [
+     0.0,
+     -1.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "core_estate_pool__sea glass pool mosaic | core_estate_pool__warm cut stone",
+    "visibleAreaM2": 0.05649,
+    "at": [
+     2.99,
+     0.102,
+     -1.44
+    ],
+    "normal": [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   },
+   {
+    "pair": "core__golden coastal sandstone | core_facade__warm_cut_stone",
+    "visibleAreaM2": 0.054666,
+    "at": [
+     5.151,
+     -4.183,
+     -0.26
+    ],
+    "normal": [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   },
+   {
+    "pair": "core__golden coastal sandstone | core_retreat_liftaway_roof",
+    "visibleAreaM2": 0.024833,
+    "at": [
+     -11.748,
+     -16.099,
+     10.984
+    ],
+    "normal": [
+     -0.0,
+     -1.0,
+     -0.0
+    ]
+   },
+   {
+    "pair": "coast_shared_golden coastal sandstone | core__golden coastal sandstone",
+    "visibleAreaM2": 0.020342,
+    "at": [
+     -12.722,
+     -9.162,
+     -0.259
+    ],
+    "normal": [
+     1.0,
+     0.0,
+     -0.0
+    ]
+   },
+   {
+    "pair": "core_estate_pool__sea glass pool mosaic | core_infinity_water",
+    "visibleAreaM2": 0.017909,
+    "at": [
+     2.993,
+     3.191,
+     -0.09
+    ],
+    "normal": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   },
+   {
+    "pair": "core_reno_floorboards_lower | lounge__honey ash",
+    "visibleAreaM2": 0.010061,
+    "at": [
+     -0.525,
+     -5.337,
+     0.002
+    ],
+    "normal": [
+     0.0,
+     -0.0,
+     1.0
+    ]
+   },
+   {
+    "pair": "core__golden coastal sandstone | core_liftaway_cave_ceiling_rear",
+    "visibleAreaM2": 0.008959,
+    "at": [
+     4.82,
+     -6.39,
+     3.902
+    ],
+    "normal": [
+     -0.921,
+     0.0,
+     -0.39
+    ]
+   },
+   {
+    "pair": "coast_shared_golden coastal sandstone | core__golden coastal sandstone",
+    "visibleAreaM2": 0.008677,
+    "at": [
+     -8.641,
+     -11.147,
+     -0.259
+    ],
+    "normal": [
+     1.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "coast_shared_golden coastal sandstone | core__golden coastal sandstone",
+    "visibleAreaM2": 0.007616,
+    "at": [
+     -8.347,
+     -6.323,
+     -0.259
+    ],
+    "normal": [
+     -1.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "kitchen__honey ash | kitchen__pale oak",
+    "visibleAreaM2": 0.007043,
+    "at": [
+     -4.041,
+     -10.837,
+     0.329
+    ],
+    "normal": [
+     -1.0,
+     0.0,
+     -0.0
+    ]
+   },
+   {
+    "pair": "core_reno_floorboards_lower | kitchen__honey ash",
+    "visibleAreaM2": 0.006291,
+    "at": [
+     -3.179,
+     -5.593,
+     0.002
+    ],
+    "normal": [
+     0.0,
+     0.0,
+     1.0
+    ]
+   },
+   {
+    "pair": "coast_shared_golden coastal sandstone | coast_shared_golden coastal sandstone",
+    "visibleAreaM2": 0.006244,
+    "at": [
+     -8.429,
+     6.251,
+     -0.279
+    ],
+    "normal": [
+     -1.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "core_liftaway_cave_ceiling_rear | core_retreat_liftaway_roof",
+    "visibleAreaM2": 0.005049,
+    "at": [
+     4.81,
+     -7.75,
+     7.55
+    ],
+    "normal": [
+     0.0,
+     -1.0,
+     -0.0
+    ]
+   },
+   {
+    "pair": "core__golden coastal sandstone | core_liftaway_cave_ceiling",
+    "visibleAreaM2": 0.00468,
+    "at": [
+     4.82,
+     -4.011,
+     3.902
+    ],
+    "normal": [
+     -0.922,
+     -0.0,
+     -0.388
+    ]
+   },
+   {
+    "pair": "core_estate_library_liftaway_roof | core_retreat_liftaway_roof",
+    "visibleAreaM2": 0.004358,
+    "at": [
+     -8.38,
+     -7.308,
+     9.933
+    ],
+    "normal": [
+     1.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "furniture:living-eames-lounge/eames-lounge.lod0__eames black al | furniture:living-eames-lounge/eames-lounge.lod0__eames veneer",
+    "visibleAreaM2": 0.003936,
+    "at": [
+     3.838,
+     -5.469,
+     0.341
+    ],
+    "normal": [
+     1.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "core_estate_pavilion__honey ash | core_estate_pavilion__travertine paving stone",
+    "visibleAreaM2": 0.003074,
+    "at": [
+     -12.407,
+     4.32,
+     0.917
+    ],
+    "normal": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "core_bathwing_liftaway_roof | core_retreat_liftaway_roof",
+    "visibleAreaM2": 0.002381,
+    "at": [
+     -7.704,
+     -6.45,
+     9.514
+    ],
+    "normal": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "bath-bedroom__bathroom clear shower glass | bath-bedroom__pale oak",
+    "visibleAreaM2": 0.002376,
+    "at": [
+     -7.693,
+     -11.014,
+     3.274
+    ],
+    "normal": [
+     -0.0,
+     1.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "bath-living__bathroom clear shower glass | bath-living__pale oak",
+    "visibleAreaM2": 0.002376,
+    "at": [
+     -7.693,
+     -11.014,
+     0.674
+    ],
+    "normal": [
+     -0.0,
+     1.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "core_arrival_lid__golden coastal sandstone | core_retreat_liftaway_roof",
+    "visibleAreaM2": 0.001525,
+    "at": [
+     3.463,
+     -12.657,
+     7.295
+    ],
+    "normal": [
+     -0.058,
+     0.031,
+     0.998
+    ]
+   },
+   {
+    "pair": "gym__barbell brushed steel | gym__powder coated gym steel",
+    "visibleAreaM2": 0.001195,
+    "at": [
+     10.69,
+     -7.797,
+     2.147
+    ],
+    "normal": [
+     1.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "kitchen__honed travertine | kitchen__milky veined marble",
+    "visibleAreaM2": 0.000989,
+    "at": [
+     -4.72,
+     -10.7,
+     1.596
+    ],
+    "normal": [
+     -1.0,
+     0.0,
+     -0.0
+    ]
+   },
+   {
+    "pair": "core_bathwing_liftaway_roof | core_liftaway_cave_ceiling",
+    "visibleAreaM2": 0.000801,
+    "at": [
+     -4.755,
+     -1.106,
+     8.049
+    ],
+    "normal": [
+     1.0,
+     -0.005,
+     0.0
+    ]
+   },
+   {
+    "pair": "core_liftaway_cave_ceiling | core_liftaway_cave_ceiling_rear",
+    "visibleAreaM2": 0.00067,
+    "at": [
+     -2.26,
+     -5.324,
+     7.073
+    ],
+    "normal": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "study__matte black device | study__pc rgb glow",
+    "visibleAreaM2": 0.000324,
+    "at": [
+     -10.592,
+     -6.083,
+     0.173
+    ],
+    "normal": [
+     0.0,
+     0.0,
+     -1.0
+    ]
+   },
+   {
+    "pair": "kitchen__chalk limestone | kitchen__honey ash",
+    "visibleAreaM2": 0.000205,
+    "at": [
+     -2.824,
+     -3.64,
+     -0.013
+    ],
+    "normal": [
+     -0.0,
+     1.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "core_study_window_jamb__listening room quarter-cut walnut | core_study_window_sill__pale oak",
+    "visibleAreaM2": 0.000166,
+    "at": [
+     -11.924,
+     1.37,
+     0.91
+    ],
+    "normal": [
+     -0.707,
+     -0.0,
+     -0.707
+    ]
+   },
+   {
+    "pair": "core_bathwing_liftaway_roof | core_estate_library_liftaway_roof",
+    "visibleAreaM2": 0.000165,
+    "at": [
+     -8.423,
+     -6.45,
+     9.876
+    ],
+    "normal": [
+     0.0,
+     1.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "core_finish_bedchamber_floor__pale oak | core_finish_bedroom_spiral_landing__pale oak",
+    "visibleAreaM2": 0.000138,
+    "at": [
+     -8.237,
+     -6.633,
+     1.5
+    ],
+    "normal": [
+     -0.0,
+     0.0,
+     1.0
+    ]
+   },
+   {
+    "pair": "core_cliff_lift_beachGate_right_1__facade low-iron glass | core_cliff_lift_beachGate_right_1__ocean lift dry bronze",
+    "visibleAreaM2": 0.000119,
+    "at": [
+     -13.235,
+     10.318,
+     -4.4
+    ],
+    "normal": [
+     -1.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "core_cliff_lift_cabDoorBeach_right_1__facade low-iron glass | core_cliff_lift_cabDoorBeach_right_1__ocean lift dry bronze",
+    "visibleAreaM2": 0.000119,
+    "at": [
+     -13.235,
+     10.224,
+     2.051
+    ],
+    "normal": [
+     -1.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "core_cliff_lift_cabDoorBeach_left_1__facade low-iron glass | core_cliff_lift_cabDoorBeach_left_1__ocean lift dry bronze",
+    "visibleAreaM2": 0.000119,
+    "at": [
+     -14.055,
+     10.224,
+     2.051
+    ],
+    "normal": [
+     -1.0,
+     0.0,
+     0.0
+    ]
+   },
+   {
+    "pair": "core_cliff_lift_beachGate_left_1__facade low-iron glass | core_cliff_lift_beachGate_left_1__ocean lift dry bronze",
+    "visibleAreaM2": 0.000119,
+    "at": [
+     -14.055,
+     10.318,
+     -4.4
+    ],
+    "normal": [
+     -1.0,
+     0.0,
+     0.0
+    ]
+   }
   ]
+ },
+ "zFighting": [
+  {
+   "pair": "bath-living__bathroom warm mineral grout | bath-living__warm cut stone",
+   "materials": [
+    "warm cut stone",
+    "bathroom warm mineral grout"
+   ],
+   "visibleAreaM2": 0.201617,
+   "areaM2": 0.201617,
+   "at": [
+    -8.25,
+    -13.032,
+    -0.012
+   ],
+   "normal": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "verdict": "hidden"
+  },
+  {
+   "pair": "bath-bedroom__bathroom warm mineral grout | bath-bedroom__warm cut stone",
+   "materials": [
+    "warm cut stone",
+    "bathroom warm mineral grout"
+   ],
+   "visibleAreaM2": 0.201611,
+   "areaM2": 0.201611,
+   "at": [
+    -8.25,
+    -13.032,
+    2.588
+   ],
+   "normal": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "verdict": "hidden"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_retreat_liftaway_roof",
+   "materials": [
+    "La Jolla bluff sandstone",
+    "golden coastal sandstone"
+   ],
+   "visibleAreaM2": 0.124349,
+   "areaM2": 0.124349,
+   "at": [
+    4.903,
+    -1.401,
+    7.237
+   ],
+   "normal": [
+    -0.908,
+    -0.414,
+    0.059
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "lounge__woven jute | lounge_refined_botanical__honed travertine",
+   "materials": [
+    "woven jute",
+    "honed travertine"
+   ],
+   "visibleAreaM2": 0.078151,
+   "areaM2": 0.084511,
+   "at": [
+    4.731,
+    -4.496,
+    0.0
+   ],
+   "normal": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_cliff_lift_jambs__facade low-iron glass | core_cliff_lift_ocean_landing_jambs__ocean lift dry bronze",
+   "materials": [
+    "facade low-iron glass",
+    "ocean lift dry bronze"
+   ],
+   "visibleAreaM2": 0.071233,
+   "areaM2": 0.071233,
+   "at": [
+    -14.119,
+    10.287,
+    -5.022
+   ],
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_estate_pool__sea glass pool mosaic | core_estate_pool__warm cut stone",
+   "materials": [
+    "warm board-formed concrete",
+    "Basin \u00b7 tidal glass tesserae"
+   ],
+   "visibleAreaM2": 0.042963,
+   "areaM2": 0.057004,
+   "at": [
+    2.991,
+    0.102,
+    -1.44
+   ],
+   "normal": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_retreat_liftaway_roof",
+   "materials": [
+    "golden coastal sandstone",
+    "golden coastal sandstone"
+   ],
+   "visibleAreaM2": 0.022156,
+   "areaM2": 0.023803,
+   "at": [
+    -11.749,
+    -16.1,
+    10.984
+   ],
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "core_estate_pool__sea glass pool mosaic | core_infinity_water",
+   "materials": [
+    "Basin \u00b7 tidal glass tesserae",
+    "infinity pool water"
+   ],
+   "visibleAreaM2": 0.017824,
+   "areaM2": 0.017824,
+   "at": [
+    -7.793,
+    -0.64,
+    -0.09
+   ],
+   "normal": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_east__La Jolla bluff sandsto",
+   "materials": [
+    "golden coastal sandstone",
+    "La Jolla bluff sandstone"
+   ],
+   "visibleAreaM2": 0.011813,
+   "areaM2": 0.011813,
+   "at": [
+    -1.171,
+    -17.113,
+    7.988
+   ],
+   "normal": [
+    0.104,
+    0.108,
+    0.989
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_reno_floorboards_lower | lounge__honey ash",
+   "materials": [
+    "pale oak",
+    "honey ash"
+   ],
+   "visibleAreaM2": 0.009673,
+   "areaM2": 0.009673,
+   "at": [
+    -0.525,
+    -5.337,
+    0.002
+   ],
+   "normal": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_liftaway_cave_ceiling | core_liftaway_cave_ceiling_rear",
+   "materials": [
+    "golden coastal sandstone",
+    "golden coastal sandstone"
+   ],
+   "visibleAreaM2": 0.006886,
+   "areaM2": 0.006886,
+   "at": [
+    -0.753,
+    -5.323,
+    7.096
+   ],
+   "normal": [
+    -0.0,
+    1.0,
+    -0.027
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "kitchen__honey ash | kitchen__pale oak",
+   "materials": [
+    "pale oak",
+    "honey ash"
+   ],
+   "visibleAreaM2": 0.006792,
+   "areaM2": 0.006792,
+   "at": [
+    -4.04,
+    -11.073,
+    0.621
+   ],
+   "normal": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_reno_floorboards_lower | kitchen__honey ash",
+   "materials": [
+    "honey ash",
+    "pale oak"
+   ],
+   "visibleAreaM2": 0.006273,
+   "areaM2": 0.006273,
+   "at": [
+    -3.179,
+    -5.593,
+    0.002
+   ],
+   "normal": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_liftaway_cave_ceiling_rear | core_retreat_liftaway_roof",
+   "materials": [
+    "golden coastal sandstone",
+    "golden coastal sandstone"
+   ],
+   "visibleAreaM2": 0.005415,
+   "areaM2": 0.005415,
+   "at": [
+    4.802,
+    -7.75,
+    7.547
+   ],
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_estate_library_liftaway_roof",
+   "materials": [
+    "La Jolla bluff sandstone",
+    "golden coastal sandstone"
+   ],
+   "visibleAreaM2": 0.004787,
+   "areaM2": 0.004787,
+   "at": [
+    -12.539,
+    1.286,
+    11.499
+   ],
+   "normal": [
+    0.985,
+    -0.003,
+    0.171
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "core_estate_library_liftaway_roof | core_retreat_liftaway_roof",
+   "materials": [
+    "golden coastal sandstone",
+    "golden coastal sandstone"
+   ],
+   "visibleAreaM2": 0.004407,
+   "areaM2": 0.004416,
+   "at": [
+    -8.38,
+    -7.299,
+    9.932
+   ],
+   "normal": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "furniture:living-eames-lounge/eames-lounge.lod0__eames black al | furniture:living-eames-lounge/eames-lounge.lod0__eames veneer",
+   "materials": [
+    "eames black aluminium",
+    "eames veneer"
+   ],
+   "visibleAreaM2": 0.003936,
+   "areaM2": 0.003936,
+   "at": [
+    3.838,
+    -5.469,
+    0.341
+   ],
+   "normal": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_arrival_lid__golden coastal sandstone | core_retreat_liftaway_roof",
+   "materials": [
+    "golden coastal sandstone",
+    "golden coastal sandstone"
+   ],
+   "visibleAreaM2": 0.003139,
+   "areaM2": 0.003139,
+   "at": [
+    3.463,
+    -12.657,
+    7.295
+   ],
+   "normal": [
+    -0.056,
+    0.032,
+    0.998
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_estate_pavilion__honey ash | core_estate_pavilion__travertine paving stone",
+   "materials": [
+    "warm cut stone",
+    "warm cut stone"
+   ],
+   "visibleAreaM2": 0.003074,
+   "areaM2": 0.003074,
+   "at": [
+    -12.405,
+    4.32,
+    0.917
+   ],
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_bathwing_liftaway_roof | core_retreat_liftaway_roof",
+   "materials": [
+    "golden coastal sandstone",
+    "golden coastal sandstone"
+   ],
+   "visibleAreaM2": 0.002511,
+   "areaM2": 0.002511,
+   "at": [
+    -7.701,
+    -6.45,
+    9.513
+   ],
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
+   "materials": [
+    "golden coastal sandstone",
+    "La Jolla bluff sandstone"
+   ],
+   "visibleAreaM2": 0.002487,
+   "areaM2": 0.006331,
+   "at": [
+    -3.665,
+    -23.13,
+    8.288
+   ],
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "bath-bedroom__bathroom clear shower glass | bath-bedroom__pale oak",
+   "materials": [
+    "pale oak",
+    "bathroom clear shower glass"
+   ],
+   "visibleAreaM2": 0.002429,
+   "areaM2": 0.002429,
+   "at": [
+    -7.693,
+    -11.013,
+    3.274
+   ],
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "bath-living__bathroom clear shower glass | bath-living__pale oak",
+   "materials": [
+    "pale oak",
+    "bathroom clear shower glass"
+   ],
+   "visibleAreaM2": 0.002429,
+   "areaM2": 0.002429,
+   "at": [
+    -7.693,
+    -11.013,
+    0.674
+   ],
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_estate_library_liftaway_roof",
+   "materials": [
+    "La Jolla bluff sandstone",
+    "La Jolla bluff sandstone"
+   ],
+   "visibleAreaM2": 0.00173,
+   "areaM2": 0.00173,
+   "at": [
+    -11.572,
+    13.851,
+    8.449
+   ],
+   "normal": [
+    -0.233,
+    0.895,
+    -0.381
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_facade__dark_bronze",
+   "materials": [
+    "golden coastal sandstone",
+    "dark bronze"
+   ],
+   "visibleAreaM2": 0.001411,
+   "areaM2": 0.041863,
+   "at": [
+    5.199,
+    -3.527,
+    0.208
+   ],
+   "normal": [
+    -1.0,
+    0.0,
+    -0.004
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "kitchen__honed travertine | kitchen__milky veined marble",
+   "materials": [
+    "milky veined marble",
+    "honed travertine"
+   ],
+   "visibleAreaM2": 0.001276,
+   "areaM2": 0.094957,
+   "at": [
+    -4.72,
+    -10.7,
+    1.596
+   ],
+   "normal": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "gym__barbell brushed steel | gym__powder coated gym steel",
+   "materials": [
+    "powder coated gym steel",
+    "barbell brushed steel"
+   ],
+   "visibleAreaM2": 0.001193,
+   "areaM2": 0.001193,
+   "at": [
+    10.69,
+    -7.803,
+    2.153
+   ],
+   "normal": [
+    1.0,
+    0.0,
+    -0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_bathwing_liftaway_roof | core_liftaway_cave_ceiling",
+   "materials": [
+    "golden coastal sandstone",
+    "golden coastal sandstone"
+   ],
+   "visibleAreaM2": 0.000829,
+   "areaM2": 0.000829,
+   "at": [
+    -4.755,
+    -1.106,
+    8.049
+   ],
+   "normal": [
+    1.0,
+    -0.005,
+    -0.0
+   ],
+   "verdict": "hidden"
+  },
+  {
+   "pair": "furniture:study-whiskey-bottles/whiskey-bottles.lod0__whiskey  | furniture:study-whiskey-bottles/whiskey-bottles.lod0__whiskey g",
+   "materials": [
+    "whiskey crystal.001",
+    "whiskey gold"
+   ],
+   "visibleAreaM2": 0.00057,
+   "areaM2": 0.006839,
+   "at": [
+    -12.703,
+    -0.966,
+    0.97
+   ],
+   "normal": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "study__matte black device | study__pc rgb glow",
+   "materials": [
+    "matte black device",
+    "pc rgb glow"
+   ],
+   "visibleAreaM2": 0.000324,
+   "areaM2": 0.000324,
+   "at": [
+    -10.592,
+    -6.083,
+    0.173
+   ],
+   "normal": [
+    0.0,
+    -0.0,
+    -1.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_living_log_gallery_billet_06 | core_living_log_gallery_endgrain_checks",
+   "materials": [
+    "split wood sapwood end",
+    "split wood dry growth rings"
+   ],
+   "visibleAreaM2": 0.000323,
+   "areaM2": 0.000323,
+   "at": [
+    2.344,
+    -15.301,
+    0.268
+   ],
+   "normal": [
+    -0.09,
+    0.996,
+    -0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_living_log_gallery_billet_08 | core_living_log_gallery_endgrain_checks",
+   "materials": [
+    "split wood tawny end grain",
+    "split wood dry growth rings"
+   ],
+   "visibleAreaM2": 0.000256,
+   "areaM2": 0.000256,
+   "at": [
+    2.764,
+    -15.293,
+    0.227
+   ],
+   "normal": [
+    -0.122,
+    0.993,
+    -0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_living_log_gallery_billet_03 | core_living_log_gallery_endgrain_checks",
+   "materials": [
+    "split wood sapwood end",
+    "split wood dry growth rings"
+   ],
+   "visibleAreaM2": 0.000247,
+   "areaM2": 0.000247,
+   "at": [
+    2.629,
+    -15.313,
+    0.112
+   ],
+   "normal": [
+    -0.042,
+    0.999,
+    -0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_living_log_gallery_billet_05 | core_living_log_gallery_endgrain_checks",
+   "materials": [
+    "split wood tawny end grain",
+    "split wood dry growth rings"
+   ],
+   "visibleAreaM2": 0.000245,
+   "areaM2": 0.000245,
+   "at": [
+    2.968,
+    -15.315,
+    0.136
+   ],
+   "normal": [
+    -0.008,
+    1.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_living_log_gallery_billet_01 | core_living_log_gallery_endgrain_checks",
+   "materials": [
+    "split wood dry end grain",
+    "split wood dry growth rings"
+   ],
+   "visibleAreaM2": 0.000241,
+   "areaM2": 0.000241,
+   "at": [
+    2.379,
+    -15.309,
+    0.129
+   ],
+   "normal": [
+    -0.052,
+    0.999,
+    -0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_living_log_gallery_billet_02 | core_living_log_gallery_endgrain_checks",
+   "materials": [
+    "split wood tawny end grain",
+    "split wood dry growth rings"
+   ],
+   "visibleAreaM2": 0.000241,
+   "areaM2": 0.000241,
+   "at": [
+    2.472,
+    -15.291,
+    0.138
+   ],
+   "normal": [
+    -0.092,
+    0.996,
+    -0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_living_log_gallery_billet_07 | core_living_log_gallery_endgrain_checks",
+   "materials": [
+    "split wood dry end grain",
+    "split wood dry growth rings"
+   ],
+   "visibleAreaM2": 0.000215,
+   "areaM2": 0.000215,
+   "at": [
+    2.565,
+    -15.302,
+    0.287
+   ],
+   "normal": [
+    -0.109,
+    0.994,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_living_log_gallery_billet_04 | core_living_log_gallery_endgrain_checks",
+   "materials": [
+    "split wood dry end grain",
+    "split wood dry growth rings"
+   ],
+   "visibleAreaM2": 0.000211,
+   "areaM2": 0.000211,
+   "at": [
+    2.811,
+    -15.299,
+    0.133
+   ],
+   "normal": [
+    0.02,
+    1.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_living_log_gallery_billet_09 | core_living_log_gallery_endgrain_checks",
+   "materials": [
+    "split wood sapwood end",
+    "split wood dry growth rings"
+   ],
+   "visibleAreaM2": 0.000207,
+   "areaM2": 0.000207,
+   "at": [
+    2.938,
+    -15.305,
+    0.23
+   ],
+   "normal": [
+    0.102,
+    0.995,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "kitchen__chalk limestone | kitchen__honey ash",
+   "materials": [
+    "honey ash",
+    "chalk limestone"
+   ],
+   "visibleAreaM2": 0.000205,
+   "areaM2": 0.000358,
+   "at": [
+    -2.824,
+    -3.64,
+    -0.013
+   ],
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_bathwing_liftaway_roof | core_estate_library_liftaway_roof",
+   "materials": [
+    "golden coastal sandstone",
+    "golden coastal sandstone"
+   ],
+   "visibleAreaM2": 0.00019,
+   "areaM2": 0.00019,
+   "at": [
+    -8.42,
+    -6.45,
+    9.875
+   ],
+   "normal": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "core_study_window_jamb__listening room quarter-cut walnut | core_study_window_sill__pale oak",
+   "materials": [
+    "listening room quarter-cut walnut",
+    "pale oak"
+   ],
+   "visibleAreaM2": 0.000163,
+   "areaM2": 0.000163,
+   "at": [
+    -11.924,
+    1.37,
+    0.91
+   ],
+   "normal": [
+    -0.707,
+    -0.0,
+    -0.707
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_finish_bedchamber_floor__pale oak | core_finish_bedroom_spiral_landing__pale oak",
+   "materials": [
+    "pale oak",
+    "pale oak"
+   ],
+   "visibleAreaM2": 0.000142,
+   "areaM2": 0.000142,
+   "at": [
+    -8.107,
+    -6.348,
+    1.5
+   ],
+   "normal": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_cliff_lift_cabDoorBeach_right_1__facade low-iron glass | core_cliff_lift_cabDoorBeach_right_1__ocean lift dry bronze",
+   "materials": [
+    "facade low-iron glass",
+    "ocean lift dry bronze"
+   ],
+   "visibleAreaM2": 0.00012,
+   "areaM2": 0.00012,
+   "at": [
+    -13.235,
+    10.225,
+    2.05
+   ],
+   "normal": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_cliff_lift_beachGate_left_1__facade low-iron glass | core_cliff_lift_beachGate_left_1__ocean lift dry bronze",
+   "materials": [
+    "facade low-iron glass",
+    "ocean lift dry bronze"
+   ],
+   "visibleAreaM2": 0.00012,
+   "areaM2": 0.00012,
+   "at": [
+    -14.055,
+    10.319,
+    -4.4
+   ],
+   "normal": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_cliff_lift_beachGate_right_1__facade low-iron glass | core_cliff_lift_beachGate_right_1__ocean lift dry bronze",
+   "materials": [
+    "facade low-iron glass",
+    "ocean lift dry bronze"
+   ],
+   "visibleAreaM2": 0.00012,
+   "areaM2": 0.00012,
+   "at": [
+    -13.235,
+    10.319,
+    -4.4
+   ],
+   "normal": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_cliff_lift_cabDoorBeach_left_1__facade low-iron glass | core_cliff_lift_cabDoorBeach_left_1__ocean lift dry bronze",
+   "materials": [
+    "facade low-iron glass",
+    "ocean lift dry bronze"
+   ],
+   "visibleAreaM2": 0.00012,
+   "areaM2": 0.00012,
+   "at": [
+    -14.055,
+    10.225,
+    2.05
+   ],
+   "normal": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "verdict": null
+  }
+ ],
+ "grazing": [
+  {
+   "pair": "core_bathwing_liftaway_roof | core_flora_iceplant_section_01",
+   "grazingSeamM": 0.5539,
+   "depthM": 0.1097,
+   "center": [
+    -7.204,
+    -1.626,
+    9.429
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_bathwing_liftaway_roof | core_estate_library_liftaway_roof",
+   "grazingSeamM": 0.2197,
+   "depthM": 0.0528,
+   "center": [
+    -8.015,
+    -1.177,
+    6.215
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_facade__warm_cut_stone",
+   "grazingSeamM": 0.2121,
+   "depthM": 0.043,
+   "center": [
+    5.393,
+    -3.3,
+    0.922
+   ],
+   "verdict": "built-into-rock"
+  },
+  {
+   "pair": "furniture:living-sofa/cloud-sofa.lod0__cloud boucle textile | lounge__chalk limestone",
+   "grazingSeamM": 0.2379,
+   "depthM": 0.0367,
+   "center": [
+    -0.989,
+    -6.071,
+    -0.031
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
+   "grazingSeamM": 0.1906,
+   "depthM": 0.0218,
+   "center": [
+    -4.35,
+    -18.285,
+    8.741
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
+   "grazingSeamM": 0.1906,
+   "depthM": 0.0218,
+   "center": [
+    -4.35,
+    -18.095,
+    8.756
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
+   "grazingSeamM": 0.1906,
+   "depthM": 0.0218,
+   "center": [
+    -4.35,
+    -17.905,
+    8.771
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
+   "grazingSeamM": 0.1905,
+   "depthM": 0.0218,
+   "center": [
+    -4.349,
+    -17.715,
+    8.783
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
+   "grazingSeamM": 0.1901,
+   "depthM": 0.0218,
+   "center": [
+    -4.349,
+    -17.525,
+    8.793
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
+   "grazingSeamM": 0.17,
+   "depthM": 0.022,
+   "center": [
+    -4.35,
+    -23.025,
+    8.33
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_arrival_court__travertine paving stone",
+   "grazingSeamM": 0.2131,
+   "depthM": 0.0019,
+   "center": [
+    -2.93,
+    -24.383,
+    8.382
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_arrival_court__travertine paving stone",
+   "grazingSeamM": 0.2069,
+   "depthM": 0.0019,
+   "center": [
+    -3.137,
+    -24.382,
+    8.354
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
+   "grazingSeamM": 0.1084,
+   "depthM": 0.0052,
+   "center": [
+    -3.614,
+    -20.738,
+    10.293
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
+   "grazingSeamM": 0.1084,
+   "depthM": 0.0052,
+   "center": [
+    -2.624,
+    -20.738,
+    10.293
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core__chalk limestone | core_reno_floorboards_upper",
+   "grazingSeamM": 0.1294,
+   "depthM": 0.0025,
+   "center": [
+    -4.584,
+    -14.806,
+    2.601
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
+   "grazingSeamM": 0.0856,
+   "depthM": 0.0065,
+   "center": [
+    -3.62,
+    -19.031,
+    9.596
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
+   "grazingSeamM": 0.0856,
+   "depthM": 0.0065,
+   "center": [
+    -2.63,
+    -19.031,
+    9.596
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
+   "grazingSeamM": 0.0897,
+   "depthM": 0.0047,
+   "center": [
+    -3.529,
+    -21.305,
+    10.521
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
+   "grazingSeamM": 0.0897,
+   "depthM": 0.0047,
+   "center": [
+    -2.539,
+    -21.305,
+    10.521
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_flora_sage_section_04 | core_retreat_clifftop__pale oak",
+   "grazingSeamM": 0.0403,
+   "depthM": 0.0108,
+   "center": [
+    8.409,
+    -10.726,
+    7.218
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
+   "grazingSeamM": 0.0408,
+   "depthM": 0.0043,
+   "center": [
+    -3.446,
+    -21.858,
+    10.711
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_finish_pavilion_planted_roof__pavilion mineral roof soil | core_finish_pavilion_planted_roof__pavilion native succulent le",
+   "grazingSeamM": 0.0408,
+   "depthM": 0.0043,
+   "center": [
+    -2.456,
+    -21.858,
+    10.711
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_finish_pavilion_rock_shoulder_west__La Jolla bluff sandsto",
+   "grazingSeamM": 0.0146,
+   "depthM": 0.0212,
+   "center": [
+    -4.349,
+    -18.753,
+    8.707
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_arrival_court__travertine paving stone",
+   "grazingSeamM": 0.022,
+   "depthM": 0.0019,
+   "center": [
+    -3.251,
+    -24.378,
+    8.339
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_arrival_B_rill_kerb_outer | core_entry_landscape_grass_light",
+   "grazingSeamM": 0.0171,
+   "depthM": 0.0037,
+   "center": [
+    -1.504,
+    -27.406,
+    6.131
+   ],
+   "verdict": null
+  }
+ ],
+ "deepOffenderPairs": [
+  {
+   "pair": "core__golden coastal sandstone | core_flora_lemonade_berry_shade",
+   "sites": 51,
+   "seamM": 10.965,
+   "maxDepthM": 0.2885,
+   "severity": 4513.3,
+   "worstSite": [
+    28.384,
+    7.938,
+    11.84
+   ],
+   "categories": [
+    "plant",
+    "rock"
+   ],
+   "verdict": "planting"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_retreat_liftaway_roof",
+   "sites": 20,
+   "seamM": 16.321,
+   "maxDepthM": 0.3331,
+   "severity": 4372.7,
+   "worstSite": [
+    6.472,
+    -1.116,
+    8.034
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "core_entry_landscape_sandstone | core_entry_landscape_stone_seat",
+   "sites": 18,
+   "seamM": 25.438,
+   "maxDepthM": 0.1404,
+   "severity": 1838.4,
+   "worstSite": [
+    2.742,
+    -31.329,
+    8.633
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__chalk limestone | core__golden coastal sandstone",
+   "sites": 10,
+   "seamM": 2.37,
+   "maxDepthM": 0.3772,
+   "severity": 1530.2,
+   "worstSite": [
+    -4.609,
+    -14.789,
+    4.269
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "built-into-rock"
+  },
+  {
+   "pair": "kitchen__dining lantern paper | kitchen__honey ash",
+   "sites": 3,
+   "seamM": 25.617,
+   "maxDepthM": 0.2965,
+   "severity": 1513.2,
+   "worstSite": [
+    -3.92,
+    -4.5,
+    1.421
+   ],
+   "categories": [
+    "room"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_arrival_paths__travertine paving stone",
+   "sites": 25,
+   "seamM": 5.824,
+   "maxDepthM": 0.1248,
+   "severity": 1331.9,
+   "worstSite": [
+    1.4,
+    -23.912,
+    8.159
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_facade__warm_cut_stone",
+   "sites": 10,
+   "seamM": 3.393,
+   "maxDepthM": 0.2643,
+   "severity": 1202.8,
+   "worstSite": [
+    5.648,
+    -3.443,
+    0.991
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "built-into-rock"
+  },
+  {
+   "pair": "core_bathwing_liftaway_roof | core_liftaway_cave_ceiling",
+   "sites": 5,
+   "seamM": 4.371,
+   "maxDepthM": 0.2575,
+   "severity": 1054.0,
+   "worstSite": [
+    -5.433,
+    -2.473,
+    6.462
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "hidden"
+  },
+  {
+   "pair": "core_estate_library_liftaway_roof | core_flora_lemonade_berry_shade_section_01",
+   "sites": 11,
+   "seamM": 2.24,
+   "maxDepthM": 0.1935,
+   "severity": 787.3,
+   "worstSite": [
+    -9.172,
+    -7.947,
+    10.314
+   ],
+   "categories": [
+    "plant",
+    "rock"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "bath-living__chalk limestone | bath-living__honed travertine",
+   "sites": 102,
+   "seamM": 75.104,
+   "maxDepthM": 0.0275,
+   "severity": 766.9,
+   "worstSite": [
+    -5.201,
+    -9.775,
+    1.055
+   ],
+   "categories": [
+    "room"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_estate_library_liftaway_roof | core_flora_lemonade_berry_shade",
+   "sites": 10,
+   "seamM": 2.404,
+   "maxDepthM": 0.2357,
+   "severity": 766.5,
+   "worstSite": [
+    -10.766,
+    7.212,
+    10.19
+   ],
+   "categories": [
+    "plant",
+    "rock"
+   ],
+   "verdict": "planting"
+  },
+  {
+   "pair": "bath-bedroom__bathroom celadon ceramic | bath-bedroom__chalk limestone",
+   "sites": 98,
+   "seamM": 71.782,
+   "maxDepthM": 0.011,
+   "severity": 709.9,
+   "worstSite": [
+    -5.991,
+    -9.845,
+    3.36
+   ],
+   "categories": [
+    "room"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_estate_library_liftaway_roof",
+   "sites": 4,
+   "seamM": 1.237,
+   "maxDepthM": 0.3187,
+   "severity": 695.6,
+   "worstSite": [
+    -12.793,
+    -6.955,
+    11.242
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "core_liftaway_cave_ceiling | core_retreat_liftaway_roof",
+   "sites": 6,
+   "seamM": 3.339,
+   "maxDepthM": 0.2803,
+   "severity": 641.3,
+   "worstSite": [
+    5.358,
+    -2.494,
+    6.527
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "hidden"
+  },
+  {
+   "pair": "lounge__honey ash | lounge__washi lantern paper",
+   "sites": 2,
+   "seamM": 10.751,
+   "maxDepthM": 0.1774,
+   "severity": 617.8,
+   "worstSite": [
+    -0.72,
+    -5.82,
+    0.959
+   ],
+   "categories": [
+    "room"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_arrival_paths__travertine paving stone | core_retreat_liftaway_roof",
+   "sites": 6,
+   "seamM": 3.653,
+   "maxDepthM": 0.1151,
+   "severity": 488.2,
+   "worstSite": [
+    4.818,
+    -15.897,
+    7.123
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_arrival_B_west_wall",
+   "sites": 6,
+   "seamM": 1.51,
+   "maxDepthM": 0.1667,
+   "severity": 451.0,
+   "worstSite": [
+    -1.65,
+    -16.36,
+    1.111
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_arrival_hall__warm cut stone",
+   "sites": 13,
+   "seamM": 8.144,
+   "maxDepthM": 0.06,
+   "severity": 437.0,
+   "worstSite": [
+    3.3,
+    -16.155,
+    4.85
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "built-into-rock"
+  },
+  {
+   "pair": "core_arrival_court__golden coastal sandstone | core_arrival_paths__travertine paving stone",
+   "sites": 6,
+   "seamM": 2.152,
+   "maxDepthM": 0.1206,
+   "severity": 422.3,
+   "worstSite": [
+    4.68,
+    -16.441,
+    7.137
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "furniture:kitchen-glass-fridge/glass-fridge.lod0__fridge bottle | furniture:kitchen-glass-fridge/glass-fridge.lod0__fridge label ",
+   "sites": 15,
+   "seamM": 7.505,
+   "maxDepthM": 0.0389,
+   "severity": 407.4,
+   "worstSite": [
+    -4.471,
+    -11.44,
+    0.975
+   ],
+   "categories": [
+    "furniture"
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "core_fireplace_cap__golden coastal sandstone | core_flora_iceplant_section_03",
+   "sites": 3,
+   "seamM": 10.506,
+   "maxDepthM": 0.0993,
+   "severity": 401.6,
+   "worstSite": [
+    0.863,
+    -7.233,
+    7.516
+   ],
+   "categories": [
+    "plant",
+    "rock"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_flora_yucca_skirt",
+   "sites": 3,
+   "seamM": 2.304,
+   "maxDepthM": 0.1684,
+   "severity": 396.7,
+   "worstSite": [
+    31.348,
+    4.803,
+    11.18
+   ],
+   "categories": [
+    "plant",
+    "rock"
+   ],
+   "verdict": "planting"
+  },
+  {
+   "pair": "furniture:living-sofa/cloud-sofa.lod0__cloud boucle textile | furniture:living-sofa/cloud-sofa.lod0__honey ash",
+   "sites": 6,
+   "seamM": 2.552,
+   "maxDepthM": 0.1001,
+   "severity": 391.7,
+   "worstSite": [
+    -0.745,
+    -6.518,
+    -0.17
+   ],
+   "categories": [
+    "furniture"
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "onsen__warm cut stone | onsen_decor warm cut stone",
+   "sites": 5,
+   "seamM": 11.642,
+   "maxDepthM": 0.0618,
+   "severity": 374.6,
+   "worstSite": [
+    2.548,
+    -11.609,
+    2.872
+   ],
+   "categories": [
+    "room"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_gym_passage_floor | core_reno_slab_ground",
+   "sites": 4,
+   "seamM": 2.135,
+   "maxDepthM": 0.1255,
+   "severity": 348.3,
+   "worstSite": [
+    4.55,
+    -6.435,
+    -0.022
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "hidden"
+  },
+  {
+   "pair": "bath-living__chalk limestone | core_finish_corridor_niche_wall__chalk limestone",
+   "sites": 6,
+   "seamM": 8.203,
+   "maxDepthM": 0.0575,
+   "severity": 346.4,
+   "worstSite": [
+    -5.11,
+    -9.695,
+    0.99
+   ],
+   "categories": [
+    "room",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_arrival_B_stair_support",
+   "sites": 5,
+   "seamM": 2.065,
+   "maxDepthM": 0.115,
+   "severity": 330.1,
+   "worstSite": [
+    -0.847,
+    -16.277,
+    1.048
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "kitchen__dining lantern paper | kitchen__pale oak",
+   "sites": 2,
+   "seamM": 5.965,
+   "maxDepthM": 0.0979,
+   "severity": 329.3,
+   "worstSite": [
+    -2.4,
+    -10.19,
+    1.6
+   ],
+   "categories": [
+    "room"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_arrival_court__warm cut stone",
+   "sites": 3,
+   "seamM": 8.85,
+   "maxDepthM": 0.06,
+   "severity": 309.2,
+   "worstSite": [
+    -1.4,
+    -18.6,
+    8.019
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "built-into-rock"
+  },
+  {
+   "pair": "core_bathwing_lower_slab__warm cut stone | core_retreat_gallery__warm cut stone",
+   "sites": 3,
+   "seamM": 7.609,
+   "maxDepthM": 0.07,
+   "severity": 309.1,
+   "worstSite": [
+    -6.621,
+    -9.72,
+    -0.043
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "hidden"
+  },
+  {
+   "pair": "core_bath_roji_gravel | core_bath_roji_stone",
+   "sites": 3,
+   "seamM": 6.162,
+   "maxDepthM": 0.0775,
+   "severity": 306.8,
+   "worstSite": [
+    12.375,
+    2.684,
+    0.032
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "lounge__blackened steel flue | lounge__dark bronze",
+   "sites": 3,
+   "seamM": 3.764,
+   "maxDepthM": 0.0995,
+   "severity": 297.5,
+   "worstSite": [
+    0.95,
+    -6.85,
+    3.196
+   ],
+   "categories": [
+    "room"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__chalk limestone | core_reno_slab_upper",
+   "sites": 2,
+   "seamM": 3.582,
+   "maxDepthM": 0.111,
+   "severity": 293.2,
+   "worstSite": [
+    4.311,
+    -9.4,
+    2.469
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_arrival_hall__warm cut stone | core_reno_slab_ground",
+   "sites": 3,
+   "seamM": 2.329,
+   "maxDepthM": 0.1143,
+   "severity": 278.5,
+   "worstSite": [
+    -0.058,
+    -15.61,
+    -0.022
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "sleep__linen | sleep_duvet_empty",
+   "sites": 1,
+   "seamM": 19.733,
+   "maxDepthM": 0.0626,
+   "severity": 278.1,
+   "worstSite": [
+    -6.8,
+    -6.92,
+    1.93
+   ],
+   "categories": [
+    "room"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_fireplace_cap__blackened steel flue | core_liftaway_cave_ceiling_rear",
+   "sites": 1,
+   "seamM": 0.629,
+   "maxDepthM": 0.3446,
+   "severity": 273.4,
+   "worstSite": [
+    0.95,
+    -6.85,
+    6.898
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_flora_sage",
+   "sites": 17,
+   "seamM": 1.081,
+   "maxDepthM": 0.0816,
+   "severity": 234.9,
+   "worstSite": [
+    -19.154,
+    2.685,
+    10.337
+   ],
+   "categories": [
+    "plant",
+    "rock"
+   ],
+   "verdict": "planting"
+  },
+  {
+   "pair": "core_reno_floorboards_lower | lounge__honey ash",
+   "sites": 23,
+   "seamM": 22.566,
+   "maxDepthM": 0.012,
+   "severity": 233.8,
+   "worstSite": [
+    -0.362,
+    -5.333,
+    -0.009
+   ],
+   "categories": [
+    "room",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_gym_passage_floor",
+   "sites": 5,
+   "seamM": 0.777,
+   "maxDepthM": 0.1125,
+   "severity": 208.9,
+   "worstSite": [
+    5.175,
+    -7.0,
+    -0.26
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "built-into-rock"
+  },
+  {
+   "pair": "core_estate_terrace__warm cut stone | core_reno_slab_ground",
+   "sites": 2,
+   "seamM": 1.493,
+   "maxDepthM": 0.1162,
+   "severity": 200.6,
+   "worstSite": [
+    -4.025,
+    -3.33,
+    -0.133
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "hidden"
+  },
+  {
+   "pair": "core_estate_pool__warm cut stone | core_estate_terrace__travertine paving stone",
+   "sites": 6,
+   "seamM": 4.919,
+   "maxDepthM": 0.06,
+   "severity": 197.8,
+   "worstSite": [
+    -7.881,
+    -1.222,
+    -0.012
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_entry_landscape_stone_seat",
+   "sites": 3,
+   "seamM": 0.93,
+   "maxDepthM": 0.1363,
+   "severity": 195.3,
+   "worstSite": [
+    1.959,
+    -31.44,
+    8.342
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "gym__gym rubber | gym__powder coated gym steel",
+   "sites": 14,
+   "seamM": 8.344,
+   "maxDepthM": 0.03,
+   "severity": 193.7,
+   "worstSite": [
+    9.4,
+    -8.75,
+    0.009
+   ],
+   "categories": [
+    "room"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_estate_terrace__travertine paving stone | core_facade__warm_cut_stone",
+   "sites": 2,
+   "seamM": 1.37,
+   "maxDepthM": 0.117,
+   "severity": 193.6,
+   "worstSite": [
+    5.928,
+    -3.359,
+    -0.012
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_arrival_B_east_wall | core_reno_floorboards_lower",
+   "sites": 5,
+   "seamM": 3.886,
+   "maxDepthM": 0.0499,
+   "severity": 185.0,
+   "worstSite": [
+    1.4,
+    -14.56,
+    -0.009
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "hidden"
+  },
+  {
+   "pair": "core_bathwing_liftaway_roof | core_estate_library_liftaway_roof",
+   "sites": 2,
+   "seamM": 0.445,
+   "maxDepthM": 0.1912,
+   "severity": 180.0,
+   "worstSite": [
+    -6.732,
+    0.465,
+    8.456
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "core_fireplace_cap__blackened steel flue | core_fireplace_cap__golden coastal sandstone",
+   "sites": 1,
+   "seamM": 4.576,
+   "maxDepthM": 0.0837,
+   "severity": 179.1,
+   "worstSite": [
+    0.95,
+    -6.85,
+    7.462
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_arrival_B_treads__pale oak",
+   "sites": 2,
+   "seamM": 1.164,
+   "maxDepthM": 0.115,
+   "severity": 175.5,
+   "worstSite": [
+    -0.848,
+    -16.275,
+    1.198
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_finish_bedchamber_rock_fin__La Jolla bluff sandstone | core_retreat_gallery__pale oak",
+   "sites": 3,
+   "seamM": 1.562,
+   "maxDepthM": 0.0826,
+   "severity": 154.7,
+   "worstSite": [
+    -5.35,
+    -8.457,
+    -0.011
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "built-into-rock"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_arrival_living__warm cut stone",
+   "sites": 3,
+   "seamM": 0.995,
+   "maxDepthM": 0.0915,
+   "severity": 149.2,
+   "worstSite": [
+    5.204,
+    -15.574,
+    2.35
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "built-into-rock"
+  },
+  {
+   "pair": "core_speakeasy_gable__bar umber lime plaster | core_speakeasy_loggia_quarry_eyebrow__listening room sedimentar",
+   "sites": 1,
+   "seamM": 7.301,
+   "maxDepthM": 0.055,
+   "severity": 148.6,
+   "worstSite": [
+    -10.17,
+    10.132,
+    2.471
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_entry_landscape_grass | core_entry_landscape_stone_seat",
+   "sites": 4,
+   "seamM": 1.656,
+   "maxDepthM": 0.0969,
+   "severity": 143.8,
+   "worstSite": [
+    3.043,
+    -31.443,
+    8.617
+   ],
+   "categories": [
+    "plant",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "furniture:kitchen-glass-fridge/glass-fridge.lod0::fridge door_ | furniture:kitchen-glass-fridge/glass-fridge.lod0__furniture pol",
+   "sites": 4,
+   "seamM": 3.106,
+   "maxDepthM": 0.0395,
+   "severity": 136.8,
+   "worstSite": [
+    -4.062,
+    -11.355,
+    2.001
+   ],
+   "categories": [
+    "furniture"
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "core_arrival_hall__golden coastal sandstone | core_arrival_hall__warm cut stone",
+   "sites": 3,
+   "seamM": 2.584,
+   "maxDepthM": 0.05,
+   "severity": 136.1,
+   "worstSite": [
+    3.3,
+    -16.365,
+    4.738
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__chalk limestone | onsen_privacy__warm cut stone",
+   "sites": 1,
+   "seamM": 1.847,
+   "maxDepthM": 0.1,
+   "severity": 135.9,
+   "worstSite": [
+    4.388,
+    -9.39,
+    2.645
+   ],
+   "categories": [
+    "room",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_embedded_lift_walk__golden coastal sandstone | core_speakeasy_plinth__warm cut stone",
+   "sites": 8,
+   "seamM": 2.85,
+   "maxDepthM": 0.03,
+   "severity": 134.6,
+   "worstSite": [
+    -12.67,
+    9.551,
+    -0.046
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "hidden"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_arrival_court__travertine paving stone",
+   "sites": 6,
+   "seamM": 2.329,
+   "maxDepthM": 0.0449,
+   "severity": 128.1,
+   "worstSite": [
+    -3.803,
+    -24.223,
+    8.175
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_estate_pool__travertine paving stone | core_estate_pool__warm cut stone",
+   "sites": 6,
+   "seamM": 2.248,
+   "maxDepthM": 0.035,
+   "severity": 123.4,
+   "worstSite": [
+    -7.886,
+    -1.226,
+    0.01
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_estate_pool__sea glass pool mosaic | core_finish_pool_front_box_girder",
+   "sites": 3,
+   "seamM": 10.794,
+   "maxDepthM": 0.034,
+   "severity": 121.8,
+   "worstSite": [
+    -3.412,
+    3.665,
+    -1.44
+   ],
+   "categories": [
+    "glass",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_reno_slab_ground | core_retreat_gallery__warm cut stone",
+   "sites": 2,
+   "seamM": 0.605,
+   "maxDepthM": 0.109,
+   "severity": 119.9,
+   "worstSite": [
+    -4.74,
+    -9.714,
+    -0.131
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "hidden"
+  },
+  {
+   "pair": "core_reno_floorboards_lower | core_retreat_gallery__pale oak",
+   "sites": 11,
+   "seamM": 17.209,
+   "maxDepthM": 0.0105,
+   "severity": 119.5,
+   "worstSite": [
+    -4.178,
+    -8.644,
+    -0.01
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_arrival_living__warm cut stone | core_reno_slab_upper",
+   "sites": 2,
+   "seamM": 0.929,
+   "maxDepthM": 0.0853,
+   "severity": 115.9,
+   "worstSite": [
+    4.643,
+    -15.535,
+    2.469
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_lightwell_rim | core_retreat_liftaway_roof",
+   "sites": 1,
+   "seamM": 2.6,
+   "maxDepthM": 0.0713,
+   "severity": 115.0,
+   "worstSite": [
+    2.055,
+    -11.216,
+    6.968
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "core_estate_garden__warm cut stone_seat_01 | core_flora_iceplant_section_04",
+   "sites": 1,
+   "seamM": 7.731,
+   "maxDepthM": 0.0402,
+   "severity": 111.8,
+   "worstSite": [
+    -4.724,
+    -10.529,
+    8.411
+   ],
+   "categories": [
+    "plant",
+    "shell"
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_estate_pavilion__honey ash | core_estate_pavilion__pale oak",
+   "sites": 14,
+   "seamM": 3.592,
+   "maxDepthM": 0.0159,
+   "severity": 102.6,
+   "worstSite": [
+    -11.249,
+    3.043,
+    0.441
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__golden coastal sandstone | core_estate_garden__warm cut stone_seat_01",
+   "sites": 1,
+   "seamM": 0.871,
+   "maxDepthM": 0.1083,
+   "severity": 101.0,
+   "worstSite": [
+    -0.44,
+    -16.236,
+    7.74
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_estate_garden__warm cut stone_seat_01 | core_retreat_liftaway_roof",
+   "sites": 1,
+   "seamM": 0.778,
+   "maxDepthM": 0.1081,
+   "severity": 95.4,
+   "worstSite": [
+    -0.477,
+    -15.957,
+    7.718
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "furniture:living-sofa/cloud-sofa.lod0__cloud boucle textile | lounge__chalk limestone",
+   "sites": 4,
+   "seamM": 7.993,
+   "maxDepthM": 0.0198,
+   "severity": 94.7,
+   "worstSite": [
+    2.771,
+    -8.305,
+    0.129
+   ],
+   "categories": [
+    "furniture",
+    "room"
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "core_finish_bedchamber_rock_fin__La Jolla bluff sandstone | core_retreat_gallery__warm cut stone",
+   "sites": 1,
+   "seamM": 0.815,
+   "maxDepthM": 0.1048,
+   "severity": 94.6,
+   "worstSite": [
+    -5.35,
+    -8.454,
+    -0.101
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": "built-into-rock"
+  },
+  {
+   "pair": "core_flora_dry_grass_section_04 | core_retreat_clifftop__warm cut stone",
+   "sites": 7,
+   "seamM": 0.344,
+   "maxDepthM": 0.0656,
+   "severity": 94.4,
+   "worstSite": [
+    6.242,
+    -9.185,
+    7.059
+   ],
+   "categories": [
+    "plant",
+    "shell"
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_gym_front_frame | core_gym_front_header",
+   "sites": 1,
+   "seamM": 21.409,
+   "maxDepthM": 0.02,
+   "severity": 92.5,
+   "worstSite": [
+    8.503,
+    -3.35,
+    3.083
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core__golden coastal sandstone | kitchen__chalk limestone",
+   "sites": 1,
+   "seamM": 0.729,
+   "maxDepthM": 0.1082,
+   "severity": 92.4,
+   "worstSite": [
+    -5.106,
+    -4.155,
+    -0.23
+   ],
+   "categories": [
+    "rock",
+    "room"
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_reno_floorboards_lower | lounge__chalk limestone",
+   "sites": 9,
+   "seamM": 10.641,
+   "maxDepthM": 0.0143,
+   "severity": 84.1,
+   "worstSite": [
+    2.811,
+    -7.574,
+    -0.009
+   ],
+   "categories": [
+    "room",
+    "shell"
+   ],
+   "verdict": "hidden"
+  },
+  {
+   "pair": "core_cliff_lift_rail__dark bronze | core_cliff_lift_rail_bracket__listening room brushed copper",
+   "sites": 12,
+   "seamM": 3.815,
+   "maxDepthM": 0.0122,
+   "severity": 81.5,
+   "worstSite": [
+    -14.323,
+    8.46,
+    0.649
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "core_arrival_paths__travertine paving stone | core_estate_garden_flora_grass",
+   "sites": 4,
+   "seamM": 0.236,
+   "maxDepthM": 0.0987,
+   "severity": 81.5,
+   "worstSite": [
+    5.623,
+    -17.954,
+    7.373
+   ],
+   "categories": [
+    "plant",
+    "shell"
+   ],
+   "verdict": "follow-up"
+  },
+  {
+   "pair": "core_estate_pool__warm cut stone | core_estate_terrace__warm cut stone",
+   "sites": 6,
+   "seamM": 2.275,
+   "maxDepthM": 0.023,
+   "severity": 81.2,
+   "worstSite": [
+    -7.799,
+    -1.161,
+    -0.142
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_estate_garden__pale oak | core_estate_garden__warm cut stone_seat_01",
+   "sites": 2,
+   "seamM": 1.649,
+   "maxDepthM": 0.045,
+   "severity": 81.0,
+   "worstSite": [
+    -5.129,
+    -12.869,
+    9.111
+   ],
+   "categories": [
+    "shell"
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "bath-living__bathroom celadon ceramic | core_finish_corridor_niche_wall__chalk limestone",
+   "sites": 8,
+   "seamM": 1.777,
+   "maxDepthM": 0.03,
+   "severity": 81.0,
+   "worstSite": [
+    -5.693,
+    -9.695,
+    1.192
+   ],
+   "categories": [
+    "room",
+    "shell"
+   ],
+   "verdict": "designed"
+  },
+  {
+   "pair": "core_arrival_paths_roof__travertine paving stone | core_retreat_liftaway_roof",
+   "sites": 2,
+   "seamM": 0.244,
+   "maxDepthM": 0.1213,
+   "severity": 80.7,
+   "worstSite": [
+    -4.407,
+    -13.523,
+    8.725
+   ],
+   "categories": [
+    "rock",
+    "shell"
+   ],
+   "verdict": null
+  },
+  {
+   "pair": "kitchen_garden__dark sage leaf | kitchen_garden__pale oak",
+   "sites": 2,
+   "seamM": 1.275,
+   "maxDepthM": 0.051,
+   "severity": 78.2,
+   "worstSite": [
+    -7.146,
+    -5.86,
+    -0.986
+   ],
+   "categories": [
+    "plant",
+    "room"
+   ],
+   "verdict": null
+  }
+ ]
 }
