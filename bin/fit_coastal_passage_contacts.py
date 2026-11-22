@@ -53,6 +53,38 @@ def fit(obj, axis, old, new, indices=None):
     obj.data.update()
 
 
+def trim_wall_stringer(obj, indices, edge):
+    """Keep the exact installed wall-side surface and remove its stone-side arc."""
+    mesh = bmesh.new()
+    try:
+        mesh.from_mesh(obj.data)
+        mesh.verts.ensure_lookup_table()
+        verts = [mesh.verts[i] for i in indices]
+        geom = set(verts)
+        geom.update(edge for vertex in verts for edge in vertex.link_edges)
+        geom.update(face for vertex in verts for face in vertex.link_faces)
+        world = obj.matrix_world
+        cut = bmesh.ops.bisect_plane(
+            mesh,
+            geom=list(geom),
+            dist=1e-5,
+            plane_co=world.inverted() @ Vector((edge, 0, 0)),
+            plane_no=(world.to_3x3().transposed() @ Vector((1, 0, 0))).normalized(),
+            clear_outer=True,
+        )["geom_cut"]
+        seams = [part for part in cut if isinstance(part, bmesh.types.BMEdge) and part.is_valid and part.is_boundary]
+        caps = bmesh.ops.holes_fill(mesh, edges=seams, sides=0)["faces"]
+        if len(caps) != 1 or any(not part.is_manifold for part in caps[0].edges):
+            raise ValueError("The west stair stringer needs a single closed edge behind its limestone")
+        cap = caps[0]
+        cap.material_index = next(face for part in cap.edges for face in part.link_faces if face != cap).material_index
+        bmesh.ops.recalc_face_normals(mesh, faces=list(mesh.faces))
+        mesh.to_mesh(obj.data)
+        obj.data.update()
+    finally:
+        mesh.free()
+
+
 def fit_gallery(scene):
     landing = member(scene, GALLERY + "landing__")
     # The seated travertine stops at y=4.797 (bed at 4.800). The loggia meets it
@@ -92,10 +124,13 @@ def fit_gallery(scene):
         low, high = min(xx), max(xx)
         if not (0.14 < high - low < 0.165 and low < end < high):
             raise ValueError("The timber stringer must be the surveyed stair edge piece")
-        # The side-mounted timber follows the nosings without cutting through
-        # every stone tread. The oak cap still overhangs the edge by 8 mm.
-        shift = end - 0.002 - high if left else end + 0.002 - low
+        # Both timbers follow the nosings. Keep the wall-side arc in place,
+        # where there is room for its 44 mm profile, and move the free side out.
+        if left:
+            continue
+        shift = end + 0.002 - low
         fit(stringers, 0, (low, high), (low + shift, high + shift), indices)
+    trim_wall_stringer(stringers, parts[0], -8.342)
 
     slats = member(scene, GALLERY + "ceiling_slats__")
     # The new slats rest on the existing 5.490 m beam tops.
