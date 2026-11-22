@@ -5,20 +5,24 @@ import vm from "node:vm";
 
 // Exercise the actual listener with platform adapters. Browser tests separately
 // verify bubbling, focus and the native disc buttons on the rendered homepage.
-function keyboardProbe({ foundAll = false, mode = "2d" } = {}) {
+function keyboardProbe({ foundAll = false, mode = "2d", focus = "play" } = {}) {
   const source = fs.readFileSync(new URL("../assets/js/home.js", import.meta.url), "utf8").replace(/\r\n/g, "\n");
-  const start = source.indexOf('    portrait.addEventListener("keydown", (event) => {');
+  const start = source.indexOf('    recordPlayer.addEventListener("keydown", (event) => {');
   const end = source.indexOf('\n\n    document.addEventListener("click"', start);
-  assert.ok(start >= 0 && end > start, "the real portrait listener must be present");
-  const spinButton = {};
+  assert.ok(start >= 0 && end > start, "the record player's actual key listener must be present");
+  const spinButton = {},
+    recordOpener = {},
+    seek = {};
   const actions = [];
   let listener;
   vm.runInNewContext(source.slice(start, end), {
-    portrait: { addEventListener: (_type, callback) => (listener = callback) },
+    recordPlayer: { addEventListener: (_type, callback) => (listener = callback) },
+    recordOpener,
     spinButton,
     stage: { dataset: { deskMode: mode } },
     records: [{}, {}],
     droppedRecords: new Set(foundAll ? [0, 1] : []),
+    setRecordPlayerOpen: (open) => actions.push({ action: "show", open }),
     advanceRecord: (direction) => actions.push({ action: "advance", direction }),
     dropRecordCard: () => actions.push({ action: "drop" }),
     replayAllDroppedRecordCards: () => actions.push({ action: "replay" }),
@@ -27,7 +31,7 @@ function keyboardProbe({ foundAll = false, mode = "2d" } = {}) {
     actions.length = 0;
     let prevented = false;
     listener({
-      target: spinButton,
+      target: { play: spinButton, portrait: recordOpener, seek }[focus],
       ctrlKey: false,
       metaKey: false,
       altKey: false,
@@ -51,8 +55,22 @@ for (const key of ["d", "D", "ArrowLeft", "ArrowRight"]) {
 
 test("disc plain arrows and D including Shift+D retain their actions", () => {
   const probe = keyboardProbe();
-  assert.deepEqual(probe({ key: "ArrowLeft" }), { prevented: true, actions: [{ action: "advance", direction: -1 }] });
-  assert.deepEqual(probe({ key: "ArrowRight" }), { prevented: true, actions: [{ action: "advance", direction: 1 }] });
+  for (const focus of ["play", "portrait"]) {
+    const press = keyboardProbe({ focus });
+    for (const [key, direction] of [
+      ["ArrowLeft", -1],
+      ["ArrowRight", 1],
+    ]) {
+      assert.deepEqual(press({ key }), {
+        prevented: true,
+        actions: [
+          { action: "show", open: true },
+          { action: "advance", direction },
+        ],
+      });
+      assert.deepEqual(keyboardProbe({ focus: "seek" })({ key }), { prevented: false, actions: [] });
+    }
+  }
   for (const properties of [{ key: "d" }, { key: "D", shiftKey: true }]) {
     assert.deepEqual(probe(properties), { prevented: true, actions: [{ action: "drop" }] });
   }
