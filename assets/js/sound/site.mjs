@@ -1,6 +1,7 @@
 // Ordinary visits play the authored house recordings after opt-in. The
 // instrument lab keeps the synthesized gestures in the current hour's key.
 import { createSound } from "./engine.mjs";
+import { createGestureFoley } from "./gesture-foley.mjs";
 import { COASTAL_LOOKS, createCoastalMusic } from "./coastal-music.mjs";
 
 const PRESSABLE = "a[href], button, summary, [role='button'], [role='option'], [role='tab']";
@@ -28,6 +29,7 @@ export function createSiteSound({
     listeners.push(() => target.removeEventListener(type, handler, options));
   };
   let coastal = null;
+  let gestures = null;
   let syncCoast = null;
   let pointed = null,
     lastPoint = 0,
@@ -137,9 +139,11 @@ export function createSiteSound({
     const stage = scene?.closest("[data-home-artifact-stage]");
     if (params.get("scene-lab") === "1") return;
     coastal ??= createCoastalMusic(sound.graph);
-    const pageLook = () => view.siteArt?.look || "realistic";
+    gestures ??= createGestureFoley(sound.graph);
+    const recordingFor = (look) => view.siteArt?.worlds?.find((world) => world.id === look)?.recording || look;
+    const pageLook = () => recordingFor(view.siteArt?.look || "realistic");
     const look = () => {
-      const style = scene?.dataset.drawing;
+      const style = recordingFor(scene?.dataset.drawing);
       return visible3D() && COASTAL_LOOKS.includes(style) ? style : pageLook();
     };
     const visible3D = () => stage?.dataset.deskMode === "3d" && scene.getAttribute("aria-hidden") !== "true";
@@ -178,7 +182,7 @@ export function createSiteSound({
       listeners.push(() => exposure.disconnect());
     }
     listen(root, "coastal:score", ({ detail }) => {
-      if (detail?.kind !== "film" || !COASTAL_LOOKS.includes(detail.look)) return;
+      if (detail?.kind !== "film" || !COASTAL_LOOKS.includes(recordingFor(detail.look))) return;
       if (detail.action === "stop" || detail.action === "pause") coastal.pause();
       else syncCoast(detail.action === "seek");
     });
@@ -187,7 +191,7 @@ export function createSiteSound({
     if (scene) listen(scene, "coastal:record", syncCoast);
     if (reduced?.addEventListener) listen(reduced, "change", syncCoast);
     const cue = (type, selected = look()) => {
-      if (cuesAllowed() && !onRail()) coastal.motif(selected, type);
+      if (cuesAllowed() && !onRail()) coastal.motif(recordingFor(selected), type);
     };
     const route = "button[data-world-room], button[data-world-destination], button[data-world-view], button[data-world-visit-start]";
     if (stage)
@@ -206,6 +210,16 @@ export function createSiteSound({
       );
     if (scene) listen(scene, "coastal:threshold", ({ detail }) => cue("threshold", detail?.look));
     listen(root, "click", (event) => {
+      const button = event.target.closest?.("button, summary, [role='tab']");
+      if (
+        event.isTrusted &&
+        button &&
+        !root.hidden &&
+        !button.closest("[data-home-artifact-stage], .duh-companion") &&
+        !button.matches("[data-sound-toggle], :disabled") &&
+        !button.closest("main [aria-expanded], main summary, [data-shelf-next], [data-shelf-prev]")
+      )
+        gestures.play("latch");
       if (!event.isTrusted || event.target.closest?.("[data-home-artifact-stage], [data-theme-control]")) return;
       const control = event.target.closest?.("details > summary, [aria-expanded], [data-shelf-next], [data-shelf-prev]");
       if (control?.closest("main, [role='main']")) cue("select", pageLook());
@@ -245,7 +259,10 @@ export function createSiteSound({
     if (reduced?.addEventListener) listen(reduced, "change", (event) => event.matches && sound.foley("quiet"));
     // A hidden tab is silent.
     listen(root, "visibilitychange", async () => {
-      if (root.hidden) coastal?.pause({ hard: true });
+      if (root.hidden) {
+        coastal?.pause({ hard: true });
+        gestures?.quiet();
+      }
       await sound.hidden(root.hidden);
       if (!root.hidden && sound.on) syncCoast?.();
     });
@@ -253,6 +270,9 @@ export function createSiteSound({
 
   return {
     sound,
+    gesture(kind, strength, pan, material) {
+      if (sound.on && !root.hidden) gestures?.play(kind, strength, pan, material);
+    },
     refresh() {
       syncCoast?.();
     },
@@ -266,11 +286,18 @@ export function createSiteSound({
       return started;
     },
     async stop() {
+      gestures?.quiet();
       coastal?.clear({ hard: true });
       syncCoast = null;
       while (listeners.length) listeners.pop()();
       await sound.stop();
     },
-    evidence: () => ({ ...sound.evidence(), bound: listeners.length > 0, instrumentLab, coastal: coastal?.evidence() ?? null }),
+    evidence: () => ({
+      ...sound.evidence(),
+      bound: listeners.length > 0,
+      instrumentLab,
+      coastal: coastal?.evidence() ?? null,
+      gestures: gestures?.evidence() ?? null,
+    }),
   };
 }

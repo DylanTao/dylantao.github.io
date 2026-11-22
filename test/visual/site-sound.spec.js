@@ -56,7 +56,7 @@ test("site sound: the normal switch is visible, silent and lazy before consent",
       slider.dispatchEvent(new TouchEvent("touchend", { bubbles: true, changedTouches: [point(105)] }));
     });
     await expect(range).toHaveValue("0");
-    await expect(range).toHaveAttribute("aria-valuetext", "Realistic");
+    await expect(range).toHaveAttribute("aria-valuetext", "Cosmic cel");
     await page.setViewportSize(portrait);
   }
 
@@ -66,14 +66,14 @@ test("site sound: the normal switch is visible, silent and lazy before consent",
   await expect(control).toHaveAttribute("aria-checked", "true");
   expect(await contexts(page)).toBe(1);
   expect(await evidence(page)).toMatchObject({ on: true, bed: false, played: 0, instrumentLab: false });
-  await expect.poll(async () => (await evidence(page)).coastal?.theme).toBe("realistic");
+  await expect.poll(async () => (await evidence(page)).coastal?.theme).toBe("toon");
   const panel = page.locator("[data-theme-menu]:visible").first();
   const style = panel.getByRole("slider", { name: "Art style" });
   await style.focus();
   await style.press("ArrowRight");
-  await style.press("ArrowRight");
-  await expect(style).toHaveAttribute("aria-valuetext", "Watercolour");
-  await expect(page.locator("html")).toHaveAttribute("data-art-style", "watercolour");
+  await expect.poll(async () => (await evidence(page)).gestures?.cues.detent).toBe(1);
+  await expect(style).toHaveAttribute("aria-valuetext", "Field notes");
+  await expect(page.locator("html")).toHaveAttribute("data-art-style", "field-guide");
   await expect(panel.locator("[data-art-piece]")).toHaveText("A Pocketful of Sky");
   await expect.poll(async () => (await evidence(page)).coastal?.theme).toBe("watercolour");
   expect(fetched.some((url) => url.includes("/watercolour.mp3"))).toBe(true);
@@ -93,7 +93,7 @@ test("site sound: the normal switch is visible, silent and lazy before consent",
   expect(await evidence(page)).toMatchObject({ on: false, bed: false, bound: false });
 
   await page.goto(publicRouteUrl("/cv/?sound=0"), { waitUntil: "load" });
-  await expect(page.locator("html")).toHaveAttribute("data-art-style", "watercolour");
+  await expect(page.locator("html")).toHaveAttribute("data-art-style", "field-guide");
   await page.locator("[data-theme-toggle]:visible").first().click();
   await expect(page.locator("[data-sound-toggle]:visible")).toHaveCount(0);
   expect(await evidence(page)).toBeNull();

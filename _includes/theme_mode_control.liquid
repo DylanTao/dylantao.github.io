@@ -80,7 +80,7 @@
     </div>
     <div class="coastal-media" data-site-media>
       <label class="coastal-media-row">
-        <span class="coastal-media-line">Style <strong data-art-name>Realistic</strong></span>
+        <span class="coastal-media-line">Style <strong data-art-name>Cosmic cel</strong></span>
         <span class="coastal-slider" data-art-rail>
           <span class="coastal-slider-scene" aria-hidden="true"></span>
           <span class="coastal-slider-stops" aria-hidden="true">
@@ -89,7 +89,7 @@
             {% endfor %}
           </span>
           <span class="coastal-slider-lens" aria-hidden="true"></span>
-          <input type="range" min="0" max="4" step="1" value="0" aria-label="Art style" aria-valuetext="Realistic" data-art-slider>
+          <input type="range" min="0" max="4" step="1" value="0" aria-label="Art style" aria-valuetext="Cosmic cel" data-art-slider>
         </span>
       </label>
       <label class="coastal-media-row" data-volume-row>
@@ -101,9 +101,13 @@
         </span>
       </label>
       <div class="coastal-media-footer sun-arc-actions" data-media-footer>
+        <img class="coastal-media-cover" width="40" height="40" data-media-cover hidden alt="">
         <span class="coastal-media-piece"
-          ><i class="fa-solid fa-music" aria-hidden="true"></i> <span data-art-piece>The Water on the Sill</span></span
+          ><strong data-art-piece>The Spare Key</strong><span>{{ site.data.coastal_records.artist }}</span></span
         >
+        {% for item in site.data.coastal_records.recordings %}
+          <template data-recording="{{ item[1].title | escape }}" data-cover="{{ item[1].cover | relative_url }}"></template>
+        {% endfor %}
         <button type="button" class="sun-arc-motion sun-arc-sound" role="switch" aria-checked="false" data-sound-toggle hidden>
           <span class="sun-arc-motion-track" aria-hidden="true"></span>
           Sound

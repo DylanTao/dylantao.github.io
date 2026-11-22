@@ -68,6 +68,12 @@ if (params.get("sound") === "0") {
     }
     try {
       const Context = globalThis.AudioContext || globalThis.webkitAudioContext;
+      if (!Context && record?.canPlayType("audio/mpeg")) {
+        record.volume = volume;
+        on = true;
+        reflect();
+        return true;
+      }
       if (!Context) throw new Error("Audio context unavailable");
       audioContext ||= new Context({ latencyHint: "interactive" });
       // Resume synchronously during the trusted gesture, even when the module
@@ -95,6 +101,7 @@ if (params.get("sound") === "0") {
     if (value > 0) previousVolume = value;
     store.set("site-sound-volume", String(value));
     site?.sound.setVolume(value);
+    if (record && !audioContext) record.volume = value;
     reflect();
   }
   function choose(next) {
@@ -107,6 +114,7 @@ if (params.get("sound") === "0") {
     const last = record;
     record = null;
     last.pause();
+    if (!audioContext) requested = on = false;
     site?.refresh();
     reflect();
   }
@@ -117,11 +125,11 @@ if (params.get("sound") === "0") {
     site?.refresh();
     await choose(true);
     if (!on || record !== element) return false;
-    const graph = site.sound.graph;
+    const graph = site?.sound.graph;
     if (!mediaSources.has(element)) {
-      const source = graph.context.createMediaElementSource(element);
-      source.connect(graph.dry);
-      mediaSources.set(element, source);
+      const source = graph?.context.createMediaElementSource(element);
+      if (source) source.connect(graph.dry);
+      mediaSources.set(element, source ?? null);
       for (const type of ["play", "pause", "ended", "emptied"]) element.addEventListener(type, reflect);
     }
     return true;
@@ -159,6 +167,9 @@ if (params.get("sound") === "0") {
   }
   globalThis.siteSound = {
     attachMediaElement,
+    gesture: (kind, strength, pan, material) => {
+      if (on) site?.gesture(kind, strength, pan, material);
+    },
     setVolume(value) {
       if (!Number.isFinite(value)) return;
       rememberVolume(Math.min(1, Math.max(0, value)));

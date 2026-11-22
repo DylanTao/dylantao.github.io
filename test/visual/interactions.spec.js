@@ -606,8 +606,8 @@ test("mobile navbar can expand/collapse", async ({ page }, testInfo) => {
   // WebKit dispatches pointercancel when its native range takes over a touch tap.
   const art = page.locator("#theme-menu [data-art-slider]");
   await art.tap();
-  await expect(art).toHaveAttribute("aria-valuetext", "Watercolour");
-  await expect(page.locator("#theme-menu [data-art-piece]")).toHaveText("A Pocketful of Sky");
+  await expect(art).toHaveAttribute("aria-valuetext", "Graphite noir");
+  await expect(page.locator("#theme-menu [data-art-piece]")).toHaveText("The Water on the Sill");
   const volume = page.locator("#theme-menu [data-volume-slider]");
   await volume.tap();
   await expect.poll(() => page.evaluate(() => window.siteSound.evidence().volume)).toBeCloseTo(0.5, 1);
