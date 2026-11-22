@@ -10,6 +10,8 @@ Claude wrote the original handover on November 17, 2026. On November 19 Sirui ga
 
 ## From a visitor view to a playable design
 
+Sirui’s November 21 direction sets the regular reading page and the photoreal house as the first view. The five optional media follow in his order: Cosmic cel, Field notes, Graphite noir, Brushwork and Thermal print. A chosen medium travels with a visitor through the site. Music begins paused. Gesture and contact sounds have their own switch. The illustrated controls use original drawing code and the house recordings. Keep the physical references available when reviewing how each medium handles light, silhouettes, contact and motion.
+
 Walk to the place, or use the page through its normal entry. Save one frame and say what a visitor should see, hear, feel or do there. Use an original concept drawing when light, silhouette, materials, staging or interaction needs a design decision. Critique that drawing against Sirui's words and the reference works. Refine it until a concrete choice can be built.
 
 For the coastal house, translate the drawing into measured stone, joinery and furniture, a light with a physical source, camera height, surface response and motion. For a drawn world, specify where marks lie, how they follow a form, how the hour changes their colour, and what should happen when the visitor moves. On a page the equivalents are reading order, typography, illustration, layout at more than one width, and what happens when a visitor taps, scrolls, focuses or reduces motion.

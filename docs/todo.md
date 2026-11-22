@@ -16,17 +16,23 @@ Everything open on Sirui's site, in priority order, for any model on any machine
 
 ## What remains
 
-Updated November 21, after screening the published house film and walking the site’s reading routes. The gym and ocean garden, entrance, under-pool ceramics, listening room, fire terrace and glass-fronted cliff lift are playable from **3D → Rooms**. The day button now holds Style and Volume throughout the site. The homepage record player and the speakeasy turntable both play original recordings. [Room-by-room work](#3-the-gym-used) · [Latest drawings and frames](../artwork/concepts/coastal-home/2026-11-20/README.md)
+**November 21, after walking the house.** The site starts in its regular palette with music paused. Open the day button to see the photoreal coast and five drawn worlds. A first touch can sound even while the record stays stopped. Turn off **Interaction sounds** to keep gestures silent. The portrait opens its own record player on hover, focus or tap. [Music and sound design](house/world-music.md) · [The controls at screen size](../artwork/concepts/coastal-home/2026-11-21/controls-at-screen-size.webp)
+
+The latest house work follows the route from the glass entrance past the indoor onsen, through the gym threshold, up to supper over the listening bar and down to the beach in the cliff lift. **3D → Rooms → Tea garden** reaches the sunken room beneath the bedroom. Its small side door connects to the library and a separate flight reaches the pool. [Standing-eye comparisons and the design study](../artwork/concepts/coastal-home/2026-11-21/README.md)
 
 | Remaining work                                                                     | What will settle it                                                                                                                                              |
 | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Entrance eave and tea-garden planting](#the-two-gardens-at-blue-hour)             | Compare the folded ash-and-glass canopy, planted beds and warm and cool light from the same standing eyes in daylight and after dusk.                            |
 | [Daylight and the speed of the outside view](#15-research-and-speed)               | Seven of 14 water and glass surfaces affect the offshore view. Time the extra refraction pass on the reference RTX PC and check the same surfaces while walking. |
 | [Painted on a physical phone](#1-the-painted-world-from-good-to-a-masterpiece)     | Walk through the coast and the night interiors long enough to measure heat and sustained frame rate. The four browser sizes are covered.                         |
-| [The next drawn worlds](#12-more-worlds)                                           | The first graphite room is playable. Its offshore horizon and the lamp at the night desk are the next two drawing studies.                                       |
 | [Visitors returning to the house](#2-learn-from-visitors-then-fix-what-loses-them) | Read the first two weeks on December 1 and four weeks on December 15 and compare 3D entry, room choice and direct arrivals at DesignWeaver.                      |
 | [Retire archived worktrees on the old PC](#16-housekeeping)                        | On the desktop, compare each remaining checkout with its private archived patch before removing it. The laptop triage is complete.                               |
 
 Sirui’s next listen will guide the phrasing of the original recordings. Each item below keeps its checkboxes, evidence and any hardware or timing dependency.
+
+### The two gardens at blue hour
+
+Sirui found the entrance installation too stark and asked for better planting at both the entrance and the tea room. The first canopy preserved the open sky and carried rain into the rill. Its dark rings dominate the driveway view. The next drawing gives the roof a folded timber edge. Warm light belongs to the treads and the tea service. Cool light falls across foliage, with a clear space to walk between the two. [Current views and design studies](../artwork/concepts/coastal-home/2026-11-21/README.md)
 
 The house film now holds the entrance in view while it prepares the coast. On this Intel Arc laptop the first composed shot appeared after 7.21 and 6.22 seconds in two local cold visits. The preceding code took 16.16 seconds between them. A fresh visit to the published version reached the dawn shot in 7.58 seconds and played all 13 cuts with their sound. [Opening study](film/shot-list.md#waiting-for-the-first-image)
 
@@ -48,7 +54,7 @@ The house film now holds the entrance in view while it prepares the coast. On th
   - [x] The bath (November 17): the onsen's water, painted the same way, holding the room's warm light instead of the sky.
   - [x] Paint the plants. The scatter builds marks on each plant model, repeats them on the planted instances and gives them the same wind response as the leaves. The dusk, afternoon and night frames show how they sit against the cliff. [Painted coast at three hours](../artwork/concepts/coastal-home/2026-11-19/painted-coast-hours-10.webp).
   - [x] Strokes follow curvature (November 17: a rounded made thing is painted around its form where it bends faster than 2.5 radians a metre; boards, walls and posts keep their grain).
-  - [x] Rooms offers Realistic, Painted, Watercolour, Woodblock and Cartoon on desktop and touch.
+  - [x] The day panel offers Photoreal, Cosmic cel, Field notes, Graphite noir, Brushwork and Thermal print on desktop and touch. The earlier print and watercolour experiments remain in the graphics studies.
 - Codex directs the look, compares the frames, and handles device scaling and the switch. The laptop supplies repeatable frames. A physical phone supplies the touch and thermal check.
 - **Size.** 1.5 to 3 billion tokens; 3 to 5 weeks. **Detail:** brief 1; record entry `painted-strokes`; takeover J10.
 
@@ -188,7 +194,9 @@ The house film now holds the entrance in view while it prepares the coast. On th
 - **References.** Ebby Amir's Starry Night ride, https://starrynightrider.com. The shows themselves. A stop-motion film shot through a thermal camera (an Instagram reel; ask Sirui for a screenshot).
 - **Next.**
   - [x] Each proposed world has its own drawing rules and visitor views for judging them. [Watercolour](worlds/watercolour.md) · [Pencil](worlds/pencil.md) · [Heat](worlds/heat.md) · [Comic print](worlds/comic-print.md) · [Field guide](worlds/field-guide.md).
+  - [x] Give the house five drawn modes beside Photoreal. Cosmic cel, Field notes, Graphite noir, Brushwork and Thermal print each draw the house in motion. Thermal stores warmth in a contacted seat, cools after standing and permits a swing from the stone vault.
   - [x] Draw a first playable pencil room, and walk it against the same-eye study. [Three playable views beside the concept](../artwork/concepts/coastal-home/2026-11-20/pencil-rooms.webp).
+  - [x] Watch the graphite horizon from the moving boat and read the desk beneath its lamp at night. The sea breaks the graphite along the lit face of each wave. In the study the back of the desktop takes hatching and the lamp reserves bare paper. [The two views beside Photoreal](../artwork/concepts/coastal-home/2026-11-21/graphite-sea-and-study.webp).
   - [x] The first Watercolour room anchors the warm/cool washes at the fireplace and the shared table, with violet shadows in the kitchen, the white of the paper and a small incandescent core. [The live hearth in all five worlds](../artwork/concepts/coastal-home/2026-11-19/hearth-five-worlds-12.webp).
 - **Size.** 1 to 3 each. **Detail:** takeover J, notebook cards "A world is more than a filter" and "A world is a contract".
 
