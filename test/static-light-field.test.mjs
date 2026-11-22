@@ -829,3 +829,43 @@ test("the static light budget counts the unchanged ROI before allocating an over
   assert.equal(tooSmall.evidence().ready, false);
   for (const field of [oldPath, bounded, tooSmall]) field.dispose();
 });
+
+test("collapsed world-space edges consume no transport capacity and change no light samples", async () => {
+  const floor = new THREE.Mesh(new THREE.BoxGeometry(2, 0.1, 2), new THREE.MeshStandardMaterial({ color: 0x888888 }));
+  const face = (values) => {
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.Float32BufferAttribute(values, 3));
+    return new THREE.Mesh(geometry, floor.material);
+  };
+  const thin = face([0, 0.3, 0, 0.0001, 0.3, 0, 0, 0.3, 0.8]);
+  // These separate local vertices collapse onto one world point after the
+  // collector's Float32 transformation. Try each winding position of the edge.
+  const a = [0, 0.4, 0],
+    b = [1e-9, 0.4, 0],
+    c = [0, 0.4, 0.8];
+  const collapsed = face([...a, ...b, ...c, ...c, ...a, ...b, ...a, ...c, ...b]);
+  collapsed.position.x = 0.5;
+  const makeField = () => {
+    const field = createStaticLightField({ regions, maxTriangles: 13, raysPerProbe: 16, skyRaysPerHit: 2 });
+    field.addRoot(floor).addRoot(thin);
+    return field;
+  };
+  const reference = makeField(),
+    bounded = makeField().addRoot(collapsed);
+  try {
+    await reference.bake({ yieldTask: immediate });
+    const measured = await bounded.bake({ yieldTask: immediate });
+    assert.equal(measured.sourceTriangles, 16);
+    assert.equal(measured.allocatedTriangles, 13);
+    assert.equal(measured.triangles, 13, "a thin triangle with distinct points still participates");
+    assert.equal(measured.skippedTriangles, 3);
+    const expected = reference.exportSnapshot({ signature: snapshotSignature });
+    const snapshot = bounded.exportSnapshot({ signature: snapshotSignature });
+    for (const key of ["probes", "transport", "moments"]) assert.deepEqual(snapshot[key], expected[key], key);
+  } finally {
+    reference.dispose();
+    bounded.dispose();
+    for (const mesh of [floor, thin, collapsed]) mesh.geometry.dispose();
+    floor.material.dispose();
+  }
+});

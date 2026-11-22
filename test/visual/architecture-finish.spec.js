@@ -185,7 +185,11 @@ test("finished house: adjacent bedchamber, library patio leaf and composed exter
     body: Buffer.from(JSON.stringify({ initial, transport }, null, 2)),
     contentType: "application/json",
   });
-  expect(transport.statistics.triangles + transport.statistics.skippedTriangles).toBeLessThanOrEqual(750000);
+  const lightStatistics = transport.statistics;
+  const sourceTriangles = lightStatistics.cacheHit ? lightStatistics.cacheSourceTriangles : lightStatistics.sourceTriangles;
+  const skippedTriangles = lightStatistics.cacheHit ? lightStatistics.cacheSkippedTriangles : lightStatistics.skippedTriangles;
+  expect(lightStatistics.allocatedTriangles).toBeLessThanOrEqual(750000);
+  expect(lightStatistics.triangles + skippedTriangles).toBe(sourceTriangles);
   expect(initial.simulation.estateDoors.doors.map((door) => door.id)).toContain("library-patio");
   const native = await scene.evaluate((element) => {
     const objects = [];

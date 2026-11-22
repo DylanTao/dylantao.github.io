@@ -123,6 +123,7 @@ const makeTexture = (data, width, height) => {
   texture.needsUpdate = true;
   return texture;
 };
+const sameWorldPoint = (world, a, b) => world[a] === world[b] && world[a + 1] === world[b + 1] && world[a + 2] === world[b + 2];
 
 // Optional surveyed stair frame: local X is across, Z is along, and Y is
 // height above its mean inclined floor. Rays, SH directions, visibility and
@@ -406,7 +407,10 @@ export function createStaticLightField({
           for (let i = group.start; i < Math.min(group.start + group.count, geometry.index?.count || position.count) - 2; i += 3) {
             const indices = [0, 1, 2].map((j) => (geometry.index ? geometry.index.getX(i + j) : i + j) * 3);
             const outside = [0, 1, 2].some((a) => indices.every((v) => world[v + a] < roiMin[a]) || indices.every((v) => world[v + a] > roiMax[a]));
-            if (outside) {
+            const [a, b, c] = indices;
+            // The BVH uses these same Float32 positions. An edge collapsed to an exact
+            // point encloses no surface, so it cannot contribute a hit or an occluder.
+            if (outside || sameWorldPoint(world, a, b) || sameWorldPoint(world, b, c) || sameWorldPoint(world, c, a)) {
               skipped++;
             } else {
               if (retained === capacity) {
@@ -436,7 +440,7 @@ export function createStaticLightField({
     let capacity = potential;
     if (potential > maxTriangles) {
       // Keep both passes in the same static frame even when browser rendering yields.
-      // Count with the original Float32 coordinates, group order and ROI predicate.
+      // Count with the same Float32 coordinates, group order and rejection rules.
       // No retained-geometry or BVH buffer is allocated until that count fits.
       for (const entry of meshes) entry.matrix = entry.mesh.matrixWorld.clone();
       capacity = (await scan(null, null, maxTriangles)).retained;
