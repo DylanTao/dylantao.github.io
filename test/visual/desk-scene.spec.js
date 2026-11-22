@@ -3588,6 +3588,16 @@ test("coastal home: public drawings switch live and a seated visitor leaves a co
   const coolingChair = await canvas.screenshot();
   expect(screenshotDiffRatio(coolingChair, hotChair)).toBeGreaterThan(0.002);
   await capture(testInfo, "seat-thermal-cooling", coolingChair);
+  await menu.click();
+  await sceneInputFrame(page, view, () => rooms.locator("[data-world-heat-swing]").press("Enter"), { acceptFrame: (e) => Boolean(e.thermalSwing) });
+  const swing = (await evidence(scene)).thermalSwing;
+  expect(swing.anchors).toHaveLength(2);
+  expect(swing.supports.every((support) => /mainland/.test(support))).toBe(true);
+  await page.clock.runFor(600);
+  const coast = (await evidence(scene)).thermalSwing;
+  expect(coast.anchors).toEqual(swing.anchors);
+  expect(Math.abs(coast.seat[2] - swing.seat[2])).toBeGreaterThan(0.08);
+  await capture(testInfo, "swing-thermal", await canvas.screenshot());
   expect(errors).toEqual([]);
 });
 

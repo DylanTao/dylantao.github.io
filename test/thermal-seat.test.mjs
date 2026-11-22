@@ -47,8 +47,8 @@ test("seat contacts require two visible leather support triangles after world tr
 
 test("the swing admits two solid ceiling anchors, drives the seat below them, and damps to rest", () => {
   const world = new THREE.Group();
-  const floor = new THREE.Mesh(new THREE.BoxGeometry(4, 0.2, 8), new THREE.MeshStandardMaterial());
-  floor.position.set(3.3, -0.1, 6);
+  const floor = new THREE.Mesh(new THREE.BoxGeometry(8, 0.2, 8), new THREE.MeshStandardMaterial());
+  floor.position.set(0, -0.1, 6);
   world.add(floor);
   assert.equal(findThermalSwing(world), null);
   const roof = floor.clone();

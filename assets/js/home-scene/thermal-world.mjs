@@ -18,6 +18,7 @@ export function thermalSurface(object, material) {
   }
   if (/flame|bulb|filament|light.*(diode|emitter)|lantern lit/.test(name)) return { temperature: [22, 0, 0.95] };
   if (/washi|lantern|lampshade/.test(name)) return { temperature: [10, 0, 0.96] };
+  if (/thermal swing hemp/.test(name)) return { temperature: [3.8, 2, 0.98] };
   if (/sandstone|cliff|mainland|boulder|bedrock|travertine|limestone/.test(name)) return { temperature: [1.8, 8, 0.94] };
   if (/greenery|flora|leaf|lavender|agave|grass/.test(name)) return { temperature: [-0.4, 5, 0.97] };
   if (/aluminium|chrome|brass|nickel|polished steel/.test(name)) return { temperature: [0, 2, 0.48] };
