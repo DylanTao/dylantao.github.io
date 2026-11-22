@@ -5,6 +5,8 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { BODY, createWalkField, walkKind, WATER_BLOCK } from "../assets/js/home-scene/colliders.mjs";
 import { nativeHouseGeometry } from "./helpers/coastal-native-geometry.mjs";
+import { createCliffLift } from "../assets/js/home-scene/cliff-lift.mjs";
+import { stepFlight } from "../assets/js/home-scene/walk-flight.mjs";
 import { roomAt, spawnPlan } from "../assets/js/home-scene/walk-controls.mjs";
 
 const modelBase = process.env.COASTAL_MODELS_ROOT
@@ -271,4 +273,73 @@ test("the hidden cutaway roof remains real clifftop support while crossing the d
       })),
     })
   );
+});
+
+test("the delivered lift boards across the jamb and protects the unoccupied well at each stop", async () => {
+  const field = await deliveredField();
+  const lift = createCliffLift(manifest.cliffLift);
+  const stand = ([x, height, z]) => {
+    const pad = field.findStand(x, z, height, { reach: 0, tolerance: 0.1 });
+    return pad && [pad.x, pad.foot, pad.z];
+  };
+  const place = (point) => {
+    const floor = stand(point);
+    assert.ok(floor, `real landing support at ${point}`);
+    return { x: floor[0], foot: floor[1], z: floor[2], grounded: true, wet: false, vy: 0 };
+  };
+  const pose = ({ x, foot, z, grounded, wet }) => ({ active: true, position: [x, foot, z], grounded, wet });
+  function step(state, motion) {
+    lift.update(1 / 60);
+    const owned = lift.constrain(pose(state), motion, stand);
+    if (owned) {
+      [state.x, state.foot, state.z] = owned.position;
+      state.grounded = true;
+      state.vy = 0;
+    } else stepFlight(state, field, { dt: 1 / 60, ...motion, dynamic: lift.gateBarriers });
+  }
+
+  const upper = place([-11.8, 0.001, -9.03]);
+  for (let i = 0; i < 65; i++) step(upper, { dx: -0.022 });
+  assert.ok(lift.boarded, "a capsule 29 cm off centre still fits the real 1.08 m aperture");
+  assert.ok(lift.requestRide(pose(upper), stand));
+  for (let i = 0; i < 600 && lift.boarded; i++) {
+    step(upper, {});
+    assert.ok(upper.grounded);
+    if (lift.evidence().phase === "travelling") assert.equal(upper.foot, lift.evidence().position[1]);
+  }
+  assert.equal(lift.evidence().stop, "beach");
+  assert.ok(!lift.boarded && upper.z < -10.6 && Math.abs(upper.foot + 6.45) < 0.005);
+
+  // The empty upper gate remains a full-body obstacle on a running jump.
+  const leftBehind = place([-12.18, 0.001, -9.32]);
+  for (let i = 0; i < 80; i++) {
+    step(leftBehind, { dx: -0.05, jump: i === 0 });
+    assert.ok(leftBehind.x > -12.67 && leftBehind.foot >= -0.02);
+  }
+
+  for (let i = 0; i < 65; i++) step(upper, { dz: 0.022 });
+  assert.ok(lift.boarded && lift.requestRide(pose(upper), stand));
+  for (let i = 0; i < 600 && lift.boarded; i++) step(upper, {});
+  assert.equal(lift.evidence().stop, "top");
+  assert.ok(!lift.boarded && upper.x > -12.2 && Math.abs(upper.foot) < 0.005);
+
+  const lowerEmpty = place([-13.51, -6.45, -10.86]);
+  for (let i = 0; i < 80; i++) {
+    step(lowerEmpty, { dz: 0.035, jump: i === 0 });
+    assert.ok(lowerEmpty.z < -10.3 && lowerEmpty.foot >= -6.47);
+  }
+});
+
+test("the gym capsule walks through the diagonal garden opening and returns on the real sill", async () => {
+  const field = await deliveredField();
+  const route = [
+    [9.077, 0.025, 3.608],
+    [8.75, 0.032, 3.168],
+    [8.33, 0.012, 2.602],
+  ];
+  for (const points of [route, [...route].reverse()]) {
+    const crossing = traverse(field, points);
+    assert.ok(crossing.travelled > 1.18);
+    assert.ok(crossing.maximumRise < 0.055);
+  }
 });

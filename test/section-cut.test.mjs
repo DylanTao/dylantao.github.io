@@ -44,18 +44,23 @@ test("the cut is marked only while the roof is lifted, and rebuilt only when the
   assert.equal(section.open, false);
   assert.equal(section.render({}, { image: { width: 4, height: 4 } }, {}), null, "nothing is drawn with the roof on");
   const roof = new THREE.Group();
+  roof.userData = { closedSolid: true, cutawaySection: "inhabited-roof" };
   roof.add(slab(), slab({ at: [3, 0, 0] }));
   const rim = slab({ at: [0, 4, 0] });
-  section.sync([roof, rim], false);
+  rim.userData = { closedSolid: true };
+  rim.material.name = "golden coastal sandstone";
+  const plank = slab({ at: [0, 4, 0] });
+  plank.userData.caveRoof = true;
+  section.sync([roof, rim, plank], false);
   assert.equal(section.open, false);
   assert.deepEqual(
     (({ pieces, triangles, drawCalls }) => ({ pieces, triangles, drawCalls }))(section.evidence()),
     { pieces: 2, triangles: 36, drawCalls: 1 },
-    "every mesh under every piece, in one draw"
+    "only the structural seats mark the frame, in one draw"
   );
-  section.sync([roof, rim], true);
+  section.sync([roof, rim, plank], true);
   assert.equal(section.open, true);
-  section.sync([roof, rim], true);
+  section.sync([roof, rim, plank], true);
   assert.equal(section.evidence().triangles, 36);
   section.sync([roof], true);
   assert.equal(section.evidence().triangles, 24, "a changed set of pieces rebuilds the solids");
@@ -63,7 +68,7 @@ test("the cut is marked only while the roof is lifted, and rebuilt only when the
   assert.equal(section.open, false, "no pieces, no section");
 
   // One draw of the back faces against the frame's depth, with the caller's state handed back.
-  section.sync([roof, rim], true);
+  section.sync([roof, rim, plank], true);
   const calls = [];
   let target = "screen",
     autoClear = false;

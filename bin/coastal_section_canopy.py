@@ -149,3 +149,66 @@ def attach(scene):
     if not report["deck"] or not report["flora"]:
         raise RuntimeError("Expected native clifftop companion surfaces and plants")
     return report
+
+
+def attach_estate_garden(scene):
+    """Carry the part of the clifftop meadow which stands on the lifted rock."""
+    marker = "estateGardenSectionOwners"
+    if scene.get(marker):
+        return []
+    beneath = support_field(scene)
+    reports = []
+    sources = [
+        obj for obj in scene.objects if obj.type == "MESH"
+        and obj.name.startswith(("core_estate_garden__", "core_estate_garden_flora_"))
+        and not obj.get("cutawayCompanionSupport") and not obj.get("cutawayVegetationSupport")
+    ]
+    for obj in sources:
+        # Ground-hugging ribbons and mulch cross the true ownership line;
+        # furniture and leaves follow complete native connected components.
+        if any(s in obj.name for s in ("travertine paving stone", "garden mineral mulch")):
+            groups = defaultdict(set)
+            for face in obj.data.polygons:
+                owner = beneath(obj.matrix_world @ face.center)
+                if owner:
+                    groups[owner].add(face.index)
+        else:
+            groups = island_bindings(obj, beneath)
+        if not groups:
+            continue
+        original_name = obj.name
+        geometry = face_ledger(obj)
+        all_faces = set(range(len(obj.data.polygons)))
+        fixed = all_faces - set().union(*groups.values())
+        tag = "cutawayVegetationSupport" if obj.get("flora") else "cutawayCompanionSupport"
+        retained = []
+        if not fixed and len(groups) == 1:
+            obj[tag] = next(iter(groups))
+            retained.append(obj)
+        else:
+            for index, (roof, faces) in enumerate(sorted(groups.items()), 1):
+                part = obj.copy()
+                part.data = obj.data.copy()
+                scene.collection.objects.link(part)
+                part.name = f"{original_name[:49]}_seat_{index:02d}"
+                part.data.name = part.name
+                part[tag] = roof
+                keep_faces(part, faces)
+                retained.append(part)
+            if fixed:
+                keep_faces(obj, fixed)
+                retained.append(obj)
+            else:
+                bpy.data.objects.remove(obj, do_unlink=True)
+        received = Counter()
+        for part in retained:
+            received.update(face_ledger(part))
+        if received != geometry:
+            raise RuntimeError("Section support changed an original garden face: " + original_name)
+        reports.append({
+            "source": original_name,
+            "fixedFaces": len(fixed),
+            "owners": {name: len(faces) for name, faces in groups.items()},
+        })
+    scene[marker] = 1
+    return reports

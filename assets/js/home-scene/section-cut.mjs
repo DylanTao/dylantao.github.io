@@ -12,26 +12,26 @@ import * as THREE from "../three.module.min.js";
 // roof is on.
 
 export const SECTION_DEFAULTS = Object.freeze({
-  tolerance: 0.035, // metres between a solid's far side and the visible surface that still count as contact
-  distanceSlope: 0.002, // extra tolerance per metre of distance, for depth-buffer and mesh quantization
-  tone: [0.34, 0.3, 0.27], // what the lit rock is multiplied by, for the part that keeps its shadows
-  strength: 0.92,
+  tolerance: 0.018, // metres between a solid's far side and the visible surface that still count as contact
+  distanceSlope: 0.00055, // extra tolerance per metre of distance, for depth-buffer and mesh quantization
+  tone: [0.69, 0.65, 0.61], // what the lit rock is multiplied by, for the part that keeps its shadows
+  strength: 0.74,
   // Poché is one tone, not a lit surface. This much of the cut ignores the sun's shadows and takes
   // the flat colour below, lit only by the open sky and sun of the hour. Matched frames on
   // November 13 chose a muted umber: darker than the rock, lighter than a black fill, so the
   // rooms are the brightest thing in the section.
-  flatten: 0.9,
-  flat: [0.072, 0.06, 0.052],
+  flatten: 0.43,
+  flat: [0.16, 0.124, 0.097],
   // The hatch: lines this many metres apart, this share of the spacing wide, this much lighter
   // than the tone they cross. Without it the cut rock is a large flat shape, and from above it is
   // most of the picture.
-  hatch: [0.42, 0.1, 0.5],
+  hatch: [0.29, 0.08, 0.11],
   // The light the cut is drawn under once the day's has gone. Lit only by the hour, the poché went
   // pure black at night and read as holes around the lit rooms (Sirui, November 14, with a night
   // capture: "some weird geometry issue you still haven't fixed"). A drawing's section stays a
   // tone: this dim, cool light fades in as daylight leaves, so the cut and its hatch still read as
   // rock that was sliced, darker than any lit room.
-  night: [0.22, 0.27, 0.36],
+  night: [0.21, 0.25, 0.32],
 });
 
 // The hatch as the shader draws it, for tests and for anyone tuning it: how much of a line covers
@@ -127,6 +127,19 @@ vec3 sectionCut(vec3 colour, vec2 uv, vec3 daylight, vec3 world) {
   return mix(colour, cut, mask);
 }`;
 
+// The visibility tag also owns luminaires, fascia and thin wall linings.
+// Only closed, structural roof rock has a geological seat to mark.
+export function isSectionSolid(root) {
+  const { closedSolid, cutawaySection } = root.userData;
+  if (!closedSolid) return false;
+  if (cutawaySection) return true;
+  let sandstone = false;
+  root.traverse((mesh) => {
+    if (mesh.isMesh && [mesh.material].flat().some((material) => /sandstone/i.test(material?.name))) sandstone = true;
+  });
+  return sandstone;
+}
+
 export function createSectionCut({ settings = {} } = {}) {
   const dials = { ...SECTION_DEFAULTS, ...settings };
   const scene = new THREE.Scene();
@@ -190,7 +203,8 @@ export function createSectionCut({ settings = {} } = {}) {
     // Called with the roof pieces and whether the view has lifted them. The solids are rebuilt
     // only when the set of pieces changes (a model arriving), never per frame.
     sync(roofs, lifted) {
-      if (roofs.length !== sources.length || roofs.some((roof, i) => roof !== sources[i])) rebuild(roofs);
+      const structural = roofs.filter(isSectionSolid);
+      if (structural.length !== sources.length || structural.some((roof, i) => roof !== sources[i])) rebuild(structural);
       open = Boolean(lifted);
     },
     // Draws the mask for this frame and returns it, or null when there is nothing to mark.

@@ -6,7 +6,10 @@ const EXIT_SECONDS = 0.94;
 const DECK_TOLERANCE = 0.1;
 const LIP_TOLERANCE = 0.035;
 const WALL_CLEARANCE = 0.045;
+const PORTAL_CLEARANCE = 0.008;
 const EXIT_CLEARANCE = 0.56;
+const GATE_SKIN = 0.012;
+const GATE_HEADROOM = 2.15;
 
 const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
 const mix = (a, b, t) => a + (b - a) * t;
@@ -24,7 +27,7 @@ export function createCliffLift(plan, { paint = () => {}, requestFrame = () => {
   const thresholdSupport = radius + 0.1;
   const sideInterior = width / 2 - radius - WALL_CLEARANCE;
   const endInterior = depth / 2 - radius - WALL_CLEARANCE;
-  const portalInterior = opening / 2 - radius - WALL_CLEARANCE;
+  const portalInterior = opening / 2 - radius - PORTAL_CLEARANCE;
   if (![x, z, width, depth, opening, duration, radius].every(Number.isFinite) || portalInterior <= 0 || endInterior <= 0 || duration <= 0) {
     throw new RangeError("Invalid cliff lift cabin");
   }
@@ -50,6 +53,18 @@ export function createCliffLift(plan, { paint = () => {}, requestFrame = () => {
     })
   );
   if (stops.top.height <= stops.beach.height) throw new RangeError("Cliff lift stops are reversed");
+
+  // Walk cannot enter a shaft with its ordinary airborne solver. The cabin deck and
+  // moving leaves are outside the static field, so only the supported handoff below
+  // opens a passage for the capsule. The solid gate remains in every fallback sweep.
+  const gateBarriers = Object.values(stops).map((dock) => {
+    const min = [x - width / 2, z - depth / 2];
+    const max = [x + width / 2, z + depth / 2];
+    const along = dock.along / 2;
+    min[along] = dock.edge - GATE_SKIN;
+    max[along] = dock.edge + GATE_SKIN;
+    return { min, max, bottom: dock.height - DECK_TOLERANCE, top: dock.height + GATE_HEADROOM };
+  });
 
   const lengths = { closing: DOOR_SECONDS, travelling: duration, opening: DOOR_SECONDS, leaving: EXIT_SECONDS };
 
@@ -228,7 +243,6 @@ export function createCliffLift(plan, { paint = () => {}, requestFrame = () => {
     const next = dock.side * (position[dock.along] - dock.edge);
     const lateral = pose.position[dock.across];
     const nextLateral = position[dock.across];
-    const cross = near === next ? nextLateral : mix(lateral, nextLateral, clamp((near - thresholdSupport) / (near - next), 0, 1));
     const portal = inPortal(dock, nextLateral) && inPortal(dock, lateral);
     if (!boarded) {
       if (
@@ -239,7 +253,7 @@ export function createCliffLift(plan, { paint = () => {}, requestFrame = () => {
         near < -LIP_TOLERANCE ||
         next >= thresholdSupport ||
         next >= near ||
-        !inPortal(dock, cross) ||
+        !portal ||
         !pointInside(px, pz, dock.pad, LIP_TOLERANCE)
       ) {
         return null;
@@ -277,6 +291,7 @@ export function createCliffLift(plan, { paint = () => {}, requestFrame = () => {
     control,
     requestRide,
     constrain,
+    gateBarriers,
     detach,
     stageFilm,
     releaseFilm,

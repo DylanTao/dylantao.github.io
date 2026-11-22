@@ -3541,7 +3541,8 @@ test("coastal home: the lifted roof's seats print as one cut tone, only while th
   await visit("overview");
   const opened = await evidence(scene);
   expect(opened.section.open).toBe(true);
-  expect(opened.section.pieces).toBeGreaterThanOrEqual(10);
+  expect(opened.section.pieces).toBeGreaterThanOrEqual(5);
+  expect(opened.section.pieces).toBeLessThan(opened.roofLift.pieces);
   expect(opened.section.drawCalls).toBe(1);
   expect(opened.section.draws).toBeGreaterThan(0);
   const strength = opened.section.dials.strength;

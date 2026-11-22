@@ -845,7 +845,8 @@ export function createWalkMode({
       const beforeX = state.x,
         beforeZ = state.z;
       const motion = { dx: motionX.distance, dz: motionZ.distance, jump: jumpQueued || pad.jumped };
-      const liftStep = getCliffLift()?.constrain(liftPose(), motion, standOnLiftPad);
+      const lift = getCliffLift();
+      const liftStep = lift?.constrain(liftPose(), motion, standOnLiftPad);
       if (liftStep) {
         foley?.resetWalk();
         supportedByLift = true;
@@ -864,6 +865,7 @@ export function createWalkMode({
         } else state.vx = state.vz = 0;
         clearTapWalk();
       } else {
+        if (lift) dynamic.push(...lift.gateBarriers);
         const result = stepFlight(state, builder.field, { dt, ...motion, waterAt, impact: waterImpact, dynamic, swim });
         if (!diveHintShown && !inputSuspended && !swim && state.wet && insideDiveArea(state.x, state.z) && diveWater(waterAt(state.x, state.z))) {
           diveHintShown = true;

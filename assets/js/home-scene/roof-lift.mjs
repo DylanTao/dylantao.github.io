@@ -141,7 +141,7 @@ export function createRoofLift(scene) {
       for (const { plant, support } of independent) plant.visible = support.visible;
     },
     get sectionPieces() {
-      return entries.filter((entry) => progress[entry.scope] > 0).map((entry) => entry.root);
+      return entries.filter((entry) => roofLiftPose(progress[entry.scope], entry.distance).gone).map((entry) => entry.root);
     },
     get sectionOpen() {
       return entries.some((entry) => progress[entry.scope] > 0);

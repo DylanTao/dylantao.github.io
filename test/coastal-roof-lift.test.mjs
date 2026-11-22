@@ -71,11 +71,12 @@ test("local ceiling bays lift in the ordinary whole-home section and seat on the
   assert.equal(bay.visible, true);
 
   lift.sync([main, bay], [], true, { overview: true, dt: 0.14 });
-  assert.deepEqual(lift.sectionPieces, [main, bay]);
+  assert.deepEqual(lift.sectionPieces, [main], "the seated ceiling cannot mark the cut during its lift");
   assert.equal(lift.evidence().moving, 1);
   assert.equal(bay.visible, false);
   assert.equal(lift.busy, true);
   lift.settle();
+  assert.deepEqual(lift.sectionPieces, [main, bay]);
 
   lift.sync([main, bay], [], true, { overview: false, dt: 0.12 });
   assert.equal(lift.evidence().moving, 1);
