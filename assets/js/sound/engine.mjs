@@ -260,14 +260,21 @@ export function createSound({
   // stops where it is and carries on from there.
   function startBed() {
     if (bed || !graph) return;
+    // The lab's score is queued ahead. Give its dry and room feeds their own
+    // gains so Pause can silence that queue while interaction voices stay on.
+    const dry = graph.context.createGain();
+    const wet = graph.context.createGain();
+    dry.connect(graph.dry);
+    wet.connect(graph.wet);
+    const scoreGraph = { ...graph, dry, wet };
     const origin = graph.context.currentTime + 0.3;
-    bed = { origin, until: 0, timer: 0 };
+    bed = { origin, until: 0, timer: 0, dry, wet };
     const fill = () => {
       if (!bed || !graph) return;
       const now = graph.context.currentTime - bed.origin,
         to = now + 4;
       if (to > bed.until) {
-        played += schedule(graph, bedNotes(mode(), bed.until, to), bed.origin);
+        played += schedule(scoreGraph, bedNotes(mode(), bed.until, to), bed.origin);
         bed.until = to;
       }
       bed.timer = setTimeout(fill, 1000);
@@ -276,8 +283,14 @@ export function createSound({
   }
   function stopBed() {
     if (!bed) return;
-    clearTimeout(bed.timer);
+    const { timer, dry, wet } = bed;
+    clearTimeout(timer);
     bed = null;
+    for (const feed of [dry, wet]) feed.gain.setTargetAtTime(0, graph.context.currentTime, 0.012);
+    setTimeout(() => {
+      dry.disconnect();
+      wet.disconnect();
+    }, 80);
   }
   return {
     get on() {

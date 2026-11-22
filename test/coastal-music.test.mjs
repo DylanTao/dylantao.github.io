@@ -52,6 +52,7 @@ function fixture({ delay } = {}) {
     state: "running",
     decodeAudioData(file) {
       if (file.startsWith("film/")) return { file, duration: metadata.film.cuts[file.slice(5, -4)].seconds };
+      if (file.startsWith("../desk-records/")) return { file, duration: 80 };
       return { file, duration: file === "responses.mp3" ? 17.36 : metadata.themes[file.slice(0, -4)].seconds };
     },
     createGain() {
@@ -146,6 +147,29 @@ test("styles load only when selected and a fast look change leaves at most two w
   assert.ok(!requested.some((item) => /print\.mp3|toon\.mp3/.test(item.file)), "unchosen recordings remain lazy");
   music.clear({ hard: true });
   assert.deepEqual([music.evidence().theme, music.evidence().fading], [null, null]);
+});
+
+test("Graphite plays its own authored desk recording and shares Photoreal's house response", async () => {
+  const { music, requested, started } = fixture();
+  const graphite = "all-the-windows-open";
+  const file = "../desk-records/all-the-windows-open.mp3";
+  const bytes = readFileSync(new URL(file, source));
+  assert.ok(bytes.length > 20000 && (bytes.toString("ascii", 0, 3) === "ID3" || (bytes[0] === 255 && (bytes[1] & 224) === 224)));
+  music.select(graphite, { explicit: true });
+  await next();
+  assert.deepEqual(
+    requested.map((item) => item.file),
+    ["score.json", file]
+  );
+  assert.equal(music.evidence().theme, graphite);
+  await music.motif(graphite, "threshold");
+  assert.equal(started.at(-1).file, "responses.mp3");
+  assert.deepEqual(started.at(-1).args.slice(1), metadata.cues.realistic.threshold);
+  started[0].voice.onended();
+  music.select(graphite, { explicit: true });
+  await next();
+  assert.equal(started.at(-1).file, file);
+  assert.equal(started.at(-1).args[1], 0);
 });
 
 test("superseded fetches and muted decodes cannot play late or duplicate", async () => {
